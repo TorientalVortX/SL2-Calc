@@ -4,7 +4,7 @@
  */
 
 import React, { useState } from 'react';
-import { Plus, Minus, RotateCcw, Settings, Utensils, BookOpen } from 'lucide-react';
+import { Plus, Minus, RotateCcw, Settings, Utensils, BookOpen, Download, Upload, Copy } from 'lucide-react';
 
 type StatKey = 'str' | 'wil' | 'ski' | 'cel' | 'def' | 'res' | 'vit' | 'fai' | 'luc' | 'gui' | 'san' | 'apt';
 type StampKey = 'str' | 'wil' | 'ski' | 'cel' | 'vit' | 'fai';
@@ -127,6 +127,43 @@ interface ClassPassive {
 }
 
 type StatRecord = Record<StatKey, number>;
+type StampRecord = Record<StampKey, number>;
+
+/**
+ * Interface for build data that can be exported/imported
+ */
+interface BuildData {
+  buildName: string;
+  race: string;
+  subrace: string;
+  mainClass: string;
+  subClass: string;
+  totalPoints: number;
+  food: string;
+  history: string;
+  addedStats: StatRecord;
+  customStats: StatRecord;
+  customBaseStats: StatRecord;
+  stamps: StampRecord;
+  legendaryExtents: Record<string, boolean>;
+  astrology: Record<string, number>;
+  customHP: number;
+  customFP: number;
+  giantGene: boolean;
+  dragonKing: number;
+  dragonQueen: number;
+  hpPercent: number;
+  sanguineCrest: boolean;
+  grimalkinInstinct: boolean;
+  risingGame: number;
+  fortitude: boolean;
+  painTolerance: number;
+  warwalk: boolean;
+  endurance: boolean;
+  mainClassPassive: number;
+  subClassPassive: number;
+  version: string; // For future compatibility
+}
 
 const CLASS_PASSIVES: Record<string, ClassPassive> = {
   'Arbalest': { maxRank: 6, stats: { ski: 1 }, description: '+SKI per rank' },
@@ -218,8 +255,6 @@ const ASTROLOGY_PLANETS: Record<string, StatKey> = {
 const MAX_POINTS = 240;
 const APTITUDE_NUMBER = 6;
 
-type StampRecord = Record<StampKey, number>;
-
 export default function SL2Calculator() {
   const [race, setRace] = useState('Human');
   const [subrace, setSubrace] = useState('Human');
@@ -274,7 +309,167 @@ export default function SL2Calculator() {
   const [showCustomStats, setShowCustomStats] = useState(false);
   const [showTalents, setShowTalents] = useState(false);
 
+  // Import/Export state
+  const [showImportExport, setShowImportExport] = useState(false);
+  const [buildName, setBuildName] = useState('My Build');
+  const [importText, setImportText] = useState('');
+  const [importStatus, setImportStatus] = useState<string>('');
+
   const monoclassModifier = mainClass === subClass ? 2 : 1;
+
+  /**
+   * Export current build to JSON
+   */
+  const exportBuild = (buildName: string = "My Build"): void => {
+    const buildData: BuildData = {
+      buildName,
+      race,
+      subrace,
+      mainClass,
+      subClass,
+      totalPoints,
+      food,
+      history,
+      addedStats,
+      customStats,
+      customBaseStats,
+      stamps,
+      legendaryExtents,
+      astrology,
+      customHP,
+      customFP,
+      giantGene,
+      dragonKing,
+      dragonQueen,
+      hpPercent,
+      sanguineCrest,
+      grimalkinInstinct,
+      risingGame,
+      fortitude,
+      painTolerance,
+      warwalk,
+      endurance,
+      mainClassPassive,
+      subClassPassive,
+      version: "1.0"
+    };
+
+    const jsonString = JSON.stringify(buildData, null, 2);
+    const blob = new Blob([jsonString], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${buildName.replace(/[^a-zA-Z0-9]/g, '_')}_build.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+  /**
+   * Import build from JSON
+   */
+  const importBuild = (jsonString: string): boolean => {
+    try {
+      const buildData: BuildData = JSON.parse(jsonString);
+      
+      // Validate required fields
+      if (!buildData.race || !buildData.subrace || !buildData.mainClass || !buildData.subClass) {
+        throw new Error("Invalid build data: missing required fields");
+      }
+
+      // Apply the build data
+      setRace(buildData.race);
+      setSubrace(buildData.subrace);
+      setMainClass(buildData.mainClass);
+      setSubClass(buildData.subClass);
+      setTotalPoints(buildData.totalPoints || MAX_POINTS);
+      setFood(buildData.food || 'None');
+      setHistory(buildData.history || 'None');
+      setAddedStats(buildData.addedStats || {
+        str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0,
+        vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0
+      });
+      setCustomStats(buildData.customStats || {
+        str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0,
+        vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0
+      });
+      setCustomBaseStats(buildData.customBaseStats || {
+        str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0,
+        vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0
+      });
+      setStamps(buildData.stamps || { str: 0, wil: 0, ski: 0, cel: 0, vit: 0, fai: 0 });
+      setLegendaryExtents(buildData.legendaryExtents || {});
+      setAstrology(buildData.astrology || {});
+      setCustomHP(buildData.customHP || 0);
+      setCustomFP(buildData.customFP || 0);
+      setGiantGene(buildData.giantGene || false);
+      setDragonKing(buildData.dragonKing || 0);
+      setDragonQueen(buildData.dragonQueen || 0);
+      setHpPercent(buildData.hpPercent || 100);
+      setSanguineCrest(buildData.sanguineCrest || false);
+      setGrimalkinInstinct(buildData.grimalkinInstinct || false);
+      setRisingGame(buildData.risingGame || 0);
+      setFortitude(buildData.fortitude || false);
+      setPainTolerance(buildData.painTolerance || 0);
+      setWarwalk(buildData.warwalk || false);
+      setEndurance(buildData.endurance || false);
+      setMainClassPassive(buildData.mainClassPassive || 0);
+      setSubClassPassive(buildData.subClassPassive || 0);
+      
+      return true;
+    } catch (error) {
+      console.error('Failed to import build:', error);
+      return false;
+    }
+  };
+
+  /**
+   * Copy build to clipboard as JSON
+   */
+  const copyBuildToClipboard = async (buildName: string = "My Build"): Promise<boolean> => {
+    const buildData: BuildData = {
+      buildName,
+      race,
+      subrace,
+      mainClass,
+      subClass,
+      totalPoints,
+      food,
+      history,
+      addedStats,
+      customStats,
+      customBaseStats,
+      stamps,
+      legendaryExtents,
+      astrology,
+      customHP,
+      customFP,
+      giantGene,
+      dragonKing,
+      dragonQueen,
+      hpPercent,
+      sanguineCrest,
+      grimalkinInstinct,
+      risingGame,
+      fortitude,
+      painTolerance,
+      warwalk,
+      endurance,
+      mainClassPassive,
+      subClassPassive,
+      version: "1.0"
+    };
+
+    try {
+      await navigator.clipboard.writeText(JSON.stringify(buildData, null, 2));
+      return true;
+    } catch (error) {
+      console.error('Failed to copy to clipboard:', error);
+      return false;
+    }
+  };
 
   /**
    * Filter subraces based on the currently selected race
@@ -830,6 +1025,13 @@ export default function SL2Calculator() {
                 Advanced
               </button>
               <button
+                onClick={() => setShowImportExport(!showImportExport)}
+                className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 px-3 py-2 rounded text-sm"
+              >
+                <Download size={16} />
+                Import/Export
+              </button>
+              <button
                 onClick={resetStats}
                 className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded text-sm"
               >
@@ -1138,6 +1340,102 @@ export default function SL2Calculator() {
                   ))}
                 </div>
               </div>
+            </div>
+          )}
+
+          {/* Import/Export Section */}
+          {showImportExport && (
+            <div className="space-y-4 p-4 bg-gray-800 rounded border border-gray-600">
+              <h3 className="text-lg font-semibold text-white">Build Import/Export</h3>
+              
+              {/* Export Section */}
+              <div className="space-y-3">
+                <h4 className="text-md font-medium text-gray-300">Export Build</h4>
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <input
+                    type="text"
+                    value={buildName}
+                    onChange={(e) => setBuildName(e.target.value)}
+                    placeholder="Build name (optional)"
+                    className="flex-1 p-2 bg-gray-700 border border-gray-600 rounded text-white placeholder-gray-400"
+                  />
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => exportBuild(buildName)}
+                      className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded flex items-center gap-2"
+                    >
+                      <Download size={16} />
+                      Download JSON
+                    </button>
+                    <button
+                      onClick={() => copyBuildToClipboard(buildName)}
+                      className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded flex items-center gap-2"
+                    >
+                      <Copy size={16} />
+                      Copy to Clipboard
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Import Section */}
+              <div className="space-y-3">
+                <h4 className="text-md font-medium text-gray-300">Import Build</h4>
+                <div className="space-y-2">
+                  <textarea
+                    value={importText}
+                    onChange={(e) => setImportText(e.target.value)}
+                    placeholder="Paste build JSON here..."
+                    rows={4}
+                    className="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white placeholder-gray-400 font-mono text-sm"
+                  />
+                  <div className="flex flex-col sm:flex-row gap-2">
+                    <button
+                      onClick={() => importBuild(importText)}
+                      disabled={!importText.trim()}
+                      className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white rounded flex items-center gap-2"
+                    >
+                      <Upload size={16} />
+                      Import from Text
+                    </button>
+                    <input
+                      type="file"
+                      accept=".json"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          const reader = new FileReader();
+                          reader.onload = (event) => {
+                            const content = event.target?.result as string;
+                            importBuild(content);
+                          };
+                          reader.readAsText(file);
+                        }
+                      }}
+                      className="hidden"
+                      id="import-file"
+                    />
+                    <label
+                      htmlFor="import-file"
+                      className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded flex items-center gap-2 cursor-pointer"
+                    >
+                      <Upload size={16} />
+                      Import from File
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              {/* Status Messages */}
+              {importStatus && (
+                <div className={`p-3 rounded ${
+                  importStatus.includes('successfully') 
+                    ? 'bg-green-800 text-green-200 border border-green-600' 
+                    : 'bg-red-800 text-red-200 border border-red-600'
+                }`}>
+                  {importStatus}
+                </div>
+              )}
             </div>
           )}
 
