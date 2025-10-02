@@ -32,7 +32,7 @@ interface Stats {
  * Races are just groupings for subraces that provide the actual stats
  */
 const RACES: Record<string, { human?: boolean; homunculi?: boolean }> = {
-  'Humans': { human: true },
+  'Human': { human: true },
   'Homunculi': { homunculi: true },
   'Serpentkind': {},
   'Corrupted': {},
@@ -44,29 +44,72 @@ const RACES: Record<string, { human?: boolean; homunculi?: boolean }> = {
 
 // Subrace options with race restrictions 
 const SUBRACES: Record<string, Stats & { allowedRaces?: string[] }> = {
-  'Humans': { str: 1, wil: 1, ski: 1, cel: 1, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 1, san: 0, apt: 1, human: true, allowedRaces: ['Human'] },
-  'Homunculi': { str: 0, wil: 2, ski: 1, cel: 0, def: 0, res: 0, vit: -1, fai: 1, luc: 0, gui: 1, san: 1, apt: 0, homunculi: true, allowedRaces: ['Homunculi'] },
-  'Lich': { str: 0, wil: 2, ski: 0, cel: 0, def: 0, res: 2, vit: -2, fai: -2, luc: 0, gui: 0, san: 3, apt: 0, allowedRaces: ['Lich'] },
-  'Felidae': { str: 0, wil: 0, ski: 2, cel: 2, def: 0, res: 0, vit: 0, fai: 0, luc: 1, gui: 1, san: 0, apt: 0, allowedRaces: ['Felidae'] },
-  'Grimalkin': { str: 0, wil: 1, ski: 1, cel: 1, def: 0, res: 1, vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0, allowedRaces: ['Grimalkin'] },
-  'Lupine': { str: 2, wil: 1, ski: 0, cel: 0, def: 1, res: 1, vit: 1, fai: 0, luc: 0, gui: 0, san: 0, apt: 0, allowedRaces: ['Lupine'] },
-  'Phenex': { str: 1, wil: 1, ski: 0, cel: 1, def: 0, res: 1, vit: 0, fai: 1, luc: 1, gui: 0, san: 0, apt: 0, allowedRaces: ['Phenex'] },
-  'Mechanation': { str: 1, wil: 0, ski: 1, cel: 0, def: 2, res: 2, vit: 0, fai: -2, luc: 0, gui: 1, san: 0, apt: 1, allowedRaces: ['Mechanation'] },
-  'Dullahan': { str: 2, wil: 0, ski: 0, cel: 0, def: 1, res: 0, vit: 2, fai: 0, luc: 1, gui: 0, san: 0, apt: 0, allowedRaces: ['Dullahan'] },
-  'Glykin': { str: 0, wil: 1, ski: 0, cel: 1, def: 0, res: 1, vit: 0, fai: 2, luc: 1, gui: 0, san: 0, apt: 0, allowedRaces: ['Glykin'] },
-  'Umbral': { str: 0, wil: 1, ski: 1, cel: 1, def: 0, res: 0, vit: 0, fai: 0, luc: 1, gui: 2, san: 0, apt: 0, allowedRaces: ['Umbral'] },
-  'Wyverntouched': { str: 1, wil: 0, ski: 1, cel: 0, def: 1, res: 1, vit: 1, fai: 0, luc: 0, gui: 0, san: 0, apt: 0, allowedRaces: ['Wyverntouched'] },
-  'Vampire': { str: 1, wil: 1, ski: 0, cel: 1, def: 0, res: 1, vit: 0, fai: -1, luc: 1, gui: 1, san: 0, apt: 0, allowedRaces: ['Vampire'] },
-  'Corrupted': { str: 1, wil: 1, ski: 0, cel: 0, def: 0, res: 1, vit: 1, fai: 0, luc: 0, gui: 1, san: 0, apt: 0, allowedRaces: ['Corrupted'] },
-  'Zeran': { str: 1, wil: 0, ski: 1, cel: 1, def: 0, res: 0, vit: 0, fai: 1, luc: 0, gui: 1, san: 0, apt: 1, allowedRaces: ['Zeran'] },
-  
-  // Actual subraces with unique stats
-  'Corbie': { str: 0, wil: 1, ski: 0, cel: 1, def: 0, res: 0, vit: 0, fai: 0, luc: 1, gui: 0, san: 0, apt: 0, allowedRaces: ['Human'] },
-  'Kaelensian': { str: 0, wil: 0, ski: 1, cel: 0, def: 0, res: 1, vit: 0, fai: 0, luc: 0, gui: 1, san: 0, apt: 0, allowedRaces: ['Human'] },
-  'Hyattr': { str: 1, wil: 0, ski: 0, cel: 0, def: 0, res: 0, vit: 1, fai: 0, luc: 0, gui: 0, san: 1, apt: 0, allowedRaces: ['Human'] },
-  'Shaitan': { str: 0, wil: 1, ski: 0, cel: 0, def: 0, res: 1, vit: 0, fai: 0, luc: 0, gui: 1, san: 0, apt: 0, allowedRaces: ['Homunculi'] },
-  'Doriads': { str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0, vit: 2, fai: 1, luc: 0, gui: 0, san: 0, apt: 0, allowedRaces: ['Glykin'] },
-  'Papilion': { str: 0, wil: 0, ski: 1, cel: 1, def: 0, res: 0, vit: 0, fai: 0, luc: 1, gui: 0, san: 0, apt: 0, allowedRaces: ['Glykin'] }
+  // Human subraces
+    'Imperialist': {'str': 4, 'wil': 4, 'ski': 4, 'cel': 4, 'def': 4, 'res': 4, 'vit': 4, 'fai': 0, 'luc': 4, 'gui': 4, 'san': 0, 'apt': 4,  'allowedRaces': ['Human']},
+    'Chataran': {'str': 6, 'wil': 2, 'ski': 4, 'cel': 1, 'def': 8, 'res': 5, 'vit': 5, 'fai': 0, 'luc': 1, 'gui': 4, 'san': 0, 'apt': 4,  'allowedRaces': ['Human']},
+    'Karatynn': {'str': 2, 'wil': 7, 'ski': 5, 'cel': 5, 'def': 1, 'res': 5, 'vit': 3, 'fai': 0, 'luc': 4, 'gui': 4, 'san': 0, 'apt': 4,  'allowedRaces': ['Human']},
+    'Onigan': {'str': 5, 'wil': 1, 'ski': 7, 'cel': 6, 'def': 3, 'res': 1, 'vit': 4, 'fai': 0, 'luc': 5, 'gui': 4, 'san': 0, 'apt': 4,  'allowedRaces': ['Human']},
+    'Tannite': {'str': 5, 'wil': 3, 'ski': 6, 'cel': 4, 'def': 3, 'res': 3, 'vit': 4, 'fai': 0, 'luc': 2, 'gui': 4, 'san': 0, 'apt': 4,  'allowedRaces': ['Human']},
+    'Lispoolian': {'str': 3, 'wil': 4, 'ski': 4, 'cel': 3, 'def': 2, 'res': 6, 'vit': 4, 'fai': 4, 'luc': 1, 'gui': 1, 'san': 4, 'apt': 4,  'allowedRaces': ['Human']},
+    'Hyoyan': {'str': 5, 'wil': 5, 'ski': 6, 'cel': 5, 'def': 2, 'res': 2, 'vit': 6, 'fai': 1, 'luc': 2, 'gui': 2, 'san': 0, 'apt': 4,  'allowedRaces': ['Human']},
+    'Alstalsian': {'str': 2, 'wil': 4, 'ski': 5, 'cel': 5, 'def': 3, 'res': 3, 'vit': 4, 'fai': 0, 'luc': 2, 'gui': 8, 'san': 0, 'apt': 4,  'allowedRaces': ['Human']},
+    'Dormehan': {'str': 5, 'wil': 2, 'ski': 5, 'cel': 1, 'def': 4, 'res': 4, 'vit': 8, 'fai': 0, 'luc': 3, 'gui': 4, 'san': 0, 'apt': 4,  'allowedRaces': ['Human']},
+    'Telegradian': {'str': 7, 'wil': 2, 'ski': 6, 'cel': 4, 'def': 1, 'res': 4, 'vit': 4, 'fai': 2, 'luc': 4, 'gui': 2, 'san': 0, 'apt': 4,  'allowedRaces': ['Human']},
+    'Geladynian': {'str': 4, 'wil': 7, 'ski': 4, 'cel': 1, 'def': 6, 'res': 4, 'vit': 4, 'fai': 0, 'luc': 1, 'gui': 5, 'san': 0, 'apt': 4,  'allowedRaces': ['Human']},
+    'Meiaquarise': {'str': 3, 'wil': 4, 'ski': 4, 'cel': 7, 'def': 4, 'res': 1, 'vit': 3, 'fai': 0, 'luc': 4, 'gui': 6, 'san': 0, 'apt': 4,  'allowedRaces': ['Human']},
+    'Duyuein': {'str': 4, 'wil': 4, 'ski': 4, 'cel': 1, 'def': 4, 'res': 6, 'vit': 7, 'fai': 3, 'luc': 2, 'gui': 1, 'san': 0, 'apt': 4,  'allowedRaces': ['Human']},
+
+  // Kaelensia subraces
+    'Lupine': {'str': 8, 'wil': 1, 'ski': 4, 'cel': 2, 'def': 6, 'res': 3, 'vit': 7, 'fai': 0, 'luc': 3, 'gui': 2, 'san': 3, 'apt': 1,  'allowedRaces': ['Kaelensia']},
+    'Leporidae': {'str': 6, 'wil': 2, 'ski': 5, 'cel': 5, 'def': 3, 'res': 2, 'vit': 3, 'fai': 0, 'luc': 7, 'gui': 3, 'san': 3, 'apt': 1,  'allowedRaces': ['Kaelensia']},
+    'Corbie': {'str': 4, 'wil': 3, 'ski': 4, 'cel': 6, 'def': 1, 'res': 4, 'vit': 4, 'fai': 0, 'luc': 5, 'gui': 6, 'san': 3, 'apt': 1,  'allowedRaces': ['Kaelensia']},
+    'Phenex': {'str': 4, 'wil': 4, 'ski': 4, 'cel': 3, 'def': 2, 'res': 4, 'vit': 6, 'fai': 5, 'luc': 2, 'gui': 2, 'san': 3, 'apt': 1,  'allowedRaces': ['Kaelensia']},
+    'Heron': {'str': 4, 'wil': 6, 'ski': 4, 'cel': 4, 'def': 2, 'res': 2, 'vit': 5, 'fai': 3, 'luc': 1, 'gui': 1, 'san': 8, 'apt': 0,  'allowedRaces': ['Kaelensia']},
+    'Felidae': {'str': 7, 'wil': 1, 'ski': 6, 'cel': 8, 'def': 1, 'res': 1, 'vit': 4, 'fai': 0, 'luc': 4, 'gui': 4, 'san': 3, 'apt': 1,  'allowedRaces': ['Kaelensia']},
+    'Grimalkin': {'str': 4, 'wil': 8, 'ski': 4, 'cel': 7, 'def': 1, 'res': 5, 'vit': 3, 'fai': 0, 'luc': 1, 'gui': 4, 'san': 2, 'apt': 1,  'allowedRaces': ['Kaelensia']},
+    'Muridae': {'str': 3, 'wil': 5, 'ski': 5, 'cel': 8, 'def': 2, 'res': 2, 'vit': 3, 'fai': 0, 'luc': 4, 'gui': 5, 'san': 0, 'apt': 2,  'allowedRaces': ['Kaelensia']},
+
+  // Corrupted subraces
+    'Umbral': {'str': 5, 'wil': 6, 'ski': 4, 'cel': 6, 'def': 2, 'res': 4, 'vit': 6, 'fai': 0, 'luc': 4, 'gui': 3, 'san': 0, 'apt': 0,  'allowedRaces': ['Corrupted']},
+    'Shaitan': {'str': 8, 'wil': 1, 'ski': 4, 'cel': 4, 'def': 8, 'res': 3, 'vit': 8, 'fai': 0, 'luc': 2, 'gui': 2, 'san': 0, 'apt': 0,  'allowedRaces': ['Corrupted']},
+    'Oracle': {'str': 3, 'wil': 7, 'ski': 4, 'cel': 4, 'def': 3, 'res': 5, 'vit': 5, 'fai': 4, 'luc': 1, 'gui': 4, 'san': 0, 'apt': 0,  'allowedRaces': ['Corrupted']},
+    'Papilion': {'str': 2, 'wil': 8, 'ski': 8, 'cel': 5, 'def': 3, 'res': 3, 'vit': 3, 'fai': 0, 'luc': 4, 'gui': 4, 'san': 0, 'apt': 0,  'allowedRaces': ['Corrupted']},
+    'Theno': {'str': 3, 'wil': 6, 'ski': 6, 'cel': 6, 'def': 1, 'res': 1, 'vit': 6, 'fai': 0, 'luc': 4, 'gui': 4, 'san': 0, 'apt': 3,  'allowedRaces': ['Corrupted']},
+
+  // Ancients subraces
+    'Vampire': {'str': 3, 'wil': 6, 'ski': 4, 'cel': 4, 'def': 3, 'res': 3, 'vit': 6, 'fai': 1, 'luc': 2, 'gui': 5, 'san': 3, 'apt': 0,  'allowedRaces': ['Ancient']},
+    'Elf': {'str': 3, 'wil': 6, 'ski': 4, 'cel': 4, 'def': 3, 'res': 3, 'vit': 7, 'fai': 2, 'luc': 1, 'gui': 2, 'san': 5, 'apt': 0,  'allowedRaces': ['Ancient']},
+    'Wild Elf': {'str': 6, 'wil': 3, 'ski': 4, 'cel': 4, 'def': 3, 'res': 3, 'vit': 5, 'fai': 0, 'luc': 2, 'gui': 6, 'san': 4, 'apt': 0,  'allowedRaces': ['Ancient']},
+    'Zeran': {'str': 4, 'wil': 4, 'ski': 6, 'cel': 4, 'def': 3, 'res': 3, 'vit': 4, 'fai': 5, 'luc': 0, 'gui': 4, 'san': 3, 'apt': 0,  'allowedRaces': ['Ancient']},
+    'Lich': {'str': 1, 'wil': 10, 'ski': 8, 'cel': 4, 'def': 2, 'res': 6, 'vit': 3, 'fai': 0, 'luc': 0, 'gui': 6, 'san': 0, 'apt': 0,  'allowedRaces': ['Ancient']},
+    'Reaper': {'str': 4, 'wil': 6, 'ski': 4, 'cel': 1, 'def': 3, 'res': 5, 'vit': 7, 'fai': 0, 'luc': 2, 'gui': 3, 'san': 5, 'apt': 0,  'allowedRaces': ['Ancient']},
+    'Apertaurus': {'str': 9, 'wil': 1, 'ski': 4, 'cel': 6, 'def': 1, 'res': 2, 'vit': 7, 'fai': 1, 'luc': 2, 'gui': 1, 'san': 6, 'apt': 0,  'allowedRaces': ['Ancient']},
+    'Oni': {'str': 8, 'wil': 3, 'ski': 3, 'cel': 2, 'def': 5, 'res': 4, 'vit': 9, 'fai': 0, 'luc': 2, 'gui': 0, 'san': 4, 'apt': 0,  'allowedRaces': ['Ancient']},
+
+  // Serpentkind subraces
+    'Glykin': {'str': 4, 'wil': 4, 'ski': 5, 'cel': 4, 'def': 3, 'res': 3, 'vit': 7, 'fai': 5, 'luc': 0, 'gui': 2, 'san': 3, 'apt': 0,  'allowedRaces': ['Serpentkind']},
+    'Wyverntouched': {'str': 6, 'wil': 6, 'ski': 5, 'cel': 1, 'def': 4, 'res': 2, 'vit': 9, 'fai': 0, 'luc': 0, 'gui': 3, 'san': 3, 'apt': 1,  'allowedRaces': ['Serpentkind']},
+    'Hyattr': {'str': 7, 'wil': 7, 'ski': 3, 'cel': 2, 'def': 5, 'res': 1, 'vit': 8, 'fai': 0, 'luc': 1, 'gui': 1, 'san': 5, 'apt': 0,  'allowedRaces': ['Serpentkind']},
+    'Naga': {'str': 3, 'wil': 8, 'ski': 4, 'cel': 8, 'def': 2, 'res': 4, 'vit': 4, 'fai': 0, 'luc': 0, 'gui': 5, 'san': 1, 'apt': 1,  'allowedRaces': ['Serpentkind']},
+
+  // Other subraces
+    'Mechanation STANDARD': {'str': 6, 'wil': 2, 'ski': 4, 'cel': 5, 'def': 6, 'res': 3, 'vit': 8, 'fai': 0, 'luc': 2, 'gui': 2, 'san': 0, 'apt': 2,  'allowedRaces': ['Other']},
+    'Mechanation CABAL': {'str': 2, 'wil': 6, 'ski': 5, 'cel': 4, 'def': 3, 'res': 6, 'vit': 6, 'fai': 0, 'luc': 3, 'gui': 3, 'san': 0, 'apt': 2,  'allowedRaces': ['Other']},
+    'Mechanation AGILE': {'str': 4, 'wil': 4, 'ski': 6, 'cel': 6, 'def': 3, 'res': 3, 'vit': 6, 'fai': 0, 'luc': 3, 'gui': 3, 'san': 0, 'apt': 2,  'allowedRaces': ['Other']},
+    'Mechanation RAID': {'str': 6, 'wil': 6, 'ski': 4, 'cel': 3, 'def': 1, 'res': 1, 'vit': 8, 'fai': 0, 'luc': 5, 'gui': 4, 'san': 0, 'apt': 2,  'allowedRaces': ['Other']},
+    'Redtail': {'str': 3, 'wil': 4, 'ski': 5, 'cel': 4, 'def': 3, 'res': 3, 'vit': 4, 'fai': 0, 'luc': 9, 'gui': 4, 'san': 1, 'apt': 0,  'allowedRaces': ['Other']},
+    'Omina': {'str': 3, 'wil': 5, 'ski': 5, 'cel': 4, 'def': 2, 'res': 7, 'vit': 6, 'fai': 0, 'luc': 0, 'gui': 2, 'san': 5, 'apt': 1,  'allowedRaces': ['Other']},
+    'Doriad': {'str': 9, 'wil': 1, 'ski': 5, 'cel': 1, 'def': 9, 'res': 4, 'vit': 5, 'fai': 0, 'luc': 2, 'gui': 3, 'san': 0, 'apt': 1,  'allowedRaces': ['Other']},
+    'Dullahan': {'str': 4, 'wil': 4, 'ski': 5, 'cel': 7, 'def': 2, 'res': 2, 'vit': 4, 'fai': 2, 'luc': 4, 'gui': 2, 'san': 4, 'apt': 0,  'allowedRaces': ['Other']},
+    'Karakuri': {'str': 4, 'wil': 4, 'ski': 4, 'cel': 4, 'def': 4, 'res': 4, 'vit': 4, 'fai': 4, 'luc': 4, 'gui': 4, 'san': 4, 'apt': 4,  'allowedRaces': ['Other']},
+
+
+  // Homunculi subraces
+    'Salamandra': {'str': 8, 'wil': 6, 'ski': 4, 'cel': 4, 'def': 2, 'res': 4, 'vit': 5, 'fai': 0, 'luc': 2, 'gui': 5, 'san': 0, 'apt': 0,  'allowedRaces': ['Homunculi']},
+    'Amalgama': {'str': 5, 'wil': 6, 'ski': 5, 'cel': 3, 'def': 2, 'res': 3, 'vit': 5, 'fai': 0, 'luc': 2, 'gui': 7, 'san': 0, 'apt': 2,  'allowedRaces': ['Homunculi']},
+    'Chimera': {'str': 3, 'wil': 3, 'ski': 6, 'cel': 6, 'def': 2, 'res': 4, 'vit': 5, 'fai': 0, 'luc': 2, 'gui': 5, 'san': 0, 'apt': 4,  'allowedRaces': ['Homunculi']}
+
+
 };
 
 const CLASSES: Record<string, Omit<Stats, 'human' | 'homunculi'>> = {
@@ -139,7 +182,7 @@ interface BuildData {
   customBaseStats: StatRecord;
   stamps: StampRecord;
   legendaryExtents: Record<string, boolean>;
-  astrology: Record<string, number>;
+  astrology: string; // Now stores single planet name
   customHP: number;
   customFP: number;
   giantGene: boolean;
@@ -245,8 +288,144 @@ const ASTROLOGY_PLANETS: Record<string, StatKey> = {
   'Pluto': 'res'
 };
 
+// Mapping of planets to their corresponding elemental attack types
+const PLANET_ELEMENTS: Record<string, string> = {
+  'Mars': 'Fire',
+  'Mercury': 'Ice',
+  'Saturn': 'Wind',
+  'Venus': 'Earth',
+  'Pluto': 'Dark',
+  'Neptune': 'Water',
+  'Uranus': 'Light',
+  'Jupiter': 'Lightning'
+};
+
 const MAX_POINTS = 240;
 const APTITUDE_NUMBER = 6;
+
+// Stat information from StatsInfo.txt (Updated)
+const STAT_INFO: Record<string, { title: string; description: string; effects: string[]; notes?: string }> = {
+  'str': {
+    title: 'Strength (STR)',
+    description: "Strength is the measure of a character's physical strength, and/or their affinity with the element of Fire.\n\nA character that possesses high STR is capable of lifting heavy objects, while a character with low STR may struggle with such a task unaided.\n\nAside from certain exceptions, most Swords, Axes, Spears, Bows, and Fist weapons have STR Primary Scaling. Characters interested in using those weapon types will want a healthy helping of STR.",
+    effects: [
+      '+1 Fire ATK (per 1 Scaled point)',
+      '+1 Max. Battle Weight, letting you equip heavier items without penalties (per 1 Scaled point)',
+      '+1 Max. Encumbrance, letting you carry more items in your inventory without slowing down (per 1 Scaled point)',
+      '+3 Max HP (per 1 Base point only - not affected by stat scaling)',
+      '+0.4 Critical, for STR Primary Scaling weapons (per 1 Scaled point)'
+    ]
+  },
+  'wil': {
+    title: 'Will (WIL)',
+    description: "Will is a character's mental strength, their ability to store Focus, and/or their overall affinity with all elements.\n\nA character with high WIL possesses great magical potential and plenty of resources to use it, while a character with low WIL may be better suited to mundane tasks.\n\nAside from certain exceptions, most Tome weapons have WIL Primary Scaling. Characters interested in using them will want a healthy helping of WIL.",
+    effects: [
+      '+5 FP (per 1 Scaled point)',
+      '+1 to All Elemental ATK per 4 points (excludes Sound and Acid) (per 1 Scaled point)',
+      '+1 Status Infliction, increasing your chance to inflict status effects on enemies (per 1 Scaled point)',
+      '+1 Max. Skill Pool Size per 10 points, increasing the amount of skills you can equip (per 1 Scaled point)'
+    ]
+  },
+  'ski': {
+    title: 'Skill (SKI)',
+    description: "Skill is similar to dexterity, governing the character's coordination and ability to hit their mark, and/or affinity with the Ice element.\n\nA character with high SKI may have a good sense of balance and distance, while a character with low SKI may be clumsy.\n\nBecause SKI directly influences your ability to hit enemies, most characters not relying on specific strategies will want this stat. A good amount to aim for is 55 Scaled SKI by level 60.",
+    effects: [
+      '+1 Ice ATK (per 1 Scaled point)',
+      '+2 Hit (per 1 Scaled point)',
+      '+0.5 Critical (per 1 Scaled point)',
+      '+2 Status Infliction, increasing your chance to inflict status effects on enemies (per 1 Scaled point)',
+      '+1 Max. Skill Pool Size per 5 points, increasing the amount of skills you can equip (per 1 Scaled point)'
+    ],
+    notes: 'Note: Critical bonus changed from +1 per 2 points to +0.5 per 1 point'
+  },
+  'cel': {
+    title: 'Celerity (CEL)',
+    description: "Celerity shows a character's speed and agility, and/or affinity with the Wind element.\n\nA character with high CEL may have swift cat-like reflexes, while a character with low CEL probably won't be winning any races.\n\nCEL is a defensive stat for dodge-based characters. If you are interested in playing such a character, it is recommended you increase it at least to 60 Scaled CEL by level 60, and make good use of Evade buffs and Hit debuffs.\n\nAnd don't let your enemies gang up around you, or they'll get a Flanking bonus!",
+    effects: [
+      '+1 Wind ATK (per 1 Scaled point)',
+      '+2 Evade (per 1 Scaled point)',
+      'Starting Turn Order, determined by who has the highest CEL (per 1 Scaled point)'
+    ]
+  },
+  'def': {
+    title: 'Defense (DEF)',
+    description: "Defense is a character's resilience in the face of physical assaults, and/or affinity with the Earth element.\n\nCharacters with lots of DEF might be able to shrug off a punch or two, while characters with low DEF might cry after stepping on a rock.\n\nDEF is a defensive stat for characters who want to be able to take on physical threats. Hitting 40% Phys. Def can be accomplished with 45 Scaled DEF, which is typically a good total to hit by level 60 if you want to be a tanky character.",
+    effects: [
+      '+1 Earth ATK (per 1 Scaled point)',
+      '+0.9% Physical Defense, lowering physical damage taken (per 1 Scaled point)'
+    ]
+  },
+  'res': {
+    title: 'Resistance (RES)',
+    description: "Resistance is a character's protection from supernatural attacks, and/or affinity with the Dark element.\n\nCharacters with high RES may be familiar with dark arts and therefore less vulnerable to them, while a character with low RES may be a mundane sort ill-exposed to strange happenings.\n\nAside from its contributions to Dark-centered offense, RES is a defensive stat for characters who want to mitigate magic attacks. Much like its counterpart DEF, hitting 40% Mag. Def can be accomplished with 45 Scaled RES, a good total to hit by level 60 if you want to be a tanky character.",
+    effects: [
+      '+1 Dark ATK (per 1 Scaled point)',
+      '+0.9% Magical Defense, lowering magical damage taken (per 1 Scaled point)'
+    ]
+  },
+  'vit': {
+    title: 'Vitality (VIT)',
+    description: "Vitality represents a character's physical health and durability, and/or affinity with the Water element.\n\nHigh VIT characters are hard to put down, while low VIT characters may be the sickly and fragile sort.\n\nVIT is an important stat, as it is the easiest way to increase your maximum HP. All characters can benefit from having more HP, and so 40 Scaled VIT by level 60 is often recommended to increase survivability. Depending on the character, higher or lower values can be considered.\n\nVIT is also highly useful for characters seeking to become Aquamancers, both for the Water ATK and as a secondary damage scaling stat.",
+    effects: [
+      '+1 Water ATK (per 1 Scaled point)',
+      '+10 HP (per 1 Scaled point)',
+      '+1 Max. Encumbrance, letting you carry more items in your inventory without slowing down (per 1 Scaled point)'
+    ]
+  },
+  'fai': {
+    title: 'Faith (FAI)',
+    description: "Faith is the strength of a character's conviction and belief, and/or affinity with the Light element.\n\nHigh FAI characters are often highly intertwined in religion, while low FAI characters are less likely to believe in higher powers.\n\nFAI is a versatile stat. Characters focusing on Light-based offense will want it for the Light ATK. Critical Evade can be useful defensively, as critical hits can be very threatening.",
+    effects: [
+      '+1 Light ATK (per 1 Scaled point)',
+      '+3 FP (per 1 Scaled point)',
+      '+1 Status Resistance, decreasing the chance for enemies to inflict you with status effects (per 1 Scaled point)',
+      '+1 Critical Evade, lowering the chance of taking critical hits (per 1 Scaled point)'
+    ]
+  },
+  'luc': {
+    title: 'Luck (LUC)',
+    description: "Luck is the character's good fortune, and/or affinity with the Lightning element.\n\nThe difference between high and low LUC may be between finding a shiny gold coin and tripping on an unfortunately-placed rock.\n\nLUC is what you make of it. Primarily, its use is for Lightning-based attackers, as well as those seeking to dish out a large amount of critical hits.",
+    effects: [
+      '+1 Lightning ATK (per 1 Scaled point)',
+      '+1 Critical (per 1 Scaled point)',
+      '+1 Critical Evade, lowering the chance of taking critical hits (per 1 Scaled point)',
+      '+1% Item Drop Chance, boosting chances for you or allies to receive items after battle (per 1 Scaled point)',
+      'Only the highest LUC in the party is applied for Item Drop Chance'
+    ]
+  },
+  'gui': {
+    title: 'Guile (GUI)',
+    description: "Guile is a character's capability of cunning or 'alternative thinking', and/or affinity with the Acid element.\n\nHigh GUI characters may be sneaky tricksters or schemers, while low GUI characters may lack street smarts.\n\nAside from certain exceptions, most Dagger and Gun weapons have GUI Primary Scaling. Characters interested in using them will want a healthy helping of GUI. Similarly, because it influences your Critical Damage, any character interested in focusing on critical hits will want to invest at least a little bit in GUI to make them more worthwhile.",
+    effects: [
+      '+1 Acid ATK (per 1 Scaled point)',
+      '+0.5 Flanking (per 1 Scaled point)',
+      '+1% Critical Damage (per 1 Scaled point)',
+      '-1 Farshot Penalty per 5 points (per 1 Scaled point)',
+      '+1 Max. Skill Pool Size per 5 points, increasing the amount of skills you can equip (per 1 Scaled point)'
+    ]
+  },
+  'san': {
+    title: 'Sanctity (SAN)',
+    description: "Sanctity is the presence of the divine in a character, such as the strength of their racial gifts or resistance to corruption, and/or affinity with the Sound element.\n\nHigh SAN characters may be performers and singers, while low SAN characters may be among the Corrupted race or otherwise have low spiritual abilities.\n\nSAN has a wide variety of benefits and can be very useful if you can afford to invest in it. Because many instrument weapons scale partially with this stat, characters using Bard classes will want to do so.\n\nAlso of note is that many races have skills whose benefits directly scale with your SAN stat. Depending on your race, you may want to increase this stat to increase the effectiveness of those abilities. Corrupted often do not want SAN, however, as it actually lowers their racial abilities' strength.",
+    effects: [
+      '+1 Sound ATK (per 1 Scaled point)',
+      '+2 HP (per 1 Scaled point)',
+      '+2 FP (per 1 Scaled point)',
+      '+2 Status Resistance, decreasing the chance for enemies to inflict you with status effects (per 1 Scaled point)',
+      '+1% Elemental Resistance per 6 points, for Fire, Ice, Wind, Earth, Water, Lightning, Dark, and Light elements (per 1 Scaled point)'
+    ],
+    notes: 'Status Resistance changed from +1 to +2 per point'
+  },
+  'apt': {
+    title: 'Aptitude (APT)',
+    description: "Aptitude is a character's flexibility and capability to adapt to a variety of situations.\n\nHigh APT characters may be able to do a lot of things well, while low APT characters may be slow learners.\n\nBecause of APT's ability to bolster your other stats, almost every character will want to invest in it to help round out their character. Depending on your preference or racial stats, you may want to go up to 36 Scaled APT or 42 Scaled APT by level 60. Races with starting APT, such as Humans, can often obtain the latter without penalty.\n\nYou can go as high as 80 APT if you wish to make use of the Undeniable Innovator trait.",
+    effects: [
+      '+1% Experience Earned (per 1 Scaled point)',
+      '+1 bonus to all other stats per 6 points (per 1 Scaled point)'
+    ],
+    notes: 'IMPORTANT: Stats obtained by APT are NOT base stats, they are bonus stats. This means they will not count towards trait requirements, and are subject to mechanics involving bonus stats (e.g., DEF from APT is negated while Burned).'
+  }
+};
 
 export default function SL2Calculator() {
   const [race, setRace] = useState('Human');
@@ -277,7 +456,7 @@ export default function SL2Calculator() {
   });
 
   const [legendaryExtents, setLegendaryExtents] = useState<Record<string, boolean>>({});
-  const [astrology, setAstrology] = useState<Record<string, number>>({});
+  const [astrology, setAstrology] = useState<string>(''); // Now stores the selected planet name or empty string
   const [customHP, setCustomHP] = useState(0);
   const [customFP, setCustomFP] = useState(0);
   const [giantGene, setGiantGene] = useState(false);
@@ -309,6 +488,10 @@ export default function SL2Calculator() {
   
   // Active tab state
   const [activeTab, setActiveTab] = useState<'stats' | 'weapon' >('stats');
+
+  // Stat info modal state
+  const [showStatInfo, setShowStatInfo] = useState(false);
+  const [selectedStat, setSelectedStat] = useState<string>('');
 
   const monoclassModifier = mainClass === subClass ? 2 : 1;
 
@@ -396,7 +579,7 @@ export default function SL2Calculator() {
       });
       setStamps(buildData.stamps || { str: 0, wil: 0, ski: 0, cel: 0, vit: 0, fai: 0 });
       setLegendaryExtents(buildData.legendaryExtents || {});
-      setAstrology(buildData.astrology || {});
+      setAstrology(buildData.astrology || '');
       setCustomHP(buildData.customHP || 0);
       setCustomFP(buildData.customFP || 0);
       setGiantGene(buildData.giantGene || false);
@@ -556,10 +739,10 @@ export default function SL2Calculator() {
 
   const getAstrologyBonus = (): Partial<StatRecord> => {
     const bonuses: Partial<StatRecord> = {};
-    Object.keys(ASTROLOGY_PLANETS).forEach(planet => {
-      const stat = ASTROLOGY_PLANETS[planet];
-      bonuses[stat] = (bonuses[stat] || 0) + (astrology[planet] || 0);
-    });
+    if (astrology && ASTROLOGY_PLANETS[astrology]) {
+      const stat = ASTROLOGY_PLANETS[astrology];
+      bonuses[stat] = 1; // Planet signs give +1 to the associated stat
+    }
     return bonuses;
   };
 
@@ -585,7 +768,7 @@ export default function SL2Calculator() {
     racialStat: number, 
     addedStat: number, 
     classStat: number, 
-    customStat: number, 
+    customStat: number,
     aptitudeBonus: number, 
     dragonBonus = 0
   ): number => {
@@ -644,7 +827,6 @@ export default function SL2Calculator() {
     
     const addedValue = addedStats[statName] 
       + (astroBonus[statName] || 0) 
-      - (leBonus[statName] || 0)
       + (foodBonus[statName as keyof FoodBonus] || 0) 
       + (historyBonus[statName as keyof HistoryBonus] || 0)
       + stampValue 
@@ -663,6 +845,7 @@ export default function SL2Calculator() {
     const aptBonusToApply = statName === 'apt' ? 0 : aptitudeBonus;
     const effective = calculateDiminishingReturns(racialValue, addedValue, classValue, customValue, aptBonusToApply, dragonBonus);
     
+    // Add Legendary Extent bonuses AFTER diminishing returns
     return effective + (leBonus[statName] || 0);
   };
 
@@ -767,7 +950,10 @@ export default function SL2Calculator() {
       'Acid': stats.gui, 'Sound': stats.san
     };
     
-    return Math.floor(statMap[element] + stats.wil / 4);
+    // Add +2 elemental attack if the matching planet sign is selected
+    const planetBonus = (astrology && PLANET_ELEMENTS[astrology] === element) ? 2 : 0;
+    
+    return Math.floor(statMap[element] + stats.wil / 4) + planetBonus;
   };
 
   const calculateElementalRES = (element: string): number => {
@@ -811,7 +997,7 @@ export default function SL2Calculator() {
     });
     setTotalPoints(MAX_POINTS);
     setLegendaryExtents({});
-    setAstrology({});
+    setAstrology('');
     setCustomHP(0);
     setCustomFP(0);
     setGiantGene(false);
@@ -844,14 +1030,43 @@ export default function SL2Calculator() {
 
   const StatRow = ({ label, statKey, color }: { label: string; statKey: StatKey; color: string }) => {
     const subraceData = SUBRACES[subrace];
-    const baseValue = (subraceData?.[statKey] || 0) + customBaseStats[statKey];
-    const addedValue = addedStats[statKey] + (astroBonus[statKey] || 0);
+    const classData = CLASSES[mainClass];
+    
+    const subraceBase = subraceData?.[statKey] || 0;
+    const customBase = customBaseStats[statKey];
+    const classBase = classData?.[statKey] || 0;
+    
+    const totalBase = subraceBase + customBase;
+    const pointsAdded = addedStats[statKey];
+    const customFlat = customStats[statKey];
+    
+    // Build detailed tooltip showing all sources
+    const tooltipParts = [
+      `Subrace (${subrace}): ${subraceBase}`, 
+      customBase !== 0 ? `Custom Base: ${customBase}` : null,
+      `Class (${mainClass}): ${classBase}${monoclassModifier === 2 ? ' x2 (monoclass)' : ''}`,
+      pointsAdded > 0 ? `Points Added: ${pointsAdded}` : null,
+      customFlat !== 0 ? `Custom Flat Bonus: ${customFlat}` : null,
+      astroBonus[statKey] ? `Astrology: ${astroBonus[statKey]}` : null,
+      leBonus[statKey] ? `Legendary Extent (after DR): +${leBonus[statKey]}` : null,
+      foodBonus[statKey as keyof FoodBonus] ? `Food: ${foodBonus[statKey as keyof FoodBonus]}` : null,
+      historyBonus[statKey as keyof HistoryBonus] ? `History: ${historyBonus[statKey as keyof HistoryBonus]}` : null,
+      `Final (after DR): ${stats[statKey].toFixed(1)}`
+    ].filter(Boolean).join('\n');
     
     return (
       <div className="flex items-center gap-2 py-2 border-b border-gray-700">
-        <div className="w-24 font-semibold" style={{ color }} title={`Base: ${baseValue} (from ${subrace}) + Added: ${addedValue}`}>
+        <button 
+          className="w-24 font-semibold text-left hover:underline cursor-pointer" 
+          style={{ color }} 
+          title="Click for detailed info"
+          onClick={() => {
+            setSelectedStat(statKey);
+            setShowStatInfo(true);
+          }}
+        >
           {label}
-        </div>
+        </button>
         <button
           onClick={() => removeStat(statKey)}
           disabled={addedStats[statKey] === 0}
@@ -867,11 +1082,11 @@ export default function SL2Calculator() {
           <Plus size={16} />
         </button>
         <div className="flex-1 text-right">
-          <span className="text-2xl font-bold" style={{ color }} title={`Effective: ${stats[statKey].toFixed(1)}`}>
+          <span className="text-2xl font-bold" style={{ color }} title={tooltipParts}>
             {Math.floor(stats[statKey])}
           </span>
-          <span className="text-sm text-gray-400 ml-2">
-            ({baseValue} + {addedValue})
+          <span className="text-sm text-gray-400 ml-2" title={`Base: ${subraceBase} (from ${subrace}) + ${customBase > 0 ? customBase + ' (custom) + ' : ''}${pointsAdded} (points)`}>
+            ({totalBase} + {pointsAdded})
           </span>
         </div>
       </div>
@@ -1345,21 +1560,34 @@ export default function SL2Calculator() {
               </div>
 
               <div>
-                <h4 className="font-semibold mb-2">Astrology (Planet Signs)</h4>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                  {Object.keys(ASTROLOGY_PLANETS).map(planet => (
-                    <div key={planet}>
-                      <label className="block text-sm mb-1">{planet}</label>
-                      <input
-                        type="number"
-                        min="0"
-                        max="3"
-                        value={astrology[planet] || 0}
-                        onChange={(e) => setAstrology(prev => ({ ...prev, [planet]: Number(e.target.value) }))}
-                        className="w-full bg-gray-600 border border-gray-500 rounded px-2 py-1"
-                      />
-                    </div>
-                  ))}
+                <h4 className="font-semibold mb-2">Astrology (Planet Signs) - +1 Stat, +2 Element ATK</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+                  <label className="flex items-center space-x-2 cursor-pointer p-2 rounded hover:bg-gray-700">
+                    <input
+                      type="radio"
+                      name="astrology"
+                      checked={astrology === ''}
+                      onChange={() => setAstrology('')}
+                      className="w-4 h-4"
+                    />
+                    <span>None</span>
+                  </label>
+                  {Object.keys(ASTROLOGY_PLANETS).map(planet => {
+                    const element = PLANET_ELEMENTS[planet];
+                    const stat = ASTROLOGY_PLANETS[planet].toUpperCase();
+                    return (
+                      <label key={planet} className="flex items-center space-x-2 cursor-pointer p-2 rounded hover:bg-gray-700">
+                        <input
+                          type="radio"
+                          name="astrology"
+                          checked={astrology === planet}
+                          onChange={() => setAstrology(planet)}
+                          className="w-4 h-4"
+                        />
+                        <span className="text-sm">{planet} ({stat} / {element})</span>
+                      </label>
+                    );
+                  })}
                 </div>
               </div>
             </div>
@@ -1572,6 +1800,80 @@ export default function SL2Calculator() {
             <WeaponCalculator stats={stats} />
           )}
         </div>
+
+        {/* Stat Information Modal */}
+        {showStatInfo && selectedStat && STAT_INFO[selectedStat] && (
+          <div 
+            className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4"
+            onClick={() => setShowStatInfo(false)}
+          >
+            <div 
+              className="bg-gray-800 rounded-lg shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="sticky top-0 bg-gray-800 border-b border-gray-700 p-6 flex justify-between items-center">
+                <h2 className="text-2xl font-bold">{STAT_INFO[selectedStat].title}</h2>
+                <button
+                  onClick={() => setShowStatInfo(false)}
+                  className="p-2 hover:bg-gray-700 rounded-full transition-colors"
+                  title="Close"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
+              </div>
+              
+              <div className="p-6 space-y-4">
+                {/* Base Stats vs Scaled Stats Info Box */}
+                <div className="bg-blue-900 bg-opacity-30 border border-blue-700 rounded p-4">
+                  <h4 className="font-semibold text-blue-300 mb-2">📊 Base vs Scaled Stats</h4>
+                  <div className="text-sm text-gray-300 space-y-1">
+                    <p><strong>Base Stat:</strong> Your race's starting stat + invested points + bonuses from History, Starsigns, and Legend Extends. Used for trait requirements.</p>
+                    <p><strong>Scaled Stat:</strong> Base stats with diminishing returns applied after soft cap. Most effects use Scaled stats.</p>
+                    <p><strong>Hard Cap:</strong> Race base + 80 invested points maximum.</p>
+                    <p><strong>Soft Cap:</strong> Race base + 40 points. After this, every 3 points lose 8% effectiveness (min 10%).</p>
+                  </div>
+                </div>
+
+                <div className="text-gray-300 whitespace-pre-line leading-relaxed">
+                  {STAT_INFO[selectedStat].description}
+                </div>
+                
+                <div className="border-t border-gray-700 pt-4">
+                  <h3 className="text-xl font-semibold mb-3 text-green-400">Effects</h3>
+                  <ul className="space-y-2">
+                    {STAT_INFO[selectedStat].effects.map((effect, index) => (
+                      <li key={index} className="flex items-start gap-2">
+                        <span className="text-green-400 mt-1 flex-shrink-0">•</span>
+                        <span className="text-gray-300">{effect}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {STAT_INFO[selectedStat].notes && (
+                  <div className="border-t border-gray-700 pt-4">
+                    <div className="bg-yellow-900 bg-opacity-30 border border-yellow-700 rounded p-4">
+                      <h4 className="font-semibold text-yellow-300 mb-2">⚠️ Important Note</h4>
+                      <p className="text-sm text-gray-300">{STAT_INFO[selectedStat].notes}</p>
+                    </div>
+                  </div>
+                )}
+                
+                <div className="border-t border-gray-700 pt-4">
+                  <div className="bg-gray-700 rounded p-4">
+                    <div className="text-sm text-gray-400 mb-2">Your Current Scaled Value:</div>
+                    <div className="text-3xl font-bold text-blue-400">
+                      {Math.floor(stats[selectedStat as StatKey])}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
