@@ -3,8 +3,9 @@
  * Added features: Class Passives, Rising Game, Instinct, Subrace support
  */
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Plus, Minus, RotateCcw, Settings, Utensils, BookOpen, Download, Upload, Copy } from 'lucide-react';
+import WeaponCalculator from './WeaponCalculator';
 
 type StatKey = 'str' | 'wil' | 'ski' | 'cel' | 'def' | 'res' | 'vit' | 'fai' | 'luc' | 'gui' | 'san' | 'apt';
 type StampKey = 'str' | 'wil' | 'ski' | 'cel' | 'vit' | 'fai';
@@ -41,9 +42,8 @@ const RACES: Record<string, { human?: boolean; homunculi?: boolean }> = {
   'Youkai': {}
 };
 
-// Subrace options with race restrictions - these provide the actual stat bonuses
+// Subrace options with race restrictions 
 const SUBRACES: Record<string, Stats & { allowedRaces?: string[] }> = {
-  // Base race options (when no specific subrace is selected)
   'Humans': { str: 1, wil: 1, ski: 1, cel: 1, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 1, san: 0, apt: 1, human: true, allowedRaces: ['Human'] },
   'Homunculi': { str: 0, wil: 2, ski: 1, cel: 0, def: 0, res: 0, vit: -1, fai: 1, luc: 0, gui: 1, san: 1, apt: 0, homunculi: true, allowedRaces: ['Homunculi'] },
   'Lich': { str: 0, wil: 2, ski: 0, cel: 0, def: 0, res: 2, vit: -2, fai: -2, luc: 0, gui: 0, san: 3, apt: 0, allowedRaces: ['Lich'] },
@@ -306,7 +306,9 @@ export default function SL2Calculator() {
   const [showImportExport, setShowImportExport] = useState(false);
   const [buildName, setBuildName] = useState('My Build');
   const [importText, setImportText] = useState('');
-  const [importStatus, setImportStatus] = useState<string>('');
+  
+  // Active tab state
+  const [activeTab, setActiveTab] = useState<'stats' | 'weapon' >('stats');
 
   const monoclassModifier = mainClass === subClass ? 2 : 1;
 
@@ -883,10 +885,37 @@ export default function SL2Calculator() {
       <div className="max-w-6xl mx-auto">
         <div className="bg-gray-800 rounded-lg shadow-xl p-6 mb-6">
           <div className="flex justify-between items-center mb-6">
-            <h1 className="text-3xl font-bold">SL2 Stat Calculator</h1>
-            <div className="text-sm text-gray-400">Version 0.0.2a</div>
+            <h1 className="text-3xl font-bold">SL2 Calculator Suite</h1>
+            <div className="text-sm text-gray-400">Version 1.0.0</div>
           </div>
 
+          {/* Tab Navigation */}
+          <div className="flex gap-2 mb-6 border-b border-gray-700">
+            <button
+              onClick={() => setActiveTab('stats')}
+              className={`px-6 py-3 font-semibold transition-colors ${
+                activeTab === 'stats'
+                  ? 'border-b-2 border-blue-500 text-blue-400'
+                  : 'text-gray-400 hover:text-gray-200'
+              }`}
+            >
+              Stat Calculator
+            </button>
+            <button
+              onClick={() => setActiveTab('weapon')}
+              className={`px-6 py-3 font-semibold transition-colors ${
+                activeTab === 'weapon'
+                  ? 'border-b-2 border-yellow-500 text-yellow-400'
+                  : 'text-gray-400 hover:text-gray-200'
+              }`}
+            >
+              Weapon Calculator
+            </button>
+          </div>
+
+          {/* Stat Calculator Tab */}
+          {activeTab === 'stats' && (
+            <>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
             <div>
               <label className="block text-sm font-medium mb-2">Race Category</label>
@@ -1418,17 +1447,6 @@ export default function SL2Calculator() {
                   </div>
                 </div>
               </div>
-
-              {/* Status Messages */}
-              {importStatus && (
-                <div className={`p-3 rounded ${
-                  importStatus.includes('successfully') 
-                    ? 'bg-green-800 text-green-200 border border-green-600' 
-                    : 'bg-red-800 text-red-200 border border-red-600'
-                }`}>
-                  {importStatus}
-                </div>
-              )}
             </div>
           )}
 
@@ -1534,12 +1552,6 @@ export default function SL2Calculator() {
               </div>
             </div>
             <div className="bg-gray-700 rounded p-3">
-              <div className="text-sm text-gray-400">Essence</div>
-              <div className="text-lg font-bold">
-                {Math.floor(stats.san * 2 + 100)}
-              </div>
-            </div>
-            <div className="bg-gray-700 rounded p-3">
               <div className="text-sm text-gray-400">Battle Weight</div>
               <div className="text-lg font-bold">
                 0/{Math.floor(stats.str) + 5}
@@ -1552,6 +1564,13 @@ export default function SL2Calculator() {
               </div>
             </div>
           </div>
+            </>
+          )}
+
+          {/* Weapon Calculator Tab */}
+          {activeTab === 'weapon' && (
+            <WeaponCalculator stats={stats} />
+          )}
         </div>
       </div>
     </div>
