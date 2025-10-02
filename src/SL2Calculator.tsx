@@ -31,27 +31,20 @@ interface Stats {
  * Races are just groupings for subraces that provide the actual stats
  */
 const RACES: Record<string, { human?: boolean; homunculi?: boolean }> = {
-  'Human': { human: true },
+  'Humans': { human: true },
   'Homunculi': { homunculi: true },
-  'Lich': {},
-  'Felidae': {},
-  'Grimalkin': {},
-  'Lupine': {},
-  'Phenex': {},
-  'Mechanation': {},
-  'Dullahan': {},
-  'Glykin': {},
-  'Umbral': {},
-  'Wyverntouched': {},
-  'Vampire': {},
+  'Serpentkind': {},
   'Corrupted': {},
-  'Zeran': {}
+  'Kaelensia': {},
+  'Ancients': {},
+  'Other': {},
+  'Youkai': {}
 };
 
 // Subrace options with race restrictions - these provide the actual stat bonuses
 const SUBRACES: Record<string, Stats & { allowedRaces?: string[] }> = {
   // Base race options (when no specific subrace is selected)
-  'Human': { str: 1, wil: 1, ski: 1, cel: 1, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 1, san: 0, apt: 1, human: true, allowedRaces: ['Human'] },
+  'Humans': { str: 1, wil: 1, ski: 1, cel: 1, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 1, san: 0, apt: 1, human: true, allowedRaces: ['Human'] },
   'Homunculi': { str: 0, wil: 2, ski: 1, cel: 0, def: 0, res: 0, vit: -1, fai: 1, luc: 0, gui: 1, san: 1, apt: 0, homunculi: true, allowedRaces: ['Homunculi'] },
   'Lich': { str: 0, wil: 2, ski: 0, cel: 0, def: 0, res: 2, vit: -2, fai: -2, luc: 0, gui: 0, san: 3, apt: 0, allowedRaces: ['Lich'] },
   'Felidae': { str: 0, wil: 0, ski: 2, cel: 2, def: 0, res: 0, vit: 0, fai: 0, luc: 1, gui: 1, san: 0, apt: 0, allowedRaces: ['Felidae'] },
