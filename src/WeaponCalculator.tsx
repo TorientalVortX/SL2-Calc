@@ -362,14 +362,18 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
 
     // Calculate totals
     const totalPower = basePower + mat.power + p1.power + p2.power + p3.power + ench.power + powerBonus + upgradePowerBonus + calculateScaling();
-    const totalCrit = baseCrit + mat.crit + p1.crit + p2.crit + p3.crit + ench.crit + critBonus + upgradeCritBonus;
-    const totalHit = baseHit + mat.hit + p1.hit + p2.hit + p3.hit + ench.hit + hitBonus + upgradeHitBonus;
+    const weaponCritical = baseCrit + mat.crit + p1.crit + p2.crit + p3.crit + ench.crit + critBonus + upgradeCritBonus;
+    const weaponAccuracy = baseHit + mat.hit + p1.hit + p2.hit + p3.hit + ench.hit + hitBonus + upgradeHitBonus;
     const totalWeight = Math.floor((baseWeight + mat.weight + p1.weight + p2.weight + p3.weight + ench.weight + weightBonus) * ench.weightMod);
 
-    // Critical chance calculation
-    // Primary STR scaling weapons get +0.4 crit per scaled STR point
+    // Hit calculation (Skill * 2 + Weapon Accuracy)
+    const finalHit = Math.floor(stats.ski * 2) + weaponAccuracy + '%';
+
+    // Critical chance calculation (Weapon Critical + Skill/2 + Luck)
+    // Primary STR scaling weapons get +0.4 crit per scaled STR point added to weapon crit
     const strScaledCrit = hasPrimaryStrScaling() ? Math.floor(calculateStrScaling() * 0.4) : 0;
-    const finalCrit = totalCrit + strScaledCrit;
+    const weaponCritWithStr = weaponCritical + strScaledCrit;
+    const finalCrit = weaponCritWithStr + Math.floor(stats.ski / 2) + Math.floor(stats.luc) + '%';
 
     // Critical damage multiplier (influenced by weapon type and GUI)
     // Base crit damage (default 100%), modified by enchantment and GUI
@@ -377,17 +381,19 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
     const critDamageMod = baseCritDamage + guiCritDamageBonus + ench.critMod;
 
     // SWA calculation (Scaled Weapon Attack)
-    const rarityMod = Math.floor(rarity / 10);
+    // Note: Rarity does NOT affect damage in SL2
     const twoHandBonus = twoHanded ? Math.floor(totalPower * 0.25) : 0;
-    const swa = totalPower + twoHandBonus + rarityMod;
+    const swa = totalPower + twoHandBonus;
 
     // Critical SWA calculation (SWA with critical damage multiplier applied)
     const critSwa = Math.floor(swa * (critDamageMod / 100));
 
     return {
       power: totalPower,
+      weaponCritical: weaponCritWithStr,
       crit: finalCrit,
-      hit: totalHit,
+      weaponAccuracy,
+      hit: finalHit,
       weight: totalWeight,
       critDamageMod,
       swa,
@@ -400,7 +406,6 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
   return (
     <div className="bg-gray-800 rounded-lg shadow-xl p-6">
       <div className="flex items-center gap-3 mb-6">
-        <Wrench size={28} className="text-yellow-400" />
         <h2 className="text-2xl font-bold">Weapon Calculator</h2>
       </div>
 
@@ -640,7 +645,7 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
                   onChange={(e) => setTwoHanded(e.target.checked)}
                   className="w-4 h-4"
                 />
-                <span className="text-sm">Two-Handed (+25% Power)</span>
+                <span className="text-sm">Two-Handed (WIP)</span>
               </label>
             </div>
           </div>
@@ -811,6 +816,65 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
         </div>
       )}
 
+      {/* Stat Verification Section */}
+      <div className="mt-6 bg-gray-700 p-4 rounded-lg">
+        <h3 className="text-lg font-semibold mb-3 text-cyan-400">Character Stats (from Calculator)</h3>
+        <p className="text-xs text-gray-400 mb-3">These are your scaled stats being used for weapon calculations:</p>
+        <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 text-sm">
+          <div className="bg-gray-600 p-2 rounded">
+            <div className="text-gray-400 text-xs">STR</div>
+            <div className="text-white font-bold">{Math.floor(stats.str)}</div>
+          </div>
+          <div className="bg-gray-600 p-2 rounded">
+            <div className="text-gray-400 text-xs">WIL</div>
+            <div className="text-white font-bold">{Math.floor(stats.wil)}</div>
+          </div>
+          <div className="bg-gray-600 p-2 rounded">
+            <div className="text-gray-400 text-xs">SKI</div>
+            <div className="text-white font-bold">{Math.floor(stats.ski)}</div>
+          </div>
+          <div className="bg-gray-600 p-2 rounded">
+            <div className="text-gray-400 text-xs">CEL</div>
+            <div className="text-white font-bold">{Math.floor(stats.cel)}</div>
+          </div>
+          <div className="bg-gray-600 p-2 rounded">
+            <div className="text-gray-400 text-xs">DEF</div>
+            <div className="text-white font-bold">{Math.floor(stats.def)}</div>
+          </div>
+          <div className="bg-gray-600 p-2 rounded">
+            <div className="text-gray-400 text-xs">RES</div>
+            <div className="text-white font-bold">{Math.floor(stats.res)}</div>
+          </div>
+          <div className="bg-gray-600 p-2 rounded">
+            <div className="text-gray-400 text-xs">VIT</div>
+            <div className="text-white font-bold">{Math.floor(stats.vit)}</div>
+          </div>
+          <div className="bg-gray-600 p-2 rounded">
+            <div className="text-gray-400 text-xs">FAI</div>
+            <div className="text-white font-bold">{Math.floor(stats.fai)}</div>
+          </div>
+          <div className="bg-gray-600 p-2 rounded">
+            <div className="text-gray-400 text-xs">LUC</div>
+            <div className="text-white font-bold">{Math.floor(stats.luc)}</div>
+          </div>
+          <div className="bg-gray-600 p-2 rounded">
+            <div className="text-gray-400 text-xs">GUI</div>
+            <div className="text-white font-bold">{Math.floor(stats.gui)}</div>
+          </div>
+          <div className="bg-gray-600 p-2 rounded">
+            <div className="text-gray-400 text-xs">SAN</div>
+            <div className="text-white font-bold">{Math.floor(stats.san)}</div>
+          </div>
+          <div className="bg-gray-600 p-2 rounded">
+            <div className="text-gray-400 text-xs">APT</div>
+            <div className="text-white font-bold">{Math.floor(stats.apt)}</div>
+          </div>
+        </div>
+        <div className="mt-3 text-xs text-gray-400">
+          ℹ️ These stats include all bonuses from race, class, aptitude, legend extends, food, history, rising game, class passives, instinct, and dragon bonuses with diminishing returns applied.
+        </div>
+      </div>
+
       {/* Results */}
       <div className="mt-6 bg-gradient-to-br from-purple-900 to-blue-900 p-6 rounded-lg">
         <h3 className="text-2xl font-bold mb-4 text-center">Final Weapon Stats</h3>
@@ -822,13 +886,23 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
           </div>
           
           <div className="bg-black bg-opacity-30 p-3 rounded text-center">
-            <div className="text-sm text-gray-300">Critical Chance</div>
-            <div className="text-2xl font-bold text-yellow-400">{weaponStats.crit}</div>
+            <div className="text-sm text-gray-300">Weapon Critical</div>
+            <div className="text-2xl font-bold text-yellow-400">{weaponStats.weaponCritical}</div>
+          </div>
+          
+          <div className="bg-black bg-opacity-30 p-3 rounded text-center border-2 border-yellow-500">
+            <div className="text-sm text-gray-300">Crit Chance (Crit+SKI/2+LUC)</div>
+            <div className="text-2xl font-bold text-yellow-300">{weaponStats.crit}</div>
           </div>
           
           <div className="bg-black bg-opacity-30 p-3 rounded text-center">
-            <div className="text-sm text-gray-300">Hit</div>
-            <div className="text-2xl font-bold text-green-400">{weaponStats.hit}</div>
+            <div className="text-sm text-gray-300">Weapon Accuracy</div>
+            <div className="text-2xl font-bold text-green-400">{weaponStats.weaponAccuracy}</div>
+          </div>
+          
+          <div className="bg-black bg-opacity-30 p-3 rounded text-center border-2 border-green-500">
+            <div className="text-sm text-gray-300">Hit (SKI×2 + Accuracy)</div>
+            <div className="text-2xl font-bold text-green-300">{weaponStats.hit}</div>
           </div>
           
           <div className="bg-black bg-opacity-30 p-3 rounded text-center">
@@ -856,9 +930,14 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
           <div className="text-center font-semibold text-blue-300 mb-2">Breakdown:</div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-1 max-w-2xl mx-auto">
             <div>Stat Scaling Bonus: <span className="text-white font-semibold">+{calculateScaling()}</span> Power</div>
+            <div>Weapon Critical: <span className="text-white font-semibold">{weaponStats.weaponCritical}</span></div>
+            <div>SKI Contribution to Crit: <span className="text-white font-semibold">+{Math.floor(stats.ski / 2)}</span> (SKI / 2)</div>
+            <div>LUC Contribution to Crit: <span className="text-white font-semibold">+{Math.floor(stats.luc)}</span></div>
             {hasPrimaryStrScaling() && calculateStrScaling() > 0 && (
-              <div>Primary STR Crit Bonus: <span className="text-white font-semibold">+{Math.floor(calculateStrScaling() * 0.4)}</span> Crit Chance</div>
+              <div>Primary STR Crit Bonus: <span className="text-white font-semibold">+{Math.floor(calculateStrScaling() * 0.4)}</span> (to Weapon Crit)</div>
             )}
+            <div>SKI Contribution to Hit: <span className="text-white font-semibold">+{Math.floor(stats.ski * 2)}</span> (SKI × 2)</div>
+            <div>Weapon Accuracy: <span className="text-white font-semibold">{weaponStats.weaponAccuracy}</span></div>
             <div>GUI Crit Damage Bonus: <span className="text-white font-semibold">+{Math.floor(stats.gui)}%</span> Crit Damage</div>
             {upgradeLevel > 0 && (
               <>

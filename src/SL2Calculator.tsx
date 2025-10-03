@@ -3,7 +3,7 @@
  * Added features: Class Passives, Rising Game, Instinct, Subrace support
  */
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Plus, Minus, RotateCcw, Settings, Utensils, BookOpen, Download, Upload, Copy } from 'lucide-react';
 import WeaponCalculator from './WeaponCalculator';
 
@@ -77,14 +77,14 @@ const SUBRACES: Record<string, Stats & { allowedRaces?: string[] }> = {
     'Theno': {'str': 3, 'wil': 6, 'ski': 6, 'cel': 6, 'def': 1, 'res': 1, 'vit': 6, 'fai': 0, 'luc': 4, 'gui': 4, 'san': 0, 'apt': 3,  'allowedRaces': ['Corrupted']},
 
   // Ancients subraces
-    'Vampire': {'str': 3, 'wil': 6, 'ski': 4, 'cel': 4, 'def': 3, 'res': 3, 'vit': 6, 'fai': 1, 'luc': 2, 'gui': 5, 'san': 3, 'apt': 0,  'allowedRaces': ['Ancient']},
-    'Elf': {'str': 3, 'wil': 6, 'ski': 4, 'cel': 4, 'def': 3, 'res': 3, 'vit': 7, 'fai': 2, 'luc': 1, 'gui': 2, 'san': 5, 'apt': 0,  'allowedRaces': ['Ancient']},
-    'Wild Elf': {'str': 6, 'wil': 3, 'ski': 4, 'cel': 4, 'def': 3, 'res': 3, 'vit': 5, 'fai': 0, 'luc': 2, 'gui': 6, 'san': 4, 'apt': 0,  'allowedRaces': ['Ancient']},
-    'Zeran': {'str': 4, 'wil': 4, 'ski': 6, 'cel': 4, 'def': 3, 'res': 3, 'vit': 4, 'fai': 5, 'luc': 0, 'gui': 4, 'san': 3, 'apt': 0,  'allowedRaces': ['Ancient']},
-    'Lich': {'str': 1, 'wil': 10, 'ski': 8, 'cel': 4, 'def': 2, 'res': 6, 'vit': 3, 'fai': 0, 'luc': 0, 'gui': 6, 'san': 0, 'apt': 0,  'allowedRaces': ['Ancient']},
-    'Reaper': {'str': 4, 'wil': 6, 'ski': 4, 'cel': 1, 'def': 3, 'res': 5, 'vit': 7, 'fai': 0, 'luc': 2, 'gui': 3, 'san': 5, 'apt': 0,  'allowedRaces': ['Ancient']},
-    'Apertaurus': {'str': 9, 'wil': 1, 'ski': 4, 'cel': 6, 'def': 1, 'res': 2, 'vit': 7, 'fai': 1, 'luc': 2, 'gui': 1, 'san': 6, 'apt': 0,  'allowedRaces': ['Ancient']},
-    'Oni': {'str': 8, 'wil': 3, 'ski': 3, 'cel': 2, 'def': 5, 'res': 4, 'vit': 9, 'fai': 0, 'luc': 2, 'gui': 0, 'san': 4, 'apt': 0,  'allowedRaces': ['Ancient']},
+    'Vampire': {'str': 3, 'wil': 6, 'ski': 4, 'cel': 4, 'def': 3, 'res': 3, 'vit': 6, 'fai': 1, 'luc': 2, 'gui': 5, 'san': 3, 'apt': 0,  'allowedRaces': ['Ancients']},
+    'Elf': {'str': 3, 'wil': 6, 'ski': 4, 'cel': 4, 'def': 3, 'res': 3, 'vit': 7, 'fai': 2, 'luc': 1, 'gui': 2, 'san': 5, 'apt': 0,  'allowedRaces': ['Ancients']},
+    'Wild Elf': {'str': 6, 'wil': 3, 'ski': 4, 'cel': 4, 'def': 3, 'res': 3, 'vit': 5, 'fai': 0, 'luc': 2, 'gui': 6, 'san': 4, 'apt': 0,  'allowedRaces': ['Ancients']},
+    'Zeran': {'str': 4, 'wil': 4, 'ski': 6, 'cel': 4, 'def': 3, 'res': 3, 'vit': 4, 'fai': 5, 'luc': 0, 'gui': 4, 'san': 3, 'apt': 0,  'allowedRaces': ['Ancients']},
+    'Lich': {'str': 1, 'wil': 10, 'ski': 8, 'cel': 4, 'def': 2, 'res': 6, 'vit': 3, 'fai': 0, 'luc': 0, 'gui': 6, 'san': 0, 'apt': 0,  'allowedRaces': ['Ancients']},
+    'Reaper': {'str': 4, 'wil': 6, 'ski': 4, 'cel': 1, 'def': 3, 'res': 5, 'vit': 7, 'fai': 0, 'luc': 2, 'gui': 3, 'san': 5, 'apt': 0,  'allowedRaces': ['Ancients']},
+    'Apertaurus': {'str': 9, 'wil': 1, 'ski': 4, 'cel': 6, 'def': 1, 'res': 2, 'vit': 7, 'fai': 1, 'luc': 2, 'gui': 1, 'san': 6, 'apt': 0,  'allowedRaces': ['Ancients']},
+    'Oni': {'str': 8, 'wil': 3, 'ski': 3, 'cel': 2, 'def': 5, 'res': 4, 'vit': 9, 'fai': 0, 'luc': 2, 'gui': 0, 'san': 4, 'apt': 0,  'allowedRaces': ['Ancients']},
 
   // Serpentkind subraces
     'Glykin': {'str': 4, 'wil': 4, 'ski': 5, 'cel': 4, 'def': 3, 'res': 3, 'vit': 7, 'fai': 5, 'luc': 0, 'gui': 2, 'san': 3, 'apt': 0,  'allowedRaces': ['Serpentkind']},
@@ -107,8 +107,17 @@ const SUBRACES: Record<string, Stats & { allowedRaces?: string[] }> = {
   // Homunculi subraces
     'Salamandra': {'str': 8, 'wil': 6, 'ski': 4, 'cel': 4, 'def': 2, 'res': 4, 'vit': 5, 'fai': 0, 'luc': 2, 'gui': 5, 'san': 0, 'apt': 0,  'allowedRaces': ['Homunculi']},
     'Amalgama': {'str': 5, 'wil': 6, 'ski': 5, 'cel': 3, 'def': 2, 'res': 3, 'vit': 5, 'fai': 0, 'luc': 2, 'gui': 7, 'san': 0, 'apt': 2,  'allowedRaces': ['Homunculi']},
-    'Chimera': {'str': 3, 'wil': 3, 'ski': 6, 'cel': 6, 'def': 2, 'res': 4, 'vit': 5, 'fai': 0, 'luc': 2, 'gui': 5, 'san': 0, 'apt': 4,  'allowedRaces': ['Homunculi']}
+    'Chimera': {'str': 3, 'wil': 3, 'ski': 6, 'cel': 6, 'def': 2, 'res': 4, 'vit': 5, 'fai': 0, 'luc': 2, 'gui': 5, 'san': 0, 'apt': 4,  'allowedRaces': ['Homunculi']},
 
+
+// Youkai subraces
+    'Avian': {'str': 6, 'wil': 3, 'ski': 9, 'cel': 7, 'def': 4, 'res': 4, 'vit': 5, 'fai': 0, 'luc': 4, 'gui': 0, 'san': 0, 'apt': 0,  'allowedRaces': ['Youkai']},
+    'Mystic': {'str': 3, 'wil': 7, 'ski': 5, 'cel': 6, 'def': 4, 'res': 3, 'vit': 5, 'fai': 0, 'luc': 7, 'gui': 0, 'san': 0, 'apt': 0,  'allowedRaces': ['Youkai']},
+    'Plant': {'str': 5, 'wil': 6, 'ski': 5, 'cel': 4, 'def': 5, 'res': 4, 'vit': 9, 'fai': 0, 'luc': 4, 'gui': 0, 'san': 0, 'apt': 0,  'allowedRaces': ['Youkai']},
+    'Night': {'str': 5, 'wil': 9, 'ski': 4, 'cel': 5, 'def': 3, 'res': 4, 'vit': 6, 'fai': 0, 'luc': 6, 'gui': 0, 'san': 0, 'apt': 0,  'allowedRaces': ['Youkai']},
+    'Dragon': {'str': 8, 'wil': 6, 'ski': 7, 'cel': 4, 'def': 3, 'res': 5, 'vit': 7, 'fai': 0, 'luc': 2, 'gui': 0, 'san': 0, 'apt': 0,  'allowedRaces': ['Youkai']},
+    'Beast': {'str': 9, 'wil': 4, 'ski': 6, 'cel': 6, 'def': 4, 'res': 4, 'vit': 6, 'fai': 0, 'luc': 3, 'gui': 0, 'san': 0, 'apt': 0,  'allowedRaces': ['Youkai']},
+    'Fairy': {'str': 3, 'wil': 6, 'ski': 6, 'cel': 9, 'def': 3, 'res': 4, 'vit': 6, 'fai': 0, 'luc': 5, 'gui': 0, 'san': 0, 'apt': 0,  'allowedRaces': ['Youkai']}
 
 };
 
@@ -190,8 +199,11 @@ interface BuildData {
   dragonQueen: number;
   hpPercent: number;
   sanguineCrest: boolean;
-  grimalkinInstinct: boolean;
+  felidaeInstinct: boolean;
+  lupineInstinct: boolean;
   risingGame: number;
+  redtailFortuneLevel: number;
+  redtailDiceColor: 'red' | 'green' | 'yellow';
   fortitude: boolean;
   painTolerance: number;
   warwalk: boolean;
@@ -228,16 +240,29 @@ interface FoodBonus {
   wil: number;
   ski: number;
   cel: number;
+  def: number;
+  res: number;
   vit: number;
+  fai: number;
+  luc: number;
+  gui: number;
+  san: number;
+  apt: number;
 }
 
 const FOODS: Record<string, FoodBonus> = {
-  'None': { str: 0, wil: 0, ski: 0, cel: 0, vit: 0 },
-  'Cheese': { str: 1, wil: 0, ski: 0, cel: 0, vit: 0 },
-  'Fish': { str: 0, wil: 1, ski: 0, cel: 0, vit: 0 },
-  'Fruit': { str: 0, wil: 0, ski: 1, cel: 0, vit: 0 },
-  'Vegetable': { str: 0, wil: 0, ski: 0, cel: 1, vit: 0 },
-  'Grain': { str: 0, wil: 0, ski: 0, cel: 0, vit: 1 }
+  'None': { str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0 },
+  'Salad': { str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0, vit: 3, fai: 0, luc: 0, gui: 0, san: 0, apt: 0 },
+  'Potatoes & Carrots': { str: 0, wil: 0, ski: 3, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0 },
+  'Fugu': { str: 3, wil: 3, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0 },
+  'Sushi': { str: 2, wil: 2, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0 },
+  'Pumpkin Lollipop': { str: 0, wil: 0, ski: 0, cel: 5, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0 },
+  'Redpop': { str: 0, wil: 0, ski: 0, cel: 4, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0 },
+  'Cocky': { str: 0, wil: 0, ski: 0, cel: 3, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0 },
+  'Kat Knip': { str: 0, wil: 0, ski: 0, cel: 3, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0 },
+  'Androbar': { str: 0, wil: 0, ski: 0, cel: 3, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0 },
+  'Chocolate Bar': { str: 0, wil: 0, ski: 0, cel: 2, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0 },
+  'Sweet Bites': { str: 0, wil: 0, ski: 0, cel: 1, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0 }
 };
 
 interface HistoryBonus {
@@ -254,13 +279,24 @@ interface HistoryBonus {
 
 const HISTORY: Record<string, HistoryBonus> = {
   'None': { str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0 },
-  'Orphan': { str: 0, wil: 1, ski: 0, cel: 1, def: 0, res: 0, vit: 0, fai: 0, luc: 0 },
-  'Noble': { str: 0, wil: 1, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 1, luc: 0 },
-  'Commoner': { str: 1, wil: 0, ski: 0, cel: 0, def: 0, res: 0, vit: 1, fai: 0, luc: 0 },
-  'Street Rat': { str: 0, wil: 0, ski: 1, cel: 1, def: 0, res: 0, vit: 0, fai: 0, luc: 0 },
-  'Merchant': { str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 2 },
-  'Soldier': { str: 1, wil: 0, ski: 0, cel: 0, def: 1, res: 0, vit: 0, fai: 0, luc: 0 },
-  'Scholar': { str: 0, wil: 1, ski: 1, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0 }
+  'Warrior': { str: 2, wil: 0, ski: 1, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0 },
+  'Hero': { str: 2, wil: 0, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 1 },
+  'Magician': { str: 0, wil: 2, ski: 0, cel: 1, def: 0, res: 0, vit: 0, fai: 0, luc: 0 },
+  'Spellblade': { str: 1, wil: 2, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0 },
+  'Assassin': { str: 0, wil: 0, ski: 2, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 1 },
+  'Myrmdon': { str: 0, wil: 0, ski: 2, cel: 1, def: 0, res: 0, vit: 0, fai: 0, luc: 0 },
+  'Fencer': { str: 0, wil: 0, ski: 0, cel: 2, def: 1, res: 0, vit: 0, fai: 0, luc: 0 },
+  'Thief': { str: 0, wil: 0, ski: 0, cel: 2, def: 0, res: 0, vit: 0, fai: 0, luc: 1 },
+  'Ward': { str: 0, wil: 0, ski: 0, cel: 0, def: 2, res: 1, vit: 0, fai: 0, luc: 0 },
+  'Shaman': { str: 0, wil: 0, ski: 0, cel: 0, def: 1, res: 0, vit: 0, fai: 2, luc: 0 },
+  'Ghost': { str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 2, vit: 0, fai: 0, luc: 1 },
+  'Witchhunter': { str: 1, wil: 0, ski: 0, cel: 0, def: 0, res: 2, vit: 0, fai: 0, luc: 0 },
+  'Marauder': { str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0, vit: 2, fai: 0, luc: 1 },
+  'Knight': { str: 0, wil: 0, ski: 0, cel: 0, def: 1, res: 0, vit: 2, fai: 0, luc: 0 },
+  'Faithful': { str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 1, vit: 0, fai: 2, luc: 0 },
+  'Priest': { str: 0, wil: 1, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 2, luc: 0 },
+  'Survivor': { str: 0, wil: 1, ski: 0, cel: 0, def: 0, res: 0, vit: 1, fai: 0, luc: 2 },
+  'Gambler': { str: 1, wil: 0, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 2 }
 };
 
 const LEGENDARY_EXTENTS: Record<string, { stat: StatKey; name: string; color: string }> = {
@@ -336,7 +372,6 @@ const STAT_INFO: Record<string, { title: string; description: string; effects: s
       '+2 Status Infliction, increasing your chance to inflict status effects on enemies (per 1 Scaled point)',
       '+1 Max. Skill Pool Size per 5 points, increasing the amount of skills you can equip (per 1 Scaled point)'
     ],
-    notes: 'Note: Critical bonus changed from +1 per 2 points to +0.5 per 1 point'
   },
   'cel': {
     title: 'Celerity (CEL)',
@@ -428,10 +463,19 @@ const STAT_INFO: Record<string, { title: string; description: string; effects: s
 };
 
 export default function SL2Calculator() {
-  const [race, setRace] = useState('Human');
-  const [subrace, setSubrace] = useState('Human');
-  const [mainClass, setMainClass] = useState('Soldier');
-  const [subClass, setSubClass] = useState('Soldier');
+  // Get first race and first subrace on initial load
+  const firstRace = Object.keys(RACES)[0];
+  const firstSubrace = Object.keys(SUBRACES).find(subraceKey => {
+    const subrace = SUBRACES[subraceKey];
+    if (!subrace.allowedRaces) return true; 
+    return subrace.allowedRaces.includes(firstRace);
+  }) || firstRace;
+  const firstClass = Object.keys(CLASSES)[0];
+
+  const [race, setRace] = useState(firstRace);
+  const [subrace, setSubrace] = useState(firstSubrace);
+  const [mainClass, setMainClass] = useState(firstClass);
+  const [subClass, setSubClass] = useState(firstClass);
   const [totalPoints, setTotalPoints] = useState(MAX_POINTS);
   const [food, setFood] = useState('None');
   const [history, setHistory] = useState('None');
@@ -464,8 +508,11 @@ export default function SL2Calculator() {
   const [dragonQueen, setDragonQueen] = useState(0);
   const [hpPercent, setHpPercent] = useState(100);
   const [sanguineCrest, setSanguineCrest] = useState(false);
-  const [grimalkinInstinct, setGrimalkinInstinct] = useState(false);
+  const [felidaeInstinct, setFelidaeInstinct] = useState(false);
+  const [lupineInstinct, setLupineInstinct] = useState(false);
   const [risingGame, setRisingGame] = useState(0);
+  const [redtailFortuneLevel, setRedtailFortuneLevel] = useState(1);
+  const [redtailDiceColor, setRedtailDiceColor] = useState<'red' | 'green' | 'yellow'>('red');
   const [fortitude, setFortitude] = useState(false);
   const [painTolerance, setPainTolerance] = useState(0);
   const [warwalk, setWarwalk] = useState(false);
@@ -521,15 +568,18 @@ export default function SL2Calculator() {
       dragonQueen,
       hpPercent,
       sanguineCrest,
-      grimalkinInstinct,
+      felidaeInstinct,
+      lupineInstinct,
       risingGame,
+      redtailFortuneLevel,
+      redtailDiceColor,
       fortitude,
       painTolerance,
       warwalk,
       endurance,
       mainClassPassive,
       subClassPassive,
-      version: "1.0"
+      version: "0.0.1"
     };
 
     const jsonString = JSON.stringify(buildData, null, 2);
@@ -587,8 +637,11 @@ export default function SL2Calculator() {
       setDragonQueen(buildData.dragonQueen || 0);
       setHpPercent(buildData.hpPercent || 100);
       setSanguineCrest(buildData.sanguineCrest || false);
-      setGrimalkinInstinct(buildData.grimalkinInstinct || false);
+      setFelidaeInstinct(buildData.felidaeInstinct || false);
+      setLupineInstinct(buildData.lupineInstinct || false);
       setRisingGame(buildData.risingGame || 0);
+      setRedtailFortuneLevel(buildData.redtailFortuneLevel || 1);
+      setRedtailDiceColor(buildData.redtailDiceColor || 'red');
       setFortitude(buildData.fortitude || false);
       setPainTolerance(buildData.painTolerance || 0);
       setWarwalk(buildData.warwalk || false);
@@ -629,15 +682,18 @@ export default function SL2Calculator() {
       dragonQueen,
       hpPercent,
       sanguineCrest,
-      grimalkinInstinct,
+      felidaeInstinct,
+      lupineInstinct,
       risingGame,
+      redtailFortuneLevel,
+      redtailDiceColor,
       fortitude,
       painTolerance,
       warwalk,
       endurance,
       mainClassPassive,
       subClassPassive,
-      version: "1.0"
+      version: "0.0.1"
     };
 
     try {
@@ -687,6 +743,18 @@ export default function SL2Calculator() {
     }
   };
 
+  /**
+   * Handle subrace change - disable Sanguine Crest if not Oni/Vampire
+   */
+  const handleSubraceChange = (newSubrace: string): void => {
+    setSubrace(newSubrace);
+    
+    // Disable Sanguine Crest if the new subrace is not Oni or Vampire
+    if (newSubrace !== 'Oni' && newSubrace !== 'Vampire') {
+      setSanguineCrest(false);
+    }
+  };
+
   // Calculate Rising Game bonus
   const calculateRisingGame = (): Partial<StatRecord> => {
     const hpLost = 100 - hpPercent;
@@ -706,26 +774,61 @@ export default function SL2Calculator() {
     };
   };
 
-  // Calculate Instinct bonus (Felidae/Lupine/Grimalkin)
+  // Calculate Instinct bonus (Felidae/Grimalkin/Lupine)
   const calculateInstinct = (): Partial<StatRecord> => {
     if (hpPercent > 50) return {};
     
     const baseInstinct = Math.floor(stats.san * 0.1 + 1);
     const bonus = hpPercent <= 25 ? baseInstinct * 2 : baseInstinct;
     
-    if (race === 'Felidae' || race === 'Grimalkin') {
-      if (grimalkinInstinct) {
-        // Grimalkin I variant: WIL/RES instead of GUI/LUC
-        return { ski: bonus, cel: bonus, wil: bonus, res: bonus };
-      }
+    // Felidae & Grimalkin Instinct: SKI, CEL, LUC, GUI
+    if ((subrace === 'Felidae' || subrace === 'Grimalkin') && felidaeInstinct) {
       return { ski: bonus, cel: bonus, gui: bonus, luc: bonus };
     }
     
-    if (race === 'Lupine') {
+    // Lupine Instinct: STR, WIL, DEF, RES
+    if (subrace === 'Lupine' && lupineInstinct) {
       return { str: bonus, wil: bonus, def: bonus, res: bonus };
     }
     
+    // Leporidae Instinct: Currently only affects Rabbit Foot (not stat-related)
+    // We track the state but don't add stat bonuses
+    
     return {};
+  };
+
+  // Calculate Redtail Fox God's Blessing bonus
+  const calculateRedtailBonus = (): Partial<StatRecord> => {
+    if (subrace !== 'Redtail') return {};
+    
+    const scaledSAN = Math.floor(stats.san);
+    const sanMultiplier = Math.min(Math.floor(scaledSAN / 10), 5); // Max 5x
+    const fortuneLevel = redtailFortuneLevel;
+    
+    // Base multiplier: 1x per Fortune Level
+    // Enhanced by SAN: +1x per 10 Scaled SAN (max +5x total)
+    const totalMultiplier = 1 + sanMultiplier;
+    
+    const bonuses: Partial<StatRecord> = {};
+    
+    if (redtailDiceColor === 'red') {
+      // Red Dice: Hit and Critical
+      // These are combat stats we can't directly add to StatRecord
+      // But if Fortune Level is 1, apply penalties
+      // Note: Hit/Critical aren't in StatRecord, so this is mainly for display
+      // In a real implementation, you'd track these separately
+      return {}; // Combat stats handled separately
+    } else if (redtailDiceColor === 'green') {
+      // Green Dice: Luck-based status effect chances
+      // This is also a combat effect, not a base stat
+      return {}; // Combat effects handled separately
+    } else if (redtailDiceColor === 'yellow') {
+      // Yellow Dice: Evade and Critical Evade
+      // These are also combat stats, not base stats
+      return {}; // Combat stats handled separately
+    }
+    
+    return bonuses;
   };
 
   const getLEBonus = (): Partial<StatRecord> => {
@@ -812,7 +915,7 @@ export default function SL2Calculator() {
   const astroBonus = getAstrologyBonus();
   const foodBonus = FOODS[food];
   const historyBonus = HISTORY[history];
-  const sanguineBonus = sanguineCrest ? 1 : 0;
+  const sanguineBonus = (sanguineCrest && (subrace === 'Oni' || subrace === 'Vampire')) ? 2 : 0;
   const risingGameBonus = calculateRisingGame();
   const mainPassiveBonus = getClassPassiveBonus(mainClass, mainClassPassive);
   const subPassiveBonus = getClassPassiveBonus(subClass, subClassPassive);
@@ -825,12 +928,15 @@ export default function SL2Calculator() {
     const racialValue = (subraceData?.[statName] || 0) + customBaseStats[statName];
     const stampValue = statName in stamps ? (stamps[statName as StampKey] || 0) : 0;
     
+    // Sanguine Crest only affects STR, WIL, SKI, CEL, DEF
+    const sanguineBonusForStat = (['str', 'wil', 'ski', 'cel', 'def'].includes(statName)) ? sanguineBonus : 0;
+    
     const addedValue = addedStats[statName] 
       + (astroBonus[statName] || 0) 
       + (foodBonus[statName as keyof FoodBonus] || 0) 
       + (historyBonus[statName as keyof HistoryBonus] || 0)
       + stampValue 
-      + sanguineBonus
+      + sanguineBonusForStat
       + (risingGameBonus[statName] || 0)
       + (mainPassiveBonus[statName] || 0)
       + (subPassiveBonus[statName] || 0);
@@ -877,7 +983,7 @@ export default function SL2Calculator() {
     stats.wil = Math.floor(stats.wil * (1 + 0.05 * dragonQueen));
   }
 
-  const calculateHP = (): number => {
+  const calculateMaxHP = (): number => {
     const raceData = RACES[race];
     const subraceData = SUBRACES[subrace];
     
@@ -916,6 +1022,18 @@ export default function SL2Calculator() {
     
     maxHP += customHP;
     
+    // Lich Magia Detremus: -30% HP (reduced by 1% per 2 Scaled SAN)
+    if (subrace === 'Lich') {
+      const sanModifier = Math.floor(stats.san / 2);
+      const hpPenalty = Math.max(0, 30 - sanModifier); // Can't go below 0% penalty
+      maxHP = Math.floor(maxHP * (1 - hpPenalty / 100));
+    }
+    
+    return maxHP;
+  };
+
+  const calculateHP = (): number => {
+    const maxHP = calculateMaxHP();
     return Math.floor(maxHP * (hpPercent / 100));
   };
 
@@ -939,6 +1057,13 @@ export default function SL2Calculator() {
     }
     
     maxMP += customFP;
+    
+    // Lich Magia Detremus: +50% FP (increased by 1% per 2 Scaled SAN)
+    if (subrace === 'Lich') {
+      const sanModifier = Math.floor(stats.san / 2);
+      const fpBonus = 50 + sanModifier;
+      maxMP = Math.floor(maxMP * (1 + fpBonus / 100));
+    }
     
     return maxMP;
   };
@@ -969,16 +1094,38 @@ export default function SL2Calculator() {
   const youkaiCap = Math.floor(((SUBRACES[subrace]?.fai || 0) + customBaseStats.fai + addedStats.fai + (astroBonus.fai || 0)) / 5) + 5;
 
   const addStat = (statName: StatKey): void => {
-    if (totalPoints > 0) {
+    // Comprehensive validation before adding
+    const currentValue = addedStats[statName];
+    const availablePoints = totalPoints;
+    
+    // Only add if we have points available and current value is valid
+    if (availablePoints > 0 && currentValue >= 0 && currentValue < MAX_POINTS) {
       setAddedStats(prev => ({ ...prev, [statName]: prev[statName] + 1 }));
-      setTotalPoints(prev => prev - 1);
+      setTotalPoints(prev => Math.max(0, prev - 1));
+      
+      // Update any input field that might be showing this stat
+      const inputElement = inputRefs.current[statName];
+      if (inputElement) {
+        inputElement.value = (currentValue + 1).toString();
+      }
     }
   };
 
   const removeStat = (statName: StatKey): void => {
-    if (addedStats[statName] > 0) {
-      setAddedStats(prev => ({ ...prev, [statName]: prev[statName] - 1 }));
-      setTotalPoints(prev => prev + 1);
+    // Comprehensive validation before removing
+    const currentValue = addedStats[statName];
+    const currentTotal = totalPoints;
+    
+    // Only remove if current value is positive and total won't exceed max
+    if (currentValue > 0 && currentTotal < MAX_POINTS) {
+      setAddedStats(prev => ({ ...prev, [statName]: Math.max(0, prev[statName] - 1) }));
+      setTotalPoints(prev => Math.min(MAX_POINTS, prev + 1));
+      
+      // Update any input field that might be showing this stat
+      const inputElement = inputRefs.current[statName];
+      if (inputElement) {
+        inputElement.value = Math.max(0, currentValue - 1).toString();
+      }
     }
   };
 
@@ -1008,8 +1155,11 @@ export default function SL2Calculator() {
     setSubrace('Human'); // Reset to base Human race
     setStamps({ str: 0, wil: 0, ski: 0, cel: 0, vit: 0, fai: 0 });
     setSanguineCrest(false);
-    setGrimalkinInstinct(false);
+    setFelidaeInstinct(false);
+    setLupineInstinct(false);
     setRisingGame(0);
+    setRedtailFortuneLevel(1);
+    setRedtailDiceColor('red');
     setFortitude(false);
     setPainTolerance(0);
     setWarwalk(false);
@@ -1017,6 +1167,81 @@ export default function SL2Calculator() {
     setMainClassPassive(0);
     setSubClassPassive(0);
   };
+
+  // Uncontrolled input approach - no React state management for input values
+  const inputRefs = useRef<Record<string, HTMLInputElement>>({});
+
+  const commitStatValue = (statKey: StatKey, inputElement: HTMLInputElement) => {
+    const value = inputElement.value;
+    let targetPoints = parseInt(value) || 0;
+    
+    // Aggressive validation - clamp to valid range immediately
+    targetPoints = Math.max(0, Math.min(MAX_POINTS, targetPoints));
+    
+    const currentPoints = addedStats[statKey];
+    
+    // Additional safety check - ensure we're not in an invalid state
+    const totalUsedPoints = Object.values(addedStats).reduce((sum, val) => sum + val, 0) - currentPoints;
+    const maxAllowableForThisStat = MAX_POINTS - totalUsedPoints;
+    targetPoints = Math.min(targetPoints, maxAllowableForThisStat);
+    
+    // Calculate final difference after all validations
+    const actualDifference = targetPoints - currentPoints;
+    
+    if (actualDifference !== 0) {
+      if (actualDifference > 0) {
+        // Adding points - strictly validate available points
+        const availablePoints = totalPoints;
+        const pointsToAdd = Math.min(actualDifference, availablePoints);
+        
+        // Only proceed if we can actually add points
+        if (pointsToAdd > 0) {
+          const actualNewValue = currentPoints + pointsToAdd;
+          setAddedStats(prev => ({ ...prev, [statKey]: actualNewValue }));
+          setTotalPoints(prev => Math.max(0, prev - pointsToAdd));
+          inputElement.value = actualNewValue.toString();
+        } else {
+          // Can't add any points, revert input to current value
+          inputElement.value = currentPoints.toString();
+        }
+      } else {
+        // Removing points - validate we don't go below 0
+        const actualTarget = Math.max(0, targetPoints);
+        const pointsToRemove = currentPoints - actualTarget;
+        
+        if (pointsToRemove > 0) {
+          setAddedStats(prev => ({ ...prev, [statKey]: actualTarget }));
+          setTotalPoints(prev => Math.min(MAX_POINTS, prev + pointsToRemove));
+          inputElement.value = actualTarget.toString();
+        }
+      }
+    } else {
+      // No change needed, but ensure input shows the correct value
+      inputElement.value = currentPoints.toString();
+    }
+    
+    // Remove any visual indicators and reset to normal styling
+    inputElement.style.backgroundColor = '';
+    inputElement.style.borderColor = '';
+    inputElement.style.color = '';
+  };
+
+  // Validation function to ensure point integrity
+  const validatePointTotals = () => {
+    const totalUsedPoints = Object.values(addedStats).reduce((sum, value) => sum + value, 0);
+    const expectedRemainingPoints = MAX_POINTS - totalUsedPoints;
+    
+    // If totals don't match, correct them
+    if (totalPoints !== expectedRemainingPoints) {
+      console.warn(`Point total mismatch detected. Correcting from ${totalPoints} to ${expectedRemainingPoints}`);
+      setTotalPoints(Math.max(0, Math.min(MAX_POINTS, expectedRemainingPoints)));
+    }
+  };
+
+  // Auto-validate point totals whenever addedStats or totalPoints change
+  useEffect(() => {
+    validatePointTotals();
+  }, [addedStats, totalPoints]);
 
   // Check if class has fortitude access
   const hasFortitude = ['Soldier', 'Black Knight', 'Tactician', 'Demon Hunter', 'Solblader'].includes(mainClass) 
@@ -1053,7 +1278,7 @@ export default function SL2Calculator() {
       historyBonus[statKey as keyof HistoryBonus] ? `History: ${historyBonus[statKey as keyof HistoryBonus]}` : null,
       `Final (after DR): ${stats[statKey].toFixed(1)}`
     ].filter(Boolean).join('\n');
-    
+
     return (
       <div className="flex items-center gap-2 py-2 border-b border-gray-700">
         <button 
@@ -1071,6 +1296,7 @@ export default function SL2Calculator() {
           onClick={() => removeStat(statKey)}
           disabled={addedStats[statKey] === 0}
           className="p-1 bg-red-600 hover:bg-red-700 disabled:bg-gray-700 disabled:cursor-not-allowed rounded"
+          title="Remove 1 point"
         >
           <Minus size={16} />
         </button>
@@ -1078,9 +1304,46 @@ export default function SL2Calculator() {
           onClick={() => addStat(statKey)}
           disabled={totalPoints === 0}
           className="p-1 bg-green-600 hover:bg-green-700 disabled:bg-gray-700 disabled:cursor-not-allowed rounded"
+          title="Add 1 point"
         >
           <Plus size={16} />
         </button>
+        <input
+          ref={(el) => { if (el) inputRefs.current[statKey] = el; }}
+          type="number"
+          min="0"
+          max={MAX_POINTS} // Prevent entering values above max points
+          defaultValue={pointsAdded}
+          key={`${statKey}-${pointsAdded}`} // Force reset when points change via +/- buttons
+          onInput={(e) => {
+            // Visual feedback while typing
+            const input = e.currentTarget;
+            const value = parseInt(input.value) || 0;
+            
+            // Basic range validation during typing
+            if (value < 0) {
+              input.value = '0';
+            } else if (value > MAX_POINTS) {
+              input.value = MAX_POINTS.toString();
+            }
+            
+            // Visual feedback
+            input.style.backgroundColor = '#92400e'; // Yellow-900
+            input.style.borderColor = '#d97706'; // Yellow-600
+            input.style.color = '#fef3c7'; // Yellow-200
+          }}
+          onBlur={(e) => {
+            commitStatValue(statKey, e.currentTarget);
+          }}
+          onKeyPress={(e) => {
+            if (e.key === 'Enter') {
+              commitStatValue(statKey, e.currentTarget);
+              e.currentTarget.blur();
+            }
+          }}
+          className="w-16 border rounded px-2 py-1 text-center bg-gray-700 border-gray-600"
+          title="Type number and press Enter or click away to apply"
+        />
         <div className="flex-1 text-right">
           <span className="text-2xl font-bold" style={{ color }} title={tooltipParts}>
             {Math.floor(stats[statKey])}
@@ -1101,7 +1364,7 @@ export default function SL2Calculator() {
         <div className="bg-gray-800 rounded-lg shadow-xl p-6 mb-6">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-3xl font-bold">SL2 Calculator Suite</h1>
-            <div className="text-sm text-gray-400">Version 1.0.0</div>
+            <div className="text-sm text-gray-400">Version 0.0.1a</div>
           </div>
 
           {/* Tab Navigation */}
@@ -1149,7 +1412,7 @@ export default function SL2Calculator() {
               <label className="block text-sm font-medium mb-2">Race/Subrace (Stats)</label>
               <select
                 value={subrace}
-                onChange={(e) => setSubrace(e.target.value)}
+                onChange={(e) => handleSubraceChange(e.target.value)}
                 className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2"
               >
                 {getAvailableSubraces().map(sr => (
@@ -1399,6 +1662,16 @@ export default function SL2Calculator() {
                 <div className="flex items-center gap-2">
                   <input
                     type="checkbox"
+                    checked={giantGene}
+                    onChange={(e) => setGiantGene(e.target.checked)}
+                    className="w-4 h-4"
+                  />
+                  <span>Giant Gene (+10% HP, -10 Evade)</span>
+                </div>
+                
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
                     checked={warwalk}
                     onChange={(e) => setWarwalk(e.target.checked)}
                     className="w-4 h-4"
@@ -1406,15 +1679,121 @@ export default function SL2Calculator() {
                   <span>Warwalk (+30 HP/FP)</span>
                 </div>
                 
-                {(race === 'Grimalkin' || race === 'Felidae') && (
+                {/* Kaelensia Instinct Toggles */}
+                {(subrace === 'Felidae' || subrace === 'Grimalkin') && (
                   <div className="flex items-center gap-2">
                     <input
                       type="checkbox"
-                      checked={grimalkinInstinct}
-                      onChange={(e) => setGrimalkinInstinct(e.target.checked)}
+                      checked={felidaeInstinct}
+                      onChange={(e) => setFelidaeInstinct(e.target.checked)}
                       className="w-4 h-4"
                     />
-                    <span>Grimalkin Instinct I (WIL/RES variant)</span>
+                    <span>Felidae/Grimalkin Instinct (SKI/CEL/LUC/GUI at ≤50% HP)
+                      {felidaeInstinct && hpPercent <= 50 && (
+                        <span className="ml-2 text-green-400">
+                          ✓ Active {hpPercent <= 25 && '(x2)'}
+                        </span>
+                      )}
+                    </span>
+                  </div>
+                )}
+                
+                {subrace === 'Lupine' && (
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      checked={lupineInstinct}
+                      onChange={(e) => setLupineInstinct(e.target.checked)}
+                      className="w-4 h-4"
+                    />
+                    <span>Lupine Instinct (STR/WIL/DEF/RES at ≤50% HP)
+                      {lupineInstinct && hpPercent <= 50 && (
+                        <span className="ml-2 text-green-400">
+                          ✓ Active {hpPercent <= 25 && '(x2)'}
+                        </span>
+                      )}
+                    </span>
+                  </div>
+                )}
+                
+                {/* Sanguine Crest for Oni/Vampire */}
+                {(subrace === 'Oni' || subrace === 'Vampire') && (
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      checked={sanguineCrest}
+                      onChange={(e) => setSanguineCrest(e.target.checked)}
+                      className="w-4 h-4"
+                    />
+                    <span>Sanguine Crest (+2 STR/WIL/SKI/CEL/DEF)</span>
+                  </div>
+                )}
+                
+                {/* Redtail Fox God's Blessing */}
+                {subrace === 'Redtail' && (
+                  <div className="col-span-full border border-orange-500 rounded p-3 bg-orange-900 bg-opacity-20">
+                    <h4 className="font-bold text-orange-400 mb-2">Fox God's Blessing</h4>
+                    <p className="text-xs text-gray-300 mb-3">
+                      Every round in battle, glowing spirits appear around the Redtail (1-6), becoming your Fortune Level. 
+                      Dice color determines the effect. Bonuses scale with SAN (+1x per 10 Scaled SAN, max 5x).
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-sm mb-1">Fortune Level (1-6)</label>
+                        <input
+                          type="number"
+                          min="1"
+                          max="6"
+                          value={redtailFortuneLevel}
+                          onChange={(e) => setRedtailFortuneLevel(Number(e.target.value))}
+                          className="w-full bg-gray-600 border border-gray-500 rounded px-2 py-1"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm mb-1">Dice Color</label>
+                        <select
+                          value={redtailDiceColor}
+                          onChange={(e) => setRedtailDiceColor(e.target.value as 'red' | 'green' | 'yellow')}
+                          className="w-full bg-gray-600 border border-gray-500 rounded px-2 py-1"
+                        >
+                          <option value="red">Red Dice</option>
+                          <option value="green">Green Dice</option>
+                          <option value="yellow">Yellow Dice</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div className="mt-2 text-xs text-gray-300 space-y-1">
+                      {redtailDiceColor === 'red' && (
+                        <p>
+                          <span className="text-red-400 font-semibold">Red Dice:</span> 
+                          {redtailFortuneLevel === 1 
+                            ? ` -${5 + Math.min(Math.floor(stats.san / 10), 5) * 5} Hit/Critical`
+                            : ` +${redtailFortuneLevel * (1 + Math.min(Math.floor(stats.san / 10), 5))} Hit/Critical`
+                          }
+                        </p>
+                      )}
+                      {redtailDiceColor === 'green' && (
+                        <p>
+                          <span className="text-green-400 font-semibold">Green Dice:</span>
+                          {redtailFortuneLevel === 1
+                            ? ` -${5 + Math.min(Math.floor(stats.san / 10), 5) * 5}% Status Inflict/Resist chance`
+                            : ` +${redtailFortuneLevel * (1 + Math.min(Math.floor(stats.san / 10), 5))}% Status Inflict/Resist chance`
+                          }
+                        </p>
+                      )}
+                      {redtailDiceColor === 'yellow' && (
+                        <p>
+                          <span className="text-yellow-400 font-semibold">Yellow Dice:</span>
+                          {redtailFortuneLevel === 1
+                            ? ` -${5 + Math.min(Math.floor(stats.san / 10), 5) * 5} Evade/Critical Evade`
+                            : ` +${redtailFortuneLevel * (1 + Math.min(Math.floor(stats.san / 10), 5))} Evade/Critical Evade`
+                          }
+                        </p>
+                      )}
+                      <p className="text-gray-400 italic">
+                        Current SAN Multiplier: {1 + Math.min(Math.floor(stats.san / 10), 5)}x
+                      </p>
+                    </div>
                   </div>
                 )}
               </div>
@@ -1469,24 +1848,6 @@ export default function SL2Calculator() {
               </div>
 
               <div className="flex items-center gap-4 flex-wrap">
-                <label className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={giantGene}
-                    onChange={(e) => setGiantGene(e.target.checked)}
-                    className="w-4 h-4"
-                  />
-                  <span>Giant Gene (+10% HP, -10 Evade)</span>
-                </label>
-                <label className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={sanguineCrest}
-                    onChange={(e) => setSanguineCrest(e.target.checked)}
-                    className="w-4 h-4"
-                  />
-                  <span>Sanguine Crest (+1 All Stats)</span>
-                </label>
                 <div className="flex items-center gap-2">
                   <label className="text-sm">Current HP %</label>
                   <input
@@ -1701,7 +2062,9 @@ export default function SL2Calculator() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6 pt-6 border-t border-gray-700">
             <div className="bg-gray-700 rounded p-4">
               <div className="text-sm text-gray-400">HP</div>
-              <div className="text-2xl font-bold text-red-400">{calculateHP()}</div>
+              <div className="text-2xl font-bold text-red-400">
+                {calculateHP()} <span className="text-base text-gray-400">/ {calculateMaxHP()}</span>
+              </div>
             </div>
             <div className="bg-gray-700 rounded p-4">
               <div className="text-sm text-gray-400">FP</div>
@@ -1828,7 +2191,7 @@ export default function SL2Calculator() {
               <div className="p-6 space-y-4">
                 {/* Base Stats vs Scaled Stats Info Box */}
                 <div className="bg-blue-900 bg-opacity-30 border border-blue-700 rounded p-4">
-                  <h4 className="font-semibold text-blue-300 mb-2">📊 Base vs Scaled Stats</h4>
+                  <h4 className="font-semibold text-blue-300 mb-2">Base vs Scaled Stats</h4>
                   <div className="text-sm text-gray-300 space-y-1">
                     <p><strong>Base Stat:</strong> Your race's starting stat + invested points + bonuses from History, Starsigns, and Legend Extends. Used for trait requirements.</p>
                     <p><strong>Scaled Stat:</strong> Base stats with diminishing returns applied after soft cap. Most effects use Scaled stats.</p>
