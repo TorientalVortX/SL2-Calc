@@ -371,7 +371,7 @@ const STAT_INFO: Record<string, { title: string; description: string; effects: s
       '+0.5 Critical (per 1 Scaled point)',
       '+2 Status Infliction, increasing your chance to inflict status effects on enemies (per 1 Scaled point)',
       '+1 Max. Skill Pool Size per 5 points, increasing the amount of skills you can equip (per 1 Scaled point)'
-    ],
+    ]
   },
   'cel': {
     title: 'Celerity (CEL)',
@@ -448,8 +448,7 @@ const STAT_INFO: Record<string, { title: string; description: string; effects: s
       '+2 FP (per 1 Scaled point)',
       '+2 Status Resistance, decreasing the chance for enemies to inflict you with status effects (per 1 Scaled point)',
       '+1% Elemental Resistance per 6 points, for Fire, Ice, Wind, Earth, Water, Lightning, Dark, and Light elements (per 1 Scaled point)'
-    ],
-    notes: 'Status Resistance changed from +1 to +2 per point'
+    ]
   },
   'apt': {
     title: 'Aptitude (APT)',
