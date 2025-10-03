@@ -381,6 +381,8 @@ interface BuildData {
   astrology: string; // Now stores single planet name
   customHP: number;
   customFP: number;
+  baseEvade: number;
+  bonusEvade: number;
   giantGene: boolean;
   dragonKing: number;
   dragonQueen: number;
@@ -693,6 +695,8 @@ export default function SL2Calculator() {
   const [astrology, setAstrology] = useState<string>(''); // Now stores the selected planet name or empty string
   const [customHP, setCustomHP] = useState(0);
   const [customFP, setCustomFP] = useState(0);
+  const [baseEvade, setBaseEvade] = useState(0);
+  const [bonusEvade, setBonusEvade] = useState(0);
   const [giantGene, setGiantGene] = useState(false);
   const [dragonKing, setDragonKing] = useState(0);
   const [dragonQueen, setDragonQueen] = useState(0);
@@ -771,6 +775,8 @@ export default function SL2Calculator() {
       astrology,
       customHP,
       customFP,
+      baseEvade,
+      bonusEvade,
       giantGene,
       dragonKing,
       dragonQueen,
@@ -844,6 +850,8 @@ export default function SL2Calculator() {
       setAstrology(buildData.astrology || '');
       setCustomHP(buildData.customHP || 0);
       setCustomFP(buildData.customFP || 0);
+      setBaseEvade(buildData.baseEvade || 0);
+      setBonusEvade(buildData.bonusEvade || 0);
       setGiantGene(buildData.giantGene || false);
       setDragonKing(buildData.dragonKing || 0);
       setDragonQueen(buildData.dragonQueen || 0);
@@ -899,6 +907,8 @@ export default function SL2Calculator() {
       astrology,
       customHP,
       customFP,
+      baseEvade,
+      bonusEvade,
       giantGene,
       dragonKing,
       dragonQueen,
@@ -1513,6 +1523,8 @@ export default function SL2Calculator() {
     setAstrology('');
     setCustomHP(0);
     setCustomFP(0);
+    setBaseEvade(0);
+    setBonusEvade(0);
     setGiantGene(false);
     setDragonKing(0);
     setDragonQueen(0);
@@ -2251,6 +2263,29 @@ export default function SL2Calculator() {
                   />
                 </div>
                 <div>
+                  <label className="block text-sm mb-1">Base Evade</label>
+                  <input
+                    type="number"
+                    value={baseEvade}
+                    onChange={(e) => setBaseEvade(Number(e.target.value))}
+                    className="w-full bg-gray-600 border border-gray-500 rounded px-2 py-1"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm mb-1">Bonus Evade</label>
+                  <input
+                    type="number"
+                    min="0"
+                    max="50"
+                    value={bonusEvade}
+                    onChange={(e) => setBonusEvade(Math.min(Number(e.target.value), 50))}
+                    className="w-full bg-gray-600 border border-gray-500 rounded px-2 py-1"
+                  />
+                  <div className="text-xs text-gray-400 mt-1">
+                    Capped at 50
+                  </div>
+                </div>
+                <div>
                   <label className="block text-sm mb-1">Dragon King Pieces</label>
                   <input
                     type="number"
@@ -2508,7 +2543,7 @@ export default function SL2Calculator() {
             <div className="bg-gray-700 rounded p-4">
               <div className="text-sm text-gray-400">Evade</div>
               <div className="text-xl font-bold text-yellow-400">
-                {Math.floor(stats.cel * 2) - (giantGene ? 10 : 0)}
+                {Math.floor(stats.cel * 2) + baseEvade + Math.min(bonusEvade, 50) - (giantGene ? 10 : 0)}
               </div>
             </div>
             <div className="bg-gray-700 rounded p-4">
