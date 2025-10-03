@@ -4,7 +4,6 @@
  */
 
 import { useState } from 'react';
-import { Wrench } from 'lucide-react';
 
 interface WeaponCalculatorProps {
   stats: {
@@ -220,7 +219,7 @@ const STAT_SCALING: Record<string, { str: number; wil: number; ski: number; cel:
 
 export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
   const [weaponType, setWeaponType] = useState('Sword');
-  const [basePower, setBasePower] = useState(50);
+  const [basePower, setBasePower] = useState(5);
   const [baseCrit, setBaseCrit] = useState(5);
   const [baseHit, setBaseHit] = useState(80);
   const [baseWeight, setBaseWeight] = useState(10);
@@ -255,8 +254,6 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
     gui: 0,
     san: 0
   });
-  const [useCustomScaling, setUseCustomScaling] = useState(true);
-
   // Get effective weapon type (mutation changes type based on rarity)
   const getEffectiveWeaponType = (): string => {
     if (enchantment === 'Mutation' && rarity < 9) {
@@ -277,9 +274,9 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
 
   // Calculate stat scaling contribution
   const calculateScaling = (): number => {
-    // Use custom scaling if enabled, otherwise use weapon type scaling
+    // Always use custom scaling (which loads weapon type defaults)
     // Note: Mutation does NOT change scaling - it only affects weapon behavior
-    const scaling = useCustomScaling ? customScaling : (STAT_SCALING[weaponType] || STAT_SCALING['Sword']);
+    const scaling = customScaling;
     
     let totalScaling = 
       (stats.str * scaling.str / 100) +
@@ -299,13 +296,13 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
 
   // Calculate STR scaling for power
   const calculateStrScaling = (): number => {
-    const scaling = useCustomScaling ? customScaling : (STAT_SCALING[weaponType] || STAT_SCALING['Sword']);
+    const scaling = customScaling;
     return Math.floor(stats.str * scaling.str / 100);
   };
 
   // Check if weapon has primary STR scaling (STR is the highest scaling stat)
   const hasPrimaryStrScaling = (): boolean => {
-    const scaling = useCustomScaling ? customScaling : (STAT_SCALING[weaponType] || STAT_SCALING['Sword']);
+    const scaling = customScaling;
     return scaling.str > 0 && 
            scaling.str >= scaling.wil && 
            scaling.str >= scaling.ski && 
@@ -325,16 +322,6 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
     // Always update custom scaling values when weapon type changes
     const defaultScaling = STAT_SCALING[newType] || STAT_SCALING['Sword'];
     setCustomScaling({ ...defaultScaling });
-  };
-
-  // Toggle custom scaling and load current weapon type scaling
-  const handleToggleCustomScaling = (enabled: boolean) => {
-    setUseCustomScaling(enabled);
-    if (enabled && !customScaling.str && !customScaling.wil && !customScaling.ski) {
-      // Initialize with current weapon type scaling if not already set
-      const defaultScaling = STAT_SCALING[weaponType] || STAT_SCALING['Sword'];
-      setCustomScaling({ ...defaultScaling });
-    }
   };
 
   // Calculate total weapon stats
@@ -656,23 +643,12 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
       <div className="mt-6 bg-gray-700 p-4 rounded-lg">
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-lg font-semibold text-cyan-400">Custom Stat Scaling</h3>
-          <label className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              checked={useCustomScaling}
-              onChange={(e) => handleToggleCustomScaling(e.target.checked)}
-              className="w-4 h-4"
-            />
-            <span className="text-sm">Enable Custom Scaling</span>
-          </label>
         </div>
 
-        {useCustomScaling && (
-          <>
-            <p className="text-sm text-gray-400 mb-3">
-              Adjust the percentage each stat contributes to weapon power (default based on weapon type)
-            </p>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+        <p className="text-sm text-gray-400 mb-3">
+          Adjust the percentage each stat contributes to weapon power (initialized from weapon type defaults)
+        </p>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
               <div>
                 <label className="block text-xs font-medium mb-1">STR (%)</label>
                 <input
@@ -776,14 +752,6 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
             <div className="mt-2 text-xs text-gray-400">
               Example: 100% STR means 40 STR = +40 Power. Current total scaling bonus: +{calculateScaling()} Power
             </div>
-          </>
-        )}
-
-        {!useCustomScaling && (
-          <div className="text-sm text-gray-400">
-            Using default {weaponType} scaling. Enable custom scaling to modify stat percentages.
-          </div>
-        )}
       </div>
 
       {/* Mutation Enchant Info */}
@@ -871,7 +839,7 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
           </div>
         </div>
         <div className="mt-3 text-xs text-gray-400">
-          ℹ️ These stats include all bonuses from race, class, aptitude, legend extends, food, history, rising game, class passives, instinct, and dragon bonuses with diminishing returns applied.
+         These stats include all bonuses from race, class, aptitude, etc.
         </div>
       </div>
 
