@@ -64,7 +64,7 @@ const HISTORY = {
   'Scholar': { str: 0, wil: 1, ski: 1, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0 }
 };
 
-const LEGENDARY_EXTENTS = {
+const LEGEND_EXTEND = {
   'Axysal': { stat: 'str', name: 'Axys Al', color: '#ff6b6b' },
   'Kashic': { stat: 'wil', name: 'Kash Ic', color: '#4ecdc4' },
   'Zerogyn': { stat: 'ski', name: 'Zero Gyn', color: '#95e1d3' },
@@ -119,7 +119,7 @@ export default function SL2Calculator() {
     str: 0, wil: 0, ski: 0, cel: 0, vit: 0, fai: 0
   });
 
-  const [legendaryExtents, setLegendaryExtents] = useState({});
+  const [legendExtend, setLegendExtend] = useState({});
   const [astrology, setAstrology] = useState({});
   const [customHP, setCustomHP] = useState(0);
   const [customFP, setCustomFP] = useState(0);
@@ -136,8 +136,8 @@ export default function SL2Calculator() {
 
   const getLEBonus = () => {
     const bonuses = {};
-    Object.keys(LEGENDARY_EXTENTS).forEach(key => {
-      bonuses[LEGENDARY_EXTENTS[key].stat] = legendaryExtents[key] ? 1 : 0;
+    Object.keys(LEGEND_EXTEND).forEach(key => {
+      bonuses[LEGEND_EXTEND[key].stat] = legendExtend[key] ? 1 : 0;
     });
     return bonuses;
   };
@@ -313,7 +313,7 @@ export default function SL2Calculator() {
       vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0
     });
     setTotalPoints(MAX_POINTS);
-    setLegendaryExtents({});
+    setLegendExtend({});
     setAstrology({});
     setCustomHP(0);
     setCustomFP(0);
@@ -591,20 +591,20 @@ export default function SL2Calculator() {
               </div>
 
               <div>
-                <h4 className="font-semibold mb-2">Legendary Extents (+1 after DR)</h4>
+                <h4 className="font-semibold mb-2">Legend Extend (+1 after DR)</h4>
                 <div className="grid grid-cols-2 md:grid-cols-6 gap-2">
-                  {Object.keys(LEGENDARY_EXTENTS).map(key => (
+                  {Object.keys(LEGEND_EXTEND).map(key => (
                     <button
                       key={key}
-                      onClick={() => setLegendaryExtents(prev => ({ ...prev, [key]: !prev[key] }))}
+                      onClick={() => setLegendExtend(prev => ({ ...prev, [key]: !prev[key] }))}
                       className={`px-3 py-2 rounded text-sm ${
-                        legendaryExtents[key] 
+                        legendExtend[key] 
                           ? 'bg-blue-600 hover:bg-blue-700' 
                           : 'bg-gray-600 hover:bg-gray-500'
                       }`}
-                      style={{ borderLeft: `4px solid ${LEGENDARY_EXTENTS[key].color}` }}
+                      style={{ borderLeft: `4px solid ${LEGEND_EXTEND[key].color}` }}
                     >
-                      {LEGENDARY_EXTENTS[key].name}
+                      {LEGEND_EXTEND[key].name}
                     </button>
                   ))}
                 </div>

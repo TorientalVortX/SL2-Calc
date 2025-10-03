@@ -190,7 +190,7 @@ interface BuildData {
   customStats: StatRecord;
   customBaseStats: StatRecord;
   stamps: StampRecord;
-  legendaryExtents: Record<string, boolean>;
+  legendExtend: Record<string, boolean>;
   astrology: string; // Now stores single planet name
   customHP: number;
   customFP: number;
@@ -299,7 +299,7 @@ const HISTORY: Record<string, HistoryBonus> = {
   'Gambler': { str: 1, wil: 0, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 2 }
 };
 
-const LEGENDARY_EXTENTS: Record<string, { stat: StatKey; name: string; color: string }> = {
+const LEGEND_EXTEND: Record<string, { stat: StatKey; name: string; color: string }> = {
   'Axysal': { stat: 'str', name: 'Axys Al', color: '#ff6b6b' },
   'Kashic': { stat: 'wil', name: 'Kash Ic', color: '#4ecdc4' },
   'Zerogyn': { stat: 'ski', name: 'Zero Gyn', color: '#95e1d3' },
@@ -498,7 +498,7 @@ export default function SL2Calculator() {
     str: 0, wil: 0, ski: 0, cel: 0, vit: 0, fai: 0
   });
 
-  const [legendaryExtents, setLegendaryExtents] = useState<Record<string, boolean>>({});
+  const [legendExtend, setLegendExtend] = useState<Record<string, boolean>>({});
   const [astrology, setAstrology] = useState<string>(''); // Now stores the selected planet name or empty string
   const [customHP, setCustomHP] = useState(0);
   const [customFP, setCustomFP] = useState(0);
@@ -558,7 +558,7 @@ export default function SL2Calculator() {
       customStats,
       customBaseStats,
       stamps,
-      legendaryExtents,
+      legendExtend,
       astrology,
       customHP,
       customFP,
@@ -627,7 +627,7 @@ export default function SL2Calculator() {
         vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0
       });
       setStamps(buildData.stamps || { str: 0, wil: 0, ski: 0, cel: 0, vit: 0, fai: 0 });
-      setLegendaryExtents(buildData.legendaryExtents || {});
+      setLegendExtend(buildData.legendExtend || {});
       setAstrology(buildData.astrology || '');
       setCustomHP(buildData.customHP || 0);
       setCustomFP(buildData.customFP || 0);
@@ -672,7 +672,7 @@ export default function SL2Calculator() {
       customStats,
       customBaseStats,
       stamps,
-      legendaryExtents,
+      legendExtend,
       astrology,
       customHP,
       customFP,
@@ -832,9 +832,9 @@ export default function SL2Calculator() {
 
   const getLEBonus = (): Partial<StatRecord> => {
     const bonuses: Partial<StatRecord> = {};
-    Object.keys(LEGENDARY_EXTENTS).forEach(key => {
-      const stat = LEGENDARY_EXTENTS[key].stat;
-      bonuses[stat] = legendaryExtents[key] ? 1 : 0;
+    Object.keys(LEGEND_EXTEND).forEach(key => {
+      const stat = LEGEND_EXTEND[key].stat;
+      bonuses[stat] = legendExtend[key] ? 1 : 0;
     });
     return bonuses;
   };
@@ -950,7 +950,7 @@ export default function SL2Calculator() {
     const aptBonusToApply = statName === 'apt' ? 0 : aptitudeBonus;
     const effective = calculateDiminishingReturns(racialValue, addedValue, classValue, customValue, aptBonusToApply, dragonBonus);
     
-    // Add Legendary Extent bonuses AFTER diminishing returns
+    // Add Legend Extend bonuses AFTER diminishing returns
     return effective + (leBonus[statName] || 0);
   };
 
@@ -1142,7 +1142,7 @@ export default function SL2Calculator() {
       vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0
     });
     setTotalPoints(MAX_POINTS);
-    setLegendaryExtents({});
+    setLegendExtend({});
     setAstrology('');
     setCustomHP(0);
     setCustomFP(0);
@@ -1272,7 +1272,7 @@ export default function SL2Calculator() {
       pointsAdded > 0 ? `Points Added: ${pointsAdded}` : null,
       customFlat !== 0 ? `Custom Flat Bonus: ${customFlat}` : null,
       astroBonus[statKey] ? `Astrology: ${astroBonus[statKey]}` : null,
-      leBonus[statKey] ? `Legendary Extent (after DR): +${leBonus[statKey]}` : null,
+      leBonus[statKey] ? `Legend Extend (after DR): +${leBonus[statKey]}` : null,
       foodBonus[statKey as keyof FoodBonus] ? `Food: ${foodBonus[statKey as keyof FoodBonus]}` : null,
       historyBonus[statKey as keyof HistoryBonus] ? `History: ${historyBonus[statKey as keyof HistoryBonus]}` : null,
       `Final (after DR): ${stats[statKey].toFixed(1)}`
@@ -1900,20 +1900,20 @@ export default function SL2Calculator() {
               )}
 
               <div>
-                <h4 className="font-semibold mb-2">Legendary Extents (+1 after DR)</h4>
+                <h4 className="font-semibold mb-2">Legend Extend (+1 after DR)</h4>
                 <div className="grid grid-cols-2 md:grid-cols-6 gap-2">
-                  {Object.keys(LEGENDARY_EXTENTS).map(key => (
+                  {Object.keys(LEGEND_EXTEND).map(key => (
                     <button
                       key={key}
-                      onClick={() => setLegendaryExtents(prev => ({ ...prev, [key]: !prev[key] }))}
+                      onClick={() => setLegendExtend(prev => ({ ...prev, [key]: !prev[key] }))}
                       className={`px-3 py-2 rounded text-sm ${
-                        legendaryExtents[key] 
+                        legendExtend[key] 
                           ? 'bg-blue-600 hover:bg-blue-700' 
                           : 'bg-gray-600 hover:bg-gray-500'
                       }`}
-                      style={{ borderLeft: `4px solid ${LEGENDARY_EXTENTS[key].color}` }}
+                      style={{ borderLeft: `4px solid ${LEGEND_EXTEND[key].color}` }}
                     >
-                      {LEGENDARY_EXTENTS[key].name}
+                      {LEGEND_EXTEND[key].name}
                     </button>
                   ))}
                 </div>
