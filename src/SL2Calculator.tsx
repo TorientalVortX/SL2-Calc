@@ -9,6 +9,7 @@ import WeaponCalculator from './WeaponCalculator';
 
 type StatKey = 'str' | 'wil' | 'ski' | 'cel' | 'def' | 'res' | 'vit' | 'fai' | 'luc' | 'gui' | 'san' | 'apt';
 type StampKey = 'str' | 'wil' | 'ski' | 'cel' | 'vit' | 'fai';
+type ElementKey = 'Fire' | 'Ice' | 'Wind' | 'Earth' | 'Dark' | 'Water' | 'Light' | 'Lightning' | 'Acid' | 'Sound';
 
 interface Stats {
   str: number;
@@ -121,6 +122,190 @@ const SUBRACES: Record<string, Stats & { allowedRaces?: string[] }> = {
 
 };
 
+// Race-based elemental resistances and weaknesses
+const RACE_RESISTANCES: Record<string, ElementalRecord> = {
+  'Phenex': {
+    Fire: 15,
+    Light: 15,
+    Ice: -15,
+    Dark: -15,
+    Wind: 0,
+    Earth: 0,
+    Water: 0,
+    Lightning: 0,
+    Acid: 0,
+    Sound: 0
+  },
+  'Leporidae': {
+    Earth: 15,
+    Sound: -15,
+    Fire: 0,
+    Ice: 0,
+    Wind: 0,
+    Water: 0,
+    Lightning: 0,
+    Acid: 0,
+    Light: 0,
+    Dark: 0
+  },
+  'Heron': {
+    Sound: 15,
+    Wind: -15,
+    Fire: 0,
+    Ice: 0,
+    Earth: 0,
+    Water: 0,
+    Lightning: 0,
+    Acid: 0,
+    Light: 0,
+    Dark: 0
+  },
+  'Theno': {
+    Water: 15,
+    Sound: 15,
+    Acid: -15,
+    Lightning: -15,
+    Fire: 0,
+    Ice: 0,
+    Wind: 0,
+    Earth: 0,
+    Light: 0,
+    Dark: 0
+  },
+  'Elf': {
+    Water: 25,
+    Dark: -25,
+    Fire: 0,
+    Ice: 0,
+    Wind: 0,
+    Earth: 0,
+    Lightning: 0,
+    Acid: 0,
+    Light: 0,
+    Sound: 0
+  },
+  'Wild Elf': {
+    Earth: 15,
+    Ice: -15,
+    Fire: 0,
+    Wind: 0,
+    Water: 0,
+    Lightning: 0,
+    Acid: 0,
+    Light: 0,
+    Dark: 0,
+    Sound: 0
+  },
+  'Reaper': {
+    Ice: 15,
+    Wind: -15,
+    Fire: 0,
+    Earth: 0,
+    Water: 0,
+    Lightning: 0,
+    Acid: 0,
+    Light: 0,
+    Dark: 0,
+    Sound: 0
+  },
+  'Apertaurus': {
+    Ice: 15,
+    Wind: -15,
+    Fire: 0,
+    Earth: 0,
+    Water: 0,
+    Lightning: 0,
+    Acid: 0,
+    Light: 0,
+    Dark: 0,
+    Sound: 0
+  },
+  'Mechanation STANDARD': {
+    Fire: -15,
+    Ice: -15,
+    Lightning: 25,
+    Wind: 0,
+    Earth: 0,
+    Water: 0,
+    Acid: 0,
+    Light: 0,
+    Dark: 0,
+    Sound: 0
+  },
+  'Mechanation CABAL': {
+    Fire: -15,
+    Ice: -15,
+    Lightning: 25,
+    Wind: 0,
+    Earth: 0,
+    Water: 0,
+    Acid: 0,
+    Light: 0,
+    Dark: 0,
+    Sound: 0
+  },
+  'Mechanation AGILE': {
+    Fire: -15,
+    Ice: -15,
+    Lightning: 25,
+    Wind: 0,
+    Earth: 0,
+    Water: 0,
+    Acid: 0,
+    Light: 0,
+    Dark: 0,
+    Sound: 0
+  },
+  'Mechanation RAID': {
+    Fire: -15,
+    Ice: -15,
+    Lightning: 25,
+    Wind: 0,
+    Earth: 0,
+    Water: 0,
+    Acid: 0,
+    Light: 0,
+    Dark: 0,
+    Sound: 0
+  },
+  'Doriad': {
+    Water: -15,
+    Earth: -15,
+    Fire: 15,
+    Dark: 15,
+    Ice: 0,
+    Wind: 0,
+    Lightning: 0,
+    Acid: 0,
+    Light: 0,
+    Sound: 0
+  },
+  'Hyattr': {
+    Fire: 15,
+    Wind: -15,
+    Ice: 0,
+    Earth: 0,
+    Water: 0,
+    Lightning: 0,
+    Acid: 0,
+    Light: 0,
+    Dark: 0,
+    Sound: 0
+  },
+  'Salamandra': {
+    Fire: 15,
+    Ice: -15,
+    Wind: 0,
+    Earth: 0,
+    Water: 0,
+    Lightning: 0,
+    Acid: 0,
+    Light: 0,
+    Dark: 0,
+    Sound: 0
+  }
+};
+
 const CLASSES: Record<string, Omit<Stats, 'human' | 'homunculi'>> = {
   'Soldier': { str: 2, wil: 0, ski: 1, cel: 0, def: 0, res: 0, vit: 2, fai: 0, luc: 0, gui: 0, san: 0, apt: 0 },
   'Duelist': { str: 1, wil: 0, ski: 2, cel: 2, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0 },
@@ -173,6 +358,7 @@ interface ClassPassive {
 
 type StatRecord = Record<StatKey, number>;
 type StampRecord = Record<StampKey, number>;
+type ElementalRecord = Record<ElementKey, number>;
 
 /**
  * Interface for build data that can be exported/imported
@@ -184,6 +370,7 @@ interface BuildData {
   mainClass: string;
   subClass: string;
   totalPoints: number;
+  characterLevel: number;
   food: string;
   history: string;
   addedStats: StatRecord;
@@ -204,12 +391,15 @@ interface BuildData {
   risingGame: number;
   redtailFortuneLevel: number;
   redtailDiceColor: 'red' | 'green' | 'yellow';
+  karakuriYoukai: string;
   fortitude: boolean;
   painTolerance: number;
   warwalk: boolean;
   endurance: boolean;
   mainClassPassive: number;
   subClassPassive: number;
+  elementalATKAdjustments: ElementalRecord;
+  elementalRESAdjustments: ElementalRecord;
   version: string; // For future compatibility
 }
 
@@ -476,6 +666,7 @@ export default function SL2Calculator() {
   const [mainClass, setMainClass] = useState(firstClass);
   const [subClass, setSubClass] = useState(firstClass);
   const [totalPoints, setTotalPoints] = useState(MAX_POINTS);
+  const [characterLevel, setCharacterLevel] = useState(60); // Default to level 60
   const [food, setFood] = useState('None');
   const [history, setHistory] = useState('None');
   
@@ -512,6 +703,7 @@ export default function SL2Calculator() {
   const [risingGame, setRisingGame] = useState(0);
   const [redtailFortuneLevel, setRedtailFortuneLevel] = useState(1);
   const [redtailDiceColor, setRedtailDiceColor] = useState<'red' | 'green' | 'yellow'>('red');
+  const [karakuriYoukai, setKarakuriYoukai] = useState<string>('None'); // Default to None
   const [fortitude, setFortitude] = useState(false);
   const [painTolerance, setPainTolerance] = useState(0);
   const [warwalk, setWarwalk] = useState(false);
@@ -521,6 +713,22 @@ export default function SL2Calculator() {
   const [mainClassPassive, setMainClassPassive] = useState(0);
   const [subClassPassive, setSubClassPassive] = useState(0);
   
+  // Elemental adjustments
+  const [elementalATKAdjustments, setElementalATKAdjustments] = useState<ElementalRecord>({
+    Fire: 0, Ice: 0, Wind: 0, Earth: 0, Dark: 0, Water: 0, Light: 0, Lightning: 0, Acid: 0, Sound: 0
+  });
+  
+  const [elementalRESAdjustments, setElementalRESAdjustments] = useState<ElementalRecord>({
+    Fire: 0, Ice: 0, Wind: 0, Earth: 0, Dark: 0, Water: 0, Light: 0, Lightning: 0, Acid: 0, Sound: 0
+  });
+  
+  // Update total points when character level changes
+  useEffect(() => {
+    const newTotalPoints = characterLevel * 4;
+    const pointsSpent = Object.values(addedStats).reduce((sum, val) => sum + val, 0);
+    setTotalPoints(Math.max(0, newTotalPoints - pointsSpent));
+  }, [characterLevel, addedStats]);
+
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [showFood, setShowFood] = useState(false);
   const [showStamps, setShowStamps] = useState(false);
@@ -552,6 +760,7 @@ export default function SL2Calculator() {
       mainClass,
       subClass,
       totalPoints,
+      characterLevel,
       food,
       history,
       addedStats,
@@ -572,13 +781,16 @@ export default function SL2Calculator() {
       risingGame,
       redtailFortuneLevel,
       redtailDiceColor,
+      karakuriYoukai,
       fortitude,
       painTolerance,
       warwalk,
       endurance,
       mainClassPassive,
       subClassPassive,
-      version: "0.0.1"
+      elementalATKAdjustments,
+      elementalRESAdjustments,
+      version: "0.1.0"
     };
 
     const jsonString = JSON.stringify(buildData, null, 2);
@@ -612,6 +824,7 @@ export default function SL2Calculator() {
       setMainClass(buildData.mainClass);
       setSubClass(buildData.subClass);
       setTotalPoints(buildData.totalPoints || MAX_POINTS);
+      setCharacterLevel(buildData.characterLevel || 60);
       setFood(buildData.food || 'None');
       setHistory(buildData.history || 'None');
       setAddedStats(buildData.addedStats || {
@@ -641,12 +854,21 @@ export default function SL2Calculator() {
       setRisingGame(buildData.risingGame || 0);
       setRedtailFortuneLevel(buildData.redtailFortuneLevel || 1);
       setRedtailDiceColor(buildData.redtailDiceColor || 'red');
+      setKarakuriYoukai(buildData.karakuriYoukai || 'None');
       setFortitude(buildData.fortitude || false);
       setPainTolerance(buildData.painTolerance || 0);
       setWarwalk(buildData.warwalk || false);
       setEndurance(buildData.endurance || false);
       setMainClassPassive(buildData.mainClassPassive || 0);
       setSubClassPassive(buildData.subClassPassive || 0);
+      
+      // Import elemental adjustments with defaults
+      setElementalATKAdjustments(buildData.elementalATKAdjustments || {
+        Fire: 0, Ice: 0, Wind: 0, Earth: 0, Dark: 0, Water: 0, Light: 0, Lightning: 0, Acid: 0, Sound: 0
+      });
+      setElementalRESAdjustments(buildData.elementalRESAdjustments || {
+        Fire: 0, Ice: 0, Wind: 0, Earth: 0, Dark: 0, Water: 0, Light: 0, Lightning: 0, Acid: 0, Sound: 0
+      });
       
       return true;
     } catch (error) {
@@ -666,6 +888,7 @@ export default function SL2Calculator() {
       mainClass,
       subClass,
       totalPoints,
+      characterLevel,
       food,
       history,
       addedStats,
@@ -686,13 +909,16 @@ export default function SL2Calculator() {
       risingGame,
       redtailFortuneLevel,
       redtailDiceColor,
+      karakuriYoukai,
       fortitude,
       painTolerance,
       warwalk,
       endurance,
       mainClassPassive,
       subClassPassive,
-      version: "0.0.1"
+      elementalATKAdjustments,
+      elementalRESAdjustments,
+      version: "0.1.0"
     };
 
     try {
@@ -751,6 +977,11 @@ export default function SL2Calculator() {
     // Disable Sanguine Crest if the new subrace is not Oni or Vampire
     if (newSubrace !== 'Oni' && newSubrace !== 'Vampire') {
       setSanguineCrest(false);
+    }
+    
+    // Reset Karakuri youkai selection when changing away from Karakuri
+    if (newSubrace !== 'Karakuri') {
+      setKarakuriYoukai('None');
     }
   };
 
@@ -919,12 +1150,40 @@ export default function SL2Calculator() {
   const mainPassiveBonus = getClassPassiveBonus(mainClass, mainClassPassive);
   const subPassiveBonus = getClassPassiveBonus(subClass, subClassPassive);
 
+  // Karakuri youkai modifiers
+  const getKarakuriYoukaiBonus = (): StatRecord => {
+    if (subrace !== 'Karakuri') {
+      return { str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0 };
+    }
+
+    switch (karakuriYoukai) {
+      case 'Avian':
+        return { str: 0, wil: -3, ski: 0, cel: 2, def: -2, res: 0, vit: 0, fai: 0, luc: 0, gui: 3, san: 0, apt: 0 };
+      case 'Beast':
+        return { str: 0, wil: 0, ski: 3, cel: 0, def: 0, res: -3, vit: 0, fai: 0, luc: 2, gui: -2, san: 0, apt: 0 };
+      case 'Dragon':
+        return { str: 3, wil: 0, ski: 0, cel: -3, def: 2, res: -2, vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0 };
+      case 'Fairy':
+        return { str: -3, wil: -2, ski: 0, cel: 3, def: 0, res: 0, vit: 0, fai: 0, luc: 2, gui: 0, san: 0, apt: 0 };
+      case 'Mystic':
+        return { str: -3, wil: 3, ski: 2, cel: 0, def: 0, res: -2, vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0 };
+      case 'Night':
+        return { str: 0, wil: 0, ski: 0, cel: 0, def: -3, res: 3, vit: 0, fai: -2, luc: 0, gui: 2, san: 0, apt: 0 };
+      case 'Plant':
+        return { str: 0, wil: 0, ski: 0, cel: 0, def: 3, res: 0, vit: 2, fai: 0, luc: -2, gui: -3, san: 0, apt: 0 };
+      default:
+        return { str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0 };
+    }
+  };
+
+  const karakuriYoukaiBonus = getKarakuriYoukaiBonus();
+
   const getEffectiveStat = (statName: StatKey): number => {
     const subraceData = SUBRACES[subrace];
     const classData = CLASSES[mainClass];
     
     // Now only subrace provides stat bonuses, race provides special flags only
-    const racialValue = (subraceData?.[statName] || 0) + customBaseStats[statName];
+    const racialValue = (subraceData?.[statName] || 0) + customBaseStats[statName] + (karakuriYoukaiBonus[statName] || 0);
     const stampValue = statName in stamps ? (stamps[statName as StampKey] || 0) : 0;
     
     // Sanguine Crest only affects STR, WIL, SKI, CEL, DEF
@@ -1077,17 +1336,125 @@ export default function SL2Calculator() {
     // Add +2 elemental attack if the matching planet sign is selected
     const planetBonus = (astrology && PLANET_ELEMENTS[astrology] === element) ? 2 : 0;
     
-    return Math.floor(statMap[element] + stats.wil / 4) + planetBonus;
+    // WIL adds to all elemental ATK except Sound and Acid (per 4 points)
+    const wilBonus = (element !== 'Sound' && element !== 'Acid') ? Math.floor(stats.wil / 4) : 0;
+    
+    // Add manual adjustment for this element
+    const manualAdjustment = elementalATKAdjustments[element as ElementKey] || 0;
+    
+    // Handle special racial attack bonuses
+    let raceBonus = 0;
+    if (subrace === 'Umbral' && element === 'Dark') {
+      // Umbral: Dark ATK increased by half of character level (max: 15)
+      raceBonus = Math.min(15, Math.floor(characterLevel / 2));
+    } else if (subrace === 'Theno' && element === 'Sound') {
+      // Theno: Base Sound ATK equals character level, doesn't increase from stat points
+      return Math.floor(characterLevel + planetBonus + manualAdjustment);
+    }
+    
+    return Math.floor(statMap[element] + wilBonus + planetBonus + manualAdjustment + raceBonus);
   };
 
   const calculateElementalRES = (element: string): number => {
-    const statMap: Record<string, number> = {
-      'Fire': stats.str, 'Ice': stats.ski, 'Wind': stats.cel, 'Earth': stats.def,
-      'Dark': stats.res, 'Water': stats.vit, 'Light': stats.fai, 'Lightning': stats.luc,
-      'Acid': stats.gui, 'Sound': stats.san
-    };
+    // Elemental resistance: +1% per 6 SAN points for Fire, Ice, Wind, Earth, Water, Lightning, Dark, and Light
+    // Sound and Acid elements don't get SAN-based resistance
+    let baseResistance = 0;
+    if (element !== 'Sound' && element !== 'Acid') {
+      baseResistance = Math.floor(stats.san / 6);
+    }
     
-    return Math.floor((statMap[element] + stats.wil) / 4);
+    // Add manual adjustment for this element
+    const manualAdjustment = elementalRESAdjustments[element as ElementKey] || 0;
+    
+    // Add race-based resistance/weakness for this element
+    const raceAdjustment = getRaceResistances()[element as ElementKey] || 0;
+    
+    return Math.floor(baseResistance + manualAdjustment + raceAdjustment);
+  };
+
+  // Get race-based elemental resistances for the current subrace
+  const getRaceResistances = (): ElementalRecord => {
+    // Default resistances from the basic table
+    const baseResistances = RACE_RESISTANCES[subrace] || {
+      Fire: 0, Ice: 0, Wind: 0, Earth: 0, Dark: 0, Water: 0, 
+      Light: 0, Lightning: 0, Acid: 0, Sound: 0
+    };
+
+    // Handle special races with SAN-scaled resistances
+    if (subrace === 'Umbral') {
+      const sanReduction = stats.san;
+      return {
+        Fire: 0, Ice: 0, Wind: 0, Earth: 0, Water: 0, Lightning: 0, Acid: 0, Sound: 0,
+        Dark: Math.floor(Math.max(0, 25 - sanReduction)),    // 25% Dark resistance, reduced by SAN
+        Light: Math.floor(Math.min(0, -25 + sanReduction))   // 25% Light weakness, reduced by SAN (less negative)
+      };
+    }
+
+    if (subrace === 'Papilion') {
+      const sanReduction = stats.san;
+      return {
+        Fire: 0, Ice: 0, Water: 0, Lightning: 0, Acid: 0, Sound: 0, Dark: 0, Light: 0,
+        Wind: Math.floor(Math.max(0, 30 - sanReduction)),    // 30% Wind resistance, reduced by SAN
+        Earth: Math.floor(Math.min(0, -30 + sanReduction))   // 30% Earth weakness, reduced by SAN (less negative)
+      };
+    }
+
+    // Handle Vampire with Sanguine Crest conditional resistances
+    if (subrace === 'Vampire') {
+      if (sanguineCrest) {
+        return {
+          Fire: 0, Ice: 0, Wind: 0, Earth: 0, Water: 0, Lightning: 0, Acid: 0, Sound: 0,
+          Dark: 25,    // 25% Dark resistance when Sanguine Crest is active
+          Light: -25   // 25% Light weakness when Sanguine Crest is active
+        };
+      } else {
+        return {
+          Fire: 0, Ice: 0, Wind: 0, Earth: 0, Dark: 0, Water: 0, 
+          Light: 0, Lightning: 0, Acid: 0, Sound: 0
+        };
+      }
+    }
+
+    // Handle Karakuri youkai resistances
+    if (subrace === 'Karakuri') {
+      const base = { Fire: 0, Ice: 0, Wind: 0, Earth: 0, Dark: 0, Water: 0, Light: 0, Lightning: 0, Acid: 0, Sound: 0 };
+      
+      switch (karakuriYoukai) {
+        case 'Avian':
+          return { ...base, Wind: 15, Lightning: -15 };
+        case 'Beast':
+          return { ...base, Lightning: 15, Fire: -15 };
+        case 'Dragon':
+          return { ...base, Fire: 15, Wind: -15 };
+        case 'Fairy':
+          return { ...base, Light: 15, Dark: -15 };
+        case 'Mystic':
+          return { ...base, Ice: 15, Earth: -15 };
+        case 'Night':
+          return { ...base, Dark: 15, Light: -15 };
+        case 'Plant':
+          return { ...base, Earth: 15, Ice: -15 };
+        default:
+          return base;
+      }
+    }
+
+    // Handle Wyverntouched - poison resistance displayed separately
+    if (subrace === 'Wyverntouched') {
+      // No modifications to elemental resistances needed
+      // Poison resistance is handled in separate UI section
+      return baseResistances;
+    }
+
+    // Handle Naga - poison resistance displayed separately  
+    if (subrace === 'Naga') {
+      // No modifications to elemental resistances needed
+      // Poison resistance is handled in separate UI section
+      return baseResistances;
+    }
+
+    // Return the base resistances for other races
+    return baseResistances;
   };
 
   const youkaiCap = Math.floor(((SUBRACES[subrace]?.fai || 0) + customBaseStats.fai + addedStats.fai + (astroBonus.fai || 0)) / 5) + 5;
@@ -1165,6 +1532,29 @@ export default function SL2Calculator() {
     setEndurance(false);
     setMainClassPassive(0);
     setSubClassPassive(0);
+    
+    // Reset elemental adjustments
+    setElementalATKAdjustments({
+      Fire: 0, Ice: 0, Wind: 0, Earth: 0, Dark: 0, Water: 0, Light: 0, Lightning: 0, Acid: 0, Sound: 0
+    });
+    setElementalRESAdjustments({
+      Fire: 0, Ice: 0, Wind: 0, Earth: 0, Dark: 0, Water: 0, Light: 0, Lightning: 0, Acid: 0, Sound: 0
+    });
+  };
+
+  // Elemental adjustment functions
+  const adjustElementalATK = (element: ElementKey, change: number): void => {
+    setElementalATKAdjustments(prev => ({
+      ...prev,
+      [element]: Math.max(-99, Math.min(99, prev[element] + change))
+    }));
+  };
+
+  const adjustElementalRES = (element: ElementKey, change: number): void => {
+    setElementalRESAdjustments(prev => ({
+      ...prev,
+      [element]: Math.max(-99, Math.min(99, prev[element] + change))
+    }));
   };
 
   // Uncontrolled input approach - no React state management for input values
@@ -1363,7 +1753,7 @@ export default function SL2Calculator() {
         <div className="bg-gray-800 rounded-lg shadow-xl p-6 mb-6">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-3xl font-bold">SL2 Calculator Suite</h1>
-            <div className="text-sm text-gray-400">Version 0.0.1a</div>
+            <div className="text-sm text-gray-400">Version 0.1.0a</div>
           </div>
 
           {/* Tab Navigation */}
@@ -1418,6 +1808,27 @@ export default function SL2Calculator() {
                   <option key={sr} value={sr}>{sr}</option>
                 ))}
               </select>
+              
+              {/* Karakuri Youkai Selection */}
+              {subrace === 'Karakuri' && (
+                <div className="mt-2">
+                  <label className="block text-sm font-medium mb-1 text-purple-400">Youkai Binding</label>
+                  <select
+                    value={karakuriYoukai}
+                    onChange={(e) => setKarakuriYoukai(e.target.value)}
+                    className="w-full bg-purple-900 border border-purple-600 rounded px-3 py-1 text-sm"
+                  >
+                    <option value="None">None</option>
+                    <option value="Avian">Avian (+3 GUI, +2 CEL, -3 WIL, -2 DEF)</option>
+                    <option value="Beast">Beast (+3 SKI, +2 LUC, -3 RES, -2 GUI)</option>
+                    <option value="Dragon">Dragon (+3 STR, +2 DEF, -3 CEL, -2 RES)</option>
+                    <option value="Fairy">Fairy (+3 CEL, +2 LUC, -3 STR, -2 WIL)</option>
+                    <option value="Mystic">Mystic (+3 WIL, +2 SKI, -3 STR, -2 RES)</option>
+                    <option value="Night">Night (+3 RES, +2 GUI, -3 DEF, -2 FAI)</option>
+                    <option value="Plant">Plant (+3 DEF, +2 VIT, -3 GUI, -2 LUC)</option>
+                  </select>
+                </div>
+              )}
             </div>
             
             <div>
@@ -1805,6 +2216,23 @@ export default function SL2Calculator() {
               
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div>
+                  <label className="block text-sm mb-1">Character Level (1-60)</label>
+                  <input
+                    type="number"
+                    min="1"
+                    max="60"
+                    value={characterLevel}
+                    onChange={(e) => {
+                      const level = Math.min(60, Math.max(1, Number(e.target.value)));
+                      setCharacterLevel(level);
+                    }}
+                    className="w-full bg-gray-600 border border-gray-500 rounded px-2 py-1"
+                  />
+                  <div className="text-xs text-gray-400 mt-1">
+                    Available Points: {characterLevel * 4}
+                  </div>
+                </div>
+                <div>
                   <label className="block text-sm mb-1">Custom HP</label>
                   <input
                     type="number"
@@ -2105,16 +2533,122 @@ export default function SL2Calculator() {
 
           <div className="mt-6 pt-6 border-t border-gray-700">
             <h3 className="font-bold text-lg mb-4">Elemental ATK & RES</h3>
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
               {elements.map(elem => (
                 <div key={elem} className="bg-gray-700 rounded p-3">
-                  <div className="text-sm font-semibold mb-1">{elem}</div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-red-400">ATK: {calculateElementalATK(elem)}</span>
-                    <span className="text-blue-400">RES: {calculateElementalRES(elem)}%</span>
+                  <div className="text-sm font-semibold mb-2">{elem}</div>
+                  
+                  {/* ATK Row */}
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-red-400 text-sm">ATK:</span>
+                    <div className="flex items-center gap-1">
+                      <button
+                        onClick={() => adjustElementalATK(elem as ElementKey, -1)}
+                        className="w-5 h-5 bg-red-600 hover:bg-red-500 rounded text-xs flex items-center justify-center"
+                        title={`Decrease ${elem} ATK`}
+                      >
+                        <Minus size={10} />
+                      </button>
+                      <span className="text-red-400 text-sm font-bold min-w-[2rem] text-center">
+                        {calculateElementalATK(elem)}
+                      </span>
+                      <button
+                        onClick={() => adjustElementalATK(elem as ElementKey, 1)}
+                        className="w-5 h-5 bg-green-600 hover:bg-green-500 rounded text-xs flex items-center justify-center"
+                        title={`Increase ${elem} ATK`}
+                      >
+                        <Plus size={10} />
+                      </button>
+                    </div>
                   </div>
+                  
+                  {/* RES Row */}
+                  <div className="flex items-center justify-between">
+                    <span className="text-blue-400 text-sm">RES:</span>
+                    <div className="flex items-center gap-1">
+                      <button
+                        onClick={() => adjustElementalRES(elem as ElementKey, -1)}
+                        className="w-5 h-5 bg-red-600 hover:bg-red-500 rounded text-xs flex items-center justify-center"
+                        title={`Decrease ${elem} RES`}
+                      >
+                        <Minus size={10} />
+                      </button>
+                      <span className="text-blue-400 text-sm font-bold min-w-[2rem] text-center">
+                        {calculateElementalRES(elem)}%
+                      </span>
+                      <button
+                        onClick={() => adjustElementalRES(elem as ElementKey, 1)}
+                        className="w-5 h-5 bg-green-600 hover:bg-green-500 rounded text-xs flex items-center justify-center"
+                        title={`Increase ${elem} RES`}
+                      >
+                        <Plus size={10} />
+                      </button>
+                    </div>
+                  </div>
+                  
+                  {/* Show manual adjustments and race resistances if any */}
+                  {(elementalATKAdjustments[elem as ElementKey] !== 0 || 
+                    elementalRESAdjustments[elem as ElementKey] !== 0 || 
+                    getRaceResistances()[elem as ElementKey] !== 0 ||
+                    (subrace === 'Umbral' && elem === 'Dark') ||
+                    (subrace === 'Theno' && elem === 'Sound')) && (
+                    <div className="mt-1 text-xs text-gray-400">
+                      {elementalATKAdjustments[elem as ElementKey] !== 0 && (
+                        <div>Manual ATK: {elementalATKAdjustments[elem as ElementKey] > 0 ? '+' : ''}{elementalATKAdjustments[elem as ElementKey]}</div>
+                      )}
+                      {elementalRESAdjustments[elem as ElementKey] !== 0 && (
+                        <div>Manual RES: {elementalRESAdjustments[elem as ElementKey] > 0 ? '+' : ''}{elementalRESAdjustments[elem as ElementKey]}</div>
+                      )}
+                      {getRaceResistances()[elem as ElementKey] !== 0 && (
+                        <div className={`${getRaceResistances()[elem as ElementKey] > 0 ? 'text-green-400' : 'text-red-400'}`}>
+                          Race RES: {getRaceResistances()[elem as ElementKey] > 0 ? '+' : ''}{getRaceResistances()[elem as ElementKey]}%
+                          {(subrace === 'Umbral' || subrace === 'Papilion') && 
+                           (elem === 'Dark' || elem === 'Light' || elem === 'Wind' || elem === 'Earth') && 
+                           <span className="text-gray-500"> (scales with SAN)</span>
+                          }
+                        </div>
+                      )}
+                      {subrace === 'Umbral' && elem === 'Dark' && (
+                        <div className="text-purple-400">
+                          Race ATK: +{Math.min(15, Math.floor(characterLevel / 2))} (level/2, max 15)
+                        </div>
+                      )}
+                      {subrace === 'Theno' && elem === 'Sound' && (
+                        <div className="text-blue-400">
+                          Race ATK: Base = Level {characterLevel} (ignores stat scaling)
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               ))}
+              
+              {/* Poison Resistance Box (separate from Acid) */}
+              {(subrace === 'Wyverntouched' || subrace === 'Naga') && (
+                <div className="bg-green-900 rounded p-3 border-2 border-green-600">
+                  <div className="text-sm font-semibold mb-2 text-green-300">Poison</div>
+                  
+                  {/* No ATK for Poison */}
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-gray-500 text-sm">ATK:</span>
+                    <span className="text-gray-500 text-sm">—</span>
+                  </div>
+                  
+                  {/* Poison RES Row */}
+                  <div className="flex items-center justify-between">
+                    <span className="text-green-300 text-sm">RES:</span>
+                    <span className="text-green-300 text-sm font-bold">
+                      {subrace === 'Wyverntouched' ? stats.san * 2 : stats.san}%
+                    </span>
+                  </div>
+                  
+                  <div className="mt-1 text-xs text-green-400">
+                    <div>
+                      Race RES: {subrace === 'Wyverntouched' ? 'SAN × 2' : 'SAN × 1'} = {subrace === 'Wyverntouched' ? stats.san * 2 : stats.san}%
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
@@ -2150,7 +2684,7 @@ export default function SL2Calculator() {
             <div className="bg-gray-700 rounded p-3">
               <div className="text-sm text-gray-400">Encumbrance</div>
               <div className="text-lg font-bold">
-                0/{Math.floor(stats.str + stats.vit) + 5 + (race === 'Dullahan' ? 30 : 0)}
+                0/{Math.floor(stats.str + stats.vit) + 5 + (subrace === 'Dullahan' ? 30 : 0) + (subrace.includes('Mechanation') ? 20 : 0)}
               </div>
             </div>
           </div>

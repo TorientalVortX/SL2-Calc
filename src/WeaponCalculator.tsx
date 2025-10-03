@@ -46,36 +46,110 @@ interface Enchantment {
   weightMod: number;
 }
 
-// Material definitions
+// Material categories for organized dropdown
+const MATERIAL_CATEGORIES = {
+  'Basic': ['None'],
+  'Hard Materials': [
+    'Accursed Remains', 'Arctic Gold', 'Aureate', 'Boulder', 'Carapace', 'Clawice', 
+    'Conduiz', 'Coral', 'Dragon Remains', 'Etherium', 'Fireblood Remains', 'Fish Remains', 
+    'Folded Steel', 'Fossil', 'Gasprock', 'Gorgon Remains', 'Gravestone', 'Iceblood Remains', 
+    'Insect Remains', 'Iron Ore', 'Kraboid Remains', 'Meteorite', 'Nerif\'s Blood', 
+    'Orichalum', 'Planetarium', 'Rockdirt', 'Sandstone', 'Shark Remains', 'Slipheed\'s Curse', 
+    'Snakeman Remains', 'Spatial Remains', 'Thinsteel'
+  ],
+  'Wood Materials': [
+    'Ash Wood', 'Coldbark', 'Devilbark', 'Etherbark', 'Firebark', 'Fungusbark', 
+    'Hollow Log', 'Ivorybark', 'Loyrwell Rotwood', 'Markedbark', 'Mossybark', 
+    'Nightflower', 'Oribark', 'Petrified Wood', 'Rainbowbark', 'Scorched Wood', 
+    'Seedbark', 'Smoothbark', 'Windbark'
+  ],
+  'Page Materials': [
+    'Aquarian Page', 'Ashen Page', 'Beast Page', 'Fine Art', 'Foamy Page', 
+    'Heretic Page', 'Isesip Page', 'Mercalan Page', 'Moldy Page', 'Nerifian Page', 
+    'Orichal Page', 'Paper', 'Sandy Page', 'Sheet Music', 'Star Page', 'Storm Page', 
+    'Sylphid Page', 'Thin Page'
+  ]
+};
+
+// Material definitions organized by category
 const MATERIALS: Record<string, Material> = {
+  // Basic
   'None': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Accursed': { power: 0, crit: 0, hit: 0, weight: -2 },
-  'Arctic': { power: 0, crit: 2, hit: 0, weight: 0 },
-  'Ashen Chapter': { power: 3, crit: 0, hit: 0, weight: -2 },
-  'Aureate': { power: 1, crit: 1, hit: 1, weight: 0 },
-  'Boulder': { power: 2, crit: 0, hit: -2, weight: 4 },
-  'Carapace': { power: 0, crit: 2, hit: 0, weight: 0 },
-  'Conduiz': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Coral': { power: 1, crit: 0, hit: 0, weight: -2 },
-  'Dragon': { power: 4, crit: 0, hit: 0, weight: 2 },
-  'Fireblood': { power: 2, crit: 0, hit: 0, weight: 0 },
-  'Fossil': { power: 1, crit: 0, hit: -1, weight: 3 },
-  'Galdric': { power: 0, crit: 1, hit: 2, weight: 0 },
-  'Gorgon': { power: 0, crit: 2, hit: 0, weight: 0 },
-  'Gravestone': { power: 2, crit: 0, hit: -1, weight: 3 },
-  'Iceblood': { power: 2, crit: 0, hit: 0, weight: 0 },
-  'Insect': { power: 0, crit: 1, hit: 1, weight: -2 },
-  'Magmic': { power: 2, crit: 0, hit: 0, weight: 0 },
-  'Meteorite': { power: 2, crit: 0, hit: 0, weight: 0 },
-  'Orichalum': { power: 3, crit: 0, hit: 1, weight: 2 },
-  'Planetarium': { power: 1, crit: 1, hit: 1, weight: -2 },
-  'Rockdirt': { power: 2, crit: 0, hit: -2, weight: 4 },
-  'Sandstone': { power: 1, crit: 0, hit: -1, weight: 2 },
-  'Shark': { power: 0, crit: 2, hit: 0, weight: 0 },
-  'Sheet Music': { power: 0, crit: 1, hit: 2, weight: -2 },
-  'Snakeman': { power: 0, crit: 2, hit: 0, weight: 0 },
-  'Spatial': { power: 0, crit: 1, hit: 2, weight: -1 },
-  'Thinsteel': { power: 1, crit: 1, hit: 1, weight: -2 }
+
+  // Hard Materials (Ores and Remains)
+  'Accursed Remains': { power: 0, crit: 6, hit: 0, weight: 8 },
+  'Arctic Gold': { power: 0, crit: 5, hit: -5, weight: 0 },
+  'Aureate': { power: -2, crit: -5, hit: 0, weight: 6 },
+  'Boulder': { power: 10, crit: 10, hit: -5, weight: 25 },
+  'Carapace': { power: 2, crit: 0, hit: 0, weight: 5 },
+  'Clawice': { power: 1, crit: 3, hit: 3, weight: 5 },
+  'Conduiz': { power: 0, crit: 3, hit: 0, weight: 0 },
+  'Coral': { power: 1, crit: 3, hit: 3, weight: 1 },
+  'Dragon Remains': { power: 3, crit: 5, hit: 5, weight: 8 },
+  'Etherium': { power: 0, crit: 0, hit: 0, weight: 0 }, // Special: Self-repairing
+  'Fireblood Remains': { power: 8, crit: 0, hit: 0, weight: 8 },
+  'Fish Remains': { power: 3, crit: 0, hit: 3, weight: 8 },
+  'Folded Steel': { power: 2, crit: 5, hit: 0, weight: 0 },
+  'Fossil': { power: 5, crit: -5, hit: 0, weight: 6 },
+  'Gasprock': { power: 2, crit: 0, hit: 3, weight: 5 },
+  'Gorgon Remains': { power: 0, crit: 0, hit: 8, weight: 8 },
+  'Gravestone': { power: 2, crit: -5, hit: 0, weight: 3 },
+  'Iceblood Remains': { power: 0, crit: 8, hit: 0, weight: 8 },
+  'Insect Remains': { power: 0, crit: 3, hit: 3, weight: 8 },
+  'Iron Ore': { power: 0, crit: 0, hit: 0, weight: 0 },
+  'Kraboid Remains': { power: 0, crit: 0, hit: 6, weight: 8 },
+  'Meteorite': { power: 5, crit: 0, hit: 0, weight: 8 },
+  'Nerif\'s Blood': { power: 2, crit: -5, hit: 0, weight: 0 },
+  'Orichalum': { power: -1, crit: -1, hit: -1, weight: 2 },
+  'Planetarium': { power: 1, crit: 2, hit: 2, weight: -2 },
+  'Rockdirt': { power: 1, crit: 4, hit: 2, weight: 4 },
+  'Sandstone': { power: -2, crit: 5, hit: 0, weight: 3 },
+  'Shark Remains': { power: 6, crit: 0, hit: 0, weight: 8 },
+  'Slipheed\'s Curse': { power: -2, crit: 0, hit: 5, weight: -5 },
+  'Snakeman Remains': { power: 0, crit: 8, hit: 0, weight: 8 },
+  'Spatial Remains': { power: 3, crit: 3, hit: 0, weight: 8 },
+  'Thinsteel': { power: -3, crit: 3, hit: 5, weight: -2 },
+
+  // Wood Materials
+  'Ash Wood': { power: 0, crit: 0, hit: 0, weight: 0 },
+  'Coldbark': { power: 0, crit: 5, hit: -5, weight: 0 },
+  'Devilbark': { power: 2, crit: 0, hit: 0, weight: 5 },
+  'Etherbark': { power: 0, crit: 0, hit: 0, weight: 0 }, // Special: Self-repairing
+  'Firebark': { power: 2, crit: -5, hit: 0, weight: 0 },
+  'Fungusbark': { power: 2, crit: 0, hit: 0, weight: 2 },
+  'Hollow Log': { power: 10, crit: 10, hit: -5, weight: 25 },
+  'Ivorybark': { power: -2, crit: -5, hit: 0, weight: 6 },
+  'Loyrwell Rotwood': { power: 0, crit: 0, hit: 3, weight: 0 },
+  'Markedbark': { power: 0, crit: 4, hit: 4, weight: 4 },
+  'Mossybark': { power: 3, crit: -3, hit: 3, weight: 3 },
+  'Nightflower': { power: 0, crit: 0, hit: -5, weight: 0 },
+  'Oribark': { power: -1, crit: -1, hit: -1, weight: 2 },
+  'Petrified Wood': { power: 5, crit: 0, hit: 0, weight: 6 },
+  'Rainbowbark': { power: 3, crit: 3, hit: 3, weight: 0 },
+  'Scorched Wood': { power: 2, crit: 3, hit: 3, weight: 6 },
+  'Seedbark': { power: 4, crit: -3, hit: 2, weight: 4 },
+  'Smoothbark': { power: 3, crit: 3, hit: 0, weight: 2 },
+  'Windbark': { power: -2, crit: 0, hit: 5, weight: -2 },
+
+  // Page Materials
+  'Aquarian Page': { power: 3, crit: 0, hit: 3, weight: 2 },
+  'Ashen Page': { power: 2, crit: 0, hit: 3, weight: 6 },
+  'Beast Page': { power: 3, crit: 3, hit: 3, weight: 8 },
+  'Fine Art': { power: -2, crit: -5, hit: 0, weight: 6 },
+  'Foamy Page': { power: 1, crit: 0, hit: 5, weight: 6 },
+  'Heretic Page': { power: 5, crit: 0, hit: 0, weight: 5 },
+  'Isesip Page': { power: 2, crit: 2, hit: 2, weight: 2 },
+  'Mercalan Page': { power: 0, crit: 0, hit: 5, weight: 5 },
+  'Moldy Page': { power: 2, crit: 0, hit: 0, weight: 3 },
+  'Nerifian Page': { power: 3, crit: 3, hit: 0, weight: 2 },
+  'Orichal Page': { power: -1, crit: -1, hit: -1, weight: 2 },
+  'Paper': { power: 0, crit: 0, hit: 0, weight: 0 },
+  'Sandy Page': { power: 2, crit: 0, hit: 3, weight: 6 },
+  'Sheet Music': { power: 1, crit: 2, hit: 3, weight: 4 },
+  'Star Page': { power: 1, crit: 5, hit: 0, weight: 6 },
+  'Storm Page': { power: 0, crit: 5, hit: 0, weight: 5 },
+  'Sylphid Page': { power: 0, crit: 3, hit: 3, weight: 2 },
+  'Thin Page': { power: -2, crit: 3, hit: 0, weight: -6 }
 };
 
 // Weapon Part 1 definitions (Blade, Body, etc.)
@@ -187,34 +261,54 @@ const WEAPON_PART3: Record<string, WeaponPart> = {
 // Enchantment definitions
 const ENCHANTMENTS: Record<string, Enchantment> = {
   'None': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 },
-  'Fleeting': { power: 0, crit: 0, critMod: 0, hit: 3, weight: -5, weightMod: 0.5 },
-  'Blessed(Divine Sign)': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 },
-  'Mundane': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 },
-  'Runed': { power: 3, crit: 0, critMod: 0, hit: 0, weight: 3, weightMod: 1 },
-  'Vorpal': { power: 0, crit: 3, critMod: 0, hit: 0, weight: 0, weightMod: 1 },
-  'Gigantic': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 },
-  'Purity Edge': { power: 5, crit: 0, critMod: 0, hit: -5, weight: 0, weightMod: 1 },
-  'Divine': { power: 5, crit: 0, critMod: 0, hit: 0, weight: 5, weightMod: 1 },
-  'Arcane': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 },
-  'Reaper': { power: 0, crit: 5, critMod: 0, hit: 0, weight: 0, weightMod: 1 },
-  'Rustic': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 },
-  'Mutation': { power: 0, crit: 0, critMod: 0, hit: -5, weight: 0, weightMod: 1 },
-  'Fated': { power: 5, crit: 0, critMod: 0, hit: 0, weight: 5, weightMod: 1 },
-  'Blessed': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 },
-  'Rebellion': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }
+  'Feather': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 0.5 }, // Weapon weight is halved
+  'Jeweled': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // +2 FAI, +3 Light ATK (not calculated here)
+  'Exorcism': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // +2 FAI, +2 SAN, anti-undead damage
+  'Avalon': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // HP regen based on Chivalry
+  'Fated': { power: 3, crit: 3, critMod: 0, hit: 3, weight: 3, weightMod: 1 }, // All weapon parameters +3
+  'Rampaging': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // Defense reduction on hit
+  'Gigantic': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1.5 }, // +1 Range, -10 Evade, +50% Weight (min 2)
+  'Bloodhunt': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // +1 Hit per 4% missing target HP
+  'Mutation': { power: 0, crit: 0, critMod: 0, hit: -5, weight: 0, weightMod: 1.25 }, // -5 Hit, weapon type changes, +25% Weight
+  'Volcanic': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // Fire AOE on crit
+  'Runed': { power: 2, crit: 2, critMod: 0, hit: 2, weight: -2, weightMod: 1 }, // +2 Power/Crit/Hit, -2 Weight, casting tool
+  'Mundane': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // Removes scaling tags
+  'Arcane': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // Spelledge weapon, Alterated tag (-10% scaling)
+  'Blessed': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // +Hit vs undead based on FAI
+  'Reaper': { power: 5, crit: 5, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // +5 Power, +5 Critical
+  'Rebellion': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // +1.5 Power/-1.5 Hit per rarity below 9
+  'Bloodtaking': { power: -5, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // -5 Power, life drain effect
+  'Envenomed': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // Alterated tag, poison on hit
+  'Enflamed': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // Alterated tag, fire damage on hit
+  'Divine': { power: 2, crit: 5, critMod: 0, hit: 5, weight: -2, weightMod: 1 }, // +2 Power, +5 Crit/Hit, -2 Weight, unbreakable
+  'Vorpal': { power: 0, crit: 10, critMod: 5, hit: 0, weight: 0, weightMod: 1 }, // +10 Weapon Crit, +5% Crit Damage, 5% vorpal strike
+  'Melting': { power: 0, crit: 0, critMod: 0, hit: 5, weight: 0, weightMod: 1 }, // +5 Hit in 1 range, durability effects
+  'Haunted': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // -2 WIL, fear chance, possessed race
+  'Haunted Soul': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // Fear on hit, -25% status resist
+  'Blood Drenched': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // Attracts monsters
+  'Demonic': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // +3 STR, -10% status resist
+  'Tainted': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // Same as Demonic
+  'Misplaced': { power: 2, crit: 2, critMod: 0, hit: 2, weight: 2, weightMod: 1 }, // All parameters +2, can be dropped
+  'Fleeting': { power: 2, crit: 2, critMod: 0, hit: 2, weight: 2, weightMod: 1 }, // Same as Misplaced
+  'Parasitic': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // Crit: -5 HP, +3 durability
+  'Rustic': { power: 5, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // +5 Power, max durability 4
+  'Evolving': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // +10% EXP, battle power boost
+  // Legacy entries for backward compatibility
+  'Blessed(Divine Sign)': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // Same as Blessed
+  'Purity Edge': { power: 5, crit: 0, critMod: 0, hit: -5, weight: 0, weightMod: 1 } // Custom enchant (keeping for compatibility)
 };
 
-// Stat scaling definitions
+// Stat scaling definitions (based on SL2 weapon mechanics)
 const STAT_SCALING: Record<string, { str: number; wil: number; ski: number; cel: number; def: number; res: number; vit: number; fai: number; luc: number; gui: number; san: number }> = {
   'Sword': { str: 100, wil: 0, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0 },
-  'Axe': { str: 100, wil: 0, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0 },
+  'Axe': { str: 120, wil: 0, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0 },
   'Spear': { str: 100, wil: 0, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0 },
-  'Bow': { str: 100, wil: 0, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0 },
+  'Bow': { str: 80, wil: 0, ski: 20, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0 },
   'Gun': { str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 100, san: 0 },
   'Tome': { str: 0, wil: 100, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0 },
-  'Staff': { str: 100, wil: 0, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0 },
+  'Staff': { str: 80, wil: 20, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0 },
   'Fist': { str: 100, wil: 0, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0 },
-  'Dagger': { str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 100, san: 0 },
+  'Dagger': { str: 50, wil: 0, ski: 0, cel: 50, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0 },
 };
 
 export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
@@ -238,7 +332,7 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
   const [hitQuality, setHitQuality] = useState(false);
   const [weightPlus, setWeightPlus] = useState(false);
   const [weightMinus, setWeightMinus] = useState(false);
-  const [twoHanded, setTwoHanded] = useState(false);
+  const [twoHandedSkillRank, setTwoHandedSkillRank] = useState(0);
 
   // Custom scaling percentages (initialized from weapon type)
   const [customScaling, setCustomScaling] = useState({
@@ -324,6 +418,21 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
     setCustomScaling({ ...defaultScaling });
   };
 
+  // Calculate special enchantment bonuses
+  const calculateEnchantmentBonus = () => {
+    let bonusPower = 0;
+    let bonusHit = 0;
+    
+    // Rebellion: +1.5 Power and -1.5 Hit for every 1 Rarity below 9
+    if (enchantment === 'Rebellion' && rarity < 9) {
+      const rarityDiff = 9 - rarity;
+      bonusPower = Math.floor(rarityDiff * 1.5);
+      bonusHit = -Math.floor(rarityDiff * 1.5);
+    }
+    
+    return { bonusPower, bonusHit };
+  };
+
   // Calculate total weapon stats
   const calculateWeaponStats = () => {
     const mat = MATERIALS[material] || MATERIALS['None'];
@@ -347,17 +456,54 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
     const upgradeCritBonus = upgradeLevel;
     const upgradeHitBonus = upgradeLevel;
 
-    // Calculate totals
-    const totalPower = basePower + mat.power + p1.power + p2.power + p3.power + ench.power + powerBonus + upgradePowerBonus + calculateScaling();
+    // Special enchantment bonuses
+    const enchBonus = calculateEnchantmentBonus();
+
+    // Calculate base totals before Two-Handed skill
+    const baseTotalPower = basePower + mat.power + p1.power + p2.power + p3.power + ench.power + powerBonus + upgradePowerBonus + enchBonus.bonusPower + calculateScaling();
     const weaponCritical = baseCrit + mat.crit + p1.crit + p2.crit + p3.crit + ench.crit + critBonus + upgradeCritBonus;
-    const weaponAccuracy = baseHit + mat.hit + p1.hit + p2.hit + p3.hit + ench.hit + hitBonus + upgradeHitBonus;
-    const totalWeight = Math.floor((baseWeight + mat.weight + p1.weight + p2.weight + p3.weight + ench.weight + weightBonus) * ench.weightMod);
+    const baseWeaponAccuracy = baseHit + mat.hit + p1.hit + p2.hit + p3.hit + ench.hit + hitBonus + upgradeHitBonus + enchBonus.bonusHit;
+    
+    // Calculate weight with special handling for Gigantic enchantment
+    let totalWeight = Math.floor((baseWeight + mat.weight + p1.weight + p2.weight + p3.weight + ench.weight + weightBonus) * ench.weightMod);
+    
+    // Gigantic enchantment: minimum weight of 2 after all calculations
+    if (enchantment === 'Gigantic' && totalWeight < 2) {
+      totalWeight = 2;
+    }
+
+    // Two-Handed skill bonuses
+    let twoHandedPowerBonus = 0;
+    let twoHandedHitBonus = 0;
+    
+    if (twoHandedSkillRank > 0) {
+      const effectiveWeaponType = getEffectiveWeaponType();
+      
+      // For Swords, Axes, and Spears: +SR*2 SWA (doubled if weapon weight >= 20)
+      if (['Sword', 'Axe', 'Spear'].includes(effectiveWeaponType)) {
+        const baseBonus = twoHandedSkillRank * 2;
+        twoHandedPowerBonus = totalWeight >= 20 ? baseBonus * 2 : baseBonus;
+      }
+      
+      // For Gun weapons: +SR*2 Hit (doubled for Rifle subtype)
+      if (effectiveWeaponType === 'Gun') {
+        const baseBonus = twoHandedSkillRank * 2;
+        // Note: We don't have rifle subtype detection, so treating all guns the same for now
+        // In actual implementation, you'd need to check weapon name/subtype
+        twoHandedHitBonus = baseBonus; // Could be doubled for rifles
+      }
+    }
+
+    // Apply Two-Handed bonuses
+    const totalPower = baseTotalPower + twoHandedPowerBonus;
+    const weaponAccuracy = baseWeaponAccuracy + twoHandedHitBonus;
 
     // Hit calculation (Skill * 2 + Weapon Accuracy)
     const finalHit = Math.floor(stats.ski * 2) + weaponAccuracy + '%';
 
     // Critical chance calculation (Weapon Critical + Skill/2 + Luck)
-    // Primary STR scaling weapons get +0.4 crit per scaled STR point added to weapon crit
+    // Primary STR scaling weapons get +0.4 crit per STR point that contributes to weapon power
+    // This applies to the STR scaling component only, not base STR
     const strScaledCrit = hasPrimaryStrScaling() ? Math.floor(calculateStrScaling() * 0.4) : 0;
     const weaponCritWithStr = weaponCritical + strScaledCrit;
     const finalCrit = weaponCritWithStr + Math.floor(stats.ski / 2) + Math.floor(stats.luc) + '%';
@@ -367,10 +513,8 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
     const guiCritDamageBonus = Math.floor(stats.gui);
     const critDamageMod = baseCritDamage + guiCritDamageBonus + ench.critMod;
 
-    // SWA calculation (Scaled Weapon Attack)
-    // Note: Rarity does NOT affect damage in SL2
-    const twoHandBonus = twoHanded ? Math.floor(totalPower * 0.25) : 0;
-    const swa = totalPower + twoHandBonus;
+    // SWA calculation (Scaled Weapon Attack) - Two-Handed bonus is already included in totalPower
+    const swa = totalPower;
 
     // Critical SWA calculation (SWA with critical damage multiplier applied)
     const critSwa = Math.floor(swa * (critDamageMod / 100));
@@ -384,17 +528,102 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
       weight: totalWeight,
       critDamageMod,
       swa,
-      critSwa
+      critSwa,
+      twoHandedPowerBonus,
+      twoHandedHitBonus
     };
   };
 
   const weaponStats = calculateWeaponStats();
 
+  // Reset function for easy testing
+  const resetWeapon = () => {
+    setBasePower(5);
+    setBaseCrit(5);
+    setBaseHit(80);
+    setBaseWeight(10);
+    setBaseCritDamage(100);
+    setMaterial('None');
+    setPart1('None');
+    setPart2('None');
+    setPart3('None');
+    setEnchantment('None');
+    setUpgradeLevel(0);
+    setRarity(10);
+    setPowerQuality(false);
+    setCritQuality(false);
+    setHitQuality(false);
+    setWeightPlus(false);
+    setWeightMinus(false);
+    setTwoHandedSkillRank(0);
+    // Reset to weapon type defaults
+    const defaultScaling = STAT_SCALING[weaponType] || STAT_SCALING['Sword'];
+    setCustomScaling({ ...defaultScaling });
+  };
+
   return (
     <div className="bg-gray-800 rounded-lg shadow-xl p-6">
-      <div className="flex items-center gap-3 mb-6">
+      <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold">Weapon Calculator</h2>
+        <button
+          onClick={resetWeapon}
+          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded text-white font-medium transition-colors"
+        >
+          Reset Weapon
+        </button>
       </div>
+
+      {/* SL2 Weapon Mechanics Info */}
+      <div className="mb-6 bg-gradient-to-br from-indigo-900 to-purple-900 p-4 rounded-lg border border-indigo-700">
+        <h3 className="text-lg font-semibold mb-3 text-indigo-300">SL2 Weapon Mechanics Guide</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-300">
+          <div>
+            <h4 className="font-semibold text-indigo-200 mb-2">Power Calculation:</h4>
+            <ul className="space-y-1 list-disc list-inside">
+              <li>Base + Materials + Parts + Enchantment + Quality + Upgrades + Stat Scaling</li>
+              <li>Two-Handed skill: +Rank×2 SWA for Sword/Axe/Spear (×2 if weight ≥20)</li>
+              <li>Stat scaling uses your <strong>scaled stats</strong> from the character calculator</li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-semibold text-indigo-200 mb-2">Critical Hit:</h4>
+            <ul className="space-y-1 list-disc list-inside">
+              <li>Weapon Crit + Skill/2 + Luck</li>
+              <li>Primary STR weapons: +0.4 crit per STR scaling point</li>
+              <li>Critical damage = SWA × (100% + GUI + Enchant bonuses)</li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-semibold text-indigo-200 mb-2">Hit Rate:</h4>
+            <ul className="space-y-1 list-disc list-inside">
+              <li>Hit% = Skill × 2 + Weapon Accuracy</li>
+              <li>Two-Handed skill: +Rank×2 Hit for Gun weapons (×2 for Rifles)</li>
+              <li>Quality bonus adds +3 to weapon accuracy</li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-semibold text-indigo-200 mb-2">Special Notes:</h4>
+            <ul className="space-y-1 list-disc list-inside">
+              <li>Rarity stars do NOT affect damage</li>
+              <li>Mutation enchant changes weapon type but not scaling</li>
+              <li>Upgrades add +1 Power/Crit/Hit per level</li>
+              <li>Some enchantment effects (HP regen, status effects, etc.) not calculated</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {/* Enchantment Effects Notice */}
+      {enchantment !== 'None' && (
+        <div className="mb-6 bg-gradient-to-br from-amber-900 to-yellow-900 p-4 rounded-lg border border-amber-700">
+          <h3 className="text-lg font-semibold mb-3 text-amber-300">Enchantment Notice</h3>
+          <p className="text-sm text-amber-200">
+            This calculator shows the basic stat modifications from enchantments. Many enchantments have additional effects 
+            (HP regeneration, status infliction, special damage, etc.) that are not reflected in the raw weapon statistics but 
+            affect combat performance. Check individual enchantment descriptions for complete effects.
+          </p>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* Base Stats */}
@@ -479,8 +708,12 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
                 onChange={(e) => setMaterial(e.target.value)}
                 className="w-full bg-gray-600 border border-gray-500 rounded px-3 py-2"
               >
-                {Object.keys(MATERIALS).map(mat => (
-                  <option key={mat} value={mat}>{mat}</option>
+                {Object.entries(MATERIAL_CATEGORIES).map(([category, materials]) => (
+                  <optgroup key={category} label={category}>
+                    {materials.map(mat => (
+                      <option key={mat} value={mat}>{mat}</option>
+                    ))}
+                  </optgroup>
                 ))}
               </select>
             </div>
@@ -624,16 +857,25 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
                 />
                 <span className="text-sm">Weight (-)</span>
               </label>
+            </div>
 
-              <label className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  checked={twoHanded}
-                  onChange={(e) => setTwoHanded(e.target.checked)}
-                  className="w-4 h-4"
-                />
-                <span className="text-sm">Two-Handed (WIP)</span>
-              </label>
+            <div>
+              <label className="block text-sm font-medium mb-1">Two-Handed Skill Rank (0-5)</label>
+              <input
+                type="number"
+                min="0"
+                max="5"
+                value={twoHandedSkillRank}
+                onChange={(e) => setTwoHandedSkillRank(Number(e.target.value))}
+                className="w-full bg-gray-600 border border-gray-500 rounded px-3 py-2"
+              />
+              <div className="text-xs text-gray-400 mt-1">
+                <div><strong>Sword/Axe/Spear:</strong> +{twoHandedSkillRank * 2} SWA {weaponStats.weight >= 20 ? '(×2 = +' + (twoHandedSkillRank * 4) + ' for 20+ weight)' : ''}</div>
+                <div><strong>Gun:</strong> +{twoHandedSkillRank * 2} Hit</div>
+                {getEffectiveWeaponType() === 'Gun' && (
+                  <div className="text-yellow-400 text-xs mt-1">💡 Note: Rifle subtype weapons get ×2 hit bonus (not implemented yet)</div>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -758,10 +1000,10 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
       {enchantment === 'Mutation' && (
         <div className="mt-6 bg-gradient-to-br from-purple-800 to-pink-800 p-4 rounded-lg border-2 border-purple-400">
           <h3 className="text-lg font-semibold mb-3 text-purple-200">
-            🎲 Mutation Enchantment
+            Mutation Enchantment
           </h3>
           <p className="text-sm text-purple-300 mb-2">
-            <strong>Effect:</strong> -5 Hit. Weapon type changes based on rarity (9*+ weapons not affected).
+            <strong>Effect:</strong> -5 Hit, +25% Weight. Weapon type changes based on rarity (9*+ weapons not affected).
           </p>
           <p className="text-sm text-purple-300 mb-2">
             <strong>Note:</strong> Weapon type change is visual/mechanical only - stat scaling remains based on original weapon type.
@@ -781,6 +1023,60 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
               Current Mutation Type: {getEffectiveWeaponType()} (Scaling: {weaponType})
             </div>
           )}
+        </div>
+      )}
+
+      {/* Rebellion Enchant Info */}
+      {enchantment === 'Rebellion' && (
+        <div className="mt-6 bg-gradient-to-br from-red-800 to-orange-800 p-4 rounded-lg border-2 border-red-400">
+          <h3 className="text-lg font-semibold mb-3 text-red-200">
+            Rebellion Enchantment
+          </h3>
+          <p className="text-sm text-red-300 mb-2">
+            <strong>Effect:</strong> +1.5 Power and -1.5 Hit for every 1 Rarity below 9*.
+          </p>
+          <div className="text-sm text-red-200">
+            <div>Current Rarity: {rarity}*</div>
+            {rarity < 9 && (
+              <>
+                <div>Rarity Difference: {9 - rarity} (below 9*)</div>
+                <div className="text-yellow-300 font-semibold">
+                  Rebellion Bonus: +{Math.floor((9 - rarity) * 1.5)} Power, {-Math.floor((9 - rarity) * 1.5)} Hit
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Gigantic Enchant Info */}
+      {enchantment === 'Gigantic' && (
+        <div className="mt-6 bg-gradient-to-br from-gray-800 to-stone-800 p-4 rounded-lg border-2 border-gray-400">
+          <h3 className="text-lg font-semibold mb-3 text-gray-200">
+            Gigantic Enchantment
+          </h3>
+          <p className="text-sm text-gray-300 mb-2">
+            <strong>Effect:</strong> +1 Attack Range, -10 Evade, +50% Weight (minimum 2).
+          </p>
+          <div className="text-sm text-gray-200">
+            <div>Base Weight Calculation: {Math.floor((baseWeight + (MATERIALS[material]?.weight || 0) + (WEAPON_PART1[part1]?.weight || 0) + (WEAPON_PART2[part2]?.weight || 0) + (WEAPON_PART3[part3]?.weight || 0) + (weightPlus && !weightMinus ? 1 : !weightPlus && weightMinus ? -1 : 0)) * 1.5)}</div>
+            <div className="text-yellow-300">Final Weight: {weaponStats.weight} (minimum 2 enforced)</div>
+          </div>
+        </div>
+      )}
+
+      {/* Vorpal Enchant Info */}
+      {enchantment === 'Vorpal' && (
+        <div className="mt-6 bg-gradient-to-br from-purple-800 to-indigo-800 p-4 rounded-lg border-2 border-purple-400">
+          <h3 className="text-lg font-semibold mb-3 text-purple-200">
+            Vorpal Enchantment
+          </h3>
+          <p className="text-sm text-purple-300 mb-2">
+            <strong>Effect:</strong> +10 Weapon Critical, +5% Critical Damage.
+          </p>
+          <p className="text-sm text-purple-300">
+            <strong>Special:</strong> 5% chance for Vorpal Strike (9999 Akashic damage) vs monsters (excludes bosses and monsters 10+ levels higher).
+          </p>
         </div>
       )}
 
@@ -914,12 +1210,35 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
                 <div>Upgrade Bonus: <span className="text-white font-semibold">+{upgradeLevel}</span> Hit</div>
               </>
             )}
-            {twoHanded && (
-              <div>Two-Handed Bonus: <span className="text-white font-semibold">+{Math.floor((basePower + (MATERIALS[material]?.power || 0) + (WEAPON_PART1[part1]?.power || 0) + (WEAPON_PART2[part2]?.power || 0) + (WEAPON_PART3[part3]?.power || 0) + (ENCHANTMENTS[enchantment]?.power || 0) + (powerQuality ? 3 : 0) + calculateScaling()) * 0.25)}</span> Power (25%)</div>
+            {enchantment === 'Rebellion' && rarity < 9 && (
+              <>
+                <div>Rebellion Power Bonus: <span className="text-white font-semibold">+{Math.floor((9 - rarity) * 1.5)}</span></div>
+                <div>Rebellion Hit Penalty: <span className="text-red-400 font-semibold">{-Math.floor((9 - rarity) * 1.5)}</span></div>
+              </>
+            )}
+            {twoHandedSkillRank > 0 && (
+              <>
+                {weaponStats.twoHandedPowerBonus > 0 && (
+                  <div>Two-Handed Power Bonus: <span className="text-white font-semibold">+{weaponStats.twoHandedPowerBonus}</span> SWA (Rank {twoHandedSkillRank})</div>
+                )}
+                {weaponStats.twoHandedHitBonus > 0 && (
+                  <div>Two-Handed Hit Bonus: <span className="text-white font-semibold">+{weaponStats.twoHandedHitBonus}</span> Hit (Rank {twoHandedSkillRank})</div>
+                )}
+              </>
             )}
             {enchantment === 'Mutation' && rarity < 9 && (
               <div className="col-span-full text-purple-300">
                 Mutation Effect: Weapon functions as <span className="font-semibold">{getEffectiveWeaponType()}</span> (based on {rarity}* rarity)
+              </div>
+            )}
+            {enchantment === 'Gigantic' && (
+              <div className="col-span-full text-gray-300">
+                Gigantic Effect: +1 Range, -10 Evade, +50% Weight (min 2)
+              </div>
+            )}
+            {enchantment === 'Vorpal' && (
+              <div className="col-span-full text-purple-300">
+                Vorpal Effect: 5% chance for 9999 Akashic damage vs eligible monsters
               </div>
             )}
           </div>
