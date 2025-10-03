@@ -152,110 +152,202 @@ const MATERIALS: Record<string, Material> = {
   'Thin Page': { power: -2, crit: 3, hit: 0, weight: -6 }
 };
 
-// Weapon Part 1 definitions (Blade, Body, etc.)
+// Weapon Part Categories for organized dropdowns
+const WEAPON_PART_CATEGORIES = {
+  'Basic': ['None'],
+  'Blades': [
+    'Standard Blade', 'Serrated Blade', 'Razor Blade', 'Balanced Blade', 'Piercing Blade', 'Huge Blade'
+  ],
+  'Guards': [
+    'Standard Guard', 'Sturdy Guard', 'Full Guard', 'Empty Guard', 'Razor Guard', 'Locking Guard'
+  ],
+  'Hilts': [
+    'Standard Hilt', 'Firm Hilt', 'Sharp Hilt', 'Onigan Hilt', 'Insulated Hilt', 'Wooden Hilt'
+  ],
+  'Spearheads': [
+    'Standard Spearhead', 'Barbed Spearhead', 'Crescent Spearhead', 'Hollow Spearhead', 'Thin Spearhead', 'Hooked Spearhead'
+  ],
+  'Axeheads': [
+    'Standard Axehead', 'Tempered Axehead', 'Guillotine Axehead', 'Cutting Axehead', 'Curved Axehead', 'Spiked Axehead'
+  ],
+  'Poles': [
+    'Standard Pole', 'Wooden Pole', 'Helix Pole', 'Curved Pole', 'Flexible Pole', 'Extended Pole'
+  ],
+  'Knuckles': [
+    'Standard Knuckles', 'Dense Knuckles', 'Elongated Knuckles', 'Leather Knuckles', 'Wrapped Knuckles', 'Spiked Knuckles'
+  ],
+  'Wrists': [
+    'Standard Wrist', 'Wrist Guard', 'Spiked Wrist', 'Wrist Strings', 'Loose Wrist', 'Weighted Wrist'
+  ],
+  'Bow Bodies': [
+    'Standard Body', 'Thin Body', 'Compact Body', 'Short Body', 'Focused Body', 'Large Body', 'Composite Body'
+  ],
+  'Strings': [
+    'Standard String', 'Wire String', 'Silk String', 'Tight String', 'Double String', 'Chain String'
+  ],
+  'Arrows': [
+    'Standard Arrows', 'Sharp Arrows', 'Fire Arrows', 'Light Arrows', 'Thin Arrows', 'Heavy Arrows'
+  ],
+  'Barrels': [
+    'Standard Barrel', 'Short Barrel', 'Wide Barrel', 'Long Barrel', 'Double Barrel', 'Sniper Barrel'
+  ],
+  'Grips': [
+    'Standard Grip', 'Soft Grip', 'Steady Grip', 'Revolver Grip', 'Extended Grip', 'Custom Grip'
+  ],
+  'Bullets': [
+    'Standard Bullets', 'Aerodynamic Bullets', 'Piercing Bullets', 'Hellhound Bullets', 'Scatter Bullets', 'Silver Bullets'
+  ],
+  'Covers': [
+    'Standard Cover', 'Hardback Cover', 'Thin Cover', 'Blank Cover', 'Hellish Eye', 'Diary Lock'
+  ],
+  'Binds': [
+    'Standard Binds', 'Leather Binds', 'Metal Binds', 'Magic Binds', 'Bone Binds', 'Long Binds'
+  ]
+};
+
+// Weapon Part 1 definitions - All weapon parts available
 const WEAPON_PART1: Record<string, WeaponPart> = {
+  // Basic
   'None': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Balanced': { power: 1, crit: 0, hit: 1, weight: 0 },
-  'Barbed': { power: 2, crit: 0, hit: -1, weight: 1 },
-  'Cutting': { power: 2, crit: 1, hit: 0, weight: 0 },
-  'Dense': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Elongated': { power: 1, crit: 0, hit: 1, weight: 0 },
-  'Flexible': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Focused': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Guillotine': { power: 3, crit: 0, hit: -2, weight: 2 },
-  'Helix': { power: 2, crit: 1, hit: 0, weight: 0 },
-  'Hellish Eye': { power: 1, crit: 2, hit: 0, weight: 0 },
-  'Hollow': { power: 0, crit: 0, hit: 1, weight: -2 },
-  'Hooked': { power: 0, crit: 2, hit: 0, weight: 0 },
-  'Huge(Sword)': { power: 4, crit: 0, hit: -2, weight: 4 },
-  'Large Body': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Leather': { power: 0, crit: 0, hit: 1, weight: -1 },
-  'Long': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Piercing Blade': { power: 2, crit: 1, hit: 1, weight: 0 },
-  'Razor Blade': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Serrated': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Short': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Silk': { power: 0, crit: 1, hit: 1, weight: 0 },
-  'Sniper(Rifle)': { power: 1, crit: 0, hit: 2, weight: 0 },
-  'Spiked Axehead': { power: 1, crit: 1, hit: 0, weight: 0 },
-  'Spiked Knuckles': { power: 1, crit: 1, hit: 0, weight: 0 },
-  'Tempered': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Thin Spearhead': { power: 1, crit: 2, hit: 1, weight: 0 },
-  'Tight': { power: 0, crit: 1, hit: 1, weight: 0 },
-  'Wide': { power: 1, crit: 0, hit: 1, weight: 0 },
-  'Wire': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Wooden': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Wrapped': { power: 0, crit: 0, hit: 0, weight: 0 }
+
+  // Blades
+  'Standard Blade': { power: 0, crit: 0, hit: 0, weight: 0 },
+  'Serrated Blade': { power: -1, crit: 0, hit: 0, weight: 0 },
+  'Razor Blade': { power: 0, crit: 10, hit: 0, weight: 0 },
+  'Balanced Blade': { power: 0, crit: 0, hit: 3, weight: 1 },
+  'Piercing Blade': { power: 2, crit: -5, hit: -5, weight: 0 },
+  'Huge Blade': { power: 5, crit: -10, hit: -10, weight: 10 },
+
+  // Guards
+  'Standard Guard': { power: 0, crit: 0, hit: 0, weight: 0 },
+  'Sturdy Guard': { power: 0, crit: 0, hit: 3, weight: 1 },
+  'Full Guard': { power: 0, crit: 0, hit: 0, weight: 4 },
+  'Empty Guard': { power: 0, crit: 5, hit: -5, weight: 0 },
+  'Razor Guard': { power: 1, crit: 0, hit: 0, weight: 1 },
+  'Locking Guard': { power: 0, crit: 0, hit: 0, weight: 1 },
+
+  // Hilts
+  'Standard Hilt': { power: 0, crit: 0, hit: 0, weight: 0 },
+  'Firm Hilt': { power: 0, crit: 0, hit: 3, weight: 0 },
+  'Sharp Hilt': { power: 1, crit: 0, hit: -5, weight: 0 },
+  'Onigan Hilt': { power: 0, crit: 5, hit: -5, weight: 0 },
+  'Insulated Hilt': { power: -1, crit: 0, hit: 0, weight: 0 },
+  'Wooden Hilt': { power: 0, crit: 0, hit: 0, weight: -3 },
+
+  // Spearheads
+  'Standard Spearhead': { power: 0, crit: 0, hit: 0, weight: 0 },
+  'Barbed Spearhead': { power: 1, crit: 5, hit: 0, weight: 2 },
+  'Crescent Spearhead': { power: 0, crit: -5, hit: 5, weight: 0 },
+  'Hollow Spearhead': { power: -2, crit: 0, hit: 0, weight: -5 },
+  'Thin Spearhead': { power: 2, crit: 0, hit: -5, weight: -2 },
+  'Hooked Spearhead': { power: 1, crit: -5, hit: 0, weight: 0 },
+
+  // Axeheads
+  'Standard Axehead': { power: 0, crit: 0, hit: 0, weight: 0 },
+  'Tempered Axehead': { power: -1, crit: 0, hit: 0, weight: 0 },
+  'Guillotine Axehead': { power: 3, crit: 0, hit: -5, weight: 1 },
+  'Cutting Axehead': { power: -1, crit: 10, hit: -5, weight: 0 },
+  'Curved Axehead': { power: -1, crit: 0, hit: 5, weight: 0 },
+  'Spiked Axehead': { power: 2, crit: 0, hit: 0, weight: 0 },
+
+  // Poles
+  'Standard Pole': { power: 0, crit: 0, hit: 0, weight: 0 },
+  'Wooden Pole': { power: 0, crit: 0, hit: 0, weight: -5 },
+  'Helix Pole': { power: 1, crit: 0, hit: -4, weight: 2 },
+  'Curved Pole': { power: -1, crit: 5, hit: 0, weight: 0 },
+  'Flexible Pole': { power: 0, crit: 0, hit: -5, weight: 0 },
+  'Extended Pole': { power: -1, crit: 0, hit: 5, weight: 0 },
+
+  // Knuckles
+  'Standard Knuckles': { power: 0, crit: 0, hit: 0, weight: 0 },
+  'Dense Knuckles': { power: 2, crit: 0, hit: 0, weight: 0 },
+  'Elongated Knuckles': { power: 0, crit: 8, hit: 0, weight: 4 },
+  'Leather Knuckles': { power: -2, crit: 0, hit: 5, weight: 0 },
+  'Wrapped Knuckles': { power: 0, crit: -4, hit: 0, weight: 0 },
+  'Spiked Knuckles': { power: 1, crit: 0, hit: -4, weight: 0 },
+
+  // Wrists
+  'Standard Wrist': { power: 0, crit: 0, hit: 0, weight: 0 },
+  'Wrist Guard': { power: 0, crit: 0, hit: 0, weight: 2 },
+  'Spiked Wrist': { power: 1, crit: 0, hit: 0, weight: 2 },
+  'Wrist Strings': { power: 0, crit: 0, hit: 4, weight: 0 },
+  'Loose Wrist': { power: 0, crit: 0, hit: -6, weight: 0 },
+  'Weighted Wrist': { power: 0, crit: 10, hit: -5, weight: 8 },
+
+  // Bow Bodies
+  'Standard Body': { power: 0, crit: 0, hit: 0, weight: 0 },
+  'Thin Body': { power: -1, crit: 0, hit: 0, weight: -4 },
+  'Compact Body': { power: 0, crit: 15, hit: 0, weight: -4 },
+  'Short Body': { power: 0, crit: 3, hit: 0, weight: -4 },
+  'Focused Body': { power: 0, crit: 0, hit: 5, weight: 0 },
+  'Large Body': { power: 0, crit: 0, hit: 0, weight: 6 },
+  'Composite Body': { power: 2, crit: -5, hit: 0, weight: 0 },
+
+  // Strings
+  'Standard String': { power: 0, crit: 0, hit: 0, weight: 0 },
+  'Wire String': { power: 1, crit: 0, hit: 0, weight: 0 },
+  'Silk String': { power: -2, crit: 0, hit: 5, weight: 0 },
+  'Tight String': { power: 0, crit: 5, hit: -5, weight: 0 },
+  'Double String': { power: 0, crit: -5, hit: 0, weight: 0 },
+  'Chain String': { power: 2, crit: 0, hit: 0, weight: 10 },
+
+  // Arrows
+  'Standard Arrows': { power: 0, crit: 0, hit: 0, weight: 0 },
+  'Sharp Arrows': { power: 0, crit: 10, hit: -5, weight: 0 },
+  'Fire Arrows': { power: 1, crit: -5, hit: 0, weight: 0 },
+  'Light Arrows': { power: 0, crit: 5, hit: -5, weight: 0 },
+  'Thin Arrows': { power: -1, crit: 0, hit: 5, weight: 0 },
+  'Heavy Arrows': { power: 2, crit: 0, hit: -5, weight: 5 },
+
+  // Barrels
+  'Standard Barrel': { power: 0, crit: 0, hit: 0, weight: 0 },
+  'Short Barrel': { power: 5, crit: 0, hit: 0, weight: 0 },
+  'Wide Barrel': { power: 0, crit: 5, hit: -5, weight: 0 },
+  'Long Barrel': { power: 0, crit: -5, hit: 0, weight: 0 },
+  'Double Barrel': { power: 0, crit: 0, hit: 5, weight: 3 },
+  'Sniper Barrel': { power: 0, crit: 15, hit: 0, weight: 8 },
+
+  // Grips
+  'Standard Grip': { power: 0, crit: 0, hit: 0, weight: 0 },
+  'Soft Grip': { power: -1, crit: 0, hit: 0, weight: 0 },
+  'Steady Grip': { power: 0, crit: -5, hit: 5, weight: 0 },
+  'Revolver Grip': { power: -2, crit: 5, hit: 0, weight: 0 },
+  'Extended Grip': { power: 0, crit: 0, hit: 0, weight: 2 },
+  'Custom Grip': { power: 0, crit: 3, hit: 3, weight: 0 },
+
+  // Bullets
+  'Standard Bullets': { power: 0, crit: 0, hit: 0, weight: 0 },
+  'Aerodynamic Bullets': { power: 0, crit: -5, hit: 5, weight: 0 },
+  'Piercing Bullets': { power: 5, crit: -5, hit: 0, weight: 0 },
+  'Hellhound Bullets': { power: 0, crit: 5, hit: -5, weight: 0 },
+  'Scatter Bullets': { power: -2, crit: 0, hit: 5, weight: 0 },
+  'Silver Bullets': { power: 0, crit: 0, hit: -5, weight: 0 },
+
+  // Covers
+  'Standard Cover': { power: 0, crit: 0, hit: 0, weight: 0 },
+  'Hardback Cover': { power: 2, crit: 0, hit: 0, weight: 3 },
+  'Thin Cover': { power: 0, crit: 0, hit: 0, weight: -5 },
+  'Blank Cover': { power: -2, crit: 5, hit: 0, weight: 0 },
+  'Hellish Eye': { power: 0, crit: -5, hit: 3, weight: 5 },
+  'Diary Lock': { power: 0, crit: 3, hit: -3, weight: 5 },
+
+  // Binds
+  'Standard Binds': { power: 0, crit: 0, hit: 0, weight: 0 },
+  'Leather Binds': { power: -2, crit: 0, hit: 3, weight: -3 },
+  'Metal Binds': { power: 3, crit: 0, hit: 0, weight: 3 },
+  'Magic Binds': { power: 0, crit: 0, hit: -3, weight: -8 },
+  'Bone Binds': { power: 0, crit: 5, hit: 0, weight: 3 },
+  'Long Binds': { power: 0, crit: 0, hit: 0, weight: 5 }
 };
 
-// Weapon Part 2 definitions (Handle, Grip, etc.)
+// Weapon Part 2 definitions - Same as Part 1 for flexibility
 const WEAPON_PART2: Record<string, WeaponPart> = {
-  'None': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Balanced': { power: 1, crit: 0, hit: 1, weight: 0 },
-  'Custom': { power: 1, crit: 0, hit: 1, weight: 0 },
-  'Extended': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Firm Hilt': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Flexible': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Full': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Helix': { power: 2, crit: 1, hit: 0, weight: 0 },
-  'Huge(Sword)': { power: 4, crit: 0, hit: -2, weight: 4 },
-  'Insulated Hilt': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Leather Binds': { power: 0, crit: 1, hit: 1, weight: 0 },
-  'Locking': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Long Binds': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Loose': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Magic Binds': { power: 1, crit: 0, hit: 1, weight: 0 },
-  'Metal Binds': { power: 1, crit: 0, hit: 1, weight: 0 },
-  'Onigan Hilt': { power: 1, crit: 0, hit: 1, weight: 0 },
-  'Piercing Blade': { power: 2, crit: 1, hit: 1, weight: 0 },
-  'Razor Blade': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Razor Guard': { power: 0, crit: 2, hit: 0, weight: 0 },
-  'Revolver': { power: 1, crit: 0, hit: 1, weight: 0 },
-  'Serrated': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Sharp Hilt': { power: 0, crit: 2, hit: 0, weight: 0 },
-  'Silk': { power: 0, crit: 1, hit: 1, weight: 0 },
-  'Soft': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Spiked Wrist': { power: 1, crit: 1, hit: 0, weight: 0 },
-  'Steady': { power: 0, crit: 0, hit: 2, weight: 0 },
-  'Strings Wrist': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Sturdy': { power: 0, crit: 0, hit: 1, weight: 2 },
-  'Tight': { power: 0, crit: 1, hit: 1, weight: 0 },
-  'Weighted': { power: 3, crit: 0, hit: -1, weight: 3 },
-  'Wire': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Wooden': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Wooden Hilt': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Wrist Guard': { power: 0, crit: 0, hit: 0, weight: 0 }
+  ...WEAPON_PART1
 };
 
-// Weapon Part 3 definitions (Tip, Pommel, etc.)
+// Weapon Part 3 definitions - Same as Part 1 for flexibility  
 const WEAPON_PART3: Record<string, WeaponPart> = {
-  'None': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Aerodynamic': { power: 0, crit: 0, hit: 2, weight: -1 },
-  'Balanced': { power: 1, crit: 0, hit: 1, weight: 0 },
-  'Cutting': { power: 2, crit: 1, hit: 0, weight: 0 },
-  'Firm Hilt': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Flexible': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Guillotine': { power: 3, crit: 0, hit: -2, weight: 2 },
-  'Heavy Arrow': { power: 2, crit: 0, hit: -1, weight: 2 },
-  'Helix': { power: 2, crit: 1, hit: 0, weight: 0 },
-  'Hellhound': { power: 1, crit: 0, hit: 1, weight: 0 },
-  'Huge(Sword)': { power: 4, crit: 0, hit: -2, weight: 4 },
-  'Insulated Hilt': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Light Arrow': { power: 0, crit: 0, hit: 2, weight: -1 },
-  'Onigan Hilt': { power: 1, crit: 0, hit: 1, weight: 0 },
-  'Piercing Blade': { power: 2, crit: 1, hit: 1, weight: 0 },
-  'Piercing Bullet': { power: 1, crit: 0, hit: 1, weight: 0 },
-  'Razor Blade': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Scatter': { power: 0, crit: 0, hit: 1, weight: 1 },
-  'Serrated': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Sharp Arrow': { power: 0, crit: 2, hit: 0, weight: 0 },
-  'Sharp Hilt': { power: 0, crit: 2, hit: 0, weight: 0 },
-  'Silver': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Spiked Axehead': { power: 1, crit: 1, hit: 0, weight: 0 },
-  'Tempered': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Thin Arrow': { power: 0, crit: 1, hit: 1, weight: -1 },
-  'Wooden': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Wooden Hilt': { power: 0, crit: 0, hit: 0, weight: 0 }
+  ...WEAPON_PART1
 };
 
 // Enchantment definitions
@@ -719,40 +811,52 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1">Weapon Part 1 (Blade/Body)</label>
+              <label className="block text-sm font-medium mb-1">Weapon Part 1</label>
               <select
                 value={part1}
                 onChange={(e) => setPart1(e.target.value)}
                 className="w-full bg-gray-600 border border-gray-500 rounded px-3 py-2"
               >
-                {Object.keys(WEAPON_PART1).map(p => (
-                  <option key={p} value={p}>{p}</option>
+                {Object.entries(WEAPON_PART_CATEGORIES).map(([category, parts]) => (
+                  <optgroup key={category} label={category}>
+                    {parts.map(part => (
+                      <option key={part} value={part}>{part}</option>
+                    ))}
+                  </optgroup>
                 ))}
               </select>
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1">Weapon Part 2 (Handle/Grip)</label>
+              <label className="block text-sm font-medium mb-1">Weapon Part 2</label>
               <select
                 value={part2}
                 onChange={(e) => setPart2(e.target.value)}
                 className="w-full bg-gray-600 border border-gray-500 rounded px-3 py-2"
               >
-                {Object.keys(WEAPON_PART2).map(p => (
-                  <option key={p} value={p}>{p}</option>
+                {Object.entries(WEAPON_PART_CATEGORIES).map(([category, parts]) => (
+                  <optgroup key={category} label={category}>
+                    {parts.map(part => (
+                      <option key={part} value={part}>{part}</option>
+                    ))}
+                  </optgroup>
                 ))}
               </select>
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1">Weapon Part 3 (Tip/Pommel)</label>
+              <label className="block text-sm font-medium mb-1">Weapon Part 3</label>
               <select
                 value={part3}
                 onChange={(e) => setPart3(e.target.value)}
                 className="w-full bg-gray-600 border border-gray-500 rounded px-3 py-2"
               >
-                {Object.keys(WEAPON_PART3).map(p => (
-                  <option key={p} value={p}>{p}</option>
+                {Object.entries(WEAPON_PART_CATEGORIES).map(([category, parts]) => (
+                  <optgroup key={category} label={category}>
+                    {parts.map(part => (
+                      <option key={part} value={part}>{part}</option>
+                    ))}
+                  </optgroup>
                 ))}
               </select>
             </div>
