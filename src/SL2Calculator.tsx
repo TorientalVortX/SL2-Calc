@@ -336,6 +336,59 @@ const RACE_RESISTANCES: Record<string, ElementalRecord> = {
   }
 };
 
+// Class hierarchy structure based on POE-style organization
+const CLASS_HIERARCHY: Record<string, {
+  name: string;
+  baseClass: boolean;
+  subClasses: string[];
+}> = {
+  'Archer': {
+    name: 'Archer',
+    baseClass: true,
+    subClasses: ['Arbalest', 'Magic Gunner', 'Ranger']
+  },
+  'Martial Artist': {
+    name: 'Martial Artist',
+    baseClass: true,
+    subClasses: ['Monk', 'Verglas', 'Boxer', 'Shinobi']
+  },
+  'Curate': {
+    name: 'Curate',
+    baseClass: true,
+    subClasses: ['Lantern Bearer', 'Priest', 'Aquamancer', 'Druid']
+  },
+  'Duelist': {
+    name: 'Duelist',
+    baseClass: true,
+    subClasses: ['Ghost', 'Kensei', 'Firebird']
+  },
+  'Mage': {
+    name: 'Mage',
+    baseClass: true,
+    subClasses: ['Evoker', 'Hexer', 'Rune Magician', 'Ruler']
+  },
+  'Bard': {
+    name: 'Bard',
+    baseClass: true,
+    subClasses: ['Dancer', 'Performer', 'Dark Bard']
+  },
+  'Rogue': {
+    name: 'Rogue',
+    baseClass: true,
+    subClasses: ['Engineer', 'Void Assassin', 'Spellthief']
+  },
+  'Soldier': {
+    name: 'Soldier',
+    baseClass: true,
+    subClasses: ['Black Knight', 'Tactician', 'Demon Hunter', 'Solblader']
+  },
+  'Summoner': {
+    name: 'Summoner',
+    baseClass: true,
+    subClasses: ['Grand Summoner', 'Bonder', 'Shapeshifter']
+  }
+};
+
 const CLASSES: Record<string, Omit<Stats, 'human' | 'homunculi'>> = {
   'Soldier': { str: 2, wil: 0, ski: 1, cel: 0, def: 0, res: 0, vit: 2, fai: 0, luc: 0, gui: 0, san: 0, apt: 0 },
   'Duelist': { str: 1, wil: 0, ski: 2, cel: 2, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0 },
@@ -399,6 +452,8 @@ interface BuildData {
   subrace: string;
   mainClass: string;
   subClass: string;
+  selectedMainBaseClass?: string; // Added for hierarchical class selection
+  selectedSubBaseClass?: string;  // Added for hierarchical class selection
   totalPoints: number;
   characterLevel: number;
   food: string;
@@ -429,6 +484,8 @@ interface BuildData {
   warwalk: boolean;
   endurance: boolean;
   luminaryElement: boolean;
+  persistenceOfNormalcy: boolean;
+  powerOfNormalcy: boolean;
   mainClassPassive: number;
   subClassPassive: number;
   elementalATKAdjustments: ElementalRecord;
@@ -441,8 +498,7 @@ const CLASS_PASSIVES: Record<string, ClassPassive> = {
   'Bard': { maxRank: 6, stats: { san: 1 }, description: '+SAN per rank' },
   'Black Knight': { maxRank: 6, stats: { def: 1 }, description: '+DEF per rank' },
   'Bonder': { maxRank: 3, stats: { wil: 1, fai: 1 }, description: '+WIL/FAI per rank' },
-  'Dancer': { maxRank: 6, stats: { san: 1 }, description: '+SAN per rank' },
-  'Dark Bard': { maxRank: 9, stats: { san: 1 }, description: '+SAN, +STR/SAN at rank 7+' },
+  'Dark Bard': { maxRank: 3, stats: { san: 1 }, description: '+STR/SAN at rank 7+' },
   'Engineer': { maxRank: 6, stats: { gui: 1 }, description: '+GUI per rank' },
   'Evoker': { maxRank: 6, stats: { wil: 1 }, description: '+WIL per rank' },
   'Ghost': { maxRank: 5, stats: { res: 1 }, description: '+RES per rank' },
@@ -451,7 +507,6 @@ const CLASS_PASSIVES: Record<string, ClassPassive> = {
   'Lantern Bearer': { maxRank: 6, stats: { res: 1 }, description: '+RES per rank' },
   'Magic Gunner': { maxRank: 3, stats: { cel: 1, res: 1 }, description: '+CEL/RES per rank' },
   'Monk': { maxRank: 3, stats: { ski: 1, cel: 1 }, description: '+SKI/CEL per rank' },
-  'Performer': { maxRank: 6, stats: { san: 1 }, description: '+SAN per rank' },
   'Priest': { maxRank: 6, stats: { fai: 1 }, description: '+FAI per rank' },
   'Solblader': { maxRank: 3, stats: { fai: 1, gui: 1 }, description: '+FAI/GUI per rank' },
   'Tactician': { maxRank: 3, stats: { wil: 1, gui: 1 }, description: '+WIL/GUI per rank' },
@@ -694,6 +749,8 @@ const TEMPLATE_BUILDS = {
     subrace: 'Imperialist',
     mainClass: 'Soldier',
     subClass: 'Soldier',
+    selectedMainBaseClass: 'Soldier',
+    selectedSubBaseClass: 'Soldier',
     history: 'Warrior',
     reasoning: 'STR for weapon scaling, SKI for accuracy, balanced defenses, VIT for HP. Warrior history provides +2 STR, +1 SKI as invested points.'
   },
@@ -705,6 +762,8 @@ const TEMPLATE_BUILDS = {
     subrace: 'Imperialist',
     mainClass: 'Mage',
     subClass: 'Mage',
+    selectedMainBaseClass: 'Mage',
+    selectedSubBaseClass: 'Mage',
     history: 'Magician',
     reasoning: 'WIL for FP and elemental damage, SKI for accuracy, RES for magical defense. Magician history provides +2 WIL, +1 CEL as invested points.'
   },
@@ -716,6 +775,8 @@ const TEMPLATE_BUILDS = {
     subrace: 'Imperialist',
     mainClass: 'Rogue',
     subClass: 'Rogue',
+    selectedMainBaseClass: 'Rogue',
+    selectedSubBaseClass: 'Rogue',
     history: 'Assassin',
     reasoning: 'CEL for evasion, LUC for critical chance, GUI for critical damage, SKI for accuracy. Assassin history provides +2 SKI, +1 LUC as invested points.'
   }
@@ -735,6 +796,13 @@ export default function SL2Calculator() {
   const [subrace, setSubrace] = useState(firstSubrace);
   const [mainClass, setMainClass] = useState(firstClass);
   const [subClass, setSubClass] = useState(firstClass);
+  
+  // POE-style class selection states
+  const [selectedMainBaseClass, setSelectedMainBaseClass] = useState('Soldier');
+  const [selectedSubBaseClass, setSelectedSubBaseClass] = useState('Soldier');
+  const [showMainClassDropdown, setShowMainClassDropdown] = useState(false);
+  const [showSubClassDropdown, setShowSubClassDropdown] = useState(false);
+  
   const [totalPoints, setTotalPoints] = useState(MAX_POINTS);
   const [characterLevel, setCharacterLevel] = useState(60); // Default to level 60
   const [food, setFood] = useState('None');
@@ -781,6 +849,8 @@ export default function SL2Calculator() {
   const [warwalk, setWarwalk] = useState(false);
   const [endurance, setEndurance] = useState(false);
   const [luminaryElement, setLuminaryElement] = useState(false);
+  const [persistenceOfNormalcy, setPersistenceOfNormalcy] = useState(false);
+  const [powerOfNormalcy, setPowerOfNormalcy] = useState(false);
   
   // Class passive ranks
   const [mainClassPassive, setMainClassPassive] = useState(0);
@@ -833,6 +903,8 @@ export default function SL2Calculator() {
       subrace,
       mainClass,
       subClass,
+      selectedMainBaseClass,
+      selectedSubBaseClass,
       totalPoints,
       characterLevel,
       food,
@@ -863,11 +935,13 @@ export default function SL2Calculator() {
       warwalk,
       endurance,
       luminaryElement,
+      persistenceOfNormalcy,
+      powerOfNormalcy,
       mainClassPassive,
       subClassPassive,
       elementalATKAdjustments,
       elementalRESAdjustments,
-      version: "0.2.1"
+      version: "0.3.0"
     };
 
     const jsonString = JSON.stringify(buildData, null, 2);
@@ -900,6 +974,28 @@ export default function SL2Calculator() {
       setSubrace(buildData.subrace);
       setMainClass(buildData.mainClass);
       setSubClass(buildData.subClass);
+      
+      // Set base class information (for backward compatibility, derive from class if not present)
+      if (buildData.selectedMainBaseClass) {
+        setSelectedMainBaseClass(buildData.selectedMainBaseClass);
+      } else {
+        // Find base class for main class
+        const mainBaseClass = Object.entries(CLASS_HIERARCHY).find(([, data]) => 
+          data.subClasses.includes(buildData.mainClass) || data.name === buildData.mainClass
+        )?.[0] || 'Soldier';
+        setSelectedMainBaseClass(mainBaseClass);
+      }
+      
+      if (buildData.selectedSubBaseClass) {
+        setSelectedSubBaseClass(buildData.selectedSubBaseClass);
+      } else {
+        // Find base class for sub class
+        const subBaseClass = Object.entries(CLASS_HIERARCHY).find(([, data]) => 
+          data.subClasses.includes(buildData.subClass) || data.name === buildData.subClass
+        )?.[0] || 'Soldier';
+        setSelectedSubBaseClass(subBaseClass);
+      }
+      
       setTotalPoints(buildData.totalPoints || MAX_POINTS);
       setCharacterLevel(buildData.characterLevel || 60);
       setFood(buildData.food || 'None');
@@ -939,6 +1035,8 @@ export default function SL2Calculator() {
       setWarwalk(buildData.warwalk || false);
       setEndurance(buildData.endurance || false);
       setLuminaryElement(buildData.luminaryElement || false);
+      setPersistenceOfNormalcy(buildData.persistenceOfNormalcy || false);
+      setPowerOfNormalcy(buildData.powerOfNormalcy || false);
       setMainClassPassive(buildData.mainClassPassive || 0);
       setSubClassPassive(buildData.subClassPassive || 0);
       
@@ -972,6 +1070,11 @@ export default function SL2Calculator() {
     setSubrace(template.subrace);
     setMainClass(template.mainClass);
     setSubClass(template.subClass);
+    
+    // Set base class information for templates
+    setSelectedMainBaseClass((template as any).selectedMainBaseClass || template.mainClass);
+    setSelectedSubBaseClass((template as any).selectedSubBaseClass || template.subClass);
+    
     setCharacterLevel(60); // Default level for templates
     setFood('None');
     setHistory(template.history || 'None');
@@ -1013,6 +1116,8 @@ export default function SL2Calculator() {
     setWarwalk(false);
     setEndurance(false);
     setLuminaryElement(false);
+    setPersistenceOfNormalcy(false);
+    setPowerOfNormalcy(false);
     setMainClassPassive(0);
     setSubClassPassive(0);
     
@@ -1069,11 +1174,13 @@ export default function SL2Calculator() {
       warwalk,
       endurance,
       luminaryElement,
+      persistenceOfNormalcy,
+      powerOfNormalcy,
       mainClassPassive,
       subClassPassive,
       elementalATKAdjustments,
       elementalRESAdjustments,
-      version: "0.2.1"
+      version: "0.3.0"
     };
 
     try {
@@ -1350,15 +1457,48 @@ export default function SL2Calculator() {
     return bonuses;
   };
 
+  // Helper function to get the base class for any given class
+  const getBaseClass = (className: string): string => {
+    // Check if the class is already a base class
+    if (CLASS_HIERARCHY[className]?.baseClass) {
+      return className;
+    }
+    
+    // Find which base class this promotion class belongs to
+    for (const [baseClassName, classData] of Object.entries(CLASS_HIERARCHY)) {
+      if (classData.baseClass && classData.subClasses.includes(className)) {
+        return baseClassName;
+      }
+    }
+    
+    // If not found in hierarchy, assume it's the class itself
+    return className;
+  };
+
   // Get class passive bonuses
   const getClassPassiveBonus = (className: string, rank: number): Partial<StatRecord> => {
-    const passive = CLASS_PASSIVES[className];
-    if (!passive || rank === 0) return {};
+    if (rank === 0) return {};
     
     const bonuses: Partial<StatRecord> = {};
-    Object.entries(passive.stats).forEach(([stat, value]) => {
-      bonuses[stat as StatKey] = (value || 0) * rank;
-    });
+    
+    // Check for passive in the current class
+    const classPassive = CLASS_PASSIVES[className];
+    if (classPassive) {
+      Object.entries(classPassive.stats).forEach(([stat, value]) => {
+        bonuses[stat as StatKey] = (bonuses[stat as StatKey] || 0) + (value || 0) * rank;
+      });
+    }
+    
+    // Also check for base class passive (if different from current class)
+    const baseClass = getBaseClass(className);
+    if (baseClass !== className) {
+      const basePassive = CLASS_PASSIVES[baseClass];
+      if (basePassive) {
+        Object.entries(basePassive.stats).forEach(([stat, value]) => {
+          bonuses[stat as StatKey] = (bonuses[stat as StatKey] || 0) + (value || 0) * rank;
+        });
+      }
+    }
     
     // Special case for Dark Bard - extra STR bonus at rank 7+
     if (className === 'Dark Bard' && rank >= 7) {
@@ -1411,6 +1551,73 @@ export default function SL2Calculator() {
     return Math.floor(effectiveApt / APTITUDE_NUMBER);
   };
 
+  // Get combined class passive bonuses, avoiding double-counting base class passives
+  const getCombinedClassPassiveBonuses = (mainClass: string, mainRank: number, subClass: string, subRank: number): Partial<StatRecord> => {
+    const bonuses: Partial<StatRecord> = {};
+    
+    // Get main class bonuses
+    const mainBonuses = getClassPassiveBonus(mainClass, mainRank);
+    Object.entries(mainBonuses).forEach(([stat, value]) => {
+      bonuses[stat as StatKey] = (bonuses[stat as StatKey] || 0) + (value || 0);
+    });
+    
+    // Get sub class bonuses
+    const subBonuses = getClassPassiveBonus(subClass, subRank);
+    
+    // Check if main and sub classes share the same base class
+    const mainBaseClass = getBaseClass(mainClass);
+    const subBaseClass = getBaseClass(subClass);
+    const sharedBaseClass = mainBaseClass === subBaseClass ? mainBaseClass : null;
+    
+    // Apply sub class bonuses, but subtract shared base class passive if it would be double-counted
+    Object.entries(subBonuses).forEach(([stat, value]) => {
+      let adjustedValue = value || 0;
+      
+      // If classes share a base class and both would inherit the same base passive, subtract one instance
+      if (sharedBaseClass && sharedBaseClass !== mainClass && sharedBaseClass !== subClass) {
+        const basePassive = CLASS_PASSIVES[sharedBaseClass];
+        if (basePassive && basePassive.stats[stat as StatKey]) {
+          // Only subtract if both classes are actually inheriting from base (not using their own passive)
+          const mainHasOwnPassive = CLASS_PASSIVES[mainClass] !== undefined;
+          const subHasOwnPassive = CLASS_PASSIVES[subClass] !== undefined;
+          
+          if (!mainHasOwnPassive && !subHasOwnPassive) {
+            // Both classes are inheriting from base, so subtract one instance
+            adjustedValue -= (basePassive.stats[stat as StatKey] || 0) * subRank;
+          }
+        }
+      }
+      
+      bonuses[stat as StatKey] = (bonuses[stat as StatKey] || 0) + adjustedValue;
+    });
+    
+    return bonuses;
+  };
+
+  // Helper function to check if a class has access to a passive (either its own or inherited)
+  const hasClassPassive = (className: string): boolean => {
+    // Check if class has its own passive
+    if (CLASS_PASSIVES[className]) return true;
+    
+    // Check if class can inherit a passive from its base class
+    const baseClass = getBaseClass(className);
+    return baseClass !== className && CLASS_PASSIVES[baseClass] !== undefined;
+  };
+
+  // Get the passive for a class (either its own or inherited from base class)
+  const getClassPassiveData = (className: string): ClassPassive | undefined => {
+    // Check for class's own passive first
+    if (CLASS_PASSIVES[className]) return CLASS_PASSIVES[className];
+    
+    // Check for base class passive
+    const baseClass = getBaseClass(className);
+    if (baseClass !== className && CLASS_PASSIVES[baseClass]) {
+      return CLASS_PASSIVES[baseClass];
+    }
+    
+    return undefined;
+  };
+
   const aptitudeBonus = Math.max(0, getAptitudeBonus());
   const leBonus = getLEBonus();
   const astroBonus = getAstrologyBonus();
@@ -1418,8 +1625,7 @@ export default function SL2Calculator() {
   const historyBonus = HISTORY[history];
   const sanguineBonus = (sanguineCrest && (subrace === 'Oni' || subrace === 'Vampire')) ? 2 : 0;
   const risingGameBonus = calculateRisingGame();
-  const mainPassiveBonus = getClassPassiveBonus(mainClass, mainClassPassive);
-  const subPassiveBonus = getClassPassiveBonus(subClass, subClassPassive);
+  const combinedPassiveBonuses = getCombinedClassPassiveBonuses(mainClass, mainClassPassive, subClass, subClassPassive);
 
   // Karakuri youkai modifiers
   const getKarakuriYoukaiBonus = (): StatRecord => {
@@ -1460,15 +1666,28 @@ export default function SL2Calculator() {
     // Sanguine Crest only affects STR, WIL, SKI, CEL, DEF
     const sanguineBonusForStat = (['str', 'wil', 'ski', 'cel', 'def'].includes(statName)) ? sanguineBonus : 0;
     
+    // Power of Normalcy affects all stats except APT
+    const powerOfNormalcyBonus = (() => {
+      if (statName === 'apt' || !powerOfNormalcy) return 0;
+      
+      const mainIsBase = Object.values(CLASS_HIERARCHY).some(data => data.name === mainClass && data.baseClass);
+      const subIsBase = Object.values(CLASS_HIERARCHY).some(data => data.name === subClass && data.baseClass);
+      
+      if (mainIsBase && subIsBase) {
+        return mainClass === subClass ? 8 : 4; // Same Base Class: +8, Both Base Classes: +4
+      }
+      return 0;
+    })();
+    
     const addedValue = addedStats[statName] 
       + (astroBonus[statName] || 0) 
       + (foodBonus[statName as keyof FoodBonus] || 0) 
       + (historyBonus[statName as keyof HistoryBonus] || 0)
       + stampValue 
       + sanguineBonusForStat
+      + powerOfNormalcyBonus
       + (risingGameBonus[statName] || 0)
-      + (mainPassiveBonus[statName] || 0)
-      + (subPassiveBonus[statName] || 0)
+      + (combinedPassiveBonuses[statName] || 0)
       + (leBonus[statName] || 0); // Legend Extend now added BEFORE diminishing returns
     
     const classValue = classData?.[statName] || 0;
@@ -1496,15 +1715,28 @@ export default function SL2Calculator() {
     // Sanguine Crest only affects STR, WIL, SKI, CEL, DEF
     const sanguineBonusForStat = (['str', 'wil', 'ski', 'cel', 'def'].includes(statName)) ? sanguineBonus : 0;
     
+    // Power of Normalcy affects all stats except APT
+    const powerOfNormalcyBonus = (() => {
+      if (statName === 'apt' || !powerOfNormalcy) return 0;
+      
+      const mainIsBase = Object.values(CLASS_HIERARCHY).some(data => data.name === mainClass && data.baseClass);
+      const subIsBase = Object.values(CLASS_HIERARCHY).some(data => data.name === subClass && data.baseClass);
+      
+      if (mainIsBase && subIsBase) {
+        return mainClass === subClass ? 8 : 4; // Same Base Class: +8, Both Base Classes: +4
+      }
+      return 0;
+    })();
+    
     const addedValue = addedStats[statName] 
       + (astroBonus[statName] || 0) 
       + (foodBonus[statName as keyof FoodBonus] || 0) 
       + (historyBonus[statName as keyof HistoryBonus] || 0)
       + stampValue 
       + sanguineBonusForStat
+      + powerOfNormalcyBonus
       + (risingGameBonus[statName] || 0)
-      + (mainPassiveBonus[statName] || 0)
-      + (subPassiveBonus[statName] || 0)
+      + (combinedPassiveBonuses[statName] || 0)
       + (leBonus[statName] || 0);
     
     const classValue = (classData?.[statName] || 0) * monoclassModifier;
@@ -1610,6 +1842,20 @@ export default function SL2Calculator() {
     
     maxHP += customHP;
     
+    // Persistence of Normalcy
+    if (persistenceOfNormalcy) {
+      const mainIsBase = Object.values(CLASS_HIERARCHY).some(data => data.name === mainClass && data.baseClass);
+      const subIsBase = Object.values(CLASS_HIERARCHY).some(data => data.name === subClass && data.baseClass);
+      
+      if (mainIsBase && subIsBase) {
+        if (mainClass === subClass) {
+          maxHP += 200; // Same Base Class
+        } else {
+          maxHP += 100; // Both Base Classes
+        }
+      }
+    }
+    
     // Lich Magia Detremus: -30% HP (reduced by 1% per 2 Scaled SAN)
     if (subrace === 'Lich') {
       const sanModifier = Math.floor(stats.san / 2);
@@ -1676,8 +1922,7 @@ export default function SL2Calculator() {
         + stampValue 
         + sanguineBonusForStat
         + (risingGameBonus[statName] || 0)
-        + (mainPassiveBonus[statName] || 0)
-        + (subPassiveBonus[statName] || 0);
+        + (combinedPassiveBonuses[statName] || 0);
       
       const classValue = classData?.[statName] || 0;
       const customValue = customStats[statName];
@@ -1936,6 +2181,8 @@ export default function SL2Calculator() {
     setPainTolerance(0);
     setWarwalk(false);
     setEndurance(false);
+    setPersistenceOfNormalcy(false);
+    setPowerOfNormalcy(false);
     setMainClassPassive(0);
     setSubClassPassive(0);
     
@@ -2243,6 +2490,125 @@ export default function SL2Calculator() {
     );
   };
 
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Element;
+      if (!target.closest('.hierarchical-class-selector')) {
+        setShowMainClassDropdown(false);
+        setShowSubClassDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  // POE-style hierarchical class selection component
+  const HierarchicalClassSelector = ({ 
+    type, 
+    selectedBaseClass, 
+    selectedClass, 
+    onBaseClassChange, 
+    onClassChange, 
+    showDropdown, 
+    setShowDropdown 
+  }: {
+    type: 'Main' | 'Sub';
+    selectedBaseClass: string;
+    selectedClass: string;
+    onBaseClassChange: (baseClass: string) => void;
+    onClassChange: (className: string) => void;
+    showDropdown: boolean;
+    setShowDropdown: (show: boolean) => void;
+  }) => {
+    return (
+      <div className="relative hierarchical-class-selector">
+        <label className="block text-sm font-medium mb-2">{type} Class</label>
+        
+        {/* Selected class display */}
+        <div 
+          onClick={() => setShowDropdown(!showDropdown)}
+          className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 cursor-pointer hover:bg-gray-600 flex justify-between items-center"
+        >
+          <div className="flex flex-col">
+            <span className="text-white">{selectedClass}</span>
+            {selectedClass !== selectedBaseClass && (
+              <span className="text-xs text-gray-400">from {selectedBaseClass}</span>
+            )}
+          </div>
+          <span className="text-gray-400">▼</span>
+        </div>
+
+        {/* Dropdown menu */}
+        {showDropdown && (
+          <div className="absolute z-50 w-full mt-1 bg-gray-800 border border-gray-600 rounded shadow-lg max-h-80 overflow-y-auto">
+            <div className="px-3 py-2 text-xs text-gray-400 bg-gray-900 border-b border-gray-700">
+              💡 Select a base class or its promotion class
+            </div>
+            {Object.entries(CLASS_HIERARCHY).map(([baseClassName, baseClassData]) => (
+              <div key={baseClassName} className="border-b border-gray-700 last:border-b-0">
+                {/* Base class header - styled like POE skill tree nodes */}
+                <div 
+                  className={`px-4 py-3 text-sm font-bold cursor-pointer transition-colors border-l-4 relative ${
+                    selectedBaseClass === baseClassName 
+                      ? 'bg-red-800 text-red-100 border-red-400' 
+                      : 'bg-red-700 text-red-200 border-red-500 hover:bg-red-600 hover:border-red-400'
+                  }`}
+                  onClick={() => {
+                    onBaseClassChange(baseClassName);
+                    onClassChange(baseClassName); // Set base class as selected
+                    setShowDropdown(false);
+                  }}
+                >
+                  <div className="flex items-center justify-between">
+                    <span>⚔️ {baseClassName}</span>
+                    <span className="text-xs opacity-75">
+                      {selectedClass === baseClassName ? '✓ Selected' : 'Click to select'}
+                    </span>
+                  </div>
+                </div>
+                
+                {/* Subclasses header */}
+                <div className="px-4 py-1 text-xs text-gray-500 bg-gray-800 border-l-2 border-gray-600 ml-2">
+                  Promotion Classes:
+                </div>
+                
+                {/* Subclasses - styled like POE ascendancy classes */}
+                <div className="bg-gray-900">
+                  {baseClassData.subClasses.map(subClassName => (
+                    <div
+                      key={subClassName}
+                      className={`px-6 py-2 text-sm cursor-pointer transition-colors border-l-2 ml-2 relative ${
+                        selectedClass === subClassName
+                          ? 'bg-blue-800 text-blue-100 border-blue-400'
+                          : 'text-gray-300 border-gray-600 hover:bg-gray-700 hover:border-blue-500'
+                      }`}
+                      onClick={() => {
+                        onBaseClassChange(baseClassName);
+                        onClassChange(subClassName);
+                        setShowDropdown(false);
+                      }}
+                    >
+                      <div className="flex items-center justify-between">
+                        <span>↳ {subClassName}</span>
+                        {selectedClass === subClassName && (
+                          <span className="text-xs opacity-75">✓</span>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  };
+
   const elements = ['Fire', 'Ice', 'Wind', 'Earth', 'Dark', 'Water', 'Light', 'Lightning', 'Acid', 'Sound'];
 
   return (
@@ -2251,7 +2617,7 @@ export default function SL2Calculator() {
         <div className="bg-gray-800 rounded-lg shadow-xl p-6 mb-6">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-3xl font-bold">SL2 Calculator Suite</h1>
-            <div className="text-sm text-gray-400">Version 0.2.1a</div>
+            <div className="text-sm text-gray-400">Version 0.3.0a</div>
           </div>
 
           {/* Tab Navigation */}
@@ -2281,7 +2647,7 @@ export default function SL2Calculator() {
           {/* Stat Calculator Tab */}
           {activeTab === 'stats' && (
             <>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             <div>
               <label className="block text-sm font-medium mb-2">Race Category</label>
               <select
@@ -2329,73 +2695,115 @@ export default function SL2Calculator() {
               )}
             </div>
             
-            <div>
-              <label className="block text-sm font-medium mb-2">Main Class</label>
-              <select
-                value={mainClass}
-                onChange={(e) => {
-                  setMainClass(e.target.value);
-                  setMainClassPassive(0);
-                }}
-                className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2"
-              >
-                {Object.keys(CLASSES).map(c => (
-                  <option key={c} value={c}>{c}</option>
-                ))}
-              </select>
-            </div>
+            <HierarchicalClassSelector
+              type="Main"
+              selectedBaseClass={selectedMainBaseClass}
+              selectedClass={mainClass}
+              onBaseClassChange={(baseClass) => {
+                setSelectedMainBaseClass(baseClass);
+              }}
+              onClassChange={(className) => {
+                // Find which base class this subclass belongs to
+                const baseClass = Object.entries(CLASS_HIERARCHY).find(([, data]) => 
+                  data.subClasses.includes(className) || data.name === className
+                )?.[0] || selectedMainBaseClass;
+                setSelectedMainBaseClass(baseClass);
+                setMainClass(className);
+                setMainClassPassive(0);
+              }}
+              showDropdown={showMainClassDropdown}
+              setShowDropdown={setShowMainClassDropdown}
+            />
             
-            <div>
-              <label className="block text-sm font-medium mb-2">Sub Class</label>
-              <select
-                value={subClass}
-                onChange={(e) => {
-                  setSubClass(e.target.value);
-                  setSubClassPassive(0);
-                }}
-                className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2"
-              >
-                {Object.keys(CLASSES).map(c => (
-                  <option key={c} value={c}>{c}</option>
-                ))}
-              </select>
-            </div>
+            <HierarchicalClassSelector
+              type="Sub"
+              selectedBaseClass={selectedSubBaseClass}
+              selectedClass={subClass}
+              onBaseClassChange={(baseClass) => {
+                setSelectedSubBaseClass(baseClass);
+              }}
+              onClassChange={(className) => {
+                // Find which base class this subclass belongs to
+                const baseClass = Object.entries(CLASS_HIERARCHY).find(([, data]) => 
+                  data.subClasses.includes(className) || data.name === className
+                )?.[0] || selectedSubBaseClass;
+                setSelectedSubBaseClass(baseClass);
+                setSubClass(className);
+                setSubClassPassive(0);
+              }}
+              showDropdown={showSubClassDropdown}
+              setShowDropdown={setShowSubClassDropdown}
+            />
           </div>
 
           {/* Class Passive Rank selectors */}
-          {(CLASS_PASSIVES[mainClass] || CLASS_PASSIVES[subClass]) && (
+          {(hasClassPassive(mainClass) || hasClassPassive(subClass)) && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-              {CLASS_PASSIVES[mainClass] && (
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    {mainClass} Passive Rank ({CLASS_PASSIVES[mainClass].description})
-                  </label>
-                  <input
-                    type="number"
-                    min="0"
-                    max={mainClass === subClass ? 0 : CLASS_PASSIVES[mainClass].maxRank}
-                    value={mainClassPassive}
-                    onChange={(e) => setMainClassPassive(Number(e.target.value))}
-                    disabled={mainClass === subClass}
-                    className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2"
-                  />
-                </div>
-              )}
-              {CLASS_PASSIVES[subClass] && mainClass !== subClass && (
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    {subClass} Passive Rank ({CLASS_PASSIVES[subClass].description})
-                  </label>
-                  <input
-                    type="number"
-                    min="0"
-                    max={CLASS_PASSIVES[subClass].maxRank}
-                    value={subClassPassive}
-                    onChange={(e) => setSubClassPassive(Number(e.target.value))}
-                    className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2"
-                  />
-                </div>
-              )}
+              {(() => {
+                // Check if both classes share the same base class passive
+                const mainPassiveData = getClassPassiveData(mainClass);
+                const subPassiveData = getClassPassiveData(subClass);
+                const mainIsInherited = !CLASS_PASSIVES[mainClass];
+                const subIsInherited = !CLASS_PASSIVES[subClass];
+                const mainSourceClass = mainIsInherited ? getBaseClass(mainClass) : mainClass;
+                const subSourceClass = subIsInherited ? getBaseClass(subClass) : subClass;
+                const isSharedBaseClassPassive = mainIsInherited && subIsInherited && mainSourceClass === subSourceClass && mainClass !== subClass;
+                
+                const elements = [];
+                
+                // Main class passive (or shared passive if both inherit the same one)
+                if (hasClassPassive(mainClass)) {
+                  const displayName = mainIsInherited ? mainSourceClass : mainClass;
+                  const passiveData = mainPassiveData;
+                  
+                  elements.push(
+                    <div key="main">
+                      <label className="block text-sm font-medium mb-2">
+                        {displayName} Passive Rank {isSharedBaseClassPassive ? '(Main Class)' : ''} ({passiveData?.description})
+                      </label>
+                      <input
+                        type="number"
+                        min="0"
+                        max={mainClass === subClass ? 0 : passiveData?.maxRank || 0}
+                        value={mainClassPassive}
+                        onChange={(e) => {
+                          const value = Math.max(0, Math.min(Number(e.target.value), passiveData?.maxRank || 0));
+                          setMainClassPassive(value);
+                        }}
+                        disabled={mainClass === subClass}
+                        className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2"
+                      />
+                    </div>
+                  );
+                }
+                
+                // Sub class passive (only if it's different from main or if not shared base class passive)
+                if (hasClassPassive(subClass) && mainClass !== subClass && !isSharedBaseClassPassive) {
+                  const displayName = subIsInherited ? subSourceClass : subClass;
+                  const passiveData = subPassiveData;
+                  
+                  elements.push(
+                    <div key="sub">
+                      <label className="block text-sm font-medium mb-2">
+                        {displayName} Passive Rank (Sub Class) ({passiveData?.description})
+                      </label>
+                      <input
+                        type="number"
+                        min="0"
+                        max={passiveData?.maxRank || 0}
+                        value={subClassPassive}
+                        onChange={(e) => {
+                          const value = Math.max(0, Math.min(Number(e.target.value), passiveData?.maxRank || 0));
+                          setSubClassPassive(value);
+                        }}
+                        className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2"
+                      />
+                    </div>
+                  );
+                }
+                
+                return elements;
+              })()}
             </div>
           )}
 
@@ -2606,6 +3014,57 @@ export default function SL2Calculator() {
                   <div className="text-xs text-gray-400 ml-6">
                     WIL no longer increases all elements; increases your Starsign's element by 1 per 1 raw WIL (ignores diminishing returns)
                   </div>
+                </div>
+                
+                {/* Normalcy Talents */}
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={persistenceOfNormalcy}
+                    onChange={(e) => setPersistenceOfNormalcy(e.target.checked)}
+                    className="w-4 h-4"
+                  />
+                  <span>Persistence of Normalcy
+                    {persistenceOfNormalcy && (
+                      <span className="ml-2 text-green-400">
+                        {(() => {
+                          const mainIsBase = Object.values(CLASS_HIERARCHY).some(data => data.name === mainClass && data.baseClass);
+                          const subIsBase = Object.values(CLASS_HIERARCHY).some(data => data.name === subClass && data.baseClass);
+                          const isSame = mainClass === subClass;
+                          
+                          if (mainIsBase && subIsBase) {
+                            return isSame ? "✓ +200 HP (Same Base Classes)" : "✓ +100 HP (Both Base Classes)";
+                          }
+                          return "✗ Requires both classes to be Base Classes";
+                        })()}
+                      </span>
+                    )}
+                  </span>
+                </div>
+                
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={powerOfNormalcy}
+                    onChange={(e) => setPowerOfNormalcy(e.target.checked)}
+                    className="w-4 h-4"
+                  />
+                  <span>Power of Normalcy
+                    {powerOfNormalcy && (
+                      <span className="ml-2 text-green-400">
+                        {(() => {
+                          const mainIsBase = Object.values(CLASS_HIERARCHY).some(data => data.name === mainClass && data.baseClass);
+                          const subIsBase = Object.values(CLASS_HIERARCHY).some(data => data.name === subClass && data.baseClass);
+                          const isSame = mainClass === subClass;
+                          
+                          if (mainIsBase && subIsBase) {
+                            return isSame ? "✓ +8 All Stats (Same Base Classes)" : "✓ +4 All Stats (Both Base Classes)";
+                          }
+                          return "✗ Requires both classes to be Base Classes";
+                        })()}
+                      </span>
+                    )}
+                  </span>
                 </div>
                 
                 {/* Kaelensia Instinct Toggles */}
