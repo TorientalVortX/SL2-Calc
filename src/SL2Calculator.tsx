@@ -867,7 +867,7 @@ export default function SL2Calculator() {
       subClassPassive,
       elementalATKAdjustments,
       elementalRESAdjustments,
-      version: "0.2.0"
+      version: "0.2.1"
     };
 
     const jsonString = JSON.stringify(buildData, null, 2);
@@ -1073,7 +1073,7 @@ export default function SL2Calculator() {
       subClassPassive,
       elementalATKAdjustments,
       elementalRESAdjustments,
-      version: "0.2.0"
+      version: "0.2.1"
     };
 
     try {
@@ -1970,16 +1970,17 @@ export default function SL2Calculator() {
     const value = inputElement.value;
     let targetPoints = parseInt(value) || 0;
     
-    // Calculate hard cap: race base + custom base + manual points + LE bonus + history bonus ≤ 80
+    // Calculate hard cap: race base + custom base + manual points + LE bonus + history bonus + astrology bonus ≤ 80
     // Class stats do NOT count toward the hard cap
     const subraceData = SUBRACES[subrace];
     const raceBase = subraceData?.[statKey] || 0;
     const customBase = customBaseStats[statKey];
     const legendExtendBonus = leBonus[statKey] || 0;
     const currentHistoryBonus = (historyBonus as any)[statKey] || 0;
+    const currentAstrologyBonus = astroBonus[statKey] || 0;
     
     const totalBase = raceBase + customBase;
-    const maxAllowedManualPoints = 80 - totalBase - legendExtendBonus - currentHistoryBonus;
+    const maxAllowedManualPoints = 80 - totalBase - legendExtendBonus - currentHistoryBonus - currentAstrologyBonus;
     
     // Aggressive validation - clamp to valid range immediately, including dynamic hard cap
     targetPoints = Math.max(0, Math.min(MAX_POINTS, Math.min(maxAllowedManualPoints, targetPoints)));
@@ -2071,7 +2072,8 @@ export default function SL2Calculator() {
     const pointsAdded = addedStats[statKey];
     const legendExtendBonus = leBonus[statKey] || 0;
     const historyInvested = historyBonus[statKey as keyof HistoryBonus] || 0;
-    const totalInvested = pointsAdded + legendExtendBonus + historyInvested; // Include LE and History in invested display
+    const astrologyBonus = astroBonus[statKey] || 0;
+    const totalInvested = pointsAdded + legendExtendBonus + historyInvested + astrologyBonus; // Include LE, History, and Astrology in invested display
     const customFlat = customStats[statKey];
     
     // Get the color for this stat
@@ -2249,7 +2251,7 @@ export default function SL2Calculator() {
         <div className="bg-gray-800 rounded-lg shadow-xl p-6 mb-6">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-3xl font-bold">SL2 Calculator Suite</h1>
-            <div className="text-sm text-gray-400">Version 0.2.0a</div>
+            <div className="text-sm text-gray-400">Version 0.2.1a</div>
           </div>
 
           {/* Tab Navigation */}
