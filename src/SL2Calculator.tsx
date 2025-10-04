@@ -11,6 +11,36 @@ type StatKey = 'str' | 'wil' | 'ski' | 'cel' | 'def' | 'res' | 'vit' | 'fai' | '
 type StampKey = 'str' | 'wil' | 'ski' | 'cel' | 'vit' | 'fai';
 type ElementKey = 'Fire' | 'Ice' | 'Wind' | 'Earth' | 'Dark' | 'Water' | 'Light' | 'Lightning' | 'Acid' | 'Sound';
 
+// Stat color mapping based on SL2 themes
+const STAT_COLORS: Record<StatKey, string> = {
+  'str': '#ef4444',     // Red - Fire element
+  'wil': '#ffffff',     // White - Mental strength
+  'ski': '#06b6d4',     // Cyan - Ice element
+  'cel': '#34d399',     // Mint Green - Wind element
+  'def': '#92400e',     // Brown - Earth element
+  'res': '#7c3aed',     // Purple - Dark element
+  'vit': '#1e40af',     // Deep Blue - Water element
+  'fai': '#fbbf24',     // Yellow - Light element
+  'luc': '#f97316',     // Orange - Lightning element
+  'gui': '#22c55e',     // Sketchy Green - Acid element
+  'san': '#6b7280',     // Grey - Sound element
+  'apt': 'rainbow'      // Rainbow - Special gradient
+};
+
+// Element color mapping for Luminary Element aesthetic
+const ELEMENT_COLORS: Record<string, string> = {
+  'Fire': '#ef4444',      // Red - matches STR
+  'Ice': '#06b6d4',       // Cyan - matches SKI
+  'Wind': '#34d399',      // Mint Green - matches CEL
+  'Earth': '#92400e',     // Brown - matches DEF
+  'Dark': '#7c3aed',      // Purple - matches RES
+  'Water': '#1e40af',     // Deep Blue - matches VIT
+  'Light': '#fbbf24',     // Yellow - matches FAI
+  'Lightning': '#f97316', // Orange - matches LUC
+  'Acid': '#22c55e',      // Green - matches GUI
+  'Sound': '#6b7280'      // Grey - matches SAN
+};
+
 interface Stats {
   str: number;
   wil: number;
@@ -398,6 +428,7 @@ interface BuildData {
   painTolerance: number;
   warwalk: boolean;
   endurance: boolean;
+  luminaryElement: boolean;
   mainClassPassive: number;
   subClassPassive: number;
   elementalATKAdjustments: ElementalRecord;
@@ -492,17 +523,17 @@ const HISTORY: Record<string, HistoryBonus> = {
 };
 
 const LEGEND_EXTEND: Record<string, { stat: StatKey; name: string; color: string }> = {
-  'Axysal': { stat: 'str', name: 'Axys Al', color: '#ff6b6b' },
-  'Kashic': { stat: 'wil', name: 'Kash Ic', color: '#4ecdc4' },
-  'Zerogyn': { stat: 'ski', name: 'Zero Gyn', color: '#95e1d3' },
-  'Rabeur': { stat: 'cel', name: 'Rabe Ur', color: '#f9ca24' },
-  'Grenut': { stat: 'def', name: 'Gren Ut', color: '#a29bfe' },
-  'Choier': { stat: 'res', name: 'Choi Er', color: '#fd79a8' },
-  'Bldiia': { stat: 'vit', name: 'Bldi Ia', color: '#55efc4' },
-  'Holymr': { stat: 'fai', name: 'Holy Mr', color: '#ffeaa7' },
-  'Kagiji': { stat: 'luc', name: 'Kagi Ji', color: '#74b9ff' },
-  'Akurzo': { stat: 'gui', name: 'Akur Zo', color: '#a29bfe' },
-  'Luncau': { stat: 'san', name: 'Luna Cu', color: '#dfe6e9' }
+  'Axysal': { stat: 'str', name: 'Axys Al', color: STAT_COLORS.str },
+  'Kashic': { stat: 'wil', name: 'Kash Ic', color: STAT_COLORS.wil },
+  'Zerogyn': { stat: 'ski', name: 'Zero Gyn', color: STAT_COLORS.ski },
+  'Rabeur': { stat: 'cel', name: 'Rabe Ur', color: STAT_COLORS.cel },
+  'Grenut': { stat: 'def', name: 'Gren Ut', color: STAT_COLORS.def },
+  'Choier': { stat: 'res', name: 'Choi Er', color: STAT_COLORS.res },
+  'Bldiia': { stat: 'vit', name: 'Bldi Ia', color: STAT_COLORS.vit },
+  'Holymr': { stat: 'fai', name: 'Holy Mr', color: STAT_COLORS.fai },
+  'Kagiji': { stat: 'luc', name: 'Kagi Ji', color: STAT_COLORS.luc },
+  'Akurzo': { stat: 'gui', name: 'Akur Zo', color: STAT_COLORS.gui },
+  'Luncau': { stat: 'san', name: 'Luna Cu', color: STAT_COLORS.san }
 };
 
 const ASTROLOGY_PLANETS: Record<string, StatKey> = {
@@ -653,6 +684,43 @@ const STAT_INFO: Record<string, { title: string; description: string; effects: s
   }
 };
 
+// Template builds based on stat optimization notes
+const TEMPLATE_BUILDS = {
+  'soldier': {
+    name: 'Human Soldier',
+    description: 'Basic physical fighter build. High STR for weapon damage, good defenses, and survivability.',
+    stats: { str: 58, wil: 0, ski: 54, cel: 0, def: 20, res: 15, vit: 40, fai: 0, luc: 17, gui: 0, san: 0, apt: 36 },
+    race: 'Human',
+    subrace: 'Imperialist',
+    mainClass: 'Soldier',
+    subClass: 'Soldier',
+    history: 'Warrior',
+    reasoning: 'STR for weapon scaling, SKI for accuracy, balanced defenses, VIT for HP. Warrior history provides +2 STR, +1 SKI as invested points.'
+  },
+  'mage': {
+    name: 'Human Mage',
+    description: 'Basic magical caster build. High WIL for FP and spell power, focus on elemental damage.',
+    stats: { str: 0, wil: 58, ski: 55, cel: 0, def: 15, res: 20, vit: 40, fai: 16, luc: 0, gui: 0, san: 0, apt: 36 },
+    race: 'Human',
+    subrace: 'Imperialist',
+    mainClass: 'Mage',
+    subClass: 'Mage',
+    history: 'Magician',
+    reasoning: 'WIL for FP and elemental damage, SKI for accuracy, RES for magical defense. Magician history provides +2 WIL, +1 CEL as invested points.'
+  },
+  'rogue': {
+    name: 'Human Rogue',
+    description: 'Basic agility build. Focus on critical hits, evasion, and finesse weapons like daggers.',
+    stats: { str: 0, wil: 0, ski: 53, cel: 35, def: 10, res: 10, vit: 40, fai: 0, luc: 44, gui: 12, san: 0, apt: 36 },
+    race: 'Human',
+    subrace: 'Imperialist',
+    mainClass: 'Rogue',
+    subClass: 'Rogue',
+    history: 'Assassin',
+    reasoning: 'CEL for evasion, LUC for critical chance, GUI for critical damage, SKI for accuracy. Assassin history provides +2 SKI, +1 LUC as invested points.'
+  }
+};
+
 export default function SL2Calculator() {
   // Get first race and first subrace on initial load
   const firstRace = Object.keys(RACES)[0];
@@ -712,6 +780,7 @@ export default function SL2Calculator() {
   const [painTolerance, setPainTolerance] = useState(0);
   const [warwalk, setWarwalk] = useState(false);
   const [endurance, setEndurance] = useState(false);
+  const [luminaryElement, setLuminaryElement] = useState(false);
   
   // Class passive ranks
   const [mainClassPassive, setMainClassPassive] = useState(0);
@@ -738,6 +807,7 @@ export default function SL2Calculator() {
   const [showStamps, setShowStamps] = useState(false);
   const [showCustomStats, setShowCustomStats] = useState(false);
   const [showTalents, setShowTalents] = useState(false);
+  const [showRawStats, setShowRawStats] = useState(false); // Toggle for Raw vs True stats
 
   // Import/Export state
   const [showImportExport, setShowImportExport] = useState(false);
@@ -792,11 +862,12 @@ export default function SL2Calculator() {
       painTolerance,
       warwalk,
       endurance,
+      luminaryElement,
       mainClassPassive,
       subClassPassive,
       elementalATKAdjustments,
       elementalRESAdjustments,
-      version: "0.1.1"
+      version: "0.2.0"
     };
 
     const jsonString = JSON.stringify(buildData, null, 2);
@@ -867,6 +938,7 @@ export default function SL2Calculator() {
       setPainTolerance(buildData.painTolerance || 0);
       setWarwalk(buildData.warwalk || false);
       setEndurance(buildData.endurance || false);
+      setLuminaryElement(buildData.luminaryElement || false);
       setMainClassPassive(buildData.mainClassPassive || 0);
       setSubClassPassive(buildData.subClassPassive || 0);
       
@@ -883,6 +955,78 @@ export default function SL2Calculator() {
       console.error('Failed to import build:', error);
       return false;
     }
+  };
+
+  /**
+   * Load a template build
+   */
+  const loadTemplate = (templateKey: string): void => {
+    const template = TEMPLATE_BUILDS[templateKey as keyof typeof TEMPLATE_BUILDS];
+    if (!template) {
+      console.error('Template not found:', templateKey);
+      return;
+    }
+
+    // Reset to clean state first
+    setRace(template.race);
+    setSubrace(template.subrace);
+    setMainClass(template.mainClass);
+    setSubClass(template.subClass);
+    setCharacterLevel(60); // Default level for templates
+    setFood('None');
+    setHistory(template.history || 'None');
+    
+    // Set stats from template
+    setAddedStats(template.stats);
+    
+    // Clear custom modifications
+    setCustomStats({
+      str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0,
+      vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0
+    });
+    setCustomBaseStats({
+      str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0,
+      vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0
+    });
+    setStamps({ str: 0, wil: 0, ski: 0, cel: 0, vit: 0, fai: 0 });
+    setLegendExtend({});
+    setAstrology('');
+    
+    // Clear all modifiers
+    setCustomHP(0);
+    setCustomFP(0);
+    setBaseEvade(0);
+    setBonusEvade(0);
+    setGiantGene(false);
+    setDragonKing(0);
+    setDragonQueen(0);
+    setHpPercent(100);
+    setSanguineCrest(false);
+    setFelidaeInstinct(false);
+    setLupineInstinct(false);
+    setRisingGame(0);
+    setRedtailFortuneLevel(1);
+    setRedtailDiceColor('red');
+    setKarakuriYoukai('None');
+    setFortitude(false);
+    setPainTolerance(0);
+    setWarwalk(false);
+    setEndurance(false);
+    setLuminaryElement(false);
+    setMainClassPassive(0);
+    setSubClassPassive(0);
+    
+    // Clear elemental adjustments
+    setElementalATKAdjustments({
+      Fire: 0, Ice: 0, Wind: 0, Earth: 0, Dark: 0, Water: 0, Light: 0, Lightning: 0, Acid: 0, Sound: 0
+    });
+    setElementalRESAdjustments({
+      Fire: 0, Ice: 0, Wind: 0, Earth: 0, Dark: 0, Water: 0, Light: 0, Lightning: 0, Acid: 0, Sound: 0
+    });
+
+    // Calculate remaining points
+    const pointsSpent = Object.values(template.stats).reduce((sum: number, val: number) => sum + val, 0);
+    setTotalPoints(Math.max(0, 240 - pointsSpent)); // 60 * 4 = 240 points
   };
 
   /**
@@ -924,11 +1068,12 @@ export default function SL2Calculator() {
       painTolerance,
       warwalk,
       endurance,
+      luminaryElement,
       mainClassPassive,
       subClassPassive,
       elementalATKAdjustments,
       elementalRESAdjustments,
-      version: "0.1.1"
+      version: "0.2.0"
     };
 
     try {
@@ -955,14 +1100,17 @@ export default function SL2Calculator() {
   };
 
   /**
-   * Handle race change - auto-select the base race subrace and reset if not available
+   * Handle race change - auto-select the base race subrace and reset if not available, then validate stat caps
    */
   const handleRaceChange = (newRace: string): void => {
     setRace(newRace);
     
+    let finalSubrace = subrace;
+    
     // Auto-select the base race as subrace if it exists
     if (SUBRACES[newRace]) {
       setSubrace(newRace);
+      finalSubrace = newRace;
     } else {
       // Find available subraces for this race
       const availableSubraces = Object.keys(SUBRACES).filter(subraceKey => {
@@ -973,13 +1121,19 @@ export default function SL2Calculator() {
       
       // If current subrace is not available for the new race, reset to first available
       if (!availableSubraces.includes(subrace)) {
-        setSubrace(availableSubraces[0] || newRace);
+        const newSubrace = availableSubraces[0] || newRace;
+        setSubrace(newSubrace);
+        finalSubrace = newSubrace;
       }
     }
+
+    // Validate and adjust stats to ensure they don't exceed hard caps with the new race/subrace
+    const adjustedStats = validateStatCaps(finalSubrace, customBaseStats, legendExtend, addedStats, history);
+    setAddedStats(adjustedStats);
   };
 
   /**
-   * Handle subrace change - disable Sanguine Crest if not Oni/Vampire
+   * Handle subrace change - disable Sanguine Crest if not Oni/Vampire and validate stat caps
    */
   const handleSubraceChange = (newSubrace: string): void => {
     setSubrace(newSubrace);
@@ -993,6 +1147,113 @@ export default function SL2Calculator() {
     if (newSubrace !== 'Karakuri') {
       setKarakuriYoukai('None');
     }
+
+    // Validate and adjust stats to ensure they don't exceed hard caps
+    const adjustedStats = validateStatCaps(newSubrace, customBaseStats, legendExtend, addedStats, history);
+    setAddedStats(adjustedStats);
+  };
+
+  /**
+   * Validate and adjust stats to ensure they don't exceed hard caps (80 total)
+   * Returns adjusted addedStats that respect the hard cap: race base + custom base + manual points + LE bonus + history bonus ≤ 80
+   */
+  const validateStatCaps = (
+    newSubrace: string = subrace,
+    newCustomBaseStats: StatRecord = customBaseStats,
+    newLegendExtend: Record<string, boolean> = legendExtend,
+    currentAddedStats: StatRecord = addedStats,
+    newHistory: string = history
+  ): StatRecord => {
+    const adjustedStats = { ...currentAddedStats };
+    let totalPointsFreed = 0;
+
+    // Calculate Legend Extend bonuses for the given state
+    const newLeBonus: Partial<StatRecord> = {};
+    Object.entries(newLegendExtend).forEach(([key, enabled]) => {
+      if (enabled) {
+        const statKey = key.toLowerCase() as StatKey;
+        if (statKey in adjustedStats) {
+          newLeBonus[statKey] = (newLeBonus[statKey] || 0) + 1;
+        }
+      }
+    });
+
+    // Get history bonuses for the new history
+    const newHistoryBonus = HISTORY[newHistory];
+
+    // Check each stat for hard cap violations
+    Object.keys(adjustedStats).forEach(statKey => {
+      const stat = statKey as StatKey;
+      const subraceData = SUBRACES[newSubrace];
+      const raceBase = subraceData?.[stat] || 0;
+      const customBase = newCustomBaseStats[stat] || 0;
+      const legendExtendBonus = newLeBonus[stat] || 0;
+      const historyBonus = (newHistoryBonus as any)[stat] || 0;
+      const manualPoints = adjustedStats[stat];
+
+      const total = raceBase + customBase + manualPoints + legendExtendBonus + historyBonus;
+      
+      if (total > 80) {
+        // Calculate how many manual points we need to remove
+        const excess = total - 80;
+        const newManualPoints = Math.max(0, manualPoints - excess);
+        const pointsRemoved = manualPoints - newManualPoints;
+        
+        adjustedStats[stat] = newManualPoints;
+        totalPointsFreed += pointsRemoved;
+
+        // Update the input field to reflect the capped value
+        const inputElement = inputRefs.current[stat];
+        if (inputElement) {
+          inputElement.value = newManualPoints.toString();
+        }
+
+        // Log the cap adjustment for debugging
+        console.log(`Stat ${stat.toUpperCase()} capped: ${manualPoints} → ${newManualPoints} (${pointsRemoved} points freed)`);
+      }
+    });
+
+    // If we freed up points, update the total points available
+    if (totalPointsFreed > 0) {
+      setTotalPoints(prev => Math.min(MAX_POINTS, prev + totalPointsFreed));
+    }
+
+    return adjustedStats;
+  };
+
+  /**
+   * Handle custom base stat changes with validation
+   */
+  const handleCustomBaseStatChange = (stat: StatKey, value: number): void => {
+    const newCustomBaseStats = { ...customBaseStats, [stat]: value };
+    setCustomBaseStats(newCustomBaseStats);
+
+    // Validate and adjust manual stats to ensure they don't exceed hard caps
+    const adjustedStats = validateStatCaps(subrace, newCustomBaseStats, legendExtend, addedStats, history);
+    setAddedStats(adjustedStats);
+  };
+
+  /**
+   * Handle Legend Extend toggle with validation
+   */
+  const handleLegendExtendToggle = (key: string): void => {
+    const newLegendExtend = { ...legendExtend, [key]: !legendExtend[key] };
+    setLegendExtend(newLegendExtend);
+
+    // Validate and adjust manual stats to ensure they don't exceed hard caps
+    const adjustedStats = validateStatCaps(subrace, customBaseStats, newLegendExtend, addedStats, history);
+    setAddedStats(adjustedStats);
+  };
+
+  /**
+   * Handle history changes and validate stat caps
+   */
+  const handleHistoryChange = (newHistory: string): void => {
+    setHistory(newHistory);
+
+    // Validate and adjust manual stats to ensure they don't exceed hard caps
+    const adjustedStats = validateStatCaps(subrace, customBaseStats, legendExtend, addedStats, newHistory);
+    setAddedStats(adjustedStats);
   };
 
   // Calculate Rising Game bonus
@@ -1207,7 +1468,8 @@ export default function SL2Calculator() {
       + sanguineBonusForStat
       + (risingGameBonus[statName] || 0)
       + (mainPassiveBonus[statName] || 0)
-      + (subPassiveBonus[statName] || 0);
+      + (subPassiveBonus[statName] || 0)
+      + (leBonus[statName] || 0); // Legend Extend now added BEFORE diminishing returns
     
     const classValue = classData?.[statName] || 0;
     const customValue = customStats[statName];
@@ -1219,8 +1481,43 @@ export default function SL2Calculator() {
     const aptBonusToApply = statName === 'apt' ? 0 : aptitudeBonus;
     const effective = calculateDiminishingReturns(racialValue, addedValue, classValue, customValue, aptBonusToApply, dragonBonus);
     
-    // Add Legend Extend bonuses AFTER diminishing returns
-    return effective + (leBonus[statName] || 0);
+    // Legend Extend bonuses now included in addedValue before diminishing returns
+    return effective;
+  };
+
+  const getRawStat = (statName: StatKey): number => {
+    const subraceData = SUBRACES[subrace];
+    const classData = CLASSES[mainClass];
+    
+    // Raw stat is the total before diminishing returns are applied
+    const racialValue = (subraceData?.[statName] || 0) + customBaseStats[statName] + (karakuriYoukaiBonus[statName] || 0);
+    const stampValue = statName in stamps ? (stamps[statName as StampKey] || 0) : 0;
+    
+    // Sanguine Crest only affects STR, WIL, SKI, CEL, DEF
+    const sanguineBonusForStat = (['str', 'wil', 'ski', 'cel', 'def'].includes(statName)) ? sanguineBonus : 0;
+    
+    const addedValue = addedStats[statName] 
+      + (astroBonus[statName] || 0) 
+      + (foodBonus[statName as keyof FoodBonus] || 0) 
+      + (historyBonus[statName as keyof HistoryBonus] || 0)
+      + stampValue 
+      + sanguineBonusForStat
+      + (risingGameBonus[statName] || 0)
+      + (mainPassiveBonus[statName] || 0)
+      + (subPassiveBonus[statName] || 0)
+      + (leBonus[statName] || 0);
+    
+    const classValue = (classData?.[statName] || 0) * monoclassModifier;
+    const customValue = customStats[statName];
+    
+    let dragonBonus = 0;
+    if (statName === 'str') dragonBonus = dragonKing * 3;
+    if (statName === 'wil') dragonBonus = dragonQueen * 3;
+    
+    const aptBonusToApply = statName === 'apt' ? 0 : aptitudeBonus;
+    
+    // Raw stat = base + additions + class + custom + dragon + aptitude (no diminishing returns)
+    return racialValue + addedValue + classValue + customValue + dragonBonus + aptBonusToApply;
   };
 
   const stats: StatRecord = {
@@ -1238,18 +1535,41 @@ export default function SL2Calculator() {
     apt: getEffectiveStat('apt')
   };
 
+  const rawStats: StatRecord = {
+    str: getRawStat('str'),
+    wil: getRawStat('wil'),
+    ski: getRawStat('ski'),
+    cel: getRawStat('cel'),
+    def: getRawStat('def'),
+    res: getRawStat('res'),
+    vit: getRawStat('vit'),
+    fai: getRawStat('fai'),
+    luc: getRawStat('luc'),
+    gui: getRawStat('gui'),
+    san: getRawStat('san'),
+    apt: getRawStat('apt')
+  };
+
   // Apply instinct bonus after initial calculation
   const instinctBonus = calculateInstinct();
   Object.entries(instinctBonus).forEach(([stat, value]) => {
-    if (value) stats[stat as StatKey] += value;
+    if (value) {
+      stats[stat as StatKey] += value;
+      rawStats[stat as StatKey] += value; // Apply to raw stats too
+    }
   });
 
   if (dragonKing > 0) {
     stats.str = Math.floor(stats.str * (1 + 0.05 * dragonKing));
+    // Raw stats don't get the percentage bonus from dragon pieces - they already include the flat +3 per piece
   }
   if (dragonQueen > 0) {
     stats.wil = Math.floor(stats.wil * (1 + 0.05 * dragonQueen));
+    // Raw stats don't get the percentage bonus from dragon pieces - they already include the flat +3 per piece
   }
+
+  // Choose which stats to display
+  const displayStats = showRawStats ? rawStats : stats;
 
   const calculateMaxHP = (): number => {
     const raceData = RACES[race];
@@ -1337,17 +1657,79 @@ export default function SL2Calculator() {
   };
 
   const calculateElementalATK = (element: string): number => {
-    const statMap: Record<string, number> = {
-      'Fire': stats.str, 'Ice': stats.ski, 'Wind': stats.cel, 'Earth': stats.def,
-      'Dark': stats.res, 'Water': stats.vit, 'Light': stats.fai, 'Lightning': stats.luc,
-      'Acid': stats.gui, 'Sound': stats.san
+    // Helper function to get raw (unscaled) stat value for a given stat
+    const getRawStat = (statName: StatKey): number => {
+      const subraceData = SUBRACES[subrace];
+      const classData = CLASSES[mainClass];
+      
+      // Calculate the same way as getEffectiveStat but without diminishing returns
+      const racialValue = (subraceData?.[statName] || 0) + customBaseStats[statName] + (karakuriYoukaiBonus[statName] || 0);
+      const stampValue = statName in stamps ? (stamps[statName as StampKey] || 0) : 0;
+      
+      // Sanguine Crest only affects STR, WIL, SKI, CEL, DEF
+      const sanguineBonusForStat = (['str', 'wil', 'ski', 'cel', 'def'].includes(statName)) ? sanguineBonus : 0;
+      
+      const addedValue = addedStats[statName] 
+        + (astroBonus[statName] || 0) 
+        + (foodBonus[statName as keyof FoodBonus] || 0) 
+        + (historyBonus[statName as keyof HistoryBonus] || 0)
+        + stampValue 
+        + sanguineBonusForStat
+        + (risingGameBonus[statName] || 0)
+        + (mainPassiveBonus[statName] || 0)
+        + (subPassiveBonus[statName] || 0);
+      
+      const classValue = classData?.[statName] || 0;
+      const customValue = customStats[statName];
+      
+      let dragonBonus = 0;
+      if (statName === 'str') dragonBonus = dragonKing * 3;
+      if (statName === 'wil') dragonBonus = dragonQueen * 3;
+      
+      const aptBonusToApply = statName === 'apt' ? 0 : aptitudeBonus;
+      
+      // Return the raw total without diminishing returns, but include LE bonus
+      let rawTotal = racialValue + addedValue + (classValue * monoclassModifier) + customValue + aptBonusToApply + dragonBonus;
+      
+      // Add Legend Extend bonuses (these come after everything)
+      rawTotal += (leBonus[statName] || 0);
+      
+      return rawTotal;
     };
-    
+
+    const statMap: Record<string, StatKey> = {
+      'Fire': 'str', 'Ice': 'ski', 'Wind': 'cel', 'Earth': 'def',
+      'Dark': 'res', 'Water': 'vit', 'Light': 'fai', 'Lightning': 'luc',
+      'Acid': 'gui', 'Sound': 'san'
+    };
+
     // Add +2 elemental attack if the matching planet sign is selected
     const planetBonus = (astrology && PLANET_ELEMENTS[astrology] === element) ? 2 : 0;
     
-    // WIL adds to all elemental ATK except Sound and Acid (per 4 points)
-    const wilBonus = (element !== 'Sound' && element !== 'Acid') ? Math.floor(stats.wil / 4) : 0;
+    // Get the starsign's element if astrology is selected
+    const starsignElement = astrology ? PLANET_ELEMENTS[astrology] : null;
+    
+    let wilBonus = 0;
+    let statBonus = 0;
+    
+    if (luminaryElement) {
+      // Luminary Element: WIL no longer increases all elements
+      // Instead, it increases your Starsign's element by 1 per 1 WIL (no diminishing returns)
+      // The original stat that grants a bonus to this element no longer does so
+      if (starsignElement === element) {
+        // For starsign element: Raw WIL gives 1:1 bonus (ignoring diminishing returns), original stat gives 0
+        wilBonus = getRawStat('wil');
+        statBonus = 0;
+      } else {
+        // For other elements: no WIL bonus, use scaled stat bonus normally
+        wilBonus = 0;
+        statBonus = stats[statMap[element]];
+      }
+    } else {
+      // Normal WIL behavior: adds to all elemental ATK except Sound and Acid (per 4 points, using scaled WIL)
+      wilBonus = (element !== 'Sound' && element !== 'Acid') ? Math.floor(stats.wil / 4) : 0;
+      statBonus = stats[statMap[element]];
+    }
     
     // Add manual adjustment for this element
     const manualAdjustment = elementalATKAdjustments[element as ElementKey] || 0;
@@ -1362,7 +1744,7 @@ export default function SL2Calculator() {
       return Math.floor(characterLevel + planetBonus + manualAdjustment);
     }
     
-    return Math.floor(statMap[element] + wilBonus + planetBonus + manualAdjustment + raceBonus);
+    return Math.floor(statBonus + wilBonus + planetBonus + manualAdjustment + raceBonus);
   };
 
   const calculateElementalRES = (element: string): number => {
@@ -1474,8 +1856,20 @@ export default function SL2Calculator() {
     const currentValue = addedStats[statName];
     const availablePoints = totalPoints;
     
-    // Only add if we have points available and current value is valid
-    if (availablePoints > 0 && currentValue >= 0 && currentValue < MAX_POINTS) {
+    // Calculate hard cap: race base + custom base + manual points + LE bonus + history bonus ≤ 80
+    // Class stats do NOT count toward the hard cap
+    const subraceData = SUBRACES[subrace];
+    const raceBase = subraceData?.[statName] || 0;
+    const customBase = customBaseStats[statName];
+    const legendExtendBonus = leBonus[statName] || 0;
+    const currentHistoryBonus = (historyBonus as any)[statName] || 0;
+    
+    const totalBase = raceBase + customBase;
+    const currentTotal = totalBase + currentValue + legendExtendBonus + currentHistoryBonus;
+    const wouldExceedHardCap = currentTotal >= 80;
+    
+    // Only add if we have points available, current value is valid, and we haven't hit hard cap
+    if (availablePoints > 0 && currentValue >= 0 && currentValue < MAX_POINTS && !wouldExceedHardCap) {
       setAddedStats(prev => ({ ...prev, [statName]: prev[statName] + 1 }));
       setTotalPoints(prev => Math.max(0, prev - 1));
       
@@ -1576,8 +1970,19 @@ export default function SL2Calculator() {
     const value = inputElement.value;
     let targetPoints = parseInt(value) || 0;
     
-    // Aggressive validation - clamp to valid range immediately
-    targetPoints = Math.max(0, Math.min(MAX_POINTS, targetPoints));
+    // Calculate hard cap: race base + custom base + manual points + LE bonus + history bonus ≤ 80
+    // Class stats do NOT count toward the hard cap
+    const subraceData = SUBRACES[subrace];
+    const raceBase = subraceData?.[statKey] || 0;
+    const customBase = customBaseStats[statKey];
+    const legendExtendBonus = leBonus[statKey] || 0;
+    const currentHistoryBonus = (historyBonus as any)[statKey] || 0;
+    
+    const totalBase = raceBase + customBase;
+    const maxAllowedManualPoints = 80 - totalBase - legendExtendBonus - currentHistoryBonus;
+    
+    // Aggressive validation - clamp to valid range immediately, including dynamic hard cap
+    targetPoints = Math.max(0, Math.min(MAX_POINTS, Math.min(maxAllowedManualPoints, targetPoints)));
     
     const currentPoints = addedStats[statKey];
     
@@ -1654,7 +2059,7 @@ export default function SL2Calculator() {
   // Check if class/race has Rising Game/Pain Tolerance
   const hasGhost = mainClass === 'Ghost' || subClass === 'Ghost';
 
-  const StatRow = ({ label, statKey, color }: { label: string; statKey: StatKey; color: string }) => {
+  const StatRow = ({ label, statKey }: { label: string; statKey: StatKey }) => {
     const subraceData = SUBRACES[subrace];
     const classData = CLASSES[mainClass];
     
@@ -1664,7 +2069,23 @@ export default function SL2Calculator() {
     
     const totalBase = subraceBase + customBase;
     const pointsAdded = addedStats[statKey];
+    const legendExtendBonus = leBonus[statKey] || 0;
+    const historyInvested = historyBonus[statKey as keyof HistoryBonus] || 0;
+    const totalInvested = pointsAdded + legendExtendBonus + historyInvested; // Include LE and History in invested display
     const customFlat = customStats[statKey];
+    
+    // Get the color for this stat
+    let statColor = STAT_COLORS[statKey];
+    let isRainbow = statColor === 'rainbow';
+    
+    // Special case: WIL with Luminary Element changes to element color
+    if (statKey === 'wil' && luminaryElement && astrology && PLANET_ELEMENTS[astrology]) {
+      const elementColor = ELEMENT_COLORS[PLANET_ELEMENTS[astrology]];
+      if (elementColor) {
+        statColor = elementColor;
+        isRainbow = false; // Override rainbow if it was set
+      }
+    }
     
     // Build detailed tooltip showing all sources
     const tooltipParts = [
@@ -1674,17 +2095,22 @@ export default function SL2Calculator() {
       pointsAdded > 0 ? `Points Added: ${pointsAdded}` : null,
       customFlat !== 0 ? `Custom Flat Bonus: ${customFlat}` : null,
       astroBonus[statKey] ? `Astrology: ${astroBonus[statKey]}` : null,
-      leBonus[statKey] ? `Legend Extend (after DR): +${leBonus[statKey]}` : null,
+      leBonus[statKey] ? `Legend Extend: +${leBonus[statKey]}` : null,
       foodBonus[statKey as keyof FoodBonus] ? `Food: ${foodBonus[statKey as keyof FoodBonus]}` : null,
       historyBonus[statKey as keyof HistoryBonus] ? `History: ${historyBonus[statKey as keyof HistoryBonus]}` : null,
-      `Final (after DR): ${stats[statKey].toFixed(1)}`
+      showRawStats ? `Raw Total: ${displayStats[statKey].toFixed(1)}` : `Final (after DR): ${displayStats[statKey].toFixed(1)}`
     ].filter(Boolean).join('\n');
 
     return (
       <div className="flex items-center gap-2 py-2 border-b border-gray-700">
         <button 
           className="w-24 font-semibold text-left hover:underline cursor-pointer" 
-          style={{ color }} 
+          style={isRainbow ? {
+            background: 'linear-gradient(45deg, #ff0000, #ff8000, #ffff00, #80ff00, #00ff00, #00ff80, #00ffff, #0080ff, #0000ff, #8000ff, #ff00ff, #ff0080)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text'
+          } : { color: statColor }} 
           title="Click for detailed info"
           onClick={() => {
             setSelectedStat(statKey);
@@ -1703,9 +2129,37 @@ export default function SL2Calculator() {
         </button>
         <button
           onClick={() => addStat(statKey)}
-          disabled={totalPoints === 0}
+          disabled={(() => {
+            if (totalPoints === 0) return true;
+            
+            // Calculate current bonuses for this stat using same logic as addStat
+            // Class stats do NOT count toward the hard cap
+            const subraceData = SUBRACES[subrace];
+            const raceBase = subraceData?.[statKey] || 0;
+            const customBase = customBaseStats[statKey];
+            const legendExtendBonus = leBonus[statKey] || 0;
+            const currentHistoryBonus = (historyBonus as any)[statKey] || 0;
+            
+            const totalBase = raceBase + customBase;
+            const maxAllowedManualPoints = 80 - totalBase - legendExtendBonus - currentHistoryBonus;
+            
+            return addedStats[statKey] >= maxAllowedManualPoints;
+          })()}
           className="p-1 bg-green-600 hover:bg-green-700 disabled:bg-gray-700 disabled:cursor-not-allowed rounded"
-          title="Add 1 point"
+          title={(() => {
+            const subraceData = SUBRACES[subrace];
+            const raceBase = subraceData?.[statKey] || 0;
+            const customBase = customBaseStats[statKey];
+            const legendExtendBonus = leBonus[statKey] || 0;
+            const currentHistoryBonus = (historyBonus as any)[statKey] || 0;
+            
+            const totalBase = raceBase + customBase;
+            const maxAllowedManualPoints = 80 - totalBase - legendExtendBonus - currentHistoryBonus;
+            
+            return addedStats[statKey] >= maxAllowedManualPoints ? 
+              `Hard cap reached (max ${maxAllowedManualPoints} manual points with race+custom base ${totalBase} + LE ${legendExtendBonus} + History ${currentHistoryBonus})` : 
+              "Add 1 point";
+          })()}
         >
           <Plus size={16} />
         </button>
@@ -1713,7 +2167,17 @@ export default function SL2Calculator() {
           ref={(el) => { if (el) inputRefs.current[statKey] = el; }}
           type="number"
           min="0"
-          max={MAX_POINTS} // Prevent entering values above max points
+          max={(() => {
+            // Class stats do NOT count toward the hard cap
+            const subraceData = SUBRACES[subrace];
+            const raceBase = subraceData?.[statKey] || 0;
+            const customBase = customBaseStats[statKey];
+            const legendExtendBonus = leBonus[statKey] || 0;
+            const currentHistoryBonus = (historyBonus as any)[statKey] || 0;
+            
+            const totalBase = raceBase + customBase;
+            return 80 - totalBase - legendExtendBonus - currentHistoryBonus;
+          })()}
           defaultValue={pointsAdded}
           key={`${statKey}-${pointsAdded}`} // Force reset when points change via +/- buttons
           onInput={(e) => {
@@ -1721,11 +2185,22 @@ export default function SL2Calculator() {
             const input = e.currentTarget;
             const value = parseInt(input.value) || 0;
             
-            // Basic range validation during typing
+            // Calculate dynamic hard cap
+            // Class stats do NOT count toward the hard cap
+            const subraceData = SUBRACES[subrace];
+            const raceBase = subraceData?.[statKey] || 0;
+            const customBase = customBaseStats[statKey];
+            const legendExtendBonus = leBonus[statKey] || 0;
+            const currentHistoryBonus = (historyBonus as any)[statKey] || 0;
+            
+            const totalBase = raceBase + customBase;
+            const maxAllowedManualPoints = 80 - totalBase - legendExtendBonus - currentHistoryBonus;
+            
+            // Basic range validation during typing (dynamic hard cap)
             if (value < 0) {
               input.value = '0';
-            } else if (value > MAX_POINTS) {
-              input.value = MAX_POINTS.toString();
+            } else if (value > maxAllowedManualPoints) {
+              input.value = maxAllowedManualPoints.toString();
             }
             
             // Visual feedback
@@ -1746,11 +2221,20 @@ export default function SL2Calculator() {
           title="Type number and press Enter or click away to apply"
         />
         <div className="flex-1 text-right">
-          <span className="text-2xl font-bold" style={{ color }} title={tooltipParts}>
-            {Math.floor(stats[statKey])}
+          <span 
+            className="text-2xl font-bold" 
+            style={isRainbow ? {
+              background: 'linear-gradient(45deg, #ff0000, #ff8000, #ffff00, #80ff00, #00ff00, #00ff80, #00ffff, #0080ff, #0000ff, #8000ff, #ff00ff, #ff0080)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text'
+            } : { color: statColor }} 
+            title={tooltipParts}
+          >
+            {Math.floor(displayStats[statKey])}
           </span>
-          <span className="text-sm text-gray-400 ml-2" title={`Base: ${subraceBase} (from ${subrace}) + ${customBase > 0 ? customBase + ' (custom) + ' : ''}${pointsAdded} (points)`}>
-            ({totalBase} + {pointsAdded})
+          <span className="text-sm text-gray-400 ml-2" title={`Base: ${subraceBase} (from ${subrace}) + ${customBase > 0 ? customBase + ' (custom) + ' : ''}${totalInvested} (invested points + Legend Extend + History)`}>
+            ({totalBase} + {totalInvested})
           </span>
         </div>
       </div>
@@ -1765,7 +2249,7 @@ export default function SL2Calculator() {
         <div className="bg-gray-800 rounded-lg shadow-xl p-6 mb-6">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-3xl font-bold">SL2 Calculator Suite</h1>
-            <div className="text-sm text-gray-400">Version 0.1.1a</div>
+            <div className="text-sm text-gray-400">Version 0.2.0a</div>
           </div>
 
           {/* Tab Navigation */}
@@ -1994,7 +2478,7 @@ export default function SL2Calculator() {
                 <label className="block text-sm font-medium mb-2">Character History</label>
                 <select
                   value={history}
-                  onChange={(e) => setHistory(e.target.value)}
+                  onChange={(e) => handleHistoryChange(e.target.value)}
                   className="w-full bg-gray-600 border border-gray-500 rounded px-3 py-2"
                 >
                   {Object.keys(HISTORY).map(h => (
@@ -2099,6 +2583,27 @@ export default function SL2Calculator() {
                     className="w-4 h-4"
                   />
                   <span>Warwalk (+30 HP/FP)</span>
+                </div>
+                
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      checked={luminaryElement}
+                      onChange={(e) => setLuminaryElement(e.target.checked)}
+                      className="w-4 h-4"
+                    />
+                    <span>Luminary Element
+                      {luminaryElement && astrology && (
+                        <span className="ml-2 text-blue-400">
+                          ✓ WIL → {PLANET_ELEMENTS[astrology]} ATK (1:1)
+                        </span>
+                      )}
+                    </span>
+                  </div>
+                  <div className="text-xs text-gray-400 ml-6">
+                    WIL no longer increases all elements; increases your Starsign's element by 1 per 1 raw WIL (ignores diminishing returns)
+                  </div>
                 </div>
                 
                 {/* Kaelensia Instinct Toggles */}
@@ -2353,7 +2858,7 @@ export default function SL2Calculator() {
                         <input
                           type="number"
                           value={customBaseStats[stat]}
-                          onChange={(e) => setCustomBaseStats(prev => ({ ...prev, [stat]: Number(e.target.value) }))}
+                          onChange={(e) => handleCustomBaseStatChange(stat, Number(e.target.value))}
                           className="w-full bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm"
                         />
                       </div>
@@ -2363,12 +2868,12 @@ export default function SL2Calculator() {
               )}
 
               <div>
-                <h4 className="font-semibold mb-2">Legend Extend (+1 after DR)</h4>
+                <h4 className="font-semibold mb-2">Legend Extend (+1 before DR)</h4>
                 <div className="grid grid-cols-2 md:grid-cols-6 gap-2">
                   {Object.keys(LEGEND_EXTEND).map(key => (
                     <button
                       key={key}
-                      onClick={() => setLegendExtend(prev => ({ ...prev, [key]: !prev[key] }))}
+                      onClick={() => handleLegendExtendToggle(key)}
                       className={`px-3 py-2 rounded text-sm ${
                         legendExtend[key] 
                           ? 'bg-blue-600 hover:bg-blue-700' 
@@ -2383,7 +2888,7 @@ export default function SL2Calculator() {
               </div>
 
               <div>
-                <h4 className="font-semibold mb-2">Astrology (Planet Signs) - +1 Stat, +2 Element ATK</h4>
+                <h4 className="font-semibold mb-2">Astrology (Planet Signs) - +1 Stat, +3 Element ATK</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
                   <label className="flex items-center space-x-2 cursor-pointer p-2 rounded hover:bg-gray-700">
                     <input
@@ -2498,26 +3003,96 @@ export default function SL2Calculator() {
                   </div>
                 </div>
               </div>
+
+              {/* Template Builds Section */}
+              <div className="space-y-3">
+                <h4 className="text-md font-medium text-gray-300">Template Builds</h4>
+                <p className="text-sm text-gray-400">Load basic builds for simple templates!</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {Object.entries(TEMPLATE_BUILDS).map(([key, template]) => (
+                    <div key={key} className="bg-gray-700 border border-gray-600 rounded p-3" title={template.reasoning}>
+                      <div className="flex justify-between items-start mb-2">
+                        <h5 className="font-medium text-white text-sm">{template.name}</h5>
+                        <button
+                          onClick={() => loadTemplate(key)}
+                          className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded text-xs"
+                        >
+                          Load
+                        </button>
+                      </div>
+                      <p className="text-xs text-gray-300 mb-2">{template.description}</p>
+                      <div className="text-xs text-gray-400">
+                        <div className="mb-1">
+                          <span className="font-medium">Race:</span> {template.race} {template.subrace}
+                        </div>
+                        <div className="mb-1">
+                          <span className="font-medium">Classes:</span> {template.mainClass} Monotype
+                        </div>
+                        <div className="mb-1">
+                          <span className="font-medium">History:</span> {template.history || 'None'}
+                        </div>
+                        <div className="text-xs text-blue-300 mt-1">
+                          Key Stats: {Object.entries(template.stats)
+                            .filter(([, value]) => value > 0) 
+                            .sort(([, a], [, b]) => b - a)
+                            .slice(0, 3)
+                            .map(([stat, value]) => `${stat.toUpperCase()}: ${value}`)
+                            .join(', ')}
+                        </div>
+                        <div className="text-xs text-yellow-400 mt-1 italic">
+                          💡 Hover for stat reasoning
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           )}
 
+          {/* Raw vs True Stats Toggle */}
+          <div className="flex justify-center mb-4">
+            <div className="bg-gray-700 rounded-lg p-1 flex">
+              <button
+                onClick={() => setShowRawStats(false)}
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                  !showRawStats 
+                    ? 'bg-blue-600 text-white' 
+                    : 'text-gray-300 hover:text-white'
+                }`}
+              >
+                True Stats (DR Applied)
+              </button>
+              <button
+                onClick={() => setShowRawStats(true)}
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                  showRawStats 
+                    ? 'bg-orange-600 text-white' 
+                    : 'text-gray-300 hover:text-white'
+                }`}
+              >
+                Raw Stats (No DR)
+              </button>
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-1">
-              <StatRow label="Strength" statKey="str" color="#ff6b6b" />
-              <StatRow label="Will" statKey="wil" color="#4ecdc4" />
-              <StatRow label="Skill" statKey="ski" color="#95e1d3" />
-              <StatRow label="Celerity" statKey="cel" color="#f9ca24" />
-              <StatRow label="Defense" statKey="def" color="#a29bfe" />
-              <StatRow label="Resistance" statKey="res" color="#fd79a8" />
+              <StatRow label="Strength" statKey="str" />
+              <StatRow label="Will" statKey="wil" />
+              <StatRow label="Skill" statKey="ski" />
+              <StatRow label="Celerity" statKey="cel" />
+              <StatRow label="Defense" statKey="def" />
+              <StatRow label="Resistance" statKey="res" />
             </div>
             
             <div className="space-y-1">
-              <StatRow label="Vitality" statKey="vit" color="#55efc4" />
-              <StatRow label="Faith" statKey="fai" color="#ffeaa7" />
-              <StatRow label="Luck" statKey="luc" color="#74b9ff" />
-              <StatRow label="Guile" statKey="gui" color="#a29bfe" />
-              <StatRow label="Sanctity" statKey="san" color="#dfe6e9" />
-              <StatRow label="Aptitude" statKey="apt" color="#00b894" />
+              <StatRow label="Vitality" statKey="vit" />
+              <StatRow label="Faith" statKey="fai" />
+              <StatRow label="Luck" statKey="luc" />
+              <StatRow label="Guile" statKey="gui" />
+              <StatRow label="Sanctity" statKey="san" />
+              <StatRow label="Aptitude" statKey="apt" />
             </div>
           </div>
 
@@ -2571,7 +3146,12 @@ export default function SL2Calculator() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
               {elements.map(elem => (
                 <div key={elem} className="bg-gray-700 rounded p-3">
-                  <div className="text-sm font-semibold mb-2">{elem}</div>
+                  <div 
+                    className="text-sm font-semibold mb-2" 
+                    style={{ color: ELEMENT_COLORS[elem] }}
+                  >
+                    {elem}
+                  </div>
                   
                   {/* ATK Row */}
                   <div className="flex items-center justify-between mb-2">
@@ -2763,7 +3343,7 @@ export default function SL2Calculator() {
                   <div className="text-sm text-gray-300 space-y-1">
                     <p><strong>Base Stat:</strong> Your race's starting stat + invested points + bonuses from History, Starsigns, and Legend Extends. Used for trait requirements.</p>
                     <p><strong>Scaled Stat:</strong> Base stats with diminishing returns applied after soft cap. Most effects use Scaled stats.</p>
-                    <p><strong>Hard Cap:</strong> Race base + 80 invested points maximum.</p>
+                    <p><strong>Hard Cap:</strong> Race base + 80 invested points maximum (including Legend Extends and History bonuses).</p>
                     <p><strong>Soft Cap:</strong> Race base + 40 points. After this, every 3 points lose 8% effectiveness (min 10%).</p>
                   </div>
                 </div>
@@ -2795,9 +3375,20 @@ export default function SL2Calculator() {
                 
                 <div className="border-t border-gray-700 pt-4">
                   <div className="bg-gray-700 rounded p-4">
-                    <div className="text-sm text-gray-400 mb-2">Your Current Scaled Value:</div>
-                    <div className="text-3xl font-bold text-blue-400">
-                      {Math.floor(stats[selectedStat as StatKey])}
+                    <div className="text-sm text-gray-400 mb-2">Your Current Values:</div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <div className="text-sm text-gray-400">Raw Stat:</div>
+                        <div className="text-2xl font-bold text-orange-400">
+                          {Math.floor(rawStats[selectedStat as StatKey])}
+                        </div>
+                      </div>
+                      <div>
+                        <div className="text-sm text-gray-400">Scaled Stat:</div>
+                        <div className="text-2xl font-bold text-blue-400">
+                          {Math.floor(stats[selectedStat as StatKey])}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
