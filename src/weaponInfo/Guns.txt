@@ -1,0 +1,209 @@
+GUNS
+
+2★ Handgun (Enhanced)
+Range: 3 | Power: 3 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: 4
+Scaling: Firearms - 60% GUI, 40% SKI
+Damage Type: Pierce | Rounds: 3 | Subtype: Handgun
+Details: +3 GUI
+Location: Enchanting (Lv1)
+
+3★ Handgun
+Range: 3 | Power: 3 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: 4
+Scaling: Firearms - 60% GUI, 40% SKI
+Damage Type: Pierce | Rounds: 3 | Subtype: Handgun
+Location: Random drops, Shops
+
+4★ Shotgun
+Range: 3 | Power: 10 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: 8
+Scaling: Firearms - 60% GUI, 40% SKI
+Damage Type: Pierce | Rounds: 1 | Subtype: Shotgun
+Details: On Hit: Knockbacks 1 tile.
+Location: Random drops
+
+4★ Autopistol
+Range: 3 | Power: 6 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: 8
+Scaling: Firearms - 60% GUI, 40% SKI
+Damage Type: Pierce | Rounds: 3 | Subtype: Handgun
+Location: Random drops
+
+5★ Hold Upper
+Range: 3 | Power: 6 | Accuracy: 80% | Critical: 5% | Crit Damage: 110% | Weight: 10
+Scaling: Firearms - 60% GUI, 40% SKI
+Damage Type: Pierce | Rounds: 3 | Subtype: Handgun
+Details: Increases Steal's success rate by 15%. Potential Skill: Pilfer - Targets one enemy within 1 Range. Messes with the target's inventory, preventing them from using items for 2 rounds.
+Location: Random drops
+
+5★ Spirit Hunter
+Range: 5 | Power: 8 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: 15
+Scaling: Spiritual - 70% GUI, 40% SAN
+Damage Type: Pierce | Rounds: 4 | Subtype: Rifle
+Details: Damage dealt by this weapon's attack is increased by 15% if the target is a Youkai or installed with one. A special rifle made for taking down supernatural things.
+Location: Random drops
+
+5★ Ghost Smoke
+Range: 3 | Power: 6 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: 6
+Scaling: Firearms - 60% GUI, 40% SKI
+Damage Type: Pierce | Rounds: 3 | Subtype: Handgun
+Details: Special Strike - Grudge Wound (Trigger Rate: 10% + 8% Bonus, Trigger CD: 3 Rounds) - Triggers before an enemy is attacked, and replaces the attack. Fire a black bullet at the target, dealing 110% Scaled Weapon Attack. If it hits, and one of your equipped items is enchanted with Gravedigger, summons a Ghost ally next to the target with HP equal to 100 + damage dealt by the attack. This weapon does not trigger effects that activate when an enemy is hit by an attack. Reduces the chance for Deflection and Parry skills to activate from this weapon's attacks by 25%. A strange gun that fires focus bullets made of what appears to be solidified smoke. In addition to making the shots harder to see, they are also hard to counter, but pack less of a punch as a result.
+Location: Random drops
+
+6★ Excel Sniper
+Range: 7 | Power: 16 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: 20
+Scaling: Firearms - 60% GUI, 40% SKI
+Damage Type: Pierce | Rounds: 1 | Subtype: Rifle
+Details: On Hit: Consumes Weapon Charges, dealing 50% more damage per Charge Level. Grants Skill: Charge Weapon (3 Momentum, 5 FP) - Rev your weapon and fill it with focus, increasing its Charge, to a maximum of level 3. When you hit with a weapon that can consume Weapon Charges, the damage you deal with that attack will increase by 50% per level. (Weapon Charges will expire after 5 rounds.) Potential Skill: Elite Engine - Shared Potential Skill. Charge Weapon FP cost is increased to 8 FP. Attacks do not use up all of your charges, instead the LV is reduced by 1, and the damage bonus is 35% (does not increase with charge amount like normal Excel attacks). The Excel line of weapons were developed in Chaturanga, where the ability to be defensive while increasing offensive capabilities was highly valued. By charging up the weapon, it can explosively spend the focus energy when it strikes an enemy, greatly increasing damage. However, the engine module makes it heavier than other weapons.
+Location: Random drops
+
+6★ Ryeser
+Range: 3 | Power: 6 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: 3
+Scaling: Tool, Electrical - 40% GUI, 40% LUC
+Damage Type: Lightning | Rounds: 2 | Subtype: Handgun
+Details: On Critical: Inflict the target with Clumsy until your next turn. (Clumsy prevents the use of movement skills that aren't basic movement.) When this effect is applied to a unit, that unit cannot be affected by Ryeser again for 3 rounds. This type of weapon was developed as a non-life-threatening alternative to restrain individuals, but it is unpopular due to its unreliability.
+Location: Random drops
+
+6★ Firthrower
+Range: 3 | Power: 15 | Accuracy: 80% | Critical: 10% | Crit Damage: 110% | Weight: 15
+Scaling: Flamelit - 70% GUI, 40% STR
+Damage Type: Fire | Rounds: 1 | Subtype: Thrower
+Details: Attacks in a 4-long cone. Potential Skill: Flash Trigger - Moving into the same tile that contains an explosive special tile or object, such as a bomb, that was placed by you or an ally, causes it to instantly detonate. This weapon, unlike traditional guns, instead releases a stream of fire in a 4 Range cone.
+Location: Random drops
+
+7★ Yin
+Range: 3 | Power: 8 | Accuracy: 85% | Critical: 10% | Crit Damage: 110% | Weight: 8
+Scaling: Darkness - 70% GUI, 40% RES
+Damage Type: Pierce | Rounds: 2 | Subtype: Handgun
+Details: Damage type changes to Dark if Yang is also equipped. Potential Skill: Muddle - Item properties that would change the damage type of your basic attacks are ignored. (Use this skillfully with Limit Potential to avoid hitting elemental resists!) Set: Gunsmoke Spiritual. 2+: Grants access to the Double Dao skill. 3+: Darkness and Light damage you deal ignores up to 10% of elemental resistance. Double Dao (3 Momentum, 30 FP) - Fire both Yin and Yang at a target enemy within 3 Range, alternating between Light and Darkness damage, over 4 shots. The total damage dealt is equal to 100% Darkness ATK + 100% Light ATK + 50% of the total Scaled Weapon ATK of both weapons. In addition, both guns gain 2 additional attack rounds for 2 rounds. A pitch black handgun, and sister to the Yang handgun.
+Location: Random drops
+
+7★ Yang
+Range: 3 | Power: 8 | Accuracy: 85% | Critical: 10% | Crit Damage: 110% | Weight: 8
+Scaling: Faithful - 70% GUI, 40% FAI
+Damage Type: Pierce | Rounds: 2 | Subtype: Handgun
+Details: Damage type changes to Light if Yin is also equipped. Potential Skill: Muddle - Item properties that would change the damage type of your basic attacks are ignored. (Use this skillfully with Limit Potential to avoid hitting elemental resists!) Set: Gunsmoke Spiritual. 2+: Grants access to the Double Dao skill. 3+: Darkness and Light damage you deal ignores up to 10% of elemental resistance. Double Dao (3 Momentum, 30 FP) - Fire both Yin and Yang at a target enemy within 3 Range, alternating between Light and Darkness damage, over 4 shots. The total damage dealt is equal to 100% Darkness ATK + 100% Light ATK + 50% of the total Scaled Weapon ATK of both weapons. In addition, both guns gain 2 additional attack rounds for 2 rounds. A shining silver handgun, and sister to the Yin handgun.
+Location: Random drops
+
+7★ Magical Nova
+Range: 3 | Power: 8 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: 9
+Scaling: Magical - 70% GUI, 40% WIL
+Damage Type: Pierce | Rounds: 1 | Subtype: Shotgun
+Details: Spelledge (This weapon can be used as a casting tool for spells.) Potential Skill: Nova Eraser - This skill requires a Rank D Invocation (see the Invocation talent for more details). Fires a large beam of light at a target enemy, dealing Light magic damage that ignores evasion equal to 300% of Magical Nova's SWA. If the target is defeated by this attack, they are inflicted with Certain Defeat. Burn out the night... Leave craters in your enemy. Will not help you transform, however.
+Location: Random drops, Metalwork (Lv5)
+
+7★ Sea Hunter Gun
+Range: 3 | Power: 7 | Accuracy: 80% | Critical: 7% | Crit Damage: 110% | Weight: 12
+Scaling: Aquatic - 70% GUI, 40% VIT
+Damage Type: Pierce | Rounds: 3 | Subtype: Handgun
+Details: On Hit: Inflicts Hunted LV14 for 3 rounds if the target is a seafaring monster. Always comes made of Coral. (+1 Power, +3 Accuracy, +3 Critical, +1 Weight, +3 Water ATK.) This gun was born from the sea, and as anyone who lives there knows, anything that lives in the sea is out to get everything else... that lives in the sea.
+Location: Fishing Contest Chest
+
+7★ The Kiss Farewell
+Range: 3 | Power: 10 | Accuracy: 80% | Critical: 0% | Crit Damage: 120% | Weight: 10
+Scaling: Firearms - 60% GUI, 40% SKI
+Damage Type: Pierce | Rounds: 1 | Subtype: Handgun
+Details: On Hit: Consumes Weapon Charges, dealing 50% more damage per Charge Level. Potential Skill: Sparking Kiss - Defeating an enemy grants Auto Charge for 3 rounds. (Auto Charge automatically activates Weapon Autocharge at the start of every round.) A handgun with an elongated barrel.
+Location: Random drops
+
+8★ Tarnell
+Range: 6 | Power: 11 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: 6
+Scaling: Flamelit - 70% GUI, 40% STR
+Damage Type: Pierce | Rounds: 1 | Subtype: Rifle
+Details: On Hit: Replaces your Earth ATK with the target's for 2 rounds. Potential Skill: Lockdown (1 Momentum, 10 FP) - Requires Substitute Earth ATK to be active. Consumes the status caused by the weapon, deals 20 armor-ignoring Earth Kickback damage to you, inflict you with Immobilize and Unmoving until your next turn, and grants you Lockdown (LV = higher of 50% Substituted Earth ATK or Tarnell's UL, 3 rounds). (Lockdown - Increases Tarnell's Power by LV when you cannot use movement skills.) 3 round CD. A sniper rifle that feels oddly organic, as if it were made of some kind of plant.
+Location: Random drops
+
+8★ Blaster Trumpet
+Range: 5 | Power: 12 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: 12
+Scaling: Dextria-Sound - 80% GUI, 30% SAN
+Damage Type: Sound | Rounds: 1 | Subtype: Instrument
+Details: +5 Fire ATK. When played (via a Song skill): Creates a blast of sound that knocks back all within 3 Range tiles 2 away from you. A trumpet so finely tuned that its notes are more like bullets.
+Location: Random drops
+
+8★ Holy Word
+Range: 3 | Power: 30 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: -
+Scaling: Flamelit - 70% FAI, 40% STR
+Damage Type: Light | Rounds: 1 | Subtype: Launcher
+Details: While equipped, you cannot use movement skills, except basic skills, Mercalan domain spells, or skills with the 'Holy' tag. Grants Skill: Crusader Charge (3M / 10 FP. Wield the Holy Word and charge forward in a resizeable Line (2-3, +1 max per 20 STR, capped at 6). The first enemy you encounter is pushed along with you, until you or they encounter an impassable tile or another enemy. Afterwards, if an enemy was hit, they take Pierce damage equal to 100% of Holy Word's Scaled Weapon Attack. If the movement was stopped by another enemy, that enemy takes Blunt damage equal to half that.) Grants Skill: Divine Bunker (3M / 15 FP. 3 Rounds CD. Unleash the Holy Word's full force. Can only be used after having used Crusader Charge in the same round. Fire the pilebunker, dealing Pierce damage with Great Accuracy equal to 100% of Holy Word's Scaled Weapon Attack to the enemy in the tile you are facing, which knocks them airborne and away 5 tiles. Afterwards, if the Holy Word is Jeweled, and an Offensive Mercalan spell scroll (excluding invocations) is in its Scroll weapon part slot, you cast it at the target's location for free. If there is no valid spell scroll, they are struck by divine lightning instead, taking Lightning magic damage equal to your FAI x 2, which ignores evasion, protection, reflect, absorb, and immune.) A massive launcher equipped with a heavy sharpened spike, it holds within it some sort of scripture.
+Location: Random drops
+
+9★ Toyatori
+Range: 3 | Power: 9 | Accuracy: 85% | Critical: 10% | Crit Damage: 110% | Weight: 12
+Scaling: Cold - 70% GUI, 40% SKI
+Damage Type: Pierce | Rounds: 3 | Subtype: Handgun
+Details: On Attack: Creates 3 Ice Sheets (3 rounds) at a random tile within 2 Range of the target that doesn't have any special effect tiles. Grants Skill: Ice Flutter (3 Momentum, 15 FP) - Targets a 3 size Crescent in one direction from you and deals Slash damage equal to 120% of Toyatori's Scaled Weapon Power to all enemies in it. Airborne enemies are knocked away 3 tiles. Ice wings with sharp feathers.
+Location: Random drops
+
+9★ Yin (Gilded)
+Range: 3 | Power: 8 | Accuracy: 85% | Critical: 10% | Crit Damage: 110% | Weight: 8
+Scaling: Darkness, Faithful - 40% GUI, 40% RES, 40% FAI
+Damage Type: Pierce | Rounds: 2 | Subtype: Handgun
+Details: Damage type changes to Dark if Yang is also equipped. Potential Skill: Muddle - Item properties that would change the damage type of your basic attacks are ignored. (Use this skillfully with Limit Potential to avoid hitting elemental resists!) Set: Gunsmoke Spiritual. 2+: Grants access to the Double Dao skill. 3+: Darkness and Light damage you deal ignores up to 10% of elemental resistance. Double Dao (3 Momentum, 30 FP) - Fire both Yin and Yang at a target enemy within 3 Range, alternating between Light and Darkness damage, over 4 shots. The total damage dealt is equal to 100% Darkness ATK + 100% Light ATK + 50% of the total Scaled Weapon ATK of both weapons. In addition, both guns gain 2 additional attack rounds for 2 rounds. A pitch black handgun, and sister to the Yang handgun.
+Location: Metalwork (Lv4)
+
+9★ Yang (Gilded)
+Range: 3 | Power: 8 | Accuracy: 85% | Critical: 10% | Crit Damage: 110% | Weight: 8
+Scaling: Darkness, Faithful - 40% GUI, 40% RES, 40% FAI
+Damage Type: Pierce | Rounds: 2 | Subtype: Handgun
+Details: Damage type changes to Light if Yin is also equipped. Potential Skill: Muddle - Item properties that would change the damage type of your basic attacks are ignored. (Use this skillfully with Limit Potential to avoid hitting elemental resists!) Set: Gunsmoke Spiritual. 2+: Grants access to the Double Dao skill. 3+: Darkness and Light damage you deal ignores up to 10% of elemental resistance. Double Dao (3 Momentum, 30 FP) - Fire both Yin and Yang at a target enemy within 3 Range, alternating between Light and Darkness damage, over 4 shots. The total damage dealt is equal to 100% Darkness ATK + 100% Light ATK + 50% of the total Scaled Weapon ATK of both weapons. In addition, both guns gain 2 additional attack rounds for 2 rounds. A shining silver handgun, and sister to the Yin handgun.
+Location: Metalwork (Lv4)
+
+9★ Jackhammer
+Range: 4 | Power: 22 | Accuracy: 60% | Critical: 0% | Crit Damage: 110% | Weight: 20
+Scaling: Firearms - 60% GUI, 40% SKI
+Damage Type: Pierce | Rounds: 1 | Subtype: Launcher
+Details: Attacks in a radius 4 circle. Potential Skill: Steady Shot - An aimed shot that increases the Hit of Jackhammer by 55, but costs 4 Momentum, 10 FP, and has a slightly smaller radius. A heavy launcher that fires premade rockets. Its attacks can hit multiple enemies in a 4 Range Circle. Just watch where you're aiming, okay?
+Location: Random drops, Metalwork (Lv4)
+
+9★ Crazy Coyote
+Range: 3 | Power: 15 | Accuracy: 80% | Critical: 0% | Crit Damage: 120% | Weight: 12
+Scaling: Firearms - 60% GUI, 40% SKI
+Damage Type: Pierce | Rounds: 1 | Subtype: Shotgun
+Details: On Hit: Knockbacks 1 tile. Grants Attack: Double Tap (3 Momentum, 10 FP) - Can only be used by Crazy Coyote. Fires two rounds from your Crazy Coyote, dealing 110% total damage over the two shots. Grants Attack: Rolling Shot (3 Momentum, 15 FP) - Can only be used by Crazy Coyote. Targets two locations; Location 1 may contain an enemy, and Location 2 must be an unoccupied battle tile. You slide to Location 2, and afterwards, attack the enemy in Location 1 with a -10 penalty to Hit. If the slide is interrupted, or you don't end up at the target location somehow, you will not fire.
+Location: Random drops
+
+9★ Black Zepia
+Range: 3 | Power: 11 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: 16
+Scaling: Firearms, Vampiric - 40% GUI, 40% SKI, 30% VIT
+Damage Type: Pierce | Rounds: 1 | Subtype: Handgun
+Details: Potential Skill - Ether Lasso (1M / 0 FP. 3 Rounds CD. Targets 1 enemy within 3 Range and deal armor-ignoring damage equal to Black Zepia's Power (and of its damage type) to the target. If it hits, the target is pulled 2 tiles towards you; if they are immune to pull effects, you quickly move to an empty tile nearby them (if any). Airborne and Flying enemies cannot be targetted by this skill.) Also qualifies as a Whip weapon. A handgun with a thin crystal-like wire. Its true power is a mystery, but you can shoot it and swing it, so that has to count for something.
+Location: Random drops
+
+9★ Shotgun Tonfa
+Range: 3 | Power: 11 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: -
+Scaling: Flamelit - 70% GUI, 40% STR
+Damage Type: Blunt | Rounds: 1 | Subtype: Tonfa
+Details: Potential Skill - Tonfa Parry - Parry skill. Grants a chance to parry non-spell, non-ranged weapon damage for 25% reduction. Activate Rate: 15% + 50% of Scaled DEF, +10% if the owner of this skill has the Roar status active. Also qualifies as a Fist weapon. Also qualifies as a Shotgun weapon. After performing an attack with this weapon, gain Tonfa Afterblast (LV 1, 1 round), which allows you to use the skill of the same name. (Tonfa Afterblast: 1M / 5 FP. Discharge your Shotgun Tonfa at a target enemy within 3 Range, dealing armor-ignoring Pierce damage equal to the Shotgun Tonfa's Power x 2, which can critically hit. If it does, it can ricochet to another enemy in 3 Range of the first target, dealing the same damage (but cannot critically hit). Tonfa Block - Increases the LV of Guard statuses applied to you by 5 if you are two-handing this weapon. A pair of tonfa which have been hollowed out to make room for a crude shotgun barrel on each. Discharging them requires swinging the tonfa, but that's not much of a problem.
+Location: Random drops
+
+10★ Quickdraw
+Range: 3 | Power: 5 | Accuracy: 80% | Critical: 5% | Crit Damage: 110% | Weight: 10
+Scaling: Sylphid - 70% GUI, 40% CEL
+Damage Type: Pierce | Rounds: 2 | Subtype: Handgun
+Details: CEL is treated as UL/2 higher for the purposes of determining turn order. This weapon's basic attacks against enemies with 6 or more Momentum gain an additional Round per 6 UL. In Law's End, the only law is to be faster than those that want to kill you. The penalty for breaking that law is often death, so make sure you follow it, ya hear?
+Location: Bandit Gunner (Lv56+)
+
+10★ Moonlight Mercy
+Range: 7 | Power: 17 | Accuracy: 85% | Critical: 10% | Crit Damage: 110% | Weight: 20
+Scaling: Faithful - 70% GUI, 40% FAI
+Damage Type: Pierce | Rounds: 1 | Subtype: Rifle
+Details: +UL Critical Damage (flat damage) (for this weapon only). On Critical Hit: If a Feared, non-Boss monster, there is a UL% chance of instant death. (Does not apply to enemies 10 or more levels above yours.) The moonlight's mercy is a shining light before the darkness settles in.
+Location: Spectre Knight (Lv56+)
+
+10★ Corvus Cannon
+Range: 3 | Power: 11 | Accuracy: 80% | Critical: 15% | Crit Damage: 110% | Weight: 14
+Scaling: Firearms, Darkness - 30% GUI, 40% SKI, 40% RES
+Damage Type: Pierce | Rounds: 1 | Subtype: Shotgun
+Details: On Hit: Covers the enemy in black feathers for 3 rounds. While covered in the feathers, Wind damage they take will force them Airborne. On Hit: Deals 1+(UL*2) unresistable Wind damage if the target is Airborne. Fires feathers as painful as bullets, this is a shotgun of seemingly demonic origins that sounds like pages flapping in the wind when moved around.
+Location: Shadow Guardian (Lv56+)
+
+10★ Seed Sniper
+Range: 7 | Power: 4 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 5
+Scaling: Earthen - 70% GUI, 40% DEF
+Damage Type: Earth | Rounds: 1 | Subtype: Rifle
+Details: On Hit: The enemy is seeded until their next turn. If they take Water damage while seeded, the seed erupts into vines, inflicting Immobilize on them until your next turn. When you attack an enemy: Leaves behind seeds at the location they are at. At the start of a new round, they will erupt, creating vines that lower the Evade of anyone who stands in them by UL. Potential Skill: Violent Overgrowth (2 Momentum) - Consumes 1 Miracle Fertilizer (if available). Grants a status called Violent Overgrowth LV X (X = (5+UL)x2, or x4 if Miracle Fertilizer was used), which is consumed when Seed Sniper hits with a basic attack. When consumed, it causes Thick Vines to erupt in a 3 Size Circle underneath of the target (except your location), and deals Earth bonus magic damage equal to LV to all enemies in those tiles. An earthy sniper rifle that produces seeds, which it uses as bullets, in a sense.
+Location: Pumpkin (Lv56+)
+
+10★ Bell of No Rest
+Range: 3 | Power: 10 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 5
+Scaling: Spiritual - 70% GUI, 40% SAN
+Damage Type: Sound | Rounds: 1 | Subtype: Instrument
+Details: Increases Sound ATK by UL/2. (Doesn't stack.) On Defeat Enemy: The first unsummoned Youkai in your contracts with 0 HP is restored to UL*2% maximum HP. A single shake of this bell will pierce the ears of enemies like a bullet, and keep them awake at night, if they're lucky to walk away.
+Location: Level 56+ Bellringers

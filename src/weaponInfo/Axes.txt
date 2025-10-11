@@ -1,0 +1,267 @@
+AXES
+
+1★ Wrench
+Range: 1 | Power: 8 | Accuracy: 75% | Critical: 0% | Crit Damage: 125% | Weight: 8
+Scaling: Cunning - 70% STR, 40% GUI
+Damage Type: Blunt | Subtype: Club
+Details: While not a conventional weapon, it still hurts.
+Location: Random drops, Casino
+
+1★ Axe
+Range: 1 | Power: 8 | Accuracy: 75% | Critical: 0% | Crit Damage: 125% | Weight: 10
+Scaling: Basic - 100% STR
+Damage Type: Slash
+Details: A heavy axe. Not easy to aim, but very powerful.
+Location: Random drops, Shops, Metalwork (Lv1)
+
+1★ Battleaxe
+Range: 1 | Power: 9 | Accuracy: 75% | Critical: 10% | Crit Damage: 135% | Weight: 12
+Scaling: Finesse - 70% STR, 30% SKI
+Damage Type: Slash
+Details: Increases Critical Chance. A large, heavy axe that can slice through soft spots.
+Location: Random drops, Metalwork (Lv2)
+
+2★ Axe (Enhanced)
+Range: 1 | Power: 8 | Accuracy: 75% | Critical: 0% | Crit Damage: 125% | Weight: 10
+Scaling: Basic - 100% STR
+Damage Type: Slash
+Details: +3 STR. A heavy axe. Not easy to aim, but very powerful.
+Location: Enchanting (Lv1)
+
+2★ Guillotine
+Range: 1 | Power: 11 | Accuracy: 75% | Critical: 5% | Crit Damage: 125% | Weight: 16
+Scaling: Basic - 100% STR
+Damage Type: Slash | Subtype: Greataxe
+Details: +10 Critical Damage. A headsman's axe that gets more powerful as the target nears death
+Location: Random drops, Metalwork (Lv3)
+
+2★ Sweeper
+Range: 1 | Power: 13 | Accuracy: 75% | Critical: 0% | Crit Damage: 125% | Weight: 22
+Scaling: Basic - 100% STR
+Damage Type: Slash | Subtype: Greataxe
+Details: Attacks in a 3-wide line. A wide axe with a large area of attack.
+Location: Random drops, Metalwork (Lv3)
+
+3★ Gorger
+Range: 1 | Power: 10 | Accuracy: 75% | Critical: 0% | Crit Damage: 125% | Weight: 14
+Scaling: Vampiric - 80% STR, 30% VIT
+Damage Type: Slash
+Details: Vampiric (10%). Special Strike - Bloodfest (Trigger Rate: 10% + 8% Bonus). Triggers after the attack hits an enemy. Restores 35 HP and deals 35 Dark bonus damage that ignores armor to the target. If you have Claret Call active, it is also applied twice to that enemy. Gorges itself on your enemies' blood.
+Location: Random drops, Metalwork (Lv3)
+
+3★ Icebreaker
+Range: 1 | Power: 11 | Accuracy: 75% | Critical: 0% | Crit Damage: 125% | Weight: 16
+Scaling: Cold - 70% STR, 40% SKI
+Damage Type: Slash
+Details: On Hit: Deals magic Ice bonus damage equal to 50% of your Ice ATK, which ignores armor. A very literal weapon with an extremely cold blade.
+Location: Random drops, Metalwork (Lv3)
+
+3★ Battlepick
+Range: 1 | Power: 12 | Accuracy: 75% | Critical: 0% | Crit Damage: 125% | Weight: 18
+Scaling: Basic - 100% STR
+Damage Type: Pierce
+Details: Reduces effectiveness of enemy Armor by 5. Potential Skill: Wear Down - When an enemy is damaged by weapons that reduce enemy Armor effectiveness, either by basic attacks or skills using them, a Wear Down status is applied for 3 rounds, or powered up. This status decreases the enemy's Armor by LV. (Max LV of 20, max duration of 3 rounds). A pickaxe more similar to a halberd, made for piercing armor.
+Location: Random drops, Metalwork (Lv3)
+
+3★ Grand Axe
+Range: 1 | Power: 14 | Accuracy: 75% | Critical: 0% | Crit Damage: 125% | Weight: 24
+Scaling: Basic - 100% STR
+Damage Type: Slash | Subtype: Greataxe
+Details: A massive double-sided axe.
+Location: Random drops, Metalwork (Lv3)
+
+4★ Graality
+Range: 1 | Power: 12 | Accuracy: 75% | Critical: 0% | Crit Damage: 125% | Weight: 20
+Scaling: Earthen - 70% STR, 40% DEF
+Damage Type: Slash
+Details: On Hit: Target suffers -20% CEL for 2 rounds. Potential Skill: Gravity Lock - Targets 1 enemy within 3 Range that is under the effect of your Graality and consumes the energy, dealing Earth magic damage to the target equal to 100% of Graality's Scaled Weapon Attack, and makes the target immune to Airborne for 3 rounds. If the target has Airborne status, it is ended, and they are Knocked Down. Gravity manipulating axe used by an ancient lizardman.
+Location: Random drops
+
+4★ Spirit Axe
+Range: 1 | Power: 13 | Accuracy: 75% | Critical: 0% | Crit Damage: 125% | Weight: 12
+Scaling: Spiritual - 70% STR, 40% SAN
+Damage Type: Slash
+Details: Restores Focus based on damage dealt. (10%) (Basic attacks only). This axe absorbs Focus from the wounds that it makes.
+Location: Random drops
+
+4★ Kanabo
+Range: 1 | Power: 12 | Accuracy: 75% | Critical: 0% | Crit Damage: 125% | Weight: 17
+Scaling: Basic - 100% STR
+Damage Type: Blunt | Subtype: Club
+Details: Critical chance increased by the Wear Down LV on the attack target. Potential Skill - Kanabo Crusher (3+X Momentum, 10 FP). Kanabo's Potential Skill. An extremely heavy swing that uses up all of your Momentum (min. 3) and smashes into an enemy within 1 Range, which deals damage equal your STR (80 max) x Momentum consumed. This also shatters the target's defenses (if not a few bones), inflicting them with Wear Down (LV = Kanabo's Power, 2 round). The attack takes its toll on the Kanabo and reduces its durability by the amount of Momentum used. A large club with circular metal protusions. A rather brutal and heavy weapon, it is often associated with 'oni' or giants.
+Location: Random drops
+
+5★ Gunbai
+Range: 1 | Power: 8 | Accuracy: 75% | Critical: 0% | Crit Damage: 125% | Weight: 18
+Scaling: Basic - 100% STR
+Damage Type: Blunt | Subtype: Fan
+Details: +5 Wind ATK. On Hit: Deals magic Wind bonus damage equal to 50% of your Wind ATK, which ignores armor. Potential Skill - Gunbai Defense Arts (Passive). Gunbai's Potential Skill. Use the Gunbai as a shield, increasing your Armor & Magic Armor by its Power against attacks from ranged weapons. This skill is only effective if the attacker is in your line of sight, and is half effective while you are Blind. Special Strike - Wind Current Reverse (Trigger Rate: 10% + 8% Bonus, Trigger CD: 3 Rounds). Triggers after the attack hits an enemy. Deals 35 Wind armor-ignoring magic bonus damage to the target and all enemies in 3 Range around them. You gain Reflect Wind (Limited) (LV 1, 2 rounds). If Gunbai is enchanted with Feather, the attack target is also inflicted with Damage Change (Wind) (LV 1, until your next turn). A solid metal fan. Commonly used for directing troops in battle, it also can act as a shield from projectile weapons, or just smash people who get too close.
+Location: Random drops
+
+5★ Highway Axe
+Range: 1 | Power: 14 | Accuracy: 75% | Critical: 5% | Crit Damage: 125% | Weight: 16
+Scaling: Cunning - 70% STR, 40% GUI
+Damage Type: Slash
+Details: Increases Steal's success rate by 15%. Potential Skill: Pilfer - Targets one enemy within 1 Range. Messes with the target's inventory, preventing them from using items for 2 rounds. Their stuff becomes your stuff if they're dead.
+Location: Random drops
+
+5★ Burngada
+Range: 1 | Power: 13 | Accuracy: 75% | Critical: 0% | Crit Damage: 125% | Weight: 12
+Scaling: Basic - 100% STR
+Damage Type: Slash
+Details: On Hit: Deals magic Fire bonus damage equal to 50% of your Fire ATK, which ignores armor. +10% Power to Nerifian Spells (Halved if not main weapon.) A fiery axe that just wants the world to burn.
+Location: Random drops, Metalwork (Lv4)
+
+5★ Monster Spine
+Range: 3 | Power: 11 | Accuracy: 75% | Critical: 5% | Crit Damage: 125% | Weight: 22
+Scaling: Finesse - 70% STR, 30% SKI
+Damage Type: Slash
+Details: If enchanted with Bloodhunt, grants access to Overhead Spinecrush and Sweeping Spinecrush (basic attacks that hit a small area). Night Hunter - If enchanted with Bloodhunt, gain Visceral Strike skill, and when you take non-status, non-field damage from an enemy, applies or powers up Blood Strike LV X (X = 50% of damage taken, max 100) for 2 rounds. A Night Hunter weapon which hits an enemy with a basic attack draws the blood you lost back in, consuming Blood Strike and restoring HP equal to its LV. Staggering Critical - Critical hits apply or power up Stagger LV 1 (max LV: 5) to the target for 5 rounds. (Stagger reduces Hit by LV x 2 and Parry activation chance by LV x 2%.) This gorey weapon seems to resemble a monster's spine. Not fresh from the monster, of course, and perhaps it's just a passing resemblance. But the hunter who uses this unusual weapon would come from strange blood, to be sure.
+Location: Random drops
+
+6★ Excel Parashu
+Range: 1 | Power: 12 | Accuracy: 75% | Critical: 0% | Crit Damage: 125% | Weight: 22
+Scaling: Basic - 100% STR
+Damage Type: Slash
+Details: On Hit: Consumes Weapon Charges, dealing 50% more damage per Charge Level. Grants Skill: Charge Weapon (3 Momentum, 5 FP) - Rev your weapon and fill it with focus, increasing its Charge, to a maximum of level 3. When you hit with a weapon that can consume Weapon Charges, the damage you deal with that attack will increase by 50% per level. (Weapon Charges will expire after 5 rounds.) Potential Skill: Elite Engine - Charge Weapon FP cost is increased to 8 FP. Attacks do not use up all of your charges, instead the LV is reduced by 1, and the damage bonus is 35% (does not increase with charge amount like normal Excel attacks). The Excel line of weapons were developed in Chaturanga, where the ability to be defensive while increasing offensive capabilities was highly valued. By charging up the weapon, it can explosively spend the focus energy when it strikes an enemy, greatly increasing damage. However, the engine module makes it heavier than other weapons.
+Location: Random drops
+
+6★ Evil Club
+Range: 1 | Power: 15 | Accuracy: 75% | Critical: 0% | Crit Damage: 125% | Weight: 15
+Scaling: Darkness - 70% STR, 40% RES
+Damage Type: Blunt | Subtype: Club
+Details: On Hit: Deals magic Darkness bonus damage equal to 50% of your Darkness ATK, which ignores armor. This is an evil club. The weapon kind. Not the type of one you join where girls aren't allowed.
+Location: Random drops
+
+6★ Baphomet Offering
+Range: 1 | Power: 12 | Accuracy: 75% | Critical: 15% | Crit Damage: 125% | Weight: 20
+Scaling: Darkness - 70% STR, 40% RES
+Damage Type: Slash | Subtype: Greataxe
+Details: On Battle Start: Grants Baphomet's Strength (+5 STR, +10 Dark ATK) for 5 rounds. When it expires, inflicts Baphomet's Hunger (HP healing is negated.) for the rest of the battle. Grants Skill: Bloodlet (1 Momentum, 15 HP) - Sacrifice life essence in the form of 15 HP to the Baphomet Offering, removing Baphomet's Hunger and reapplying Baphomet's Strength. (Yes, it works even if you don't have blood.) Special Strike: Maou (Trigger Rate: 10% + 8% Bonus, Trigger CD: 2 rounds) - Triggers after the attack hits an enemy. Unleashes flames around the target, dealing 40 Fire magic bonus damage that ignores armor to the target and all other enemies within 2 Range. A tribal axe engraved with a goat-headed god. Rituals have left it powerful, but demanding.
+Location: Random drops
+
+7★ Vampire Bat
+Range: 1 | Power: 14 | Accuracy: 75% | Critical: -5% | Crit Damage: 125% | Weight: 15
+Scaling: Vampiric - 80% STR, 30% VIT
+Damage Type: Blunt
+Details: Vampiric (10%) (Basic attacks only). On Hit: Deals magic Darkness bonus damage equal to 50% of your Darkness ATK, which ignores armor. Punish your enemies. Getting hit with this will really suck. Just hope they don't up the stakes in return.
+Location: Random drops
+
+7★ Magical Sun
+Range: 1 | Power: 15 | Accuracy: 75% | Critical: 0% | Crit Damage: 125% | Weight: 16
+Scaling: Magical - 70% STR, 40% WIL
+Damage Type: Slash
+Details: Spelledge (This weapon can be used as a casting tool for spells.) The whole world will revolve around you. Will not help you transform, however.
+Location: Random drops, Metalwork (Lv5)
+
+7★ Sea Hunter Axe
+Range: 1 | Power: 16 | Accuracy: 75% | Critical: 7% | Crit Damage: 125% | Weight: 14
+Scaling: Aquatic - 70% STR, 40% VIT
+Damage Type: Slash
+Details: On Hit: Inflicts Hunted LV14 for 3 rounds if the target is a seafaring monster. Always comes made of Coral (+1 Power, +3 Accuracy, +3 Critical, +1 Weight, +3 Water ATK.) This axe was born from the sea, and as anyone who lives there knows, anything that lives in the sea is out to get everything else... that lives in the sea.
+Location: Fishing Contest Chest
+
+7★ Electric Axe
+Range: 1 | Power: 12 | Accuracy: 75% | Critical: 0% | Crit Damage: 125% | Weight: 10
+Scaling: Electrical - 70% STR, 40% LUC
+Damage Type: Lightning
+Details: On Critical: Inflicts unresistable Sound damage to all enemies in 3 Range equal to this weapon's Power * 2. Potential Skill: Nefarious Riff - Plays a riff off the guitar, surrounding you with electrical bats for 5 rounds. While active, attackers will take Lightning magic damage equal to Electric Axe's UL if they hit you. You can reactive the skill to send the bats flying at all enemies, ending the effect but dealing Lightning magic damage equal to your Lightning ATK + Sound ATK + Electric Axe's SWA. This is the non-traditional version of an axe, which is the instrument. When filled with focus, it generates electricity and sick-nasty shreds.
+Location: Random drops
+
+7★ Labrys
+Range: 1 | Power: 14 | Accuracy: 75% | Critical: 0% | Crit Damage: 125% | Weight: 18
+Scaling: Basic - 100% STR
+Damage Type: Slash
+Details: On Hit: Consumes Weapon Charges, dealing 50% more damage per Charge Level. While you have a Weapon Charge(s), and this is your main hand weapon: Gain immunity to knockback and pull effects. Potential Skill: Retaliating Charge - Grants a 10% chance to activate Charge Weapon skill automatically when you take non-bonus, non-field, non-status damage from an enemy. A heavy axe that fuels itself on focus. Much like the stone walls of a maze, the deeper you get, the harder it is to escape.
+Location: Random drops
+
+8★ Ramarg
+Range: 1 | Power: 11 | Accuracy: 75% | Critical: 0% | Crit Damage: 125% | Weight: 6
+Scaling: Earthen - 70% STR, 40% DEF
+Damage Type: Slash
+Details: On Hit: Replaces your Wind ATK with the target's for 2 rounds. Potential Skill: Sky's Call - Requires Substitute Wind ATK to be active. Consumes the status by the weapon, deals 20 armor-ignoring Wind Kickback Damage to you, curing Glowing effects you suffer from, and deals Wind magic damage ignores Reflect, Immunity, and Absorb) equal to 100% of Ramarg's Scaled Weapon Attack + 100% of the Substitute Wind ATK from its effect to all enemies in a 3 Size Circle around you. You and all damaged enemies are knocked airborne. 3 round CD. An axe said to be designed in a land far across the ocean.
+Location: Random drops
+
+8★ Nirvana Replica
+Range: 1 | Power: 19 | Accuracy: 75% | Critical: 0% | Crit Damage: 125% | Weight: 20
+Scaling: Replica - 70% STR, 20% SKI, 20% SAN
+Damage Type: Slash
+Details: Always comes enchanted with Divine Weapon (+2 Power, +5 Accuracy, +5 Critical, -2 Weight. Unbreakable.) A replica of an axe used by an Alstalain general. It possesses extremely high power.
+Location: Casino
+
+8★ Mythslayer
+Range: 1 | Power: 16 | Accuracy: 75% | Critical: 0% | Crit Damage: 125% | Weight: 11
+Scaling: Spiritual - 70% STR, 40% SAN
+Damage Type: Slash | Subtype: Greataxe
+Details: Damage dealt by this weapon's attack is increased by 25% if the target is a Youkai or installed with one. Special Strike: Fiction Reaper (Trigger Rate: 10% + 8% Bonus, Trigger CD: 2 rounds) - Triggers before an enemy is attacked. If the target is a Youkai, the attack gains +999 Critical. If the attack hits, deals 35 Light bonus damage that ignores Armor to the target and all Youkai in their party. Cuts through lies, falsehoods, and those somewhere inbetween.
+Location: Random drops
+
+8★ Lare Grystale
+Range: 1 | Power: 10 | Accuracy: 75% | Critical: 0% | Crit Damage: 125% | Weight: 19
+Scaling: Basic - 100% STR
+Damage Type: Blunt
+Details: +2 DEF. Also counts as a Shield. A unique 'axe' that carries on it a heavy shield instead of a bladed head, atop a long pole. It would be quite useful at defending, and would probably hurt to be hit with.
+Location: Random drops
+
+9★ Citizen Slaughterer
+Range: 1 | Power: 14 | Accuracy: 75% | Critical: 0% | Crit Damage: 125% | Weight: 15
+Scaling: Basic - 100% STR
+Damage Type: Slash
+Details: Increases Scaled Weapon ATK by 20% if the target's armor type is Unarmored. An axe made to kill citizens and not much else.
+Location: Random drops
+
+9★ Grand Smasher
+Range: 1 | Power: 15 | Accuracy: 75% | Critical: 0% | Crit Damage: 125% | Weight: 14
+Scaling: Basic - 100% STR
+Damage Type: Slash | Subtype: Greataxe
+Details: When you attack a field object and destroy it: Launches a projectile that travels up to 5 Range away. If it contacts an enemy, it deals Ice magic damage equal to 100% of your Ice ATK. The target is also knocked back by one tile; if they fail to move from this effect, they are knocked down instead. A powerful axe that is capable of launching even the most harmless object at fast speeds.
+Location: Random drops
+
+9★ Violet Varon
+Range: 1 | Power: 9 | Accuracy: 75% | Critical: 0% | Crit Damage: 125% | Weight: 14
+Scaling: Basic - 100% STR
+Damage Type: Slash
+Details: Also qualifies as a Sword weapon. This purple weapon is similar to a polearm, but seems to be an odd fusion of an axehead and a sharp sword.
+Location: Random drops
+
+9★ Sky Mantis Scythe
+Range: 1 | Power: 8 | Accuracy: 90% | Critical: 0% | Crit Damage: 125% | Weight: 5
+Scaling: Sylphid - 70% STR, 40% CEL
+Damage Type: Slash | Sub Type: Scythe
+Details: Airborne basic attacks with this weapon cost 1M less (to a minimum of 1M). Made from a flying insect native to Alstalsia. Its lightweight makes it less destructive than most axes, but faster.
+Location: Random drops
+
+9★ Sheer Cold
+Range: 1 | Power: 15 | Accuracy: 80% | Critical: 10% | Crit Damage: 125% | Weight: 10
+Scaling: Cold - 70% STR, 40% SKI
+Damage Type: Slash
+Details: Damage dealt by this weapon reduces enemies' Frozen LV by 50% of its normal reduction. Special Strike - Sheer Freeze (Trigger Rate: 10% + 8% Bonus) - Triggers after the attack hits an enemy. Deals 35 Ice armor-ignoring magic bonus damage to the target, and inflicts them with Frozen (LV 50, until your next turn). Made from a flying insect native to Alstalsia. Its lightweight makes it less destructive than most axes, but faster.
+Location: Random drops, Loyrwell Tombs
+
+10★ Skullcaver
+Range: 1 | Power: 17 | Accuracy: 75% | Critical: 10% | Crit Damage: 125% | Weight: 15
+Scaling: Basic - 100% STR
+Damage Type: Blunt | Subtype: Club
+Details: On Critical Hit: (UL/2)% chance to inflict Stun. This magical weapon possesses a unique function; turning heads into caverns.
+Location: Bandit Bruiser (Lv56+)
+
+10★ Anchor Edge
+Range: 1 | Power: 18 | Accuracy: 80% | Critical: 10% | Crit Damage: 125% | Weight: 22
+Scaling: Aquatic - 70% STR, 40% VIT
+Damage Type: Slash
+Details: Attack size increases by 1 per 12 UL. After Attack: Enemies in the attack line are pulled (UL/12) tiles towards you. This large anchor barely qualifies as an axe, although its edge is quite sharp. Tales say that it was used on a ship that sailed the seas of Hell.
+Location: Fangs (Lv56+)
+
+10★ Pillawag
+Range: 1 | Power: 16 | Accuracy: 80% | Critical: 0% | Crit Damage: 125% | Weight: 22
+Scaling: Finesse - 70% STR, 30% SKI
+Damage Type: Slash
+Details: Attacks in a 3 Range wide line and does not need an attack target. Attacking will pillage all tiles in the attack range, removing all special tiles from them and preventing new ones from being created there for (UL/3) rounds. Always comes enchanted with Rampaging (On Hit: Inflicts a status that reduces the target's Defense by 25% of the enchanted weapon's Power (or powers up an existing status by the same amount (max Power*0.5) and increases duration by 1 (max 2).) Lasts 2 rounds.) Lost to the ages, this axe was used by barbarians to raid villages, until civilization fixed the barbarian problem. The axe still does its job.
+Location: Spatial Ravager (Lv56+)
+
+10★ Noble Axe
+Range: 1 | Power: 18 | Accuracy: 85% | Critical: 0% | Crit Damage: 125% | Weight: 13
+Scaling: Magical - 70% STR, 40% WIL
+Damage Type: Slash
+Details: When attacking an enemy from the front, while your party does not outnumber theirs: Increases Power and Critical by UL/2. An axe typically used by knights in the field of combat, it shines with the silvery sheen of chivalry.
+Location: Headless Knight (Lv56+)

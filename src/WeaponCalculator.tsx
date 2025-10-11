@@ -3,7 +3,9 @@
  * Port of the C# WeaponCalculator with materials, parts, enchantments, and stat scaling
  */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { WEAPONS } from './data/weapons';
+import { Weapon } from './types';
 
 interface WeaponCalculatorProps {
   stats: {
@@ -394,7 +396,7 @@ const ENCHANTMENTS: Record<string, Enchantment> = {
 const STAT_SCALING: Record<string, { str: number; wil: number; ski: number; cel: number; def: number; res: number; vit: number; fai: number; luc: number; gui: number; san: number }> = {
   'Sword': { str: 100, wil: 0, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0 },
   'Axe': { str: 120, wil: 0, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0 },
-  'Spear': { str: 100, wil: 0, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0 },
+  'Polearm': { str: 100, wil: 0, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0 },
   'Bow': { str: 80, wil: 0, ski: 20, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0 },
   'Gun': { str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 100, san: 0 },
   'Tome': { str: 0, wil: 100, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0 },
@@ -404,6 +406,12 @@ const STAT_SCALING: Record<string, { str: number; wil: number; ski: number; cel:
 };
 
 export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
+  // Weapon selection states
+  const [selectedWeapon, setSelectedWeapon] = useState<Weapon | null>(null);
+  const [weaponSearchTerm, setWeaponSearchTerm] = useState('');
+  const [weaponTypeFilter, setWeaponTypeFilter] = useState('All');
+  const [rarityFilter, setRarityFilter] = useState('All');
+  
   const [weaponType, setWeaponType] = useState('Sword');
   const [basePower, setBasePower] = useState(5);
   const [baseCrit, setBaseCrit] = useState(5);
@@ -440,6 +448,60 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
     gui: 0,
     san: 0
   });
+
+  // Effect to update weapon stats when a weapon is selected
+  useEffect(() => {
+    if (selectedWeapon) {
+      setWeaponType(selectedWeapon.weaponType);
+      setBasePower(selectedWeapon.power);
+      setBaseCrit(selectedWeapon.critical);
+      setBaseHit(selectedWeapon.accuracy);
+      setBaseWeight(selectedWeapon.weight);
+      setBaseCritDamage(selectedWeapon.criticalDamage);
+      setRarity(selectedWeapon.rarity);
+      
+      // Update scaling based on weapon's scaling type
+      const weaponScaling = selectedWeapon.scaling;
+      
+      // Combine all scaling values if multiple scaling types exist
+      const combinedScaling = weaponScaling.reduce((acc, scaling) => ({
+        str: acc.str + (scaling.str || 0),
+        wil: acc.wil + (scaling.wil || 0),
+        ski: acc.ski + (scaling.ski || 0),
+        cel: acc.cel + (scaling.cel || 0),
+        def: acc.def + (scaling.def || 0),
+        res: acc.res + (scaling.res || 0),
+        vit: acc.vit + (scaling.vit || 0),
+        fai: acc.fai + (scaling.fai || 0),
+        luc: acc.luc + (scaling.luc || 0),
+        gui: acc.gui + (scaling.gui || 0),
+        san: acc.san + (scaling.san || 0)
+      }), {
+        str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0,
+        vit: 0, fai: 0, luc: 0, gui: 0, san: 0
+      });
+      
+      setCustomScaling(combinedScaling);
+    }
+  }, [selectedWeapon]);
+
+  // Filter weapons based on search and filters
+  const filteredWeapons = WEAPONS.filter((weapon: Weapon) => {
+    const matchesSearch = weapon.name.toLowerCase().includes(weaponSearchTerm.toLowerCase());
+    const matchesType = weaponTypeFilter === 'All' || weapon.weaponType === weaponTypeFilter;
+    const matchesRarity = rarityFilter === 'All' || weapon.rarity.toString() === rarityFilter;
+    return matchesSearch && matchesType && matchesRarity;
+  });
+
+  // Function to select a weapon
+  const selectWeapon = (weapon: Weapon) => {
+    setSelectedWeapon(weapon);
+  };
+
+  // Function to clear weapon selection (use custom values)
+  const clearWeaponSelection = () => {
+    setSelectedWeapon(null);
+  };
   // Get effective weapon type (mutation changes type based on rarity)
   const getEffectiveWeaponType = (): string => {
     if (enchantment === 'Mutation' && rarity < 9) {
@@ -723,17 +785,125 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
           <h3 className="text-lg font-semibold mb-3 text-yellow-400">Base Weapon Stats</h3>
           
           <div className="space-y-3">
+            {/* Weapon Selection Section */}
+            <div className="border border-gray-500 rounded p-3 bg-gray-700">
+              <h3 className="text-lg font-semibold mb-3 text-blue-400">🗡️ Weapon Selection</h3>
+              
+              {selectedWeapon && (
+                <div className="mb-3 p-2 bg-blue-900 rounded border border-blue-600">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <h4 className="font-semibold text-blue-300">{selectedWeapon.name}</h4>
+                      <div className="text-sm text-gray-300">
+                        {'★'.repeat(selectedWeapon.rarity)} {selectedWeapon.weaponType}
+                        {selectedWeapon.subtype && ` (${selectedWeapon.subtype})`}
+                      </div>
+                    </div>
+                    <button
+                      onClick={clearWeaponSelection}
+                      className="px-2 py-1 bg-red-600 hover:bg-red-700 rounded text-sm"
+                    >
+                      Clear
+                    </button>
+                  </div>
+                  <div className="text-xs text-gray-400 mt-1">
+                    Power: {selectedWeapon.power} | Accuracy: {selectedWeapon.accuracy}% | 
+                    Critical: {selectedWeapon.critical}% | Weight: {selectedWeapon.weight}
+                  </div>
+                </div>
+              )}
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-3">
+                <div>
+                  <input
+                    type="text"
+                    placeholder="Search weapons..."
+                    value={weaponSearchTerm}
+                    onChange={(e) => setWeaponSearchTerm(e.target.value)}
+                    className="w-full bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm"
+                  />
+                </div>
+                <div>
+                  <select
+                    value={weaponTypeFilter}
+                    onChange={(e) => setWeaponTypeFilter(e.target.value)}
+                    className="w-full bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm"
+                  >
+                    <option value="All">All Types</option>
+                    <option value="Axe">Axe</option>
+                    <option value="Bow">Bow</option>
+                    <option value="Dagger">Dagger</option>
+                    <option value="Gun">Gun</option>
+                    <option value="Fist">Fist</option>
+                    <option value="Polearm">Polearm</option>
+                    <option value="Sword">Sword</option>
+                  </select>
+                </div>
+                <div>
+                  <select
+                    value={rarityFilter}
+                    onChange={(e) => setRarityFilter(e.target.value)}
+                    className="w-full bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm"
+                  >
+                    <option value="All">All Rarities</option>
+                    {[1,2,3,4,5,6,7,8,9,10].map(r => (
+                      <option key={r} value={r.toString()}>{r}★</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div className="max-h-48 overflow-y-auto border border-gray-600 rounded bg-gray-800">
+                {filteredWeapons.length === 0 ? (
+                  <div className="p-3 text-gray-400 text-center">No weapons found</div>
+                ) : (
+                  filteredWeapons.slice(0, 20).map((weapon) => (
+                    <div
+                      key={weapon.name}
+                      onClick={() => selectWeapon(weapon)}
+                      className="p-2 border-b border-gray-600 hover:bg-gray-700 cursor-pointer"
+                    >
+                      <div className="flex justify-between items-center">
+                        <div>
+                          <div className="font-medium text-sm">{weapon.name}</div>
+                          <div className="text-xs text-gray-400">
+                            {'★'.repeat(weapon.rarity)} {weapon.weaponType}
+                            {weapon.subtype && ` (${weapon.subtype})`}
+                          </div>
+                        </div>
+                        <div className="text-xs text-right text-gray-300">
+                          <div>Pow: {weapon.power}</div>
+                          <div>Acc: {weapon.accuracy}%</div>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                )}
+                {filteredWeapons.length > 20 && (
+                  <div className="p-2 text-xs text-gray-400 text-center">
+                    Showing first 20 results. Refine your search to see more.
+                  </div>
+                )}
+              </div>
+            </div>
+
             <div>
               <label className="block text-sm font-medium mb-1">Weapon Type</label>
               <select
                 value={weaponType}
                 onChange={(e) => handleWeaponTypeChange(e.target.value)}
                 className="w-full bg-gray-600 border border-gray-500 rounded px-3 py-2"
+                disabled={selectedWeapon !== null}
               >
                 {Object.keys(STAT_SCALING).map(type => (
                   <option key={type} value={type}>{type}</option>
                 ))}
               </select>
+              {selectedWeapon && (
+                <div className="text-xs text-yellow-400 mt-1">
+                  🔒 Weapon type is locked when using weapon data
+                </div>
+              )}
             </div>
 
             <div>
@@ -743,7 +913,13 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
                 value={basePower}
                 onChange={(e) => setBasePower(Number(e.target.value))}
                 className="w-full bg-gray-600 border border-gray-500 rounded px-3 py-2"
+                disabled={selectedWeapon !== null}
               />
+              {selectedWeapon && (
+                <div className="text-xs text-yellow-400 mt-1">
+                  🔒 Using weapon data
+                </div>
+              )}
             </div>
 
             <div>
@@ -753,7 +929,13 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
                 value={baseCrit}
                 onChange={(e) => setBaseCrit(Number(e.target.value))}
                 className="w-full bg-gray-600 border border-gray-500 rounded px-3 py-2"
+                disabled={selectedWeapon !== null}
               />
+              {selectedWeapon && (
+                <div className="text-xs text-yellow-400 mt-1">
+                  🔒 Using weapon data
+                </div>
+              )}
             </div>
 
             <div>
@@ -763,7 +945,13 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
                 value={baseHit}
                 onChange={(e) => setBaseHit(Number(e.target.value))}
                 className="w-full bg-gray-600 border border-gray-500 rounded px-3 py-2"
+                disabled={selectedWeapon !== null}
               />
+              {selectedWeapon && (
+                <div className="text-xs text-yellow-400 mt-1">
+                  🔒 Using weapon data
+                </div>
+              )}
             </div>
 
             <div>
@@ -773,7 +961,13 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
                 value={baseWeight}
                 onChange={(e) => setBaseWeight(Number(e.target.value))}
                 className="w-full bg-gray-600 border border-gray-500 rounded px-3 py-2"
+                disabled={selectedWeapon !== null}
               />
+              {selectedWeapon && (
+                <div className="text-xs text-yellow-400 mt-1">
+                  🔒 Using weapon data
+                </div>
+              )}
             </div>
 
             <div>
@@ -783,7 +977,13 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
                 value={baseCritDamage}
                 onChange={(e) => setBaseCritDamage(Number(e.target.value))}
                 className="w-full bg-gray-600 border border-gray-500 rounded px-3 py-2"
+                disabled={selectedWeapon !== null}
               />
+              {selectedWeapon && (
+                <div className="text-xs text-yellow-400 mt-1">
+                  🔒 Using weapon data
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -902,7 +1102,13 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
                 value={rarity}
                 onChange={(e) => setRarity(Number(e.target.value))}
                 className="w-full bg-gray-600 border border-gray-500 rounded px-3 py-2"
+                disabled={selectedWeapon !== null}
               />
+              {selectedWeapon && (
+                <div className="text-xs text-yellow-400 mt-1">
+                  🔒 Using weapon data
+                </div>
+              )}
             </div>
 
             <div className="space-y-2">
@@ -1099,6 +1305,90 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
               Example: 100% STR means 40 STR = +40 Power. Current total scaling bonus: +{calculateScaling()} Power
             </div>
       </div>
+
+      {/* Weapon Details */}
+      {selectedWeapon && (
+        <div className="mt-6 bg-gradient-to-br from-blue-800 to-indigo-800 p-4 rounded-lg border-2 border-blue-400">
+          <h3 className="text-lg font-semibold mb-3 text-blue-200">
+            🗡️ {selectedWeapon.name} Details
+          </h3>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div className="space-y-2">
+              <div className="text-sm">
+                <span className="text-blue-300 font-medium">Damage Type:</span> {selectedWeapon.damageType}
+              </div>
+              {selectedWeapon.subtype && (
+                <div className="text-sm">
+                  <span className="text-blue-300 font-medium">Subtype:</span> {selectedWeapon.subtype}
+                </div>
+              )}
+              <div className="text-sm">
+                <span className="text-blue-300 font-medium">Range:</span> {selectedWeapon.range}
+              </div>
+              <div className="text-sm">
+                <span className="text-blue-300 font-medium">Scaling:</span> {selectedWeapon.scaling.map(s => s.type).join(', ')}
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <div className="text-sm">
+                <span className="text-blue-300 font-medium">Location:</span> {selectedWeapon.location.join(', ')}
+              </div>
+              {selectedWeapon.material && (
+                <div className="text-sm">
+                  <span className="text-blue-300 font-medium">Material:</span> {selectedWeapon.material}
+                </div>
+              )}
+              {selectedWeapon.enchantment && (
+                <div className="text-sm">
+                  <span className="text-blue-300 font-medium">Enchantment:</span> {selectedWeapon.enchantment}
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="mb-4">
+            <div className="text-sm mb-2">
+              <span className="text-blue-300 font-medium">Description:</span>
+            </div>
+            <div className="text-sm text-gray-300 italic bg-blue-900 bg-opacity-30 p-2 rounded">
+              {selectedWeapon.description}
+            </div>
+          </div>
+
+          {selectedWeapon.specials && selectedWeapon.specials.length > 0 && (
+            <div>
+              <div className="text-sm mb-2">
+                <span className="text-blue-300 font-medium">Special Abilities:</span>
+              </div>
+              <div className="space-y-2">
+                {selectedWeapon.specials.map((special, index) => (
+                  <div key={index} className="bg-blue-900 bg-opacity-30 p-2 rounded">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-yellow-400 font-medium text-sm">{special.name}</span>
+                      <span className="text-xs px-1 py-0.5 bg-blue-600 rounded">{special.type}</span>
+                      {special.cooldown && (
+                        <span className="text-xs text-gray-400">CD: {special.cooldown}r</span>
+                      )}
+                      {special.fpCost && (
+                        <span className="text-xs text-gray-400">FP: {special.fpCost}</span>
+                      )}
+                      {special.momentumCost && (
+                        <span className="text-xs text-gray-400">M: {special.momentumCost}</span>
+                      )}
+                      {special.triggerRate && (
+                        <span className="text-xs text-gray-400">Rate: {special.triggerRate}</span>
+                      )}
+                    </div>
+                    <div className="text-xs text-gray-300">{special.description}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Mutation Enchant Info */}
       {enchantment === 'Mutation' && (

@@ -1,0 +1,392 @@
+POLEARMS
+
+1★ Spear
+Range: 1 | Power: 4 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 4
+Scaling: Basic - 100% STR
+Damage Type: Pierce
+Details: Your standard, boring spear.
+Location: Random drops, Shops, Metalwork (Lv1)
+
+1★ Quarterstaff
+Range: 1 | Power: 4 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 4
+Scaling: Basic - 100% STR
+Damage Type: Blunt | Subtype: Staff
+Details: A quarterstaff made out of wood.
+Location: Random drops, Woodwork (Lv1)
+
+2★ Spear (Enhanced)
+Range: 1 | Power: 4 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 4
+Scaling: Basic - 100% STR
+Damage Type: Pierce
+Details: +3 STR. Your standard, boring spear.
+Location: Enchanting (Lv1)
+
+2★ Duodent
+Range: 1 | Power: 5 | Accuracy: 85% | Critical: 10% | Crit Damage: 130% | Weight: 5
+Scaling: Finesse - 70% STR, 30% SKI
+Damage Type: Pierce
+Details: Increases Critical Chance. Special Strike: Swift Thrust (Trigger Rate: 10% + 8% Bonus, Trigger CD: 2 rounds) - Triggers before an enemy is attacked. Increases the Hit of the attack by 10, and if it hits, deals 35 Pierce bonus damage that ignores armor to all enemies within 5 Range of the target. Stabs deep and cuts twice.
+Location: Random drops, Metalwork (Lv3)
+
+2★ Javelin
+Range: 3 | Power: 7 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 7
+Scaling: Finesse - 70% STR, 30% SKI
+Damage Type: Pierce
+Details: A ranged variation of the spear.
+Location: Random drops, Metalwork (Lv2)
+
+3★ Impaler
+Range: 1 | Power: 6 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 6
+Scaling: Vampiric - 80% STR, 30% VIT
+Damage Type: Pierce
+Details: Vampiric (10%) (Basic attacks only). A vampiric spear that sucks the blood of those it stabs.
+Location: Random drops, Metalwork (Lv3)
+
+3★ Holy Lance
+Range: 1 | Power: 7 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 7
+Scaling: Faithful - 70% STR, 40% FAI
+Damage Type: Pierce
+Details: On Hit: Deals magic Light bonus damage equal to 50% of your Light ATK, which ignores armor. Divinity in the form of a spear.
+Location: Random drops, Metalwork (Lv3)
+
+3★ Shizumare
+Range: 1 | Power: 8 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 9
+Scaling: Magical - 70% STR, 40% WIL
+Damage Type: Pierce | Subtype: Greatlance
+Details: On Critical Hit: Inflict Silence for 2 rounds. (Cannot be reapplied to that target for 4 rounds afterwards.) A deadly blow from this weapon will leave an enemy speechless.
+Location: Random drops, Metalwork (Lv3)
+
+3★ Greatspear
+Range: 1 | Power: 10 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 16
+Scaling: Basic - 100% STR
+Damage Type: Pierce
+Details: A heavier spear that deals more damage. While not the trademark of a particular nation, Wyvernriders often use them in battle, as their mobility is not hindered by the weapon's weight.
+Location: Random drops, Metalwork (Lv3)
+
+3★ Warstaff
+Range: 1 | Power: 10 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 12
+Scaling: Finesse - 70% STR, 30% SKI
+Damage Type: Blunt | Subtype: Staff
+Details: A heavier, more powerful version of your average quarterstaff, the war staff is often used as a momentum-based weapon.
+Location: Random drops, Woodwork (Lv3)
+
+4★ Siphon
+Range: 1 | Power: 8 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 8
+Scaling: Spiritual - 70% STR, 40% SAN
+Damage Type: Pierce
+Details: Restores Focus based on damage dealt. (10%) (Basic attacks only). Potential Skill: Wind Voltic - Launches a magically charged slash through all enemies in a 5 Range line that deals Wind magic damage equal to Siphon's SWA + 100% of your Wind ATK. You also drain 10% of the damage dealt from all enemies hit as FP. This spear draws out and absorbs Focus from enemy wounds.
+Location: Random drops, Metalwork (Lv4)
+
+4★ Soulstealer
+Range: 1 | Power: 9 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 11
+Scaling: Darkness - 70% STR, 40% RES
+Damage Type: Pierce
+Details: On Hit: Absorbs part of the target's spiritual power, increasing your WIL by 15% of their WIL for 3 turns. An essence stealing demonic spear.
+Location: Random drops, Metalwork (Lv4)
+
+4★ Voidcut
+Range: 1 | Power: 9 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 11
+Scaling: Magical - 70% STR, 40% WIL
+Damage Type: Pierce
+Details: On Critical Hit: Torments the target with horrible visions, lowering their WIL by 20% for 3 turns. From another world.
+Location: Random drops, Metalwork (Lv4)
+
+5★ Monk Priest's Staff
+Range: 1 | Power: 10 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 9
+Scaling: Faithful, Dextria-Light - 50% STR, 70% FAI
+Damage Type: Blunt | Subtype: Staff
+Details: Potential Skill: Sanctify - Targets a 1 Range diamond around your position and removes most special effects tiles inside of it, destroying them, and creates a Sanctuary for 3 rounds with LV X (X = 1 + Power upgrade of Monk-Priest's Staff). Requires 2 durability to use and will fail if below that. A staff used by priests. When slammed into the ground, it makes a distinctive jingle.
+Location: Random drops, Woodwork (Lv3)
+
+5★ Pilfer Spear
+Range: 1 | Power: 9 | Accuracy: 85% | Critical: 5% | Crit Damage: 115% | Weight: 10
+Scaling: Cunning - 70% STR, 40% GUI
+Damage Type: Pierce
+Details: Increases Steal's success rate by 15%. Potential Skill: Pilfer - Targets one enemy within 1 Range. Messes with the target's inventory, preventing them from using items for 2 rounds. Poke 'em and keep what sticks.
+Location: Random drops
+
+5★ Cerron Scepter
+Range: 1 | Power: 9 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 6
+Scaling: Aquatic - 70% STR, 40% VIT
+Damage Type: Pierce
+Details: On Hit: Deals magic Water bonus damage equal to 50% of your Water ATK, which ignores armor. +10% Power to Aquarian Spells (Halved if not main weapon.) A frigid spear that explodes with a burst of freezing cold water.
+Location: Random drops
+
+5★ Bamboo-Bo
+Range: 1 | Power: 8 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 10
+Scaling: Finesse - 70% STR, 30% SKI
+Damage Type: Blunt | Subtype: Staff
+Details: Has two pole slots. A hard, wooden bo staff. It is about as long as a spear, but has no spearhead.
+Location: Random drops, Woodwork (Lv4)
+
+5★ Tuning Fork
+Range: 1 | Power: 10 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 10
+Scaling: Dextria-Sound - 80% STR, 30% SAN
+Damage Type: Blunt | Subtype: Instrument
+Details: On Hit: Deals up to X (X = character level or 10, whichever is higher) Sound magic damage to the target. (Depends on enemy armor. Heavy Armor = 100%, Light Armor = 50%, Unarmored = 25%). When played (via a Song skill): Destroys special effect tiles with 1 Hardiness created by enemies within 2 Range. (If a special effect tile is destroyed, this effect goes on a 3 round Cooldown.) A dual-forked spear with a blunt head. When it is struck on something hard, it creates a loud tone.
+Location: Random drops
+
+6★ Excel Hasta
+Range: 1 | Power: 8 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 14
+Scaling: Basic - 100% STR
+Damage Type: Pierce
+Details: On Hit: Consumes Weapon Charges, dealing 50% more damage per Charge Level. Grants Skill: Charge Weapon (3 Momentum, 5 FP) - Rev your weapon and fill it with focus, increasing its Charge, to a maximum of level 3. When you hit with a weapon that can consume Weapon Charges, the damage you deal with that attack will increase by 50% per level. (Weapon Charges will expire after 5 rounds.) Potential Skill: Elite Engine - Shared Potential Skill. Charge Weapon FP cost is increased to 8 FP. Attacks do not use up all of your charges, instead the LV is reduced by 1, and the damage bonus is 35% (does not increase with charge amount like normal Excel attacks). The Excel line of weapons were developed in Chaturanga, where the ability to be defensive while increasing offensive capabilities was highly valued. By charging up the weapon, it can explosively spend the focus energy when it strikes an enemy, greatly increasing damage. However, the engine module makes it heavier than other weapons.
+Location: Random drops
+
+6★ Firepoker
+Range: 1 | Power: 8 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 6
+Scaling: Basic - 100% STR
+Details: On Hit: Deals magic Fire bonus damage equal to 50% of your Fire ATK, which ignores armor. Special Strike: Coal Brand (Trigger Rate: 10% + 8% Bonus, Trigger CD: 2 rounds) - Triggers before an enemy is attacked. Inflicts the target with Elemental Pierce (Fire) (2 rounds), and if it hits, all other enemies in 5 Range of the target take Firepoker's On Hit effects. Not your average fireplace tool.
+Location: Random drops
+
+6★ Sasumata
+Range: 1 | Power: 9 | Accuracy: 85% | Critical: -5% | Crit Damage: 115% | Weight: 6
+Scaling: Basic - 70% STR, 40% SKI
+Damage Type: Blunt
+Details: Sasumata: Once per round (per enemy), after an enemy uses an action that moves them into the tile you are facing; if your STR is greater than their Battle Weight (ignoring reductions; monsters use their level instead), you push them back 1 tile and inflict them with Clumsy (1 round). Otherwise, you inflict them with Impaired Attack (LV 5, until your next turn, effect ends when enemy is no longer close to you). Impaired Attack: Damage against the causer is reduced by LV%. Effect ends by moving away from the causer. Potential Skill - Subdue & Restrain (3 Momentum, 5 FP) - Sasumata's Potential Skill. Targets an enemy in 1 Range and applies an effect. If the target is Knocked Down, you pin them with the Sasumata, inflicting Grappled (2 rounds) and Impaired Attack (LV 10, 2 rounds). If not, if you are behind the target, you strike their knees and inflict them with Knocked Down. If none of the other effects activate, you knock them back 2 tiles and recover 2M. A polearm with a dull crescent edge and a row of spikes near it. It is frequently used by guards in certain cultures as a means to restrain the aggressive, such as animals or criminals, or to keep them away.
+Location: Random drops
+
+6★ Sleigher
+Range: 1 | Power: 9 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 9
+Scaling: Cold - 70% STR, 40% SKI
+Sub Type: Scythe | Damage Type: Pierce
+Details: On Hit: Deals magic Ice bonus damage equal to 50% of your Ice ATK, which ignores armor. Used by a demon from the north to trim people from his list of evil-doers.
+Location: Random drops
+
+7★ Magical Moon
+Range: 1 | Power: 11 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 10
+Scaling: Magical - 70% STR, 40% WIL
+Damage Type: Pierce
+Details: Spelledge (This weapon can be used as a casting tool for spells.) Suitable for dishing out punishment in the names of things. Will not help you transform, however.
+Location: Random drops, Metalwork (Lv5)
+
+7★ Abberation Spear
+Range: 1 | Power: 12 | Accuracy: 85% | Critical: 12% | Crit Damage: 115% | Weight: 12
+Scaling: Electrical - 70% STR, 40% LUC
+Damage Type: Pierce
+Details: On Hit: Deals magic Lightning bonus damage equal to 50% of your Lightning ATK, which ignores armor. +10% Power to Nature Spells (Halved if not main weapon.) On Critical Hit: Inflict Poison LV 5 for 3 rounds. Said to be made from the finely-honed body of a demonic insect, this spear's wrath can be felt by touch.
+Location: Random drops, Metalwork (Lv4)
+
+7★ Deadly Smile
+Range: 1 | Power: 10 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 14
+Scaling: Earthen - 70% STR, 40% DEF
+Damage Type: Pierce
+Details: On Critical Hit: If target is Feared, they are Knocked Down. Potential Skill: Jolly Slaughter - Dance skill. Hop in place in a taunting manner while making snipping noises, removing Knockdown Immunity from all enemies (excluding bosses). Enemies within 4 Range of you may be inflicted with Fear for 3 rounds; if your Deadly Smile is Cursed or Doomed, you also perform a basic attack with it on an enemy Feared by you within 1 Range (50% damage). A discarded weapon of a crazed, deformed child murderer. While not extremely deadly, it preys on the psychological weakness of its victims.
+Location: Random drops
+
+7★ Sea Hunter Spear
+Range: 1 | Power: 12 | Accuracy: 85% | Critical: 7% | Crit Damage: 115% | Weight: 11
+Scaling: Aquatic - 70% STR, 40% VIT
+Damage Type: Pierce | Subtype: Greatlance
+Details: On Hit: Inflicts Hunted LV14 for 3 rounds if the target is a seafaring monster. Always comes made of Coral. (+1 Power, +3 Accuracy, +3 Critical, +1 Weight, +3 Water ATK.) This spear was born from the sea, and as anyone who lives there knows, anything that lives in the sea is out to get everything else... that lives in the sea.
+Location: Fishing Contest Chest
+
+7★ Black Spear
+Range: 1 | Power: 7 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 6
+Scaling: Darkness - 70% STR, 40% RES
+Damage Type: Pierce
+Details: Attacks with this weapon against field objects deal 20 more damage to them. Reduces effectiveness of enemy Magic Armor by 7. Special Strike: Hell Spear (Trigger Rate: 10% + 8% Bonus, Trigger CD: 2 rounds) - Triggers before an enemy is attacked, and replaces the attack. Causes dark spears to slice through the target and all other enemies within 5 Range, dealing Dark magic bonus damage that ignores immunities/absorbs/reflects equal to your weapon's Scaled Weapon Attack + 6. Covered by darkness, this spear's magical qualities make it deadly.
+Location: Random drops
+
+7★ Lorelei
+Range: 1 | Power: 8 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 8
+Scaling: Aquatic - 70% STR, 40% VIT
+Damage Type: Pierce
+Details: On New Round: If you are within 1 Range of any Flooded Water tiles, you gain Lorelei Dance for 1 round. (On Hit: Lorelei Dance is consumed, dealing Water magic bonus damage equal to 100% of Water ATK, and restores 15 FP.) A water-dancer's spear. As gracefully as they moved, the water was inspired to join.
+Location: Korvara Puzzle, Metalwork (Lv3)
+
+8★ Elenoa
+Range: 1 | Power: 11 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 6
+Scaling: Faithful - 70% STR, 40% FAI
+Damage Type: Pierce
+Details: On Hit: Replaces your Dark ATK with the target's for 2 rounds. Potential Skill: Tokio (1m) - Requires Substitute Dark ATK to be active. Consumes the status caused by the weapon and targets 1 enemy within 3 Range, drawing them in 2 tile towards you, dealing X armor-ignoring Dark damage, and inflicting Cursed Wound LV X on them for 3 rounds. (X = Twice Elenoa's total Upgrade Level (UL).) A spear said to once belong to a priest who believed in dark deities.
+Location: Random drops
+
+8★ Gae Bolg Replica
+Range: 1 | Power: 15 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 12
+Scaling: Replica - 70% STR, 20% SKI, 20%SAN
+Damage Type: Pierce
+Details: Always comes enchanted with Divine Weapon. (+2 Power, +5 Accuracy, +5 Critical, -2 Weight. Unbreakable.) A replica of a set of spears said to be made from Zera's remains. It possesses extremely high power.
+Location: Casino
+
+9★ Knight Slayer
+Range: 1 | Power: 14 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 15
+Scaling: Basic - 100% STR
+Damage Type: Pierce | Subtype: Greatlance
+Details: Increases Scaled Weapon ATK by 20% if the target's armor type is Heavy Armor. A spear made to pierce heavy armor and not much else.
+Location: Random drops
+
+9★ Gae Baed
+Range: 1 | Power: 13 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 14
+Scaling: Cunning - 70% STR, 40% GUI
+Damage Type: Pierce
+Details: On Hit: Inflicts or powers up Cursed Wound by 10 LV for 3 rounds. (Cursed Wound lowers the target's maximum HP by LV.) Special Strike: Cursed Thrust (Trigger Rate: 10% + 8% Bonus, Trigger CD: 2 rounds) - Triggers before an enemy is attacked. Increases the damage the attack deals by 15, and if it hits, applies or powers up Cursed Wound LV X (X = 75 + 25 per Curse status effect on the target) (3 rounds) to the target. One of a set of spears said to be made from Zera's remains, the Gae Baed inflicts wounds that never heal. Either due to being an imitation, or age, that effect is weakened on this particular spear.
+Location: Random drops
+
+9★ Red Argus
+Range: 1 | Power: 9 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 14
+Scaling: Basic - 100% STR
+Damage Type: Pierce
+Details: Also qualifies as a Axe weapon. Named after a barbarian who was only limited by his conflict between stabbing and chopping his enemies.
+Location: Random drops
+
+9★ Ruby-Head Staff
+Range: 1 | Power: 9 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 6
+Scaling: Flamelit - 70% WIL, 40% STR
+Damage Type: Fire | Subtype: Staff
+Details: Spelledge (This weapon can be used as a casting tool for spells.) +5 Fire ATK. Grants Skill: Deploy Talis (Ruby) (3 Momentum, 5 FP.) - Creates (or moves, if already active) a Ruby talis at target location within 5 Range. While active, the talis becomes the center point for Nerifian spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.) The head of this staff shows off a shiny, magical gem. Its magical power is obvious.
+Location: Woodwork (Lv5)
+
+9★ Sapphire-Head Staff
+Range: 1 | Power: 9 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 6
+Scaling: Cold - 70% WIL, 40% SKI
+Damage Type: Ice | Subtype: Staff
+Details: Spelledge (This weapon can be used as a casting tool for spells.) +5 Ice ATK. Grants Skill: Deploy Talis (Sapphire) (3 Momentum, 5 FP.) - Creates (or moves, if already active) a Sapphire talis at target location within 5 Range. While active, the talis becomes the center point for Aquarian spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.) The head of this staff shows off a shiny, magical gem. Its magical power is obvious.
+Location: Woodwork (Lv5)
+
+9★ Emerald-Head Staff
+Range: 1 | Power: 9 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 6
+Scaling: Sylphid - 70% WIL, 40% CEL
+Damage Type: Wind | Subtype: Staff
+Details: Spelledge (This weapon can be used as a casting tool for spells.) +5 Wind ATK. Grants Skill: Deploy Talis (Emerald) (3 Momentum, 5 FP.) - Creates (or moves, if already active) a Emerald talis at target location within 5 Range. While active, the talis becomes the center point for Sylphid spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.) The head of this staff shows off a shiny, magical gem. Its magical power is obvious.
+Location: Woodwork (Lv5)
+
+9★ Topaz-Head Staff
+Range: 1 | Power: 9 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 6
+Scaling: Electrical - 70% WIL, 40% LUC
+Damage Type: Lightning | Subtype: Staff
+Details: Spelledge (This weapon can be used as a casting tool for spells.) +5 Lightning ATK. Grants Skill: Deploy Talis (Topaz) (3 Momentum, 5 FP.) - Creates (or moves, if already active) a Topaz talis at target location within 5 Range. While active, the talis becomes the center point for Nature spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.) The head of this staff shows off a shiny, magical gem. Its magical power is obvious.
+Location: Woodwork (Lv5)
+
+9★ Amethyst-Head Staff
+Range: 1 | Power: 9 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 6
+Scaling: Earthen - 70% WIL, 40% DEF
+Damage Type: Earth | Subtype: Staff
+Details: Spelledge (This weapon can be used as a casting tool for spells.) +5 Earth ATK. Grants Skill: Deploy Talis (Amethyst) (3 Momentum, 5 FP.) - Creates (or moves, if already active) a Amethyst talis at target location within 5 Range. While active, the talis becomes the center point for Isesip spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.) The head of this staff shows off a shiny, magical gem. Its magical power is obvious.
+Location: Woodwork (Lv5)
+
+9★ Onyx-Head Staff
+Range: 1 | Power: 9 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 6
+Scaling: Darkness - 70% WIL, 40% RES
+Damage Type: Darkness | Subtype: Staff
+Details: Spelledge (This weapon can be used as a casting tool for spells.) +5 Darkness ATK. Grants Skill: Deploy Talis (Onyx) (3 Momentum, 5 FP.) - Creates (or moves, if already active) a Onyx talis at target location within 5 Range. While active, the talis becomes the center point for Huggesoan spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.) The head of this staff shows off a shiny, magical gem. Its magical power is obvious.
+Location: Woodwork (Lv5)
+
+9★ Diamond-Head Staff
+Range: 1 | Power: 9 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 6
+Scaling: Faithful - 70% WIL, 40% FAI
+Damage Type: Light | Subtype: Staff
+Details: Spelledge (This weapon can be used as a casting tool for spells.) +5 Light ATK. Grants Skill: Deploy Talis (Diamond) (3 Momentum, 5 FP.) - Creates (or moves, if already active) a Diamond talis at target location within 5 Range. While active, the talis becomes the center point for Mercalan spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.) The head of this staff shows off a shiny, magical gem. Its magical power is obvious.
+Location: Woodwork (Lv5)
+
+9★ Aquamarine-Head Staff
+Range: 1 | Power: 9 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 6
+Scaling: Aquatic - 70% WIL, 40% VIT
+Damage Type: Water | Subtype: Staff
+Details: Spelledge (This weapon can be used as a casting tool for spells.) +5 Water ATK. Grants Skill: Deploy Talis (Sapphire) (3 Momentum, 5 FP.) - Creates (or moves, if already active) a Sapphire talis at target location within 5 Range. While active, the talis becomes the center point for Aquarian spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.) The head of this staff shows off a shiny, magical gem. Its magical power is obvious.
+Location: Woodwork (Lv5)
+
+9★ Aerialite-Head Staff
+Range: 1 | Power: 9 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 6
+Scaling: Faithful - 70% WIL, 40% FAI
+Damage Type: Light | Subtype: Staff
+Details: Spelledge (This weapon can be used as a casting tool for spells.) +5 Light ATK. Allows you to use the power of the magic stone in battle on a 10-round cooldown. This cooldown is halved if this weapon has the Jeweled enchantment. (This does not use up a magic stone item or require one to be equipped in your item belt.) (Aerialite (Staff): 1M. Magic stone. Forces the target to become Airborne and creates an Air Shaft at their location for 2 rounds.) The head of this staff shows off a shiny, magical gem. Its magical power is obvious.
+Location: Woodwork (Lv6)
+
+9★ Cariaite-Head Staff
+Range: 1 | Power: 9 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 6
+Scaling: Cold - 70% WIL, 40% SKI
+Damage Type: Ice | Subtype: Staff
+Details: Spelledge (This weapon can be used as a casting tool for spells.) +5 Ice ATK. Allows you to use the power of the magic stone in battle on a 10-round cooldown. This cooldown is halved if this weapon has the Jeweled enchantment. (This does not use up a magic stone item or require one to be equipped in your item belt.) (Cariaite (Staff): 1M. Magic stone. Creates a dense earth pillar which can be attacked at a target location within 5 Range. Any enemy in that tile will be knocked back 1 tile.) The head of this staff shows off a shiny, magical gem. Its magical power is obvious.
+Location: Woodwork (Lv6)
+
+9★ Fortunite-Head Staff
+Range: 1 | Power: 9 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 6
+Scaling: Sylphid - 70% WIL, 40% CEL
+Damage Type: Wind | Subtype: Staff
+Details: Spelledge (This weapon can be used as a casting tool for spells.) +5 Wind ATK. Allows you to use the power of the magic stone in battle on a 10-round cooldown. This cooldown is halved if this weapon has the Jeweled enchantment. (This does not use up a magic stone item or require one to be equipped in your item belt.) (Fortunite (Staff): 1M. Magic stone. The target gains Emergency Evasion until your next turn. While active, the next damage instance the target takes which is not a natural Evade or Glancing Blow, is forced to become a Glancing Blow, reducing the damage taken. (Only applies to one damage instance.) The head of this staff shows off a shiny, magical gem. Its magical power is obvious.
+Location: Woodwork (Lv6)
+
+9★ Fulgurite-Head Staff
+Range: 1 | Power: 9 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 6
+Scaling: Electrical - 70% WIL, 40% LUC
+Damage Type: Lightning | Subtype: Staff
+Details: Spelledge (This weapon can be used as a casting tool for spells.) +5 Lightning ATK. Allows you to use the power of the magic stone in battle on a 10-round cooldown. This cooldown is halved if this weapon has the Jeweled enchantment. (This does not use up a magic stone item or require one to be equipped in your item belt.) (Fulgurite (Staff): 1M. Magic stone. Lowers the target's Critical by 20 and boosts their Critical Evade by the same amount for 3 rounds.) The head of this staff shows off a shiny, magical gem. Its magical power is obvious.
+Location: Woodwork (Lv6)
+
+9★ Morganite-Head Staff
+Range: 1 | Power: 9 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 6
+Scaling: Earthen - 70% WIL, 40% DEF
+Damage Type: Earth | Subtype: Staff
+Details: Spelledge (This weapon can be used as a casting tool for spells.) +5 Earth ATK. Allows you to use the power of the magic stone in battle on a 10-round cooldown. This cooldown is halved if this weapon has the Jeweled enchantment. (This does not use up a magic stone item or require one to be equipped in your item belt.) (Morganite(Staff): 1M. Magic stone. The target's next instance of damage is capped at 30, but they become vulnerable to Guard Break effects while active. Lasts for up to 5 rounds, or until the target takes damage.) The head of this staff shows off a shiny, magical gem. Its magical power is obvious.
+Location: Woodwork (Lv6)
+
+9★ Requinite-Head Staff
+Range: 1 | Power: 9 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 6
+Scaling: Flamelit - 70% WIL, 40% STR
+Damage Type: Fire | Subtype: Staff
+Details: Spelledge (This weapon can be used as a casting tool for spells.) +5 Fire ATK. Allows you to use the power of the magic stone in battle on a 10-round cooldown. This cooldown is halved if this weapon has the Jeweled enchantment. (This does not use up a magic stone item or require one to be equipped in your item belt.) (Requinite(Staff): 1M. Magic stone. Applies a dispel effect 2 times.) The head of this staff shows off a shiny, magical gem. Its magical power is obvious.
+Location: Woodwork (Lv6)
+
+9★ Tetraite-Head Staff
+Range: 1 | Power: 9 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 6
+Scaling: Darkness - 70% WIL, 40% RES
+Damage Type: Darkness | Subtype: Staff
+Details: Spelledge (This weapon can be used as a casting tool for spells.) +5 Darkness ATK. Allows you to use the power of the magic stone in battle on a 10-round cooldown. This cooldown is halved if this weapon has the Jeweled enchantment. (This does not use up a magic stone item or require one to be equipped in your item belt.) (Tetraite (Staff): 1M. Target becomes immune to critical hits until your next turn.) The head of this staff shows off a shiny, magical gem. Its magical power is obvious.
+Location: Woodwork (Lv6)
+
+9★ Roaring Rose
+Range: 1 | Power: 9 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 12
+Scaling: Cunning - 70% STR, 40% GUI
+Damage Type: Slash
+Details: Also qualifies as a Gun weapon. Grants Skill: Reaping Petals (3 Momentum.) - Performs a basic attack with the Roaring Rose by firing a bullet-like wrapping of petals at a target within 5 Range. (Roaring Rose has an increased distance before it is affected by Farshot Penalty, so fire away.) Potential Skill: Cunning Rose - If the Duelist skill Vent Petale is active, you gain +5 GUI. This beautiful scythe reminds all those it cuts down that roses sometimes chop your head off.
+Location: Random drops
+
+10★ Fellgrant Drinker
+Range: 1 | Power: 14 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 10
+Scaling: Vampiric - 80% STR, 30% VIT
+Damage Type: Pierce
+Details: Vampiric (UL%) (Basic attacks only). A vampiric spear that absorbs focus in blood to restore the health of its wielder; users say they hear screams in their head, at times, and that the spear is possessed.
+Location: Vampiric Legume (Lv56+)
+
+10★ Overgrown Staff
+Range: 1 | Power: 12 | Accuracy: 95% | Critical: 0% | Crit Damage: 115% | Weight: 8
+Scaling: Spiritual - 70% STR, 40% SAN
+Damage Type: Blunt | Subtype: Staff
+Details: Increases the power of Nature spells by 1 for every plant (Flowers, Bushes, Vines) in 4 Range. On New Round: Creates 1 flower at a random unoccupied tile in 4 Range per 6 UL. (Lasts for 3 rounds.) What appears to be a druid's staff, this rod grew and fell from a great tree. Its mere presence promotes the growth of plants and empowers the natural order.
+Location: Alraune (Lv56+)
+
+10★ Staff of Eyes
+Range: 1 | Power: 13 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 13
+Scaling: Tool, Darkness - 40% STR, 40% RES
+Damage Type: Light | Subtype: Staff
+Details: Increases Hit by UL/2, except when Blinded. On Hit: Inflicts Analyze Weakness LV UL/2 for 2 rounds. This rod was most likely cultivated on a miniature planet, its seed taking root at the very center to give birth to the colossal (relatively) tree that ended up being it, after it absorbed all life around it. In our universe's standards, it's not very big, but would make a good walking stick.
+Location: Spatial Corrupter (Lv56+)
+
+10★ Winged Spear
+Range: 1 | Power: 11 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 11
+Scaling: Sylphid - 70% STR, 40% CEL
+Damage Type: Pierce
+Details: Grants Skill: Flight - This unit, having wings, is capable of flight. While Airborne, this unit will hover when using Movement, allowing them to avoid field hazards and traps on the ground. Grants Skill: Gain Air - Leap into the air and hover briefly with your wings, giving you the Airborne status. Grants Skill: Winged Spearstrike (3 Momentum, 10 FP) - Tosses your Winged Spear in a line, reducing its durability by 2, where it will travel up to 6 Range away. If it hits an enemy, it will deal Wind magic damage to them equal to 125% of Wind ATK + UL*2. This spear has wings, no bulls required. They almost seem... alive, in a way, it's disturbing. But whatever magic holds it together will let you use those wings almost as if they were your own. That, and the spear is capable of flying quite far and returning, in a special type of attack.
+Location: Animated Sword (Lv56+)
+
+10★ Eternal Servitude
+Range: 1 | Power: 15 | Accuracy: 85% | Critical: 0% | Crit Damage: 115% | Weight: 11
+Scaling: Darkness, Magical - 40% STR, 40% RES, 40% WIL
+Damage Type: Darkness | Subtype: Staff
+Details: On Battle Start: If UL is at least 10 and fighting monsters, a Swarming Wretch appears and joins your battle as an ally. Grants Spell: Adon Graxis - This skill requires a Rank D Invocation. Cannot be used before Round 2. Unleashes pure darkness on the battlefield, tainting all enemies with curses and knocking them down. (All Lv5, duration 3: Noshka's Famine, Crippling Muysig, Frailty of Credwa, Fellel's Fumble, Plisfa's Masochism) Dreadful light, limited beings, let it all be drowned out... Once you submit, there's no way to break free.
+Location: G6 Only - Necromancer (Lv56+)
+
+10★ Hundred-Reflection Spear
+Range: 1 | Power: 15 | Accuracy: 85% | Critical: 10% | Crit Damage: 115% | Weight: 10
+Scaling: Faithful - 70% STR, 40% FAI
+Damage Type: Pierce
+Details: On Hit: Deals magic Light bonus damage equal to UL, which ignores armor. On Critical Hit: Copies a random, non-permanent, positive status effect the target has, except with a duration of 2 rounds. (3 Round CD) Potential Skill: Mirror Knighting - Requires a Rank D Invocation. After casting, you will temporarily change into a Mirror Knight for 5 rounds. While you are a Mirror Knight, you gain +5 to all stats, and access to certain new skills. (Far-Off Shine: 3M, 10FP. Summons the appearance of a random person as a Mirror Soldier who aids the Mirror Knight in battle.) (Vanity: 3M, 5FP. A true mirror's reflection copies every detail. Upon use, the user gains a copy of positive status(es) all enemies have, except permanent ones, including the LV, duration, etc. (Mirror Armor: Grants a percentage of automatic retaliation of magic damage, based on level (max: 20%). Physical damage will shatter then mirrors for the rest of the round, preventing the retaliation effect, but will reduce the LUC of the damager for the rest of the battle, as breaking mirrors is unlucky.) A flash of brilliance in a shallow pond... A prism of pain that reflects the faces of agony that it inflicts upon your foes.
+Location: Mirror Knight (Lv56+)
+
+10★ Gryphon Wing
+Range: 5 | Power: 12 | Accuracy: 85% | Critical: 10% | Crit Damage: 115% | Weight: 16
+Scaling: Sylphid - 70% STR, 40% CEL
+Damage Type: Wind
+Details: Increases Wind ATK by UL/2. (Doesn't stack.) On Critical Hit: Applies or powers up Gryphon Storm LV 5 to yourself for 5 rounds. (Max LV: 5 + UL) Grants Skill: Gryphon Tempest (3 Momentum, 15 FP.) - Whildly spin your Grypon Wing whip around you, kicking up a storm in a 3 Size Circle. Deals Wind magic damage around you, which can critically hit (can activate Gryphon Wing's On Critical effect, but only once per skill use). Creates an Air Shaft at your location for 3 rounds. If you have Grypon Storm, this skill gains additional effects based on its LV: LV5+: If you have an unsummoned Hippogriph (and can summon it), summons it to a tile near you. LV10+: +1 Circle Size. Chance to inflict Lingering Wind Damage LV X (X = Gryphon Storm LV) for 2 rounds. With a feather-like texture, you'd think this whip would be soft, but being struck by it is anything but. In fact, the more it strikes, the wilder it gets, kicking up the winds around you.
+Location: Wild Hippogryph (Lv56+)

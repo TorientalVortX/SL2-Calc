@@ -2241,74 +2241,113 @@ export default function SL2Calculator() {
 
           {/* Class Passive Rank selectors */}
           {(hasClassPassive(mainClass) || hasClassPassive(subClass)) && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-              {(() => {
-                // Check if both classes share the same base class passive
-                const mainPassiveData = getClassPassiveData(mainClass);
-                const subPassiveData = getClassPassiveData(subClass);
-                const mainIsInherited = !CLASS_PASSIVES[mainClass];
-                const subIsInherited = !CLASS_PASSIVES[subClass];
-                const mainSourceClass = mainIsInherited ? getBaseClass(mainClass) : mainClass;
-                const subSourceClass = subIsInherited ? getBaseClass(subClass) : subClass;
-                const isSharedBaseClassPassive = mainIsInherited && subIsInherited && mainSourceClass === subSourceClass && mainClass !== subClass;
-                
-                const elements = [];
-                
-                // Main class passive (or shared passive if both inherit the same one)
-                if (hasClassPassive(mainClass)) {
-                  const displayName = mainIsInherited ? mainSourceClass : mainClass;
-                  const passiveData = mainPassiveData;
-                  
-                  elements.push(
-                    <div key="main">
-                      <label className="block text-sm font-medium mb-2">
-                        {displayName} Passive Rank {isSharedBaseClassPassive ? '(Main Class)' : ''} ({passiveData?.description})
-                      </label>
-                      <input
-                        type="number"
-                        min="0"
-                        max={mainClass === subClass ? 0 : passiveData?.maxRank || 0}
-                        value={mainClassPassive}
-                        onChange={(e) => {
-                          const value = Math.max(0, Math.min(Number(e.target.value), passiveData?.maxRank || 0));
-                          setMainClassPassive(value);
-                        }}
-                        disabled={mainClass === subClass}
-                        className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2"
-                      />
-                    </div>
-                  );
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+    {(() => {
+      // Check if both classes share the same base class passive
+      const mainPassiveData = getClassPassiveData(mainClass);
+      const subPassiveData = getClassPassiveData(subClass);
+      const mainIsInherited = !CLASS_PASSIVES[mainClass];
+      const subIsInherited = !CLASS_PASSIVES[subClass];
+      const mainSourceClass = mainIsInherited ? getBaseClass(mainClass) : mainClass;
+      const subSourceClass = subIsInherited ? getBaseClass(subClass) : subClass;
+      
+      // Check if we're dealing with the same passive (either same class or same inherited passive)
+      const isSamePassive = mainSourceClass === subSourceClass;
+      
+      const elements = [];
+      
+      if (isSamePassive) {
+        // Show single passive control for shared passive
+        const displayName = mainSourceClass;
+        const passiveData = mainPassiveData || subPassiveData;
+        
+        elements.push(
+          <div key="shared" className="md:col-span-2">
+            <label className="block text-sm font-medium mb-2">
+              {displayName} Passive Rank ({passiveData?.description})
+            </label>
+            <input
+              type="number"
+              min="0"
+              max={passiveData?.maxRank || 0}
+              value={mainClassPassive}
+              onChange={(e) => {
+                const value = Math.max(0, Math.min(Number(e.target.value), passiveData?.maxRank || 0));
+                setMainClassPassive(value);
+                // For shared passives, keep sub passive in sync or at 0
+                if (mainClass === subClass) {
+                  setSubClassPassive(0);
+                } else {
+                  setSubClassPassive(value);
                 }
-                
-                // Sub class passive (only if it's different from main or if not shared base class passive)
-                if (hasClassPassive(subClass) && mainClass !== subClass && !isSharedBaseClassPassive) {
-                  const displayName = subIsInherited ? subSourceClass : subClass;
-                  const passiveData = subPassiveData;
-                  
-                  elements.push(
-                    <div key="sub">
-                      <label className="block text-sm font-medium mb-2">
-                        {displayName} Passive Rank (Sub Class) ({passiveData?.description})
-                      </label>
-                      <input
-                        type="number"
-                        min="0"
-                        max={passiveData?.maxRank || 0}
-                        value={subClassPassive}
-                        onChange={(e) => {
-                          const value = Math.max(0, Math.min(Number(e.target.value), passiveData?.maxRank || 0));
-                          setSubClassPassive(value);
-                        }}
-                        className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2"
-                      />
-                    </div>
-                  );
-                }
-                
-                return elements;
-              })()}
+              }}
+              className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2"
+            />
+            {mainClass === subClass && (
+              <div className="text-xs text-gray-400 mt-1">
+                Monoclass builds use the same passive for both slots
+              </div>
+            )}
+          </div>
+        );
+      } else {
+        // Show separate controls for different passives
+        
+        // Main class passive
+        if (hasClassPassive(mainClass)) {
+          const displayName = mainIsInherited ? mainSourceClass : mainClass;
+          const passiveData = mainPassiveData;
+          
+          elements.push(
+            <div key="main">
+              <label className="block text-sm font-medium mb-2">
+                {displayName} Passive Rank (Main Class) ({passiveData?.description})
+              </label>
+              <input
+                type="number"
+                min="0"
+                max={passiveData?.maxRank || 0}
+                value={mainClassPassive}
+                onChange={(e) => {
+                  const value = Math.max(0, Math.min(Number(e.target.value), passiveData?.maxRank || 0));
+                  setMainClassPassive(value);
+                }}
+                className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2"
+              />
             </div>
-          )}
+          );
+        }
+        
+        // Sub class passive (only if different from main)
+        if (hasClassPassive(subClass) && mainClass !== subClass) {
+          const displayName = subIsInherited ? subSourceClass : subClass;
+          const passiveData = subPassiveData;
+          
+          elements.push(
+            <div key="sub">
+              <label className="block text-sm font-medium mb-2">
+                {displayName} Passive Rank (Sub Class) ({passiveData?.description})
+              </label>
+              <input
+                type="number"
+                min="0"
+                max={passiveData?.maxRank || 0}
+                value={subClassPassive}
+                onChange={(e) => {
+                  const value = Math.max(0, Math.min(Number(e.target.value), passiveData?.maxRank || 0));
+                  setSubClassPassive(value);
+                }}
+                className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2"
+              />
+            </div>
+          );
+        }
+      }
+      
+      return elements;
+    })()}
+  </div>
+)}
 
           <div className="flex justify-between items-center mb-4 flex-wrap gap-2">
             <div className="text-xl font-semibold">
@@ -3184,7 +3223,7 @@ export default function SL2Calculator() {
                           {(subrace === 'Umbral' || subrace === 'Papilion') && 
                            (elem === 'Dark' || elem === 'Light' || elem === 'Wind' || elem === 'Earth') && 
                            <span className="text-gray-500"> (scales with SAN)</span>
-                          }
+                                                   }
                         </div>
                       )}
                       {subrace === 'Umbral' && elem === 'Dark' && (

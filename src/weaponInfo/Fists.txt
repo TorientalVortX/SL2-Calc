@@ -1,0 +1,206 @@
+FISTS
+
+1★ Brawler's Glove
+Range: 1 | Power: 5 | Accuracy: 80% | Critical: 0% | Crit Damage: 105% | Weight: 2
+Scaling: Basic - 100% STR
+Details: Special Strike - Machinegun Punch (Trigger Rate: 10% + 8% Bonus, Trigger CD: 2 Rounds) - Triggers before an enemy is attacked, and replaces the attack. Deals five hits of Blunt damage to the enemy, which can critically hit, dealing a total of 110% of Brawler's Glove's Scaled Weapon Attack. If any of them hit, the target is also inflicted with Flatfoot until your next turn. A lightweight glove often used to protect a fist fighter's assets.
+Location: Random drops, Metalwork (Lv1)
+
+2★ Knuckledusters
+Range: 1 | Power: 5 | Accuracy: 80% | Critical: 10% | Crit Damage: 120% | Weight: 8
+Scaling: Finesse - 70% STR, 30% SKI
+Details: A sharp pair of brass knuckles.
+Location: Random drops, Metalwork (Lv3)
+
+2★ Crash Cymbals
+Range: 1 | Power: 8 | Accuracy: 80% | Critical: 0% | Crit Damage: 105% | Weight: 8
+Scaling: Dextria-Sound - 80% STR, 30% SAN
+Sub Type: Instrument | Damage Type: Sound
+Details: On Hit: If you are behind your target, inflicts Fear on them until your next turn. (Works even while outside of melee range.) When played (via a Song skill): Deals bonus armor-ignoring Sound magic damage equal to 5 + UL to all enemies within 5 Range. A pair of cymbals, which are typically played by smashing them together.
+Location: Random drops
+
+2★ Brawler's Glove (Enhanced)
+Range: 1 | Power: 5 | Accuracy: 80% | Critical: 0% | Crit Damage: 105% | Weight: 2
+Scaling: Basic - 100% STR
+Details: +3 STR. Special Strike - Machinegun Punch (Trigger Rate: 10% + 8% Bonus, Trigger CD: 2 Rounds) - Triggers before an enemy is attacked, and replaces the attack. Deals five hits of Blunt damage to the enemy, which can critically hit, dealing a total of 110% of Brawler's Glove's Scaled Weapon Attack. If any of them hit, the target is also inflicted with Flatfoot until your next turn. A lightweight glove often used to protect a fist fighter's assets.
+Location: Enchanting (Lv2)
+
+2★ Boxing Glove
+Range: 1 | Power: 6 | Accuracy: 80% | Critical: 0% | Crit Damage: 105% | Weight: 2
+Scaling: Earthen - 70% STR, 40% DEF
+Details: +1-3 DEF. Grants skill: Guard. Guard does not deplete the Schwarz Sturm gauge. A type of fighting glove used in one of Kysei's provinces. It gives some defensive options.
+Location: Random drops
+
+3★ Tenderizers
+Range: 1 | Power: 6 | Accuracy: 80% | Critical: 0% | Crit Damage: 105% | Weight: 4
+Scaling: Vampiric - 80% STR, 30% VIT
+Details: Vampiric (10%). This gauntlet absorbs Focus from the wounds that it makes.
+Location: Random drops, Metalwork (Lv3)
+
+3★ Needler
+Range: 1 | Power: 8 | Accuracy: 80% | Critical: 0% | Crit Damage: 105% | Weight: 8
+Scaling: Basic - 100% STR
+Details: Reduces effectiveness of enemy Armor by 5. Potential Skill - Wear Down - When an enemy is damaged by weapons that reduce enemy Armor effectiveness, either by basic attacks or by skills using them, a Wear Down status is applied for 3 rounds, or powered up. This status decreases the enemy's Armor by 5 per LV. (Max LV of 20, max duration of 3 rounds.)
+Location: Random Drops, Metalwork (Lv3)
+
+3★ Cougar Claws
+Range: 1 | Power: 8 | Accuracy: 80% | Critical: 0% | Crit Damage: 105% | Weight: 8
+Scaling: Sylphid - 70% STR, 40% CEL
+Sub Type: Claws | Damage Type: Slash
+Details: Potential Skill - Cougar Strike - Targets 2 location within 1 Range. Location 1 must have an enemy, and Location 2 must be an unoccupied tile. You attack the target in Location 1 with your Cougar Claws, and then slide to Location 2. Special Strike - Cougar's Roar (Trigger Rate: 10% + 8% Bonus, Trigger CD: 2 Rounds) - Triggers before an enemy is attacked, and replaces the attack. Deals 110% of Cougar Claws' Scaled Weapon Attack over 8 hits while you teleport around the target. If none of the 8 hits are evaded, you unleash the roar of a Cougar, gaining Cougar's Roar (CEL increases by LV) (LV 10, 5 rounds) and attempt to inflict all enemies in 5 Range with Hesitation (LV 15, 2 rounds). This item's Power, Hit, and Critical are increased by +5 while you have any Roar-type status effect active. A deadly pair of claws best used by the agile.
+Location: Random drops
+
+4★ Spirit Gauntlet
+Range: 1 | Power: 10 | Accuracy: 80% | Critical: 0% | Crit Damage: 105% | Weight: 4
+Scaling: Spiritual - 70% STR, 40% SAN
+Details: Restores Focus based on damage dealt. (10%). This gauntlet absorbs Focus from the wounds that it makes.
+Location: Random drops
+
+4★ Ninja Scroll
+Range: 1 | Power: 7 | Accuracy: 80% | Critical: 0% | Crit Damage: 105% | Weight: 9
+Scaling: Magical - 70% STR, 40% WIL
+Sub Type: Gauntlet | Damage Type: Blunt
+Details: Concealed within the wrist of these otherwise unassuming gloves is a scroll. Often used by shinobi as a means to transport and use hidden arts.
+Location: Random drops
+
+4★ Claw Gauntlet
+Range: 1 | Power: 8 | Accuracy: 80% | Critical: 0% | Crit Damage: 105% | Weight: 5
+Scaling: Finesse - 70% STR, 30% SKI
+Sub Type: Claw | Damage Type: Slash
+Details: Potential Skill - Riprun (3 Momentum, 15 FP) - Targets a 3-7 Range line, which must end in an unoccupied tile. You move along that line, slashing every tile to the left and right of your moving direction, dealing Slash physical damage to all enemies in those tiles equal to 120% Scaled WPN Power. It has a status-based chance to also reduce the Phys. and Mag. Defense of all enemies damaged by 1 + half of Claw Gauntlet's UL, for 3 rounds. The chance is much higher against monsters. These are normal fighter's gauntlets, except they have been affixed with claws, causing them to rend enemies instead of pummel them.
+Location: Random drops
+
+5★ Pickpocketers
+Range: 1 | Power: 9 | Accuracy: 80% | Critical: 0% | Crit Damage: 105% | Weight: 8
+Scaling: Cunning - 70% STR, 40% GUI
+Details: Increases Steal's success rate by 15%. Potential Skill - Pilfer (3 Momentum, 5 FP, 2 Round Cooldown) - Targets one enemy within 1 Range. Messes with the target's inventory, preventing them from using items for 2 rounds.
+Location: Random drops
+
+5★ Maned Tonfa
+Range: 1 | Power: 9 | Accuracy: 80% | Critical: 0% | Crit Damage: 105% | Weight: 10
+Scaling: Basic - 100% STR
+Sub Type: Tonfa
+Details: Grants Skill: Guard (1+ Momentum, 0FP) - Raise your shield and protect yourself from enemy attacks. Consumes all remaining Momentum, but until your next action, all damage you take is reduced by (Momentum consumed * 10)%. Tonfa Block - Increases the LV of Guard statuses applied to you by 5 if you are two-handing this weapon. Potential Skill - Tonfa Parry - Parry skill. Grants a chance to parry non-spell, non-ranged weapon damage for 25% reduction. Activate Rate: 15% + 50% of Scaled DEF, +10% if the owner of this skill has the Roar status active. A pair of wooden tonfa with a fur-like mane at its head. They are often used by defensive strikers.
+Location: Random drops
+
+5★ Burst Claw
+Range: 1 | Power: 8 | Accuracy: 80% | Critical: 0% | Crit Damage: 105% | Weight: 6
+Scaling: Basic - 100% STR
+Sub Type: Claws | Damage Type: Slash
+Details: On Hit: Deals magic Fire damage equal to 50% of your Fire ATK, which ignores armor. On Hit: Consumes Weapon Charges, dealing 50% more damage per Charge Level. Potential Skill - Red Raid (3 Momentum, 15 FP, 2 Round Cooldown) - Dash forward in a 4 Range line (+1 for every Weapon Charge level). If you encounter an enemy, you grab them and cause an explosion around them, dealing Blunt physical damage to all enemies in a 2 Range circle around them equal to 100% of Burst Claw's SWA, then your Weapon Charge level increases by 1. An explosive set of claws that can cause fire plumes to appear when it strikes.
+Location: Random drops
+
+6★ Shadow Wind Claw
+Range: 1 | Power: 7 | Accuracy: 80% | Critical: 0% | Crit Damage: 105% | Weight: 8
+Scaling: Dextria-Dark, Dextria-Wind - 60% STR, 30% CEL, 30% RES
+Sub Type: Claws
+Details: +5 Darkness & Wind ATK. On Battle Start: If you have at least 40 base CEL, gain Debuff Immunity LV1 for 3 rounds. Special Strike - Air Explosion (Trigger Rate: 15% + 10% Bonus, Trigger CD: 2 Rounds) - Triggers after the attack hits an enemy. Knocks the target airborne, deals 35 armor-ignoring Wind magic bonus damage to them, and applies an Aero Shift (5) effect to all tiles in 5 Range. This claw-like gauntlet will tear through enemies and shield you in a veil of darkness.
+Location: Random drops
+
+6★ Excellion
+Range: 1 | Power: 8 | Accuracy: 80% | Critical: 0% | Crit Damage: 105% | Weight: 15
+Scaling: Basic - 100% STR
+Details: Grants Skill: Charge Weapon (3 Momentum, 5 FP) - Rev your weapon and fill it with focus, increasing its Charge, to a maximum of level 3. When you hit with a weapon that can consume Weapon Charges, the damage you deal with that attack will increase by 50% per level. (Weapon Charges will expire after 5 rounds.) On Hit: Consumes Weapon Charge, dealing 50% more damage per Charge Level. Potential Skill - Elite Engine - Charge Weapon FP cost is increased to 8 FP. Attacks do not use up all of your charges, instead the LV is reduced by 1, and the damage bonus is 35% (does not increase with charge amount like normal Excel attacks). The Excel line of weapons were developed in Chaturanga, where the ability to be defensive while increasing offensive capabilities was highly valued. By charging up the weapon, it can explosively spend the focus energy when it strikes an enemy, greatly increasing damage. However, the engine module makes it heavier than other weapons.
+Location: Random drops
+
+6★ Bear Claws
+Range: 1 | Power: 7 | Accuracy: 80% | Critical: 0% | Crit Damage: 105% | Weight: 8
+Scaling: Basic - 100% STR
+Damage Type: Slash
+Details: +2 STR, +2 VIT. Potential Skill - Scary Mauling - +10% Critical Damage for Claws-type weapons. On Critical Hit (Bear Claws only): Automatically activate the skill 'Bellow' (3 round cooldown). Bellow - Roars loudly, generating a strong fighting will. Deals Sound magic damage equal to 150% Sound ATK to all enemies in Circle (2) range. Also increases the user's STR by LV/5 (min. 3) for 3 rounds. Shaped somewhat like a bear's paw, the claws hidden within will shred anyone caught in them just as effectively.
+Location: Random drops, Metalwork (Lv4)
+
+7★ Whulf
+Range: 1 | Power: 10 | Accuracy: 80% | Critical: 0% | Crit Damage: 105% | Weight: 6
+Scaling: Faithful - 70% STR, 40% FAI
+Sub Type: Claws | Damage Type: Slash
+Details: Set: The Wolf's Claws. 2+ - 1) Grants access to the Shooting Star skill. 2) Increases the range of the Kick skill by 5. 3) Kick skill causes you to fly towards your target. A set of gloves with sharp claws extending from them. They are enchanted with the spirit of a great beast of light.
+Location: Random drops
+
+7★ Sea Hunter Gauntlet
+Range: 1 | Power: 13 | Accuracy: 80% | Critical: 7% | Crit Damage: 105% | Weight: 12
+Scaling: Aquatic - 70% STR, 40% VIT
+Details: Material: Coral. On Hit: Inflicts Hunted LV14 for 3 rounds if the target is a seafaring monster. This gauntlet was born from the sea, and as anyone who lives there knows, anything that lives in the sea is out to get everything else... that lives in the sea.
+Location: Fishing Contest
+
+7★ Magical Comet
+Range: 1 | Power: 11 | Accuracy: 80% | Critical: 0% | Crit Damage: 105% | Weight: 8
+Scaling: Magical - 70% STR, 40% WIL
+Details: Spelledge (This weapon can be used as a casting tool for spells.) Potential Skill: Unmasking Trail (6 Momentum, 30 FP) - This skill requires a Rank D Invocation. Drops down blue stars on all enemies in the battle, dealing Ice magic damage equal to 100% of Magical Comet's SWA + 150% of your Ice ATK. Enemies who are under transformation effects take 50% extra damage and have those transformations effect(s)'s duration cut by 5 rounds. (This then goes on a 3 round CD.) Leave impacts that will only fade after an eon. Will not help you transform, however.
+Location: Random drops, Metalwork (Lv5)
+
+7★ Kusarigami
+Range: 5 | Power: 11 | Accuracy: 80% | Critical: 10% | Crit Damage: 105% | Weight: 14
+Scaling: Finesse - 70% STR, 30% SKI
+Sub Type: Whip | Damage Type: Slash
+Details: Has a special secondary attack called 'Weight Strike', and grants access to the 'Spin Kusarigami' skill. Weight Strike: 3M, Basic attack that deals Blunt Damage. Spin Kusarigami: 1M, Puts Weight Strike on 1 round CD, but the next time you attack with it and it hits, you pull the target 3 tiles towards you. Afterwards, if they are within 1 Range of you, you automatically apply the Grapple skill to them. The Kusarigami is traditionally seen as a strange weapon. Part kama, part weighed chain, it is a weapon that requires a good deal of skill to use effectively. The origin of the weapon is relatively unknown, but has been found discarded in places such as deserts or canyons, theorized to have been used for its utility, or its surprising ability to be concealed due to its flexible nature.
+Location: Random drops
+
+8★ Shredder Replica
+Range: 1 | Power: 16 | Accuracy: 80% | Critical: 0% | Crit Damage: 105% | Weight: 8
+Scaling: Replica - 70% STR, 20% SKI, 20% SAN
+Details: Always comes enchanted with Divine Weapon. (+2 Power, +5 Critical, +5 Accuracy, -2 Weight. Weapon durability cannot decrease.) A replica of a deadly pair of gauntlets that rend flesh. It possesses extremely high power.
+Location: Korvara Casino, Arena
+
+8★ Helrenroka
+Range: 1 | Power: 11 | Accuracy: 80% | Critical: 0% | Crit Damage: 105% | Weight: 6
+Scaling: Basic - 100% GUI
+Details: On Hit: Replaces your Fire ATK with the target's for 2 Rounds. Potential Skill - Guiding Flame (3 Momentum, 0 FP) - Helrenroka's Potential Skill. Ninjutsu. Requires Substitute Fire ATK to be active. Invoke a fiery ninja art, dealing 20 armor-ignoring Fire Kickback damage to you, curing Blind effects you suffer from, and creating a burst of Fire around you that damages all enemies in a 3 Size Circle for Fire magic damage (can critically hit for +25% damage, ignores Reflect, Immunity, and Absorb) equal to 100% of Helrenroka's Scaled Weapon Attack + 100% of the Substitute Fire ATK from its effect. Damaged enemies are inflicted with Glowing LV 10 (3 rounds). 2 round CD. Furinkazan: Gain 1 Fire Mark. A gauntlet said to once belong to a ninja who could summon fire.
+Location: Random drops
+
+8★ Giant Slayer
+Range: 4 | Power: 9 | Accuracy: 80% | Critical: 0% | Crit Damage: 105% | Weight: 12
+Scaling: Cunning - 70% STR, 40% GUI
+Sub Type: Sling | Damage Type: Blunt
+Details: Basic attacks with this weapon deal 15% more damage if the target is a Giant, Enlarged, or has the Mountain skill. Also applies to enemies with a Gigantic torso enchantment at half effectiveness. On Defeat Enemy: If enemy was a Giant, Enlarged, had the Mountain skill, or a Gigantic torso enchantment, and this weapon defeated them, all other enemies in the battle of those same categories suffer -5 to all stats (except VIT) for 5 rounds. A sling, made to be swung and fire rocks at enemies. The biggest ones are easiest to hit.
+Location: Random drops
+
+9★ Ymir
+Range: 1 | Power: 13 | Accuracy: 85% | Critical: 0% | Crit Damage: 105% | Weight: 15
+Scaling: Cold - 70% STR, 40% SKI
+Details: On Hit: If target is not immune to knockback effects; Inflicts knockback (1 tile) in your current direction. If the enemy doesn't move from this effect (due to that tile being invalid/occupied), they take Ice magic damage equal to 150% of your Ice ATK. (Activations of this effect beyond the first in a round will only use 50% instead.) The frosty gauntlets of a frosty giant.
+Location: Random drops, Ice Giants
+
+9★ Fenri
+Range: 1 | Power: 11 | Accuracy: 80% | Critical: 0% | Crit Damage: 105% | Weight: 6
+Scaling: Cold - 70% STR, 40% SKI
+Details: On Hit: Deals magic Ice damage equal to 50% of your Ice ATK, which ignores armor. +3 WIL. Grants Skill: Freezing Round (3 Momentum, 10 FP) - Spin your weapon, Fenri, around your body and let it tear into all enemies within 1 Range of you, dealing Ice physical damage equal to 100% of Scaled Weapon Attack to them. A three-sided nunchaku enchanted with strong ice powers. It is said to contain the soul of a legendary wolf that once had dominion over the frozen lands of Lordwain, the snow-covered continent to the north, where Lispool and Hyoya exist. However, this may just be a legend.
+Location: Random drops
+
+9★ Cobalt Qrytys
+Range: 1 | Power: 9 | Accuracy: 80% | Critical: 0% | Crit Damage: 105% | Weight: 14
+Scaling: Basic - 100% STR
+Details: Also qualities as a Dagger weapon. This heavy, cold-blue metallic gauntlet hides within it several retractable dagger-like claws.
+Location: Random drops
+
+10★ Pinchers
+Range: 1 | Power: 14 | Accuracy: 85% | Critical: 10% | Crit Damage: 105% | Weight: 9
+Scaling: Aquatic - 70% STR, 40% VIT
+Details: On Hit: UL% chance of automatically applying Restrain to the target. A set of natural claws that are made for giving your enemies the clamps. Just watch your fingers.
+Location: Soldier Kraboids (Lv56+)
+
+10★ Mortissimo
+Range: 1 | Power: 13 | Accuracy: 85% | Critical: 5% | Crit Damage: 105% | Weight: 13
+Scaling: Spiritual - 70% STR, 40% SAN
+Sub Type: Claws | Damage Type: Slash
+Details: On Hit: Deals 1+UL unresistable Sound Damage if target is Feared. These thin, wired claws make a powerful screech when they hit an enemy just right. Not approved for scratching itches.
+Location: Scarebears (Lv56+)
+
+10★ Hands of the Giant
+Range: 1 | Power: 15 | Accuracy: 85% | Critical: 5% | Crit Damage: 105% | Weight: 22
+Scaling: Earthen - 70% STR, 40% DEF
+Details: Increases STR by UL/2. (Halved if not main weapon.) On Hit: Knockbacks 1 tile per 6 UL. (min. 1) On Critical Hit: UL% chance to knock down the target. These hands are giant! They belonged to a giant! They will make you as strong as a giant! Most likely. They're quite heavy, however.
+Location: Goblin Giants (Lv56+)
+
+10★ Deadclaw
+Range: 1 | Power: 13 | Accuracy: 85% | Critical: 10% | Crit Damage: 105% | Weight: 6
+Scaling: Darkness - 70% STR, 40% RES
+Details: Scaled Weapon Attack and Critical Damage for this weapon are increased by UL/UL% respectively against enemies who are Knocked Down. The downward facing claws on this gauntlet are quite deadly to anyone who may have tripped and can't get away.
+Location: Swarming Wretches (Lv56+)
+
+10★ Buzzing Chakram
+Range: 1 | Power: 14 | Accuracy: 85% | Critical: 10% | Crit Damage: 105% | Weight: 8
+Scaling: Cunning - 70% STR, 40% GUI
+Sub Type: Chakram | Damage Type: Slash
+Details: Attack range increases by 1 for every 6 UL. On Hit: Bounces to an enemy within 5 Range and deals UL Acid magic bonus damage to them that ignores armor, then repeats. (Enemies cannot be hit more than once per activation and the original target cannot be the initial bounce target.) This chakram vibrates within your hands and sounds strangely like the buzzing of insect wings...
+Location: Vect Wasps (Lv56+)

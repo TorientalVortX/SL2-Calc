@@ -7,6 +7,8 @@
 export type StatKey = 'str' | 'wil' | 'ski' | 'cel' | 'def' | 'res' | 'vit' | 'fai' | 'luc' | 'gui' | 'san' | 'apt';
 export type StampKey = 'str' | 'wil' | 'ski' | 'cel' | 'vit' | 'fai';
 export type ElementKey = 'Fire' | 'Ice' | 'Wind' | 'Earth' | 'Dark' | 'Water' | 'Light' | 'Lightning' | 'Acid' | 'Sound';
+export type DamageType = 'Slash' | 'Pierce' | 'Blunt' | 'Fire' | 'Ice' | 'Lightning' | 'Wind' | 'Earth' | 'Water' | 'Dark' | 'Light' | 'Acid' | 'Sound' | 'Magical';
+export type WeaponType = 'Sword' | 'Axe' | 'Bow' | 'Dagger' | 'Fist' | 'Gun' | 'Katana' | 'Polearm' | 'Staff' | 'Tome' | 'Spear' | 'Shield' | 'Tool';
 
 // Record types for easier typing
 export type StatRecord = Record<StatKey, number>;
@@ -238,4 +240,92 @@ export interface StatInfo {
   description: string;
   effects: string[];
   notes?: string;
+}
+
+
+
+/**
+ * Weapon scaling type configuration
+ */
+export interface WeaponScaling {
+  type:
+  | "Basic" 
+  | "Finesse" 
+  | "Cunning" 
+  | "Vampiric" 
+  | "Cold" 
+  | "Earthen" 
+  | "Darkness" 
+  | "Spiritual" 
+  | "Aquatic" 
+  | "Electrical" 
+  | "Sylphid" 
+  | "Replica" 
+  | "Dextria-Lightning" 
+  | "Dextria-Sound" 
+  | "Dextria-Fire" 
+  | "Dextria-Water" 
+  | "Dextria-Wind"
+  | "Dextria-Light" 
+  | "Dextria-Earth" 
+  | "Dextria-Ice" 
+  | "Magical" 
+  | "Tool" 
+  | "Faithful" 
+  | "Flamelit" 
+  | "Precision" 
+  | "Firearms" 
+  | "Darkness, Faithful" 
+  | "Cold, Tool" 
+  | "Electrical, Tool";
+  
+  str?: number;
+  wil?: number;
+  ski?: number;
+  cel?: number;
+  def?: number;
+  res?: number;
+  vit?: number;
+  fai?: number;
+  luc?: number;
+  gui?: number;
+  san?: number;
+}
+
+/**
+ * Weapon special effect or skill
+ */
+export interface WeaponSpecial {
+  name: string;
+  type: 'OnHit' | 'OnCrit' | 'Passive' | 'PotentialSkill' | 'GrantsSkill' | 'SpecialStrike' | 'AfterAttack' | 'OnBattleStart' | 'OnNewRound' | 'OnAttack' | 'OnEvadeAttack' | 'SetBonus';
+  description: string;
+  cooldown?: number;
+  fpCost?: number;
+  momentumCost?: number;
+  triggerRate?: string;
+  effect?: string;
+}
+
+/**
+ * Complete weapon data structure
+ */
+export interface Weapon {
+  name: string;
+  rarity: number;
+  weaponType: WeaponType;
+  subtype?: string;
+  range: number;
+  power: number;
+  accuracy: number;
+  critical: number;
+  criticalDamage: number;
+  weight: number;
+  damageType: DamageType;
+  scaling: WeaponScaling[];
+  rounds?: number;
+  material?: string;
+  enchantment?: string;
+  specials?: WeaponSpecial[];
+  description: string;
+  location: string[];
 }
