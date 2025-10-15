@@ -16,8 +16,7 @@ import type {
 // Import data constants needed for calculations
 import { RACES, SUBRACES } from '../data/races';
 import { CLASSES, CLASS_PASSIVES } from '../data/classes';
-import { FOODS, HISTORY, LEGEND_EXTEND, ASTROLOGY_PLANETS } from '../data/bonuses';
-import { BUILD_TYPES } from '../data/stats';
+import { HISTORY, LEGEND_EXTEND, ASTROLOGY_PLANETS } from '../data/bonuses';
 
 /**
  * Main StatOptimizer class for automated build generation and optimization
@@ -44,17 +43,11 @@ export class StatOptimizer {
 
   /**
    * Calculate minimum Faith investment needed for target youkai count
-   * Formula: (target_youkai - 5) * 5 minimum invested points
-   * This accounts for the Faith investment thresholds in SL2
    */
   private getMinimumFaithForYoukai(targetYoukai: number): number {
-    if (targetYoukai <= 5) return 0; // No Faith needed for base 5 youkai
-    
-    // Simple calculation: each extra youkai beyond 5 needs roughly 5 Faith
-    // This gives us reasonable minimums like 35 Faith for 12 youkai
+    if (targetYoukai <= 5) return 0;
     const extraYoukai = targetYoukai - 5;
-    const minimumFaith = extraYoukai * 5;
-    return minimumFaith;
+    return extraYoukai * 5;
   }
 
   /**
@@ -68,20 +61,17 @@ export class StatOptimizer {
     const weights = this.params.customWeights;
     if (!weights) return priorities;
 
-    // Summoner-specific weights
     if (weights.youkaiCount) {
-      const baseYoukai = 5; // Base youkai count with 0 faith
+      const baseYoukai = 5;
       const targetYoukai = weights.youkaiCount;
-      const extraYoukai = Math.max(0, targetYoukai - baseYoukai); // How many extra beyond base
-      const youkaiWeight = extraYoukai / 7; // Normalize 0-7 extra to 0-1 (max 12 total)
+      const extraYoukai = Math.max(0, targetYoukai - baseYoukai);
+      const youkaiWeight = extraYoukai / 7;
       
-      // Calculate minimum Faith investment needed for this youkai target
       const minFaithNeeded = this.getMinimumFaithForYoukai(targetYoukai);
-      const faithWeightBonus = Math.min(1.0, minFaithNeeded / 35); // Scale bonus based on Faith requirement
+      const faithWeightBonus = Math.min(1.0, minFaithNeeded / 35);
       
-      priorities.wil += youkaiWeight * 15; // More WIL for FP to sustain youkai
-      priorities.fai += youkaiWeight * 25 + faithWeightBonus * 15; // Extra FAI priority for threshold investments
-      // SAN removed - it doesn't meaningfully help with youkai management
+      priorities.wil += youkaiWeight * 15;
+      priorities.fai += youkaiWeight * 25 + faithWeightBonus * 15;
     }
 
     if (weights.summonSurvivability) {
@@ -89,95 +79,85 @@ export class StatOptimizer {
       priorities.wil += survivalWeight * 8;  // WIL for more FP for heals
     }
 
-    // Combat focus weights
     if (weights.criticalFocus) {
       const critWeight = weights.criticalFocus / 10;
       priorities.luc += critWeight * 15;
       priorities.gui += critWeight * 12;
-      priorities.ski += critWeight * 8; // Accuracy for crits to land
+      priorities.ski += critWeight * 8;
     }
 
     if (weights.magicDamageFocus) {
       const magicWeight = weights.magicDamageFocus / 10;
       priorities.wil += magicWeight * 18;
-      priorities.ski += magicWeight * 10; // Spell accuracy
-      priorities.fai += magicWeight * 6;  // For light/dark magic
+      priorities.ski += magicWeight * 10;
+      priorities.fai += magicWeight * 6;
     }
 
     if (weights.physicalDamageFocus) {
       const physWeight = weights.physicalDamageFocus / 10;
       priorities.str += physWeight * 18;
-      priorities.ski += physWeight * 12; // Physical accuracy
-      priorities.gui += physWeight * 8;  // Crit for physical
+      priorities.ski += physWeight * 12;
+      priorities.gui += physWeight * 8;
     }
 
     if (weights.accuracyFocus) {
       const accWeight = weights.accuracyFocus / 10;
-      priorities.ski += accWeight * 20; // Direct accuracy boost
-      priorities.luc += accWeight * 5;  // Hit bonus from LUC
+      priorities.ski += accWeight * 20;
+      priorities.luc += accWeight * 5;
     }
 
-    // Defensive weights
     if (weights.minimumHP) {
-      // When HP minimum is specified, boost VIT priority significantly
-      priorities.vit += 50; // Strong priority for reaching minimum HP
-      priorities.str += 5; // Slight STR for carry capacity
+      priorities.vit += 50;
+      priorities.str += 5;
     }
 
     if (weights.fpPriority) {
       const fpWeight = weights.fpPriority / 10;
       priorities.wil += fpWeight * 20;
-      priorities.fai += fpWeight * 5; // FAI affects max FP slightly
+      priorities.fai += fpWeight * 5;
     }
 
     if (weights.physicalDefense) {
       const pdefWeight = weights.physicalDefense / 10;
       priorities.def += pdefWeight * 18;
-      priorities.vit += pdefWeight * 8; // HP to survive hits
+      priorities.vit += pdefWeight * 8;
     }
 
     if (weights.magicalDefense) {
       const mdefWeight = weights.magicalDefense / 10;
       priorities.res += mdefWeight * 18;
-      priorities.wil += mdefWeight * 6; // FP for magical endurance
+      priorities.wil += mdefWeight * 6;
     }
 
-    // Utility weights
     if (weights.initiativePriority) {
       const initWeight = weights.initiativePriority / 10;
-      priorities.cel += initWeight * 16; // CEL is primary initiative stat
-      priorities.luc += initWeight * 6;  // LUC affects initiative slightly
+      priorities.cel += initWeight * 16;
+      priorities.luc += initWeight * 6;
     }
 
     if (weights.statusResistance) {
       const statusWeight = weights.statusResistance / 10;
-      priorities.san += statusWeight * 15; // Primary status resistance
-      priorities.fai += statusWeight * 8;  // Faith helps with some statuses
-      priorities.wil += statusWeight * 5;  // Mental fortitude
+      priorities.san += statusWeight * 15;
+      priorities.fai += statusWeight * 8;
+      priorities.wil += statusWeight * 5;
     }
 
     if (weights.carryCapacity) {
       const carryWeight = weights.carryCapacity / 10;
-      priorities.str += carryWeight * 12; // STR affects carry weight
+      priorities.str += carryWeight * 12;
     }
 
     if (weights.targetEvade) {
-      // Calculate how much CEL we need to reach target evade
-      // Formula: Evade = (CEL * 2) + baseEvade + bonusEvade
-      // So: CEL needed = (targetEvade - baseEvade - bonusEvade) / 2
       const baseEvade = this.params.baseEvade || 0;
       const bonusEvade = this.params.bonusEvade || 0; 
       const celNeeded = Math.max(0, (weights.targetEvade - baseEvade - bonusEvade) / 2);
       
-      // Boost CEL priority based on how much we need
-      priorities.cel += Math.min(50, celNeeded); // Cap at 50 priority boost
-      priorities.luc += 10; // LUC also affects dodge chance
+      priorities.cel += Math.min(50, celNeeded);
+      priorities.luc += 10;
     }
 
-    // Advanced weights
     if (weights.targetAPT) {
-      // When APT target is specified, boost APT priority significantly
-      priorities.apt += 50; // Strong priority for reaching target APT
+      priorities.apt += 50;
     }
 
     return priorities;
@@ -232,28 +212,21 @@ export class StatOptimizer {
     const subClassStats = CLASSES[this.params.subClass] || {};
 
     // Add bonuses for class stat preferences
+    // Main class gets stronger weight since it defines your primary playstyle
     Object.entries(mainClassStats).forEach(([stat, value]) => {
       if (stat in priorities && typeof value === 'number' && value > 0) {
-        priorities[stat as StatKey] += value * 2;
+        priorities[stat as StatKey] += value * 3.5; // Increased from 2 to make class stats more influential
       }
     });
 
+    // Sub class still important but slightly less weight
     Object.entries(subClassStats).forEach(([stat, value]) => {
       if (stat in priorities && typeof value === 'number' && value > 0) {
-        priorities[stat as StatKey] += value;
+        priorities[stat as StatKey] += value * 2; // Increased from 1 to give subclass more influence
       }
     });
 
     return priorities;
-  }
-
-  /**
-   * Calculate APT efficiency - how much APT is worth vs direct stat investment
-   * APT should always be optimized in multiples of 6 for maximum efficiency
-   */
-  private calculateAptEfficiency(currentApt: number): number {
-    const aptBonusPerStat = Math.floor((currentApt + 1) / 6) - Math.floor(currentApt / 6);
-    return aptBonusPerStat * 11; // APT affects 11 other stats
   }
 
   /**
@@ -282,30 +255,11 @@ export class StatOptimizer {
    * Optimize stat allocation using genetic algorithm approach
    */
   optimize(): OptimizationResult {
-    const maxIterations = 500; // Reduced for better performance
+    const maxIterations = 500;
     const populationSize = 30;
     
     let bestAllocation = this.generateInitialAllocation();
     let bestScore = this.evaluateAllocation(bestAllocation);
-    
-    const reasoning: string[] = [];
-    const warnings: string[] = [];
-
-    // Validate build type compatibility
-    const mainClassCompatibility = this.buildType.classCompatibility?.[this.params.mainClass] || 5;
-    const subClassCompatibility = this.buildType.classCompatibility?.[this.params.subClass] || 5;
-    
-    if (mainClassCompatibility < 6) {
-      warnings.push(`${this.params.mainClass} has low compatibility (${mainClassCompatibility}/10) with ${this.buildType.name} builds`);
-    }
-    if (subClassCompatibility < 6) {
-      warnings.push(`${this.params.subClass} has low compatibility (${subClassCompatibility}/10) with ${this.buildType.name} builds`);
-    }
-
-    // Check for obvious conflicts
-    if (this.buildType.name.includes('Tank') && this.params.subrace === 'Lich') {
-      warnings.push('Lich race has reduced HP which conflicts with tank builds');
-    }
 
     // Generate initial population
     const population: StatRecord[] = [];
@@ -362,165 +316,8 @@ export class StatOptimizer {
       population.splice(0, population.length, ...newPopulation);
     }
 
-    // Generate reasoning based on final allocation
-    reasoning.push(`Build Type: ${this.buildType.name} - ${this.buildType.description}`);
-    reasoning.push(`Optimized for ${this.params.mainClass}/${this.params.subClass} combination`);
-    
-    // Analyze final stats against thresholds
-    const finalStats: Record<string, number> = {};
-    const allocatedPoints: Record<string, number> = {};
-    Object.entries(bestAllocation).forEach(([stat]) => {
-      finalStats[stat] = this.calculateFinalStat(bestAllocation, stat as StatKey);
-      allocatedPoints[stat] = bestAllocation[stat as StatKey];
-    });
-
-    // Add debug information about stat efficiency
-    const subraceData = SUBRACES[this.params.subrace];
-    Object.entries(allocatedPoints).forEach(([stat, allocated]) => {
-      if (allocated > 0) {
-        const baseRacial = subraceData?.[stat as StatKey] || 0;
-        const final = finalStats[stat];
-        const efficiency = allocated > 0 ? final / allocated : 0;
-        const softCap = baseRacial + 40;
-        
-        if (stat === 'apt') {
-          const totalApt = baseRacial + allocated;
-          const aptBonus = Math.floor(totalApt / 6);
-          const isEfficient = totalApt % 6 === 0;
-          reasoning.push(`APT: ${allocated} points → ${final} final (${aptBonus} bonus to all stats, ${isEfficient ? 'efficient' : 'INEFFICIENT'} allocation)`);
-        } else if (allocated > 50) {
-          reasoning.push(`${stat.toUpperCase()}: ${allocated} points → ${final} final (efficiency: ${efficiency.toFixed(2)}, soft cap: ${softCap})`);
-        }
-      }
-    });
-
-    // Check thresholds and add reasoning/warnings
-    Object.entries(this.buildType.statThresholds).forEach(([stat, thresholds]) => {
-      const finalStat = finalStats[stat];
-      if (thresholds?.min && finalStat < thresholds.min) {
-        warnings.push(`${stat.toUpperCase()} (${finalStat}) is below minimum threshold (${thresholds.min})`);
-      } else if (thresholds?.ideal && finalStat >= thresholds.ideal) {
-        reasoning.push(`${stat.toUpperCase()} meets ideal threshold (${finalStat}/${thresholds.ideal})`);
-      } else if (thresholds?.min && finalStat >= thresholds.min) {
-        reasoning.push(`${stat.toUpperCase()} meets minimum requirement (${finalStat}/${thresholds.min})`);
-      }
-    });
-
-    // APT efficiency analysis
-    const aptValue = finalStats['apt'];
-    const aptBonus = Math.floor(aptValue / 6);
-    if (aptBonus > 0) {
-      reasoning.push(`APT investment provides +${aptBonus} to all other stats (${aptValue}/6 ratio)`);
-    }
-
-    // Custom weight analysis
-    if (this.params.customWeights) {
-      const activeWeights = Object.entries(this.params.customWeights)
-        .filter(([, value]) => typeof value === 'number' && value > 5) // Only show significant preferences
-        .map(([key, value]) => {
-          const numValue = value as number;
-          const weightNames: Record<string, string> = {
-            youkaiCount: `${numValue} Youkai slots (${this.getMinimumFaithForYoukai(numValue)} Faith min, ${this.calculateYoukaiFPRequirement(numValue)} FP needed)`,
-            criticalFocus: 'Critical focus',
-            magicDamageFocus: 'Magic damage',
-            physicalDamageFocus: 'Physical damage',
-            accuracyFocus: 'Accuracy focus',
-            hpPriority: 'HP priority',
-            fpPriority: 'FP priority',
-            physicalDefense: 'Physical defense',
-            magicalDefense: 'Magical defense',
-            initiativePriority: 'Initiative priority',
-            statusResistance: 'Status resistance',
-            targetEvade: 'Target evade value',
-            multiclassEfficiency: 'Multiclass efficiency'
-          };
-          return weightNames[key] || key;
-        });
-      
-      if (activeWeights.length > 0) {
-        reasoning.push(`Custom preferences: ${activeWeights.join(', ')}`);
-        
-        // Add explanation for youkai FP calculation if youkai are involved
-        if (this.params.customWeights?.youkaiCount) {
-          const isShapeshifter = this.params.mainClass === 'Shapeshifter' || this.params.subClass === 'Shapeshifter';
-          const isGrandSummoner = this.params.mainClass === 'Grand Summoner' || this.params.subClass === 'Grand Summoner';
-          const isBonder = this.params.mainClass === 'Bonder' || this.params.subClass === 'Bonder';
-          const isSummoner = this.params.mainClass === 'Summoner' || this.params.subClass === 'Summoner';
-          
-          if (isShapeshifter && !isSummoner) {
-            reasoning.push(`Shapeshifter FP: Optimized for Install skills (low sustained FP needs)`);
-          } else if (isGrandSummoner && !isSummoner) {
-            reasoning.push(`Grand Summoner FP: Optimized for youkai skills (moderate FP needs)`);
-          } else if (isBonder && !isSummoner) {
-            reasoning.push(`Bonder FP: Optimized for bonds and utility (low-moderate FP needs)`);
-          } else if (isSummoner) {
-            reasoning.push(`Summoner FP: Optimized for multiple active youkai (high sustained FP)`);
-          }
-        }
-      }
-      
-      // HP/FP goal analysis
-      if (this.params.customWeights?.minimumHP) {
-        const actualHP = this.calculateAccurateHP(bestAllocation);
-        const minHP = this.params.customWeights.minimumHP;
-        
-        if (actualHP >= minHP) {
-          reasoning.push(`HP meets minimum requirement (${actualHP}/${minHP})`);
-        } else {
-          reasoning.push(`HP below minimum requirement (${actualHP}/${minHP})`);
-        }
-      }
-      
-      if (this.params.customWeights?.targetAPT) {
-        const aptStat = finalStats['apt'];
-        const targetAPT = this.params.customWeights.targetAPT;
-        
-        if (aptStat >= targetAPT) {
-          reasoning.push(`APT meets target requirement (${aptStat}/${targetAPT})`);
-        } else {
-          reasoning.push(`APT below target requirement (${aptStat}/${targetAPT})`);
-        }
-      }
-      
-      // Legacy HP analysis (for builds not using minimum HP)
-      if (!this.params.customWeights?.minimumHP) {
-        const vitStat = finalStats['vit'];
-        const sanStat = finalStats['san'];
-        const strAllocated = bestAllocation.str; // Use allocated STR, not final
-        
-        // Basic HP calculation (simplified, without all bonuses for reasoning clarity)
-        let estimatedHP = vitStat * 10 + sanStat * 2 + strAllocated * 3;
-        if (this.params.customHP) {
-          estimatedHP += this.params.customHP;
-        }
-        
-        const hpStatus = estimatedHP >= 700 ? 'achieved' : 'below target';
-        reasoning.push(`HP Goal: ${estimatedHP} HP (700+ target ${hpStatus})`);
-      }
-      
-      if (this.params.customWeights?.fpPriority && this.params.customWeights.fpPriority > 5) {
-        const wilStat = finalStats['wil'];
-        const sanStat = finalStats['san'];
-        const actualFP = wilStat * 2 + sanStat + (this.params.customFP || 0);
-        const fpStatus = actualFP >= 200 ? 'achieved' : 'below target';
-        reasoning.push(`FP Goal: ${actualFP} FP (200+ target ${fpStatus})`);
-      }
-    }
-
-    // Weapon compatibility
-    if (this.params.prioritizeWeaponScaling) {
-      const weaponPriorities = this.getWeaponScalingPriorities();
-      const prioritizedStats = Object.entries(weaponPriorities)
-        .filter(([, priority]) => priority > 0)
-        .map(([stat]) => stat.toUpperCase());
-      
-      if (prioritizedStats.length > 0) {
-        reasoning.push(`Weapon scaling prioritized: ${prioritizedStats.join(', ')}`);
-      }
-    }
-
     return {
-      stats: bestAllocation, // Final calculated stats
+      stats: bestAllocation,
       race: this.params.race,
       subrace: this.params.subrace,
       mainClass: this.params.mainClass,
@@ -528,8 +325,8 @@ export class StatOptimizer {
       allocatedStats: bestAllocation,
       totalPoints: this.calculateTotalPoints(bestAllocation),
       score: bestScore,
-      reasoning,
-      warnings,
+      reasoning: [],
+      warnings: [],
       analysis: {}
     };
   }
@@ -538,53 +335,83 @@ export class StatOptimizer {
    * Generate initial allocation based on build type priorities
    */
   private generateInitialAllocation(): StatRecord {
+    const weights = this.params.customWeights;
+    let aptPoints = 0;
+    let remainingPoints = this.maxPoints;
+
+    if (weights?.targetAPT) {
+      const targetAPT = weights.targetAPT;
+      
+      if (targetAPT === 80) {
+        aptPoints = 80;
+      } else {
+        const subraceData = SUBRACES[this.params.subrace];
+        const mainClassData = CLASSES[this.params.mainClass];
+        const subClassData = CLASSES[this.params.subClass];
+        
+        const baseRacialAPT = subraceData?.apt || 0;
+        const mainClassAPT = mainClassData?.apt || 0;
+        const subClassAPT = subClassData?.apt || 0;
+        const totalClassAPT = mainClassAPT + subClassAPT;
+        
+        let neededAllocation = 0;
+        for (let testAlloc = 0; testAlloc <= 100; testAlloc++) {
+          const finalAPT = this.calculateDiminishingReturns(baseRacialAPT, testAlloc, totalClassAPT, 0, 0);
+          if (finalAPT >= targetAPT) {
+            neededAllocation = testAlloc;
+            break;
+          }
+        }
+        
+        aptPoints = neededAllocation;
+      }
+      
+      remainingPoints -= aptPoints;
+    }
+
     const allocation: StatRecord = {
-      str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0
+      str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: aptPoints
     };
 
-    let remainingPoints = this.maxPoints;
     const weaponPriorities = this.getWeaponScalingPriorities();
     const classPriorities = this.getClassSynergyPriorities();
     const customPriorities = this.getCustomWeightPriorities();
 
-    // Calculate combined priorities
     const combinedPriorities: Record<StatKey, number> = {} as Record<StatKey, number>;
     Object.keys(allocation).forEach(stat => {
       const statKey = stat as StatKey;
       combinedPriorities[statKey] = 
-        this.buildType.statPriorities[statKey] * 3 + 
-        weaponPriorities[statKey] * 2 + 
-        classPriorities[statKey] +
-        customPriorities[statKey] * 1.5; // Custom weights have significant influence
+        classPriorities[statKey] * 3.5 +
+        this.buildType.statPriorities[statKey] * 2.5 +
+        weaponPriorities[statKey] * 1.5 +
+        customPriorities[statKey] * 2.0;
     });
 
-    // Allocate based on priorities and thresholds
     const sortedStats = Object.entries(combinedPriorities)
       .sort(([,a], [,b]) => b - a)
       .map(([stat]) => stat as StatKey);
 
-    // First pass: meet minimum thresholds efficiently, but handle APT specially
-    sortedStats.forEach(stat => {
+    const criticalStats: StatKey[] = weights?.targetAPT ? ['vit', 'ski'] : ['vit', 'ski', 'apt'];
+    criticalStats.forEach(stat => {
       const threshold = this.buildType.statThresholds[stat];
       if (threshold?.min && remainingPoints > 0) {
         if (stat === 'apt') {
-          // For APT, find the next efficient target (multiple of 6)
           const nextTarget = this.getNextAptTarget(allocation);
-          if (nextTarget > 0 && nextTarget <= remainingPoints) {
-            allocation.apt = nextTarget;
-            remainingPoints -= nextTarget;
+          const modestAPTTarget = Math.min(18, nextTarget);
+          if (modestAPTTarget > 0 && modestAPTTarget <= remainingPoints) {
+            allocation.apt = modestAPTTarget;
+            remainingPoints -= modestAPTTarget;
           }
         } else {
-          // Calculate how many points we need to allocate to reach the minimum final stat
+          const modestMin = Math.floor(threshold.min * 0.6);
           let needed = 0;
-          while (this.calculateFinalStat(allocation, stat) < threshold.min && needed < remainingPoints) {
+          while (this.calculateFinalStat(allocation, stat) < modestMin && needed < remainingPoints) {
             needed++;
             allocation[stat]++;
           }
           remainingPoints -= needed;
-          allocation[stat] -= needed; // Reset and properly allocate
+          allocation[stat] -= needed;
           
-          // Now allocate the calculated amount
           const allocate = Math.min(needed, remainingPoints);
           allocation[stat] += allocate;
           remainingPoints -= allocate;
@@ -592,55 +419,50 @@ export class StatOptimizer {
       }
     });
 
-    // Second pass: approach ideal thresholds but respect diminishing returns and APT efficiency
-    sortedStats.forEach(stat => {
-      const threshold = this.buildType.statThresholds[stat];
-      if (threshold?.ideal && remainingPoints > 0) {
-        if (stat === 'apt') {
-          // For APT, only invest in efficient amounts (final APT divisible by 6)
-          const currentFinalAPT = this.calculateFinalStat(allocation, 'apt');
-          const targetFinalAPT = Math.min(threshold.ideal, Math.floor(threshold.ideal / 6) * 6);
-          
-          if (targetFinalAPT > currentFinalAPT) {
-            // Find the minimum investment to reach the target
-            for (let investment = 1; investment <= remainingPoints; investment++) {
-              const testAllocation = {...allocation, apt: allocation.apt + investment};
-              const testFinalAPT = this.calculateFinalStat(testAllocation, 'apt');
-              if (testFinalAPT >= targetFinalAPT) {
-                allocation.apt += investment;
-                remainingPoints -= investment;
-                break;
-              }
-            }
-          }
-        } else {
-          // Only allocate if we're not getting heavily diminished returns
-          while (remainingPoints > 0 && this.calculateFinalStat(allocation, stat) < threshold.ideal) {
-            const currentFinal = this.calculateFinalStat(allocation, stat);
-            const nextFinal = this.calculateFinalStat({...allocation, [stat]: allocation[stat] + 1}, stat);
-            const efficiency = nextFinal - currentFinal; // How much final stat we gain per point
-            
-            // Stop if efficiency drops too low (heavy diminishing returns)
-            if (efficiency < 0.5) break;
-            
-            allocation[stat]++;
-            remainingPoints--;
-          }
-        }
+    const pointsToDistribute = Math.floor(remainingPoints * 0.85);
+    let distributed = 0;
+    
+    while (distributed < pointsToDistribute && remainingPoints > 0) {
+      let allocated = false;
+      
+      for (const stat of sortedStats) {
+        if (distributed >= pointsToDistribute) break;
+        if (remainingPoints <= 0) break;
+        
+        if (stat === 'apt') continue;
+        
+        const currentFinal = this.calculateFinalStat(allocation, stat);
+        const threshold = this.buildType.statThresholds[stat];
+        
+        if (threshold?.max && currentFinal >= threshold.max) continue;
+        if (allocation[stat] >= 70) continue;
+        
+        const nextFinal = this.calculateFinalStat({...allocation, [stat]: allocation[stat] + 1}, stat);
+        const efficiency = nextFinal - currentFinal;
+        
+        if (efficiency < 0.3) continue;
+        
+        allocation[stat]++;
+        remainingPoints--;
+        distributed++;
+        allocated = true;
+        break;
       }
-    });
+      
+      if (!allocated) break;
+    }
 
-    // Third pass: distribute remaining points by priority, but avoid inefficient allocations and fix APT
     while (remainingPoints > 0) {
       let allocated = false;
       
-      // First, try to fix any inefficient APT allocation
-      if (!this.isAptAllocationEfficient(allocation) && remainingPoints >= 6) {
+      const skipAPTOptimization = weights?.targetAPT !== undefined;
+      
+      if (!skipAPTOptimization && !this.isAptAllocationEfficient(allocation) && remainingPoints >= 6) {
         const nextTarget = this.getNextAptTarget(allocation);
         const currentApt = allocation.apt;
         const pointsNeeded = nextTarget - currentApt;
         
-        if (pointsNeeded > 0 && pointsNeeded <= remainingPoints) {
+        if (pointsNeeded > 0 && pointsNeeded <= remainingPoints && pointsNeeded <= 6) {
           allocation.apt += pointsNeeded;
           remainingPoints -= pointsNeeded;
           allocated = true;
@@ -651,80 +473,45 @@ export class StatOptimizer {
       for (const stat of sortedStats) {
         if (remainingPoints <= 0) break;
         
-        const currentFinal = this.calculateFinalStat(allocation, stat);
-        const threshold = this.buildType.statThresholds[stat];
-        
-        // Don't exceed max thresholds
-        if (threshold?.max && currentFinal >= threshold.max) continue;
-        
-        // Special handling for APT - only invest in multiples of 6
         if (stat === 'apt') {
-          if (remainingPoints >= 6 && this.isAptAllocationEfficient(allocation)) {
+          if (!skipAPTOptimization && this.isAptAllocationEfficient(allocation) && remainingPoints >= 6) {
             const nextTarget = this.getNextAptTarget(allocation);
             const pointsNeeded = nextTarget - allocation.apt;
-            if (pointsNeeded === 6 && remainingPoints >= 6) {
+            if (pointsNeeded === 6) {
               allocation.apt += 6;
               remainingPoints -= 6;
               allocated = true;
               break;
             }
           }
-        } else {
-          // Check efficiency before allocating
-          const nextFinal = this.calculateFinalStat({...allocation, [stat]: allocation[stat] + 1}, stat);
-          const efficiency = nextFinal - currentFinal;
-          
-          // Only allocate if we get reasonable efficiency (avoid heavy diminishing returns)
-          if (efficiency >= 0.4) {
-            allocation[stat]++;
-            remainingPoints--;
-            allocated = true;
-            break; // Allocate one point at a time to maintain priority order
-          }
+          continue;
+        }
+        
+        const currentFinal = this.calculateFinalStat(allocation, stat);
+        if (allocation[stat] >= 70) continue;
+        
+        const nextFinal = this.calculateFinalStat({...allocation, [stat]: allocation[stat] + 1}, stat);
+        const efficiency = nextFinal - currentFinal;
+        
+        if (efficiency >= 0.2) {
+          allocation[stat]++;
+          remainingPoints--;
+          allocated = true;
+          break;
         }
       }
       
-      // If no efficient allocations found, reduce efficiency threshold
-      if (!allocated) {
-        for (const stat of sortedStats) {
-          if (remainingPoints <= 0) break;
-          
-          const currentFinal = this.calculateFinalStat(allocation, stat);
-          const threshold = this.buildType.statThresholds[stat];
-          
-          if (threshold?.max && currentFinal >= threshold.max) continue;
-          
-          // Skip APT if it's not efficient
-          if (stat === 'apt' && !this.isAptAllocationEfficient(allocation) && remainingPoints < 6) continue;
-          
-          const nextFinal = this.calculateFinalStat({...allocation, [stat]: allocation[stat] + 1}, stat);
-          const efficiency = nextFinal - currentFinal;
-          
-          // Lower threshold for final allocation
-          if (efficiency >= 0.2) {
-            allocation[stat]++;
-            remainingPoints--;
-            allocated = true;
-            break;
-          }
-        }
-      }
-      
-      // Prevent infinite loop - if we can't allocate efficiently, just dump points
       if (!allocated && remainingPoints > 0) {
-        // Find the highest priority stat that isn't maxed and isn't APT (unless APT is efficient)
         for (const stat of sortedStats) {
-          const threshold = this.buildType.statThresholds[stat];
-          const currentFinal = this.calculateFinalStat(allocation, stat);
-          
-          if (stat === 'apt' && !this.isAptAllocationEfficient(allocation) && remainingPoints < 6) continue;
-          
-          if (!threshold?.max || currentFinal < threshold.max) {
-            allocation[stat] += remainingPoints;
-            remainingPoints = 0;
+          if (stat === 'apt') continue;
+          if (allocation[stat] < 70) {
+            const pointsToDump = Math.min(remainingPoints, 70 - allocation[stat]);
+            allocation[stat] += pointsToDump;
+            remainingPoints -= pointsToDump;
             break;
           }
         }
+        if (remainingPoints > 0) break;
       }
     }
 
@@ -732,17 +519,47 @@ export class StatOptimizer {
   }
 
   /**
-   * Generate random allocation for genetic algorithm (with efficiency constraints)
+   * Generate random allocation for genetic algorithm
    */
   private generateRandomAllocation(): StatRecord {
-    const allocation: StatRecord = {
-      str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0
-    };
-
-    let remainingPoints = this.maxPoints;
-    
-    // HARD CONSTRAINT: Ensure minimum Faith for youkai count first
     const weights = this.params.customWeights;
+    let aptPoints = 0;
+    let remainingPoints = this.maxPoints;
+
+    if (weights?.targetAPT) {
+      const targetAPT = weights.targetAPT;
+      
+      if (targetAPT === 80) {
+        aptPoints = 80;
+      } else {
+        const subraceData = SUBRACES[this.params.subrace];
+        const mainClassData = CLASSES[this.params.mainClass];
+        const subClassData = CLASSES[this.params.subClass];
+        
+        const baseRacialAPT = subraceData?.apt || 0;
+        const mainClassAPT = mainClassData?.apt || 0;
+        const subClassAPT = subClassData?.apt || 0;
+        const totalClassAPT = mainClassAPT + subClassAPT;
+        
+        let neededAllocation = 0;
+        for (let testAlloc = 0; testAlloc <= 100; testAlloc++) {
+          const finalAPT = this.calculateDiminishingReturns(baseRacialAPT, testAlloc, totalClassAPT, 0, 0);
+          if (finalAPT >= targetAPT) {
+            neededAllocation = testAlloc;
+            break;
+          }
+        }
+        
+        aptPoints = neededAllocation;
+      }
+      
+      remainingPoints -= aptPoints;
+    }
+
+    const allocation: StatRecord = {
+      str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: aptPoints
+    };
+    
     if (weights?.youkaiCount && (
       this.params.mainClass === 'Summoner' || this.params.subClass === 'Summoner' ||
       this.params.mainClass === 'Grand Summoner' || this.params.subClass === 'Grand Summoner' ||
@@ -755,45 +572,16 @@ export class StatOptimizer {
       remainingPoints -= minInvestedFaith;
     }
 
-    // HARD CONSTRAINT: Ensure minimum HP if specified
     if (weights?.minimumHP) {
-      // Better HP estimation based on actual formula: VIT*10 + SAN*2 + STR*3 + ~350 base
       const targetHP = weights.minimumHP;
-      const baseHP = 350; // Approximate base HP from race/class/level
-      const estimatedSTRContrib = 20 * 3; // Assume ~20 STR allocation average
-      const estimatedSANContrib = 10 * 2; // Assume ~10 SAN average
+      const baseHP = 350;
+      const estimatedSTRContrib = 20 * 3;
+      const estimatedSANContrib = 10 * 2;
       const neededFromVIT = targetHP - baseHP - estimatedSTRContrib - estimatedSANContrib;
       const estimatedVITNeeded = Math.max(0, Math.ceil(neededFromVIT / 10)); 
-      const vitToAllocate = Math.min(40, estimatedVITNeeded); // Reasonable cap
+      const vitToAllocate = Math.min(40, estimatedVITNeeded);
       allocation.vit = vitToAllocate;
       remainingPoints -= vitToAllocate;
-    }
-
-    // HARD CONSTRAINT: Ensure target APT if specified  (36 or 42)
-    if (weights?.targetAPT) {
-      const targetAPT = weights.targetAPT; // Already 36 or 42 (both divisible by 6)
-      
-      // Binary search to find the minimum investment needed to reach target final APT
-      let low = 0;
-      let high = 80;
-      let bestAllocation = 0;
-      
-      while (low <= high) {
-        const mid = Math.floor((low + high) / 2);
-        const testAllocation = {...allocation, apt: mid};
-        const finalAPT = this.calculateFinalStat(testAllocation, 'apt');
-        
-        if (finalAPT >= targetAPT) {
-          bestAllocation = mid;
-          high = mid - 1;
-        } else {
-          low = mid + 1;
-        }
-      }
-      
-      const aptToAllocate = Math.min(50, bestAllocation); // Cap at reasonable amount
-      allocation.apt = aptToAllocate;
-      remainingPoints -= aptToAllocate;
     }
 
     const stats = Object.keys(allocation).filter(stat => stat !== 'apt') as StatKey[];
@@ -803,17 +591,12 @@ export class StatOptimizer {
       const currentFinal = this.calculateFinalStat(allocation, stat);
       const threshold = this.buildType.statThresholds[stat];
       
-      // Respect max thresholds
       if (threshold?.max && currentFinal >= threshold.max) continue;
-      
-      // Don't allocate more than 80 points to any single stat (this prevents extreme allocations)
       if (allocation[stat] >= 80) continue;
       
-      // Check efficiency - don't make completely inefficient allocations
       const nextFinal = this.calculateFinalStat({...allocation, [stat]: allocation[stat] + 1}, stat);
       const efficiency = nextFinal - currentFinal;
       
-      // Allow random allocations but bias towards efficient ones
       if (Math.random() < 0.7 && efficiency < 0.3) continue;
       
       allocation[stat]++;
@@ -824,21 +607,19 @@ export class StatOptimizer {
   }
 
   /**
-   * Mutate allocation for genetic algorithm (APT excluded from mutations)
+   * Mutate allocation for genetic algorithm
    */
   private mutateAllocation(parent: StatRecord): StatRecord {
     const child = { ...parent };
     const mutationRate = 0.1;
-    const mutationStrength = 3; // Reduced from 5 to prevent extreme mutations
+    const mutationStrength = 3;
 
     const stats = Object.keys(child).filter(stat => stat !== 'apt') as StatKey[];
     
-    // Randomly adjust some stats (APT excluded since it's fixed at target)
     stats.forEach(stat => {
       if (Math.random() < mutationRate) {
         const change = Math.floor((Math.random() - 0.5) * mutationStrength * 2);
         
-        // Special handling for Faith - never allow it to go below minimum requirement
         if (stat === 'fai') {
           const weights = this.params.customWeights;
           if (weights?.youkaiCount && (
@@ -854,30 +635,25 @@ export class StatOptimizer {
             child[stat] = Math.max(0, Math.min(80, child[stat] + change));
           }
         } else {
-          child[stat] = Math.max(0, Math.min(80, child[stat] + change)); // Cap at 80 points per stat
+          child[stat] = Math.max(0, Math.min(80, child[stat] + change));
         }
       }
     });
 
-    // Normalize to stay within point limit
     const totalPoints = this.calculateTotalPoints(child);
     if (totalPoints !== this.maxPoints) {
       const difference = totalPoints - this.maxPoints;
       if (difference > 0) {
-        // Remove excess points, prioritizing stats with poor efficiency (APT excluded)
         for (let i = 0; i < difference; i++) {
           const reducibleStats = stats.filter(s => child[s] > 0);
           if (reducibleStats.length > 0) {
-            // Try to reduce from stats that are giving poor returns first
             let statToReduce = reducibleStats[0];
             let worstEfficiency = 1.0;
             
             for (const stat of reducibleStats) {
               if (child[stat] > 0) {
-                // Check if this stat can actually be reduced
                 let canReduce = true;
                 
-                // Special check for Faith - don't reduce below minimum requirement
                 if (stat === 'fai') {
                   const weights = this.params.customWeights;
                   if (weights?.youkaiCount && (
@@ -892,7 +668,7 @@ export class StatOptimizer {
                   }
                 }
                 
-                if (!canReduce) continue; // Skip stats that can't be reduced
+                if (!canReduce) continue;
                 
                 const currentFinal = this.calculateFinalStat(child, stat);
                 const reducedFinal = this.calculateFinalStat({...child, [stat]: child[stat] - 1}, stat);
@@ -909,14 +685,12 @@ export class StatOptimizer {
           }
         }
       } else {
-        // Add missing points to efficient stats (APT excluded)
         for (let i = 0; i < -difference; i++) {
-          // Find most efficient stat to add to
           let bestStat = stats[0];
           let bestEfficiency = 0;
           
           for (const stat of stats) {
-            if (child[stat] < 80) { // Don't exceed our cap
+            if (child[stat] < 80) {
               const currentFinal = this.calculateFinalStat(child, stat);
               const nextFinal = this.calculateFinalStat({...child, [stat]: child[stat] + 1}, stat);
               const efficiency = nextFinal - currentFinal;
@@ -998,34 +772,23 @@ export class StatOptimizer {
     const isBonder = this.params.mainClass === 'Bonder' || this.params.subClass === 'Bonder';
     const isSummoner = this.params.mainClass === 'Summoner' || this.params.subClass === 'Summoner';
     
-    // Shapeshifters primarily use Install skills - very low FP requirement
     if (isShapeshifter && !isSummoner) {
-      // Install skills are temporary and don't require sustained FP
-      // Just need enough FP to use Install abilities occasionally
-      return Math.max(60, targetYoukai * 5); // Minimal FP requirement
+      return Math.max(60, targetYoukai * 5);
     }
     
-    // Grand Summoners use youkai skills more than sustained summoning
     if (isGrandSummoner && !isSummoner) {
-      // Skills have cooldowns, don't need all youkai summoned at once
-      // Moderate FP requirement for skill usage and some summoning
-      return Math.max(100, targetYoukai * 15); // Moderate FP requirement
+      return Math.max(100, targetYoukai * 15);
     }
     
-    // Bonders focus on bonds and utility, less sustained summoning
     if (isBonder && !isSummoner) {
-      // Bond effects are passive, occasional summoning for utility
-      return Math.max(80, targetYoukai * 10); // Low-moderate FP requirement
+      return Math.max(80, targetYoukai * 10);
     }
     
-    // Pure Summoners or Summoner hybrids - may want multiple youkai active
     if (isSummoner) {
-      // Traditional summoning, may have 2-4 youkai active simultaneously
-      const simultaneousYoukai = Math.min(4, Math.ceil(targetYoukai * 0.4)); // 40% of total youkai active
-      return Math.max(120, simultaneousYoukai * 30); // Full FP cost for active youkai
+      const simultaneousYoukai = Math.min(4, Math.ceil(targetYoukai * 0.4));
+      return Math.max(120, simultaneousYoukai * 30);
     }
     
-    // Default case - moderate requirement
     return Math.max(100, targetYoukai * 20);
   }
 
@@ -1035,41 +798,34 @@ export class StatOptimizer {
   private evaluateTargetAllocation(allocation: StatRecord): number {
     if (!this.params.targetStats) return 0;
     
-    let score = 1000; // Start with base score
+    let score = 1000;
     
-    // Score based on how close we get to target stats
     Object.entries(this.params.targetStats).forEach(([stat, target]) => {
       const statKey = stat as StatKey;
       const finalStat = this.calculateFinalStat(allocation, statKey);
       
       if (finalStat >= target) {
-        // Bonus for meeting or exceeding target
         score += 50;
-        // Small penalty for excessive over-achievement to prevent waste
         if (finalStat > target + 10) {
           score -= (finalStat - target - 10) * 2;
         }
       } else {
-        // Penalty for falling short of target
         const shortfall = target - finalStat;
-        score -= shortfall * 10; // Heavy penalty for missing targets
+        score -= shortfall * 10;
       }
     });
     
-    // Efficiency bonus for not wasting points
     const totalAllocated = Object.values(allocation).reduce((sum, points) => sum + points, 0);
     const maxPoints = this.maxPoints;
     if (totalAllocated <= maxPoints) {
       const pointsLeft = maxPoints - totalAllocated;
       if (pointsLeft <= 5) {
-        score += 25; // Bonus for efficient point usage
+        score += 25;
       }
     } else {
-      // Heavy penalty for exceeding point limit
       score -= (totalAllocated - maxPoints) * 50;
     }
     
-    // Add youkai Faith requirement constraints for target mode too
     const weights = this.params.customWeights;
     if (weights?.youkaiCount) {
       const targetYoukai = weights.youkaiCount;
@@ -1078,60 +834,54 @@ export class StatOptimizer {
       const faithThresholdMet = finalFaithStat >= minFaithNeeded;
       
       if (!faithThresholdMet) {
-        // Heavy penalty for not meeting Faith threshold in target mode
         score -= 500;
       }
     }
     
-    // HP minimum requirement (universal constraint for target mode too)
     const actualHP = this.calculateAccurateHP(allocation);
-    const minimumHP = 700; // Universal minimum HP for all builds
+    const minimumHP = 700;
     if (actualHP < minimumHP) {
       const hpShortfall = minimumHP - actualHP;
-      score -= hpShortfall * 2; // Heavy penalty for not meeting minimum HP (2 points per HP below 700)
+      score -= hpShortfall * 2;
     }
     
     return score;
   }
 
   /**
-   * Evaluate how good a stat allocation is
+   * Evaluate allocation quality based on build goals
    */
   private evaluateAllocation(allocation: StatRecord): number {
-    // Use target-based scoring if in target mode
     if (this.params.optimizationMode === 'targets') {
       return this.evaluateTargetAllocation(allocation);
     }
     
-    // Otherwise use weight-based scoring
     let score = 0;
     const weaponPriorities = this.getWeaponScalingPriorities();
     const classPriorities = this.getClassSynergyPriorities();
     const customPriorities = this.getCustomWeightPriorities();
 
-    // Score based on meeting thresholds
     Object.entries(this.buildType.statThresholds).forEach(([stat, thresholds]) => {
       const finalStat = this.calculateFinalStat(allocation, stat as StatKey);
       
       if (thresholds.min) {
         if (finalStat >= thresholds.min) {
-          score += 100; // Big bonus for meeting minimum
+          score += 100;
         } else {
-          score -= (thresholds.min - finalStat) * 10; // Penalty for not meeting minimum
+          score -= (thresholds.min - finalStat) * 10;
         }
       }
 
       if (thresholds.ideal) {
         const distance = Math.abs(finalStat - thresholds.ideal);
-        score += Math.max(0, 50 - distance * 2); // Bonus for being close to ideal
+        score += Math.max(0, 50 - distance * 2);
       }
 
       if (thresholds.max && finalStat > thresholds.max) {
-        score -= (finalStat - thresholds.max) * 5; // Penalty for exceeding maximum
+        score -= (finalStat - thresholds.max) * 5;
       }
     });
 
-    // Score based on stat priorities (including custom weights)
     Object.entries(allocation).forEach(([stat, points]) => {
       const statKey = stat as StatKey;
       const basePriority = this.buildType.statPriorities[statKey];
@@ -1139,15 +889,13 @@ export class StatOptimizer {
       const classPriority = classPriorities[statKey] || 0;
       const customPriority = customPriorities[statKey] || 0;
       
-      const totalPriority = basePriority + weaponPriority * 0.5 + classPriority * 0.3 + customPriority * 0.8;
+      const totalPriority = classPriority * 0.8 + basePriority * 0.6 + weaponPriority * 0.4 + customPriority * 0.7;
       score += points * totalPriority;
     });
 
-    // Custom weight specific bonuses
     if (this.params.customWeights) {
       const weights = this.params.customWeights;
       
-      // Summoner-specific scoring
       if (weights.youkaiCount && (
         this.params.mainClass === 'Summoner' || this.params.subClass === 'Summoner' ||
         this.params.mainClass === 'Grand Summoner' || this.params.subClass === 'Grand Summoner' ||
@@ -1157,72 +905,63 @@ export class StatOptimizer {
         const faiStat = this.calculateFinalStat(allocation, 'fai');
         const targetYoukai = weights.youkaiCount;
         
-        // Calculate actual youkai slots: 5 base + floor(FAI/14)
         const youkaiSlots = 5 + Math.floor(faiStat / 14);
-        const maxYoukai = Math.min(12, youkaiSlots); // Capped at 12
+        const maxYoukai = Math.min(12, youkaiSlots);
         
-        // Check if Faith investment meets the minimum threshold for target youkai
         const finalFaithStat = this.calculateFinalStat(allocation, 'fai');
         const minFaithNeeded = this.getMinimumFaithForYoukai(targetYoukai);
         const faithThresholdMet = finalFaithStat >= minFaithNeeded;
         
-        // Calculate FP sustainability using class-appropriate requirements
         const actualFP = this.calculateAccurateFP(allocation);
         const requiredFP = this.calculateYoukaiFPRequirement(targetYoukai);
         const fpSustainable = actualFP >= requiredFP;
         
         if (fpSustainable && maxYoukai >= targetYoukai && faithThresholdMet) {
-          score += 50 * targetYoukai; // Bonus for meeting all youkai requirements
+          score += 50 * targetYoukai;
         } else {
           const slotShortfall = Math.max(0, targetYoukai - maxYoukai);
-          const fpPenalty = fpSustainable ? 0 : 30; // Penalty for insufficient FP
-          const faithPenalty = faithThresholdMet ? 0 : 500; // Very heavy penalty for not meeting Faith threshold (makes it a hard constraint)
+          const fpPenalty = fpSustainable ? 0 : 30;
+          const faithPenalty = faithThresholdMet ? 0 : 500;
           
           score -= (slotShortfall * 25) + fpPenalty + faithPenalty;
         }
       }
       
-      // HP minimum requirement (universal constraint)
       const actualHP = this.calculateAccurateHP(allocation);
-      const minimumHP = 700; // Universal minimum HP for all builds
+      const minimumHP = 700;
       if (actualHP < minimumHP) {
         const hpShortfall = minimumHP - actualHP;
-        score -= hpShortfall * 2; // Heavy penalty for not meeting minimum HP (2 points per HP below 700)
+        score -= hpShortfall * 2;
       }
       
-      // Critical focus scoring
       if (weights.criticalFocus) {
         const lucStat = this.calculateFinalStat(allocation, 'luc');
         const guiStat = this.calculateFinalStat(allocation, 'gui');
-        const critPotential = lucStat + guiStat * 1.5; // Rough crit calculation
+        const critPotential = lucStat + guiStat * 1.5;
         score += critPotential * weights.criticalFocus * 0.5;
       }
       
-      // Accuracy focus scoring
       if (weights.accuracyFocus) {
         const skiStat = this.calculateFinalStat(allocation, 'ski');
         score += skiStat * weights.accuracyFocus * 2;
       }
       
-      // FP goal scoring (reasonable FP for sustained combat)
       if (weights.fpPriority) {
         const actualFP = this.calculateAccurateFP(allocation);
-        const fpTarget = 120; // Reasonable FP target for sustained combat
+        const fpTarget = 120;
         
         if (actualFP >= fpTarget) {
-          score += 75 * weights.fpPriority; // Bonus for meeting FP goal
+          score += 75 * weights.fpPriority;
         } else {
           const fpDeficit = fpTarget - actualFP;
-          score -= (fpDeficit / 5) * weights.fpPriority; // Penalty for FP shortage
+          score -= (fpDeficit / 5) * weights.fpPriority;
         }
       }
     }
 
-    // APT efficiency bonus
     const aptBonus = Math.floor(this.calculateFinalStat(allocation, 'apt') / 6) * 11;
     score += aptBonus * 2;
 
-    // Penalize unused points
     const usedPoints = this.calculateTotalPoints(allocation);
     const unusedPoints = this.maxPoints - usedPoints;
     score -= unusedPoints * 5;
@@ -1231,10 +970,9 @@ export class StatOptimizer {
   }
 
   /**
-   * Calculate final stat value including all bonuses (accurate version matching main calculator)
+   * Calculate final stat value including all bonuses
    */
   private calculateFinalStat(allocation: StatRecord, stat: StatKey): number {
-    // Use the same calculation logic as the main calculator's getEffectiveStat function
     const subraceData = SUBRACES[this.params.subrace];
     const mainClassData = CLASSES[this.params.mainClass];
     const subClassData = CLASSES[this.params.subClass];
@@ -1244,10 +982,8 @@ export class StatOptimizer {
     const history = HISTORY[this.params.history || 'None'];
     const historyBonus = history?.stats[stat] || 0;
     
-    // APT bonus (every 6 APT gives +1 to other stats) - must calculate APT first
     const aptBonus = stat === 'apt' ? 0 : Math.floor(this.calculateFinalStat(allocation, 'apt') / 6);
     
-    // Legend extend bonus - check each enabled legend extend
     const leBonus = Object.entries(this.params.legendExtend || {}).reduce((bonus, [key, enabled]) => {
       if (enabled) {
         const leData = LEGEND_EXTEND[key];
@@ -1256,14 +992,11 @@ export class StatOptimizer {
       return bonus;
     }, 0);
 
-    // Astrology bonus - simplified for now
     const astroBonus = (this.params.astrology && ASTROLOGY_PLANETS[this.params.astrology] === stat) ? 1 : 0;
 
-    // Custom stats if included
     const customBonus = this.params.includeCustomStats ? 
       ((this.params.customStats?.[stat] || 0) + (this.params.customBaseStats?.[stat] || 0)) : 0;
 
-    // Class passive bonuses
     const mainPassiveData = CLASS_PASSIVES[this.params.mainClass];
     const subPassiveData = CLASS_PASSIVES[this.params.subClass];
     const mainPassiveBonus = mainPassiveData && mainPassiveData.stats[stat] ? 
@@ -1272,20 +1005,17 @@ export class StatOptimizer {
       (subPassiveData.stats[stat] || 0) * (this.params.subClassPassive || 0) : 0;
     const totalPassiveBonus = mainPassiveBonus + subPassiveBonus;
 
-    // Class bonuses
     const mainClassValue = mainClassData?.[stat] || 0;
     const subClassValue = subClassData?.[stat] || 0;
     const totalClassValue = mainClassValue + subClassValue;
 
-    // Total added value (everything except base racial and class)
     const addedValue = allocated + historyBonus + astroBonus + leBonus + customBonus + totalPassiveBonus;
     
-    // Apply the same diminishing returns calculation as the main calculator
     return this.calculateDiminishingReturns(baseRacial, addedValue, totalClassValue, 0, aptBonus);
   }
 
   /**
-   * Replicate the main calculator's diminishing returns logic exactly
+   * Apply diminishing returns to stat calculation
    */
   private calculateDiminishingReturns(
     racialStat: number, 
@@ -1295,7 +1025,6 @@ export class StatOptimizer {
     aptitudeBonus: number,
     dragonBonus = 0
   ): number {
-    // Monoclass modifier for class stats
     const monoclassModifier = this.params.mainClass === this.params.subClass ? 1.1 : 1.0;
     
     const softCap = racialStat + 40 + dragonBonus;
@@ -1319,23 +1048,6 @@ export class StatOptimizer {
     }
     
     return Math.floor(effective + (remaining * multiplier));
-  }
-
-  /**
-   * Calculate stat allocation efficiency
-   */
-  private calculateStatEfficiency(allocation: StatRecord, stat: StatKey): number {
-    const currentValue = this.calculateFinalStat(allocation, stat);
-    const priority = this.buildType.statPriorities[stat];
-    
-    // APT has special efficiency calculation
-    if (stat === 'apt') {
-      return this.calculateAptEfficiency(allocation.apt) / 50; // Normalize
-    }
-
-    // Efficiency decreases as stat gets higher
-    const efficiencyFactor = Math.max(0.1, 1 - (currentValue / 100));
-    return (priority / 10) * efficiencyFactor;
   }
 
   /**

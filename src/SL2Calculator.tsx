@@ -29,18 +29,6 @@ import { STAT_INFO, BUILD_TYPES } from './data/stats';
 import { MAX_POINTS, APTITUDE_NUMBER, TEMPLATE_BUILDS } from './data/constants';
 import { StatOptimizer } from './utilities/StatOptimizer';
 
-
-
-
-
-
-
-
-/**
- * Stat optimization logic for automatic build generation
- */
-
-
 export default function SL2Calculator() {
   // Get first race and first subrace on initial load
   const firstRace = Object.keys(RACES)[0];
@@ -63,7 +51,7 @@ export default function SL2Calculator() {
   const [showSubClassDropdown, setShowSubClassDropdown] = useState(false);
   
   const [totalPoints, setTotalPoints] = useState(MAX_POINTS);
-  const [characterLevel, setCharacterLevel] = useState(60); // Default to level 60
+  const [characterLevel, setCharacterLevel] = useState(60);
   const [food, setFood] = useState('None');
   const [history, setHistory] = useState('None');
   
@@ -102,7 +90,7 @@ export default function SL2Calculator() {
   const [risingGame, setRisingGame] = useState(0);
   const [redtailFortuneLevel, setRedtailFortuneLevel] = useState(1);
   const [redtailDiceColor, setRedtailDiceColor] = useState<'red' | 'green' | 'yellow'>('red');
-  const [karakuriYoukai, setKarakuriYoukai] = useState<string>('None'); // Default to None
+  const [karakuriYoukai, setKarakuriYoukai] = useState<string>('None');
   const [fortitude, setFortitude] = useState(false);
   const [painTolerance, setPainTolerance] = useState(0);
   const [warwalk, setWarwalk] = useState(false);
@@ -124,7 +112,6 @@ export default function SL2Calculator() {
     Fire: 0, Ice: 0, Wind: 0, Earth: 0, Dark: 0, Water: 0, Light: 0, Lightning: 0, Acid: 0, Sound: 0
   });
   
-  // Update total points when character level changes
   useEffect(() => {
     const newTotalPoints = characterLevel * 4;
     const pointsSpent = Object.values(addedStats).reduce((sum, val) => sum + val, 0);
@@ -136,7 +123,7 @@ export default function SL2Calculator() {
   const [showStamps, setShowStamps] = useState(false);
   const [showCustomStats, setShowCustomStats] = useState(false);
   const [showTalents, setShowTalents] = useState(false);
-  const [showRawStats, setShowRawStats] = useState(false); // Toggle for Raw vs True stats
+  const [showRawStats, setShowRawStats] = useState(false);
 
   // Import/Export state
   const [showImportExport, setShowImportExport] = useState(false);
@@ -176,14 +163,10 @@ export default function SL2Calculator() {
     initiativePriority: 5,
     statusResistance: 5,
     carryCapacity: 0,
-    targetAPT: 36 as 36 | 42, // Standard APT target for multiclass
+    targetAPT: 36 as 36 | 42 | 80, // Standard APT target for multiclass (80 for Undeniable Innovator)
     targetEvade: 0, // Target evade value (0 = no target)
   });
   const [showCustomWeights, setShowCustomWeights] = useState<boolean>(false);
-
-  /**
-   * Get appropriate custom weight defaults for a build type
-   */
 
   // My descent into madness while writing this function was not worth it
   // I hate myself
@@ -204,7 +187,7 @@ export default function SL2Calculator() {
         initiativePriority: 9, // High initiative for evade builds
         statusResistance: 4,
         carryCapacity: 2,
-        targetAPT: 36 as 36 | 42, // Standard APT for multiclass
+        targetAPT: 36 as 36 | 42 | 80, // Standard APT for multiclass
         targetEvade: 115, // High evade target for evade tanks
       },
       'tank': {
@@ -221,7 +204,7 @@ export default function SL2Calculator() {
         initiativePriority: 3,
         statusResistance: 8, // High status resistance
         carryCapacity: 4,
-        targetAPT: 36 as 36 | 42, // Lower APT for stat-focused tanks (changed from 30)
+        targetAPT: 36 as 36 | 42 | 80, // Lower APT for stat-focused tanks (changed from 30)
         targetEvade: 35, // Basic mobility
       },
       'glass_cannon': {
@@ -238,7 +221,7 @@ export default function SL2Calculator() {
         initiativePriority: 7, // First strike advantage
         statusResistance: 3,
         carryCapacity: 2,
-        targetAPT: 42 as 36 | 42, // Higher APT for damage efficiency
+        targetAPT: 42 as 36 | 42 | 80, // Higher APT for damage efficiency
         targetEvade: 55, // Moderate mobility for DPS
       },
       'hybrid': {
@@ -255,7 +238,7 @@ export default function SL2Calculator() {
         initiativePriority: 5,
         statusResistance: 5,
         carryCapacity: 3,
-        targetAPT: 36 as 36 | 42, // Standard APT for versatility
+        targetAPT: 36 as 36 | 42 | 80, // Standard APT for versatility
         targetEvade: 75, // Moderate evade for hybrid builds
       },
       'support': {
@@ -272,7 +255,7 @@ export default function SL2Calculator() {
         initiativePriority: 6,
         statusResistance: 9, // High status resistance for support
         carryCapacity: 4,
-        targetAPT: 36 as 36 | 42, // Standard APT for support utility
+        targetAPT: 36 as 36 | 42 | 80, // Standard APT for support utility
         targetEvade: 55, // Some mobility for positioning
       },
       'critical': {
@@ -285,11 +268,11 @@ export default function SL2Calculator() {
         minimumHP: 550, // More reasonable HP for crit builds
         fpPriority: 5,
         physicalDefense: 3,
-        magicalDefense: 3, // Why did I do this to myself
-        initiativePriority: 8, // First strike for crits
-        statusResistance: 4, // I want to die
-        carryCapacity: 3, // why
-        targetAPT: 36 as 36 | 42, // Standard APT for flexibility (changed from 30)
+        magicalDefense: 3,
+        initiativePriority: 8,
+        statusResistance: 4,
+        carryCapacity: 3,
+        targetAPT: 36 as 36 | 42 | 80, // Standard APT for flexibility (changed from 30)
         targetEvade: 95, // Good evade for positioning in crit builds
       }
     };
@@ -297,7 +280,6 @@ export default function SL2Calculator() {
     return buildDefaults[buildType] || buildDefaults['hybrid'];
   };
 
-  // Auto-adjust custom weights when build type changes
   useEffect(() => {
     const newWeights = getBuildTypeWeights(selectedBuildType);
     setCustomWeights(newWeights);
@@ -309,9 +291,6 @@ export default function SL2Calculator() {
 
   const monoclassModifier = mainClass === subClass ? 2 : 1;
 
-  /**
-   * Export current build to JSON
-   */
   const exportBuild = (buildName: string = "My Build"): void => {
     const buildData: BuildData = {
       buildName,
@@ -357,7 +336,7 @@ export default function SL2Calculator() {
       subClassPassive,
       elementalATKAdjustments,
       elementalRESAdjustments,
-      version: "0.3.0"
+      version: "0.4.0"
     };
 
     const jsonString = JSON.stringify(buildData, null, 2);
@@ -373,29 +352,22 @@ export default function SL2Calculator() {
     URL.revokeObjectURL(url);
   };
 
-  /**
-   * Import build from JSON
-   */
   const importBuild = (jsonString: string): boolean => {
     try {
       const buildData: BuildData = JSON.parse(jsonString);
       
-      // Validate required fields
       if (!buildData.race || !buildData.subrace || !buildData.mainClass || !buildData.subClass) {
         throw new Error("Invalid build data: missing required fields");
       }
 
-      // Apply the build data
       setRace(buildData.race);
       setSubrace(buildData.subrace);
       setMainClass(buildData.mainClass);
       setSubClass(buildData.subClass);
       
-      // Set base class information (for backward compatibility, derive from class if not present)
       if (buildData.selectedMainBaseClass) {
         setSelectedMainBaseClass(buildData.selectedMainBaseClass);
       } else {
-        // Find base class for main class
         const mainBaseClass = Object.entries(CLASS_HIERARCHY).find(([, data]) => 
           data.subClasses.includes(buildData.mainClass) || data.name === buildData.mainClass
         )?.[0] || 'Soldier';
@@ -405,7 +377,6 @@ export default function SL2Calculator() {
       if (buildData.selectedSubBaseClass) {
         setSelectedSubBaseClass(buildData.selectedSubBaseClass);
       } else {
-        // Find base class for sub class
         const subBaseClass = Object.entries(CLASS_HIERARCHY).find(([, data]) => 
           data.subClasses.includes(buildData.subClass) || data.name === buildData.subClass
         )?.[0] || 'Soldier';
@@ -471,9 +442,6 @@ export default function SL2Calculator() {
     }
   };
 
-  /**
-   * Load a template build
-   */
   const loadTemplate = (templateKey: string): void => {
     const template = TEMPLATE_BUILDS[templateKey as keyof typeof TEMPLATE_BUILDS];
     if (!template) {
@@ -481,24 +449,20 @@ export default function SL2Calculator() {
       return;
     }
 
-    // Reset to clean state first
     setRace(template.race);
     setSubrace(template.subrace);
     setMainClass(template.mainClass);
     setSubClass(template.subClass);
     
-    // Set base class information for templates
     setSelectedMainBaseClass((template as any).selectedMainBaseClass || template.mainClass);
     setSelectedSubBaseClass((template as any).selectedSubBaseClass || template.subClass);
     
-    setCharacterLevel(60); // Default level for templates
+    setCharacterLevel(60);
     setFood('None');
     setHistory(template.history || 'None');
     
-    // Set stats from template
     setAddedStats(template.stats);
     
-    // Clear custom modifications
     setCustomStats({
       str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0,
       vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0
@@ -511,7 +475,6 @@ export default function SL2Calculator() {
     setLegendExtend({});
     setAstrology('');
     
-    // Clear all modifiers
     setCustomHP(0);
     setCustomFP(0);
     setBaseEvade(0);
@@ -537,7 +500,6 @@ export default function SL2Calculator() {
     setMainClassPassive(0);
     setSubClassPassive(0);
     
-    // Clear elemental adjustments
     setElementalATKAdjustments({
       Fire: 0, Ice: 0, Wind: 0, Earth: 0, Dark: 0, Water: 0, Light: 0, Lightning: 0, Acid: 0, Sound: 0
     });
@@ -545,14 +507,10 @@ export default function SL2Calculator() {
       Fire: 0, Ice: 0, Wind: 0, Earth: 0, Dark: 0, Water: 0, Light: 0, Lightning: 0, Acid: 0, Sound: 0
     });
 
-    // Calculate remaining points
     const pointsSpent = Object.values(template.stats).reduce((sum: number, val: number) => sum + val, 0);
-    setTotalPoints(Math.max(0, 240 - pointsSpent)); // 60 * 4 = 240 points
+    setTotalPoints(Math.max(0, 240 - pointsSpent));
   };
 
-  /**
-   * Copy build to clipboard as JSON
-   */
   const copyBuildToClipboard = async (buildName: string = "My Build"): Promise<boolean> => {
     const buildData: BuildData = {
       buildName,
@@ -596,7 +554,7 @@ export default function SL2Calculator() {
       subClassPassive,
       elementalATKAdjustments,
       elementalRESAdjustments,
-      version: "0.3.0"
+      version: "0.4.0"
     };
 
     try {
@@ -608,16 +566,10 @@ export default function SL2Calculator() {
     }
   };
 
-  /**
-   * Filter subraces based on the currently selected race
-   * Returns base race and any specific subraces available for the current race
-   */
   const getAvailableSubraces = (): string[] => {
     return Object.keys(SUBRACES).filter(subraceKey => {
       const subrace = SUBRACES[subraceKey];
-      // If no allowedRaces specified, it's available to all races
       if (!subrace.allowedRaces) return true;
-      // Check if current race is in the allowed races list
       return subrace.allowedRaces.includes(race);
     });
   };
@@ -650,28 +602,21 @@ export default function SL2Calculator() {
       }
     }
 
-    // Validate and adjust stats to ensure they don't exceed hard caps with the new race/subrace
     const adjustedStats = validateStatCaps(finalSubrace, customBaseStats, legendExtend, addedStats, history);
     setAddedStats(adjustedStats);
   };
 
-  /**
-   * Handle subrace change - disable Sanguine Crest if not Oni/Vampire and validate stat caps
-   */
   const handleSubraceChange = (newSubrace: string): void => {
     setSubrace(newSubrace);
     
-    // Disable Sanguine Crest if the new subrace is not Oni or Vampire
     if (newSubrace !== 'Oni' && newSubrace !== 'Vampire') {
       setSanguineCrest(false);
     }
     
-    // Reset Karakuri youkai selection when changing away from Karakuri
     if (newSubrace !== 'Karakuri') {
       setKarakuriYoukai('None');
     }
 
-    // Validate and adjust stats to ensure they don't exceed hard caps
     const adjustedStats = validateStatCaps(newSubrace, customBaseStats, legendExtend, addedStats, history);
     setAddedStats(adjustedStats);
   };
@@ -690,7 +635,6 @@ export default function SL2Calculator() {
     const adjustedStats = { ...currentAddedStats };
     let totalPointsFreed = 0;
 
-    // Calculate Legend Extend bonuses for the given state
     const newLeBonus: Partial<StatRecord> = {};
     Object.entries(newLegendExtend).forEach(([key, enabled]) => {
       if (enabled) {
@@ -701,10 +645,8 @@ export default function SL2Calculator() {
       }
     });
 
-    // Get history bonuses for the new history
     const newHistoryBonus = HISTORY[newHistory];
 
-    // Check each stat for hard cap violations
     Object.keys(adjustedStats).forEach(statKey => {
       const stat = statKey as StatKey;
       const subraceData = SUBRACES[newSubrace];
@@ -717,7 +659,6 @@ export default function SL2Calculator() {
       const total = raceBase + customBase + manualPoints + legendExtendBonus + historyBonus;
       
       if (total > 80) {
-        // Calculate how many manual points we need to remove
         const excess = total - 80;
         const newManualPoints = Math.max(0, manualPoints - excess);
         const pointsRemoved = manualPoints - newManualPoints;
@@ -725,18 +666,15 @@ export default function SL2Calculator() {
         adjustedStats[stat] = newManualPoints;
         totalPointsFreed += pointsRemoved;
 
-        // Update the input field to reflect the capped value
         const inputElement = inputRefs.current[stat];
         if (inputElement) {
           inputElement.value = newManualPoints.toString();
         }
 
-        // Log the cap adjustment for debugging
         console.log(`Stat ${stat.toUpperCase()} capped: ${manualPoints} → ${newManualPoints} (${pointsRemoved} points freed)`);
       }
     });
 
-    // If we freed up points, update the total points available
     if (totalPointsFreed > 0) {
       setTotalPoints(prev => Math.min(MAX_POINTS, prev + totalPointsFreed));
     }
@@ -744,14 +682,10 @@ export default function SL2Calculator() {
     return adjustedStats;
   };
 
-  /**
-   * Handle custom base stat changes with validation
-   */
   const handleCustomBaseStatChange = (stat: StatKey, value: number): void => {
     const newCustomBaseStats = { ...customBaseStats, [stat]: value };
     setCustomBaseStats(newCustomBaseStats);
 
-    // Validate and adjust manual stats to ensure they don't exceed hard caps
     const adjustedStats = validateStatCaps(subrace, newCustomBaseStats, legendExtend, addedStats, history);
     setAddedStats(adjustedStats);
   };
@@ -2110,7 +2044,7 @@ export default function SL2Calculator() {
         <div className="bg-gray-800 rounded-lg shadow-xl p-6 mb-6">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-3xl font-bold">SL2 Calculator Suite</h1>
-            <div className="text-sm text-gray-400">Version 0.3.0a</div>
+            <div className="text-sm text-gray-400">Version 0.4.0a</div>
           </div>
 
           {/* Tab Navigation */}
@@ -2357,41 +2291,41 @@ export default function SL2Calculator() {
             <div className="flex gap-2 flex-wrap">
               <button
                 onClick={() => setShowFood(!showFood)}
-                className="flex items-center gap-2 bg-green-600 hover:bg-green-700 px-3 py-2 rounded text-sm"
+                className="flex items-center gap-2 bg-green-600 hover:bg-green-700 px-3 py-2 rounded text-sm transition-colors"
               >
                 <Utensils size={16} />
                 Food
               </button>
               <button
                 onClick={() => setShowStamps(!showStamps)}
-                className="flex items-center gap-2 bg-yellow-600 hover:bg-yellow-700 px-3 py-2 rounded text-sm"
+                className="flex items-center gap-2 bg-yellow-600 hover:bg-yellow-700 px-3 py-2 rounded text-sm transition-colors"
               >
                 <BookOpen size={16} />
                 History
               </button>
               <button
                 onClick={() => setShowTalents(!showTalents)}
-                className="flex items-center gap-2 bg-orange-600 hover:bg-orange-700 px-3 py-2 rounded text-sm"
+                className="flex items-center gap-2 bg-orange-600 hover:bg-orange-700 px-3 py-2 rounded text-sm transition-colors"
               >
                 Talents
               </button>
               <button
                 onClick={() => setShowAdvanced(!showAdvanced)}
-                className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 px-3 py-2 rounded text-sm"
+                className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 px-3 py-2 rounded text-sm transition-colors"
               >
                 <Settings size={16} />
                 Advanced
               </button>
               <button
                 onClick={() => setShowImportExport(!showImportExport)}
-                className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 px-3 py-2 rounded text-sm"
+                className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 px-3 py-2 rounded text-sm transition-colors"
               >
                 <Download size={16} />
                 Import/Export
               </button>
               <button
                 onClick={resetStats}
-                className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded text-sm"
+                className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded text-sm transition-colors"
               >
                 <RotateCcw size={16} />
                 Reset
@@ -2431,7 +2365,7 @@ export default function SL2Calculator() {
                 <select
                   value={history}
                   onChange={(e) => handleHistoryChange(e.target.value)}
-                  className="w-full bg-gray-600 border border-gray-500 rounded px-3 py-2"
+                  className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2"
                 >
                   {Object.keys(HISTORY).map(h => (
                     <option key={h} value={h}>{h}</option>
@@ -2450,7 +2384,7 @@ export default function SL2Calculator() {
                         max="10"
                         value={stamps[stat]}
                         onChange={(e) => setStamps(prev => ({ ...prev, [stat]: Number(e.target.value) }))}
-                        className="w-full bg-gray-600 border border-gray-500 rounded px-2 py-1"
+                        className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1"
                       />
                     </div>
                   ))}
@@ -2474,7 +2408,7 @@ export default function SL2Calculator() {
                         max="5"
                         value={risingGame}
                         onChange={(e) => setRisingGame(Number(e.target.value))}
-                        className="w-full bg-gray-600 border border-gray-500 rounded px-2 py-1"
+                        className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1"
                       />
                       <span className="text-xs text-gray-400">Bonus stats when HP is low</span>
                     </div>
@@ -2486,7 +2420,7 @@ export default function SL2Calculator() {
                         step="10"
                         value={painTolerance}
                         onChange={(e) => setPainTolerance(Number(e.target.value))}
-                        className="w-full bg-gray-600 border border-gray-500 rounded px-2 py-1"
+                        className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1"
                       />
                       <span className="text-xs text-gray-400">+10 HP per rank</span>
                     </div>
@@ -2676,7 +2610,7 @@ export default function SL2Calculator() {
                           max="6"
                           value={redtailFortuneLevel}
                           onChange={(e) => setRedtailFortuneLevel(Number(e.target.value))}
-                          className="w-full bg-gray-600 border border-gray-500 rounded px-2 py-1"
+                          className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1"
                         />
                       </div>
                       <div>
@@ -2684,7 +2618,7 @@ export default function SL2Calculator() {
                         <select
                           value={redtailDiceColor}
                           onChange={(e) => setRedtailDiceColor(e.target.value as 'red' | 'green' | 'yellow')}
-                          className="w-full bg-gray-600 border border-gray-500 rounded px-2 py-1"
+                          className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1"
                         >
                           <option value="red">Red Dice</option>
                           <option value="green">Green Dice</option>
@@ -2746,7 +2680,7 @@ export default function SL2Calculator() {
                       const level = Math.min(60, Math.max(1, Number(e.target.value)));
                       setCharacterLevel(level);
                     }}
-                    className="w-full bg-gray-600 border border-gray-500 rounded px-2 py-1"
+                    className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1"
                   />
                   <div className="text-xs text-gray-400 mt-1">
                     Available Points: {characterLevel * 4}
@@ -2758,7 +2692,7 @@ export default function SL2Calculator() {
                     type="number"
                     value={customHP}
                     onChange={(e) => setCustomHP(Number(e.target.value))}
-                    className="w-full bg-gray-600 border border-gray-500 rounded px-2 py-1"
+                    className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1"
                   />
                 </div>
                 <div>
@@ -2767,7 +2701,7 @@ export default function SL2Calculator() {
                     type="number"
                     value={customFP}
                     onChange={(e) => setCustomFP(Number(e.target.value))}
-                    className="w-full bg-gray-600 border border-gray-500 rounded px-2 py-1"
+                    className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1"
                   />
                 </div>
                 <div>
@@ -2776,7 +2710,7 @@ export default function SL2Calculator() {
                     type="number"
                     value={baseEvade}
                     onChange={(e) => setBaseEvade(Number(e.target.value))}
-                    className="w-full bg-gray-600 border border-gray-500 rounded px-2 py-1"
+                    className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1"
                   />
                 </div>
                 <div>
@@ -2787,7 +2721,7 @@ export default function SL2Calculator() {
                     max="50"
                     value={bonusEvade}
                     onChange={(e) => setBonusEvade(Math.min(Number(e.target.value), 50))}
-                    className="w-full bg-gray-600 border border-gray-500 rounded px-2 py-1"
+                    className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1"
                   />
                   <div className="text-xs text-gray-400 mt-1">
                     Capped at 50
@@ -2801,7 +2735,7 @@ export default function SL2Calculator() {
                     max="4"
                     value={dragonKing}
                     onChange={(e) => setDragonKing(Number(e.target.value))}
-                    className="w-full bg-gray-600 border border-gray-500 rounded px-2 py-1"
+                    className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1"
                   />
                 </div>
                 <div>
@@ -2812,7 +2746,7 @@ export default function SL2Calculator() {
                     max="4"
                     value={dragonQueen}
                     onChange={(e) => setDragonQueen(Number(e.target.value))}
-                    className="w-full bg-gray-600 border border-gray-500 rounded px-2 py-1"
+                    className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1"
                   />
                 </div>
               </div>
@@ -2826,7 +2760,7 @@ export default function SL2Calculator() {
                     max="100"
                     value={hpPercent}
                     onChange={(e) => setHpPercent(Number(e.target.value))}
-                    className="w-20 bg-gray-600 border border-gray-500 rounded px-2 py-1"
+                    className="w-20 bg-gray-700 border border-gray-600 rounded px-2 py-1"
                   />
                 </div>
                 <button
@@ -2848,7 +2782,7 @@ export default function SL2Calculator() {
                           type="number"
                           value={customStats[stat]}
                           onChange={(e) => setCustomStats(prev => ({ ...prev, [stat]: Number(e.target.value) }))}
-                          className="w-full bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm"
+                          className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm"
                         />
                       </div>
                     ))}
@@ -2862,7 +2796,7 @@ export default function SL2Calculator() {
                           type="number"
                           value={customBaseStats[stat]}
                           onChange={(e) => handleCustomBaseStatChange(stat, Number(e.target.value))}
-                          className="w-full bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm"
+                          className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm"
                         />
                       </div>
                     ))}
@@ -2877,10 +2811,10 @@ export default function SL2Calculator() {
                     <button
                       key={key}
                       onClick={() => handleLegendExtendToggle(key)}
-                      className={`px-3 py-2 rounded text-sm ${
+                      className={`px-3 py-2 rounded text-sm transition-colors ${
                         legendExtend[key] 
                           ? 'bg-blue-600 hover:bg-blue-700' 
-                          : 'bg-gray-600 hover:bg-gray-500'
+                          : 'bg-gray-700 hover:bg-gray-600'
                       }`}
                       style={{ borderLeft: `4px solid ${LEGEND_EXTEND[key].color}` }}
                     >
@@ -2943,14 +2877,14 @@ export default function SL2Calculator() {
                   <div className="flex gap-2">
                     <button
                       onClick={() => exportBuild(buildName)}
-                      className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded flex items-center gap-2"
+                      className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded flex items-center gap-2 transition-colors"
                     >
                       <Download size={16} />
                       Download JSON
                     </button>
                     <button
                       onClick={() => copyBuildToClipboard(buildName)}
-                      className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded flex items-center gap-2"
+                      className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded flex items-center gap-2 transition-colors"
                     >
                       <Copy size={16} />
                       Copy to Clipboard
@@ -3391,7 +3325,7 @@ export default function SL2Calculator() {
                     <div className="bg-gray-800 p-4 rounded-lg">
                       <h4 className="text-sm font-medium mb-1 text-blue-300">Target Stats</h4>
                       <p className="text-xs text-gray-400 mb-3">
-                        All targets are <strong>scaled values</strong> (after racial bonuses). APT: 36/42 are common scaled targets.
+                        All targets are <strong>scaled values</strong> (after racial bonuses). APT: 36/42/80 are common scaled targets.
                       </p>
                       <div className="grid grid-cols-2 gap-3">
                         <div>
@@ -3826,11 +3760,12 @@ export default function SL2Calculator() {
                               </label>
                               <select
                                 value={customWeights.targetAPT || 36}
-                                onChange={(e) => setCustomWeights({...customWeights, targetAPT: parseInt(e.target.value) as 36 | 42})}
+                                onChange={(e) => setCustomWeights({...customWeights, targetAPT: parseInt(e.target.value) as 36 | 42 | 80})}
                                 className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1"
                               >
                                 <option value={36}>36 APT (Standard)</option>
                                 <option value={42}>42 APT (High Efficiency)</option>
+                                <option value={80}>80 APT (Undeniable Innovator)</option>
                               </select>
                               <span className="text-xs text-gray-400">Target final APT for multiclass builds</span>
                             </div>
@@ -3875,7 +3810,7 @@ export default function SL2Calculator() {
                       </>
                     ) : (
                       <>
-                        🎯 Optimize Stats
+                        Optimize Stats
                       </>
                     )}
                   </button>
@@ -3885,7 +3820,7 @@ export default function SL2Calculator() {
                       onClick={applyOptimization}
                       className="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg font-semibold transition-colors"
                     >
-                      📋 Apply to Calculator
+                      Apply to Calculator
                     </button>
                   )}
                 </div>
@@ -3946,7 +3881,7 @@ export default function SL2Calculator() {
 
                   {/* Build Type Compatibility */}
                   <div className="bg-gray-900 rounded-lg p-4">
-                    <h4 className="text-lg font-semibold mb-2 text-purple-400">🎭 Class Compatibility</h4>
+                    <h4 className="text-lg font-semibold mb-2 text-purple-400">Class Compatibility</h4>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                       {BUILD_TYPES[selectedBuildType]?.classCompatibility && Object.entries(BUILD_TYPES[selectedBuildType].classCompatibility)
                         .filter(([className]) => className === mainClass || className === subClass)

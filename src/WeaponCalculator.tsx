@@ -406,10 +406,14 @@ const STAT_SCALING: Record<string, { str: number; wil: number; ski: number; cel:
 };
 
 export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
-  // Weapon selection states
+  // Comparison mode state
+  const [comparisonMode, setComparisonMode] = useState(false);
+  
+  // Weapon selection states - Weapon 1
   const [selectedWeapon, setSelectedWeapon] = useState<Weapon | null>(null);
   const [weaponSearchTerm, setWeaponSearchTerm] = useState('');
   const [weaponTypeFilter, setWeaponTypeFilter] = useState('All');
+  const [subtypeFilter, setSubtypeFilter] = useState('All');
   const [rarityFilter, setRarityFilter] = useState('All');
   
   const [weaponType, setWeaponType] = useState('Sword');
@@ -432,10 +436,55 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
   const [hitQuality, setHitQuality] = useState(false);
   const [weightPlus, setWeightPlus] = useState(false);
   const [weightMinus, setWeightMinus] = useState(false);
+  const [sentimentality, setSentimentality] = useState(false);
   const [twoHandedSkillRank, setTwoHandedSkillRank] = useState(0);
 
   // Custom scaling percentages (initialized from weapon type)
   const [customScaling, setCustomScaling] = useState({
+    str: 100,
+    wil: 0,
+    ski: 0,
+    cel: 0,
+    def: 0,
+    res: 0,
+    vit: 0,
+    fai: 0,
+    luc: 0,
+    gui: 0,
+    san: 0
+  });
+
+  // Weapon 2 states for comparison
+  const [selectedWeapon2, setSelectedWeapon2] = useState<Weapon | null>(null);
+  const [weaponSearchTerm2, setWeaponSearchTerm2] = useState('');
+  const [weaponTypeFilter2, setWeaponTypeFilter2] = useState('All');
+  const [subtypeFilter2, setSubtypeFilter2] = useState('All');
+  const [rarityFilter2, setRarityFilter2] = useState('All');
+  
+  const [weaponType2, setWeaponType2] = useState('Sword');
+  const [basePower2, setBasePower2] = useState(5);
+  const [baseCrit2, setBaseCrit2] = useState(5);
+  const [baseHit2, setBaseHit2] = useState(80);
+  const [baseWeight2, setBaseWeight2] = useState(10);
+  const [baseCritDamage2, setBaseCritDamage2] = useState(100);
+  
+  const [material2, setMaterial2] = useState('None');
+  const [part1_2, setPart1_2] = useState('None');
+  const [part2_2, setPart2_2] = useState('None');
+  const [part3_2, setPart3_2] = useState('None');
+  const [enchantment2, setEnchantment2] = useState('None');
+  
+  const [upgradeLevel2, setUpgradeLevel2] = useState(0);
+  const [rarity2, setRarity2] = useState(10);
+  const [powerQuality2, setPowerQuality2] = useState(false);
+  const [critQuality2, setCritQuality2] = useState(false);
+  const [hitQuality2, setHitQuality2] = useState(false);
+  const [weightPlus2, setWeightPlus2] = useState(false);
+  const [weightMinus2, setWeightMinus2] = useState(false);
+  const [sentimentality2, setSentimentality2] = useState(false);
+  const [twoHandedSkillRank2, setTwoHandedSkillRank2] = useState(0);
+
+  const [customScaling2, setCustomScaling2] = useState({
     str: 100,
     wil: 0,
     ski: 0,
@@ -485,22 +534,114 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
     }
   }, [selectedWeapon]);
 
+  // Effect for weapon 2
+  useEffect(() => {
+    if (selectedWeapon2) {
+      setWeaponType2(selectedWeapon2.weaponType);
+      setBasePower2(selectedWeapon2.power);
+      setBaseCrit2(selectedWeapon2.critical);
+      setBaseHit2(selectedWeapon2.accuracy);
+      setBaseWeight2(selectedWeapon2.weight);
+      setBaseCritDamage2(selectedWeapon2.criticalDamage);
+      setRarity2(selectedWeapon2.rarity);
+      
+      const weaponScaling = selectedWeapon2.scaling;
+      
+      const combinedScaling = weaponScaling.reduce((acc, scaling) => ({
+        str: acc.str + (scaling.str || 0),
+        wil: acc.wil + (scaling.wil || 0),
+        ski: acc.ski + (scaling.ski || 0),
+        cel: acc.cel + (scaling.cel || 0),
+        def: acc.def + (scaling.def || 0),
+        res: acc.res + (scaling.res || 0),
+        vit: acc.vit + (scaling.vit || 0),
+        fai: acc.fai + (scaling.fai || 0),
+        luc: acc.luc + (scaling.luc || 0),
+        gui: acc.gui + (scaling.gui || 0),
+        san: acc.san + (scaling.san || 0)
+      }), {
+        str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0,
+        vit: 0, fai: 0, luc: 0, gui: 0, san: 0
+      });
+      
+      setCustomScaling2(combinedScaling);
+    }
+  }, [selectedWeapon2]);
+
   // Filter weapons based on search and filters
   const filteredWeapons = WEAPONS.filter((weapon: Weapon) => {
     const matchesSearch = weapon.name.toLowerCase().includes(weaponSearchTerm.toLowerCase());
     const matchesType = weaponTypeFilter === 'All' || weapon.weaponType === weaponTypeFilter;
+    const matchesSubtype = subtypeFilter === 'All' || weapon.subtype === subtypeFilter || (!weapon.subtype && subtypeFilter === 'None');
     const matchesRarity = rarityFilter === 'All' || weapon.rarity.toString() === rarityFilter;
-    return matchesSearch && matchesType && matchesRarity;
+    return matchesSearch && matchesType && matchesSubtype && matchesRarity;
   });
+
+  const filteredWeapons2 = WEAPONS.filter((weapon: Weapon) => {
+    const matchesSearch = weapon.name.toLowerCase().includes(weaponSearchTerm2.toLowerCase());
+    const matchesType = weaponTypeFilter2 === 'All' || weapon.weaponType === weaponTypeFilter2;
+    const matchesSubtype = subtypeFilter2 === 'All' || weapon.subtype === subtypeFilter2 || (!weapon.subtype && subtypeFilter2 === 'None');
+    const matchesRarity = rarityFilter2 === 'All' || weapon.rarity.toString() === rarityFilter2;
+    return matchesSearch && matchesType && matchesSubtype && matchesRarity;
+  });
+
+  // Get available subtypes for the current weapon type filter
+  const getAvailableSubtypes = (): string[] => {
+    const subtypes = new Set<string>();
+    WEAPONS.forEach((weapon: Weapon) => {
+      if (weaponTypeFilter === 'All' || weapon.weaponType === weaponTypeFilter) {
+        if (weapon.subtype) {
+          subtypes.add(weapon.subtype);
+        }
+      }
+    });
+    return Array.from(subtypes).sort();
+  };
+
+  const getAvailableSubtypes2 = (): string[] => {
+    const subtypes = new Set<string>();
+    WEAPONS.forEach((weapon: Weapon) => {
+      if (weaponTypeFilter2 === 'All' || weapon.weaponType === weaponTypeFilter2) {
+        if (weapon.subtype) {
+          subtypes.add(weapon.subtype);
+        }
+      }
+    });
+    return Array.from(subtypes).sort();
+  };
+
+  const availableSubtypes = getAvailableSubtypes();
+  const availableSubtypes2 = getAvailableSubtypes2();
+
+  // Reset subtype filter when weapon type changes
+  useEffect(() => {
+    if (subtypeFilter !== 'All' && !availableSubtypes.includes(subtypeFilter)) {
+      setSubtypeFilter('All');
+    }
+  }, [weaponTypeFilter, subtypeFilter, availableSubtypes]);
+
+  useEffect(() => {
+    if (subtypeFilter2 !== 'All' && !availableSubtypes2.includes(subtypeFilter2)) {
+      setSubtypeFilter2('All');
+    }
+  }, [weaponTypeFilter2, subtypeFilter2, availableSubtypes2]);
 
   // Function to select a weapon
   const selectWeapon = (weapon: Weapon) => {
     setSelectedWeapon(weapon);
   };
 
+  const selectWeapon2 = (weapon: Weapon) => {
+    setSelectedWeapon2(weapon);
+  };
+
   // Function to clear weapon selection (use custom values)
   const clearWeaponSelection = () => {
     setSelectedWeapon(null);
+  };
+
+  const clearWeaponSelection2 = () => {
+    setSelectedWeapon2(null);
   };
   // Get effective weapon type (mutation changes type based on rarity)
   const getEffectiveWeaponType = (): string => {
@@ -564,14 +705,6 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
            scaling.str >= scaling.san;
   };
 
-  // Load default scaling when weapon type changes
-  const handleWeaponTypeChange = (newType: string) => {
-    setWeaponType(newType);
-    // Always update custom scaling values when weapon type changes
-    const defaultScaling = STAT_SCALING[newType] || STAT_SCALING['Sword'];
-    setCustomScaling({ ...defaultScaling });
-  };
-
   // Calculate special enchantment bonuses
   const calculateEnchantmentBonus = () => {
     let bonusPower = 0;
@@ -596,14 +729,19 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
     const ench = ENCHANTMENTS[enchantment] || ENCHANTMENTS['None'];
 
     // Quality bonuses
-    const powerBonus = powerQuality ? 3 : 0;
-    const critBonus = critQuality ? 3 : 0;
-    const hitBonus = hitQuality ? 3 : 0;
+    const powerBonus = powerQuality ? 2 : 0;
+    const critBonus = critQuality ? 4 : 0;
+    const hitBonus = hitQuality ? 4 : 0;
+    
+    // Sentimentality bonuses (+10 Max Durability, +2 Power, +2 Critical, +2 Hit)
+    const sentimentalityPowerBonus = sentimentality ? 2 : 0;
+    const sentimentalityCritBonus = sentimentality ? 2 : 0;
+    const sentimentalityHitBonus = sentimentality ? 2 : 0;
     
     // Weight modifications
     let weightBonus = 0;
-    if (weightPlus && !weightMinus) weightBonus = 1;
-    if (!weightPlus && weightMinus) weightBonus = -1;
+    if (weightPlus && !weightMinus) weightBonus = 2;
+    if (!weightPlus && weightMinus) weightBonus = -2;
 
     // Upgrade bonuses - each upgrade level adds +1 to Power, Crit, and Hit
     const upgradePowerBonus = upgradeLevel;
@@ -614,9 +752,9 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
     const enchBonus = calculateEnchantmentBonus();
 
     // Calculate base totals before Two-Handed skill
-    const baseTotalPower = basePower + mat.power + p1.power + p2.power + p3.power + ench.power + powerBonus + upgradePowerBonus + enchBonus.bonusPower + calculateScaling();
-    const weaponCritical = baseCrit + mat.crit + p1.crit + p2.crit + p3.crit + ench.crit + critBonus + upgradeCritBonus;
-    const baseWeaponAccuracy = baseHit + mat.hit + p1.hit + p2.hit + p3.hit + ench.hit + hitBonus + upgradeHitBonus + enchBonus.bonusHit;
+    const baseTotalPower = basePower + mat.power + p1.power + p2.power + p3.power + ench.power + powerBonus + sentimentalityPowerBonus + upgradePowerBonus + enchBonus.bonusPower + calculateScaling();
+    const weaponCritical = baseCrit + mat.crit + p1.crit + p2.crit + p3.crit + ench.crit + critBonus + sentimentalityCritBonus + upgradeCritBonus;
+    const baseWeaponAccuracy = baseHit + mat.hit + p1.hit + p2.hit + p3.hit + ench.hit + hitBonus + sentimentalityHitBonus + upgradeHitBonus + enchBonus.bonusHit;
     
     // Calculate weight with special handling for Gigantic enchantment
     let totalWeight = Math.floor((baseWeight + mat.weight + p1.weight + p2.weight + p3.weight + ench.weight + weightBonus) * ench.weightMod);
@@ -715,16 +853,173 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
     setCustomScaling({ ...defaultScaling });
   };
 
+  // Weapon 2 calculation functions
+  const getEffectiveWeaponType2 = (): string => {
+    if (enchantment2 === 'Mutation' && rarity2 < 9) {
+      const mutationTypes: Record<number, string> = {
+        1: 'Dagger', 2: 'Fist', 3: 'Sword', 4: 'Axe',
+        5: 'Spear', 6: 'Tome', 7: 'Bow', 8: 'Gun'
+      };
+      return mutationTypes[rarity2] || weaponType2;
+    }
+    return weaponType2;
+  };
+
+  const calculateScaling2 = (): number => {
+    const scaling = customScaling2;
+    let totalScaling = 
+      (stats.str * scaling.str / 100) +
+      (stats.wil * scaling.wil / 100) +
+      (stats.ski * scaling.ski / 100) +
+      (stats.cel * scaling.cel / 100) +
+      (stats.def * scaling.def / 100) +
+      (stats.res * scaling.res / 100) +
+      (stats.vit * scaling.vit / 100) +
+      (stats.fai * scaling.fai / 100) +
+      (stats.luc * scaling.luc / 100) +
+      (stats.gui * scaling.gui / 100) +
+      (stats.san * scaling.san / 100);
+    return Math.floor(totalScaling);
+  };
+
+  const calculateStrScaling2 = (): number => {
+    const scaling = customScaling2;
+    return Math.floor(stats.str * scaling.str / 100);
+  };
+
+  const hasPrimaryStrScaling2 = (): boolean => {
+    const scaling = customScaling2;
+    return scaling.str > 0 && 
+           scaling.str >= scaling.wil && 
+           scaling.str >= scaling.ski && 
+           scaling.str >= scaling.cel &&
+           scaling.str >= scaling.def &&
+           scaling.str >= scaling.res &&
+           scaling.str >= scaling.vit &&
+           scaling.str >= scaling.fai &&
+           scaling.str >= scaling.luc &&
+           scaling.str >= scaling.gui &&
+           scaling.str >= scaling.san;
+  };
+
+  const calculateEnchantmentBonus2 = () => {
+    let bonusPower = 0;
+    let bonusHit = 0;
+    if (enchantment2 === 'Rebellion' && rarity2 < 9) {
+      const rarityDiff = 9 - rarity2;
+      bonusPower = Math.floor(rarityDiff * 1.5);
+      bonusHit = -Math.floor(rarityDiff * 1.5);
+    }
+    return { bonusPower, bonusHit };
+  };
+
+  const calculateWeaponStats2 = () => {
+    const mat = MATERIALS[material2] || MATERIALS['None'];
+    const p1 = WEAPON_PART1[part1_2] || WEAPON_PART1['None'];
+    const p2 = WEAPON_PART2[part2_2] || WEAPON_PART2['None'];
+    const p3 = WEAPON_PART3[part3_2] || WEAPON_PART3['None'];
+    const ench = ENCHANTMENTS[enchantment2] || ENCHANTMENTS['None'];
+
+    const powerBonus = powerQuality2 ? 2 : 0;
+    const critBonus = critQuality2 ? 4 : 0;
+    const hitBonus = hitQuality2 ? 4 : 0;
+    
+    // Sentimentality bonuses (+10 Max Durability, +2 Power, +2 Critical, +2 Hit)
+    const sentimentalityPowerBonus = sentimentality2 ? 2 : 0;
+    const sentimentalityCritBonus = sentimentality2 ? 2 : 0;
+    const sentimentalityHitBonus = sentimentality2 ? 2 : 0;
+    
+    let weightBonus = 0;
+    if (weightPlus2 && !weightMinus2) weightBonus = 1;
+    if (!weightPlus2 && weightMinus2) weightBonus = -1;
+
+    const upgradePowerBonus = upgradeLevel2;
+    const upgradeCritBonus = upgradeLevel2;
+    const upgradeHitBonus = upgradeLevel2;
+
+    const enchBonus = calculateEnchantmentBonus2();
+
+    const baseTotalPower = basePower2 + mat.power + p1.power + p2.power + p3.power + ench.power + powerBonus + sentimentalityPowerBonus + upgradePowerBonus + enchBonus.bonusPower + calculateScaling2();
+    const weaponCritical = baseCrit2 + mat.crit + p1.crit + p2.crit + p3.crit + ench.crit + critBonus + sentimentalityCritBonus + upgradeCritBonus;
+    const baseWeaponAccuracy = baseHit2 + mat.hit + p1.hit + p2.hit + p3.hit + ench.hit + hitBonus + sentimentalityHitBonus + upgradeHitBonus + enchBonus.bonusHit;
+    
+    let totalWeight = Math.floor((baseWeight2 + mat.weight + p1.weight + p2.weight + p3.weight + ench.weight + weightBonus) * ench.weightMod);
+    
+    if (enchantment2 === 'Gigantic' && totalWeight < 2) {
+      totalWeight = 2;
+    }
+
+    let twoHandedPowerBonus = 0;
+    let twoHandedHitBonus = 0;
+    
+    if (twoHandedSkillRank2 > 0) {
+      const effectiveWeaponType = getEffectiveWeaponType2();
+      
+      if (['Sword', 'Axe', 'Spear'].includes(effectiveWeaponType)) {
+        const baseBonus = twoHandedSkillRank2 * 2;
+        twoHandedPowerBonus = totalWeight >= 20 ? baseBonus * 2 : baseBonus;
+      }
+      
+      if (effectiveWeaponType === 'Gun') {
+        const baseBonus = twoHandedSkillRank2 * 2;
+        twoHandedHitBonus = baseBonus;
+      }
+    }
+
+    const totalPower = baseTotalPower + twoHandedPowerBonus;
+    const weaponAccuracy = baseWeaponAccuracy + twoHandedHitBonus;
+
+    const finalHit = Math.floor(stats.ski * 2) + weaponAccuracy + '%';
+
+    const strScaledCrit = hasPrimaryStrScaling2() ? Math.floor(calculateStrScaling2() * 0.4) : 0;
+    const weaponCritWithStr = weaponCritical + strScaledCrit;
+    const finalCrit = weaponCritWithStr + Math.floor(stats.ski / 2) + Math.floor(stats.luc) + '%';
+
+    const guiCritDamageBonus = Math.floor(stats.gui);
+    const critDamageMod = baseCritDamage2 + guiCritDamageBonus + ench.critMod;
+
+    const swa = totalPower;
+    const critSwa = Math.floor(swa * (critDamageMod / 100));
+
+    return {
+      power: totalPower,
+      weaponCritical: weaponCritWithStr,
+      crit: finalCrit,
+      weaponAccuracy,
+      hit: finalHit,
+      weight: totalWeight,
+      critDamageMod,
+      swa,
+      critSwa,
+      twoHandedPowerBonus,
+      twoHandedHitBonus
+    };
+  };
+
+  const weaponStats2 = calculateWeaponStats2();
+
   return (
     <div className="bg-gray-800 rounded-lg shadow-xl p-6">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold">Weapon Calculator</h2>
-        <button
-          onClick={resetWeapon}
-          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded text-white font-medium transition-colors"
-        >
-          Reset Weapon
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={() => setComparisonMode(!comparisonMode)}
+            className={`px-4 py-2 rounded text-white font-medium transition-colors ${
+              comparisonMode 
+                ? 'bg-purple-600 hover:bg-purple-700' 
+                : 'bg-gray-600 hover:bg-gray-700'
+            }`}
+          >
+            {comparisonMode ? '✓ Comparison Mode' : 'Compare Weapons'}
+          </button>
+          <button
+            onClick={resetWeapon}
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded text-white font-medium transition-colors"
+          >
+            Reset Weapon
+          </button>
+        </div>
       </div>
 
       {/* SL2 Weapon Mechanics Info */}
@@ -752,7 +1047,7 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
             <ul className="space-y-1 list-disc list-inside">
               <li>Hit% = Skill × 2 + Weapon Accuracy</li>
               <li>Two-Handed skill: +Rank×2 Hit for Gun weapons (×2 for Rifles)</li>
-              <li>Quality bonus adds +3 to weapon accuracy</li>
+              <li>Quality bonus adds +4 to weapon accuracy</li>
             </ul>
           </div>
           <div>
@@ -779,416 +1074,272 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {/* Base Stats */}
-        <div className="bg-gray-700 p-4 rounded-lg">
-          <h3 className="text-lg font-semibold mb-3 text-yellow-400">Base Weapon Stats</h3>
+      {/* Weapon 1 Configuration - Streamlined UI */}
+      <div className={`p-6 rounded-lg ${comparisonMode ? 'border-4 border-blue-600 bg-gradient-to-br from-blue-900 to-indigo-900' : 'bg-gray-800'}`}>
+        <h2 className="text-2xl font-bold mb-4 text-center text-blue-300">
+          {comparisonMode ? 'Weapon 1 Configuration' : 'Weapon Configuration'}
+        </h2>
+        
+        {/* Weapon Selection */}
+        <div className="mb-4 border border-blue-500 rounded p-3 bg-gray-800">
+          <h3 className="text-lg font-semibold mb-3 text-blue-400">🔍 Weapon Selection</h3>
           
-          <div className="space-y-3">
-            {/* Weapon Selection Section */}
-            <div className="border border-gray-500 rounded p-3 bg-gray-700">
-              <h3 className="text-lg font-semibold mb-3 text-blue-400">🗡️ Weapon Selection</h3>
-              
-              {selectedWeapon && (
-                <div className="mb-3 p-2 bg-blue-900 rounded border border-blue-600">
+          {selectedWeapon && (
+            <div className="mb-3 p-2 bg-blue-900 rounded border border-blue-600">
+              <div className="flex justify-between items-center">
+                <div>
+                  <h4 className="font-semibold text-blue-300">{selectedWeapon.name}</h4>
+                  <div className="text-sm text-gray-300">
+                    {'★'.repeat(selectedWeapon.rarity)} {selectedWeapon.weaponType}
+                    {selectedWeapon.subtype && ` (${selectedWeapon.subtype})`}
+                  </div>
+                </div>
+                <button
+                  onClick={clearWeaponSelection}
+                  className="px-2 py-1 bg-red-600 hover:bg-red-700 rounded text-sm"
+                >
+                  Clear
+                </button>
+              </div>
+              <div className="text-xs text-gray-400 mt-1">
+                Power: {selectedWeapon.power} | Accuracy: {selectedWeapon.accuracy}% | 
+                Critical: {selectedWeapon.critical}% | Weight: {selectedWeapon.weight}
+              </div>
+            </div>
+          )}
+
+          <div className="space-y-2 mb-2">
+            <div className="grid grid-cols-2 gap-2">
+              <input
+                type="text"
+                placeholder="Search..."
+                value={weaponSearchTerm}
+                onChange={(e) => setWeaponSearchTerm(e.target.value)}
+                className="bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm"
+              />
+              <select
+                value={weaponTypeFilter}
+                onChange={(e) => setWeaponTypeFilter(e.target.value)}
+                className="bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm"
+              >
+                <option value="All">All Types</option>
+                <option value="Axe">Axe</option>
+                <option value="Bow">Bow</option>
+                <option value="Dagger">Dagger</option>
+                <option value="Gun">Gun</option>
+                <option value="Fist">Fist</option>
+                <option value="Spear">Polearm</option>
+                <option value="Sword">Sword</option>
+                <option value="Tome">Tome</option>
+              </select>
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <select
+                value={subtypeFilter}
+                onChange={(e) => setSubtypeFilter(e.target.value)}
+                className="bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm"
+                disabled={availableSubtypes.length === 0}
+              >
+                <option value="All">All Subtypes</option>
+                {availableSubtypes.map(subtype => (
+                  <option key={subtype} value={subtype}>{subtype}</option>
+                ))}
+                {weaponTypeFilter === 'All' || availableSubtypes.length > 0 ? (
+                  <option value="None">No Subtype</option>
+                ) : null}
+              </select>
+              <select
+                value={rarityFilter}
+                onChange={(e) => setRarityFilter(e.target.value)}
+                className="bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm"
+              >
+                <option value="All">All ★</option>
+                {[10, 9, 8, 7, 6, 5, 4, 3, 2, 1].map(r => (
+                  <option key={r} value={r}>{r}★</option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {filteredWeapons.length > 0 && (
+            <div className="max-h-48 overflow-y-auto bg-gray-900 rounded border border-gray-600">
+              {filteredWeapons.slice(0, weaponSearchTerm ? 20 : 10).map((weapon) => (
+                <div
+                  key={weapon.name}
+                  onClick={() => selectWeapon(weapon)}
+                  className="p-2 border-b border-gray-600 hover:bg-gray-700 cursor-pointer"
+                >
                   <div className="flex justify-between items-center">
                     <div>
-                      <h4 className="font-semibold text-blue-300">{selectedWeapon.name}</h4>
-                      <div className="text-sm text-gray-300">
-                        {'★'.repeat(selectedWeapon.rarity)} {selectedWeapon.weaponType}
-                        {selectedWeapon.subtype && ` (${selectedWeapon.subtype})`}
+                      <div className="font-medium text-sm">{weapon.name}</div>
+                      <div className="text-xs text-gray-400">
+                        {'★'.repeat(weapon.rarity)} {weapon.weaponType}
+                        {weapon.subtype && ` (${weapon.subtype})`}
                       </div>
                     </div>
-                    <button
-                      onClick={clearWeaponSelection}
-                      className="px-2 py-1 bg-red-600 hover:bg-red-700 rounded text-sm"
-                    >
-                      Clear
-                    </button>
-                  </div>
-                  <div className="text-xs text-gray-400 mt-1">
-                    Power: {selectedWeapon.power} | Accuracy: {selectedWeapon.accuracy}% | 
-                    Critical: {selectedWeapon.critical}% | Weight: {selectedWeapon.weight}
-                  </div>
-                </div>
-              )}
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-3">
-                <div>
-                  <input
-                    type="text"
-                    placeholder="Search weapons..."
-                    value={weaponSearchTerm}
-                    onChange={(e) => setWeaponSearchTerm(e.target.value)}
-                    className="w-full bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm"
-                  />
-                </div>
-                <div>
-                  <select
-                    value={weaponTypeFilter}
-                    onChange={(e) => setWeaponTypeFilter(e.target.value)}
-                    className="w-full bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm"
-                  >
-                    <option value="All">All Types</option>
-                    <option value="Axe">Axe</option>
-                    <option value="Bow">Bow</option>
-                    <option value="Dagger">Dagger</option>
-                    <option value="Gun">Gun</option>
-                    <option value="Fist">Fist</option>
-                    <option value="Polearm">Polearm</option>
-                    <option value="Sword">Sword</option>
-                  </select>
-                </div>
-                <div>
-                  <select
-                    value={rarityFilter}
-                    onChange={(e) => setRarityFilter(e.target.value)}
-                    className="w-full bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm"
-                  >
-                    <option value="All">All Rarities</option>
-                    {[1,2,3,4,5,6,7,8,9,10].map(r => (
-                      <option key={r} value={r.toString()}>{r}★</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              <div className="max-h-48 overflow-y-auto border border-gray-600 rounded bg-gray-800">
-                {filteredWeapons.length === 0 ? (
-                  <div className="p-3 text-gray-400 text-center">No weapons found</div>
-                ) : (
-                  filteredWeapons.slice(0, 20).map((weapon) => (
-                    <div
-                      key={weapon.name}
-                      onClick={() => selectWeapon(weapon)}
-                      className="p-2 border-b border-gray-600 hover:bg-gray-700 cursor-pointer"
-                    >
-                      <div className="flex justify-between items-center">
-                        <div>
-                          <div className="font-medium text-sm">{weapon.name}</div>
-                          <div className="text-xs text-gray-400">
-                            {'★'.repeat(weapon.rarity)} {weapon.weaponType}
-                            {weapon.subtype && ` (${weapon.subtype})`}
-                          </div>
-                        </div>
-                        <div className="text-xs text-right text-gray-300">
-                          <div>Pow: {weapon.power}</div>
-                          <div>Acc: {weapon.accuracy}%</div>
-                        </div>
-                      </div>
+                    <div className="text-xs text-right text-gray-300">
+                      <div>Pow: {weapon.power}</div>
+                      <div>Acc: {weapon.accuracy}%</div>
                     </div>
-                  ))
-                )}
-                {filteredWeapons.length > 20 && (
-                  <div className="p-2 text-xs text-gray-400 text-center">
-                    Showing first 20 results. Refine your search to see more.
                   </div>
-                )}
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-1">Weapon Type</label>
-              <select
-                value={weaponType}
-                onChange={(e) => handleWeaponTypeChange(e.target.value)}
-                className="w-full bg-gray-600 border border-gray-500 rounded px-3 py-2"
-                disabled={selectedWeapon !== null}
-              >
-                {Object.keys(STAT_SCALING).map(type => (
-                  <option key={type} value={type}>{type}</option>
-                ))}
-              </select>
-              {selectedWeapon && (
-                <div className="text-xs text-yellow-400 mt-1">
-                  🔒 Weapon type is locked when using weapon data
+                </div>
+              ))}
+              {filteredWeapons.length > (weaponSearchTerm ? 20 : 10) && (
+                <div className="p-2 text-xs text-gray-400 text-center">
+                  Showing first {weaponSearchTerm ? 20 : 10} results. {!weaponSearchTerm && 'Use search to see more.'}
                 </div>
               )}
             </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-1">Base Power</label>
-              <input
-                type="number"
-                value={basePower}
-                onChange={(e) => setBasePower(Number(e.target.value))}
-                className="w-full bg-gray-600 border border-gray-500 rounded px-3 py-2"
-                disabled={selectedWeapon !== null}
-              />
-              {selectedWeapon && (
-                <div className="text-xs text-yellow-400 mt-1">
-                  🔒 Using weapon data
-                </div>
-              )}
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-1">Base Critical</label>
-              <input
-                type="number"
-                value={baseCrit}
-                onChange={(e) => setBaseCrit(Number(e.target.value))}
-                className="w-full bg-gray-600 border border-gray-500 rounded px-3 py-2"
-                disabled={selectedWeapon !== null}
-              />
-              {selectedWeapon && (
-                <div className="text-xs text-yellow-400 mt-1">
-                  🔒 Using weapon data
-                </div>
-              )}
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-1">Base Hit</label>
-              <input
-                type="number"
-                value={baseHit}
-                onChange={(e) => setBaseHit(Number(e.target.value))}
-                className="w-full bg-gray-600 border border-gray-500 rounded px-3 py-2"
-                disabled={selectedWeapon !== null}
-              />
-              {selectedWeapon && (
-                <div className="text-xs text-yellow-400 mt-1">
-                  🔒 Using weapon data
-                </div>
-              )}
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-1">Base Weight</label>
-              <input
-                type="number"
-                value={baseWeight}
-                onChange={(e) => setBaseWeight(Number(e.target.value))}
-                className="w-full bg-gray-600 border border-gray-500 rounded px-3 py-2"
-                disabled={selectedWeapon !== null}
-              />
-              {selectedWeapon && (
-                <div className="text-xs text-yellow-400 mt-1">
-                  🔒 Using weapon data
-                </div>
-              )}
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-1">Base Crit Damage (%)</label>
-              <input
-                type="number"
-                value={baseCritDamage}
-                onChange={(e) => setBaseCritDamage(Number(e.target.value))}
-                className="w-full bg-gray-600 border border-gray-500 rounded px-3 py-2"
-                disabled={selectedWeapon !== null}
-              />
-              {selectedWeapon && (
-                <div className="text-xs text-yellow-400 mt-1">
-                  🔒 Using weapon data
-                </div>
-              )}
-            </div>
-          </div>
+          )}
         </div>
 
-        {/* Material & Parts */}
-        <div className="bg-gray-700 p-4 rounded-lg">
-          <h3 className="text-lg font-semibold mb-3 text-blue-400">Material & Parts</h3>
+        {/* Quick Config Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 text-sm">
+          <div>
+            <label className="block text-xs font-medium mb-1">Material</label>
+            <select value={material} onChange={(e) => setMaterial(e.target.value)}
+              className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm">
+              {Object.keys(MATERIAL_CATEGORIES).map(category => (
+                <optgroup key={category} label={category}>
+                  {MATERIAL_CATEGORIES[category as keyof typeof MATERIAL_CATEGORIES].map(mat => (
+                    <option key={mat} value={mat}>{mat}</option>
+                  ))}
+                </optgroup>
+              ))}
+            </select>
+          </div>
           
-          <div className="space-y-3">
-            <div>
-              <label className="block text-sm font-medium mb-1">Material</label>
-              <select
-                value={material}
-                onChange={(e) => setMaterial(e.target.value)}
-                className="w-full bg-gray-600 border border-gray-500 rounded px-3 py-2"
-              >
-                {Object.entries(MATERIAL_CATEGORIES).map(([category, materials]) => (
-                  <optgroup key={category} label={category}>
-                    {materials.map(mat => (
-                      <option key={mat} value={mat}>{mat}</option>
-                    ))}
-                  </optgroup>
-                ))}
-              </select>
-            </div>
+          <div>
+            <label className="block text-xs font-medium mb-1">Part 1</label>
+            <select value={part1} onChange={(e) => setPart1(e.target.value)}
+              className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm">
+              <option value="None">None</option>
+              {Object.keys(WEAPON_PART_CATEGORIES).slice(1).map(category => (
+                <optgroup key={category} label={category}>
+                  {WEAPON_PART_CATEGORIES[category as keyof typeof WEAPON_PART_CATEGORIES].map(part => (
+                    <option key={part} value={part}>{part}</option>
+                  ))}
+                </optgroup>
+              ))}
+            </select>
+          </div>
 
-            <div>
-              <label className="block text-sm font-medium mb-1">Weapon Part 1</label>
-              <select
-                value={part1}
-                onChange={(e) => setPart1(e.target.value)}
-                className="w-full bg-gray-600 border border-gray-500 rounded px-3 py-2"
-              >
-                {Object.entries(WEAPON_PART_CATEGORIES).map(([category, parts]) => (
-                  <optgroup key={category} label={category}>
-                    {parts.map(part => (
-                      <option key={part} value={part}>{part}</option>
-                    ))}
-                  </optgroup>
-                ))}
-              </select>
-            </div>
+          <div>
+            <label className="block text-xs font-medium mb-1">Part 2</label>
+            <select value={part2} onChange={(e) => setPart2(e.target.value)}
+              className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm">
+              <option value="None">None</option>
+              {Object.keys(WEAPON_PART_CATEGORIES).slice(1).map(category => (
+                <optgroup key={category} label={category}>
+                  {WEAPON_PART_CATEGORIES[category as keyof typeof WEAPON_PART_CATEGORIES].map(part => (
+                    <option key={part} value={part}>{part}</option>
+                  ))}
+                </optgroup>
+              ))}
+            </select>
+          </div>
 
-            <div>
-              <label className="block text-sm font-medium mb-1">Weapon Part 2</label>
-              <select
-                value={part2}
-                onChange={(e) => setPart2(e.target.value)}
-                className="w-full bg-gray-600 border border-gray-500 rounded px-3 py-2"
-              >
-                {Object.entries(WEAPON_PART_CATEGORIES).map(([category, parts]) => (
-                  <optgroup key={category} label={category}>
-                    {parts.map(part => (
-                      <option key={part} value={part}>{part}</option>
-                    ))}
-                  </optgroup>
-                ))}
-              </select>
-            </div>
+          <div>
+            <label className="block text-xs font-medium mb-1">Part 3</label>
+            <select value={part3} onChange={(e) => setPart3(e.target.value)}
+              className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm">
+              <option value="None">None</option>
+              {Object.keys(WEAPON_PART_CATEGORIES).slice(1).map(category => (
+                <optgroup key={category} label={category}>
+                  {WEAPON_PART_CATEGORIES[category as keyof typeof WEAPON_PART_CATEGORIES].map(part => (
+                    <option key={part} value={part}>{part}</option>
+                  ))}
+                </optgroup>
+              ))}
+            </select>
+          </div>
 
-            <div>
-              <label className="block text-sm font-medium mb-1">Weapon Part 3</label>
-              <select
-                value={part3}
-                onChange={(e) => setPart3(e.target.value)}
-                className="w-full bg-gray-600 border border-gray-500 rounded px-3 py-2"
-              >
-                {Object.entries(WEAPON_PART_CATEGORIES).map(([category, parts]) => (
-                  <optgroup key={category} label={category}>
-                    {parts.map(part => (
-                      <option key={part} value={part}>{part}</option>
-                    ))}
-                  </optgroup>
-                ))}
-              </select>
-            </div>
+          <div>
+            <label className="block text-xs font-medium mb-1">Enchantment</label>
+            <select value={enchantment} onChange={(e) => setEnchantment(e.target.value)}
+              className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm">
+              {Object.keys(ENCHANTMENTS).map(ench => (
+                <option key={ench} value={ench}>{ench}</option>
+              ))}
+            </select>
+          </div>
 
-            <div>
-              <label className="block text-sm font-medium mb-1">Enchantment</label>
-              <select
-                value={enchantment}
-                onChange={(e) => setEnchantment(e.target.value)}
-                className="w-full bg-gray-600 border border-gray-500 rounded px-3 py-2"
-              >
-                {Object.keys(ENCHANTMENTS).map(ench => (
-                  <option key={ench} value={ench}>{ench}</option>
-                ))}
-              </select>
-            </div>
+          <div>
+            <label className="block text-xs font-medium mb-1">Upgrade Level</label>
+            <input type="number" min="0" max="10" value={upgradeLevel}
+              onChange={(e) => setUpgradeLevel(Number(e.target.value))}
+              className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1" />
+          </div>
+
+          <div>
+            <label className="block text-xs font-medium mb-1">Rarity</label>
+            <input type="number" min="1" max="10" value={rarity}
+              onChange={(e) => setRarity(Number(e.target.value))}
+              className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1"
+              disabled={selectedWeapon !== null} />
+          </div>
+
+          <div>
+            <label className="block text-xs font-medium mb-1">Two-Handed Rank</label>
+            <input type="number" min="0" max="5" value={twoHandedSkillRank}
+              onChange={(e) => setTwoHandedSkillRank(Number(e.target.value))}
+              className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1" />
           </div>
         </div>
 
-        {/* Modifiers */}
-        <div className="bg-gray-700 p-4 rounded-lg">
-          <h3 className="text-lg font-semibold mb-3 text-green-400">Modifiers</h3>
-          
-          <div className="space-y-3">
+        {/* Quality checkboxes */}
+        <div className="mt-3 flex flex-wrap gap-3 text-sm">
+          <label className="flex items-center gap-1 cursor-pointer">
+            <input type="checkbox" checked={powerQuality} onChange={(e) => setPowerQuality(e.target.checked)} />
+            <span>Power Quality (+2)</span>
+          </label>
+          <label className="flex items-center gap-1 cursor-pointer">
+            <input type="checkbox" checked={critQuality} onChange={(e) => setCritQuality(e.target.checked)} />
+            <span>Crit Quality (+4)</span>
+          </label>
+          <label className="flex items-center gap-1 cursor-pointer">
+            <input type="checkbox" checked={hitQuality} onChange={(e) => setHitQuality(e.target.checked)} />
+            <span>Hit Quality (+4)</span>
+          </label>
+          <label className="flex items-center gap-1 cursor-pointer">
+            <input type="checkbox" checked={weightPlus} onChange={(e) => { setWeightPlus(e.target.checked); if (e.target.checked) setWeightMinus(false); }} />
+            <span>Weight+ (+2)</span>
+          </label>
+          <label className="flex items-center gap-1 cursor-pointer">
+            <input type="checkbox" checked={weightMinus} onChange={(e) => { setWeightMinus(e.target.checked); if (e.target.checked) setWeightPlus(false); }} />
+            <span>Weight- (-2)</span>
+          </label>
+          <label className="flex items-center gap-1 cursor-pointer">
+            <input type="checkbox" checked={sentimentality} onChange={(e) => setSentimentality(e.target.checked)} />
+            <span>Sentimentality (+2 Pow/Crit/Hit)</span>
+          </label>
+        </div>
+
+        {/* Base stats if custom weapon */}
+        {!selectedWeapon && (
+          <div className="mt-4 grid grid-cols-2 md:grid-cols-5 gap-3 text-sm bg-gray-800 p-3 rounded">
             <div>
-              <label className="block text-sm font-medium mb-1">Upgrade Level (+{upgradeLevel})</label>
-              <input
-                type="number"
-                min="0"
-                max="10"
-                value={upgradeLevel}
-                onChange={(e) => setUpgradeLevel(Number(e.target.value))}
-                className="w-full bg-gray-600 border border-gray-500 rounded px-3 py-2"
-              />
+              <label className="block text-xs">Base Power</label>
+              <input type="number" value={basePower} onChange={(e) => setBasePower(Number(e.target.value))}
+                className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1" />
             </div>
-
             <div>
-              <label className="block text-sm font-medium mb-1">Rarity (*/10)</label>
-              <input
-                type="number"
-                min="0"
-                max="10"
-                value={rarity}
-                onChange={(e) => setRarity(Number(e.target.value))}
-                className="w-full bg-gray-600 border border-gray-500 rounded px-3 py-2"
-                disabled={selectedWeapon !== null}
-              />
-              {selectedWeapon && (
-                <div className="text-xs text-yellow-400 mt-1">
-                  🔒 Using weapon data
-                </div>
-              )}
+              <label className="block text-xs">Base Crit</label>
+              <input type="number" value={baseCrit} onChange={(e) => setBaseCrit(Number(e.target.value))}
+                className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1" />
             </div>
-
-            <div className="space-y-2">
-              <label className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  checked={powerQuality}
-                  onChange={(e) => setPowerQuality(e.target.checked)}
-                  className="w-4 h-4"
-                />
-                <span className="text-sm">Power Quality (+3)</span>
-              </label>
-
-              <label className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  checked={critQuality}
-                  onChange={(e) => setCritQuality(e.target.checked)}
-                  className="w-4 h-4"
-                />
-                <span className="text-sm">Critical Quality (+3)</span>
-              </label>
-
-              <label className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  checked={hitQuality}
-                  onChange={(e) => setHitQuality(e.target.checked)}
-                  className="w-4 h-4"
-                />
-                <span className="text-sm">Hit Quality (+3)</span>
-              </label>
-
-              <label className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  checked={weightPlus}
-                  onChange={(e) => {
-                    setWeightPlus(e.target.checked);
-                    if (e.target.checked) setWeightMinus(false);
-                  }}
-                  className="w-4 h-4"
-                />
-                <span className="text-sm">Weight (+)</span>
-              </label>
-
-              <label className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  checked={weightMinus}
-                  onChange={(e) => {
-                    setWeightMinus(e.target.checked);
-                    if (e.target.checked) setWeightPlus(false);
-                  }}
-                  className="w-4 h-4"
-                />
-                <span className="text-sm">Weight (-)</span>
-              </label>
-            </div>
-
             <div>
-              <label className="block text-sm font-medium mb-1">Two-Handed Skill Rank (0-5)</label>
-              <input
-                type="number"
-                min="0"
-                max="5"
-                value={twoHandedSkillRank}
-                onChange={(e) => setTwoHandedSkillRank(Number(e.target.value))}
-                className="w-full bg-gray-600 border border-gray-500 rounded px-3 py-2"
-              />
-              <div className="text-xs text-gray-400 mt-1">
-                <div><strong>Sword/Axe/Spear:</strong> +{twoHandedSkillRank * 2} SWA {weaponStats.weight >= 20 ? '(×2 = +' + (twoHandedSkillRank * 4) + ' for 20+ weight)' : ''}</div>
-                <div><strong>Gun:</strong> +{twoHandedSkillRank * 2} Hit</div>
-                {getEffectiveWeaponType() === 'Gun' && (
-                  <div className="text-yellow-400 text-xs mt-1">💡 Note: Rifle subtype weapons get ×2 hit bonus (not implemented yet)</div>
-                )}
-              </div>
+              <label className="block text-xs">Base Hit</label>
+              <input type="number" value={baseHit} onChange={(e) => setBaseHit(Number(e.target.value))}
+                className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1" />
+            </div>
+            <div>
+              <label className="block text-xs">Base Weight</label>
+              <input type="number" value={baseWeight} onChange={(e) => setBaseWeight(Number(e.target.value))}
+                className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1" />
             </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Custom Stat Scaling */}
@@ -1310,7 +1461,7 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
       {selectedWeapon && (
         <div className="mt-6 bg-gradient-to-br from-blue-800 to-indigo-800 p-4 rounded-lg border-2 border-blue-400">
           <h3 className="text-lg font-semibold mb-3 text-blue-200">
-            🗡️ {selectedWeapon.name} Details
+            {selectedWeapon.name} Details
           </h3>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -1474,6 +1625,274 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
         </div>
       )}
 
+            {/* Weapon 2 Configuration - Only shown in comparison mode */}
+      {comparisonMode && (
+        <div className="mt-8 border-4 border-green-600 rounded-lg p-6 bg-gradient-to-br from-green-900 to-emerald-900">
+          <h2 className="text-2xl font-bold mb-4 text-center text-green-300">Weapon 2 Configuration</h2>
+          
+          {/* Weapon 2 Selection */}
+          <div className="mb-4 border border-green-500 rounded p-3 bg-gray-800">
+            <h3 className="text-lg font-semibold mb-3 text-green-400">🔍 Weapon Selection</h3>
+            
+            {selectedWeapon2 && (
+              <div className="mb-3 p-2 bg-green-900 rounded border border-green-600">
+                <div className="flex justify-between items-center">
+                  <div>
+                    <h4 className="font-semibold text-green-300">{selectedWeapon2.name}</h4>
+                    <div className="text-sm text-gray-300">
+                      {'★'.repeat(selectedWeapon2.rarity)} {selectedWeapon2.weaponType}
+                      {selectedWeapon2.subtype && ` (${selectedWeapon2.subtype})`}
+                    </div>
+                  </div>
+                  <button
+                    onClick={clearWeaponSelection2}
+                    className="px-2 py-1 bg-red-600 hover:bg-red-700 rounded text-sm"
+                  >
+                    Clear
+                  </button>
+                </div>
+                <div className="text-xs text-gray-400 mt-1">
+                  Power: {selectedWeapon2.power} | Accuracy: {selectedWeapon2.accuracy}% | 
+                  Critical: {selectedWeapon2.critical}% | Weight: {selectedWeapon2.weight}
+                </div>
+              </div>
+            )}
+
+            <div className="space-y-2 mb-2">
+              <div className="grid grid-cols-2 gap-2">
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  value={weaponSearchTerm2}
+                  onChange={(e) => setWeaponSearchTerm2(e.target.value)}
+                  className="bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm"
+                />
+                <select
+                  value={weaponTypeFilter2}
+                  onChange={(e) => setWeaponTypeFilter2(e.target.value)}
+                  className="bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm"
+                >
+                  <option value="All">All Types</option>
+                  <option value="Axe">Axe</option>
+                  <option value="Bow">Bow</option>
+                  <option value="Dagger">Dagger</option>
+                  <option value="Gun">Gun</option>
+                  <option value="Fist">Fist</option>
+                  <option value="Spear">Polearm</option>
+                  <option value="Sword">Sword</option>
+                  <option value="Tome">Tome</option>
+                </select>
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <select
+                  value={subtypeFilter2}
+                  onChange={(e) => setSubtypeFilter2(e.target.value)}
+                  className="bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm"
+                  disabled={availableSubtypes2.length === 0}
+                >
+                  <option value="All">All Subtypes</option>
+                  {availableSubtypes2.map(subtype => (
+                    <option key={subtype} value={subtype}>{subtype}</option>
+                  ))}
+                  {weaponTypeFilter2 === 'All' || availableSubtypes2.length > 0 ? (
+                    <option value="None">No Subtype</option>
+                  ) : null}
+                </select>
+                <select
+                  value={rarityFilter2}
+                  onChange={(e) => setRarityFilter2(e.target.value)}
+                  className="bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm"
+                >
+                  <option value="All">All ★</option>
+                  {[10, 9, 8, 7, 6, 5, 4, 3, 2, 1].map(r => (
+                    <option key={r} value={r}>{r}★</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            {filteredWeapons2.length > 0 && (
+              <div className="max-h-48 overflow-y-auto bg-gray-900 rounded border border-gray-600">
+                {filteredWeapons2.slice(0, weaponSearchTerm2 ? 20 : 10).map((weapon) => (
+                  <div
+                    key={weapon.name}
+                    onClick={() => selectWeapon2(weapon)}
+                    className="p-2 border-b border-gray-600 hover:bg-gray-700 cursor-pointer"
+                  >
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <div className="font-medium text-sm">{weapon.name}</div>
+                        <div className="text-xs text-gray-400">
+                          {'★'.repeat(weapon.rarity)} {weapon.weaponType}
+                          {weapon.subtype && ` (${weapon.subtype})`}
+                        </div>
+                      </div>
+                      <div className="text-xs text-right text-gray-300">
+                        <div>Pow: {weapon.power}</div>
+                        <div>Acc: {weapon.accuracy}%</div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+                {filteredWeapons2.length > (weaponSearchTerm2 ? 20 : 10) && (
+                  <div className="p-2 text-xs text-gray-400 text-center">
+                    Showing first {weaponSearchTerm2 ? 20 : 10} results. {!weaponSearchTerm2 && 'Use search to see more.'}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Weapon 2 Quick Config */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 text-sm">
+            <div>
+              <label className="block text-xs font-medium mb-1">Material</label>
+              <select value={material2} onChange={(e) => setMaterial2(e.target.value)}
+                className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm">
+                {Object.keys(MATERIAL_CATEGORIES).map(category => (
+                  <optgroup key={category} label={category}>
+                    {MATERIAL_CATEGORIES[category as keyof typeof MATERIAL_CATEGORIES].map(mat => (
+                      <option key={mat} value={mat}>{mat}</option>
+                    ))}
+                  </optgroup>
+                ))}
+              </select>
+            </div>
+            
+            <div>
+              <label className="block text-xs font-medium mb-1">Part 1</label>
+              <select value={part1_2} onChange={(e) => setPart1_2(e.target.value)}
+                className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm">
+                <option value="None">None</option>
+                {Object.keys(WEAPON_PART_CATEGORIES).slice(1).map(category => (
+                  <optgroup key={category} label={category}>
+                    {WEAPON_PART_CATEGORIES[category as keyof typeof WEAPON_PART_CATEGORIES].map(part => (
+                      <option key={part} value={part}>{part}</option>
+                    ))}
+                  </optgroup>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-xs font-medium mb-1">Part 2</label>
+              <select value={part2_2} onChange={(e) => setPart2_2(e.target.value)}
+                className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm">
+                <option value="None">None</option>
+                {Object.keys(WEAPON_PART_CATEGORIES).slice(1).map(category => (
+                  <optgroup key={category} label={category}>
+                    {WEAPON_PART_CATEGORIES[category as keyof typeof WEAPON_PART_CATEGORIES].map(part => (
+                      <option key={part} value={part}>{part}</option>
+                    ))}
+                  </optgroup>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-xs font-medium mb-1">Part 3</label>
+              <select value={part3_2} onChange={(e) => setPart3_2(e.target.value)}
+                className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm">
+                <option value="None">None</option>
+                {Object.keys(WEAPON_PART_CATEGORIES).slice(1).map(category => (
+                  <optgroup key={category} label={category}>
+                    {WEAPON_PART_CATEGORIES[category as keyof typeof WEAPON_PART_CATEGORIES].map(part => (
+                      <option key={part} value={part}>{part}</option>
+                    ))}
+                  </optgroup>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-xs font-medium mb-1">Enchantment</label>
+              <select value={enchantment2} onChange={(e) => setEnchantment2(e.target.value)}
+                className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm">
+                {Object.keys(ENCHANTMENTS).map(ench => (
+                  <option key={ench} value={ench}>{ench}</option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-xs font-medium mb-1">Upgrade Level</label>
+              <input type="number" min="0" max="10" value={upgradeLevel2}
+                onChange={(e) => setUpgradeLevel2(Number(e.target.value))}
+                className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1" />
+            </div>
+
+            <div>
+              <label className="block text-xs font-medium mb-1">Rarity</label>
+              <input type="number" min="1" max="10" value={rarity2}
+                onChange={(e) => setRarity2(Number(e.target.value))}
+                className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1"
+                disabled={selectedWeapon2 !== null} />
+            </div>
+
+            <div>
+              <label className="block text-xs font-medium mb-1">Two-Handed Rank</label>
+              <input type="number" min="0" max="5" value={twoHandedSkillRank2}
+                onChange={(e) => setTwoHandedSkillRank2(Number(e.target.value))}
+                className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1" />
+            </div>
+          </div>
+
+          {/* Quality checkboxes for weapon 2 */}
+          <div className="mt-3 flex flex-wrap gap-3 text-sm">
+            <label className="flex items-center gap-1 cursor-pointer">
+              <input type="checkbox" checked={powerQuality2} onChange={(e) => setPowerQuality2(e.target.checked)} />
+              <span>Power Quality (+2)</span>
+            </label>
+            <label className="flex items-center gap-1 cursor-pointer">
+              <input type="checkbox" checked={critQuality2} onChange={(e) => setCritQuality2(e.target.checked)} />
+              <span>Crit Quality (+4)</span>
+            </label>
+            <label className="flex items-center gap-1 cursor-pointer">
+              <input type="checkbox" checked={hitQuality2} onChange={(e) => setHitQuality2(e.target.checked)} />
+              <span>Hit Quality (+4)</span>
+            </label>
+            <label className="flex items-center gap-1 cursor-pointer">
+              <input type="checkbox" checked={weightPlus2} onChange={(e) => setWeightPlus2(e.target.checked)} />
+              <span>Weight+ (+2)</span>
+            </label>
+            <label className="flex items-center gap-1 cursor-pointer">
+              <input type="checkbox" checked={weightMinus2} onChange={(e) => setWeightMinus2(e.target.checked)} />
+              <span>Weight- (-2)</span>
+            </label>
+            <label className="flex items-center gap-1 cursor-pointer">
+              <input type="checkbox" checked={sentimentality2} onChange={(e) => setSentimentality2(e.target.checked)} />
+              <span>Sentimentality (+2 Pow/Crit/Hit)</span>
+            </label>
+          </div>
+
+          {/* Base stats for weapon 2 if custom */}
+          {!selectedWeapon2 && (
+            <div className="mt-4 grid grid-cols-2 md:grid-cols-5 gap-3 text-sm bg-gray-800 p-3 rounded">
+              <div>
+                <label className="block text-xs">Base Power</label>
+                <input type="number" value={basePower2} onChange={(e) => setBasePower2(Number(e.target.value))}
+                  className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1" />
+              </div>
+              <div>
+                <label className="block text-xs">Base Crit</label>
+                <input type="number" value={baseCrit2} onChange={(e) => setBaseCrit2(Number(e.target.value))}
+                  className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1" />
+              </div>
+              <div>
+                <label className="block text-xs">Base Hit</label>
+                <input type="number" value={baseHit2} onChange={(e) => setBaseHit2(Number(e.target.value))}
+                  className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1" />
+              </div>
+              <div>
+                <label className="block text-xs">Base Weight</label>
+                <input type="number" value={baseWeight2} onChange={(e) => setBaseWeight2(Number(e.target.value))}
+                  className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1" />
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
       {/* Stat Verification Section */}
       <div className="mt-6 bg-gray-700 p-4 rounded-lg">
         <h3 className="text-lg font-semibold mb-3 text-cyan-400">Character Stats (from Calculator)</h3>
@@ -1532,6 +1951,8 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
          These stats include all bonuses from race, class, aptitude, etc.
         </div>
       </div>
+
+
 
       {/* Results */}
       <div className="mt-6 bg-gradient-to-br from-purple-900 to-blue-900 p-6 rounded-lg">
@@ -1638,6 +2059,112 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
           </div>
         </div>
       </div>
+
+      {/* Comparison View */}
+      {comparisonMode && (
+        <div className="mt-8 border-t-4 border-purple-600 pt-6">
+          <h2 className="text-3xl font-bold mb-6 text-center text-purple-400">Weapon Comparison</h2>
+          
+          {/* Comparison Stats Grid */}
+          <div className="bg-gray-800 p-6 rounded-lg mb-6">
+            <h3 className="text-xl font-bold mb-4">Final Stats Comparison</h3>
+            <div className="overflow-x-auto">
+              <table className="w-full text-center">
+                <thead>
+                  <tr className="border-b-2 border-gray-600">
+                    <th className="p-3 text-gray-300">Stat</th>
+                    <th className="p-3 text-gray-300">Weapon 1</th>
+                    <th className="p-3 text-gray-300">Weapon 2</th>
+                    <th className="p-3 text-gray-300">Difference</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-700">
+                  <tr className="hover:bg-gray-800">
+                    <td className="p-3 font-semibold">Power</td>
+                    <td className={`p-3 ${weaponStats.power > weaponStats2.power ? 'text-green-400 font-bold' : weaponStats.power < weaponStats2.power ? 'text-red-400' : 'text-white'}`}>{weaponStats.power}</td>
+                    <td className={`p-3 ${weaponStats2.power > weaponStats.power ? 'text-green-400 font-bold' : weaponStats2.power < weaponStats.power ? 'text-red-400' : 'text-white'}`}>{weaponStats2.power}</td>
+                    <td className="p-3">{weaponStats2.power - weaponStats.power > 0 ? '+' : ''}{weaponStats2.power - weaponStats.power}</td>
+                  </tr>
+                  <tr className="hover:bg-gray-800">
+                    <td className="p-3 font-semibold">Weapon Critical</td>
+                    <td className={`p-3 ${weaponStats.weaponCritical > weaponStats2.weaponCritical ? 'text-green-400 font-bold' : weaponStats.weaponCritical < weaponStats2.weaponCritical ? 'text-red-400' : 'text-white'}`}>{weaponStats.weaponCritical}</td>
+                    <td className={`p-3 ${weaponStats2.weaponCritical > weaponStats.weaponCritical ? 'text-green-400 font-bold' : weaponStats2.weaponCritical < weaponStats.weaponCritical ? 'text-red-400' : 'text-white'}`}>{weaponStats2.weaponCritical}</td>
+                    <td className="p-3">{weaponStats2.weaponCritical - weaponStats.weaponCritical > 0 ? '+' : ''}{weaponStats2.weaponCritical - weaponStats.weaponCritical}</td>
+                  </tr>
+                  <tr className="hover:bg-gray-800">
+                    <td className="p-3 font-semibold">Crit Chance</td>
+                    <td className="p-3">{weaponStats.crit}</td>
+                    <td className="p-3">{weaponStats2.crit}</td>
+                    <td className="p-3 text-gray-400">-</td>
+                  </tr>
+                  <tr className="hover:bg-gray-800">
+                    <td className="p-3 font-semibold">Weapon Accuracy</td>
+                    <td className={`p-3 ${weaponStats.weaponAccuracy > weaponStats2.weaponAccuracy ? 'text-green-400 font-bold' : weaponStats.weaponAccuracy < weaponStats2.weaponAccuracy ? 'text-red-400' : 'text-white'}`}>{weaponStats.weaponAccuracy}</td>
+                    <td className={`p-3 ${weaponStats2.weaponAccuracy > weaponStats.weaponAccuracy ? 'text-green-400 font-bold' : weaponStats2.weaponAccuracy < weaponStats.weaponAccuracy ? 'text-red-400' : 'text-white'}`}>{weaponStats2.weaponAccuracy}</td>
+                    <td className="p-3">{weaponStats2.weaponAccuracy - weaponStats.weaponAccuracy > 0 ? '+' : ''}{weaponStats2.weaponAccuracy - weaponStats.weaponAccuracy}</td>
+                  </tr>
+                  <tr className="hover:bg-gray-800">
+                    <td className="p-3 font-semibold">Hit</td>
+                    <td className="p-3">{weaponStats.hit}</td>
+                    <td className="p-3">{weaponStats2.hit}</td>
+                    <td className="p-3 text-gray-400">-</td>
+                  </tr>
+                  <tr className="hover:bg-gray-800">
+                    <td className="p-3 font-semibold">Weight</td>
+                    <td className={`p-3 ${weaponStats.weight < weaponStats2.weight ? 'text-green-400 font-bold' : weaponStats.weight > weaponStats2.weight ? 'text-red-400' : 'text-white'}`}>{weaponStats.weight}</td>
+                    <td className={`p-3 ${weaponStats2.weight < weaponStats.weight ? 'text-green-400 font-bold' : weaponStats2.weight > weaponStats.weight ? 'text-red-400' : 'text-white'}`}>{weaponStats2.weight}</td>
+                    <td className="p-3">{weaponStats2.weight - weaponStats.weight > 0 ? '+' : ''}{weaponStats2.weight - weaponStats.weight}</td>
+                  </tr>
+                  <tr className="hover:bg-gray-800">
+                    <td className="p-3 font-semibold">Crit Damage %</td>
+                    <td className={`p-3 ${weaponStats.critDamageMod > weaponStats2.critDamageMod ? 'text-green-400 font-bold' : weaponStats.critDamageMod < weaponStats2.critDamageMod ? 'text-red-400' : 'text-white'}`}>{weaponStats.critDamageMod}%</td>
+                    <td className={`p-3 ${weaponStats2.critDamageMod > weaponStats.critDamageMod ? 'text-green-400 font-bold' : weaponStats2.critDamageMod < weaponStats.critDamageMod ? 'text-red-400' : 'text-white'}`}>{weaponStats2.critDamageMod}%</td>
+                    <td className="p-3">{weaponStats2.critDamageMod - weaponStats.critDamageMod > 0 ? '+' : ''}{weaponStats2.critDamageMod - weaponStats.critDamageMod}%</td>
+                  </tr>
+                  <tr className="hover:bg-gray-800 bg-gray-700">
+                    <td className="p-3 font-bold">SWA</td>
+                    <td className={`p-3 font-bold ${weaponStats.swa > weaponStats2.swa ? 'text-green-400' : weaponStats.swa < weaponStats2.swa ? 'text-red-400' : 'text-white'}`}>{weaponStats.swa}</td>
+                    <td className={`p-3 font-bold ${weaponStats2.swa > weaponStats.swa ? 'text-green-400' : weaponStats2.swa < weaponStats.swa ? 'text-red-400' : 'text-white'}`}>{weaponStats2.swa}</td>
+                    <td className="p-3 font-bold">{weaponStats2.swa - weaponStats.swa > 0 ? '+' : ''}{weaponStats2.swa - weaponStats.swa}</td>
+                  </tr>
+                  <tr className="hover:bg-gray-800 bg-gray-700">
+                    <td className="p-3 font-bold">Critical SWA</td>
+                    <td className={`p-3 font-bold ${weaponStats.critSwa > weaponStats2.critSwa ? 'text-green-400' : weaponStats.critSwa < weaponStats2.critSwa ? 'text-red-400' : 'text-white'}`}>{weaponStats.critSwa}</td>
+                    <td className={`p-3 font-bold ${weaponStats2.critSwa > weaponStats.critSwa ? 'text-green-400' : weaponStats2.critSwa < weaponStats.critSwa ? 'text-red-400' : 'text-white'}`}>{weaponStats2.critSwa}</td>
+                    <td className="p-3 font-bold">{weaponStats2.critSwa - weaponStats.critSwa > 0 ? '+' : ''}{weaponStats2.critSwa - weaponStats.critSwa}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Summary Box */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
+              <h4 className="font-bold text-gray-300 mb-2">Weapon 1 Summary</h4>
+              <div className="space-y-1 text-sm">
+                <div><strong>Name:</strong> {selectedWeapon?.name || 'Custom Weapon'}</div>
+                <div><strong>Type:</strong> {weaponType} {enchantment === 'Mutation' && rarity < 9 ? `→ ${getEffectiveWeaponType()}` : ''}</div>
+                <div><strong>Material:</strong> {material}</div>
+                <div><strong>Enchantment:</strong> {enchantment}</div>
+                <div><strong>Upgrade:</strong> +{upgradeLevel}</div>
+                <div><strong>Rarity:</strong> {'★'.repeat(rarity)}</div>
+              </div>
+            </div>
+            <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
+              <h4 className="font-bold text-gray-300 mb-2">Weapon 2 Summary</h4>
+              <div className="space-y-1 text-sm">
+                <div><strong>Name:</strong> {selectedWeapon2?.name || 'Custom Weapon'}</div>
+                <div><strong>Type:</strong> {weaponType2} {enchantment2 === 'Mutation' && rarity2 < 9 ? `→ ${getEffectiveWeaponType2()}` : ''}</div>
+                <div><strong>Material:</strong> {material2}</div>
+                <div><strong>Enchantment:</strong> {enchantment2}</div>
+                <div><strong>Upgrade:</strong> +{upgradeLevel2}</div>
+                <div><strong>Rarity:</strong> {'★'.repeat(rarity2)}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

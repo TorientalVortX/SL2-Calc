@@ -387,6 +387,6 @@ Location: Mirror Knight (Lv56+)
 10★ Gryphon Wing
 Range: 5 | Power: 12 | Accuracy: 85% | Critical: 10% | Crit Damage: 115% | Weight: 16
 Scaling: Sylphid - 70% STR, 40% CEL
-Damage Type: Wind
+Damage Type: Wind | Subtype: Whip
 Details: Increases Wind ATK by UL/2. (Doesn't stack.) On Critical Hit: Applies or powers up Gryphon Storm LV 5 to yourself for 5 rounds. (Max LV: 5 + UL) Grants Skill: Gryphon Tempest (3 Momentum, 15 FP.) - Whildly spin your Grypon Wing whip around you, kicking up a storm in a 3 Size Circle. Deals Wind magic damage around you, which can critically hit (can activate Gryphon Wing's On Critical effect, but only once per skill use). Creates an Air Shaft at your location for 3 rounds. If you have Grypon Storm, this skill gains additional effects based on its LV: LV5+: If you have an unsummoned Hippogriph (and can summon it), summons it to a tile near you. LV10+: +1 Circle Size. Chance to inflict Lingering Wind Damage LV X (X = Gryphon Storm LV) for 2 rounds. With a feather-like texture, you'd think this whip would be soft, but being struck by it is anything but. In fact, the more it strikes, the wilder it gets, kicking up the winds around you.
 Location: Wild Hippogryph (Lv56+)

@@ -1,0 +1,371 @@
+TOMES
+
+1★ Ampeol
+Range: 2 | Power: 5 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 12
+Scaling: Basic - 100% WIL
+Damage Type: Lightning
+Details: A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.
+Location: Random Drops, Tutorial, Enchanting
+
+1★ Blacksand
+Range: 2 | Power: 5 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 12
+Scaling: Basic - 100% WIL
+Damage Type: Earth
+Details: Potential Skill - Quicksand (3 Momentum, 15 FP, 2 Rounds Cooldown) - Targets a Size 2 Circle up to 3 Range away. All enemies in the circle take Earth magic damage and may be inflicted with Immobilize for 2 rounds (the chance is higher against Monsters). A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.
+Location: Random Drops, Tutorial, Enchanting
+
+1★ Chorus
+Range: 1 | Power: 5 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 12
+Scaling: Basic - 100% WIL
+Damage Type: Light
+Details: A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.
+Location: Random Drops, Tutorial, Enchanting
+
+1★ Flamberg
+Range: 1 | Power: 5 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 10
+Scaling: Basic - 100% WIL
+Damage Type: Fire
+Details: A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.
+Location: Random Drops, Tutorial, Enchanting
+
+1★ Fullgust
+Range: 2 | Power: 5 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 12
+Scaling: Basic - 100% WIL
+Damage Type: Wind
+Details: A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.
+Location: Random Drops, Tutorial, Enchanting
+
+1★ Hymn
+Range: 2 | Power: 5 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 12
+Scaling: Basic - 100% WIL
+Damage Type: Darkness
+Details: A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.
+Location: Random Drops, Tutorial, Enchanting
+
+1★ Well
+Range: 2 | Power: 5 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 12
+Scaling: Basic - 100% WIL
+Damage Type: Water
+Details: A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.
+Location: Random Drops, Tutorial, Enchanting
+
+1★ Zeroraid
+Range: 2 | Power: 5 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 12
+Scaling: Basic - 100% WIL
+Damage Type: Ice
+Details: A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.
+Location: Random Drops, Tutorial, Enchanting
+
+3★ Amplifyia
+Range: 2 | Power: 9 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 13
+Scaling: Electrical, Dextria-Lightning - 50% WIL, 70% LUC
+Damage Type: Lightning
+Details: A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.
+Location: Random Drops, Enchanting
+
+3★ Blackmount
+Range: 2 | Power: 5 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 13
+Scaling: Earthen, Dextria-Earth - 50% WIL, 70% DEF
+Damage Type: Earth
+Details: A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.
+Location: Random Drops, Enchanting
+
+3★ Chorusaf
+Range: 1 | Power: 9 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 13
+Scaling: Faithful, Dextria-Light - 50% WIL, 70% FAI
+Damage Type: Light
+Details: Potential Skill - Patient Prayer - The curate skill Graft is changed in the following ways; 1) Range increase by 2 and pattern changes to a 3 range diamond and targets locations instead of allies. 2) Creates nurse tiles for 5 rounds at tiles in the target area. If an ally steps on the tile, they are healed for it's LV. (LV = 25% of Graft's normal heal value). Enemies that step on the Nurse Tiles consume them with no effect. A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.
+Location: Random Drops, Enchanting
+
+3★ Flambella
+Range: 1 | Power: 5 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 10
+Scaling: Flamelit, Dextria-Fire - 50% WIL, 70% STR
+Damage Type: Fire
+Details: A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.
+Location: Random Drops, Enchanting
+
+3★ Fullphoon
+Range: 2 | Power: 9 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 13
+Scaling: Sylphid, Dextria-Wind - 50% WIL, 70% CEL
+Damage Type: Wind
+Details: A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.
+Location: Random Drops, Enchanting
+
+3★ Hymnta
+Range: 2 | Power: 9 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 13
+Scaling: Darkness, Dextria-Dark - 50% WIL, 70% RES
+Damage Type: Darkness
+Details: A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.
+Location: Random Drops, Enchanting
+
+3★ Wellweg
+Range: 2 | Power: 9 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 13
+Scaling: Aquatic, Dextria-Water - 50% WIL, 70% VIT
+Damage Type: Water
+Details: A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.
+Location: Random Drops, Enchanting
+
+3★ Zerotrain
+Range: 2 | Power: 9 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 13
+Scaling: Cold, Dextria-Ice - 50% WIL, 70% SKI
+Damage Type: Ice
+Details: Potential Skill - Aggressive Cold - Zerotrain's Potential Skill. Your Ice Sheets, when created, deal Ice magic damage that ignores protection equal to half of your level (or 20, whichever is higher) to any enemy on the same tile. A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.
+Location: Random Drops, Enchanting
+
+5★ Sthenno
+Range: 5 | Power: 5 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 10
+Scaling: Cunning - 70% WIL, 40% GUI
+Sub Type: Whip | Damage Type: Acid
+Details: When you summon a youkai using summon youkai, all enemies with 4 Range of that youkai take protection-ignoring Acid magic bonus damage equal to 10 + 25% of it's level. Special Strike - Arcanic Spark (Trigger Rate: 10% + 8% Bonus) - Triggers before an enemy is attacked. Increases the damage the attack deals by 15, and reduces the FP cost of your next spell (within 3 rounds) to 0. A whip with a snake-like design. Sometimes you think you might hear it hissing...
+Location: Random Drops
+
+6★ Ampgeneoule
+Range: 2 | Power: 13 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 14
+Scaling: Dextria-Lightning - 80% WIL, 30% LUC
+Damage Type: Lightning
+Details: A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.
+Location: Random Drops, Enchanting
+
+6★ Blackmeteor
+Range: 2 | Power: 13 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 14
+Scaling: Dextria-Earth - 80% WIL, 30% DEF
+Damage Type: Earth
+Details: A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.
+Location: Random Drops, Enchanting
+
+6★ Chrousafhybyn
+Range: 2 | Power: 13 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 14
+Scaling: Dextria-Light - 80% WIL, 30% FAI
+Damage Type: Light
+Details: A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.
+Location: Random Drops, Enchanting
+
+6★ Devil's Tome
+Range: 2 | Power: 14 | Accuracy: 85% | Critical: 6% | Crit Damage: 110% | Weight: 13
+Scaling: Basic - 100% WIL
+Damage Type: Hellfire
+Details: Material: Devilbark (+2 Power, +5 Weight, +3 Dark ATK). Changes Fire damage dealt by this weapon into Hellfire damage. Spells other than Nerifian domain spells cannot be cast. A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.
+Location: Random Drops, Woodworking
+
+6★ Excelgraph
+Range: 2 | Power: 9 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 10
+Scaling: Basic - 100% WIL
+Damage Type: Wind
+Details: Grants Skill: Charge Weapon (3 Momentum, 5 FP) - Rev your weapon and fill it with focus, increasing its Charge, to a maximum of level 3. When you hit with a weapon that can consume Weapon Charges, the damage you deal with that attack will increase by 50% per level. (Weapon Charges will expire after 5 rounds.) On Hit: Consumes Weapon Charge, dealing 50% more damage per Charge Level. Potential Skill - Elite Engine - Charge Weapon FP cost is increased to 8 FP. Attacks do not use up all of your charges, instead the LV is reduced by 1, and the damage bonus is 35% (does not increase with charge amount like normal Excel attacks). The Excel line of weapons were developed in Chaturanga, where the ability to be defensive while increasing offensive capabilities was highly valued. By charging up the weapon, it can explosively spend the focus energy when it strikes an enemy, greatly increasing damage. However, the engine module makes it heavier than other weapons.
+Location: Random Drops
+
+6★ Flamnyaghra
+Range: 1 | Power: 5 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 10
+Scaling: Dextria-Fire - 80% WIL, 30% STR
+Damage Type: Fire
+Details: A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.
+Location: Random Drops, Enchanting
+
+6★ Fullurricane
+Range: 2 | Power: 13 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 14
+Scaling: Dextria-Wind - 80% WIL, 30% CEL
+Damage Type: Wind
+Details: A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.
+Location: Random Drops, Enchanting
+
+6★ Hymntaturych
+Range: 1 | Power: 13 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 14
+Scaling: Dextria-Dark - 80% WIL, 30% RES
+Damage Type: Darkness
+Details: A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.
+Location: Random Drops, Enchanting
+
+6★ Stone Vector
+Range: 5 | Power: 8 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 14
+Scaling: Earthen - 70% WIL, 40% DEF
+Sub Type: Whip | Damage Type: Earth
+Details: Casting Astral Belt or refining a natural resource applies or powers up Astral Vector LV 5 (max 100) for 3 rounds. (Astral Vector causes this weapon's basic attacks to deal LV% of your Earth ATK as Earth magic bonus damage. In addition, damage from Astral Belt is increased by half of its LV.) On Critical Hit: If you have Magnetized the target, inflicts Attract Objects LV2 until your next turn on the target. Special Strike - Vector Lash (Trigger Rate: 10% + 8% Bonus) - Triggers before an enemy is attacked. Activate Stone Vector's Astral Vector gaining effect (LV15 instead of 5). If the attack hits, unearth 2 Rocks, and if the user can gain Geomaterial, they gain 2. A magic whip using the power of magnetism to draw in loose rocks. Kicking some up will make the whip more and more powerful.
+Location: Random Drops
+
+6★ Wellwegwet
+Range: 2 | Power: 13 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 14
+Scaling: Dextria-Water - 80% WIL, 30% VIT
+Damage Type: Water
+Details: A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.
+Location: Random Drops, Enchanting
+
+6★ Zerorewuin
+Range: 2 | Power: 13 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 14
+Scaling: Dextria-Ice - 80% WIL, 30% SKI
+Damage Type: Ice
+Details: A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.
+Location: Random Drops, Enchanting
+
+7★ Betrayer's Wit
+Range: 3 | Power: 10 | Accuracy: 85% | Critical: 10% | Crit Damage: 120% | Weight: 14
+Scaling: Magical - 70% GUI, 40% WIL
+Damage Type: Acid
+Details: Damaging a unit in the same party as you with this weapon activates the following effect; +10 Upgrade Level to all of Betrayer's Wit's stats for 3 rounds, and restores FP equal to 10% of damage dealt. Potential Skill - No One's Friend (1 Momentum, 0 FP, 3 Rounds Cooldown) - Inflicts yourself with Confusion for 3 rounds. One should look beyond the cover, lest dangerous words and sharp pages sit close upon your shelf.
+Location: Random Drops
+
+7★ Jade Insect Whistle
+Range: 2 | Power: 10 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 7
+Scaling: Dextria-Sound - 80% WIL, 30% SAN
+Sub Type: Instrument | Damage Type: Sound
+Details: +5 Lightning ATK. When played (via a Song skill): All enemy Insects affected by the song may be inflicted with Confusion for 2 rounds. All allied Insects affected by the song gain Encourage LV3 for 3 rounds, boosting their stats. When played (via a Song skill): If in a battle against monsters, if this is the first time the flute has been played this battle, summons a random Insect monster ally with a level identical to your own to a random battlefield tile. A whistle made out of jade, whose tones seem to attract and distract all manners of multi-legged creepy crawlies.
+Location: Korvara Puzzle, Crafting
+
+7★ Mugendai
+Range: 2 | Power: 10 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 6
+Scaling: Spiritual - 70% WIL, 40% SAN
+Sub Type: Fan | Damage Type: Light
+Details: +15 FP. Set: Neverending Story. 2+ - 1) +3 WIL. 2) +3 CEL. 3) +15% Sound Resistance. A combat fan used in a certain famous singer's dance.
+Location: Random Drops, Enchanting (Lv5)
+
+7★ Rose Whip
+Range: 1 | Power: 5 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 10
+Scaling: Finesse, Electrical - 40% WIL, 30% SKI, 40% LUC
+Sub Type: Whip | Damage Type: Earth
+Details: +10% Power to Nature Spells (Halved if not main weapon.) On Critical: Level 15 Charm for 2 Rounds. Special Strike - Rose Flourish (Trigger Rate: 10% + 8% Bonus) - Triggers before an enemy is attacked, and replaces the attack. Deals three hits of Slash, Earth and Pierce respectively to the enemy, dealing a total of 110% of Rose Whip's Scaled Weapon Attack. This damage gains a +10 to Hit, and can also critically hit (if it does, applies on critical effects for Rose Whip). A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.
+Location: Random Drops, Enchanting, Alraune
+
+7★ Sea Hunter Tome
+Range: 2 | Power: 13 | Accuracy: 85% | Critical: 7% | Crit Damage: 110% | Weight: 12
+Scaling: Aquatic - 70% WIL, 40% VIT
+Damage Type: Water
+Details: Material: Coral. On Hit: Inflicts Hunted LV14 for 3 rounds if the target is a seafaring monster. This tome was born from the sea, and as anyone who lives there knows, anything that lives in the sea is out to get everything else... that lives in the sea.
+Location: Fishing Contest
+
+8★ Baihurai
+Range: 2 | Power: 2 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 6
+Scaling: Electrical, Earthen - 40% WIL, 40% LUC, 40% DEF
+Sub Type: Fan | Damage Type: Lightning
+Details: On Hit: Knockback 1 tile. +10% Power to Nature and Isespia Spells (halved if off-hand). A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.
+Location: Random Drops
+
+8★ Farren
+Range: 2 | Power: 11 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 10
+Scaling: Sylphid - 70% WIL, 40% CEL
+Damage Type: Light
+Details: On Hit: Replaces your Light ATK with the target's for 2 rounds. Potential Skill - Spotlight (1 Momentum, 10 FP) - Requires Substitute Light ATK to be active. Consumes the status by the weapon and creates Light Shafts in a 2 Size Diamond within 5 Range (LV = Farren's Upgrade Level (UL), 3 rounds). A book containing the autobiography of a mage turned priest.
+Location: Random Drops
+
+8★ Kigal Replica
+Range: 2 | Power: 16 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 20
+Scaling: Replica - 70% WIL, 20% SKI, 20% SAN
+Damage Type: Darkness
+Details: Always enchanted with Divine Weapon (+2 Power, +5 Critical, +5 Accuracy, -2 Weight. Weapon durability cannot decrease.)
+Location: Korvara Casino, Arena
+
+8★ Qinglongram
+Range: 1 | Power: 2 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 6
+Scaling: Electrical, Sylphid - 40% WIL, 40% LUC, 40% CEL
+Sub Type: Fan | Damage Type: Wind
+Details: On Hit: Knockback 1 tile. +10% Power to Nature and Sylphid spells (halved if off-hand). A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.
+Location: Random Drops
+
+8★ Xuanwuken
+Range: 2 | Power: 2 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 6
+Scaling: Cold, Earth - 40% WIL, 40% SKI, 40% DEF
+Sub Type: Fan | Damage Type: Earth
+Details: On Hit: Knockback 1 tile. +10% Power to Aquarian and Isespian Spells (halved if off-hand). A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.
+Location: Random Drops
+
+8★ Zhuquelare
+Range: 2 | Power: 2 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 6
+Scaling: Flamelit, Sylphid - 40% WIL, 40% STR, 40% CEL
+Sub Type: Fan | Damage Type: Fire
+Details: On Hit: Knockback 1 tile. +10% Power to Nerifian and Sylphid spells (halved if off-hand). A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.
+Location: Random Drops
+
+9★ Dynamic Tome
+Range: 2 | Power: 5 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 15
+Scaling: Variable - 70% WIL, 40% ?
+Details: Grants access to a custom spell in battle. The spell will deal magic damage to units it targets equal to the scaling of this weapon, plus 100% of your Elem ATK of the same element. By installing Spell Seeds into this tome's customization slots, their effects will also be applied, generally to the targets of the spell. This special tome can be modified with Spell Seeds to give its spell additional effects. You can right-click this item and select 'set-style-mode' to change the effect of style seeds to display on enemies, yourself, or the location(s) you target.
+Location: Purchased from Calrys (Karaten Blacksmith)
+
+9★ Forgrint
+Range: 2 | Power: 14 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 16
+Scaling: Flamelit - 70% WIL, 40% STR
+Damage Type: Pierce
+Details: Grants a skill that can change this weapon into a Spear (or back into a Tome). Potential Skill - Fallenharn (3 Momentum, 15 FP) - Shoots a spirit spear into the air, causing it to land at a target location within 5 Range. At the end of the round, the spear will release accumulated energy, dealing X Blunt magic damage (X = Scaled Weapon Power + 50% of Light ATK) to all enemies in a 4 Range circle around it. It may also Blind damaged enemies for 2 rounds (more effective VS monsters). It may also stun Spatial enemies. A type of artificer tome that creates magical spears. It can even change into one itself.
+Location: Random Drops
+
+9★ Grandovyn
+Range: 2 | Power: 14 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 16
+Scaling: Flamelit - 70% WIL, 40% STR
+Damage Type: Slash
+Details: Grants a skill that can change this weapon into a Sword (or back into a Tome). Potential Skill - Swordsmith Rain (3 Momentum, 15 FP) - Creates a rain of swords at a 3 Range circle up to 3 Range away, dealing X Pierce magic damage (X = Scaled Weapon Power + 50% of Lightning ATK) to all enemies inside of it. It may also inflict Lingering Damage (Pierce) LV X (X = 8 + Upgrade Level of Grandovyn) for 3 rounds (more effective VS monsters). It may also stun Jammer enemies. A type of artificer tome that creates magical swords. It can even change into one itself.
+Location: Random Drops
+
+9★ Morimayer
+Range: 3 | Power: 8 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 16
+Scaling: Spiritual - 70% WIL, 40% SAN
+Damage Type: Slash
+Details: This weapon's attack skill uses one of 4 random spirits; each will provide a different bonus and damage type for the attack. If the attack hits, you also gain a status effect based on the animal, which increases either your Scaled Weapon Attack, Hit, Critical, or Armor by a small amount, and provides a single-use cast of a random spell (from a small selection, based on the animal, excluding spells you have equipped). (Shark of Morimayer: Water damage, +10 SWA to the initial attack, +3 SWA buff, Wild Waterfall.) (Tiger of Morimayer: Lightning damage, +10 Critical to the initial attack, +3 Critical buff, Ritual Levin) (Rock Eater of Morimayer: Earth damage, +10 Critical Damage to the initial attack, +3 Armor buff, Geo of Crumbling) Crow of Morimayer: Wind damage, +10 Hit to the initial attack, +3 Hit buff, Star Stream) A summoning scroll holding a small host of minor spirits. Its power is unpredictable, yet formidable.
+Location: Random Drops
+
+9★ Rexys
+Range: 2 | Power: 14 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 16
+Scaling: Flamelit - 70% WIL, 40% STR
+Damage Type: Blunt
+Details: Grants a skill that can change this weapon into an Axe (or back into a Tome). Potential Skill - Spirit Trip (3 Momentum, 15 FP) - Creates a spirit axe that travels in a line, dealing X Slash magic damage (X = Scaled Weapon Power of Rexys + 50% of Fire ATK) to all enemies in it. It also has a chance to inflict Burn LV X (X = 8 + UL) for 3 rounds (more effective VS monsters). In addition, any Possessed or Ghost monsters hit by it may be stunned. A type of artificer tome that creates magical rods. It can even change into one itself.
+Location: Random Drops
+
+9★ Screaming Tome
+Range: 2 | Power: 7 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 14
+Scaling: Spiritual - 70% WIL, 40% SAN
+Damage Type: Sound
+Details: Grants Skill: Screamer (1 Momentum, 0 FP) - Have the Screaming Tome bite your hand, causing you to take 10% (20% if not your main hand weapon) of your maximum HP as unresistable Piercing damage. In exchange, the magical bite will remove any Silence you are suffering (ignoring any effects that would prevent its curing), letting you yelp in pain. This tome seems to be rather... occult in nature, given that the skull on it seems to move around a bit. You might want to watch your fingers. Also, it makes a dreadful noise.
+Location: Random Drops
+
+10★ Aquaphobia
+Range: 2 | Power: 13 | Accuracy: 90% | Critical: 0% | Crit Damage: 110% | Weight: 9
+Scaling: Aquatic - 70% WIL, 40% VIT
+Damage Type: Water
+Details: Increases Water ATK by UL/2. (Doesn't stack.) On Hit: 100% Chance to Inflict Fear for 3 turns. Grants Skill: Frozen Fear (3 Momentum, 5 FP) - Creates (or moves, if already active) a Frozen Fear at target location within 5 Range. While active, the Frozen Fear becomes the center point for Aquarian spells you cast (excluding movement skills). You can use this skill on your current location to destroy your Frozen Fear. (Destroying it will restore 2 Momentum.) The fear of water is quite logical. Many of its victims would agree.
+Location: Level 56+ Dripping Corpse
+
+10★ Balrog
+Range: 5 | Power: 15 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 15
+Scaling: Finesse, Flamelit - 40% WIL, 30% SKI, 40% STR
+Sub Type: Whip | Damage Type: Fire
+Details: Increases Fire ATK by UL/2. (Doesn't stack.) On Critical Hit: Inflict Lingering Damage (Fire) LV UL for 2 rounds. On Defeat Enemy: If the enemy wasn't Illusion race, summons a smoldering copy of it as a Fire Warrior. Fire Warriors do not retain the special abilities of the copied unit, but their Fire damage ignores immunities and similar effects. (Doesn't stack.) Said to be the whip of a volcanic, demon-like entity. Its cruel lash becomes a collar that burns its victims until the very last ash is cured.
+Location: Level 56+ Jaki Imp
+
+10★ Carteblanche
+Range: 2 | Power: 15 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 5
+Scaling: Cold - 70% WIL, 40% SKI
+Damage Type: Ice
+Details: While Airborne, basic attack and sub-attack range is increased by UL/6. Stepping on Ice Sheets doesn't trigger them and instead makes you Airborne. Airborne is sustained as if you had Flight while over Ice Sheets. Attacks in a Circle (2) area. A snowstorm in two-hundred pages.
+Location: Level 56+ Ice Giants
+
+10★ Coastal Squall
+Range: 2 | Power: 15 | Accuracy: 90% | Critical: 0% | Crit Damage: 110% | Weight: 8
+Scaling: Cold, Aquatic - 40% WIL, 40% SKI, 40% VIT
+Sub Type: Fan | Damage Type: Wind
+Details: +UL% Power to Aquarian Spells (Halved if not main weapon.) +UL% Power to Sylphid Spells (Halved if not main weapon.) After Cast Spell: If a Sylphid or Aquarian spell, if you have casted both a Sylphid and Aquarian spell this round, +UL% chance to summon a Hurricane LV UL for 4 rounds. This magical fan's dance will inspire nature itself to get up and shake it... just be careful you don't get lost in the resulting hurricane.
+Location: Level 56+ Feathered Serpent
+
+10★ Desert Wind
+Range: 2 | Power: 15 | Accuracy: 90% | Critical: 0% | Crit Damage: 110% | Weight: 8
+Scaling: Earthen, Sylphid - 40% WIL, 40% CEL, 40% DEF
+Sub Type: Fan | Damage Type: Wind
+Details: +UL% Power to Isesipian and Sylphid Spells (halved if off-hand). UL% chance after casting a Isesipian and Sylphid spell in the same round to create a sandstorm, dealing UL unresistable Earth Damage to all enemies for 4 Rounds. This magical fan's dance will inspire nature itself to get up and shake it... just be careful you don't get lost in the resulting sandstorm.
+Location: Level 56+ Goblin Shaman
+
+10★ Manic Slasher
+Range: 2 | Power: 14 | Accuracy: 85% | Critical: 10% | Crit Damage: 110% | Weight: 14
+Scaling: Flamelit - 70% WIL, 40% STR
+Sub Type: Whip | Damage Type: Slash
+Details: Attack range increases by UL/6. On Critical: UL Lingering Damage for 3 Rounds.
+Location: Level 56+ Mad Vine
+
+10★ Torment Noctis
+Range: 2 | Power: 6 | Accuracy: 70% | Critical: 0% | Crit Damage: 110% | Weight: 3
+Scaling: Darkness - 70% WIL, 40% RES
+Damage Type: Darkness
+Details: Increases status infliction rate by UL/2%. When using a Curse skill; if you are possessed by Black Spirit(s), one of them will be consumed at random to boost the LV and duration of the Curse status by 50%. A paintbrush used to draw circles and other symbols for rituals, specifically made to help channel souls into arcane rituals and curses in a unique way.
+Location: Level 56+ Souls Tainted by Darkness
+
+10★ Vorso Verso
+Range: 2 | Power: 13 | Accuracy: 85% | Critical: 5% | Crit Damage: 110% | Weight: 22
+Scaling: Spiritual, Dextria-Sound - 50% WIL, 70% SAN
+Damage Type: Sound
+Details: Increases Youkai contract maximum by 1 per 12 UL. Increases the LV of Tactician's Order skills by UL%. Spell power increased by 1 per party member (including associates) up to a maximum of UL/3. This nefarious tome contains many texts on how to motivate and manipulate large amounts of people. Could be used for good or ill...
+Location: Level 56+ Bandit Boss

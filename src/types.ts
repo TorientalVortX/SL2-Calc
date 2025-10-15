@@ -7,7 +7,7 @@
 export type StatKey = 'str' | 'wil' | 'ski' | 'cel' | 'def' | 'res' | 'vit' | 'fai' | 'luc' | 'gui' | 'san' | 'apt';
 export type StampKey = 'str' | 'wil' | 'ski' | 'cel' | 'vit' | 'fai';
 export type ElementKey = 'Fire' | 'Ice' | 'Wind' | 'Earth' | 'Dark' | 'Water' | 'Light' | 'Lightning' | 'Acid' | 'Sound';
-export type DamageType = 'Slash' | 'Pierce' | 'Blunt' | 'Fire' | 'Ice' | 'Lightning' | 'Wind' | 'Earth' | 'Water' | 'Dark' | 'Light' | 'Acid' | 'Sound' | 'Magical';
+export type DamageType = 'Slash' | 'Pierce' | 'Blunt' | 'Fire' | 'Ice' | 'Lightning' | 'Wind' | 'Earth' | 'Water' | 'Dark' | 'Light' | 'Acid' | 'Sound' | 'Magical' | 'Darkness' | 'Hellfire';
 export type WeaponType = 'Sword' | 'Axe' | 'Bow' | 'Dagger' | 'Fist' | 'Gun' | 'Katana' | 'Polearm' | 'Staff' | 'Tome' | 'Spear' | 'Shield' | 'Tool';
 
 // Record types for easier typing
@@ -269,6 +269,7 @@ export interface WeaponScaling {
   | "Dextria-Light" 
   | "Dextria-Earth" 
   | "Dextria-Ice" 
+  | "Dextria-Dark"
   | "Magical" 
   | "Tool" 
   | "Faithful" 
