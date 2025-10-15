@@ -1,0 +1,258 @@
+DAGGERS
+
+1★ Dagger
+Range: 1 | Power: 3 | Accuracy: 75% | Critical: 0% | Crit Damage: 130% | Weight: 4
+Scaling: Basic - 100% GUI
+Details: Potential Skill - Forbidden Technique (3 Momentum, 20 FP) - Inflicts you with Cursed Vengeance LV10 for 3 rounds. (Cursed Vengeance increases your damage by LV%, but drains your HP by LV% of your maximum HP every round.) A simple dagger that anyone can use.
+Location: Random Drops, Purchased from Tutorial, Purchased from Blacksmiths, Metalworking
+
+1★ Lute
+Range: 3 | Power: 5 | Accuracy: 75% | Critical: 0% | Crit Damage: 130% | Weight: 5
+Scaling: Dextria-Sound - 80% GUI, 30% SAN
+Sub Type: Instrument | Damage Type: Sound
+Details: The lute is a musician's best friend. If you're a bard, don't leave home without it - you'll need an instrument to play your songs, after all.
+Location: Random Drops
+
+1★ Whip
+Range: 4 | Power: 4 | Accuracy: 75% | Critical: 0% | Crit Damage: 130% | Weight: 5
+Scaling: Finesse - 70% GUI, 30% SKI
+Sub Type: Whip
+Details: An incredibly simple yet effective weapon, the whip is less about lethality and more about threat.
+Location: Random Drops, Tutorial, Metalworking
+
+2★ Dagger (Enhanced)
+Range: 1 | Power: 3 | Accuracy: 75% | Critical: 0% | Crit Damage: 130% | Weight: 4
+Scaling: Basic - 100% GUI
+Details: +3 GUI. Potential Skill - Forbidden Technique (3 Momentum, 20 FP) - Inflicts you with Cursed Vengeance LV10 for 3 rounds. (Cursed Vengeance increases your damage by LV%, but drains your HP by LV% of your maximum HP every round.) A simple dagger that anyone can use.
+Location: Enchanting
+
+2★ Stinger
+Range: 1 | Power: 4 | Accuracy: 75% | Critical: 10% | Crit Damage: 145% | Weight: 10
+Scaling: Finesse - 70% GUI, 30% SKI
+Details: A dagger with increased sharpness for extra stabbing.
+Location: Random Drops, Metalworking, Lightning Drop Table
+
+2★ Tanto
+Range: 1 | Power: 5 | Accuracy: 75% | Critical: 0% | Crit Damage: 130% | Weight: 6
+Scaling: Finesse - 70% GUI, 30% SKI
+Sub Type: Katana | Damage Type: Slash
+Details: A small blade with a sharp edge, the tanto is often used for personal protection or as a backup weapon when longer blades aren't available or are impractical.
+Location: Random Drops, Eastern Drop Table
+
+2★ Throwing Dagger
+Range: 3 | Power: 5 | Accuracy: 75% | Critical: 0% | Crit Damage: 130% | Weight: 5
+Scaling: Finesse - 70% GUI, 30% SKI
+Details: Special Strike - Deadly Roundabout (Trigger Rate: 10% + 8% Bonus) - Triggers before an enemy is attacked, and replaces the attack. Deals 110% of Throwing Dagger's Scaled Weapon Attack over 10 hits of Pierce damage, which can critically hit. A dagger made for long distance attacks.
+Location: Random Drops, Wind Drop Table
+
+3★ Dagger of Bleeding
+Range: 1 | Power: 5 | Accuracy: 75% | Critical: 0% | Crit Damage: 130% | Weight: 10
+Scaling: Vampiric - 80% GUI, 30% VIT
+Details: Vampiric (10%). A dagger with a taste for blood.
+Location: Random Drops, Water Drop Table, Metalworking
+
+3★ Parrying Dagger
+Range: 1 | Power: 5 | Accuracy: 75% | Critical: 0% | Crit Damage: 130% | Weight: 6
+Scaling: Basic - 100% GUI
+Details: Increases activation rate of Parry skills by 15%. A simple dagger that is made less for attacking and more for catching blades.
+Location: Random Drops, Highway Drop Table
+
+3★ Shuriken
+Range: 3 | Power: 4 | Accuracy: 75% | Critical: 10% | Crit Damage: 130% | Weight: 3
+Scaling: Finesse - 70% GUI, 30% SKI
+Sub Type: Shuriken
+Details: A throwing-type dagger that originates from Oniga.
+Location: Random Drops, Metalworking, Eastern Drop Table
+
+4★ Bloodstained Flute
+Range: 1 | Power: 7 | Accuracy: 75% | Critical: 5% | Crit Damage: 130% | Weight: 4
+Scaling: Vampiric - 80% GUI, 30% VIT
+Sub Type: Instrument
+Details: Vampiric (10%). On Hit: Covers the flute in blood. When played (via a Song skill), while the flute is covered in blood: Consumes the blood; All allies affected by the song recover HP equal to 5 + UL. All enemies affected by the song take protection-ignoring Dark damage equal to UL. This bladed flute is stained with dark traces of red; the blood of the performer's enemies.
+Location: Random Drops, Water Drop Table
+
+4★ Creeping Darkness
+Range: 4 | Power: 6 | Accuracy: 75% | Critical: 0% | Crit Damage: 130% | Weight: 8
+Scaling: Darkness - 70% GUI, 40% RES
+Sub Type: Whip
+Details: On Critical Hit: Inflict the target with Fear. If you have already Feared them, inflicts Hesitation LV 15 instead. If already Hesitating, inflicts Poison LV 5. All effects last 3 rounds. On New Round: Reduces the duration of Glowing statuses you suffer from and any Light Shafts at your current location by 2 rounds. Whenever one of your item effects reduces Glowing statuses or Light Shafts to 0 duration or less, creates a Spider Illusion at a nearby tile, which will approach enemies and deal 25 armor-ignoring Dark magic damage to them. A whip adorned with a lash shaped like a spider. It devours light and makes shadows dance.
+Location: Random Drops, Dark Drop Table
+
+5★ Nullifying Dirk
+Range: 1 | Power: 5 | Accuracy: 75% | Critical: 0% | Crit Damage: 130% | Weight: 6
+Scaling: Magical - 70% GUI, 40% WIL
+Details: +5 RES. On Critical Hit: Dispells 1 Random buff from the target. (Can only trigger once every 2 rounds.) Special Strike - Arcanic Pierce (Trigger Rate: 10% + 8% Bonus) - Triggers before an enemy is attacked. Increases the damage the attack deals by 15, and if it hits, spells you cast this round ignore 15% of elemental resistance. A magical dagger, it seems, with the properties of erasure. It has the capability to restore things to their original state.
+Location: Random Drops (Korvara Only), Mine Drop Table
+
+5★ Thief Blade
+Range: 1 | Power: 2 | Accuracy: 75% | Critical: 0% | Crit Damage: 130% | Weight: 4
+Scaling: Basic - 100% GUI
+Details: Increases Steal's success rate by 15%. Potential Skill - Pilfer (3 Momentum, 5 FP, 2 Round Cooldown) - Targets one enemy within 1 Range. Messes with the target's inventory, preventing them from using items for 2 rounds.
+Location: Random Drops, Highway Drop Table
+
+6★ Byakko Tessen
+Range: 1 | Power: 8 | Accuracy: 75% | Critical: 0% | Crit Damage: 130% | Weight: 4
+Scaling: Finesse, Dextria-Lightning - 50% GUI, 30% SKI, 30% LUC
+Sub Type: Fan
+Details: On Hit: Deals magic Ice bonus damage equal to 25% of your Ice ATK, which ignores armor. On Hit: Deals magic Water bonus damage equal to 25% of your Water ATK, which ignores armor. A bladed, iron-fan often used by covert female assassins to kill targets from a close distance.
+Location: Random Drops, Metalworking, Eastern Drop Table, Ice Drop Table, Water Drop Table
+
+6★ Seiryuu Tessen
+Range: 1 | Power: 8 | Accuracy: 75% | Critical: 0% | Crit Damage: 130% | Weight: 4
+Scaling: Finesse, Dextria-Wind - 50% GUI, 30% SKI, 30% CEL
+Sub Type: Fan
+Details: On Hit: Deals magic Lightning bonus damage equal to 25% of your Lightning ATK, which ignores armor. On Hit: Deals magic Wind bonus damage equal to 25% of your Wind ATK, which ignores armor. Potential Skill - Dragon Dance (6 Momentum, 25 FP) - Requires a Rank D Invocation. While invoking, if you have a summoned Seiryuu that has at least 3M, 3M will be consumed by them and reduce the momentum cost you pay by 3M. After casting, you will gain Punishing Winds LV 60 for 5 rounds. Punishing Winds gives Seiryuu's Hunter Wind a bonus effect and deals Wind magic damage to all enemies at the start of a round equal to its LV. A bladed, iron-fan often used by covert female assassins to kill targets from a close distance
+Location: Random Drops, Metalworking, Lightning Drop Table, Wind Drop Table
+
+6★ Summoner's Tandem Dagger
+Range: 1 | Power: 7 | Accuracy: 75% | Critical: 5% | Crit Damage: 130% | Weight: 8
+Scaling: Spiritual - 70% GUI, 40% SAN
+Details: When you summon a Youkai with Summon Youkai, while an enemy is within 1 Range of you: you perform a basic attack on them with this weapon (which does 50% damage). A dagger that aids in the summoning process. The dance of the blade calls youkai and carves enemies.
+Location: Random Drops, Summon Drop Table
+
+6★ Suzaku Tessen
+Range: 1 | Power: 8 | Accuracy: 75% | Critical: 0% | Crit Damage: 130% | Weight: 4
+Scaling: Finesse, Dextria-Fire - 50% GUI, 30% SKI, 30% STR
+Sub Type: Fan
+Details: On Hit: Deals magic Fire bonus damage equal to 25% of your Fire ATK, which ignores armor. On Hit: Deals magic Wind bonus damage equal to 25% of your Wind ATK, which ignores armor. A bladed, iron-fan often used by covert female assassins to kill targets from a close distance.
+Location: Random Drops, Metalworking, Fire Drop Table, Eastern Drop Table, Wind Drop Table
+
+6★ Touyaa Shuriken
+Range: 6 | Power: 13 | Accuracy: 75% | Critical: 0% | Crit Damage: 130% | Weight: 10
+Scaling: Cold, Tool - 40% GUI, 40% SKI
+Sub Type: Shuriken | Damage Type: Ice
+Details: On Hit: Status infliction based chance to inflict Frostbite LV20 for 3 turns. Potential Skill - Snowflake (1 Momentum, 15 FP, 3 Round Cooldown) - Creates a 3 Range diamond of Ice Sheets at a target location within 3 Range, with a duration of 3 rounds. A snowflake-styled shuriken that flies far.
+Location: Random Drops, Ice Drop Table, Eastern Drop Table
+
+7★ Combat Magnifying Glass
+Range: 1 | Power: 5 | Accuracy: 75% | Critical: 0% | Crit Damage: 130% | Weight: 10
+Scaling: Basic - 100% GUI
+Details: Increases rate enemies drop items by 25%. Potential Skill - Culprit Declaration - When an enemy defeats an ally, you inflict Hunted LV 30 on them for 5 rounds. (A skill quote can be used with this potential.) There's no telling when deduction will turn into a brawl, and so it's good to have implements with multiple uses. Like beating someone to death.
+Location: Purchased from Air, Purchased from Bandit in Meiaquar Sewers
+
+7★ Konosekai
+Range: 1 | Power: 10 | Accuracy: 75% | Critical: 0% | Crit Damage: 130% | Weight: 4
+Scaling: Spiritual - 70% GUI, 40% SAN
+Sub Type: Fan
+Details: +15 HP. Set: Neverending Story. 2+ - 1) +3 WIL. 2) +3 CEL. 3) +15% Sound Resistance. A combat fan used in a certain famous singer's dance.
+Location: Random Drops, Eastern Drop Table, Metalwork (Lv4)
+
+7★ Magical Photon
+Range: 1 | Power: 10 | Accuracy: 75% | Critical: 0% | Crit Damage: 130% | Weight: 8
+Scaling: Magical - 70% GUI, 40% WIL
+Details: Spelledge (This weapon can be used as a casting tool for spells.) Suitable for casting technics and wearing fancy hats. Will not help you transform, however.
+Location: Random Drops, Space Drop Table, Metalworking
+
+7★ Sea Hunter Dagger
+Range: 3 | Power: 12 | Accuracy: 75% | Critical: 7% | Crit Damage: 130% | Weight: 8
+Scaling: Aquatic - 70% GUI, 40% VIT
+Details: Material: Coral. On Hit: Inflicts Hunted LV14 for 3 rounds if the target is a seafaring monster. This dagger was born from the sea, and as anyone who lives there knows, anything that lives in the sea is out to get everything else... that lives in the sea.
+Location: Fishing Contest
+
+7★ Tamaki Shuriken
+Range: 5 | Power: 10 | Accuracy: 75% | Critical: 0% | Crit Damage: 130% | Weight: 5
+Scaling: Cunning, Tool - 80% GUI
+Sub Type: Shuriken | Damage Type: Acid
+Details: On Hit: Status infliction based on chance to inflict Poison LV 20 for 3 turns. Potential Skill - Acid Flower (3 Momentum, 20 FP, 3 Round Cooldown) - Unleashes a barrage of acid shurikens in all directions around you. If these hit an enemy, it performs a basic attack on them with a bonus to hit equal to Tamaki Shuriken's UL. Once it reaches its maximum distance or hits an enemy, it also creates a 2 range circle of Acid Pools and spawns a random flower at the location. These last for 5 rounds and have a LV equal to 1 + Tamaki Shuriken's UL. A type of shuriken coated in venom.
+Location: Random Drops, Eastern Drop Table, Snake Drop Table
+
+8★ Creed Replica
+Range: 1 | Power: 13 | Accuracy: 75% | Critical: 0% | Crit Damage: 130% | Weight: 6
+Scaling: Replica - 70% GUI, 20% SKI, 20% SAN
+Details: Always enchanted with Divine Weapon (+2 Power, +5 Critical, +5 Accuracy, -2 Weight. Weapon durability cannot decrease.) A replica of a deadly assassin's dagger. It possesses extremely high power.
+Location: Purchased from Korvara Casino, Purchased from Arena
+
+8★ Crelia
+Range: 1 | Power: 11 | Accuracy: 75% | Critical: 0% | Crit Damage: 130% | Weight: 6
+Scaling: Darkness - 70% GUI, 40% RES
+Details: On Hit: Replaces your Ice ATK with the target's for 2 rounds. Potential Skill - Warmth (3 Momentum, 0 FP) - Requires Substitute Ice ATK to be active. Consumes the status caused by the weapon, deals 20 armor-ignoring Ice Kickback damage to you, curing Frostbite effects you suffer from, and creating a wave of warmth that spreads out in a 3 Size Circle around you. In that circle, ice statues, ice sheets, frozen plants, and Frozen & Frostbitten allies thaw out. All allies also recover HP equal to 100% of the Substituted Ice ATK. 4 round CD. A dagger made with a flowery, but sharp, design.
+Location: Random Drops, Dark Drop Table
+
+8★ Hikage
+Range: 1 | Power: 11 | Accuracy: 75% | Critical: 5% | Crit Damage: 130% | Weight: 4
+Scaling: Flamelit - 70% GUI, 40% STR
+Details: Damage type changes to Fire if Tsukikage is also equipped. On Critical Hit: Inflict Lingering Damage (Fire) LV 15 for 2 rounds. Set: Hayabusa. 2+ - 1) +2 Attack Range with Daggers. 2) Movement type becomes Teleport. If Main Weapon is Tsukikage: Moon Style. Critical hits generate Moon Crests (max 3) and grants Moon Reflection skill. If Main Weapon is Hikage: Sun Style. Critical hits generate Sun Crests (max 3) and grants Rising Sun skill. Rising Sun: 2M, 15 FP, 2 Round CD. Consumes 3 Sun Crests. Targets 1 unoccupied tile within 3 Range. Reappear at target location, when you do, become Airborne and deal 30 armor-ignoring Fire bonus damage to all enemies in 2 Range Circle. All damaged enemies are inflicted with Glowing LV 10 until your next turn. Potential Skill - Muddle - Item properties that would change the damage type of your basic attacks are ignored. A ninja dagger with a red cloth tail, decorated with a moon.
+Location: Random Drops, Fire Drop Table, Eastern Drop Table
+
+8★ Paragi Shuriken
+Range: 3 | Power: 6 | Accuracy: 75% | Critical: 0% | Crit Damage: 130% | Weight: 12
+Scaling: Electrical, Tool - 40% GUI, 40% LUC
+Sub Type: Shuriken | Damage Type: Lightning
+Details: On Hit: Status infliction based chance to inflict Knocked Down LV2 for 2 turns. Potential Skill - Rairashi (1 Momentum, 0 FP, 3 Round Cooldown) - Launches sparks of lightning at a target enemy within 8 Range, dealing Lightning magic damage that ignores protection equal to 10 + Paragi Shuriken's UL * 3. A heavy shuriken that is effective at knocking someone on their butt.
+Location: Random Drops, Lightning Drop Table, Eastern Drop Table
+
+8★ Puppet Strings
+Range: 4 | Power: 6 | Accuracy: 75% | Critical: 0% | Crit Damage: 130% | Weight: 12
+Scaling: Finesse - 70% GUI, 30% SKI
+Sub Type: Whip | Damage Type: Slash
+Details: +1 Attack Range if weapon made of Thinsteel. On Hit: Apply or power up String Attached (LV 1, max 4, 3 rounds). Only 1 string can attached per action (even if you have multiple Puppet Strings equipped, or attack with it multiple times). String Attached: The causer has attached a string to you. LV decreases by 1 every time you use a movement skill and end outside of 3 Range from them. Grants Skill: Puppet Assault (2 Momentum, 15 FP) - Targets 2 tiles in 6 Range. Location 1 must contain an enemy with String Attached LV 2+ (caused by you), and Location 2 must contain a different enemy. You puppeteer the first enemy, who takes 3 steps towards the second. Then, the first enemy is forced to attack the second with their main hand weapon (75% damage, or 100% if String Attached was LV4+). Afterwards, your strings detach from the first target. Gloves holding within them long puppet strings. One never knows when they may be forced to dance upon them.
+Location: Random Drops, Highway Drop Table
+
+8★ Tsukikage
+Range: 1 | Power: 11 | Accuracy: 75% | Critical: 5% | Crit Damage: 130% | Weight: 4
+Scaling: Aquatic - 70% GUI, 40% VIT
+Details: Damage type changes to Water if Hikage is also equipped. On Critical Hit: Inflict Spelldaze for 2 rounds. Set: Hayabusa. 2+ - 1) +2 Attack Range with Daggers. 2) Movement type becomes Teleport. If Main Weapon is Tsukikage: Moon Style. Critical hits generate Moon Crests (max 3) and grants Moon Reflection skill. If Main Weapon is Hikage: Sun Style. Critical hits generate Sun Crests (max 3) and grants Rising Sun skill. Moon Reflection: 2M, 15FP, 2 Round Cooldown. Consumes 3 Moon Crests. Targets 1 unoccupied tile within 3 Range. Appear at location, gain Sneak until next turn and Night Shade (LV15, 2 attacks, 3 rounds). Potential Skill - Muddle - Item properties that would change the damage type of your basic attacks are ignored. A ninja dagger with a blue cloth tail, decorated with a moon.
+Location: Random Drops, Ice Drop Table, Eastern Drop Table
+
+9★ Bakaga Shuriken
+Range: 4 | Power: 10 | Accuracy: 75% | Critical: 0% | Crit Damage: 130% | Weight: 8
+Scaling: Darkness, Tool - 40% GUI, 40% RES
+Sub Type: Shuriken | Damage Type: Darkness
+Details: On Attack: Creates a Smoke Screen at the target's location for 3 rounds, reducing the Hit of those who stand in it by 30. Potential Skill - Dark Hole (1 Momentum, 15 FP, 3 Round Cooldown) - Launches a swirling dark energy in a line that will travel up to 5 Range away. If it contacts an enemy, it will deal armor-ignoring Dark magic damage to them equal to 10 + (Bakaga Shuriken's UL*2) and begin moving back towards you, pulling the enemy along with it. A shuriken with a smoke bomb hidden inside of it.
+Location: Random Drops, Eastern Drop Table, Dark Drop Table
+
+9★ Copper Coliche
+Range: 1 | Power: 9 | Accuracy: 75% | Critical: 0% | Crit Damage: 130% | Weight: 9
+Scaling: Basic - 100% STR
+Details: Also qualifies as a Sword weapon. A small yet thin blade made of a reddish metal. It's somewhere between dagger and sword, making it a versatile blade.
+Location: Random Drops, Water Drop Table
+
+9★ Ninshi Shuriken
+Range: 4 | Power: 14 | Accuracy: 75% | Critical: 0% | Crit Damage: 130% | Weight: 12
+Scaling: Flamelit, Tool - 40% GUI, 40% STR
+Sub Type: Shuriken | Damage Type: Fire
+Details: On Hit: Inflicts 30 armor-ignoring Fire damage to all enemies in 2 Range. Potential Skill - Ignition (1 Momentum, 10 FP, 3 Round Cooldown) - Targets 1 tile within 5 Range and creates a single Cinder tile with a LV equal to (Ninshi Shuriken's UL * 2) for 5 rounds. If there is an enemy at that location, they also take armor-ignoring Fire damage equal to half of that. If there is a Bomb at that location, it will blow immediately as if you had a set it. Shurikens designed to explode on impact.
+Location: Random Drops, Fire Drop Table, Eastern Drop Table
+
+9★ Red Letter
+Range: 1 | Power: 10 | Accuracy: 75% | Critical: 0% | Crit Damage: 130% | Weight: 6
+Scaling: Flamelit - 70% GUI, 40% STR
+Details: Material: Magmic (+2 Power, -5 Critical, +3 Fire ATK). On Hit: Deals magic Fire bonus damage equal to 50% of your Fire ATK, which ignores armor. Special Strike - Fire Exhaurire (Trigger Rate: 10% + 8% Bonus) - Triggers after the attack hits an enemy. Deals 25 Fire bonus magic damage that ignores armor to the target, and you gain Absorb Fire (Limited) LV 1 for 5 rounds. A flame dagger used in ritual sacrifices by an old tribal cult inhabiting the lands near the volcano 'Autumn'. Mysteriously, the tribal cult was burned to the ground, and this dagger found its way elsewhere somehow. It is theorized that the volcano itself set fire to the forest that the cult lived in, however it is just a theory. In reality, they were all killed by a youkai.
+Location: Random Drops, Fire Drop Table
+
+10★ Atlaua's Abaniko
+Range: 3 | Power: 12 | Accuracy: 80% | Critical: 0% | Crit Damage: 130% | Weight: 7
+Scaling: Finesse, Dextria-Water - 50% GUI, 30% SKI, 30% VIT
+Sub Type: Fan | Damage Type: Water
+Details: On Critical: UL% chance of inflicting Silence for 2 Rounds. Grants Skill: Luckiness Dance (6 Momentum, 20 FP) - Begins a rhythmic foreign dance which boosts the SKI and LUC of all party members in the current battle by Atlaua's Abaniko's UL/2 (min. 1) for 3 rounds. A famous water dancer's dancing fan, this Abaniko carries with it a strange energy, filling those who watch its dances with joy.
+Location: Level 56+ Sand Kraboid
+
+10★ Dancing Shiv
+Range: 1 | Power: 11 | Accuracy: 75% | Critical: 5% | Crit Damage: 130% | Weight: 7
+Scaling: Sylphid - 70% GUI, 40% CEL
+Details: Reduces cost of Dagger Skills by UL%. On Attack: If you are behind your target, inflict Fray LV 1+(UL/3) for 3 rounds. While little more than a very well made dagger, the Dancing Shiv earns its name for the way its movements almost seem to be a deadly dance, making it far easier to utilize than most daggers.
+Location: Level 56+ Bandit Backstabber
+
+10★ Eternal Solitude
+Range: 1 | Power: 15 | Accuracy: 75% | Critical: 5% | Crit Damage: 130% | Weight: 5
+Scaling: Darkness - 70% GUI, 40% RES
+Details: When an enemy effect or skill summons an allied unit: the summoner takes UL protection-ignoring Akashic magic damage. This thin dagger severs the line between allies.
+Location: Level 56+ Soulture
+
+10★ Fangfare
+Range: 1 | Power: 10 | Accuracy: 75% | Critical: 10% | Crit Damage: 130% | Weight: 7
+Scaling: Cold - 70% GUI, 40% SKI
+Details: On Evade Attack: If the tile behind your opponent is a valid battle tile, UL% chance that you teleport behind them, leaving behind an ice statue that shares your appearance. Also inflicts Immobilize on the attacker until their next turn if successful. An icy fang-shaped dagger, no doubt belonging to some devious ice beast at one point.
+Location: Level 56+ Fenrirbus
+
+10★ Hexfang
+Range: 1 | Power: 7 | Accuracy: 80% | Critical: 10% | Crit Damage: 130% | Weight: 5
+Scaling: Basic - 100% GUI
+Details: On Critical Hit: Inflict Noshka's Famine, or Crippling Muysig, or Frailty of Credwa LV 3 for 2 rounds (Activation Rate: UL%). Prevents you from receiving Curse statuses by dealing damage to enemies. A cursed fang with words of evil written on it.
+Location: Level 56+ Snakeman Pariah
+
+10★ Vorpal Fang
+Range: 1 | Power: 10 | Accuracy: 75% | Critical: 10% | Crit Damage: 130% | Weight: 10
+Scaling: Electrical - 70% GUI, 40% LUC
+Details: Always enchanted with Vorpal. (+10 Critical, +5% Critical Damage. When critically hitting monsters with this weapon (excluding bosses, and monsters whose level is 10 or more higher than yours): 5% chance for the attack to do a Vorpal Strike, dealing 9999 Akashic damage.) Critical hits from behind the target when attacking with this weapon have an UL% chance higher of becoming Vorpal Strikes (applies as a percentage to the base chance, not added to it.) Some weapons are enchanted to become vorpal. Other weapons are born vorpal, molded by it. The Vorpal Fang is a unique dagger in that sense, taking the powers of the Vorpal Rabbit for itself.
+Location: Level 56+ Vorpal Rabbits

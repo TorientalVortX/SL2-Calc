@@ -1,0 +1,823 @@
+Important SL2 Information
+
+Archer - Class Stats
+Main Class Stats:+2 SKI, +2 CEL, +1 LUC
+Valid Weapons: Daggers, Bows, Guns
+
+Lore
+Archers are found here, there, and everywhere. What starts as a necessity for hunting game quickly develops into a keen eye and steady hand; a deadly combination. All it takes is a little practice.
+
+Class Description
+Archers are very simple users of ranged weapons, such as bows and guns, and like to attack from far away. They can enhance their attacks with special arrows, increasing their damage and letting them make special effect tiles.
+
+Many of their attacking skills gain additional effects if Dynamic Shooting, an innate skill that boosts their Hit rate with Bows and Guns, has a high enough rank, representing the Archer's mastery of complex trick shots.
+
+They also have a variety of useful and unique debilitating status effects.
+
+General Tips
+Because Bow weapons receive significant Hit penalties against targets within 1 Range, position yourself between obstacles, or utilize traps to keep enemies at a distance. Cripple Leg can also severely restrict an enemy's mobility temporarily.
+During early levels, you will have limited FP, so it may be best to rely on passive skills that increase the potency and reliability of your long-range attacks.
+Marked Target will apply to traps created by any class. Consider using Rogue as a subclass if you want to pursue a trap-based playstyle.
+Cripple Arm can significantly lower the damage and hit rate of enemies. Against player characters, it also completely negates their Hands slot's effects and uses, including sub-weapons.
+
+Arbalest - Class Stats
+Main Class Stats:+2 DEF, +2 SKI, +2 STR, +1 RES, +1 LUC
+Valid Weapons: Daggers, Bows, Guns
+
+Lore
+Originally conceptualized on Kysei, the heavy-armored Arbalest is a fearsome predator. Requiring great strength and training, they fire weapons such as swords and axes chained to their bodies from large metallic bows. While effective, they are impractical in normal warfare, and are usually only seen as specialists.
+
+Class Description
+Arbalests are a ranged class intended to use Heavy Armor, along with a Bow or Rifle in the mainhand, and another weapon in the subhand (a Sword, Axe, or Spear), called the Special Armament. This enables them to use their powerful Cannon skills; however, using one puts them in a 'Reloading' state, essentially a shared cooldown between them.
+
+They have extremely potent self-buffing capabilities, and are especially effective against enemies with high physical defense or armor.
+
+General Tips
+
+Buster Cannon is extremely effective, greatly lowering the target's Phys and Magic Defenses, as well as their Armor. Use it against physically defensive enemies to greatly increase the damage allies deal to them.
+Chained Boomerang and Straight Cannon will both apply the on-hit effects of your Special Armament. You may want to choose a weapon that has such an item effect for maximum effectiveness.
+Oil Chain reduces the Momentum cost of most of the 'Chained' skills, but it also leaves behind powerful field tiles when triggered. Leading or pulling monsters through them can deal a lot of extra damage.
+Shore Up's high Momentum cost makes it difficult to use efficiently. Try getting bonus Momentum from a critical hit or hitting an enemy's weakness, and then using it, so you don't spend a turn doing nothing but reloading.
+
+Magic Gunner - Class Stats
+Main Class Stats:+3 SKI, +2 CEL, +2 WIL, +1 LUC
+Valid Weapons: Daggers, Guns
+
+Lore
+Guns were originally created in Karaten - a simple to use weapon that fires 'bullets' of the user's focus, basically allowing anyone to use magic. However, they were not meant to be public - which is unfortunate, as the technology was stolen from under their noses. Nowadays, knock-offs can be found in seedy areas, gradually making the once-secret weapons more available, even to adventurers.
+
+Arcane Shells, however, are less common, despite amplifying the power of guns significantly. In part due to being less understood, and partially because they significantly drain the user more than a regular gun, giving rise to the fear that they can make your lifespan shorter.
+
+Class Description
+Magic Gunners are a highly versatile class that uses Guns almost exclusively. They can load one Arcane Shell at a time, which gives basic attacks an extra on-hit effect, depending on the shell. In addition, the shells can be Charged for a bonus effect on a single shot, or Overcharged, giving an even stronger effect, but locking out the usage of shells for a few rounds.
+
+Being a primarily offensive class, they do not have access to much party utility, and most of their usefulness requires them to be able to hit an enemy with basic attacks. The choice of Sub-Class becomes very important to cover these weaknesses.
+
+General Tips
+
+Critical hits are especially effective for Magic Gunner. With the Spark Drive skill, you can automatically gain Charge Shot by landing one.
+Using the right Arcane Shell in the right situation is the key to victory.
+Using multiple-shot guns will allow you to trigger shell effects several times per attack, provided you can hit them all. However, they often have less attack range than non-shotgun single shot guns.
+Chain Shell is very useful against clusters of enemies.
+
+Ranger - Class Stats
+Main Class Stats:+2 SAN, +2 SKI, +2 STR, +2 CEL
+Valid Weapons: Daggers, Bows
+
+Lore
+Some are better in-tune with nature than others, sometimes choosing to live among it rather than in villages and cities. Enter the Ranger; a skilled hunter that draws upon the power of nature to deal with their foes.
+
+Some say the origin of their unique magic arrows were taught to them by the rarely-seen Druids, so that they could aid in the defense of nature against the unnatural and those that would destroy it, such as undead or greater terrors such as Hyatt of old.
+
+Class Description
+Rangers are an Archer-Mage hybrid, with high mobility skills and the ability to cast Ranger spells with a Bow instead of a Tome. Their spells can be enhanced with powerful effects by using Annorum, but they can only do this once every 3 rounds.
+
+They are similar to Archers in that they excel by attacking from long ranges, and are capable inflicting several status effects with Annorum, but improve on them by giving several options that allow them to attack and move in the same action.
+
+General Tips
+
+Your Ranger spells cover the full gamut of elemental damage, however it is unlikely you will want to max out all of them. Try only maximizing the skills which your Elemental ATK supports the most.
+Evasive characters can utilize Acrobatic Shooting with Flip Shot and Retreat Flight to boost their Evade while being hard to reach.
+Twin Shot deals a lot of damage, but can be hard to aim. Try to position yourself so that you can hit two enemies with one use.
+Soaked enemies can be abused in several ways. Ice damage will immobilize them until your next turn, and Lightning damage will be increased, as well as hit adjacent enemies who are also Soaked, potentially letting you do a large amount of damage to multiple enemies.
+
+Bard - Class Stats
+Main Class Stats:+2 SAN, +2 CEL, +1 LUC
+Valid Weapons: Daggers, Swords, Axes
+
+Lore
+Bards are users of music and sound to great effect. As simple as a singer for drunks at a bar, or as fantastic as an enchanting singer who could rival a mage, one is likely to encounter a Bard anywhere people gather... to the pleasure or pain of those people. Bards have a reputation, one might say, and not always in the positive sense.
+
+Class Description
+Bards are musically proficient performers, skilled at two different styles of gameplay. First, the more classic approach, allows the Bard to utilize instruments to play songs that supply themself and allies with beneficial support effects. Secondly, a Bard may prefer to study the school of dance - dances are powerful movement skills that deal elemental damage randomly to enemies near their dances. Each has its own benefits.
+
+A Bard more focused on playing songs needs only two things - an instrument equipped, and FP. Thus, they are flexible with what other classes that use to support themself. One Bard may prefer to utilize classes like Soldier, using their songs as a way to heal and buff themselves for melee combat. Another may utilize Summoner to empower their Youkai and avoid fighting themself.
+
+Focusing on Dances, however, is a little trickier. Because the Dance skills focus primarily on Elemental ATK, the Mage classes can be a good partner, as they naturally desire Elemental ATK for spells. They may also need to utilize equipment items that help bolster Elemental ATK.
+
+General Tips
+Bards must have an Instrument weapon equipped in order to play songs. Don't leave your trombone at home!
+Dance skills can hit the same enemy multiple times with one skill use. Use Fire Dance to dash through an enemy, and you'll set them aflame three times. Positioning yourself to deal damage like this is important to using dances effectively.
+Sound Wave is a very straight-forward and relatively cheap damage skill, but requires an Instrument equipped.
+Battle Spirits is a useful Trait to consider getting early, as it will restore your FP when using basic attacks.
+
+Dancer - Class Stats
+Main Class Stats:+3 CEL, +2 SKI, +2 WIL, +1 STR
+Valid Weapons: Daggers, Axes, Swords, Guns
+
+Lore
+The graceful steps of a Dancer can invoke powerful emotions. Attraction. Excitement. Pain. For one never really expects a curt stomp on the foot until it's too late.
+
+Class Description
+Dancers are a highly mobile offensive class that specialize in moving and attacking, as well as inflicting or otherwise interacting with the Charm status. While the basic dance skills they pick up from Bard are their bread and butter, the Dancer class offers several new dances, as well as skills that enhance dances in general. There are two influential passive skills in particular that an aspiring Dancer should think about.
+
+First, there is Dancer's Tempo; this is a main class only skill that grants access to the Tempo mechanic. While you have this skill, each dance you use generates 1 Tempo (max 6), which boosts the damage of your Dance skills and your Elemental ATK. The downside is that it increases the cost of your Dance skills, and using non-basic, non-Dance actions will reset it back to 0. In simple terms, an extended string of dances will drain your FP, but allow you to take down multiple foes more easily.
+
+The second is One-Two Step. This passive skill causes damage from your Dance skills to have 'two steps'; step one was the Dance, while step two is a basic attack. Enemies you damage are inflicted with One-Two Step of the same element, and any basic attack will 'detonate' it, dealing extra damage. This allows you to effectively assist allies (who will be able to attack and trigger the effect), or to utilize them yourself in a 'weapon-dancer' fashion.
+
+General Tips
+As a Dancer, you are very vulnerable to status effects that disable your ability to use Movement Skills, such as Clumsy and Immobilize. Dance Hour can help if you're inflicted with those statuses, but it can't be used very often. Don't misstep when using this skill!
+Use Rose Toss to inflict Charm on a bunch of enemies, then draw them together with Dancer's Invitation. You can then use Double Dance with an enemy to attack them all. If you have One-Two Step, you'll even trigger them for extra damage!
+Signature Step can be very powerful if you have sufficient Status Infliction. You can inflict a variety of status effects such as Burn, Interference, and so on.
+If you have accumulated a lot of Tempo, it's a great time to use Curtain Call or Rest Beat. Rest Beat will significantly heal your HP and FP reserves, while Curtain Call's damage is boosted sky-high with enough Tempo. Both will reset it to 0, however, so be careful.
+
+Dark Bard - Class Stats
+Main Class Stats:+3 SAN, +2 RES, +2 STR, +1 VIT
+Valid Weapons: Daggers, Axes, Swords, Tomes
+
+Lore
+Within the darkness of traditional performance thrives the Dark Bard. Their greatest allies are their piercing voices, soul-rocking tones, and... their fans, of course. Just be careful - you may not leave one of their shows without your nose getting bloodied.
+
+Class Description
+Dark Bards are a highly offense-oriented class which helps them be unafraid of going toe-to-toe with enemies. They are so offensive, indeed, that many of their skills cause allies to take small amounts of damage called Kickback Damage if they're too close.
+
+That doesn't mean that they're detrimental to have around, though. Dark Bard has skills that cause this friendly fire to grant buffs and benefits, such as Darkness Hype, which boosts elemental ATK and can be used to heal in a pinch. Their offensive skills are numerous, varied, and often capable of hitting large areas of effect, making Dark Bard complimentary to either Bard focus (Songs or Dances).
+
+Don't look down on their supportive capabilities, either. Shadow Moshes can obstruct enemies (but will be sent flying if an enemy moves through them) and, with the right skills, be used to parry enemy damage, even for other units. While tricky and technical, one who utilizes the tools of the Dark Bard can earn the applause of any crowd.
+
+General Tips
+Dark Revelry allows Kickback Damage to build up Darkness Hype on allies. If Darkness Hype is still active when a battle ends, it automatically heals the Kickback Damage they took, so don't worry about wearing down your allies in dungeons.
+Between Getting Into It and Elemental Shredding, you don't have to worry about your Fire, Dark, and Sound damage being ineffective. The former can disable immunities or absorbs entirely, while the latter reduces common elemental resistances.
+In longer battles, use On A Leash and buffing skills to turn one ally into a super quick and deadly basic attacker. You can also use it to pull enemies closer into compromising positions, or into field hazards such as traps.
+Dark Stage confers many benefits while you stand on it and use Songs and Dances. For example, you can use a Dance skill to damage an enemy and position yourself at the edge of your stage. Dark Stage will spawn two Shadow Moshes near you, which can activate Power to the People's parry if an enemy attacks you before your next turn.
+
+Performer - Class Stats
+Main Class Stats:+3 SAN, +2 CEL, +2 LUC, +1 STR
+Valid Weapons: Daggers, Axes, Swords, Tomes
+
+Lore
+Life's a show, and you're the main player. That's what all the rest of those talentless hacks think, right? But you, the Performer, are the real king. With a lute in your hand, you can make even the most stuck-up wallflower hit the dance floor like it owes them money.
+
+Class Description
+Performers are a highly support-focused class that expands on the Bard's Song skills. They have limited offensive capabilities, but are capable of buffing up allies and debilitating enemies, which is where their strengths lie. As long as you remember to equip an Instrument weapon, that is.
+
+Performers have skills that automatically enhance the usage of Bard's song skills, usually by granting them extra effects. For example, Amplified Aria makes Aria of Agility also grant affected allies a bonus to their Evade. They can also gradually heal allies by being near them while playing with skills such as Music Heals.
+
+The class can also be highly disruptive with the powerful Song skills it possess, such as Pied Piper, which can cause mass chaos as enemies will attack each other if they're inflicted with Confusion. This does mean getting into harms way, as you have to be close enough to play to them, but that just makes it more fun, right?
+
+General Tips
+The majority of Performer skills are passive or innate skills that enhance their ability to play. Relying on their offensive capabilities is not advised.
+Song of Susceptibility greatly reduces enemy Status Resist. This makes it easier for you to inflict Confusion with Pied Piper, or for Hexer allies to set up their powerful debuffs.
+Beat It is a great card to keep in your back pocket in regular monster battles, thanks for the guaranteed escape it provides.
+Rain-Caller Rondo is very useful against Fireblood enemies. Not only is there a chance they're weak to Water damage, but the lowered Fire ATK will reduce their skill damage significantly.
+
+Curate - Class Stats
+Main Class Stats:+2 WIL, +2 CEL, +1 RES
+Valid Weapons: Daggers, Tomes, Spears
+
+Lore
+Disciples of a religion, typically the Mercalan faith, these magically inclined healers are a staple in any group. While the Mercalan Tenets restrict how healing magic should be used, there is never a shortage of emergencies where it is needed.
+
+Class Description
+Curate is primarily a support-based class, having the rare ability to heal allies, and even revive defeated ones. Their offensive skills are limited, so they are better suited to having allies, be it other characters, mercenary NPCs, or summoned allies such as Youkai.
+
+Curates are also capable of buffing allies with various stat bonuses.
+
+General Tips
+
+Mass increases the area of effect of your Curate support spells; use it if you want to affect more allies with a single cast.
+Rescue can be used to move an ally who can't move themself next to you. This includes defeated allies; use Rescue to pull them next to you and revive them with Second Chance.
+Pacifist Boon makes your support effects last longer, lets you restore your FP passively, and makes your healing skills have a shorter cooldown, letting you use them more frequently. Dealing damage ends this effect.
+Silent Prayer instantly cures any Silence effect that would prevent you from casting spells. This can make a Curate class a great combination with another spellcasting class.
+
+Aquamancer - Class Stats
+Main Class Stats:+1 WIL, +2 CEL, +3 VIT, +2 FAI
+Valid Weapons: Daggers, Tomes, Spears
+
+Lore
+Aquamancers are magic specialists in manipulating the element of water. Skillfully mixing the destructive power of the waves and the refreshing purity of the rain, those who are drawn to the element of water are often gentle, but dangerous, much like water itself.
+
+Class Description
+Aquamancers are, as the name suggests, supportive spellcasters focused on the Water element. They possess a variety of useful spells, including powerful support spells that can buff themself or an ally; if their battlefield effect, Rainstorm, is active, those spells will affect all allies, including themself, instead.
+
+They have a special resource called the Aquae Crest, which has a LV from 1 to 9. Certain spells get bonus effects if Aquae Crest has a high enough LV, while some will also consume LVs for their bonus effects. One important aspect of the class is recognizing when it is effective to allow your LVs to be consumed to power up a specific spell, and when to preserve them to make sure you have more flexibility.
+
+An Aquamancer that is more intune with dark forces can use the Servant of a Dark Authority skill to alter their spell damage into Dark magic damage (although it will still scale with Water ATK).
+
+General Tips
+Some Aquamancer spells create Flooded Water, which require extra Move to traverse. This will affect all units, including allies and yourself, so try to place them tactically where they interfere with enemies, but not friends.
+Rainstorm allows your Support spells to affect all allies at once when cast. This is best used in important fights rather than against normal enemies, as it takes a little time to set up. Rainstorm can be set up in a single turn provided you have Aquae Crest LVs to burn, however.
+Drowning Chant allows you to inflict the powerful Silence debuff, but it will also Silence you in return. You can then use Silent Prayer from the Curate base class to remove it.
+Casting spells is required to maintain your Aquae Crest LV, but doing so can be taxing. You may need to invest in WIL for additional FP, or utilizing classes or items that grant FP Regeneration. Alternatively, you can utilize Brine Blade and try to rely more on basic attacks to deal damage, and conserve spell use.
+
+Lantern Bearer - Class Stats
+Main Class Stats:+2 WIL, +2 CEL, +2 RES, +1 DEF, +1 LUC
+Valid Weapons: Daggers, Tomes, Spears
+
+Lore
+Holders of magical lanterns which are enchanted with the power of psuedoelementals, a poorly understood entity somewhere between an elemental and a youkai, the Lantern Bearer uses the power of its light to great effect.
+
+Class Description
+Lantern Bearer is a simple supportive class with great offensive spells that hit a wide area and provide an aura that boosts stats to all allies in a large radius. The further away an enemy is from the Lantern Bearer, the less effective every aspect of their lantern skills are, but the beneficial aura does not fall off.
+
+Lantern Bearers can also provide a more defensive role via Gentle Embers, which allows allies to gain temporary immunity to some status effects.
+
+General Tips
+
+Eternal Flame is necessary for your lantern skills to create auras. If Lantern Bearer is your main class, Eternal Flame is always active as long as it's in your equipped skills. Otherwise, you will have to use the skill to activate it, where it has a temporary duration.
+Your lantern skills have long range but their damage, status effect level, duration, and infliction chance are all scaled down by 10% for every 1 Range the target is away from you. Try to be near enemies for maximum effectiveness if you want to be offensive.
+Your lantern skills are spells, so be sure to equip a Tome or weapon with Spelledge so you have a casting tool to use them with.
+If an enemy is giving you a hard time, you can use Skyhigh and follow it up with Typhur. Not only will this knock the enemy away from you, it will also knock them down, limiting their number of actions on their next turn.
+
+Priest - Class Stats
+Main Class Stats:+2 WIL, +1 CEL, +2 RES, +3 FAI
+Valid Weapons: Daggers, Tomes, Spears
+
+Lore
+The power of faith is known by practically all people of Sigrogana, having witnessed the war of the gods firsthand. While their number has dwindled, the Priests keep the faith alive. These servants of gods utilize divine magic to aid the faithful and smite the damned.
+
+Given the faith's very wide reach, most Priests are of the Mercalan Church, but those of other gods are not uncommon, either.
+
+Class Description
+Priests expand on the basic role of the Curate, but have a wider variety of offensive abilities. They are capable of using a Light Tome, or with the God Rod skill, any Staff-type weapon as a casting tool for Mercalan domain spells.
+
+Priests also have a powerful set of Invocation spells that let them summon allies, or even damage all enemies for large Light damage.
+
+General Tips
+
+Malmelo is an extremely potent heal that affects all allies regardless of location, but it has a lengthy cooldown. Try to use it only when necessary.
+Sanctuary greatly increases the survivability of party members inside of it and can help avoid unpleasant special effect tiles such as Cinders that some enemies create.
+With Detailed Care, your heals are more potent, and you can cure status effects you normally couldn't with your Treatment skills.
+Needle is a very useful spell. It deals good damage and can also heal yourself or other allies if triggered a second time.
+
+Druid - Class Stats
+Main Class Stats:+2 FAI, +2 DEF, +2 CEL, +2 LUC
+Valid Weapons: Daggers, Spears, Bows, Tomes
+
+Lore
+Mysterious and elusive, Druids wield natural magics to preserve and protect nature from unnatural threats. The manner in which they perform this greatly varies; some caretakers peacefully heal forests harmed by magic, while others are rumored to punish those who carelessly strip the land of resources, even if it means burying civilizations in sand.
+
+Much like nature, they are not always kind, nor entirely merciless - and never to be underestimated.
+
+Class Description
+Druids are a highly varied Curate class with a few different ability sets worth consideration.
+
+First and foremost, the Druid has access to four useful Animal Companions. Each of these companions assist the Druid in battle, either by being Called, or by being summoned to the battlefield as a unit. The roles they are good at fulfilled vary, with the Bear providing useful disruption and being a tempting target for enemies, the Hawk providing additional movement options and supporting attacks, and so on.
+
+Secondly, they can also shapeshift using the Wild Shape skills, which let them instantly gain skills and attacks similar to those possessed by the Animal Companions. These skills especially benefit attackers that like to focus on critical hits or evasive characters, due to the stat changes provided in certain forms, but they also cannot cast spells while in a Wild Shape.
+
+Third, Druids have access to a variety of Druid Plants. These are field objects which take time to grow, but provide a powerful effect once when they bloom, and often times, additional benefits afterwards - for example, a plant might attack enemies every round after it blooms. Primarily, this benefits those who like to play patiently or defensively, as enemies with poor positioning will have trouble surviving in a forest of magical plants.
+
+Druids also have access to some useful spells of the Isespian, Sylphid, and Nature domains. These spells are sometimes capable of scoring critical hits for extra damage, and have a large variety of unique effects. Nature is often impartial, however, and as such some of these spells can affect both allies and enemies in the same way.
+
+Ultimately, the Druid holds a variety of thematic abilities and playstyles. One aspiring to be a Druid will likely have to focus on one aspect of the class to maximize effectiveness, or be comfortable with using its utility more flexibly.
+
+General Tips
+Animal Companions, Wild Shape skills, and Plants all benefit from the buffs provided by the Curate base class spells Invigoration and Quickness. It is recommended for your character to have these spells as a Druid.
+Devil Vines can make the battlefield more difficult to navigate for allies and enemies as they spread, but they also provide allies with the ability to parry physical damage. Consider using these Dragging Vines to reposition enemies near other Druid plants that are about to Bloom, or just to put them in a bad position.
+Animal Companions can make battles against monsters much more manageable, particularly if you are by yourself. Classes that can heal them easily, such as Priest, or those that can provide them with even more buffs, such as Ruler, are good choices if you want to focus on fighting with animals.
+Druid Plants only get their Bloom effect once. You can manipulate when they will do so using skills like Nutrient Brighten. If an enemy finds themself next to one of your plants that only needs 1 more Growth to Bloom, you can trigger it instantly using Brighten. Or, you can use Bear Bash (Call) or Hawk Gale (Call) to push them into its range, so they are hit at the start of the next round.
+Because the special basic attacks provided by Wild Shape use a unique weapon, you can gain bonus Momentum with them, even if you've critically hit with another weapon in the same turn. A Druid who wants to fight using Wild Shape would be well suited to pairing with a Duelist main class to gain access to Fleur. If fighting many enemies at once, you can gain a lot of bonus actions if you continue to critically hit.
+
+Duelist - Class Stats
+Main Class Stats:+2 SKI, +2 CEL, +1 STR
+Valid Weapons: Daggers, Swords, Spears
+
+Lore
+The elegant martial fighters which are known as 'Duelists' have graced battlefields for ages. Compared to sheer brute force used by some, they prefer to implement precision and speed to outmatch their opponents.
+
+Class Description
+Duelists are a class that mixes offense and defense. Using swords and spears, they generally rely on basic attacks and mobility for offense. Defensively, they have several options, including relying on their Parry skill, Eviter, or going for a more Evade-based style.
+
+When played well, Duelists can quickly overwhelm opponents by landing extra actions via bonus Momentum gained from critical hits. Against evasive opponents, Duelists can struggle. They also have to worry about facing multiple opponents at once, as you can only basic attack one enemy at a time.
+
+General Tips
+
+Fleur is the bread and butter skill of the Duelist focusing on basic attacks. Critical hits normally give +1 Momentum (once per weapon, per round), but Fleur will give an additional +1 on top of that (once per enemy, per round); landing a single critical hit will allow you to take more actions per round than other characters.
+Sidecut allows you to move and attack at the same time, and can be used to get behind enemies easily. You can use this with the Flanking you get from high GUI to land your basic attacks easier. If you have a Rogue subclass, you can do more damage with its Flank skill.
+Repel is very effective against melee-ranged enemies. Knocking them back will force them to Move back to melee range in order to attack you, letting you avoid getting double attacked.
+Lance de Lion and Eclair Lacroix are the Duelist's most powerful skills, but they cost a lot of FP, have long cooldowns, and can't be used during the same turn as a movement skill (including Sidecut/Sillcut). Use them only if you need the powerful burst damage, or if you can hit multiple enemies with a single use.
+
+Firebird - Class Stats
+Main Class Stats:+3 CEL, +2 SKI, +2 STR, +1 LUC
+Valid Weapons: Daggers, Spears
+
+Lore
+Duelists who have finally found their calling by Kysei, near the Phenex Mountain Caverns and partial inspiration from the followers of the Phoenix God Helondis, wielding polearms with inspiring grace alongside magically enchanted feathers, soon take the mantle of a Firebird, after a rigorous training in these harsh mountains.
+
+This style emphasizes on attacking with accurate, nigh-unavoidable strikes and utilizing feathers as a catalyst to imbue themselves with the arcane energy of the elements, which allows them to strike more fiercely in addition to their accuracy, or even leap high in the skies through a burst of power and, like avians, utilize this advantage to catch enemies off-guard, or even take on flying enemies on an even ground with no effort.
+
+Class Description
+Firebirds are a class focused on spear skills, making great use of their mobility to help spread Magical Feathers along the battlefield. These feathers can damage enemies and remove special effect tiles. Much like their name suggests, they also greatly synergize with skills that make them or enemies Airborne.
+
+The class is very flexible and has many useful skill combinations. However, because it primarily relies on skills, it can also drain FP very quickly and be unreliable in longer battles without proper ways to recover its FP.
+
+General Tips
+
+The damage and type of special tiles destroy by your Magical Feathers is determined by your enchanted element. You can change this by using a Mage class's elemental enchantments or by using one of the celestial badges.
+One option for helping to manage your FP is using Grand Summoner as a subclass. Between the base Summoner skill Cracked Mirror and the Grand Summoner's Absorb Ether, you can get 15 FP regeneration per turn. Some Youkai Sync Mind passive skills may also be useful to you.
+Soaring Spear deals tremendous damage and its Cursed Wound skill can help deal with enemies that have high HP recovery or healing teammates. You can combo Riser -> Wind Flourish -> Soaring Spear to use it on an enemy that was originally in melee range.
+Oarring is a great tool to reposition enemies where you want them. Use Oarring to move a nearby enemy into a line with another one, and then use Pierce Linker to immobilize them both.
+
+Ghost - Class Stats
+Main Class Stats:
+Valid Weapons: Daggers, Swords, Axes
+
+Lore
+After coming back from a near-death experience, some Duelists take up the mantle of Ghost. These fighters draw on supernatural endurance and tenacity to harrow their foes, and only become more dangerous and ferocious as their injuries mount.
+
+Class Description
+Ghosts are a unique class that become more powerful the lower their HP is via their skill Rising Game, boosting their stats considerably. They have ways to mitigate the risk of being at such low health, such as Wraithguard, but still require careful play and experience on when to use their recovery options to avoid simply becoming an -actual- ghost.
+
+They can also greatly amplify physical damage via Claret Call, making them more and more dangerous as battles progress.
+
+General Tips
+
+Wraithguard is a powerful damage reduction skill, but the Wraith must be positioned carefully, as it can be damaged normally. Especially try to avoid scenarios where you and the Wraith are capable by being hit by an AoE ability at the same time.
+Afflicted Spectre is very useful against enemies that inflict a lot of debuffs, as it will increase your maximum HP for each. This can give you a very high effective health total, or make it easier to trigger higher levels of Rising Game, as well as boost the damage of an Ether Invitation.
+Reaper Scythe can guard break enemies who are marked by Claret Call, allowing it and other allies to deal more damage to that enemy. Use Ghastly Strike on a Feared enemy to try and forcibly inflict Guard. If successful, follow up with Reaper Scythe to deal big damage.
+Ether Invitation is your biggest attack and is best used when very low on HP. Do not use it carelessly, however; it will consume all Claret Calls on all enemies, leaving you unable to recover with Rebound if your attack fails to defeat them.
+
+Kensei - Class Stats
+Main Class Stats:+2 CEL, +2 SKI, +2 STR, +2 LUC
+Valid Weapons: Daggers, Swords
+
+Lore
+Oniga is famed for its swordsmanship, and true masters of the art have even earned the title "Kensei" from outside nations. They are described as an almost supernatural force, moving faster than eyesight, and capable of thinking several steps ahead of their opponents.
+
+Class Description
+Kensei are a katana-exclusive sword class focused on using offensive skills, gaining additional effects by using them in succession with one another. Sakki, Touki, and Kenki are applied by using these skills on enemies, lowering their stats, and enabling the use of the 'Absolute' skills to debuff them further.
+
+Despite being focused heavily on skill use, the Kensei has multiple methods of mitigating the costs, including Sacred Art and Channel Spirit.
+
+General Tips
+
+Absolute Fear can give you a strong window of attack against spellcasting characters. However, in order to inflict Silence, you must have the bonus from Katana Master active.
+Absolute Death can boost the physical damage of all allied units. This can be useful if there's one enemy you need to defeat as fast as possible.
+Hirazuki will force the enemy it catches to trigger special effect tiles. While enchanted with Nerhaven, use Kagekiri to create a line of Cinder tiles while you approach an enemy. Then use Hirazuki to attack the same enemy and force them through the Cinder tiles, dealing extra damage.
+If surrounded by melee-range enemies, use Raijinken to knock one of them airborne, and then use Sharenzan's combo effect on them. This will damage and knockback all of the enemies near you.
+
+Mage - Class Stats
+Main Class Stats:+2 WIL, +2 RES, +1 CEL
+Valid Weapons: Daggers, Tomes
+
+Lore
+With a brief incantation and a slight flick of the wrist, a proper Mage can invoke destruction. Charged with arcane forces, these individuals can control and manipulate the battlefield like a conductor leads an orchestra.
+
+Magic has its roots everywhere, but nowadays, Karaten and its Mage's Guilds are the most well known practitioners.
+
+Class Description
+Mages, as the name implies, are spellcasters that utilize their wide variety of spells and command of the elements to manipulate the battlefield and exploit weaknesses. They are capable of taking on a variety of roles, but it is difficult to be a master of all elements due to the varied stats that govern elemental attack.
+
+In addition, the class has access to only so many skill points, so it can be beneficial to pick one or two elements to specialize in.
+
+General Tips
+
+Most of your basic spells have extra benefits if you are enchanted with one of the elemental skills. You can extend the duration of these enchantment effects via the Enchantment talent.
+Air Pressure is an excellent combo skill. If you enchant yourself with Galren and cast Stone Dragon, it will create stones that you can launch with Air Pressure to stun enemies.
+Blink allows you to move without triggering field tiles or traps, even if enemy units are in the way.
+You can use Auto-Enchant to automatically cast an enchantment spell on yourself for free at the start of battle. Use it along with an elemental enchantment skill to enhance your spells without wasting an action.
+
+Evoker - Class Stats
+Main Class Stats:+3 WIL, +2 CEL, +2 SKI, +1 LUC
+Valid Weapons: Daggers, Tomes
+
+Lore
+The Evoker holds nothing back, turning even their bodies into dangerous weapons capable of reducing buildings to rubble. Unmatched in sheer magical power, an Evoker is an existence to be feared.
+
+Class Description
+Evokers are purely offensive spellcasters with incredible damage output. In exchange, they are often very squishy and lack utility, which may cause them to struggle against enemies with powerful magic defenses. Without using Light Armor or Unarmored torso items, they may also struggle to keep up with the FP costs associated with casting spells.
+
+Charge Mind will likely take up your whole turn, but it increases the next Evoker spell's damage significantly. Likewise, Invocations are powerful spells that require a turn to cast, but High Speed Divine Words can cut down the time required. Evokers will have to apply all of these advantages to excel.
+
+General Tips
+
+Overload has the highest damage potential against buffed enemies. Enchant yourself with Redgull, use Charge Mind, and watch them disappear.
+You can mitigate the high FP cost of spells by using Arcane Tattoo and Absorb Power.
+Invocations will be broken if you move, but you can still use Blink from the Mage base class.
+As a last resort against enemies resisting your preferred elements, you can use Ephemeral Insight to change the damage into Akashic damage.
+
+Hexer - Class Stats
+Main Class Stats:+1 WIL, +3 DEF, +3 RES, +1 SKI
+Valid Weapons: Daggers, Tomes
+
+Lore
+There are many emotions that could drive an individual to learn magic. The desire to protect another. To defeat an archenemy. Wishing to gain power. These are all common drives to become anything one aspires to be like.
+
+And then there are those who simply hate. Those who want to get back at someone who wronged them, want to bring someone off their high-horse, to make them look disgraceful. For these types of mages, the school of thought and study often changes, which is where Hexers originate. To be more specific, the magic of 'curses' and 'hexes' originate on Egwyn.
+
+During the dawn of civilization on Egwyn, the Grimalkin were often the subject of prejudice due to their hair color, some going as far as exiling them, thinking they were a bad omen. This left many Grimalkin feeling scorned, and with their natural magic potential, they developed curses, which make those affected suffer some misfortune or poor health. As the world began to grow aware of each other, so too did the nature of the Grimalkin's curses.
+
+Class Description
+Hexers are a somewhat defensive Mage class that utilize Dark magic and inflict or power up a variety of debuff effects. Curse skills must be applied to themself or an ally, but will transfer to enemies when the bearer of the curse takes damage. Meanwhile, Hex skills require the target to be suffering from a specific debuff, but makes it uncurable and further enhances it power.
+
+Since they focus heavily on Dark damage, a Hexer will naturally have high Resistance, since that stat boosts Dark ATK.
+
+General Tips
+
+The status effects required by your Hex skills can be inflicted by Hexer spells.
+Earthbound Vengeance is best used in long fights, or fights against large amounts of enemies.
+You can use Silent Spirit to focus an enemy to attack you, which can be used to trigger Spirit Pain or transfer Curses to them.
+After inflicting enemies with status effects such as Poison or Burn that deal damage over time, you can use Earthbound Fog and Blink to make it difficult for them to attack you while the statuses slowly lower their HP.
+
+Rune Magician - Class Stats
+Main Class Stats:+3 WIL, +3 GUI, +2 SKI
+Valid Weapons: Daggers, Tomes
+
+Lore
+Through the intensive study into a certain library on Karaten, a Mage can learn much more about an ancient arcane art that allows one person to link together the flow of Focus into specific sigils that shift the arcane energies into specific altercations to the environment, like primed traps.
+
+Those sigils are called runes, and Mages who study and utilize Runes are called Rune Magicians.
+
+Class Description
+Rune Magicians are a tricky class that focuses on controlling space by creating and combining rune circles on the battlefield. These runes are triggered when an enemy gets too close, making them similar to traps. Runes can also be engraved directly onto an enemy, usually to a lesser effect, but allows the Rune Magician to interact with an enemy more directly.
+
+Runes can also be moved by Solo Rush and All Rush, allowing them to be repositioned or forcibly slammed into an enemy and triggered. They should be careful, however, as runes can be attacked and destroyed by enemies if placed too close to them, or by long-range attackers.
+
+Runes stacked on top of each or, or that are moved and run over other runes, become 'linked', increasing the collective's power and range.
+
+General Tips
+
+A Rune covered by a Smokescreen cannot be attacked. If creating a rune near an enemy, or against enemies that attack it from long range, use a Smoking Rune to keep it from being destroyed.
+Null Runes prevent linked runes from being triggered. Combining a Null Rune and a Razor Rune will let you move the rune through enemies without it being destroyed, all while triggering Razor Rune's damage effect every step.
+Swift Rune Crafting will let you put down 6 or more Runes in a single turn, but it has a lengthy cooldown.
+Chronos Runes prevent linked runes from triggering due to enemies; instead, it will trigger automatically after 4 rounds. Create a large rune and use Solo Rush to move it into the center of a group of enemies the turn before it is due to trigger.
+
+Ruler - Class Stats
+Main Class Stats:+2 SAN, +2 WIL, +2 LUC, +2 RES
+Valid Weapons: Daggers, Swords, Tomes
+
+Lore
+Rather than live within bloody fray, some sit atop a throne and play. Of course, that's selling the Ruler short - they are just better suited as the decision makers, the ones supporting the heroes from afar - or perhaps more aptly said, optimally placing the pieces on the board.
+
+Class Description
+Rulers are a unique Mage class that focuses on enchanting allies and utilizing Whip weapons offensively. They utilize a special resource called Geomaterial which is gained by 'refining' rocks (such as those created by Stone Dragon), which is used to cast certain enchantment spells, or to create Servant Automatons.
+
+Servant Automatons are summonable units that the Ruler can create. Initially starting out as Pawns, they can be changed into different types - Knight, Bishop, Rook, and Queen - by using different Ruler skills on them. They are powerful and quick to act, but they must utilize Ruler/Mage buff status effects in order to take actions.
+
+Since the Ruler can apply enchantments on multiple allies at once via Cruel Enchant, they may spend their turns powering their Automatons to go to war for them. They may also prefer to go on the offensive with Whip skills.
+
+Ultimately, the Ruler class has a lot of flexibility in how it approaches each battle, but its reliance on a Whip weapon to use many of its skills, its Geomaterial resource management, and need to keep Automatons powered can take a little getting used to.
+
+General Tips
+You can generate a lot of Geomaterial quickly if enchanted with Galren. Cast Stone Dragon on an enemy in a line from you, which will cause it to break down into rocks. Use Despot Drill to mine through those rocks and damage any enemies along the way while generating Geomaterial.
+Crest of Rook causes allies to take damage for you as long as they're in melee range. If you create a Rook Automaton, it will have this buff permanently, letting it serve as a shield for you if placed beside you. Be wary of skills that might push or pull either of you from the other, however, as it will render this protection moot.
+Queen Automatons are very powerful and may find themselves focused by smart opponents. If you think your opponent is likely to do this, you can utilize the Queen's Rose Trap skill to deal a large amount of damage to them and render them immobile. This will gambit your Queen Automaton in the process, so be wary. If you think an enemy Ruler might be baiting you into attacking their Queen Automaton, ignore it - Rose Trap has a cooldown and cannot always be active.
+When promoting a Pawn, you'll have to decide if you want to get the unit out quickly, or if you want to let the Pawn take some buffs first. While Pawns do not require any effects to move, the upgraded versions do, so using Form Pawns and immediately promoting one means it won't be able to act that turn - permanent status effects are not valid for Servant Automaton's costs.
+When a Pawn is promoted it retains the same HP percentage; IE, if it has 200 HP of 400 max HP, this is 50%, so the promoted version will have half of its new max HP still. If your Pawn is a little beat up, consider using Seal of Labors to restore its HP before promoting it, as the heal will be more effective when used in that order!
+
+Martial Artist - Class Stats
+Main Class Stats:+2 STR, +2 SKI, +1 CEL
+Valid Weapons: Daggers, Fists
+
+Lore
+Martial Artists are skilled in hand to hand combat. Likewise, their main power comes from a wide array and understanding of combat techniques. Martial Artists are disciplined and intelligent, believing that a sharp mind wins in battle over a sharp blade.
+
+Class Description
+Martial Artists are unarmed fighters who use Fist weapons (or their bare fists) in combat. They primarily use offensive skills and can enhance them by inputting a series of directions via Urawaza. They boast great damage and mobility, and despite using Unarmored torsos, their skills offer decent survivability.
+
+Kip Up also makes them practically immune to the downsides of the Knocked Down status, which is an extremely big plus. Cleanse Body and Protection From Arrows make them an Archer's nightmare, keeping them from being pinned down for very long.
+
+General Tips
+
+Empty Palm can make your bare fists a reliable weapon. For example, using Mixed Martial Arts, you can use a sword weapon and a pair of gloves, and utilize your powered up bare fists for Martial Artist skills.
+Heaven Kick's range is equal to your Move. Use Shukuchi to boost it and then use Heaven Kick to get in close to enemies from far range.
+Geldoren can soften up enemies with high defense stats for yourself and allies.
+Phoenix Talon can boost your HP if you kick enemies who are airborne. Hop towards them with Crane Hop, which will make them airborne, and then hit them with a kick skill to restore your HP and deal bonus damage.
+
+Boxer - Class Stats
+Main Class Stats:+2 DEF, +2 VIT, +2 STR, +2 SKI
+Valid Weapons: Daggers, Fists
+
+Lore
+Boxing originated in a place called Bellaux, which was a territory of Chaturanga on Sigrogana before the Empire gained control of the entire continent. Bellaux still exists and is not very far from the Arena (although it isn't represented on the map at the moment). Bellaux was always interested in people fighting for sport; the Arena is just one example of this, but fists were always the original weapon of choice. They would fight in arena-like cages, hence the name Boxer.
+
+Class Description
+Boxers are powerful attackers that generate a black whirlwind called the Schwarz Sturm by using Boxer techniques successfully, allowing them to become a deadly force. They can also mitigate entire skills and attacks by using the correct Geist Schritt, making a smart boxer hard to deal with.
+
+However, the Boxer class is also very selfish - non-Boxer actions will reduce Schwarz Sturm levels quickly, and using Boxer skills repeatedly drains FP quickly. Boxers will have to be careful not to run out of gas before their enemy does.
+
+General Tips
+
+On The Ropes is a big damage boost if your target is in the right spot. Chase them to the edge of the battlefield, or create rock pillars behind them with Felsmanege, in order to exploit this.
+Nachbeben will create a wind explosion when you hit an enemy with a Boxer skill. While it will not hit the original target, it can be a good way to deal area of effect damage to multiple enemies.
+Orkam Drehen will pull in enemies close to you. You can then lock them in with Felsmanege.
+If you struggle with FP costs, you can use Grand Summoner as your subclass for their FP regeneration skills.
+
+Monk - Class Stats
+Main Class Stats:+2 SKI, +2 CEL, +2 DEF, +1 STR, +1 RES
+Valid Weapons: Daggers, Fists
+
+Lore
+A Martial Artist will sometimes go into a long period meditative isolation and re-emerge capable of dramatic feats of combat skill, earning the title of Monk. Monks achieve greater insight to the workings of their inner energy (or 'Ki') than the average bare-knuckle brawler, using it to heal allies, boost their own abilities or just kick people so hard their liver flies out their ear.
+
+Class Description
+Monk are all-rounder fist fighters that utilize a special resource called 'Ki' to power-up their skills. They have access to elemental magic damage through consuming this resource, which makes them a flexible attacker. With All Fight, they are encouraged to fight multiple enemies at once to generate large amounts of Ki quickly.
+
+Ki Awoken is one of the most extreme stat bonuses available, but comes at the cost of HP and the danger of stunning the user if they do not use their Ki quickly enough. Their great flexbility slightly hurts them as well, as they are not exceptional at any one task.
+
+General Tips
+
+Setting Sun is capable of being a huge area of effect attack that deals large amounts of Fire magic damage. Enemies can be punished for remaining in the area of effect by reactivating the skill.
+Backflip cannot move through occupied tiles, but is a very quick way to put distance between you and someone else.
+Aid lets you jump to an ally's side while also healing them. Use it to help protect vulnerable friends.
+Body of Isesip is an amazing defensive resource against large, single instances of damage, such as Evoker Invocations.
+
+Verglas - Class Stats
+Main Class Stats:+2 CEL, +2 SKI, +2 STR, +2 WIL
+Valid Weapons: Daggers, Fists
+
+Lore
+Having their order founded some hundred years ago, the Verglas are a group of martial artists that live in the bleak and unforgiving landscape of Hyoya. There, they train their bodies and minds, learning to endure the harsh environment and draw inspiration from those that also make their home in the snow.
+
+Its founder, Yuyan Verglas, was a close friend of the original Hyoyain leader, and as such, the Hyoyain and Verglas work in harmony to protect Lordwain people from threats, often teaming up in pairs.
+
+Yuyan lead the order into his old age, at which time he left the conclave and disappeared somewhere in the snowy wastes. However, he left behind well taught disciples, and so the style of the Verglas exists to this very day, taught in Hyoya's monasteries to about anybody who displays aptitude and the discipline for it.
+
+Class Description
+Verglas are an offensive class focused on unarmed attacks and the ice element. They have three distinct styles; Bear, Fox, and Hare, which are switched by using a skill of that discipline. Each discipline grants the Verglas access to a unique basic attack, and allows them to gain bonus stats when inflicting Ice damage.
+
+Verglas make use of a large, shield-like block of floating ice called an Ice Point Guard. This protects the Verglas, and is used in many of their techniques, where it is deployed onto the battlefield. The Verglas can then reclaim it later if they desire.
+
+General Tips
+
+Chimera Style allows you to use 3 Verglas skills in a single round as long as they belong to different disciplines.
+Winter's Bite can be used on enemies who are normally resistant to Ice damage to negate that protection.
+Crawling Spikes can travel for quite a while if you have placed enough Ice Points on the battlefield. Deploying Ice Points on existing Ice Sheets will make the skill cost less Momentum, allowing you to do so.
+You can use your Ice Point Guard as a long-range attack by kicking it with Cold Front. If you have Ice Point Greaves active, the tiles it goes over will also be covered in Ice Sheets.
+
+Shinobi - Class Stats
+Main Class Stats:+4 CEL, +2 STR, +2 GUI
+Valid Weapons: Daggers, Fists, Spears, Swords
+
+Lore
+Matured in the shadows and honed in secrecy, the shinobi hide in plain sight. As skilled at stealth as a spider, as easily infiltrating secure compounds as the wind blows in, rumored to possess countless secret arts. It is no wonder why even the legend of the Shinobi draws admiration - and fear.
+
+Class Description
+Shinobi is a class focused on mobility and versatility, and as such, their capabilities can widely vary depending on how they're utilized.
+
+At the basic level, the Shinobi has a wide variety of Kenpo offensive skills, which can gain the ability to be used in rapid succession via Kenpo Master, letting them use more attacks than normal at the cost of decreasing damage. Including Martial Artist base class offensive skills, and other classes that can use the mechanic, a plethora of possible combinations become available.
+
+Shinobi also have the ability to utilize Ninjutsu, spell-like arts combining focus and ki. These skills require a casting tool, but they offer powerful effects, and with Furinkazan, grant elemental marks that unleash Elemental Arts.
+
+Lastly, Gear Mastery allows the Shinobi to deal higher damage when using Item Potentials or skills granted by items, which gives them another vast pool of options to pull from.
+
+General Tips
+With its high mobility, the Shinobi makes a good fit with an Evade-oriented playstyle. Evasive Strike from its base class can further amplify its offensive abiilties.
+Elemental Arts are automatically used when the required elemental marks are accumulated, not requiring Momentum or FP. Skillfully timing when they will trigger, and where, is key.
+With Hand Signs, a Shinobi can become a useful addition to a spell-focused character. Additionally, Furinkazan and Gear Mastery both contribute to the usefulness of spells gained from Scroll item parts.
+Many Shinobi skills are movement skills and vulnerable to status effects like Immobilize. Fortunately, Martial Artists can use Cleanse Body.
+
+Rogue - Class Stats
+Main Class Stats:+2 LUC, +2 CEL, +1 SKI
+Valid Weapons: Daggers, Swords, Guns
+
+Lore
+The Rogue can be many things, but if asked for a generalization anyone could answer 'thief'. However this does not limit it to just that, for that is just generalization. The kleptomaniac who has a keen interest in how to open things? A rogue. The headstrong ex-warrior whom favors stealth and somewhat-dirty-but-clever tactics in battle? A rogue. Interpretation is open to the mind.
+
+Class Description
+Rogues are a versatile class focused around dodging and dealing critical hits. They have many skills that boost their Evade and Critical. They also possess the unique ability to steal beneficial status effects from enemies for themself, serving as a dispell + self-buff in one action; however, only some status effects can be stolen this way.
+
+They also have several trap skills that can be used to control space and inflict certain status effects.
+
+General Tips
+
+Twin Dance lets you attack with multiple weapons with one action. This attack deals less damage, but lets the Rogue synergize well with weapons that deal on-hit damage.
+Incognito can make you a less likely target against monsters if you have a posse of captured enemies or mercenaries for them to focus on instead.
+Gust Trap will also stop an enemy's movement, making it a great keep-away tool.
+Flank can be a cheap and easy way to deal extra damage if you're positioned correctly. Try to attack an enemy from the sides, or from behind, to make use of its damage bonus as the Flanking bonus you get from Guile.
+
+Engineer - Class Stats
+Main Class Stats:+2 STR, +2 CEL, +2 LUC, +1 DEF, +1 SKI
+Valid Weapons: Daggers, Swords, Axes, Guns
+
+Lore
+Sometimes going in alone isn't the best solution, a proper Rogue knows this. You can't always trust your friends to do the job right, or go see a doctor in the middle of no where, so how does one best prepare for this? By building their own friends out of just about anything they can get their hands on.
+
+Class Description
+Engineers are a unique class that deploy machine allies into battle. These versatile bots are potent offensive and defensive units, but they slowly break down over time, meaning the Engineer will have to repair them. If they break, it may seem bad because these deploy skills have long cooldowns, but bots leave behind Scrap when they expire, and touching it lowers the FP cost of Deploy skills and reduces the cooldown of the bot it belonged to.
+
+They also have a variety of useful gadgets that they can lend to allies, letting them make use of their skills.
+
+General Tips
+
+Your bots may not have the best accuracy on their own. Use their Calibrate skill, and they will use your Hit instead.
+Turret Bot's Bullet Spray will hit a wide area, while its Bullet Shred hits a close range in front of them but does a large amount of physical damage.
+Medicopter comes equipped with a large variety of healing items that it can use on allies, but it can only use one of each.
+Railgan's Rail Shot takes a turn to prepare, but it has extremely high range and deals a lot of damage. Deploy it somewhere safe and let it do its thing.
+
+Spellthief - Class Stats
+Main Class Stats:+2 WIL, +2 SKI, +2 STR, +2 CEL
+Valid Weapons: Daggers, Tomes
+
+Lore
+Those who learn to naturally control magic are held in high regards among other mages. But those who can't, instead, learn to steal them for themselves. Such are Spellthieves. Rogues who pushed the concept of 'theft' beyond the simple act of obtaining goods, to obtain the most precious goods for themselves. Knowledge.
+
+Tricky, cunning and always a step ahead of every authority who dare give chase on them. Those well-dressed, spectre-like thieves will always make sure any mages will never see it coming.
+
+Class Description
+Spellthief are exactly what the name describes. They are a thief that can utilize spells they steal from other characters and enemies. Stolen spells have a cooldown, but they are free to equip in your skill pool. Spells can be stolen directly via Spell Snatch, or by tricking them into casting it on you via Snatch Spell.
+
+They can also inflict disruptive effects on enemies, such as confusion, or smokescreens that obscure vision. This gives them a lot of variety, being able to mix and match spells from many classes at once.
+
+General Tips
+
+If you are suffering from a status effect you really don't want, use Negotiate on an enemy. This will cure some of both units' negative status effects.
+Goose Bite deals low amounts of damage, but its stat debuff is very powerful when applied from behind.
+Final Flare has the potential to cause lots of chaos depending on the stolen spells you have equipped. If you have a Spiritualism spirit boosting its level, you can cast up to 4 spells at once. Afterwards, you can swap out your broken dagger with a fresh one from your item belt.
+Flying Dagger can be a cheap source of extra damage if you find yourself unable to spend the last bit of your Momentum.
+
+Void Assassin - Class Stats
+Main Class Stats:+2 CEL, +3 SKI, +2 RES, +1 LUC
+Valid Weapons: Daggers, Swords
+
+Lore
+Void Assassins are somewhat reckless users of the Void, an extra dimension that is used more safely by the Mage's Guild to transport people long distances in an instant. By using this poorly understood phenomenon, they can teleport short distances quickly, and enhance their deadly skills even further.
+
+However, this comes with significant risk. Over time, such careless exposure to the Void's energies can cause a fatal condition known as Void Poisoning. But for some, the power is worth the price...
+
+Class Description
+Void Assassins are highly mobile, anti-magic, skilled users of daggers. They revolve around creating Voidgates on the battlefield, which they can later quickly teleport to, allowing them to flank enemies or escape danger. The Voidveil skill reduces magic damage they take and converts it into Void energy, which is used to fuel their skills.
+
+They naturally possess high Critical with daggers, making them an excellent and potent basic attacking class, especially with Twin Dance. They have several different playstyles available to them, including being able to play a support role by giving allies regeneration or removing their negative status effects.
+
+General Tips
+
+Cutthroat can only be used from behind, but it makes you very dangerous to spellcasters if you can land the Silence effect. If you have Veil Off active, it becomes guaranteed.
+Combining Void Assassin with a class that uses projectile-launching skills can be effective. Set up Voidgates and fire one into it, and Void Refraction will create lots of copies.
+Extend Void can extend beneficial status effects. For example, you could use it with Body of Isesip to gain 2 extra hits of protection.
+Ignite Engine can turn summoned allies into scary basic attackers, but the damage per round makes them more fragile.
+
+Soldier - Class Stats
+Main Class Stats:+2 STR, +2 VIT, +1 SKI
+Valid Weapons: Daggers, Swords, Axes, Spears
+
+Lore
+Soldiers are protectors of the common folk. Traditionally trained in physical combat for the purpose of defense rather than killing, their goal is to protect lives rather than take them. Athletic enough to rush into the center of combat when needed and sturdy enough to take on the mightiest of blows, these qualities are what all true Soldiers strive for.
+
+Class Description
+Soldiers are a well-rounded and safe base class that can utilize swords, axes, or spears, and prefer to use a shield. They are one of the best classes for beginners because they possess HP Regeneration that can make battles easier to manage.
+
+Using Charge allows them to get into the fray faster, and Charging Strike also lets them follow it up with a strong attack.
+
+General Tips
+
+Charging Strike will allow Turnover to inflict a knockdown. Use it on an enemy near a vulnerable ally to give them some breathing room.
+Mad Chop deals additional damage at low HP, making it a good desperation move.
+Using Charge before Bash will turn it into a Charge Bash, knocking enemies back further and carrying you along with them. With Flatfoot, they may even be knocked down.
+Charge can be used defensively to run away, but doing so will put the skill on a 3 round cooldown.
+
+Black Knight - Class Stats
+Main Class Stats:+2 DEF, +2 VIT, +2 STR, +1 SKI, +1 LUC
+Valid Weapons: Daggers, Swords, Axes, Spears
+
+Lore
+Black Knights are an intimidating presence in any fight, towering over foes with their huge armor and terrifying reputation. Epitomizing the principles of physical defense and protecting allies first learned as Soldiers, these warriors use the power of the Black Wind to force enemies to fight on their terms.
+
+The Black Knights of Kysei are infamous for being nigh unkillable, a reputation that has seen them hired as bodyguards for wealthy individuals.
+
+Class Description
+Black Knights are a defensive class that specializes in tanking physical damage and wearing Heavy Armor. They have skills which can use the Black Wind. Typically, the Black Wind can be 'invoked' once per round, allowing skills to have increased range or quickly move you to a certain tile. Skills often have a different secondary effect if the Black Wind has already been invoked.
+
+Checkmate is the Black Knight's signature attack, letting them benefit from their high Defense stat to deal extra damage. The attack will even automatically hit if the target cannot move due to an Immobilize effect, or if they're Flatfooted (from the Soldier skill).
+
+General Tips
+
+Sacrifice can be used to protect a nearby ally who is in danger. Be careful that they aren't forced away from you.
+Although you have strong physical defenses, you are vulnerable to magic damage. Try to use classes or items that cover this weakness.
+Black Knights on their own do not really have many ways to deal with another enemy with strong defenses. Consider this when selecting your second class.
+Utilize Prophylaxis at a key moment to prevent enemies from easily passing through squares you protect.
+
+Demon Hunter - Class Stats
+Main Class Stats:+2 DEF, +2 SKI, +2 STR, +2 CEL
+Valid Weapons: Daggers, Swords, Axes, Spears, Guns
+
+Lore
+Demon Hunters are a... unique breed, for sure. Their name is earned from the way they fight, a chaotic and stylish dance; if they couldn't kill demons, who could? Many 'proper' warriors see them as madmen who violate every basic principle of combat. Demon Hunters just view it as a way to utilize every tool to their advantage.
+
+Class Description
+Demon Hunters are a mobile offensive class that utilize four stances to do a variety of things. Reaver allows them to aggressively utilize their skills, even letting them more flexible use weapon types. Desperado is a gun-focused stance that does area of effect damage and can negate enemy gunslingers. Cobra is a defensive style that lets them effortlessly avoid damage, and makes them highly mobile. Matador says 'screw moving' and instead dares the enemy to hit them, converting it into Rage Energy, to unleash a deadly Retaliate later.
+
+Mastering all of these stances in their entirety is difficult, but the Demon Hunter boasts great variety and good survivability.
+
+General Tips
+
+Winged Serpent can allow you to move across the battlefield for free, but you have to find a way to get Airborne first. Leaping Lizard can accomplish this, as can Rising Tide.
+Goring Horns is a good way to combat enemies with strong healing capabilities, as they won't be able to recover the HP they lose from Matador skills.
+Lead Storm will apply on-hit effects of your used Gun, including things such as Magic Gunner's shell effect.
+Your Reaver skills are the only skills that can be used outside of its respective stance. They also have relatively high damage.
+
+Tactician - Class Stats
+Main Class Stats:+1 STR, +1 WIL, +2 SKI, +2 CEL, +1 DEF, +1 RES
+Valid Weapons: Daggers, Swords, Tomes, Guns
+
+Lore
+Tacticians are not your traditional soldier, but they perform an important role. After all, soldiers are only as good as their commander. Capable of utilizing spell and sword, Tacticians are usually intelligent individuals who can turn the tide of any battle.
+
+Class Description
+Tacticians are a supportive class that is less focused on dishing out damage and more on boosting the damage of their allies, as well as debilitating enemies. The combination of Enemy Evaluation and Analyze Weakness can stiffle powerful enemies and let the Tactician's party excel.
+
+Tacticians have a mechanic called Performance Rating. This is increased by allies utilizing the Tactician's Orders, and it decreases if allies are defeated or the Tactician takes significant damage. Thus the best place for a Tactician is out of the grinder, and advising allies to fall back if possible.
+
+General Tips
+
+Formations are difficult to use, but if all allies fall into formation, they give extremely potent bonuses.
+Utilize the Order skills to increase your Performance Rating while remaining safe. When it's high, use your Enemy Evaluation skill on the most dangerous enemy to cripple them.
+Volley Formation can be used to safely attack from a distance, even if you are the only one using it.
+If an enemy is particularly tanky, use Acid Rain to lower their Phys. and Mag. Defense for your allies.
+
+Solblader - Class Stats
+Main Class Stats:+2 FAI, +2 STR, +2 CEL, +2 WIL
+Valid Weapons: Daggers, Swords, Axes, Spears
+
+Lore
+Warriors who utilize the power of solmancy to stem the flow of evil, carrying with them a symbol of the sun itself. They are known for their potent power, but one must be careful to keep it in check. For the brighter the light, the greater the shadow it casts...
+
+Class Description
+Solblader is a versatile class that features three distinct style skills. These can be equipped for free in the skill pool, and each one modifies how Solblader approaches combat.
+
+Speed of Light is a combo-oriented style that allows you to use many Soldier and Solblader attacks in one round. Wall of Light lowers Solblader's mobility in exchange for strong defenses. Flash of Light is a spellblading style that can allow very quick casting of Mercalan spells by utilizing Soldier skills more frequently.
+
+Regardless of the style chosen, the Solblader is named for its Solsphere. This is a sun-like field object that they place, which deals damage to enemies it encounters, while also giving the Solblader the Holy Aura buff when they move through it, which enhances Solblader skills. Thus, Solbladers strive to both move through their Solsphere and force enemies to move through it.
+
+They also have access to Sol Charges. These are a resource gained by using the Sol Charge skill, and are expended by several Solblader skills and spells.
+
+Solbladers are highly versatile and effective, but can be a bit selfish in playstyle if you want to make use of everything they have to offer.
+
+General Tips
+Sol Charge's cost of 3-M means it will up to 3M. If you have an extra 1M after your other actions, use it to end your turn and gain 1 Sol Charge instead of letting the extra Momentum go to waste.
+Soldier base class skills interact with the Solsphere in unique ways, often enhancing their capabilities. You can view a full list of these special interactions here.
+Solblader skills that gain bonuses for having Holy Aura often get those benefits even if Holy Aura is gained during the skill's use. For example, you can gain Godray Undertow's additional Range by using it to dash through your Solsphere.
+Flash of Light's Accelerate Spell effect has an indefinite duration, so you can spend multiple rounds building up its effectiveness and use it at the right moment. If you stack its LV high enough, you can even quickly cast an Invocation spell like Lux Relido.
+Enhancing your Solsphere via Radiant Splendor increases its effective size. This means that you will have more leeway to dash through it for Holy Aura, damage enemies, or target it with skills.
+
+Summoner - Class Stats
+Main Class Stats:+2 WIL, +2 CEL, +1 RES
+Valid Weapons: Daggers, Swords, Tomes
+
+Lore
+The title of Summoner is a rare honor. They possess a unique potential that many do not. They utilize their talents by gathering and contracting types of illusory creatures known as 'Youkai', beings that can only manifest if they have a sufficient source of Focus energy, which the Summoner supplies them with. In exchange, the Youkai acts to further the Summoner's will, aiding them in battle or lending them their strength in other ways. The destiny of a Summoner is often a twisted path...
+
+Class Description
+Summoners are versatile users who contract allies known as Youkai. These Youkais, as you might expect, are then summoned in battle to fight for the Summoner. Additionally, the Summoner can make use of their Sync Mind skill to receive bonuses from just contracting Youkai, and can use their skills as their own, if they so choose.
+
+Summoners can be a little complex to get started with. You will have to contract a Youkai in a Summoning House, and maintaining the FP cost that Youkai draw every round is important; if you can't pay, the Youkai will be unsummoned and leave you in an awkward spot.
+
+General Tips
+
+Early on in battle, try to get by summoning only one Youkai, until you have access to more reliable sources of FP Regeneration.
+Install will let you increase your stats and give you access to all of a Youkai's skills, instead of just two. It will also let you change your race temporarily, which can be useful for certain Summoner promoted classes.
+It is highly recommended that you save Affinity skills for last.
+You can contract more Youkai with a higher Faith stat (one slot per 5 base Faith, to a maximum of 12).
+
+Bonder - Class Stats
+Main Class Stats:+2 WIL, +2 SKI, +1 CEL, +1 LUC, +2 STR
+Valid Weapons: Daggers, Swords, Axes, Spears, Tomes
+
+Lore
+Bonders, like their name suggests, favor bonding with a small number of Youkai. Through that bond, the Youkai and the Bonder work in harmony, bringing out the potential in each. To a Bonder, Youkai are not only tools of power, but irreplacable friends.
+
+Class Description
+Bonders are a more specialized version of the Summoner. Rather than utilizing a huge variety of Youkai at once, Bonders only utilize up to 3 'Bonded' Youkai, which are Youkai with high friendship. In exchange, these Youkai are stronger than normal, and the Bonder can summon them in unique ways and gain bonuses themself for fighting with them.
+
+Bonder are a good class if you want to be a Summoner, but also do things yourself instead of relying solely on Youkai. However, if you want to stay out of the action and let your Youkai fight for you, then making use of Parted Pain is a valid playstyle. This will let your Youkai do more damage, but be unable to finish off enemies - you will do that yourself, possibly all at once with Sagum Ruinam.
+
+General Tips
+
+Fight with your Youkai for maximum effectiveness. Hell Above will let you deal extra damage if you damage the same enemy as one of your Bonded Youkai, for example.
+Use your mobility skills to your advantage. Position your Youkai with a Conduct skill, then use Pinball Strike to teleport to an enemy and knock them towards that Youkai; the Youkai will automatically attack that enemy as they come near.
+Shift Dimension is an amazing skill that lets you get away from enemies and position Youkai near them for almost no cost.
+Bonder skills can make use of Excel weapons via their Excel Crash bonus effects.
+
+Grand Summoner - Class Stats
+Main Class Stats:+2 WIL, +2 SKI, +2 CEL, +2 FAI
+Valid Weapons: Daggers, Swords, Tomes
+
+Lore
+Once evolving past the title of a normal Summoner, and learning how to effectively summon multiple Youkai at once, one is to gain the prestigious worth of the Grand Summoner title. For it takes a truly talented Summoner to effectively command a horde of Youkai.
+
+Class Description
+Grand Summoners are the natural evolution of the Summoner class. They revolve around summoning lots of Youkai at once and swarming the enemy with them. Naturally, this requires a lot of FP, but thankfully the Grand Summoner has access to high FP regeneration through their passive skills. While their Youkai are individually less potent than something like a Bonder, they make up for it in sheer numbers.
+
+They can also cause damage to enemies simply by unsummoning their Youkai with Impact Dismiss, and summon a Youkai for free at the start of battle with Auto Summon.
+
+General Tips
+
+Judgement Blade is one of your few non-Evoke damage skills, and it deals increased damage to Youkai (or those installed with them). Use Soul Chains to forcibly Install them with one of your Youkai and use Judgement Blade to deal big damage to them.
+Chain Unsummon lets you do just that; unsummon many Youkai in a single action. If you manage to surround several enemies with Youkai, you can use Chain Unsummon to recall them all at once, applying Impact Dismiss's damage to them. Use Dimension Resonance to increase the damage even further.
+Astral Aegis gives a good boost to your survivability, so long as you have a Youkai summoned.
+Summon Storm lets you summon 6 Youkai at once. If you can get away with preparing the Invocation on the first turn, it can be a very quick and effective way to swarm the battlefield.
+
+Shapeshifter - Class Stats
+Main Class Stats:+2 SKI, +2 CEL, +2 LUC, +2 STR
+Valid Weapons: Daggers, Fists, Tomes
+
+Lore
+The art of Shapeshifting is dangerous, but rewarding. Transcending one's ability to merely 'install' oneself with a Youkai, allowing your mind and body fuse into one increases the destructive capability of those otherworldly beings by a massive amount.
+
+At a cost.
+
+Stories speak of Youkai who have taken over in these stages, leaving shapeshifters trapped within a prison of their own body, no longer who they once were. Some are are said to never return, at least...never the same.
+
+Class Description
+Shapeshifters are a Summoner class heavily focused on utilizing the Install mechanic to transform themself into Youkai. They can do this very easily in battle simply by using Evoke skills of the Youkai they want to turn into, giving them an extreme level of versatility while making use of the Youkai skills only available by Installing. The downside to this is that summoning a Youkai means you can't transform into it.
+
+Shapeshifters synergize naturally with an Evade-based playstyle due to the large Evade boosts they receive from Chaos Reflex and Night Shade. They also like basic attacking via Shift Strike to have an easier time landing critical hits.
+
+General Tips
+
+Shapeshifters can install their Youkai with another Youkai using Chimera Install. This allows some unique combinations, such as Installing a Chun with Haku; Fire Scale and Ice Scale grant immunity to Fire and Ice respectively, meaning the weaknesses given by those skills are nullified.
+If you have unspent Momentum you need to get rid of, try to use one of the Mimickry skills to get a useful effect. They all cost 1M, but can only be used by a specific race (you can use them while installed with a Youkai of that race).
+Self-Destructive Shifting lets you use the useful Mimickry more frequently, but makes their HP costs higher. Alternatively, you can utilize Preservation Instinct to reduce the HP cost of those skills instead. Note that you can't use them both at the same time, however!
+Grow Appendage lets you get powerful and unique buffs depending on the type of Youkai you have installed. For example, using it with a Dragon race installed will grant you Dragon Scales, increasing your Armor and Magic Armor by 5 for the duration.
+

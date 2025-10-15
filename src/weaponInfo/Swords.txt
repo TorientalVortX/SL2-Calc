@@ -1,0 +1,372 @@
+SWORDS
+
+1★ Longsword
+Range: 1 | Power: 5 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: 6
+Scaling: Basic - 100% STR
+Damage Type: Slash
+Details: Your standard, boring longsword.
+Location: Random drops, Shops, Metalwork (Lv1)
+
+2★ Longsword (Enhanced)
+Range: 1 | Power: 5 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: 6
+Scaling: Finesse - 70% STR, 30% SKI
+Damage Type: Slash
+Details: +3 STR. Your standard, boring longsword.
+Location: Enchanting (Lv1)
+
+2★ Wo-Dao
+Range: 1 | Power: 6 | Accuracy: 85% | Critical: 10% | Crit Damage: 125% | Weight: 5
+Scaling: Finesse - 70% STR, 30% SKI
+Damage Type: Slash | Subtype: Katana
+Details: Increases Critical Chance. An extremely sharp sword originating from Oniga.
+Location: Random drops, Metalwork (Lv2), Eastern Drop Table
+
+3★ Bloody Fang
+Range: 1 | Power: 7 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: 8
+Scaling: Vampiric - 80% STR, 30% VIT
+Damage Type: Slash
+Details: Vampiric (10%) (Basic attacks only). A sword with a thirst for blood.
+Location: Random drops, Metalwork (Lv3), Water Drop Table
+
+3★ Moonblade
+Range: 1 | Power: 7 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 6
+Scaling: Faithful - 70% STR, 40% FAI
+Damage Type: Slash
+Details: On Hit: +5 Hit for 2 turns. Bonus becomes +10 instead on a critical hit. (At night, bonuses and duration are doubled.) Crafted from silver and enchanted under the night sky.
+Location: Random drops, Metalwork (Lv3), Light Drop Table
+
+3★ Eresh
+Range: 1 | Power: 8 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: 10
+Scaling: Darkness - 70% STR, 40% RES
+Damage Type: Slash
+Details: On Hit: Deals magic Darkness bonus damage equal to 50% of your Darkness ATK, which ignores armor. Potential Skill: Impure Stroke - The Duelist skill Eclair La'Croix is changed in the following ways: 1) Light damage becomes Dark. 2) Slash damage effect also inflicts Reduced Resistance (Dark) LV 30 for 3 rounds. (Reduced Resistance lowers the target's elemental resistance by LV.) 3) FP cost increased by 10. A sword wrapped in darkness.
+Location: Random drops, Metalwork (Lv3), Dark Drop Table
+
+3★ Fuuma
+Range: 1 | Power: 9 | Accuracy: 85 | Critical: 0% | Crit Damage: 110% | Weight: 11
+Scaling: Basic - 100% STR
+Damage Type: Slash | Subtype: Katana
+Details: Reduces effectiveness of enemy Armor by 5. Potential Skill: Wear Down - When an enemy is damaged by weapons that reduce enemy Armor effectiveness, either by basic attacks or skills using them, a Wear Down status is applied for 3 rounds, or powered up. This status decreases the enemy's Armor by LV. (Max LV of 20, max duration of 3 rounds). A mystical sword that is said to be powerful enough to chop through stones.
+Location: Random drops, Metalwork (Lv3), Earth Drop Table
+
+3★ Nelten
+Range: 1 | Power: 11 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: 20
+Scaling: Basic - 100% STR
+Damage Type: Slash | Subtype: Greatsword
+Details: A heavy greatsword that is iconic to Chaturanga's military division. Its destructive power is high.
+Location: Random drops, Metalwork (Lv3)
+
+4★ River Sword
+Range: 1 | Power: 9 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: 8
+Scaling: Aquatic - 70% STR, 40% VIT
+Damage Type: Slash
+Details: On Hit: Target takes 40% more Water damage for up to 4 turns (effect ends upon them taking Water damage). Allows you to carve rivers in your enemies.
+Location: Random drops, Metalwork (Lv3), Water Drop Table
+
+4★ Crystal Blade
+Range: 1 | Power: 10 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 12
+Scaling: Earthen - 70% STR, 40% DEF
+Damage Type: Slash
+Details: On Hit: Inflicts Crystalize, lowering the target's Movement by 1. Attacking the target a second time shatters the crystals, dealing Earth magic damage equal to your Earth ATK. Potential Skill: Diamond Blade - The Soldier skill Retreating Swipe is changed in the following ways; 1) Pattern changes to a Crescent. 2) Enemies hit have Crystal Blade's On-Hit effects applied. 3) Retreat effect becomes a knockback effect (max: 5 tiles). 4) Increases FP cost by 5. Special Strike - Diamond Radiance (Trigger Rate: 10% + 8% Bonus) - Triggers before an enemy is attacked. Increases the attack's damage by 15 and Hit bt 10, and grants you Crystal Burst (LV3, 3 rounds). Crystal Burst - Crystalize deals its damage in LV Range around the target when triggered. A cracked crystal blade, enchanted with Isespian magic.
+Location: Random drops, Metalwork (Lv4), Earth Drop Table
+
+4★ Golgorth
+Range: 1 | Power: 10 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 14
+Scaling: Magical - 70% STR, 40% WIL
+Damage Type: Slash
+Details: On Critical Hit: Steals 10% of target's FP. (Max: 50 FP) A fiend's blade that steals the essence of the living.
+Location: Random drops, Metalwork (Lv4), Dark Drop Table, Space Drop Table
+
+2★ Swordfish Sword
+Range: 1 | Power: 8 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: 10
+Scaling: Aquatic - 70% STR, 40% VIT
+Damage Type: Slash
+Details: On Hit: Deals magic Water bonus damage equal to 50% of your Water ATK, which ignores armor. Ya-Ha! A sword, made out of... a swordfish.
+Location: Random drops, Metalwork (Lv3), Water Drop Table
+
+5★ Homura
+Range: 1 | Power: 14 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: 10
+Scaling: Finesse - 70% STR, 30% SKI
+Damage Type: Slash | Subtype: Katana
+Details: When an enemy's Parry skill is triggered by this weapon's damage; deals 30 protection-ignoring Fire bonus damage to them. (1 round cooldown). Potential Skill: Blazing Wind - Creates an attackable Flare Tornado LV X (X = Fire ATK) at target location within 3 Range, which lasts for 5 rounds. The tornado damages anything it touches and creates Cinders around itself, and will move towards enemies at the start of a new round. Special Strike: Flames of Rebellion (Trigger Rate: 10% + 8% Bonus, Trigger CD: 2 rounds) - Triggers after the attack hits an enemy. Inflicts the target with Reduced Resistance (Fire) LV 20 for 3 rounds. If Homura is enchanted with Rebelling, it triggers an explosion that deals 75 bonus Fire damage to all other enemies in 5 Range of the target. Soaked in the oil of those it's cut, this katana is waiting to burst at a moment's notice.
+Location: Random drops, Fire Drop Table
+
+5★ Dual-Blade
+Range: 1 | Power: 6 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: 10
+Scaling: Finesse - 70% STR, 30% SKI
+Damage Type: Slash
+Details: Has two blade slots and a hilt slot. A special type of sword with two blades, because two is better than one.
+Location: Random drops
+
+5★ Bandit Sword
+Range: 1 | Power: 9 | Accuracy: 80% | Critical: 5% | Crit Damage: 110% | Weight: 14
+Scaling: Cunning - 70% STR, 40% GUI
+Damage Type: Slash
+Details: Increases Steal's success rate by 15%. Potential Skill: Pilfer - Targets one enemy within 1 Range. Messes with the target's inventory, preventing them from using items for 2 rounds. Usually used by bandits, this sword helps you take things from others.
+Location: Random drops, Highway Drop Table
+
+5★ Engraved Katana
+Range: 1 | Power: 11 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: 9
+Scaling: Finesse - 70% STR, 30% SKI
+Damage Type: Slash | Subtype: Katana
+Details: Weapon gains an additional Scroll customization slot. This katana, as the name implies, has a spell engraved in its metal.
+Location: Random drops, Eastern Drop Table
+
+6★ Excel Saber
+Range: 1 | Power: 9 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: 18
+Scaling: Basic - 100% STR
+Damage Type: Slash
+Details: On Hit: Consumes Weapon Charges, dealing 50% more damage per Charge Level. Grants Skill: Charge Weapon (3 Momentum, 5 FP) - Rev your weapon and fill it with focus, increasing its Charge, to a maximum of level 3. When you hit with a weapon that can consume Weapon Charges, the damage you deal with that attack will increase by 50% per level. (Weapon Charges will expire after 5 rounds.) Potential Skill: Elite Engine - Shared Potential Skill. Charge Weapon FP cost is increased to 8 FP. Attacks do not use up all of your charges, instead the LV is reduced by 1, and the damage bonus is 35% (does not increase with charge amount like normal Excel attacks). The Excel line of weapons were developed in Chaturanga, where the ability to be defensive while increasing offensive capabilities was highly valued. By charging up the weapon, it can explosively spend the focus energy when it strikes an enemy, greatly increasing damage. However, the engine module makes it heavier than other weapons.
+Location: Random drops, Mine Drop Table
+
+6★ Dynaxis
+Range: 1 | Power: 11 | Accuracy: 80% | Critical: 5% | Crit Damage: 110% | Weight: 11
+Scaling: Electrical - 70% STR, 40% LUC
+Damage Type: Slash | Subtype: Greatsword
+Details: When you perform a basic attack with this weapon, it creates a Static Field LV X (X = Dynaxis's Power) for 2 rounds at the target's location. (Static Fields deal Lightning bonus damage that ignores armor equal to LV to enemies when it is created, at the start of a new round, or when an enemy passes through it.) Special Strike: Thunder Strike (Trigger Rate: 10% + 8% Bonus, Trigger CD: 2 rounds) - Triggers before an enemy is attacked. Increases the Critical for that attack by 15, changes the damage type to Lightning, and if the attack hits, deals 50 Lightning magic bonus damage to them. An electrically overcharged greatsword. Anything it passes over will get charged up.
+Location: Random drops, Lightning Drop Table
+
+6★ Sakabatou
+Range: 1 | Power: 9 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: 10
+Scaling: Finesse - 70% STR, 30% SKI
+Damage Type: Blunt | Subtype: Katana
+Details: Grants Skill: Flip Blade (0M, 0 FP, 1 Round CD) - Turn your Sakabatou around, changing which side you're using. Grants or removes Flipped Blade (permanent duration). Flipped Blade: Your Sakabatou weapons deal Slash damage. Potential Skill - Killing Is A Choice (Passive) - Sakabatou's Potential Skill. Sakabatou gains +5 Critical while it deals Slash damage, and you gain +5 Armor & Magic Armor while it deals Blunt damage. When you flip the Sakabatou to Slash damage, enemies within its attack range are inflicted with your Sakki (if the skill is equipped) and Slash Resist Down (LV 10, 1 round, 1 hit). 2 round CD if an enemy is affected. Special Strike - Nine Heads (Trigger Rate: 10% + 8% Bonus, Trigger CD: 3 Rounds) - Triggers before an enemy is attacked, and replaces the attack. An ultra fast strike hitting from 9 directions at once, dealing 125% Scaled Weapon Attack, and rendering it unavoidable and unparriable, but it deals no extra damage on a Critical Hit. A reverse-blade sword, meaning the side where the edge normally would be is dull, and vice versa. It is somewhat less lethal with a dull edge, and can be flipped should you need to cut, but it requires a skilled hand to avoid hurting yourself.
+Location: Random drops, Eastern Drop Table
+
+4★ Rapier of Resent
+Range: 1 | Power: 8 | Accuracy: 80% | Critical: 10% | Crit Damage: 110% | Weight: 6
+Scaling: Finesse - 70% STR, 30% SKI
+Damage Type: Slash
+Details: On Ally Defeated: Rapier of Resent gains +15 Power for the rest of the battle. (Can stack up to +60.) Special Strike: Piercing Blade (Trigger Rate: 15% + 8% Bonus, Trigger CD: 2 rounds) - Triggers after the attack hits an enemy. Creates a piercing projectile at your location that travels up to 6 Range, dealing 35 Pierce magic damage that ignores armor to all enemies it passes over. A sword which seems innocent enough, but harbors a dark spirit of resentment.
+Location: Random drops, Dark Drop Table
+
+3★ Endless Handkerchief
+Range: 3 | Power: 5 | Accuracy: 80% | Critical: 10% | Crit Damage: 110% | Weight: 3
+Scaling: Spiritual, Finesse, Dextria-Sound - 20% STR, 70% SAN, 30% SKI
+Damage Type: Slash | Subtype: Whip
+Details: Attack range increases by 1 and basic attack damage increases by 3 for every empty Item Belt Slot. On Critical Hit: Attack target is spun in a random direction. Less of a weapon and more of a stage prop, your enemy will be left guessing just where this damn chain of handkerchiefs ends.
+Location: Random drops
+
+6★ Cleaving Clarinet
+Range: 1 | Power: 11 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: 11
+Scaling: Dextria-Sound - 80% STR, 30% SAN
+Damage Type: Blunt | Subtype: Instrument
+Details: +5 Wind ATK. When played (via a Song skill): Creates a whirlwind that draws all enemies within 3 Range 2 tiles towards you. Potential Skill: Wind Risoluto - Play the Cleaving Clarinet, creating an Air Shaft at your own location for 3 rounds. Afterwards, you attack all enemies within 1 Range with the Cleaving Clarinet. It's more of an instrument shaped like a sword than a real sword, but the tip might be a little sharp, so watch your tongue.
+Location: Random drops, Wind Drop Table
+
+7★ Magical Star
+Range: 1 | Power: 12 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: 12
+Scaling: Magical - 70% STR, 40% WIL
+Damage Type: Slash
+Details: Spelledge (This weapon can be used as a casting tool for spells.) Become the star of the battlefield. Will not help you transform, however.
+Location: Random drops, Metalwork (Lv5), Space Drop Table
+
+4★ Spirit Sword
+Range: 1 | Power: 10 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: 8
+Scaling: Spiritual - 70% STR, 40% SAN
+Damage Type: Slash
+Details: Restores Focus based on damage dealt. (10%) (Basic attacks only). This sword absorbs Focus from the wounds that it makes.
+Location: Random drops, Summon Drop Table
+
+7★ Kamiya
+Range: 1 | Power: 8 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: 6
+Scaling: Finesse - 70% STR, 30% SKI
+Damage Type: Blunt | Subtype: Katana
+Details: Show Mercy's success rate increases by 15%. (Percentage of actual success rate; not additive.) Weapon suffers no penalties to damage, hit, or critical for being broken. Grants Skill: Kamiya Guard (1+M, 0 FP, 2 Round CD) - A special self-defense technique. Consume all of your remaining Momentum and gain Swift Guard LV X (X = 8 x Momentum consumed), as you take a stance with the Kamiya. If you consume at least 4 Momentum this way, you also prepare the Kamiya Counter (until your next turn), a special retaliation strike that aims for the target's knees or other form of mobility. Kamiya Counter: Perform a counter attack (50% damage) when an enemy in 1 Range attacks you (except from behind), which will inflict Clumsy until the attacker's next turn if it hits. Doesn't stack with other counter attacks and takes priority over them. A wooden sword known as a 'bokken'. While it is often used for training purposes, there are some who practice non-lethal swordsmanship. In their hands, even a branch is a weapon.
+Location: Random drops, Eastern Drop Table
+
+7★ Kouenjin
+Range: 1 | Power: 9 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 10
+Scaling: Finesse - 70% STR, 30% SKI
+Damage Type: Slash | Subtype: Katana
+Details: On Hit: Deals magic Fire bonus damage equal to 50% of your Fire ATK, which ignores armor. 10% Fire Resistance. Potential Skill: Crimson Lotus - The Kensei skill Hidden Cut's effect changes in the following ways; Damage becomes Fire magic damage. Monsters who are defeated by this effect explode, knocking away field objects and dealing Fire magic damage equal to Hidden Cut's damage in a 3 Range circle around them. A katana forged in the fires of the underworld, or so it's said.
+Location: Random drops, Fire Drop Table
+
+7★ Yukijin
+Range: 1 | Power: 9 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 10
+Scaling: Finesse - 70% STR, 30% SKI
+Damage Type: Slash | Subtype: Katana
+Details: On Hit: Deals magic Ice bonus damage equal to 50% of your Ice ATK, which ignores armor. 10% Ice Resistance. Potential Skill: Ice Lily - The Kensei skill Hidden Cut's effect changes in the following ways; Damage becomes Ice magic damage. Monsters who are defeated by this effect turn into Ice Points and create Ice Sheets in a 2 range diamond around themself, which last for 3 rounds each (The LV for the Ice Point created is 10). This freezing sword deals winter's wrath to your enemies while protecting you from it.
+Location: Random drops, Ice Drop Table
+
+7★ Raijin
+Range: 1 | Power: 9 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 10
+Scaling: Electrical - 70% STR, 40% LUC
+Damage Type: Slash | Subtype: Katana
+Details: On Hit: Deals magic Lightning bonus damage equal to 50% of your Lightning ATK, which ignores armor. 10% Lightning Resistance. Potential Skill: Kuuga - The Kensei skill Hidden Cut's effect changes in the following ways; Damage becomes Lightning magic damage, and can Lightning Critical. A katana forged in the chaotic skies of a storm, or so it's said.
+Location: Random drops, Lightning Drop Table
+
+7★ Akuijin
+Range: 1 | Power: 9 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 10
+Scaling: Finesse - 70% STR, 30% SKI
+Damage Type: Slash | Subtype: Katana
+Details: On Hit: Deals magic Darkness bonus damage equal to 50% of your Darkness ATK, which ignores armor. 10% Darkness Resistance. Potential Skill: Dark Moon - The Kensei skill Hidden Cut's effect changes in the following ways; Damage becomes Dark magic damage. Monsters who are defeated by this effect melt, becoming Dark Water tiles in a 2 Range circle for 3 rounds. A katana forged in a pit of evil, or so it's said.
+Location: Random drops, Dark Drop Table
+
+7★ Sanjin
+Range: 1 | Power: 9 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 10
+Scaling: Finesse - 70% STR, 30% SKI
+Damage Type: Slash | Subtype: Katana
+Details: On Hit: Deals magic Acid bonus damage equal to 50% of your Acid ATK, which ignores armor. 10% Acid Resistance. Potential Skill: Mossy Grave - The Kensei skill Hidden Cut's effect changes in the following ways; Damage becomes Acid magic damage. Monsters who are defeated by this effect melt, becoming LV 30 Poison Pool tiles in a 2 Range circle for 3 rounds. A katana forged in the stomach of a monster, or so it's said.
+Location: Random drops, Snake Drop Table
+
+7★ Hakouhen Masterwork Katana
+Range: 1 | Power: 10 | Accuracy: 85% | Critical: 8% | Crit Damage: 110% | Weight: 6
+Scaling: Finesse - 70% STR, 30% SKI
+Damage Type: Slash | Subtype: Katana
+Details: Always comes with the Sharp, Precise, Deadly, and Lightweight properties. The Hakouhen style could best be described as a hawk swooping in for the kill; an aerial attack that is precise, powerful, and deadly. This is a sword made specifically for the followers of that school, and it works well as a lightweight weapon focused on attacking. However, because it's lightweight, the material is somewhat thin, making it easier to break than other weapons.
+Location: G6 Only - Oniga Quest
+
+7★ Sea Hunter Sword
+Range: 1 | Power: 13 | Accuracy: 80% | Critical: 7% | Crit Damage: 110% | Weight: 12
+Scaling: Aquatic - 70% STR, 40% VIT
+Damage Type: Slash | Subtype: Greatsword
+Details: On Hit: Inflicts Hunted LV14 for 3 rounds if the target is a seafaring monster. Always comes made of Coral. (+1 Power, +3 Accuracy, +3 Critical, +1 Weight, +3 Water ATK.) This sword was born from the sea, and as anyone who lives there knows, anything that lives in the sea is out to get everything else... that lives in the sea.
+Location: Fishing Contest Chest
+
+1★ Wooden Longsword
+Range: 1 | Power: 5 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: 6
+Scaling: Basic - 100% STR
+Damage Type: Blunt
+Details: Your standard, boring longsword, only this time, it's made out of wood.
+Location: Random drops, Woodwork (Lv1), Plant Drop Table
+
+1★ Wooden Katana
+Range: 1 | Power: 5 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: 6
+Scaling: Finesse - 70% STR, 30% SKI
+Damage Type: Blunt | Subtype: Katana
+Details: Also called a bokken in Oniga, the land of the katana's origin. The more you know!
+Location: Random drops, Woodwork (Lv1), Plant Drop Table, Eastern Drop Table
+
+1★ Wooden Nelten
+Range: 1 | Power: 11 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: 12
+Scaling: Finesse - 70% STR, 30% SKI
+Damage Type: Blunt | Subtype: Greatsword
+Details: A heavy longsword that is iconic to Chaturanga's military division. Its destructive power is high. This one is made out of wood material.
+Location: Random drops, Woodwork (Lv3), Plant Drop Table
+
+8★ Hisen
+Range: 1 | Power: 9 | Accuracy: 85% | Critical: 0% | Crit Damage: 125% | Weight: 3
+Scaling: Finesse - 70% STR, 30% SKI
+Damage Type: Slash | Subtype: Katana
+Details: Potential Skill: Fatal Stroke - The Kensei skill Hidden Cut's effect changes in the following ways; Sheath Sword's FP cost is increased to 25 FP. Damage is increased by 25% and can critically hit. Against non-boss monsters, the damage is increased by 100% instead. If an enemy damaged by this effect is defeated by it, you regain 5 FP for each. A deadly katana, which is fragile, but extremely sharp.
+Location: Random drops, Labyrinth Drop Table
+
+8★ Braver Replica
+Range: 1 | Power: 16 | Accuracy: 90% | Critical: 0% | Crit Damage: 110% | Weight: 15
+Scaling: Replica - 70% STR, 20% SKI, 20%SAN
+Damage Type: Slash | Subtype: Katana
+Details: Always comes enchanted with Divine Weapon. (+2 Power, +5 Accuracy, +5 Critical, -2 Weight. Unbreakable.) A replica of a famous sword used by Ryart. It possesses extremely high power.
+Location: Casino
+
+8★ Ensui
+Range: 1 | Power: 10 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: 4
+Scaling: Aquatic - 70% STR, 40% VIT
+Damage Type: Water
+Details: Encases you in a protective bubble, reducing all damage you take by 4-7. Always comes made of Dragon Remains. (+3 Power, +5 Accuracy, +5 Critical, +8 Weight.) A sword made from the remains of a water dragon; it smashes waves against your enemies.
+Location: Random drops, Metalwork (Lv5), Water Drop Table, Snake Drop Table
+
+8★ Narcus
+Range: 1 | Power: 11 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: 4
+Scaling: Basic - 100% STR
+Damage Type: Fire
+Details: Upon taking damage: Gain Narcus LV X (X = 50% of damage taken) for 2 rounds, which causes your next basic attack that hits to deal Fire magic bonus damage that ignores armor equal to LV. (Does not stack, but status will refresh upon taking damage if it would result in a higher LV.) Always comes made of Dragon Remains. (+3 Power, +5 Accuracy, +5 Critical, +8 Weight.) A flaming sword made from the remains of a fire dragon. It takes punishment and returns it.
+Location: Random drops, Metalwork (Lv5), Fire Drop Table, Snake Drop Table
+
+8★ Kirosh
+Range: 1 | Power: 10 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: 4
+Scaling: Darkness - 70% STR, 40% RES
+Damage Type: Darkness
+Details: You do not trigger traps or other field hazards while moving. Always comes made of Dragon Remains. (+3 Power, +5 Accuracy, +5 Critical, +8 Weight.) A sword made from the remains of a dark dragon. Its movements cannot be traced.
+Location: Random drops, Metalwork (Lv5), Dark Drop Table, Snake Drop Table
+
+8★ Setsuna
+Range: 1 | Power: 10 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: 4
+Scaling: Faithful - 70% STR, 40% FAI
+Damage Type: Light
+Details: Shows the statistics and skills of most non-monster enemies. Always comes made of Dragon Remains. (+3 Power, +5 Accuracy, +5 Critical, +8 Weight.) A sword made from the remains of a blind dragon. Truth cannot be hidden.
+Location: Random drops, Metalwork (Lv5), Light Drop Table, Snake Drop Table
+
+8★ Shine Sword
+Range: 1 | Power: 10 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 10
+Scaling: Faithful - 70% STR, 40% FAI
+Damage Type: Slash
+Details: On Hit: Deals magic Light bonus damage equal to 50% of your Light ATK, which ignores armor. +2 WIL, +2 FAI. Always comes enchanted with Blessed. (Against Undead, Ghost, and Possessed Enemies: Increases weapon's hit by half of your Scaled FAI.) Potential Skill: Shine Knighting - Requires a Rank D Invocation. After casting, you will temporarily change into a Shine Knight for 5 rounds. While you are a Shine Knight, you gain +5 to all stats, and access to certain new passive skills. (Shining in the Darkness: Grants the owner of this skill immunity to Dark and Light damage.) (Shining Radiance: Enemies who attack the owner of this skill are treated as if they were Blinded, potentially reducing their Hit.) Radiant like a jewel... A blessed sword that shines in the holy light of Mercala.
+Location: Random drops, Metalwork (Lv4), Light Drop Table
+
+8★ Larveget
+Range: 1 | Power: 11 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: 6
+Scaling: Aquatic - 70% STR, 40% VIT
+Damage Type: Slash | Subtype: Instrument
+Details: On Hit: Replaces your Sound ATK with the target's for 2 rounds. Potential Skill: Death Ant Shriek - Song skill. Requires Substitute Sound ATK to be active. Consumes the status caused by the weapon, deals 20 armor-ignoring Sound Kickback damage to you, and accelerates any Silence effect you're suffering from by 1 round. Additionally grants you Larveget's Cursed Wail (LV = 35% of Substituted Sound ATK, min. 5, 5 rounds). (Larveget's Cursed Wail - -10% Status Resistance. Enemies who attack you take armor-ignoring Sound magic bonus damage equal to LV and apply or power up Cursed Wound by LV (3 rounds). Triggers only once per action.) A sword said to be made from the remains of an insect-god whose screams cursed all who harmed him.
+Location: Random drops, Water Drop Table
+
+9★ Spectre Sword
+Range: 1 | Power: 11 | Accuracy: 85 | Critical: 0% | Crit Damage: 110% | Weight: 4
+Scaling: Darkness - 70% STR, 40% RES
+Damage Type: Slash
+Details: On Hit: Deals magic Darkness bonus damage equal to 50% of your Darkness ATK, which ignores armor. Always comes enchanted with Haunted Soul. (Inflicts Fear on hit for 2 rounds. -25% Status Resist.) Potential Skill: Grudge - When you are defeated by an enemy, if you are not Badly Beaten, that enemy takes 100 Akashic magic damage that ignores protection. A sword possessed by a powerful spectre that has tainted it with the power of darkness.
+Location: Random drops, Spectre Knight, Dark Drop Table
+
+9★ Rogue Dasher
+Range: 1 | Power: 14 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: 15
+Scaling: Basic - 100% STR
+Damage Type: Slash
+Details: Increases Scaled Weapon ATK by 20% if the target's armor type is Light Armor. A sword made to dash the dastardly and not much else.
+Location: Random drops, Highway Drop Table
+
+9★ Sogensara
+Range: 1 | Power: 11 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: 12
+Scaling: Finesse - 70% STR, 30% SKI
+Damage Type: Slash | Subtype: Katana
+Details: On Hit: Deals magic Ice bonus damage equal to 50% of your Ice ATK, which ignores armor. Grants Skill: Everblue (3 Momentum, 10 FP) - Targets a tile up to 8 Range away that contains an enemy or plant special tile. Creates Ice Sheets in the line along from your current location to that tile, which last 3 rounds. Plant special tiles are frozen and turn into dense ice statues. If an enemy is the target and they are a Plant, they are inflicted with Frozen LV 10 for 2 rounds, but this skill enters a 3 round cooldown. An icy katana that gives nature a respite.
+Location: Random drops, Ice Drop Table
+
+9★ Black Xyston
+Range: 1 | Power: 9 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: 14
+Scaling: Basic - 100% STR
+Damage Type: Slash
+Details: Also qualifies as a Polearm weapon. A large, black, double-edged sword that curves near the base like an umbrella, letting it also function as a spear.
+Location: Random drops, Labyrinth Drop Table
+
+9★ Salamander Sword
+Range: 1 | Power: 8 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: 10
+Scaling: Basic - 100% STR
+Damage Type: Slash
+Details: Increases the Power of Salamander Sword by 5 every time you deal Fire damage, up to a maximum of +100 Power. (Lasts for the entirety of the battle. Non-monster targets only give +2 Power.) Made from cooled salamander blood. This doesn't mean the sword can't get hot again, of course.
+Location: Random drops, Fire Drop Table
+
+10★ Hooked Twinblade
+Range: 1 | Power: 14 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: 10
+Scaling: Basic - 100% STR
+Damage Type: Slash
+Details: On Hit: Deals physical Pierce bonus damage equal to UL, which ignores armor. Reduces the damage reduction of Parry skills triggered by this weapon's basic attack by UL%. This almost snake-like double blade has some nasty hooks, allowing it to squirm in even through an opponent's parry.
+Location: Snakemen Twinblade (Lv56+)
+
+10★ Gigantys
+Range: 1 | Power: 13 | Accuracy: 85% | Critical: 0% | Crit Damage: 110% | Weight: 5
+Scaling: Aquatic - 70% STR, 40% VIT
+Damage Type: Slash | Subtype: Greatsword
+Details: Increases Weight by UL. Basic attacks cost 4M, but inflict bonus damage equal to Weight and can Guard Break. Always comes made of Dragon Remains. (+3 Power, +5 Accuracy, +5 Critical, +8 Weight.) Made of a large piece of bone from a long dead monster, Gigantys is large and very difficult to wield. However, for those that can manage the burden, its weight also give it extremely potent attack force.
+Location: Gigas Rex (Lv56+)
+
+10★ Tarnada
+Range: 1 | Power: 15 | Accuracy: 80% | Critical: 10% | Crit Damage: 110% | Weight: 10
+Scaling: Slyphid - 70% STR, 40% CEL
+Damage Type: Slash | Subtype: Katana
+Details: On Critical: Gain 1+(UL/2) Tarnada Charges. Then, if you have 100 or more Tarnada Charges, consumes them and casts Vydel on the target for free. Tarnada is a sword empowered by the storms of the desert on Gold. Storing that power, it will suddenly and chaotically unleash it when it decides it wants to.
+Location: Jammer Delta (Lv56+)
+
+10★ Kingslayer
+Range: 1 | Power: 14 | Accuracy: 80% | Critical: 0% | Crit Damage: 110% | Weight: 10
+Scaling: Basic - 100% STR
+Damage Type: Slash
+Details: Increases the total Power of attacks and skills this weapon is used in by UL%, but only if the enemy is a Boss monster or has at least one 10* item equipped. The Kingslayer is a powerful sword in its own right, but it has an almost otherworldly efficiency at killing those sitting at the top of the food chain... at least, the ones that can be killed.
+Location: Jammer (Lv56+)
+
+10★ Spine Leash
+Range: 1 | Power: 14 | Accuracy: 80% | Critical: 10% | Crit Damage: 110% | Weight: 14
+Scaling: Cold - 70% STR, 40% SKI
+Damage Type: Ice | Subtype: Whip
+Details: Attack range increases by 1 for every 7 UL. Increases Ice ATK by UL/2. (Doesn't stack.) On Battle Start: If UL is at least 10 and fighting monsters, a ghostly dog manifests and joins your battle as an ally. A bone-like whip that seems to be made from a spine of some creature, although it looks nothing like any animal you've seen. The surface of the bone seems to be covered in frost.
+Location: Ghost Dog (Lv56+)
