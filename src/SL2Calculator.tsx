@@ -3254,8 +3254,7 @@ export default function SL2Calculator() {
               <div className="bg-gradient-to-r from-green-900 to-blue-900 bg-opacity-30 border border-green-700 rounded-lg p-6">
                 <h2 className="text-2xl font-bold mb-4 text-green-400">Stat Optimizer</h2>
                 <p className="text-gray-300 mb-4">
-                  Get optimized stat distributions for your dual class combination and build strategy. 
-                  The optimizer considers class synergies, weapon scaling, APT efficiency, and build-specific thresholds.
+                  The optimizer considers class synergies, weapon scaling, APT efficiency, and build-specific thresholds. It is very much a work in progress, so please double-check results!
                 </p>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
@@ -3307,7 +3306,7 @@ export default function SL2Calculator() {
                         />
                         <span className="text-sm">Weight-based (sliders)</span>
                       </label>
-                      <label className="flex items-center">
+                      {/* <label className="flex items-center">
                         <input
                           type="radio"
                           name="optimizationMode"
@@ -3317,7 +3316,7 @@ export default function SL2Calculator() {
                           className="mr-2"
                         />
                         <span className="text-sm">Target-based (goals)</span>
-                      </label>
+                      </label> */}
                     </div>
                   </div>
 
