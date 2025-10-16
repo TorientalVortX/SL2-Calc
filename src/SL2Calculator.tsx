@@ -1455,7 +1455,7 @@ export default function SL2Calculator() {
     return baseResistances;
   };
 
-  const youkaiCap = Math.floor(((SUBRACES[subrace]?.fai || 0) + customBaseStats.fai + addedStats.fai + (astroBonus.fai || 0)) / 5) + 5;
+  const youkaiCap = Math.floor(((SUBRACES[subrace]?.fai || 0) + customBaseStats.fai + addedStats.fai + (leBonus.fai || 0) + (astroBonus.fai || 0)) / 5) + 5;
 
   const addStat = (statName: StatKey): void => {
     // Comprehensive validation before adding
