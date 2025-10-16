@@ -374,6 +374,832 @@ export const AXES: Weapon[] = [
     ],
     description: "A large club with circular metal protusions. A rather brutal and heavy weapon, it is often associated with 'oni' or giants.",
     location: ["Random drops"]
+  },
+  // 5★ Weapons
+  {
+    name: "Gunbai",
+    rarity: 5,
+    weaponType: "Axe",
+    subtype: "Fan",
+    range: 1,
+    power: 8,
+    accuracy: 75,
+    critical: 0,
+    criticalDamage: 125,
+    weight: 18,
+    damageType: "Blunt",
+    scaling: [
+      {
+        type: "Basic",
+        str: 100
+      }
+    ],
+    specials: [
+      {
+        name: "Wind ATK Bonus",
+        type: "Passive",
+        description: "+5 Wind ATK."
+      },
+      {
+        name: "Wind Damage",
+        type: "OnHit",
+        description: "Deals magic Wind bonus damage equal to 50% of your Wind ATK, which ignores armor."
+      },
+      {
+        name: "Gunbai Defense Arts",
+        type: "PotentialSkill",
+        description: "Gunbai's Potential Skill. Use the Gunbai as a shield, increasing your Armor & Magic Armor by its Power against attacks from ranged weapons. This skill is only effective if the attacker is in your line of sight, and is half effective while you are Blind."
+      },
+      {
+        name: "Wind Current Reverse",
+        type: "SpecialStrike",
+        description: "Triggers after the attack hits an enemy. Deals 35 Wind armor-ignoring magic bonus damage to the target and all enemies in 3 Range around them. You gain Reflect Wind (Limited) (LV 1, 2 rounds). If Gunbai is enchanted with Feather, the attack target is also inflicted with Damage Change (Wind) (LV 1, until your next turn).",
+        triggerRate: "10% + 8% Bonus",
+        cooldown: 3
+      }
+    ],
+    description: "A solid metal fan. Commonly used for directing troops in battle, it also can act as a shield from projectile weapons, or just smash people who get too close.",
+    location: ["Random drops"]
+  },
+  {
+    name: "Highway Axe",
+    rarity: 5,
+    weaponType: "Axe",
+    range: 1,
+    power: 14,
+    accuracy: 75,
+    critical: 5,
+    criticalDamage: 125,
+    weight: 16,
+    damageType: "Slash",
+    scaling: [
+      {
+        type: "Cunning",
+        str: 70,
+        gui: 40
+      }
+    ],
+    specials: [
+      {
+        name: "Steal Success Bonus",
+        type: "Passive",
+        description: "Increases Steal's success rate by 15%."
+      },
+      {
+        name: "Pilfer",
+        type: "PotentialSkill",
+        description: "Targets one enemy within 1 Range. Messes with the target's inventory, preventing them from using items for 2 rounds. Their stuff becomes your stuff if they're dead."
+      }
+    ],
+    description: "An axe favored by highwaymen and thieves.",
+    location: ["Random drops"]
+  },
+  {
+    name: "Burngada",
+    rarity: 5,
+    weaponType: "Axe",
+    range: 1,
+    power: 13,
+    accuracy: 75,
+    critical: 0,
+    criticalDamage: 125,
+    weight: 12,
+    damageType: "Slash",
+    scaling: [
+      {
+        type: "Basic",
+        str: 100
+      }
+    ],
+    specials: [
+      {
+        name: "Fire Damage",
+        type: "OnHit",
+        description: "Deals magic Fire bonus damage equal to 50% of your Fire ATK, which ignores armor."
+      },
+      {
+        name: "Nerifian Spell Power",
+        type: "Passive",
+        description: "+10% Power to Nerifian Spells (Halved if not main weapon.)"
+      }
+    ],
+    description: "A fiery axe that just wants the world to burn.",
+    location: ["Random drops", "Metalwork (Lv4)"]
+  },
+  {
+    name: "Monster Spine",
+    rarity: 5,
+    weaponType: "Axe",
+    range: 3,
+    power: 11,
+    accuracy: 75,
+    critical: 5,
+    criticalDamage: 125,
+    weight: 22,
+    damageType: "Slash",
+    scaling: [
+      {
+        type: "Finesse",
+        str: 70,
+        ski: 30
+      }
+    ],
+    specials: [
+      {
+        name: "Bloodhunt Synergy",
+        type: "Passive",
+        description: "If enchanted with Bloodhunt, grants access to Overhead Spinecrush and Sweeping Spinecrush (basic attacks that hit a small area)."
+      },
+      {
+        name: "Night Hunter",
+        type: "Passive",
+        description: "If enchanted with Bloodhunt, gain Visceral Strike skill, and when you take non-status, non-field damage from an enemy, applies or powers up Blood Strike LV X (X = 50% of damage taken, max 100) for 2 rounds. A Night Hunter weapon which hits an enemy with a basic attack draws the blood you lost back in, consuming Blood Strike and restoring HP equal to its LV."
+      },
+      {
+        name: "Staggering Critical",
+        type: "OnCrit",
+        description: "Critical hits apply or power up Stagger LV 1 (max LV: 5) to the target for 5 rounds. (Stagger reduces Hit by LV x 2 and Parry activation chance by LV x 2%.)"
+      }
+    ],
+    description: "This gorey weapon seems to resemble a monster's spine. Not fresh from the monster, of course, and perhaps it's just a passing resemblance. But the hunter who uses this unusual weapon would come from strange blood, to be sure.",
+    location: ["Random drops"]
+  },
+  // 6★ Weapons
+  {
+    name: "Excel Parashu",
+    rarity: 6,
+    weaponType: "Axe",
+    range: 1,
+    power: 12,
+    accuracy: 75,
+    critical: 0,
+    criticalDamage: 125,
+    weight: 22,
+    damageType: "Slash",
+    scaling: [
+      {
+        type: "Basic",
+        str: 100
+      }
+    ],
+    specials: [
+      {
+        name: "Charge Consumption",
+        type: "OnHit",
+        description: "Consumes Weapon Charges, dealing 50% more damage per Charge Level."
+      },
+      {
+        name: "Charge Weapon",
+        type: "GrantsSkill",
+        description: "Rev your weapon and fill it with focus, increasing its Charge, to a maximum of level 3. When you hit with a weapon that can consume Weapon Charges, the damage you deal with that attack will increase by 50% per level. (Weapon Charges will expire after 5 rounds.)",
+        momentumCost: 3,
+        fpCost: 5
+      },
+      {
+        name: "Elite Engine",
+        type: "PotentialSkill",
+        description: "Charge Weapon FP cost is increased to 8 FP. Attacks do not use up all of your charges, instead the LV is reduced by 1, and the damage bonus is 35% (does not increase with charge amount like normal Excel attacks)."
+      }
+    ],
+    description: "The Excel line of weapons were developed in Chaturanga, where the ability to be defensive while increasing offensive capabilities was highly valued. By charging up the weapon, it can explosively spend the focus energy when it strikes an enemy, greatly increasing damage. However, the engine module makes it heavier than other weapons.",
+    location: ["Random drops"]
+  },
+  {
+    name: "Evil Club",
+    rarity: 6,
+    weaponType: "Axe",
+    subtype: "Club",
+    range: 1,
+    power: 15,
+    accuracy: 75,
+    critical: 0,
+    criticalDamage: 125,
+    weight: 15,
+    damageType: "Blunt",
+    scaling: [
+      {
+        type: "Darkness",
+        str: 70,
+        res: 40
+      }
+    ],
+    specials: [
+      {
+        name: "Darkness Damage",
+        type: "OnHit",
+        description: "Deals magic Darkness bonus damage equal to 50% of your Darkness ATK, which ignores armor."
+      }
+    ],
+    description: "This is an evil club. The weapon kind. Not the type of one you join where girls aren't allowed.",
+    location: ["Random drops"]
+  },
+  {
+    name: "Baphomet Offering",
+    rarity: 6,
+    weaponType: "Axe",
+    subtype: "Greataxe",
+    range: 1,
+    power: 12,
+    accuracy: 75,
+    critical: 15,
+    criticalDamage: 125,
+    weight: 20,
+    damageType: "Slash",
+    scaling: [
+      {
+        type: "Darkness",
+        str: 70,
+        res: 40
+      }
+    ],
+    specials: [
+      {
+        name: "Baphomet's Power",
+        type: "OnBattleStart",
+        description: "Grants Baphomet's Strength (+5 STR, +10 Dark ATK) for 5 rounds. When it expires, inflicts Baphomet's Hunger (HP healing is negated.) for the rest of the battle."
+      },
+      {
+        name: "Bloodlet",
+        type: "GrantsSkill",
+        description: "Sacrifice life essence in the form of 15 HP to the Baphomet Offering, removing Baphomet's Hunger and reapplying Baphomet's Strength. (Yes, it works even if you don't have blood.)",
+        momentumCost: 1
+      },
+      {
+        name: "Maou",
+        type: "SpecialStrike",
+        description: "Triggers after the attack hits an enemy. Unleashes flames around the target, dealing 40 Fire magic bonus damage that ignores armor to the target and all other enemies within 2 Range.",
+        triggerRate: "10% + 8% Bonus",
+        cooldown: 2
+      }
+    ],
+    description: "A tribal axe engraved with a goat-headed god. Rituals have left it powerful, but demanding.",
+    location: ["Random drops"]
+  },
+  // 7★ Weapons
+  {
+    name: "Vampire Bat",
+    rarity: 7,
+    weaponType: "Axe",
+    range: 1,
+    power: 14,
+    accuracy: 75,
+    critical: -5,
+    criticalDamage: 125,
+    weight: 15,
+    damageType: "Blunt",
+    scaling: [
+      {
+        type: "Vampiric",
+        str: 80,
+        vit: 30
+      }
+    ],
+    specials: [
+      {
+        name: "Vampiric",
+        type: "Passive",
+        description: "Vampiric (10%) (Basic attacks only)."
+      },
+      {
+        name: "Darkness Damage",
+        type: "OnHit",
+        description: "Deals magic Darkness bonus damage equal to 50% of your Darkness ATK, which ignores armor."
+      }
+    ],
+    description: "Punish your enemies. Getting hit with this will really suck. Just hope they don't up the stakes in return.",
+    location: ["Random drops"]
+  },
+  {
+    name: "Magical Sun",
+    rarity: 7,
+    weaponType: "Axe",
+    range: 1,
+    power: 15,
+    accuracy: 75,
+    critical: 0,
+    criticalDamage: 125,
+    weight: 16,
+    damageType: "Slash",
+    scaling: [
+      {
+        type: "Magical",
+        str: 70,
+        wil: 40
+      }
+    ],
+    specials: [
+      {
+        name: "Spelledge",
+        type: "Passive",
+        description: "This weapon can be used as a casting tool for spells."
+      }
+    ],
+    description: "The whole world will revolve around you. Will not help you transform, however.",
+    location: ["Random drops", "Metalwork (Lv5)"]
+  },
+  {
+    name: "Sea Hunter Axe",
+    rarity: 7,
+    weaponType: "Axe",
+    range: 1,
+    power: 16,
+    accuracy: 75,
+    critical: 7,
+    criticalDamage: 125,
+    weight: 14,
+    damageType: "Slash",
+    scaling: [
+      {
+        type: "Aquatic",
+        str: 70,
+        vit: 40
+      }
+    ],
+    specials: [
+      {
+        name: "Hunter's Mark",
+        type: "OnHit",
+        description: "Inflicts Hunted LV14 for 3 rounds if the target is a seafaring monster."
+      },
+      {
+        name: "Coral Material",
+        type: "Passive",
+        description: "Always comes made of Coral (+1 Power, +3 Accuracy, +3 Critical, +1 Weight, +3 Water ATK.)"
+      }
+    ],
+    description: "This axe was born from the sea, and as anyone who lives there knows, anything that lives in the sea is out to get everything else... that lives in the sea.",
+    location: ["Fishing Contest Chest"]
+  },
+  {
+    name: "Electric Axe",
+    rarity: 7,
+    weaponType: "Axe",
+    range: 1,
+    power: 12,
+    accuracy: 75,
+    critical: 0,
+    criticalDamage: 125,
+    weight: 10,
+    damageType: "Lightning",
+    scaling: [
+      {
+        type: "Electrical",
+        str: 70,
+        luc: 40
+      }
+    ],
+    specials: [
+      {
+        name: "Sound Shockwave",
+        type: "OnCrit",
+        description: "Inflicts unresistable Sound damage to all enemies in 3 Range equal to this weapon's Power * 2."
+      },
+      {
+        name: "Nefarious Riff",
+        type: "PotentialSkill",
+        description: "Plays a riff off the guitar, surrounding you with electrical bats for 5 rounds. While active, attackers will take Lightning magic damage equal to Electric Axe's UL if they hit you. You can reactive the skill to send the bats flying at all enemies, ending the effect but dealing Lightning magic damage equal to your Lightning ATK + Sound ATK + Electric Axe's SWA."
+      }
+    ],
+    description: "This is the non-traditional version of an axe, which is the instrument. When filled with focus, it generates electricity and sick-nasty shreds.",
+    location: ["Random drops"]
+  },
+  {
+    name: "Labrys",
+    rarity: 7,
+    weaponType: "Axe",
+    range: 1,
+    power: 14,
+    accuracy: 75,
+    critical: 0,
+    criticalDamage: 125,
+    weight: 18,
+    damageType: "Slash",
+    scaling: [
+      {
+        type: "Basic",
+        str: 100
+      }
+    ],
+    specials: [
+      {
+        name: "Charge Consumption",
+        type: "OnHit",
+        description: "Consumes Weapon Charges, dealing 50% more damage per Charge Level."
+      },
+      {
+        name: "Immovable",
+        type: "Passive",
+        description: "While you have a Weapon Charge(s), and this is your main hand weapon: Gain immunity to knockback and pull effects."
+      },
+      {
+        name: "Retaliating Charge",
+        type: "PotentialSkill",
+        description: "Grants a 10% chance to activate Charge Weapon skill automatically when you take non-bonus, non-field, non-status damage from an enemy."
+      }
+    ],
+    description: "A heavy axe that fuels itself on focus. Much like the stone walls of a maze, the deeper you get, the harder it is to escape.",
+    location: ["Random drops"]
+  },
+  // 8★ Weapons
+  {
+    name: "Ramarg",
+    rarity: 8,
+    weaponType: "Axe",
+    range: 1,
+    power: 11,
+    accuracy: 75,
+    critical: 0,
+    criticalDamage: 125,
+    weight: 6,
+    damageType: "Slash",
+    scaling: [
+      {
+        type: "Earthen",
+        str: 70,
+        def: 40
+      }
+    ],
+    specials: [
+      {
+        name: "Wind Substitution",
+        type: "OnHit",
+        description: "Replaces your Wind ATK with the target's for 2 rounds."
+      },
+      {
+        name: "Sky's Call",
+        type: "PotentialSkill",
+        description: "Requires Substitute Wind ATK to be active. Consumes the status by the weapon, deals 20 armor-ignoring Wind Kickback Damage to you, curing Glowing effects you suffer from, and deals Wind magic damage ignores Reflect, Immunity, and Absorb) equal to 100% of Ramarg's Scaled Weapon Attack + 100% of the Substitute Wind ATK from its effect to all enemies in a 3 Size Circle around you. You and all damaged enemies are knocked airborne. 3 round CD.",
+        cooldown: 3
+      }
+    ],
+    description: "An axe said to be designed in a land far across the ocean.",
+    location: ["Random drops"]
+  },
+  {
+    name: "Nirvana Replica",
+    rarity: 8,
+    weaponType: "Axe",
+    range: 1,
+    power: 19,
+    accuracy: 75,
+    critical: 0,
+    criticalDamage: 125,
+    weight: 20,
+    damageType: "Slash",
+    scaling: [
+      {
+        type: "Replica",
+        str: 70,
+        ski: 20,
+        san: 20
+      }
+    ],
+    specials: [
+      {
+        name: "Divine Weapon",
+        type: "Passive",
+        description: "Always comes enchanted with Divine Weapon (+2 Power, +5 Accuracy, +5 Critical, -2 Weight. Unbreakable.)"
+      }
+    ],
+    description: "A replica of an axe used by an Alstalain general. It possesses extremely high power.",
+    location: ["Casino"]
+  },
+  {
+    name: "Mythslayer",
+    rarity: 8,
+    weaponType: "Axe",
+    subtype: "Greataxe",
+    range: 1,
+    power: 16,
+    accuracy: 75,
+    critical: 0,
+    criticalDamage: 125,
+    weight: 11,
+    damageType: "Slash",
+    scaling: [
+      {
+        type: "Spiritual",
+        str: 70,
+        san: 40
+      }
+    ],
+    specials: [
+      {
+        name: "Youkai Hunter",
+        type: "Passive",
+        description: "Damage dealt by this weapon's attack is increased by 25% if the target is a Youkai or installed with one."
+      },
+      {
+        name: "Fiction Reaper",
+        type: "SpecialStrike",
+        description: "Triggers before an enemy is attacked. If the target is a Youkai, the attack gains +999 Critical. If the attack hits, deals 35 Light bonus damage that ignores Armor to the target and all Youkai in their party.",
+        triggerRate: "10% + 8% Bonus",
+        cooldown: 2
+      }
+    ],
+    description: "Cuts through lies, falsehoods, and those somewhere inbetween.",
+    location: ["Random drops"]
+  },
+  {
+    name: "Lare Grystale",
+    rarity: 8,
+    weaponType: "Axe",
+    range: 1,
+    power: 10,
+    accuracy: 75,
+    critical: 0,
+    criticalDamage: 125,
+    weight: 19,
+    damageType: "Blunt",
+    scaling: [
+      {
+        type: "Basic",
+        str: 100
+      }
+    ],
+    specials: [
+      {
+        name: "Defense Bonus",
+        type: "Passive",
+        description: "+2 DEF. Also counts as a Shield."
+      }
+    ],
+    description: "A unique 'axe' that carries on it a heavy shield instead of a bladed head, atop a long pole. It would be quite useful at defending, and would probably hurt to be hit with.",
+    location: ["Random drops"]
+  },
+  // 9★ Weapons
+  {
+    name: "Citizen Slaughterer",
+    rarity: 9,
+    weaponType: "Axe",
+    range: 1,
+    power: 14,
+    accuracy: 75,
+    critical: 0,
+    criticalDamage: 125,
+    weight: 15,
+    damageType: "Slash",
+    scaling: [
+      {
+        type: "Basic",
+        str: 100
+      }
+    ],
+    specials: [
+      {
+        name: "Unarmored Bonus",
+        type: "Passive",
+        description: "Increases Scaled Weapon ATK by 20% if the target's armor type is Unarmored."
+      }
+    ],
+    description: "An axe made to kill citizens and not much else.",
+    location: ["Random drops"]
+  },
+  {
+    name: "Grand Smasher",
+    rarity: 9,
+    weaponType: "Axe",
+    subtype: "Greataxe",
+    range: 1,
+    power: 15,
+    accuracy: 75,
+    critical: 0,
+    criticalDamage: 125,
+    weight: 14,
+    damageType: "Slash",
+    scaling: [
+      {
+        type: "Basic",
+        str: 100
+      }
+    ],
+    specials: [
+      {
+        name: "Object Destruction",
+        type: "Passive",
+        description: "When you attack a field object and destroy it: Launches a projectile that travels up to 5 Range away. If it contacts an enemy, it deals Ice magic damage equal to 100% of your Ice ATK. The target is also knocked back by one tile; if they fail to move from this effect, they are knocked down instead."
+      }
+    ],
+    description: "A powerful axe that is capable of launching even the most harmless object at fast speeds.",
+    location: ["Random drops"]
+  },
+  {
+    name: "Violet Varon",
+    rarity: 9,
+    weaponType: "Axe",
+    range: 1,
+    power: 9,
+    accuracy: 75,
+    critical: 0,
+    criticalDamage: 125,
+    weight: 14,
+    damageType: "Slash",
+    scaling: [
+      {
+        type: "Basic",
+        str: 100
+      }
+    ],
+    specials: [
+      {
+        name: "Dual Type",
+        type: "Passive",
+        description: "Also qualifies as a Sword weapon."
+      }
+    ],
+    description: "This purple weapon is similar to a polearm, but seems to be an odd fusion of an axehead and a sharp sword.",
+    location: ["Random drops"]
+  },
+  {
+    name: "Sky Mantis Scythe",
+    rarity: 9,
+    weaponType: "Axe",
+    subtype: "Scythe",
+    range: 1,
+    power: 8,
+    accuracy: 90,
+    critical: 0,
+    criticalDamage: 125,
+    weight: 5,
+    damageType: "Slash",
+    scaling: [
+      {
+        type: "Sylphid",
+        str: 70,
+        cel: 40
+      }
+    ],
+    specials: [
+      {
+        name: "Airborne Efficiency",
+        type: "Passive",
+        description: "Airborne basic attacks with this weapon cost 1M less (to a minimum of 1M)."
+      }
+    ],
+    description: "Made from a flying insect native to Alstalsia. Its lightweight makes it less destructive than most axes, but faster.",
+    location: ["Random drops"]
+  },
+  {
+    name: "Sheer Cold",
+    rarity: 9,
+    weaponType: "Axe",
+    range: 1,
+    power: 15,
+    accuracy: 80,
+    critical: 10,
+    criticalDamage: 125,
+    weight: 10,
+    damageType: "Slash",
+    scaling: [
+      {
+        type: "Cold",
+        str: 70,
+        ski: 40
+      }
+    ],
+    specials: [
+      {
+        name: "Frozen Preservation",
+        type: "Passive",
+        description: "Damage dealt by this weapon reduces enemies' Frozen LV by 50% of its normal reduction."
+      },
+      {
+        name: "Sheer Freeze",
+        type: "SpecialStrike",
+        description: "Triggers after the attack hits an enemy. Deals 35 Ice armor-ignoring magic bonus damage to the target, and inflicts them with Frozen (LV 50, until your next turn).",
+        triggerRate: "10% + 8% Bonus"
+      }
+    ],
+    description: "Made from a flying insect native to Alstalsia. Its lightweight makes it less destructive than most axes, but faster.",
+    location: ["Random drops", "Loyrwell Tombs"]
+  },
+  // 10★ Weapons
+  {
+    name: "Skullcaver",
+    rarity: 10,
+    weaponType: "Axe",
+    subtype: "Club",
+    range: 1,
+    power: 17,
+    accuracy: 75,
+    critical: 10,
+    criticalDamage: 125,
+    weight: 15,
+    damageType: "Blunt",
+    scaling: [
+      {
+        type: "Basic",
+        str: 100
+      }
+    ],
+    specials: [
+      {
+        name: "Stunning Critical",
+        type: "OnCrit",
+        description: "(UL/2)% chance to inflict Stun."
+      }
+    ],
+    description: "This magical weapon possesses a unique function; turning heads into caverns.",
+    location: ["Bandit Bruiser (Lv56+)"]
+  },
+  {
+    name: "Anchor Edge",
+    rarity: 10,
+    weaponType: "Axe",
+    range: 1,
+    power: 18,
+    accuracy: 80,
+    critical: 10,
+    criticalDamage: 125,
+    weight: 22,
+    damageType: "Slash",
+    scaling: [
+      {
+        type: "Aquatic",
+        str: 70,
+        vit: 40
+      }
+    ],
+    specials: [
+      {
+        name: "Size Increase",
+        type: "Passive",
+        description: "Attack size increases by 1 per 12 UL."
+      },
+      {
+        name: "Anchor Pull",
+        type: "AfterAttack",
+        description: "Enemies in the attack line are pulled (UL/12) tiles towards you."
+      }
+    ],
+    description: "This large anchor barely qualifies as an axe, although its edge is quite sharp. Tales say that it was used on a ship that sailed the seas of Hell.",
+    location: ["Fangs (Lv56+)"]
+  },
+  {
+    name: "Pillawag",
+    rarity: 10,
+    weaponType: "Axe",
+    range: 1,
+    power: 16,
+    accuracy: 80,
+    critical: 0,
+    criticalDamage: 125,
+    weight: 22,
+    damageType: "Slash",
+    scaling: [
+      {
+        type: "Finesse",
+        str: 70,
+        ski: 30
+      }
+    ],
+    specials: [
+      {
+        name: "Wide Attack",
+        type: "Passive",
+        description: "Attacks in a 3 Range wide line and does not need an attack target."
+      },
+      {
+        name: "Pillage",
+        type: "OnAttack",
+        description: "Attacking will pillage all tiles in the attack range, removing all special tiles from them and preventing new ones from being created there for (UL/3) rounds."
+      },
+      {
+        name: "Rampaging Enchantment",
+        type: "Passive",
+        description: "Always comes enchanted with Rampaging (On Hit: Inflicts a status that reduces the target's Defense by 25% of the enchanted weapon's Power (or powers up an existing status by the same amount (max Power*0.5) and increases duration by 1 (max 2).) Lasts 2 rounds.)"
+      }
+    ],
+    description: "Lost to the ages, this axe was used by barbarians to raid villages, until civilization fixed the barbarian problem. The axe still does its job.",
+    location: ["Spatial Ravager (Lv56+)"]
+  },
+  {
+    name: "Noble Axe",
+    rarity: 10,
+    weaponType: "Axe",
+    range: 1,
+    power: 18,
+    accuracy: 85,
+    critical: 0,
+    criticalDamage: 125,
+    weight: 13,
+    damageType: "Slash",
+    scaling: [
+      {
+        type: "Magical",
+        str: 70,
+        wil: 40
+      }
+    ],
+    specials: [
+      {
+        name: "Chivalrous Bonus",
+        type: "Passive",
+        description: "When attacking an enemy from the front, while your party does not outnumber theirs: Increases Power and Critical by UL/2."
+      }
+    ],
+    description: "An axe typically used by knights in the field of combat, it shines with the silvery sheen of chivalry.",
+    location: ["Headless Knight (Lv56+)"]
   }
 ];
 
