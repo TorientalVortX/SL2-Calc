@@ -888,6 +888,7 @@ export default function SL2Calculator() {
     
     return effective + (remaining * multiplier);
   };
+  
 
   const getAptitudeBonus = (): number => {
     const subraceData = SUBRACES[subrace];
@@ -1009,8 +1010,8 @@ export default function SL2Calculator() {
     const subraceData = SUBRACES[subrace];
     const classData = CLASSES[mainClass];
     
-    // Now only subrace provides stat bonuses, race provides special flags only
-    const racialValue = (subraceData?.[statName] || 0) + customBaseStats[statName] + (karakuriYoukaiBonus[statName] || 0);
+    // Legend Extend is treated as a base stat (affects soft cap)
+    const racialValue = (subraceData?.[statName] || 0) + customBaseStats[statName] + (karakuriYoukaiBonus[statName] || 0) + (leBonus[statName] || 0);
     const stampValue = statName in stamps ? (stamps[statName as StampKey] || 0) : 0;
     
     // Sanguine Crest only affects STR, WIL, SKI, CEL, DEF
@@ -1037,8 +1038,7 @@ export default function SL2Calculator() {
       + sanguineBonusForStat
       + powerOfNormalcyBonus
       + (risingGameBonus[statName] || 0)
-      + (combinedPassiveBonuses[statName] || 0)
-      + (leBonus[statName] || 0); // Legend Extend now added BEFORE diminishing returns
+      + (combinedPassiveBonuses[statName] || 0);
     
     const classValue = classData?.[statName] || 0;
     const customValue = customStats[statName];
@@ -1050,7 +1050,6 @@ export default function SL2Calculator() {
     const aptBonusToApply = statName === 'apt' ? 0 : aptitudeBonus;
     const effective = calculateDiminishingReturns(racialValue, addedValue, classValue, customValue, aptBonusToApply, dragonBonus);
     
-    // Legend Extend bonuses now included in addedValue before diminishing returns
     return effective;
   };
 
@@ -1058,8 +1057,8 @@ export default function SL2Calculator() {
     const subraceData = SUBRACES[subrace];
     const classData = CLASSES[mainClass];
     
-    // Raw stat is the total before diminishing returns are applied
-    const racialValue = (subraceData?.[statName] || 0) + customBaseStats[statName] + (karakuriYoukaiBonus[statName] || 0);
+    // Legend Extend is treated as a base stat (affects soft cap)
+    const racialValue = (subraceData?.[statName] || 0) + customBaseStats[statName] + (karakuriYoukaiBonus[statName] || 0) + (leBonus[statName] || 0);
     const stampValue = statName in stamps ? (stamps[statName as StampKey] || 0) : 0;
     
     // Sanguine Crest only affects STR, WIL, SKI, CEL, DEF
@@ -1086,8 +1085,7 @@ export default function SL2Calculator() {
       + sanguineBonusForStat
       + powerOfNormalcyBonus
       + (risingGameBonus[statName] || 0)
-      + (combinedPassiveBonuses[statName] || 0)
-      + (leBonus[statName] || 0);
+      + (combinedPassiveBonuses[statName] || 0);
     
     const classValue = (classData?.[statName] || 0) * monoclassModifier;
     const customValue = customStats[statName];
