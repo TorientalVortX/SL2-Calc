@@ -15,3 +15,40 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* Mobile-specific utilities */
+@layer utilities {
+  .touch-action-manipulation {
+    touch-action: manipulation;
+  }
+  
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Better tap targets for mobile */
+  .tap-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Mobile viewport adjustments */
+@media (max-width: 640px) {
+  html {
+    font-size: 14px;
+  }
+  
+  /* Ensure dropdowns don't overflow on mobile */
+  .hierarchical-class-selector .absolute {
+    position: fixed !important;
+    left: 1rem !important;
+    right: 1rem !important;
+    width: auto !important;
+  }
+}
