@@ -4,7 +4,7 @@
  */
 
 import { useState, useRef, useEffect } from 'react';
-import { Plus, Minus, RotateCcw, Settings, Utensils, BookOpen, Download, Upload, Copy } from 'lucide-react';
+import { Plus, Minus, RotateCcw, Settings, Utensils, BookOpen, Download, Upload, Copy, StarIcon } from 'lucide-react';
 import WeaponCalculator from './WeaponCalculator';
 import type {
   StatKey,
@@ -1701,9 +1701,9 @@ export default function SL2Calculator() {
     ].filter(Boolean).join('\n');
 
     return (
-      <div className="flex items-center gap-2 py-2 border-b border-gray-700">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 py-2 border-b border-gray-700">
         <button 
-          className="w-24 font-semibold text-left hover:underline cursor-pointer" 
+          className="w-full sm:w-24 font-semibold text-left hover:underline cursor-pointer text-sm sm:text-base" 
           style={isRainbow ? {
             background: 'linear-gradient(45deg, #ff0000, #ff8000, #ffff00, #80ff00, #00ff00, #00ff80, #00ffff, #0080ff, #0000ff, #8000ff, #ff00ff, #ff0080)',
             WebkitBackgroundClip: 'text',
@@ -1718,123 +1718,125 @@ export default function SL2Calculator() {
         >
           {label}
         </button>
-        <button
-          onClick={() => removeStat(statKey)}
-          disabled={addedStats[statKey] === 0}
-          className="p-1 bg-red-600 hover:bg-red-700 disabled:bg-gray-700 disabled:cursor-not-allowed rounded"
-          title="Remove 1 point"
-        >
-          <Minus size={16} />
-        </button>
-        <button
-          onClick={() => addStat(statKey)}
-          disabled={(() => {
-            if (totalPoints === 0) return true;
-            
-            // Calculate current bonuses for this stat using same logic as addStat
-            // Class stats do NOT count toward the hard cap
-            const subraceData = SUBRACES[subrace];
-            const raceBase = subraceData?.[statKey] || 0;
-            const customBase = customBaseStats[statKey];
-            const legendExtendBonus = leBonus[statKey] || 0;
-            const currentHistoryBonus = (historyBonus as any)[statKey] || 0;
-            
-            const totalBase = raceBase + customBase;
-            const maxAllowedManualPoints = 80 - totalBase - legendExtendBonus - currentHistoryBonus;
-            
-            return addedStats[statKey] >= maxAllowedManualPoints;
-          })()}
-          className="p-1 bg-green-600 hover:bg-green-700 disabled:bg-gray-700 disabled:cursor-not-allowed rounded"
-          title={(() => {
-            const subraceData = SUBRACES[subrace];
-            const raceBase = subraceData?.[statKey] || 0;
-            const customBase = customBaseStats[statKey];
-            const legendExtendBonus = leBonus[statKey] || 0;
-            const currentHistoryBonus = (historyBonus as any)[statKey] || 0;
-            
-            const totalBase = raceBase + customBase;
-            const maxAllowedManualPoints = 80 - totalBase - legendExtendBonus - currentHistoryBonus;
-            
-            return addedStats[statKey] >= maxAllowedManualPoints ? 
-              `Hard cap reached (max ${maxAllowedManualPoints} manual points with race+custom base ${totalBase} + LE ${legendExtendBonus} + History ${currentHistoryBonus})` : 
-              "Add 1 point";
-          })()}
-        >
-          <Plus size={16} />
-        </button>
-        <input
-          ref={(el) => { if (el) inputRefs.current[statKey] = el; }}
-          type="number"
-          min="0"
-          max={(() => {
-            // Class stats do NOT count toward the hard cap
-            const subraceData = SUBRACES[subrace];
-            const raceBase = subraceData?.[statKey] || 0;
-            const customBase = customBaseStats[statKey];
-            const legendExtendBonus = leBonus[statKey] || 0;
-            const currentHistoryBonus = (historyBonus as any)[statKey] || 0;
-            
-            const totalBase = raceBase + customBase;
-            return 80 - totalBase - legendExtendBonus - currentHistoryBonus;
-          })()}
-          defaultValue={pointsAdded}
-          key={`${statKey}-${pointsAdded}`} // Force reset when points change via +/- buttons
-          onInput={(e) => {
-            // Visual feedback while typing
-            const input = e.currentTarget;
-            const value = parseInt(input.value) || 0;
-            
-            // Calculate dynamic hard cap
-            // Class stats do NOT count toward the hard cap
-            const subraceData = SUBRACES[subrace];
-            const raceBase = subraceData?.[statKey] || 0;
-            const customBase = customBaseStats[statKey];
-            const legendExtendBonus = leBonus[statKey] || 0;
-            const currentHistoryBonus = (historyBonus as any)[statKey] || 0;
-            
-            const totalBase = raceBase + customBase;
-            const maxAllowedManualPoints = 80 - totalBase - legendExtendBonus - currentHistoryBonus;
-            
-            // Basic range validation during typing (dynamic hard cap)
-            if (value < 0) {
-              input.value = '0';
-            } else if (value > maxAllowedManualPoints) {
-              input.value = maxAllowedManualPoints.toString();
-            }
-            
-            // Visual feedback
-            input.style.backgroundColor = '#92400e'; // Yellow-900
-            input.style.borderColor = '#d97706'; // Yellow-600
-            input.style.color = '#fef3c7'; // Yellow-200
-          }}
-          onBlur={(e) => {
-            commitStatValue(statKey, e.currentTarget);
-          }}
-          onKeyPress={(e) => {
-            if (e.key === 'Enter') {
-              commitStatValue(statKey, e.currentTarget);
-              e.currentTarget.blur();
-            }
-          }}
-          className="w-16 border rounded px-2 py-1 text-center bg-gray-700 border-gray-600"
-          title="Type number and press Enter or click away to apply"
-        />
-        <div className="flex-1 text-right">
-          <span 
-            className="text-2xl font-bold" 
-            style={isRainbow ? {
-              background: 'linear-gradient(45deg, #ff0000, #ff8000, #ffff00, #80ff00, #00ff00, #00ff80, #00ffff, #0080ff, #0000ff, #8000ff, #ff00ff, #ff0080)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text'
-            } : { color: statColor }} 
-            title={tooltipParts}
+        <div className="flex items-center gap-2 w-full sm:w-auto">
+          <button
+            onClick={() => removeStat(statKey)}
+            disabled={addedStats[statKey] === 0}
+            className="p-1 bg-red-600 hover:bg-red-700 disabled:bg-gray-700 disabled:cursor-not-allowed rounded tap-target flex-shrink-0 flex items-center justify-center"
+            title="Remove 1 point"
           >
-            {Math.floor(displayStats[statKey])}
-          </span>
-          <span className="text-sm text-gray-400 ml-2" title={`Base: ${subraceBase} (from ${subrace}) + ${customBase > 0 ? customBase + ' (custom) + ' : ''}${totalInvested} (invested points + Legend Extend + History)`}>
-            ({totalBase} + {totalInvested})
-          </span>
+            <Minus size={14} className="sm:w-4 sm:h-4" />
+          </button>
+          <button
+            onClick={() => addStat(statKey)}
+            disabled={(() => {
+              if (totalPoints === 0) return true;
+              
+              // Calculate current bonuses for this stat using same logic as addStat
+              // Class stats do NOT count toward the hard cap
+              const subraceData = SUBRACES[subrace];
+              const raceBase = subraceData?.[statKey] || 0;
+              const customBase = customBaseStats[statKey];
+              const legendExtendBonus = leBonus[statKey] || 0;
+              const currentHistoryBonus = (historyBonus as any)[statKey] || 0;
+              
+              const totalBase = raceBase + customBase;
+              const maxAllowedManualPoints = 80 - totalBase - legendExtendBonus - currentHistoryBonus;
+              
+              return addedStats[statKey] >= maxAllowedManualPoints;
+            })()}
+            className="p-1 bg-green-600 hover:bg-green-700 disabled:bg-gray-700 disabled:cursor-not-allowed rounded tap-target flex-shrink-0 flex items-center justify-center"
+            title={(() => {
+              const subraceData = SUBRACES[subrace];
+              const raceBase = subraceData?.[statKey] || 0;
+              const customBase = customBaseStats[statKey];
+              const legendExtendBonus = leBonus[statKey] || 0;
+              const currentHistoryBonus = (historyBonus as any)[statKey] || 0;
+              
+              const totalBase = raceBase + customBase;
+              const maxAllowedManualPoints = 80 - totalBase - legendExtendBonus - currentHistoryBonus;
+              
+              return addedStats[statKey] >= maxAllowedManualPoints ? 
+                `Hard cap reached (max ${maxAllowedManualPoints} manual points with race+custom base ${totalBase} + LE ${legendExtendBonus} + History ${currentHistoryBonus})` : 
+                "Add 1 point";
+            })()}
+          >
+            <Plus size={14} className="sm:w-4 sm:h-4" />
+          </button>
+          <input
+            ref={(el) => { if (el) inputRefs.current[statKey] = el; }}
+            type="number"
+            min="0"
+            max={(() => {
+              // Class stats do NOT count toward the hard cap
+              const subraceData = SUBRACES[subrace];
+              const raceBase = subraceData?.[statKey] || 0;
+              const customBase = customBaseStats[statKey];
+              const legendExtendBonus = leBonus[statKey] || 0;
+              const currentHistoryBonus = (historyBonus as any)[statKey] || 0;
+              
+              const totalBase = raceBase + customBase;
+              return 80 - totalBase - legendExtendBonus - currentHistoryBonus;
+            })()}
+            defaultValue={pointsAdded}
+            key={`${statKey}-${pointsAdded}`} // Force reset when points change via +/- buttons
+            onInput={(e) => {
+              // Visual feedback while typing
+              const input = e.currentTarget;
+              const value = parseInt(input.value) || 0;
+              
+              // Calculate dynamic hard cap
+              // Class stats do NOT count toward the hard cap
+              const subraceData = SUBRACES[subrace];
+              const raceBase = subraceData?.[statKey] || 0;
+              const customBase = customBaseStats[statKey];
+              const legendExtendBonus = leBonus[statKey] || 0;
+              const currentHistoryBonus = (historyBonus as any)[statKey] || 0;
+              
+              const totalBase = raceBase + customBase;
+              const maxAllowedManualPoints = 80 - totalBase - legendExtendBonus - currentHistoryBonus;
+              
+              // Basic range validation during typing (dynamic hard cap)
+              if (value < 0) {
+                input.value = '0';
+              } else if (value > maxAllowedManualPoints) {
+                input.value = maxAllowedManualPoints.toString();
+              }
+              
+              // Visual feedback
+              input.style.backgroundColor = '#92400e'; // Yellow-900
+              input.style.borderColor = '#d97706'; // Yellow-600
+              input.style.color = '#fef3c7'; // Yellow-200
+            }}
+            onBlur={(e) => {
+              commitStatValue(statKey, e.currentTarget);
+            }}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                commitStatValue(statKey, e.currentTarget);
+                e.currentTarget.blur();
+              }
+            }}
+            className="w-12 sm:w-16 border rounded px-1 sm:px-2 py-1 text-center bg-gray-700 border-gray-600 text-sm tap-target"
+            title="Type number and press Enter or click away to apply"
+          />
+          <div className="flex-1 text-right min-w-0">
+            <span 
+              className="text-lg sm:text-xl md:text-2xl font-bold" 
+              style={isRainbow ? {
+                background: 'linear-gradient(45deg, #ff0000, #ff8000, #ffff00, #80ff00, #00ff00, #00ff80, #00ffff, #0080ff, #0000ff, #8000ff, #ff00ff, #ff0080)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text'
+              } : { color: statColor }} 
+              title={tooltipParts}
+            >
+              {Math.floor(displayStats[statKey])}
+            </span>
+            <span className="text-xs sm:text-sm text-gray-400 ml-1 sm:ml-2 hidden xs:inline" title={`Base: ${subraceBase} (from ${subrace}) + ${customBase > 0 ? customBase + ' (custom) + ' : ''}${totalInvested} (invested points + Legend Extend + History)`}>
+              ({totalBase} + {totalInvested})
+            </span>
+          </div>
         </div>
       </div>
     );
@@ -1881,21 +1883,21 @@ export default function SL2Calculator() {
         {/* Selected class display */}
         <div 
           onClick={() => setShowDropdown(!showDropdown)}
-          className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 cursor-pointer hover:bg-gray-600 flex justify-between items-center"
+          className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 cursor-pointer hover:bg-gray-600 flex justify-between items-center text-sm md:text-base tap-target"
         >
-          <div className="flex flex-col">
-            <span className="text-white">{selectedClass}</span>
+          <div className="flex flex-col min-w-0">
+            <span className="text-white truncate">{selectedClass}</span>
             {selectedClass !== selectedBaseClass && (
-              <span className="text-xs text-gray-400">from {selectedBaseClass}</span>
+              <span className="text-xs text-gray-400 truncate">from {selectedBaseClass}</span>
             )}
           </div>
-          <span className="text-gray-400">▼</span>
+          <span className="text-gray-400 ml-2 flex-shrink-0">▼</span>
         </div>
 
         {/* Dropdown menu */}
         {showDropdown && (
-          <div className="absolute z-50 w-full mt-1 bg-gray-800 border border-gray-600 rounded shadow-lg max-h-80 overflow-y-auto">
-            <div className="px-3 py-2 text-xs text-gray-400 bg-gray-900 border-b border-gray-700">
+          <div className="absolute z-50 w-full mt-1 bg-gray-800 border border-gray-600 rounded shadow-lg max-h-60 sm:max-h-80 overflow-y-auto">
+            <div className="px-3 py-2 text-xs text-gray-400 bg-gray-900 border-b border-gray-700 sticky top-0">
               💡 Select a base class or its promotion class
             </div>
             {Object.entries(CLASS_HIERARCHY).map(([baseClassName, baseClassData]) => (
@@ -2039,19 +2041,19 @@ export default function SL2Calculator() {
   const elements = ['Fire', 'Ice', 'Wind', 'Earth', 'Dark', 'Water', 'Light', 'Lightning', 'Acid', 'Sound'];
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
+    <div className="min-h-screen bg-gray-900 text-white p-2 sm:p-4 md:p-6">
       <div className="max-w-6xl mx-auto">
-        <div className="bg-gray-800 rounded-lg shadow-xl p-6 mb-6">
-          <div className="flex justify-between items-center mb-6">
-            <h1 className="text-3xl font-bold">SL2 Calculator Suite</h1>
-            <div className="text-sm text-gray-400">Version 0.4.0a</div>
+        <div className="bg-gray-800 rounded-lg shadow-xl p-3 sm:p-4 md:p-6 mb-4 md:mb-6">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 md:mb-6 gap-2">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold">SL2 Calculator Suite</h1>
+            <div className="text-xs sm:text-sm text-gray-400">Version 0.4.0a</div>
           </div>
 
           {/* Tab Navigation */}
-          <div className="flex gap-2 mb-6 border-b border-gray-700">
+          <div className="flex gap-1 sm:gap-2 mb-4 md:mb-6 border-b border-gray-700 overflow-x-auto scrollbar-hide">
             <button
               onClick={() => setActiveTab('stats')}
-              className={`px-6 py-3 font-semibold transition-colors ${
+              className={`px-3 sm:px-4 md:px-6 py-2 md:py-3 font-semibold transition-colors whitespace-nowrap text-sm md:text-base tap-target ${
                 activeTab === 'stats'
                   ? 'border-b-2 border-blue-500 text-blue-400'
                   : 'text-gray-400 hover:text-gray-200'
@@ -2061,7 +2063,7 @@ export default function SL2Calculator() {
             </button>
             <button
               onClick={() => setActiveTab('weapon')}
-              className={`px-6 py-3 font-semibold transition-colors ${
+              className={`px-3 sm:px-4 md:px-6 py-2 md:py-3 font-semibold transition-colors whitespace-nowrap text-sm md:text-base tap-target ${
                 activeTab === 'weapon'
                   ? 'border-b-2 border-yellow-500 text-yellow-400'
                   : 'text-gray-400 hover:text-gray-200'
@@ -2071,7 +2073,7 @@ export default function SL2Calculator() {
             </button>
             <button
               onClick={() => setActiveTab('optimizer')}
-              className={`px-6 py-3 font-semibold transition-colors ${
+              className={`px-3 sm:px-4 md:px-6 py-2 md:py-3 font-semibold transition-colors whitespace-nowrap text-sm md:text-base tap-target ${
                 activeTab === 'optimizer'
                   ? 'border-b-2 border-green-500 text-green-400'
                   : 'text-gray-400 hover:text-gray-200'
@@ -2084,13 +2086,13 @@ export default function SL2Calculator() {
           {/* Stat Calculator Tab */}
           {activeTab === 'stats' && (
             <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-4 md:mb-6">
             <div>
               <label className="block text-sm font-medium mb-2">Race Category</label>
               <select
                 value={race}
                 onChange={(e) => handleRaceChange(e.target.value)}
-                className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2"
+                className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-sm md:text-base tap-target"
               >
                 {Object.keys(RACES).map(r => (
                   <option key={r} value={r}>{r}</option>
@@ -2103,7 +2105,7 @@ export default function SL2Calculator() {
               <select
                 value={subrace}
                 onChange={(e) => handleSubraceChange(e.target.value)}
-                className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2"
+                className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-sm md:text-base tap-target"
               >
                 {getAvailableSubraces().map(sr => (
                   <option key={sr} value={sr}>{sr}</option>
@@ -2113,11 +2115,11 @@ export default function SL2Calculator() {
               {/* Karakuri Youkai Selection */}
               {subrace === 'Karakuri' && (
                 <div className="mt-2">
-                  <label className="block text-sm font-medium mb-1 text-purple-400">Youkai Binding</label>
+                  <label className="block text-xs sm:text-sm font-medium mb-1 text-purple-400">Youkai Binding</label>
                   <select
                     value={karakuriYoukai}
                     onChange={(e) => setKarakuriYoukai(e.target.value)}
-                    className="w-full bg-purple-900 border border-purple-600 rounded px-3 py-1 text-sm"
+                    className="w-full bg-purple-900 border border-purple-600 rounded px-2 sm:px-3 py-1 text-xs sm:text-sm tap-target"
                   >
                     <option value="None">None</option>
                     <option value="Avian">Avian (+3 GUI, +2 CEL, -3 WIL, -2 DEF)</option>
@@ -2283,71 +2285,72 @@ export default function SL2Calculator() {
   </div>
 )}
 
-          <div className="flex justify-between items-center mb-4 flex-wrap gap-2">
-            <div className="text-xl font-semibold">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 flex-wrap gap-2">
+            <div className="text-base sm:text-lg md:text-xl font-semibold">
               Points Remaining: <span className="text-yellow-400">{totalPoints}</span>
-              {monoclassModifier === 2 && <span className="ml-2 text-sm text-purple-400">(Monoclass x2)</span>}
+              {monoclassModifier === 2 && <span className="ml-2 text-xs sm:text-sm text-purple-400">(Monoclass x2)</span>}
             </div>
-            <div className="flex gap-2 flex-wrap">
+            <div className="flex gap-1 sm:gap-2 flex-wrap w-full sm:w-auto">
               <button
                 onClick={() => setShowFood(!showFood)}
-                className="flex items-center gap-2 bg-green-600 hover:bg-green-700 px-3 py-2 rounded text-sm transition-colors"
+                className="flex items-center justify-center bg-green-600 hover:bg-green-700 px-2 sm:px-3 py-2 rounded text-xs sm:text-sm transition-colors tap-target"
               >
-                <Utensils size={16} />
-                Food
+                <Utensils size={16} className="sm:w-4 sm:h-4" />
+                <span className="hidden sm:inline ml-1.5">Food</span>
               </button>
               <button
                 onClick={() => setShowStamps(!showStamps)}
-                className="flex items-center gap-2 bg-yellow-600 hover:bg-yellow-700 px-3 py-2 rounded text-sm transition-colors"
+                className="flex items-center justify-center bg-yellow-600 hover:bg-yellow-700 px-2 sm:px-3 py-2 rounded text-xs sm:text-sm transition-colors tap-target"
               >
-                <BookOpen size={16} />
-                History
+                <BookOpen size={16} className="sm:w-4 sm:h-4" />
+                <span className="hidden sm:inline ml-1.5">History</span>
               </button>
               <button
                 onClick={() => setShowTalents(!showTalents)}
-                className="flex items-center gap-2 bg-orange-600 hover:bg-orange-700 px-3 py-2 rounded text-sm transition-colors"
+                className="flex items-center justify-center bg-orange-600 hover:bg-orange-700 px-2 sm:px-3 py-2 rounded text-xs sm:text-sm transition-colors tap-target"
               >
-                Talents
+                <StarIcon size={16} className="sm:w-4 sm:h-4" />
+                <span className="hidden sm:inline ml-1.5">Talents</span>
               </button>
               <button
                 onClick={() => setShowAdvanced(!showAdvanced)}
-                className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 px-3 py-2 rounded text-sm transition-colors"
+                className="flex items-center justify-center bg-purple-600 hover:bg-purple-700 px-2 sm:px-3 py-2 rounded text-xs sm:text-sm transition-colors tap-target"
               >
-                <Settings size={16} />
-                Advanced
+                <Settings size={16} className="sm:w-4 sm:h-4" />
+                <span className="hidden sm:inline ml-1.5">Advanced</span>
               </button>
               <button
                 onClick={() => setShowImportExport(!showImportExport)}
-                className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 px-3 py-2 rounded text-sm transition-colors"
+                className="flex items-center justify-center bg-indigo-600 hover:bg-indigo-700 px-2 sm:px-3 py-2 rounded text-xs sm:text-sm transition-colors tap-target"
               >
-                <Download size={16} />
-                Import/Export
+                <Download size={16} className="sm:w-4 sm:h-4" />
+                <span className="hidden sm:inline ml-1.5">Import/Export</span>
               </button>
               <button
                 onClick={resetStats}
-                className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded text-sm transition-colors"
+                className="flex items-center justify-center bg-blue-600 hover:bg-blue-700 px-2 sm:px-3 py-2 rounded text-xs sm:text-sm transition-colors tap-target"
               >
-                <RotateCcw size={16} />
-                Reset
+                <RotateCcw size={16} className="sm:w-4 sm:h-4" />
+                <span className="hidden sm:inline ml-1.5">Reset</span>
               </button>
             </div>
           </div>
 
           {showFood && (
-            <div className="bg-gray-700 rounded p-4 mb-4">
-              <h3 className="font-bold text-lg mb-3">Food Bonuses</h3>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            <div className="bg-gray-700 rounded p-3 sm:p-4 mb-4">
+              <h3 className="font-bold text-base sm:text-lg mb-3">Food Bonuses</h3>
+              <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-2 sm:gap-3">
                 {Object.keys(FOODS).map(f => (
                   <button
                     key={f}
                     onClick={() => setFood(f)}
-                    className={`px-4 py-2 rounded ${
+                    className={`px-3 sm:px-4 py-2 rounded text-sm sm:text-base tap-target ${
                       food === f ? 'bg-green-600' : 'bg-gray-600 hover:bg-gray-500'
                     }`}
                   >
                     {f}
                     {f !== 'None' && (
-                      <span className="text-xs block text-gray-300">
+                      <span className="text-xs block text-gray-300 truncate">
                         {Object.entries(FOODS[f]).filter(([_, v]) => v > 0).map(([k, v]) => `+${v} ${k.toUpperCase()}`).join(', ')}
                       </span>
                     )}
@@ -2358,14 +2361,14 @@ export default function SL2Calculator() {
           )}
 
           {showStamps && (
-            <div className="bg-gray-700 rounded p-4 mb-4">
-              <h3 className="font-bold text-lg mb-3">History & Stamps</h3>
+            <div className="bg-gray-700 rounded p-3 sm:p-4 mb-4">
+              <h3 className="font-bold text-base sm:text-lg mb-3">History & Stamps</h3>
               <div className="mb-4">
                 <label className="block text-sm font-medium mb-2">Character History</label>
                 <select
                   value={history}
                   onChange={(e) => handleHistoryChange(e.target.value)}
-                  className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2"
+                  className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-sm sm:text-base tap-target"
                 >
                   {Object.keys(HISTORY).map(h => (
                     <option key={h} value={h}>{h}</option>
@@ -2373,18 +2376,18 @@ export default function SL2Calculator() {
                 </select>
               </div>
               <div>
-                <h4 className="font-semibold mb-2">Stat Stamps</h4>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                <h4 className="font-semibold mb-2 text-sm sm:text-base">Stat Stamps</h4>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 sm:gap-3">
                   {(Object.keys(stamps) as StampKey[]).map(stat => (
                     <div key={stat}>
-                      <label className="block text-sm mb-1 capitalize">{stat.toUpperCase()}</label>
+                      <label className="block text-xs sm:text-sm mb-1 capitalize">{stat.toUpperCase()}</label>
                       <input
                         type="number"
                         min="0"
                         max="10"
                         value={stamps[stat]}
                         onChange={(e) => setStamps(prev => ({ ...prev, [stat]: Number(e.target.value) }))}
-                        className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1"
+                        className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm tap-target"
                       />
                     </div>
                   ))}
@@ -2394,33 +2397,33 @@ export default function SL2Calculator() {
           )}
 
           {showTalents && (
-            <div className="bg-gray-700 rounded p-4 mb-4 space-y-3">
-              <h3 className="font-bold text-lg mb-2">Talents & Traits</h3>
+            <div className="bg-gray-700 rounded p-3 sm:p-4 mb-4 space-y-3">
+              <h3 className="font-bold text-base sm:text-lg mb-2">Talents & Traits</h3>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                 {hasGhost && (
                   <>
                     <div>
-                      <label className="block text-sm mb-1">Rising Game Rank (0-5)</label>
+                      <label className="block text-xs sm:text-sm mb-1">Rising Game Rank (0-5)</label>
                       <input
                         type="number"
                         min="0"
                         max="5"
                         value={risingGame}
                         onChange={(e) => setRisingGame(Number(e.target.value))}
-                        className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1"
+                        className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm tap-target"
                       />
                       <span className="text-xs text-gray-400">Bonus stats when HP is low</span>
                     </div>
                     <div>
-                      <label className="block text-sm mb-1">Pain Tolerance HP</label>
+                      <label className="block text-xs sm:text-sm mb-1">Pain Tolerance HP</label>
                       <input
                         type="number"
                         min="0"
                         step="10"
                         value={painTolerance}
                         onChange={(e) => setPainTolerance(Number(e.target.value))}
-                        className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1"
+                        className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm tap-target"
                       />
                       <span className="text-xs text-gray-400">+10 HP per rank</span>
                     </div>
@@ -2665,12 +2668,12 @@ export default function SL2Calculator() {
           )}
 
           {showAdvanced && (
-            <div className="bg-gray-700 rounded p-4 mb-4 space-y-4">
-              <h3 className="font-bold text-lg mb-2">Advanced Options</h3>
+            <div className="bg-gray-700 rounded p-3 sm:p-4 mb-4 space-y-3 sm:space-y-4">
+              <h3 className="font-bold text-base sm:text-lg mb-2">Advanced Options</h3>
               
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
                 <div>
-                  <label className="block text-sm mb-1">Character Level (1-60)</label>
+                  <label className="block text-xs sm:text-sm mb-1">Character Level (1-60)</label>
                   <input
                     type="number"
                     min="1"
@@ -2680,92 +2683,92 @@ export default function SL2Calculator() {
                       const level = Math.min(60, Math.max(1, Number(e.target.value)));
                       setCharacterLevel(level);
                     }}
-                    className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1"
+                    className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm tap-target"
                   />
                   <div className="text-xs text-gray-400 mt-1">
                     Available Points: {characterLevel * 4}
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm mb-1">Custom HP</label>
+                  <label className="block text-xs sm:text-sm mb-1">Custom HP</label>
                   <input
                     type="number"
                     value={customHP}
                     onChange={(e) => setCustomHP(Number(e.target.value))}
-                    className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1"
+                    className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm tap-target"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm mb-1">Custom FP</label>
+                  <label className="block text-xs sm:text-sm mb-1">Custom FP</label>
                   <input
                     type="number"
                     value={customFP}
                     onChange={(e) => setCustomFP(Number(e.target.value))}
-                    className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1"
+                    className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm tap-target"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm mb-1">Base Evade</label>
+                  <label className="block text-xs sm:text-sm mb-1">Base Evade</label>
                   <input
                     type="number"
                     value={baseEvade}
                     onChange={(e) => setBaseEvade(Number(e.target.value))}
-                    className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1"
+                    className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm tap-target"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm mb-1">Bonus Evade</label>
+                  <label className="block text-xs sm:text-sm mb-1">Bonus Evade</label>
                   <input
                     type="number"
                     min="0"
                     max="50"
                     value={bonusEvade}
                     onChange={(e) => setBonusEvade(Math.min(Number(e.target.value), 50))}
-                    className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1"
+                    className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm tap-target"
                   />
                   <div className="text-xs text-gray-400 mt-1">
                     Capped at 50
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm mb-1">Dragon King Pieces</label>
+                  <label className="block text-xs sm:text-sm mb-1">Dragon King Pieces</label>
                   <input
                     type="number"
                     min="0"
                     max="4"
                     value={dragonKing}
                     onChange={(e) => setDragonKing(Number(e.target.value))}
-                    className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1"
+                    className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm tap-target"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm mb-1">Dragon Queen Pieces</label>
+                  <label className="block text-xs sm:text-sm mb-1">Dragon Queen Pieces</label>
                   <input
                     type="number"
                     min="0"
                     max="4"
                     value={dragonQueen}
                     onChange={(e) => setDragonQueen(Number(e.target.value))}
-                    className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1"
+                    className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm tap-target"
                   />
                 </div>
               </div>
 
-              <div className="flex items-center gap-4 flex-wrap">
+              <div className="flex flex-col xs:flex-row items-start xs:items-center gap-2 sm:gap-4 flex-wrap">
                 <div className="flex items-center gap-2">
-                  <label className="text-sm">Current HP %</label>
+                  <label className="text-xs sm:text-sm">Current HP %</label>
                   <input
                     type="number"
                     min="0"
                     max="100"
                     value={hpPercent}
                     onChange={(e) => setHpPercent(Number(e.target.value))}
-                    className="w-20 bg-gray-700 border border-gray-600 rounded px-2 py-1"
+                    className="w-16 sm:w-20 bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm tap-target"
                   />
                 </div>
                 <button
                   onClick={() => setShowCustomStats(!showCustomStats)}
-                  className="bg-indigo-600 hover:bg-indigo-700 px-3 py-1 rounded text-sm"
+                  className="bg-indigo-600 hover:bg-indigo-700 px-3 py-2 rounded text-xs sm:text-sm tap-target"
                 >
                   Custom Stats
                 </button>
@@ -2773,8 +2776,8 @@ export default function SL2Calculator() {
 
               {showCustomStats && (
                 <div>
-                  <h4 className="font-semibold mb-2">Custom Stat Modifiers (Flat Bonuses)</h4>
-                  <div className="grid grid-cols-2 md:grid-cols-6 gap-2">
+                  <h4 className="font-semibold mb-2 text-sm sm:text-base">Custom Stat Modifiers (Flat Bonuses)</h4>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
                     {(Object.keys(customStats) as StatKey[]).map(stat => (
                       <div key={stat}>
                         <label className="block text-xs mb-1 uppercase">{stat}</label>
@@ -3910,15 +3913,15 @@ export default function SL2Calculator() {
         {/* Stat Information Modal */}
         {showStatInfo && selectedStat && STAT_INFO[selectedStat] && (
           <div 
-            className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4"
+            className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-2 sm:p-4"
             onClick={() => setShowStatInfo(false)}
           >
             <div 
               className="bg-gray-800 rounded-lg shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="sticky top-0 bg-gray-800 border-b border-gray-700 p-6 flex justify-between items-center">
-                <h2 className="text-2xl font-bold">{STAT_INFO[selectedStat].title}</h2>
+              <div className="sticky top-0 bg-gray-800 border-b border-gray-700 p-3 sm:p-4 md:p-6 flex justify-between items-center">
+                <h2 className="text-lg sm:text-xl md:text-2xl font-bold">{STAT_INFO[selectedStat].title}</h2>
                 <button
                   onClick={() => setShowStatInfo(false)}
                   className="p-2 hover:bg-gray-700 rounded-full transition-colors"
@@ -3931,11 +3934,11 @@ export default function SL2Calculator() {
                 </button>
               </div>
               
-              <div className="p-6 space-y-4">
+              <div className="p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4">
                 {/* Base Stats vs Scaled Stats Info Box */}
-                <div className="bg-blue-900 bg-opacity-30 border border-blue-700 rounded p-4">
-                  <h4 className="font-semibold text-blue-300 mb-2">Base vs Scaled Stats</h4>
-                  <div className="text-sm text-gray-300 space-y-1">
+                <div className="bg-blue-900 bg-opacity-30 border border-blue-700 rounded p-3 sm:p-4">
+                  <h4 className="font-semibold text-blue-300 mb-2 text-sm sm:text-base">Base vs Scaled Stats</h4>
+                  <div className="text-xs sm:text-sm text-gray-300 space-y-1">
                     <p><strong>Base Stat:</strong> Your race's starting stat + invested points + bonuses from History, Starsigns, and Legend Extends. Used for trait requirements.</p>
                     <p><strong>Scaled Stat:</strong> Base stats with diminishing returns applied after soft cap. Most effects use Scaled stats.</p>
                     <p><strong>Hard Cap:</strong> Race base + 80 invested points maximum (including Legend Extends and History bonuses).</p>
@@ -3943,17 +3946,17 @@ export default function SL2Calculator() {
                   </div>
                 </div>
 
-                <div className="text-gray-300 whitespace-pre-line leading-relaxed">
+                <div className="text-gray-300 whitespace-pre-line leading-relaxed text-sm sm:text-base">
                   {STAT_INFO[selectedStat].description}
                 </div>
                 
-                <div className="border-t border-gray-700 pt-4">
-                  <h3 className="text-xl font-semibold mb-3 text-green-400">Effects</h3>
+                <div className="border-t border-gray-700 pt-3 sm:pt-4">
+                  <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3 text-green-400">Effects</h3>
                   <ul className="space-y-2">
                     {STAT_INFO[selectedStat].effects.map((effect, index) => (
                       <li key={index} className="flex items-start gap-2">
                         <span className="text-green-400 mt-1 flex-shrink-0">•</span>
-                        <span className="text-gray-300">{effect}</span>
+                        <span className="text-gray-300 text-sm sm:text-base">{effect}</span>
                       </li>
                     ))}
                   </ul>
