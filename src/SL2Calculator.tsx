@@ -715,21 +715,34 @@ export default function SL2Calculator() {
 
   // Calculate Rising Game bonus
   const calculateRisingGame = (): Partial<StatRecord> => {
-    const hpLost = 100 - hpPercent;
-    let bonusPerStat = Math.floor(hpLost / 15);
+
+
+        // Prevent stat decrease if HP is above 100%
+    if (hpPercent > 100) {
+      return {
+        str: 0,
+        wil: 0,
+        ski: 0,
+        cel: 0,
+        res: 0,
+        luc: 0
+      };
+    } else {
+      const hpLost = 100 - hpPercent;
+      let bonusPerStat = Math.floor(hpLost / 15);
+      // Cap based on rising game rank
+      const caps = [0, 2, 3, 4, 5, 6];
+      bonusPerStat = Math.min(bonusPerStat, caps[risingGame] || 0);
     
-    // Cap based on rising game rank
-    const caps = [0, 2, 3, 4, 5, 6];
-    bonusPerStat = Math.min(bonusPerStat, caps[risingGame] || 0);
-    
-    return {
-      str: bonusPerStat,
-      wil: bonusPerStat,
-      ski: bonusPerStat,
-      cel: bonusPerStat,
-      res: bonusPerStat,
-      luc: bonusPerStat
-    };
+      return {
+        str: bonusPerStat,
+        wil: bonusPerStat,
+        ski: bonusPerStat,
+        cel: bonusPerStat,
+        res: bonusPerStat,
+        luc: bonusPerStat
+      };
+    }
   };
 
   // Calculate Instinct bonus (Felidae/Grimalkin/Lupine)
