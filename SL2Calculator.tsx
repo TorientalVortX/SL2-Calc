@@ -2674,7 +2674,7 @@ export default function SL2Calculator() {
       subClassPassive,
       elementalATKAdjustments,
       elementalRESAdjustments,
-      version: "0.3.0"
+      version: "0.5.0"
     };
 
     const jsonString = JSON.stringify(buildData, null, 2);
@@ -2913,7 +2913,7 @@ export default function SL2Calculator() {
       subClassPassive,
       elementalATKAdjustments,
       elementalRESAdjustments,
-      version: "0.3.0"
+      version: "0.5.0"
     };
 
     try {
@@ -4421,7 +4421,7 @@ export default function SL2Calculator() {
         <div className="bg-gray-800 rounded-lg shadow-xl p-6 mb-6">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-3xl font-bold">SL2 Calculator Suite</h1>
-            <div className="text-sm text-gray-400">Version 0.3.0a</div>
+            <div className="text-sm text-gray-400">Version 0.5.0</div>
           </div>
 
           {/* Tab Navigation */}

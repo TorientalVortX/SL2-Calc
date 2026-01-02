@@ -1,0 +1,84 @@
+**1★ Breastplate**
+Armor: 4 | Magic Armor: 0 | Evade: 0 | Weight: 7
+Details: A sturdy metal plate to protect your chest.
+Location: Random Drops • Metalworking • Tutorial
+
+**3★ Body Guard**
+Armor: 7 | Magic Armor: 0 | Evade: 0 | Weight: 40
+Details: Reduces all damage that exceeds your current HP by 25%. A mystical wood+metal armor that deflects blows from vital areas.
+Location: Random Drops
+
+**3★ Half-Plate**
+Armor: 9 | Magic Armor: 0 | Evade: 0 | Weight: 25
+Details: +5% Pierce and Slash Resistance A partial suit of armor that offers great protection.
+Location: Random Drops • Metalworking
+
+**4★ Mist Armor**
+Armor: 0 | Magic Armor: 0 | Evade: 0 | Weight: 10
+Details: On Battle Start: Gain Mist Armor LV4. (Grants 20 Armor and 0 Evade. At the start of a new round, decreases the Armor bonus by LV and increases the Evade bonus by LV.) A heavy and mysterious armor that gradually vanishes, changing its very nature.
+Location: Random Drops • Wind Drop Table
+
+**6★ Akmedis**
+Armor: 7 | Magic Armor: 4 | Evade: 0 | Weight: 15
+Details: +25 HP, +25 FP Reduces Critical Damage modifier for weapons with a base Power (excluding upgrades) less than 10 by 25%. (Subtracted; 150% Critical Damage becomes 125% Critical Damage. Minimum of 100% damage.) Named after a hero of a long forgotten legend. With any luck, the armor will keep you alive just as long as their fame was.
+Location: Random Drops • Labyrinth Drop Table
+
+**8★ Brightray Plate**
+Armor: 7 | Magic Armor: 0 | Evade: 0 | Weight: 20
+Details: +5 Power to Mercalan Spells 10% Darkness Resistance A golden glowing suit of armor. It wards off darkness and makes light shine brighter.
+Location: Random Drops • Light Drop Table
+
+**8★ Knight's Armor**
+Armor: 6 | Magic Armor: 2 | Evade: 0 | Weight: 10
+Details: If your main class is a Soldier class, the stat bonuses it gives you are increased by 50% (min. 1 if &gt;0). The trappings of a knight are best used by one.
+Location: Random Drops • Mine Drop Table
+
+**8★ Alchemic Plate**
+Armor: 0 | Magic Armor: 0 | Evade: 0 | Weight: 8
+Details: Doubles item material effects that modify this item's parameters (such as Armor, Evade, etc.). Through a secretive alchemic process, the material of its construction is greatly augmented.
+Location: Random Drops • Space Drop Table
+
+**9★ Braveheart**
+Armor: 7 | Magic Armor: 5 | Evade: 0 | Weight: 20
+Details: Immunity to Hesitation. The shine of this armor's plate inspires its wearer to do great things.
+Location: Random Drops • Beast Drop Table
+
+**9★ Cruel Commander**
+Armor: 7 | Magic Armor: 0 | Evade: 0 | Weight: 15
+Details: Grants Skill: Contract of Blood  3 Momentum, 0 FP Targets 1 of your Youkai within 1 Range and sets it's HP to 0, defeating it. You then gain Cruel Commander LV X (X = your level + 20) for 3 rounds, which causes your STR to become equal to its LV. Sometimes, the best strategy isn't the most compassionate.
+Location: Random Drops • Water Drop Table • Dark Drop Table
+
+**9★ Dragon King's Armor**
+Armor: 7 | Magic Armor: 0 | Evade: -8 | Weight: 24
+Details: Set: Dragon King  Increases total Strength by 5% and soft cap for Strength by 3 for each Dragon King item equipped. A set of armor once worn by a man with dragonblood. Its power causes the strength of the wearer to increase.
+Location: Random Drops • Fire Drop Table • Labyrinth Drop Table
+
+**9★ Terrasque Shell**
+Armor: 5 | Magic Armor: 2 | Evade: 0 | Weight: 19
+Details: +50 HP Recover 3 HP Each Round Rather, a fragment of shell from a supposedly legendary beast called the Terrasque, known for its great size and relative inability to be killed. Thankfully, they're extremely rare, if they exist at all.
+Location: Random Drops • Earth Drop Table
+
+**9★ Wyvern Rider's Plate**
+Armor: 10 | Magic Armor: 0 | Evade: -10 | Weight: 24
+Details: -10% damage taken from Bow weapons. +10 Critical Evade VS Bow weapons. The heavy armor of a wyvern rider is thick and specially made to fend off shots from bows. However, since it's meant to be worn on the back of a wyvern, it's prohibitively heavy.
+Location: Random Drops • Snake Drop Table
+
+**9★ Starless Night**
+Armor: 3 | Magic Armor: 4 | Evade: 5 | Weight: 6
+Details: +3 Darkness ATK Protection From Race: Reduces damage from Spatial race enemies by 10%. (Halved versus player characters. Same race type effects will stack, but if an enemy has multiple race types that you have Protection From Race against, only the highest total value versus one of those races will apply.) If this torso is enchanted with Darkheart, enemies cannot use Star Map skills on you. Pitch black plate, darker than an ominous night sky.
+Location: Random Drops • Space Drop Table
+
+**10★ Bellplate**
+Armor: 10 | Magic Armor: 5 | Evade: 0 | Weight: 25
+Details: On Attacked: If hit by a ranged weapon, deals 1+UL unresistable Sound damage to the attacker. Shaped like a bell, this armor is thick and heavy. Like a bell, it will ring out, painfully, when struck. Fortunately, by this point, you've gone deaf, so the armor won't affect you. It... I said, YOU'VE GONE DEAF, SO THE... NO, DEAF! Nevermind.
+Location: Level 56+ Forgery
+
+**10★ Haunted Armor**
+Armor: 5 | Magic Armor: 5 | Evade: 0 | Weight: 25
+Details: On Attacked: UL*2% chance of inflicting Fear on the attacker for 2 rounds. On Battle Start: If UL is at least 10 and fighting monsters, the ghastly Barghest haunting the armor manifests and joins your battle as an ally. There is something inside of this armor. You aren't sure who, or what, it is, but it's some kind of spectre and it terrifies you. Maybe you'll get to meet each other some day...
+Location: Level 56+ Barghest
+
+**10★ Turtle Shell**
+Armor: 7 | Magic Armor: 3 | Evade: 0 | Weight: 17
+Details: Getting up from a knockdown costs 1 more Momentum. Reduces physical damage taken from behind by 1+UL%, and grants 1+UL Critical Evade against enemies behind you. This heavy turtle shell will make your back very hard to hurt, but if you happen to land on it, you might have some difficulty getting back up.
+Location: Level 56+ Delver

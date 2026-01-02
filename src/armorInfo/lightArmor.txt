@@ -1,0 +1,114 @@
+**1★ Roughspun Tunic**
+Armor: 2 | Magic Armor: 1 | Evade: 5 | Weight: 3
+Details: Material: Cloth +10 HP Set: Unassuming Adventurer  2+: Flee success rate is (normal success rate+50)%. 3+: +(10 x total number of this set's item equipped) HP and FP. 5+: +15% damage dealt. A uniform that is popular with green adventurers.
+Location: Random Drops • Tailoring • Tutorial
+
+**3★ Armor of Nails**
+Armor: 7 | Magic Armor: 0 | Evade: 0 | Weight: 15
+Details: Material: Cloth On Attacked: Deals 25% of your level as unresistable Pierce physical damage to the attacker. (Min. 5) An armor possessed by a vengeful spirit.
+Location: Random Drops • Dark Drop Table
+
+**3★ Irisgold**
+Armor: 6 | Magic Armor: 2 | Evade: 5 | Weight: 10
+Details: 30% Light Resistance Increases your STR and WIL by 2 during a turn when your HP is restored. An enchanted set of armor modeled and named after a female paladin of the same name.
+Location: Random Drops • Metalworking • Light Drop Table
+
+**3★ Mayelia**
+Armor: 6 | Magic Armor: 2 | Evade: 5 | Weight: 10
+Details: 30% Fire Resistance Restores 15% of your HP if your turn is skipped due to a status effect. A suit of armor made out of volcanic metal, said to have kept a soldier by the same name alive through magic-induced stupor
+Location: Random Drops • Metalworking • Fire Drop Table
+
+**3★ Whynesfelt**
+Armor: 6 | Magic Armor: 2 | Evade: 5 | Weight: 10
+Details: Material: Cloth 30% Earth Resistance On Cast At: If Attack or Dispel class, the caster cannot use that spell next turn. An earthen, druidic armor that is named after a plant that eats away at Focus.
+Location: Random Drops • Tailoring • Earth Drop Table • Plant Drop Table
+
+**3★ Zwellrauss**
+Armor: 6 | Magic Armor: 2 | Evade: 5 | Weight: 10
+Details: 30% Water Resistance Gives all party members +2 Power during a turn in which you're attacked. A breastplate whose surface looks like flowing water, said to have been made out of a mythical beast of the same name.
+Location: Random Drops • Metalworking • Water Drop Table
+
+**5★ Argonaut**
+Armor: 5 | Magic Armor: 5 | Evade: 0 | Weight: 5
+Details: 10% Water Resistance Ignore movement penalties from Flooded Water tiles. A sailor's breastplate made so not to be slowed down by the seas.
+Location: Random Drops • Water Drop Table
+
+**7★ Mermanmail**
+Armor: 3 | Magic Armor: 3 | Evade: 5 | Weight: 8
+Details: +3 Water ATK Reduces damage from Seafaring enemies by 5%. While standing on a Flooded Water tile: +5 to Evade, Armor, Magic Armor. On New Round: If standing on a Flooded Water tile, gain Move Mod LV 2 for 1 rounds. A set of light armor, especially adept at fighting in the waves, much like a merman (whatever those are).
+Location: Random Drops • Water Drop Table
+
+**8★ Adversity Tunic**
+Armor: 4 | Magic Armor: 2 | Evade: 4 | Weight: 8
+Details: Material: Cloth Reduces damage taken by 10% for every enemy beyond the first within 2 Range. (Maximum 40%) Gets better and better the more the odds are stacked against you.
+Location: Random Drops • Mine Drop Table • Summon Drop Table
+
+**8★ Blackheart**
+Armor: 2 | Magic Armor: 4 | Evade: 5 | Weight: 10
+Details: +3 STR, +3 WIL 10% Light Resistance A set of dark armor that gives off an uneasy, but powerful, feeling.
+Location: Random Drops • Dark Drop Table
+
+**8★ Detective Trenchcoat**
+Armor: 5 | Magic Armor: 5 | Evade: 5 | Weight: 6
+Details: Material: Cloth Reduces damage taken from Gun weapons by 5. Increases maximum encumbrance by 5. Seems to have a few frayed threads, but no bullet holes, which is promising.
+Location: Purchased from Air
+
+**8★ Fencer's Chestguard**
+Armor: 5 | Magic Armor: 0 | Evade: 0 | Weight: 5
+Details: If your main class is a Duelist class, the stat bonuses it gives you are increased by 50% (min. 1 if &gt;0). Protect your heart and your honor.
+Location: Random Drops • Lightning Drop Table
+
+**8★ Jerkin of Fortune**
+Armor: 5 | Magic Armor: 5 | Evade: 10 | Weight: 5
+Details: Material: Cloth On Battle Start: Gain +5 Luck. This bonus is lost if an enemy successfully inflicts a luck-based status on you. Set: Precautionary Tale  2+ - Life-Saving Charm's HP and FP recovery increases by (25 x total number of this set's items equipped), and when it is activated, grants Debuff Immunity LV2 for 3 rounds, and if Jerkin of Fortune is equipped, reactivates its On Battle Start effect. 3+ - After Life-Saving Charm activates, you gain Death-Defying Fortune LV (25 + your scaled CEL) for 2 rounds. This is a lucky jerkin. Are you lucky? Well, are you, punk?
+Location: Random Drops • Tailoring • Lightning Drop Table
+
+**8★ Sniper's Chainmail**
+Armor: 4 | Magic Armor: 0 | Evade: 2 | Weight: 4
+Details: Material: Cloth If your main class is a Archer class, the stat bonuses it gives you are increased by 50% (min. 1 if &gt;0). Protects you from the other sniper.
+Location: Random Drops • Wind Drop Table
+
+**8★ Tamer's Regalia**
+Armor: 3 | Magic Armor: 3 | Evade: 3 | Weight: 3
+Details: Material: Cloth If your main class is a Summoner class, the stat bonuses it gives you are increased by 50% (min. 1 if &gt;0). Hides the contracts, and keeps you safe.
+Location: Random Drops • Summon Drop Table
+
+**8★ Thief's Poncho**
+Armor: 2 | Magic Armor: 1 | Evade: 6 | Weight: 2
+Details: Material: Cloth If your main class is a Rogue class, the stat bonuses it gives you are increased by 50% (min. 1 if &gt;0). A second-hand poncho for second-handers.
+Location: Random Drops • Highway Drop Table
+
+**8★ Alchemic Grain**
+Armor: 0 | Magic Armor: 0 | Evade: 0 | Weight: 8
+Details: Doubles item material effects that modify this item's parameters (such as Armor, Evade, etc.). Through a secretive alchemic process, the material of its construction is greatly augmented.
+Location: Random Drops • Space Drop Table
+
+**9★ Rough Ranger**
+Armor: 3 | Magic Armor: 4 | Evade: 5 | Weight: 6
+Details: Material: Cloth +3 Fire ATK Reduce damage from Beast race enemies by 5%. Ignore evade penalties from Thick Vines tiles. A brown pair of light armor that is best suited to hiding in the brush, or burning it down, depending on what you're hunting.
+Location: Random Drops • Earth Drop Table • Plant Drop Table
+
+**9★ Worg Pelt**
+Armor: 3 | Magic Armor: 0 | Evade: 5 | Weight: 5
+Details: Material: Cloth 10% Ice Resistance Upon Taking Dark Damage: The pelt temporarily comes to life, triggering the Roar skill for you. (Byakko's level for this instance of the skill is treated as half the damage taken, min 5.) Made from the large wolves that roam Alstalsia's forests in the night... or their pelts, rather. There's also a worg head in there. Huh.
+Location: Random Drops • Tailoring • Beast Drop Table
+
+**10★ Green-Scale Tunic**
+Armor: 3 | Magic Armor: 4 | Evade: 5 | Weight: 9
+Details: Increases Evade versus enemies based on the attacker's missing FP. (1% = 0.5 Evade, up to a maximum of UL). When you evade a basic attack: Sap FP from the attacker equal to half of UL. This green tunic is scaled in such a way that it's very exhausting to look at and follow. If used skillfully, your enemies will be worn out trying to keep up with you in battle. If not used skillfully... well, at least it's a nice shade of green.
+Location: Level 56+ Goblin Spear
+
+**10★ In-Fighter Gi**
+Armor: 1 | Magic Armor: 2 | Evade: 5 | Weight: 4
+Details: Material: Cloth Increases Evade against enemies within 1 Range by UL. Made and enchanted for fighting up close and personal, this is about as light as armor can get and still be called armor. Its effects are more pronounced in close quarters, as it helps you dodge and weave your enemy's attacks.
+Location: Level 56+ Jammer Gamma
+
+**10★ Ooze Armor**
+Armor: 3 | Magic Armor: 3 | Evade: 6 | Weight: 1
+Details: -3 CEL Damage taken from skills belonging to non-Boss enemies put that skill on a 1 round cooldown (if it doesn't have one already). There is an UL% chance it will put that skill on a 2 round cooldown instead. This magical shell reacts when struck, covering the attacker in a sticky slime that slows them down.
+Location: Level 56+ Ooze Dweller
+
+**10★ Reactive Armor**
+Armor: 3 | Magic Armor: 5 | Evade: 0 | Weight: 7
+Details: When you are critically hit or take Fire damage: create an explosion around you in 3 Range that deals unresistable Fire damage to all enemies equal to 2+UL. If Fire damage triggered the explosion, you also gain Firey Armor for 2 rounds, causing attackers to take unresistable Fire damage equal to UL/2. (1 round CD) This volatile armor may seem dangerous to wear, but you're mostly safe. Safer than your enemies, anyway, for it tends to violently explode outwards at them if they treat it too roughly.
+Location: Level 56+ Firespitter

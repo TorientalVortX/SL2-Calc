@@ -4,8 +4,13 @@
  */
 
 import { useState, useRef, useEffect } from 'react';
-import { Plus, Minus, RotateCcw, Settings, Utensils, BookOpen, Download, Upload, Copy, StarIcon } from 'lucide-react';
+import { motion } from 'framer-motion';
+import IntroOverlay from './IntroOverlay';
+import SparkleBackground from './SparkleBackground';
+import FoxRain from './FoxRain';
+import { Plus, Minus, RotateCcw, Settings, Utensils, BookOpen, Download, Upload, Copy, StarIcon, Camera } from 'lucide-react';
 import WeaponCalculator from './WeaponCalculator';
+import ArmorCalculator from './ArmorCalculator';
 import type {
   StatKey,
   StampKey,
@@ -15,9 +20,9 @@ import type {
   ElementalRecord,
   ClassPassive,
   BuildData,
-  BuildType,
   OptimizationResult,
-  OptimizationParams
+  OptimizationParams,
+  Armor
 } from './types';
 
 // Import data constants
@@ -28,8 +33,79 @@ import { FOODS, HISTORY, LEGEND_EXTEND, ASTROLOGY_PLANETS, PLANET_ELEMENTS } fro
 import { STAT_INFO, BUILD_TYPES } from './data/stats';
 import { MAX_POINTS, APTITUDE_NUMBER, TEMPLATE_BUILDS } from './data/constants';
 import { StatOptimizer } from './utilities/StatOptimizer';
+import { soundManager } from './utilities/SoundManager';
 
 export default function SL2Calculator() {
+  const [showIntro, setShowIntro] = useState(() => {
+    try {
+      return localStorage.getItem('sl2_skip_intro') === '1' ? false : true;
+    } catch {
+      return true;
+    }
+  });
+  const [uiSounds, setUiSounds] = useState(() => {
+    try {
+      return localStorage.getItem('sl2_ui_sounds') !== '0';
+    } catch {
+      return true;
+    }
+  });
+  const [retroMode, setRetroMode] = useState(() => {
+    try {
+      return localStorage.getItem('sl2_retro_mode') !== '0';
+    } catch {
+      return true;
+    }
+  });
+  const [showSettings, setShowSettings] = useState(false);
+  // Konami easter egg state (retro-only)
+  const [konamiActive, setKonamiActive] = useState(false);
+  const konamiIndexRef = useRef(0);
+    useEffect(() => {
+      const onKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') {
+          setShowSettings(false);
+        }
+      };
+      if (showSettings) {
+        document.addEventListener('keydown', onKeyDown);
+      }
+      return () => {
+        document.removeEventListener('keydown', onKeyDown);
+      };
+    }, [showSettings]);
+  
+  // Listen for Konami code when in retro mode and not showing intro
+  useEffect(() => {
+    if (!retroMode || showIntro) return;
+    const sequence = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a','Enter'];
+    const handler = (e: KeyboardEvent) => {
+      if (e.ctrlKey || e.altKey || e.metaKey || e.shiftKey) {
+        konamiIndexRef.current = 0;
+        return;
+      }
+      const key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+      const expected = sequence[konamiIndexRef.current];
+      if (key === expected) {
+        konamiIndexRef.current++;
+        if (konamiIndexRef.current === sequence.length) {
+          konamiIndexRef.current = 0;
+          setKonamiActive(prev => !prev);
+          try {
+            if (uiSounds) {
+              soundManager.play('click');
+              setTimeout(() => soundManager.play('click'), 120);
+              setTimeout(() => soundManager.play('click'), 240);
+            }
+          } catch {}
+        }
+      } else {
+        konamiIndexRef.current = 0;
+      }
+    };
+    document.addEventListener('keydown', handler);
+    return () => document.removeEventListener('keydown', handler);
+  }, [retroMode, showIntro, uiSounds]);
   // Get first race and first subrace on initial load
   const firstRace = Object.keys(RACES)[0];
   const firstSubrace = Object.keys(SUBRACES).find(subraceKey => {
@@ -112,6 +188,12 @@ export default function SL2Calculator() {
     Fire: 0, Ice: 0, Wind: 0, Earth: 0, Dark: 0, Water: 0, Light: 0, Lightning: 0, Acid: 0, Sound: 0
   });
   
+  // Equipment state
+  const [equippedArmor, setEquippedArmor] = useState<Armor | null>(null);
+  const [armorConditionalBonuses, setArmorConditionalBonuses] = useState<Record<string, boolean>>({});
+  // Persisted weapon configuration for screenshot mode
+  const [weaponConfig, setWeaponConfig] = useState<import('./WeaponCalculator').WeaponConfig | undefined>(undefined);
+  
   useEffect(() => {
     const newTotalPoints = characterLevel * 4;
     const pointsSpent = Object.values(addedStats).reduce((sum, val) => sum + val, 0);
@@ -131,7 +213,10 @@ export default function SL2Calculator() {
   const [importText, setImportText] = useState('');
   
   // Active tab state
-  const [activeTab, setActiveTab] = useState<'stats' | 'weapon' | 'optimizer'>('stats');
+  const [activeTab, setActiveTab] = useState<'stats' | 'weapon' | 'armor' | 'optimizer' | 'screenshot'>('stats');
+  
+  // Screenshot ref
+  const screenshotRef = useRef<HTMLDivElement>(null);
 
   // Stat Optimizer state
   const [selectedBuildType, setSelectedBuildType] = useState<string>('hybrid');
@@ -336,7 +421,7 @@ export default function SL2Calculator() {
       subClassPassive,
       elementalATKAdjustments,
       elementalRESAdjustments,
-      version: "0.4.2"
+      version: "0.5.0"
     };
 
     const jsonString = JSON.stringify(buildData, null, 2);
@@ -554,7 +639,7 @@ export default function SL2Calculator() {
       subClassPassive,
       elementalATKAdjustments,
       elementalRESAdjustments,
-      version: "0.4.2"
+      version: "0.5.0"
     };
 
     try {
@@ -1019,6 +1104,62 @@ export default function SL2Calculator() {
 
   const karakuriYoukaiBonus = getKarakuriYoukaiBonus();
 
+  // Calculate armor bonuses
+  const armorBonus: Partial<StatRecord> = {};
+  if (equippedArmor?.statBonuses) {
+    Object.entries(equippedArmor.statBonuses).forEach(([stat, value]) => {
+      if (value && stat in {str: 1, wil: 1, ski: 1, cel: 1, def: 1, res: 1, vit: 1, fai: 1, luc: 1, gui: 1, san: 1, apt: 1}) {
+        armorBonus[stat as StatKey] = value;
+      }
+    });
+  }
+
+  // Calculate conditional armor bonuses
+  const conditionalArmorBonus: Partial<StatRecord> = {};
+  let conditionalEvadeBonus = 0;
+  let conditionalCriticalBonus = 0;
+  
+  if (equippedArmor?.conditionalBonuses) {
+    Object.entries(equippedArmor.conditionalBonuses).forEach(([bonusKey, bonus]) => {
+      if (armorConditionalBonuses[bonusKey]) {
+        // Add stat bonuses
+        Object.entries(bonus).forEach(([stat, value]) => {
+          if (stat !== 'condition' && value !== undefined && value !== 0) {
+            if (stat === 'evade') {
+              conditionalEvadeBonus += value as number;
+            } else if (stat === 'critical') {
+              conditionalCriticalBonus += value as number;
+            } else if (stat in {str: 1, wil: 1, ski: 1, cel: 1, def: 1, res: 1, vit: 1, fai: 1, luc: 1, gui: 1, san: 1, apt: 1}) {
+              conditionalArmorBonus[stat as StatKey] = (conditionalArmorBonus[stat as StatKey] || 0) + (value as number);
+            }
+          }
+        });
+      }
+    });
+  }
+
+  // Weapon enchantment-derived stat bonuses (equipment influencing stats)
+  const getWeaponStatBonus = (): Partial<StatRecord> => {
+    const bonus: Partial<StatRecord> = {};
+    const ench = weaponConfig?.enchantment;
+    switch (ench) {
+      case 'Jeweled':
+        bonus.fai = (bonus.fai || 0) + 2;
+        break;
+      case 'Exorcism':
+        bonus.fai = (bonus.fai || 0) + 2;
+        bonus.san = (bonus.san || 0) + 2;
+        break;
+      case 'Demonic':
+      case 'Tainted':
+        bonus.str = (bonus.str || 0) + 3;
+        break;
+      default:
+        break;
+    }
+    return bonus;
+  };
+
   const getEffectiveStat = (statName: StatKey): number => {
     const subraceData = SUBRACES[subrace];
     const classData = CLASSES[mainClass];
@@ -1051,7 +1192,9 @@ export default function SL2Calculator() {
       + sanguineBonusForStat
       + powerOfNormalcyBonus
       + (risingGameBonus[statName] || 0)
-      + (combinedPassiveBonuses[statName] || 0);
+      + (combinedPassiveBonuses[statName] || 0)
+      + (armorBonus[statName] || 0)
+      + (conditionalArmorBonus[statName] || 0);
     
     const classValue = classData?.[statName] || 0;
     const customValue = customStats[statName];
@@ -1098,7 +1241,9 @@ export default function SL2Calculator() {
       + sanguineBonusForStat
       + powerOfNormalcyBonus
       + (risingGameBonus[statName] || 0)
-      + (combinedPassiveBonuses[statName] || 0);
+      + (combinedPassiveBonuses[statName] || 0)
+      + (armorBonus[statName] || 0)
+      + (conditionalArmorBonus[statName] || 0);
     
     const classValue = (classData?.[statName] || 0) * monoclassModifier;
     const customValue = customStats[statName];
@@ -1203,6 +1348,20 @@ export default function SL2Calculator() {
     
     maxHP += customHP;
     
+    // Armor HP bonuses
+    if (equippedArmor?.statBonuses?.hp) {
+      maxHP += equippedArmor.statBonuses.hp;
+    }
+
+    // Conditional armor HP bonuses
+    if (equippedArmor?.conditionalBonuses) {
+      Object.entries(equippedArmor.conditionalBonuses).forEach(([bonusKey, bonus]) => {
+        if (armorConditionalBonuses[bonusKey] && bonus.hp) {
+          maxHP += bonus.hp;
+        }
+      });
+    }
+    
     // Persistence of Normalcy
     if (persistenceOfNormalcy) {
       const mainIsBase = Object.values(CLASS_HIERARCHY).some(data => data.name === mainClass && data.baseClass);
@@ -1249,6 +1408,20 @@ export default function SL2Calculator() {
     // Warwalk
     if (warwalk) {
       maxMP += 30;
+    }
+    
+    // Armor FP bonuses
+    if (equippedArmor && equippedArmor.statBonuses?.fp) {
+      maxMP += equippedArmor.statBonuses.fp;
+    }
+
+    // Conditional armor FP bonuses
+    if (equippedArmor?.conditionalBonuses) {
+      Object.entries(equippedArmor.conditionalBonuses).forEach(([bonusKey, bonus]) => {
+        if (armorConditionalBonuses[bonusKey] && bonus.fp) {
+          maxMP += bonus.fp;
+        }
+      });
     }
     
     maxMP += customFP;
@@ -1366,8 +1539,11 @@ export default function SL2Calculator() {
     
     // Add race-based resistance/weakness for this element
     const raceAdjustment = getRaceResistances()[element as ElementKey] || 0;
-    
-    return Math.floor(baseResistance + manualAdjustment + raceAdjustment);
+
+    // Add armor-based resistance for this element
+    const armorAdjustment = equippedArmor?.resistances?.[element] || 0;
+
+    return Math.floor(baseResistance + manualAdjustment + raceAdjustment + armorAdjustment);
   };
 
   // Get race-based elemental resistances for the current subrace
@@ -1714,7 +1890,7 @@ export default function SL2Calculator() {
     return (
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 py-2 border-b border-gray-700">
         <button 
-          className="w-full sm:w-24 font-semibold text-left hover:underline cursor-pointer text-sm sm:text-base" 
+          className={`w-full sm:w-24 font-semibold text-left hover:underline cursor-pointer text-sm sm:text-base ${retroMode ? 'font-retro' : ''}`} 
           style={isRainbow ? {
             background: 'linear-gradient(45deg, #ff0000, #ff8000, #ffff00, #80ff00, #00ff00, #00ff80, #00ffff, #0080ff, #0000ff, #8000ff, #ff00ff, #ff0080)',
             WebkitBackgroundClip: 'text',
@@ -1727,13 +1903,13 @@ export default function SL2Calculator() {
             setShowStatInfo(true);
           }}
         >
-          {label}
+          {retroMode ? statKey.toUpperCase() : label}
         </button>
         <div className="flex items-center gap-2 w-full sm:w-auto">
           <button
             onClick={() => removeStat(statKey)}
             disabled={addedStats[statKey] === 0}
-            className="p-1 bg-red-600 hover:bg-red-700 disabled:bg-gray-700 disabled:cursor-not-allowed rounded tap-target flex-shrink-0 flex items-center justify-center"
+            className={`p-1 bg-red-600 hover:bg-red-700 disabled:bg-gray-700 disabled:cursor-not-allowed rounded tap-target flex-shrink-0 flex items-center justify-center sound-click sound-hover ${retroMode ? 'glow-border' : ''}`}
             title="Remove 1 point"
           >
             <Minus size={14} className="sm:w-4 sm:h-4" />
@@ -1756,7 +1932,7 @@ export default function SL2Calculator() {
               
               return addedStats[statKey] >= maxAllowedManualPoints;
             })()}
-            className="p-1 bg-green-600 hover:bg-green-700 disabled:bg-gray-700 disabled:cursor-not-allowed rounded tap-target flex-shrink-0 flex items-center justify-center"
+            className={`p-1 bg-green-600 hover:bg-green-700 disabled:bg-gray-700 disabled:cursor-not-allowed rounded tap-target flex-shrink-0 flex items-center justify-center sound-click sound-hover ${retroMode ? 'glow-border' : ''}`}
             title={(() => {
               const subraceData = SUBRACES[subrace];
               const raceBase = subraceData?.[statKey] || 0;
@@ -1831,7 +2007,7 @@ export default function SL2Calculator() {
             className="w-12 sm:w-16 border rounded px-1 sm:px-2 py-1 text-center bg-gray-700 border-gray-600 text-sm tap-target"
             title="Type number and press Enter or click away to apply"
           />
-          <div className="flex-1 text-right min-w-0">
+          <div className={`flex-1 text-right min-w-0 ${retroMode ? 'font-retro' : ''}`}>
             <span 
               className="text-lg sm:text-xl md:text-2xl font-bold" 
               style={isRainbow ? {
@@ -1894,7 +2070,7 @@ export default function SL2Calculator() {
         {/* Selected class display */}
         <div 
           onClick={() => setShowDropdown(!showDropdown)}
-          className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 cursor-pointer hover:bg-gray-600 flex justify-between items-center text-sm md:text-base tap-target"
+          className={`w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 cursor-pointer hover:bg-gray-600 flex justify-between items-center text-sm md:text-base tap-target ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''}`}
         >
           <div className="flex flex-col min-w-0">
             <span className="text-white truncate">{selectedClass}</span>
@@ -1915,7 +2091,7 @@ export default function SL2Calculator() {
               <div key={baseClassName} className="border-b border-gray-700 last:border-b-0">
                 {/* Base class header - styled like POE skill tree nodes */}
                 <div 
-                  className={`px-4 py-3 text-sm font-bold cursor-pointer transition-colors border-l-4 relative ${
+                  className={`px-4 py-3 text-sm font-bold cursor-pointer transition-colors border-l-4 relative ${retroMode ? 'font-retro sound-click sound-hover' : ''} ${
                     selectedBaseClass === baseClassName 
                       ? 'bg-red-800 text-red-100 border-red-400' 
                       : 'bg-red-700 text-red-200 border-red-500 hover:bg-red-600 hover:border-red-400'
@@ -1944,7 +2120,7 @@ export default function SL2Calculator() {
                   {baseClassData.subClasses.map(subClassName => (
                     <div
                       key={subClassName}
-                      className={`px-6 py-2 text-sm cursor-pointer transition-colors border-l-2 ml-2 relative ${
+                      className={`px-6 py-2 text-sm cursor-pointer transition-colors border-l-2 ml-2 relative ${retroMode ? 'font-retro sound-click sound-hover' : ''} ${
                         selectedClass === subClassName
                           ? 'bg-blue-800 text-blue-100 border-blue-400'
                           : 'text-gray-300 border-gray-600 hover:bg-gray-700 hover:border-blue-500'
@@ -2049,61 +2225,309 @@ export default function SL2Calculator() {
     setTotalPoints(MAX_POINTS - pointsUsed);
   };
 
+  /**
+   * Take a screenshot of the current build
+   */
+  const takeScreenshot = async (): Promise<void> => {
+    if (!screenshotRef.current) return;
+
+    try {
+      // Dynamically import html2canvas
+      const html2canvas = (await import('html2canvas')).default;
+      
+      // Store original width
+      const originalWidth = screenshotRef.current.style.width;
+      const originalMaxWidth = screenshotRef.current.style.maxWidth;
+      const originallyHadCaptureClass = screenshotRef.current.classList.contains('screenshot-capture');
+      
+      // Set to XL desktop resolution width (1280px)
+      screenshotRef.current.style.width = '1280px';
+      screenshotRef.current.style.maxWidth = '1280px';
+      // Add capture class to stabilize layout/animations
+      screenshotRef.current.classList.add('screenshot-capture');
+      
+      // Ensure web fonts are loaded before rendering (prevents glyph clipping)
+      if ((document as any).fonts && typeof (document as any).fonts.ready?.then === 'function') {
+        try { await (document as any).fonts.ready; } catch {}
+      }
+      
+      // Wait for layout to settle
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      const canvas = await html2canvas(screenshotRef.current, {
+        backgroundColor: '#1a202c',
+        scale: 2,
+        logging: false,
+        useCORS: true,
+        width: 1280,
+      });
+
+      // Restore original width
+      screenshotRef.current.style.width = originalWidth;
+      screenshotRef.current.style.maxWidth = originalMaxWidth;
+      if (!originallyHadCaptureClass) {
+        screenshotRef.current.classList.remove('screenshot-capture');
+      }
+
+      // Convert to blob and download
+      canvas.toBlob((blob: Blob | null) => {
+        if (!blob) return;
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.download = `SL2-Build-${buildName || 'Screenshot'}-${new Date().toISOString().split('T')[0]}.png`;
+        link.href = url;
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+    } catch (error) {
+      console.error('Failed to take screenshot:', error);
+      alert('Failed to capture screenshot. Please try again.');
+    }
+  };
+
   const elements = ['Fire', 'Ice', 'Wind', 'Earth', 'Dark', 'Water', 'Light', 'Lightning', 'Acid', 'Sound'];
+  // Compact labels for screenshot mode to avoid clipping long names
+  const ELEMENT_EMOJI_LABELS: Record<string, string> = {
+    Fire: '🔥',
+    Ice: '❄️',
+    Wind: '🌬️',
+    Earth: '⛰️',
+    Dark: '🌑',
+    Water: '💧',
+    Light: '✨',
+    Lightning: '⚡',
+    Acid: '🧪',
+    Sound: '🎵',
+  };
+
+  useEffect(() => {
+    soundManager.init(uiSounds);
+    soundManager.setEnabled(uiSounds);
+  }, [uiSounds]);
+
+  useEffect(() => {
+    const clickHandler = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (target && target.closest('.sound-click')) {
+        soundManager.play('click');
+      }
+    };
+    const hoverHandler = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (target && target.closest('.sound-hover')) {
+        soundManager.play('hover');
+      }
+    };
+    document.addEventListener('click', clickHandler);
+    document.addEventListener('mouseover', hoverHandler);
+    return () => {
+      document.removeEventListener('click', clickHandler);
+      document.removeEventListener('mouseover', hoverHandler);
+    };
+  }, []);
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-2 sm:p-4 md:p-6">
-      <div className="max-w-6xl mx-auto">
-        <div className="bg-gray-800 rounded-lg shadow-xl p-3 sm:p-4 md:p-6 mb-4 md:mb-6">
+    <div className="min-h-screen p-2 sm:p-4 md:p-6 lg:p-8 relative">
+      <SparkleBackground />
+      {retroMode && !showIntro && (
+        <div className="crt-overlay" style={{ zIndex: 50 }} />
+      )}
+      {retroMode && konamiActive && !showIntro && (
+        <>
+          <div className="fixed top-4 left-0 right-0 z-50 flex justify-center">
+            <div className={`px-3 py-2 rounded bg-black bg-opacity-70 text-green-300 ${retroMode ? 'font-retro glow-border' : ''}`}>
+              <span className="glitch" data-text="Konami Mode: 30 Lives!">Konami Mode: 30 Lives!</span>
+            </div>
+          </div>
+          <FoxRain active={true} />
+        </>
+      )}
+      {showIntro && <IntroOverlay onFinish={() => setShowIntro(false)} enableSounds={uiSounds} />}
+      <div className={`max-w-full lg:max-w-[95%] xl:max-w-[90%] 2xl:max-w-[85%] mx-auto relative z-10 ${showIntro ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="glass-effect rounded-lg shadow-xl p-3 sm:p-4 md:p-6 mb-4 md:mb-6"
+        >
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 md:mb-6 gap-2">
-            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold">SL2 Calculator Suite</h1>
-            <div className="text-xs sm:text-sm text-gray-400">Version 0.4.2a</div>
+            <motion.h1 
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+              className={`text-xl sm:text-2xl md:text-3xl font-display font-bold text-gradient ${retroMode ? 'font-retro' : ''}`}
+            >
+              {retroMode ? (
+                <span className="glitch" data-text="SL2 Calculator Suite">SL2 Calculator Suite</span>
+              ) : (
+                'SL2 Calculator Suite'
+              )}
+            </motion.h1>
+            <motion.div 
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
+              className="flex items-center gap-2"
+            >
+              <div className="text-xs sm:text-sm text-gray-400 px-3 py-1 rounded-full bg-dark-800 border border-gray-700">Version 0.5.0</div>
+              <button
+                onClick={() => setShowSettings(v => !v)}
+                className={`px-3 py-1 rounded glow-border sound-click sound-hover ${retroMode ? 'font-retro' : ''}`}
+                title="Settings"
+              >
+                Settings
+              </button>
+            </motion.div>
+            {showSettings && (
+              <>
+                {/* Backdrop overlay to close settings when clicking outside */}
+                <div
+                  className="fixed inset-0 bg-black/50 z-10"
+                  onClick={() => setShowSettings(false)}
+                />
+                <div className="absolute right-4 top-4 bg-dark-800 border border-gray-700 rounded-lg p-3 shadow-xl w-64 z-20">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="text-sm font-semibold">Settings</div>
+                    <button
+                      aria-label="Close settings"
+                      className="px-2 py-1 rounded glow-border sound-click sound-hover"
+                      onClick={() => setShowSettings(false)}
+                    >
+                      ✕
+                    </button>
+                  </div>
+                  <div className="flex items-center justify-between mb-2">
+                  <div className="text-sm">Show Intro on Startup</div>
+                  <input
+                    type="checkbox"
+                    checked={localStorage.getItem('sl2_skip_intro') !== '1'}
+                    onChange={(e) => {
+                      try {
+                        localStorage.setItem('sl2_skip_intro', e.target.checked ? '0' : '1');
+                      } catch {}
+                    }}
+                  />
+                  </div>
+                  <div className="flex items-center justify-between mb-2">
+                  <div className="text-sm">Enable UI Sounds</div>
+                  <input
+                    type="checkbox"
+                    checked={uiSounds}
+                    onChange={(e) => {
+                      setUiSounds(e.target.checked);
+                      try { localStorage.setItem('sl2_ui_sounds', e.target.checked ? '1' : '0'); } catch {}
+                    }}
+                  />
+                  </div>
+                  <div className="flex items-center justify-between mb-2">
+                  <div className="text-sm">Enable Retro Mode</div>
+                  <input
+                    type="checkbox"
+                    checked={retroMode}
+                    onChange={(e) => {
+                      setRetroMode(e.target.checked);
+                      try { localStorage.setItem('sl2_retro_mode', e.target.checked ? '1' : '0'); } catch {}
+                    }}
+                  />
+                  </div>
+                  <div className="flex gap-2">
+                  <button className="px-2 py-1 rounded glow-border sound-click" onClick={() => soundManager.play('click')}>Test Click</button>
+                  <button className="px-2 py-1 rounded glow-border sound-click" onClick={() => soundManager.play('hover')}>Test Hover</button>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
 
           {/* Tab Navigation */}
-          <div className="flex gap-1 sm:gap-2 mb-4 md:mb-6 border-b border-gray-700 overflow-x-auto scrollbar-hide">
-            <button
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4, duration: 0.5 }}
+            className="flex gap-0.5 sm:gap-1 md:gap-2 mb-4 md:mb-6 border-b border-gray-700 overflow-x-auto scrollbar-hide -mx-2 px-2 sm:mx-0 sm:px-0"
+          >
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => setActiveTab('stats')}
-              className={`px-3 sm:px-4 md:px-6 py-2 md:py-3 font-semibold transition-colors whitespace-nowrap text-sm md:text-base tap-target ${
+              className={`sound-click sound-hover flex-1 min-w-[80px] sm:min-w-0 px-2 sm:px-3 md:px-6 py-2 md:py-3 font-semibold transition-all whitespace-nowrap text-xs sm:text-sm md:text-base tap-target rounded-t-lg ${retroMode ? 'font-retro glow-border' : ''} ${
                 activeTab === 'stats'
-                  ? 'border-b-2 border-blue-500 text-blue-400'
-                  : 'text-gray-400 hover:text-gray-200'
+                  ? 'border-b-2 border-accent-blue text-accent-blue bg-dark-800 shadow-lg'
+                  : 'text-gray-400 hover:text-gray-200 hover:bg-dark-800'
               }`}
             >
-              Stat Calculator
-            </button>
-            <button
+              <span className="hidden sm:inline">Stat Calculator</span>
+              <span className="inline sm:hidden">Stats</span>
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => setActiveTab('weapon')}
-              className={`px-3 sm:px-4 md:px-6 py-2 md:py-3 font-semibold transition-colors whitespace-nowrap text-sm md:text-base tap-target ${
+              className={`sound-click sound-hover flex-1 min-w-[80px] sm:min-w-0 px-2 sm:px-3 md:px-6 py-2 md:py-3 font-semibold transition-all whitespace-nowrap text-xs sm:text-sm md:text-base tap-target rounded-t-lg ${retroMode ? 'font-retro glow-border' : ''} ${
                 activeTab === 'weapon'
-                  ? 'border-b-2 border-yellow-500 text-yellow-400'
-                  : 'text-gray-400 hover:text-gray-200'
+                  ? 'border-b-2 border-yellow-500 text-yellow-400 bg-dark-800 shadow-lg'
+                  : 'text-gray-400 hover:text-gray-200 hover:bg-dark-800'
               }`}
             >
-              Weapon Calculator
-            </button>
-            <button
+              <span className="hidden sm:inline">Weapon Calculator</span>
+              <span className="inline sm:hidden">Weapon</span>
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setActiveTab('armor')}
+              className={`sound-click sound-hover flex-1 min-w-[80px] sm:min-w-0 px-2 sm:px-3 md:px-6 py-2 md:py-3 font-semibold transition-all whitespace-nowrap text-xs sm:text-sm md:text-base tap-target rounded-t-lg ${retroMode ? 'font-retro glow-border' : ''} ${
+                activeTab === 'armor'
+                  ? 'border-b-2 border-orange-500 text-orange-400 bg-dark-800 shadow-lg'
+                  : 'text-gray-400 hover:text-gray-200 hover:bg-dark-800'
+              }`}
+            >
+              <span className="hidden sm:inline">Armor Calculator</span>
+              <span className="inline sm:hidden">Armor</span>
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => setActiveTab('optimizer')}
-              className={`px-3 sm:px-4 md:px-6 py-2 md:py-3 font-semibold transition-colors whitespace-nowrap text-sm md:text-base tap-target ${
+              className={`sound-click sound-hover flex-1 min-w-[80px] sm:min-w-0 px-2 sm:px-3 md:px-6 py-2 md:py-3 font-semibold transition-all whitespace-nowrap text-xs sm:text-sm md:text-base tap-target rounded-t-lg ${retroMode ? 'font-retro glow-border' : ''} ${
                 activeTab === 'optimizer'
-                  ? 'border-b-2 border-green-500 text-green-400'
-                  : 'text-gray-400 hover:text-gray-200'
+                  ? 'border-b-2 border-green-500 text-green-400 bg-dark-800 shadow-lg'
+                  : 'text-gray-400 hover:text-gray-200 hover:bg-dark-800'
               }`}
             >
-              Stat Optimizer
-            </button>
-          </div>
+              <span className="hidden sm:inline">Stat Optimizer</span>
+              <span className="inline sm:hidden">Optimizer</span>
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setActiveTab('screenshot')}
+              className={`sound-click sound-hover flex-1 min-w-[80px] sm:min-w-0 px-2 sm:px-3 md:px-6 py-2 md:py-3 font-semibold transition-all whitespace-nowrap text-xs sm:text-sm md:text-base tap-target rounded-t-lg ${retroMode ? 'font-retro glow-border' : ''} ${
+                activeTab === 'screenshot'
+                  ? 'border-b-2 border-accent-purple text-accent-purple bg-dark-800 shadow-lg'
+                  : 'text-gray-400 hover:text-gray-200 hover:bg-dark-800'
+              }`}
+            >
+              <span className="hidden md:inline">Screenshot Mode</span>
+              <span className="hidden sm:inline md:hidden">Screenshot</span>
+              <span className="inline sm:hidden">Screen</span>
+            </motion.button>
+          </motion.div>
 
           {/* Stat Calculator Tab */}
           {activeTab === 'stats' && (
-            <>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-4 md:mb-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+            >
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-3 md:gap-4 mb-4 md:mb-6">
             <div>
-              <label className="block text-sm font-medium mb-2">Race Category</label>
+              <label className="block text-sm font-medium mb-2 text-gray-300">Race Category</label>
               <select
                 value={race}
                 onChange={(e) => handleRaceChange(e.target.value)}
-                className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-sm md:text-base tap-target"
+                className={`w-full bg-dark-700 border border-gray-600 rounded-lg px-3 py-2 text-sm md:text-base tap-target focus:ring-2 focus:ring-accent-blue transition-all ${retroMode ? 'font-retro glow-border sound-hover' : ''}`}
               >
                 {Object.keys(RACES).map(r => (
                   <option key={r} value={r}>{r}</option>
@@ -2116,7 +2540,7 @@ export default function SL2Calculator() {
               <select
                 value={subrace}
                 onChange={(e) => handleSubraceChange(e.target.value)}
-                className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-sm md:text-base tap-target"
+                className={`w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-sm md:text-base tap-target ${retroMode ? 'font-retro glow-border sound-hover' : ''}`}
               >
                 {getAvailableSubraces().map(sr => (
                   <option key={sr} value={sr}>{sr}</option>
@@ -2130,7 +2554,7 @@ export default function SL2Calculator() {
                   <select
                     value={karakuriYoukai}
                     onChange={(e) => setKarakuriYoukai(e.target.value)}
-                    className="w-full bg-purple-900 border border-purple-600 rounded px-2 sm:px-3 py-1 text-xs sm:text-sm tap-target"
+                    className={`w-full bg-purple-900 border border-purple-600 rounded px-2 sm:px-3 py-1 text-xs sm:text-sm tap-target ${retroMode ? 'font-retro glow-border sound-hover' : ''}`}
                   >
                     <option value="None">None</option>
                     <option value="Avian">Avian (+3 GUI, +2 CEL, -3 WIL, -2 DEF)</option>
@@ -2188,7 +2612,7 @@ export default function SL2Calculator() {
 
           {/* Class Passive Rank selectors */}
           {(hasClassPassive(mainClass) || hasClassPassive(subClass)) && (
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-4 mb-4">
     {(() => {
       // Check if both classes share the same base class passive
       const mainPassiveData = getClassPassiveData(mainClass);
@@ -2303,43 +2727,43 @@ export default function SL2Calculator() {
             </div>
             <div className="flex gap-1 sm:gap-2 flex-wrap w-full sm:w-auto">
               <button
-                onClick={() => setShowFood(!showFood)}
-                className="flex items-center justify-center bg-green-600 hover:bg-green-700 px-2 sm:px-3 py-2 rounded text-xs sm:text-sm transition-colors tap-target"
+                onClick={() => setShowFood(true)}
+                className={`flex items-center justify-center bg-green-600 hover:bg-green-700 px-2 sm:px-3 py-2 rounded text-xs sm:text-sm transition-colors tap-target ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''}`}
               >
                 <Utensils size={16} className="sm:w-4 sm:h-4" />
                 <span className="hidden sm:inline ml-1.5">Food</span>
               </button>
               <button
-                onClick={() => setShowStamps(!showStamps)}
-                className="flex items-center justify-center bg-yellow-600 hover:bg-yellow-700 px-2 sm:px-3 py-2 rounded text-xs sm:text-sm transition-colors tap-target"
+                onClick={() => setShowStamps(true)}
+                className={`flex items-center justify-center bg-yellow-600 hover:bg-yellow-700 px-2 sm:px-3 py-2 rounded text-xs sm:text-sm transition-colors tap-target ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''}`}
               >
                 <BookOpen size={16} className="sm:w-4 sm:h-4" />
                 <span className="hidden sm:inline ml-1.5">History</span>
               </button>
               <button
-                onClick={() => setShowTalents(!showTalents)}
-                className="flex items-center justify-center bg-orange-600 hover:bg-orange-700 px-2 sm:px-3 py-2 rounded text-xs sm:text-sm transition-colors tap-target"
+                onClick={() => setShowTalents(true)}
+                className={`flex items-center justify-center bg-orange-600 hover:bg-orange-700 px-2 sm:px-3 py-2 rounded text-xs sm:text-sm transition-colors tap-target ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''}`}
               >
                 <StarIcon size={16} className="sm:w-4 sm:h-4" />
                 <span className="hidden sm:inline ml-1.5">Talents</span>
               </button>
               <button
-                onClick={() => setShowAdvanced(!showAdvanced)}
-                className="flex items-center justify-center bg-purple-600 hover:bg-purple-700 px-2 sm:px-3 py-2 rounded text-xs sm:text-sm transition-colors tap-target"
+                onClick={() => setShowAdvanced(true)}
+                className={`flex items-center justify-center bg-purple-600 hover:bg-purple-700 px-2 sm:px-3 py-2 rounded text-xs sm:text-sm transition-colors tap-target ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''}`}
               >
                 <Settings size={16} className="sm:w-4 sm:h-4" />
                 <span className="hidden sm:inline ml-1.5">Advanced</span>
               </button>
               <button
-                onClick={() => setShowImportExport(!showImportExport)}
-                className="flex items-center justify-center bg-indigo-600 hover:bg-indigo-700 px-2 sm:px-3 py-2 rounded text-xs sm:text-sm transition-colors tap-target"
+                onClick={() => setShowImportExport(true)}
+                className={`flex items-center justify-center bg-indigo-600 hover:bg-indigo-700 px-2 sm:px-3 py-2 rounded text-xs sm:text-sm transition-colors tap-target ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''}`}
               >
                 <Download size={16} className="sm:w-4 sm:h-4" />
                 <span className="hidden sm:inline ml-1.5">Import/Export</span>
               </button>
               <button
                 onClick={resetStats}
-                className="flex items-center justify-center bg-blue-600 hover:bg-blue-700 px-2 sm:px-3 py-2 rounded text-xs sm:text-sm transition-colors tap-target"
+                className={`flex items-center justify-center bg-blue-600 hover:bg-blue-700 px-2 sm:px-3 py-2 rounded text-xs sm:text-sm transition-colors tap-target ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''}`}
               >
                 <RotateCcw size={16} className="sm:w-4 sm:h-4" />
                 <span className="hidden sm:inline ml-1.5">Reset</span>
@@ -2347,71 +2771,31 @@ export default function SL2Calculator() {
             </div>
           </div>
 
-          {showFood && (
-            <div className="bg-gray-700 rounded p-3 sm:p-4 mb-4">
-              <h3 className="font-bold text-base sm:text-lg mb-3">Food Bonuses</h3>
-              <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-2 sm:gap-3">
-                {Object.keys(FOODS).map(f => (
-                  <button
-                    key={f}
-                    onClick={() => setFood(f)}
-                    className={`px-3 sm:px-4 py-2 rounded text-sm sm:text-base tap-target ${
-                      food === f ? 'bg-green-600' : 'bg-gray-600 hover:bg-gray-500'
-                    }`}
-                  >
-                    {f}
-                    {f !== 'None' && (
-                      <span className="text-xs block text-gray-300 truncate">
-                        {Object.entries(FOODS[f]).filter(([_, v]) => v > 0).map(([k, v]) => `+${v} ${k.toUpperCase()}`).join(', ')}
-                      </span>
-                    )}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {showStamps && (
-            <div className="bg-gray-700 rounded p-3 sm:p-4 mb-4">
-              <h3 className="font-bold text-base sm:text-lg mb-3">History & Stamps</h3>
-              <div className="mb-4">
-                <label className="block text-sm font-medium mb-2">Character History</label>
-                <select
-                  value={history}
-                  onChange={(e) => handleHistoryChange(e.target.value)}
-                  className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-sm sm:text-base tap-target"
-                >
-                  {Object.keys(HISTORY).map(h => (
-                    <option key={h} value={h}>{h}</option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <h4 className="font-semibold mb-2 text-sm sm:text-base">Stat Stamps</h4>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 sm:gap-3">
-                  {(Object.keys(stamps) as StampKey[]).map(stat => (
-                    <div key={stat}>
-                      <label className="block text-xs sm:text-sm mb-1 capitalize">{stat.toUpperCase()}</label>
-                      <input
-                        type="number"
-                        min="0"
-                        max="10"
-                        value={stamps[stat]}
-                        onChange={(e) => setStamps(prev => ({ ...prev, [stat]: Number(e.target.value) }))}
-                        className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm tap-target"
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
-
           {showTalents && (
-            <div className="bg-gray-700 rounded p-3 sm:p-4 mb-4 space-y-3">
-              <h3 className="font-bold text-base sm:text-lg mb-2">Talents & Traits</h3>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+            <div 
+              className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-2 sm:p-4"
+              onClick={() => setShowTalents(false)}
+            >
+              <div 
+                className={`bg-gray-800 rounded-lg shadow-2xl max-w-6xl w-full max-h-[90vh] overflow-y-auto ${retroMode ? 'glow-border font-retro' : ''}`}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="sticky top-0 bg-gray-800 border-b border-gray-700 p-3 sm:p-4 md:p-6 flex justify-between items-center">
+                  <h2 className={`text-lg sm:text-xl md:text-2xl font-bold ${retroMode ? 'font-retro' : ''}`}>{retroMode ? (<span className="glitch" data-text="Talents & Traits">Talents & Traits</span>) : 'Talents & Traits'}</h2>
+                  <button
+                    onClick={() => setShowTalents(false)}
+                    className={`p-2 hover:bg-gray-700 rounded-full transition-colors ${retroMode ? 'glow-border sound-click sound-hover' : ''}`}
+                    title="Close"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                  </button>
+                </div>
+
+                <div className="p-3 sm:p-4 md:p-6 space-y-3">
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4">
                 {hasGhost && (
                   <>
                     <div>
@@ -2615,7 +2999,7 @@ export default function SL2Calculator() {
                       Every round in battle, glowing spirits appear around the Redtail (1-6), becoming your Fortune Level. 
                       Dice color determines the effect. Bonuses scale with SAN (+1x per 10 Scaled SAN, max 5x).
                     </p>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-3">
                       <div>
                         <label className="block text-sm mb-1">Fortune Level (1-6)</label>
                         <input
@@ -2632,7 +3016,7 @@ export default function SL2Calculator() {
                         <select
                           value={redtailDiceColor}
                           onChange={(e) => setRedtailDiceColor(e.target.value as 'red' | 'green' | 'yellow')}
-                          className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1"
+                          className={`w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 ${retroMode ? 'font-retro glow-border sound-hover' : ''}`}
                         >
                           <option value="red">Red Dice</option>
                           <option value="green">Green Dice</option>
@@ -2676,13 +3060,35 @@ export default function SL2Calculator() {
                 )}
               </div>
             </div>
+          </div>
+        </div>
           )}
 
           {showAdvanced && (
-            <div className="bg-gray-700 rounded p-3 sm:p-4 mb-4 space-y-3 sm:space-y-4">
-              <h3 className="font-bold text-base sm:text-lg mb-2">Advanced Options</h3>
-              
-              <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+            <div 
+              className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-2 sm:p-4"
+              onClick={() => setShowAdvanced(false)}
+            >
+              <div 
+                className={`bg-gray-800 rounded-lg shadow-2xl max-w-6xl w-full max-h-[90vh] overflow-y-auto ${retroMode ? 'glow-border font-retro' : ''}`}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="sticky top-0 bg-gray-800 border-b border-gray-700 p-3 sm:p-4 md:p-6 flex justify-between items-center">
+                  <h2 className={`text-lg sm:text-xl md:text-2xl font-bold ${retroMode ? 'font-retro' : ''}`}>{retroMode ? (<span className="glitch" data-text="Advanced Options">Advanced Options</span>) : 'Advanced Options'}</h2>
+                  <button
+                    onClick={() => setShowAdvanced(false)}
+                    className={`p-2 hover:bg-gray-700 rounded-full transition-colors ${retroMode ? 'glow-border sound-click sound-hover' : ''}`}
+                    title="Close"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                  </button>
+                </div>
+
+                <div className="p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4">
+                  <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-3 sm:gap-4">
                 <div>
                   <label className="block text-xs sm:text-sm mb-1">Character Level (1-60)</label>
                   <input
@@ -2779,7 +3185,7 @@ export default function SL2Calculator() {
                 </div>
                 <button
                   onClick={() => setShowCustomStats(!showCustomStats)}
-                  className="bg-indigo-600 hover:bg-indigo-700 px-3 py-2 rounded text-xs sm:text-sm tap-target"
+                  className={`bg-indigo-600 hover:bg-indigo-700 px-3 py-2 rounded text-xs sm:text-sm tap-target ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''}`}
                 >
                   Custom Stats
                 </button>
@@ -2788,7 +3194,7 @@ export default function SL2Calculator() {
               {showCustomStats && (
                 <div>
                   <h4 className="font-semibold mb-2 text-sm sm:text-base">Custom Stat Modifiers (Flat Bonuses)</h4>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 xl:grid-cols-12 gap-2">
                     {(Object.keys(customStats) as StatKey[]).map(stat => (
                       <div key={stat}>
                         <label className="block text-xs mb-1 uppercase">{stat}</label>
@@ -2802,7 +3208,7 @@ export default function SL2Calculator() {
                     ))}
                   </div>
                   <h4 className="font-semibold mb-2 mt-3">Custom Base Stats (Pre-Class)</h4>
-                  <div className="grid grid-cols-2 md:grid-cols-6 gap-2">
+                  <div className="grid grid-cols-2 md:grid-cols-6 xl:grid-cols-12 gap-2">
                     {(Object.keys(customBaseStats) as StatKey[]).map(stat => (
                       <div key={stat}>
                         <label className="block text-xs mb-1 uppercase">{stat}</label>
@@ -2820,12 +3226,12 @@ export default function SL2Calculator() {
 
               <div>
                 <h4 className="font-semibold mb-2">Legend Extend (+1 before DR)</h4>
-                <div className="grid grid-cols-2 md:grid-cols-6 gap-2">
+                <div className="grid grid-cols-2 md:grid-cols-6 xl:grid-cols-12 gap-2">
                   {Object.keys(LEGEND_EXTEND).map(key => (
                     <button
                       key={key}
                       onClick={() => handleLegendExtendToggle(key)}
-                      className={`px-3 py-2 rounded text-sm transition-colors ${
+                      className={`px-3 py-2 rounded text-sm transition-colors ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''} ${
                         legendExtend[key] 
                           ? 'bg-blue-600 hover:bg-blue-700' 
                           : 'bg-gray-700 hover:bg-gray-600'
@@ -2839,8 +3245,8 @@ export default function SL2Calculator() {
               </div>
 
               <div>
-                <h4 className="font-semibold mb-2">Astrology (Planet Signs) - +1 Stat, +3 Element ATK</h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+                <h4 className="font-semibold mb-2">Astrology (Planet Signs) - +1 Stat, +2 Element ATK</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2">
                   <label className="flex items-center space-x-2 cursor-pointer p-2 rounded hover:bg-gray-700">
                     <input
                       type="radio"
@@ -2870,15 +3276,37 @@ export default function SL2Calculator() {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
           )}
 
           {/* Import/Export Section */}
           {showImportExport && (
-            <div className="space-y-4 p-4 bg-gray-800 rounded border border-gray-600">
-              <h3 className="text-lg font-semibold text-white">Build Import/Export</h3>
-              
-              {/* Export Section */}
-              <div className="space-y-3">
+            <div 
+              className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-2 sm:p-4"
+              onClick={() => setShowImportExport(false)}
+            >
+              <div 
+                className={`bg-gray-800 rounded-lg shadow-2xl max-w-6xl w-full max-h-[90vh] overflow-y-auto ${retroMode ? 'glow-border font-retro' : ''}`}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="sticky top-0 bg-gray-800 border-b border-gray-700 p-3 sm:p-4 md:p-6 flex justify-between items-center">
+                  <h2 className={`text-lg sm:text-xl md:text-2xl font-bold ${retroMode ? 'font-retro' : ''}`}>{retroMode ? (<span className="glitch" data-text="Build Import/Export">Build Import/Export</span>) : 'Build Import/Export'}</h2>
+                  <button
+                    onClick={() => setShowImportExport(false)}
+                    className={`p-2 hover:bg-gray-700 rounded-full transition-colors ${retroMode ? 'glow-border sound-click sound-hover' : ''}`}
+                    title="Close"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                  </button>
+                </div>
+
+                <div className="p-3 sm:p-4 md:p-6 space-y-4">
+                  {/* Export Section */}
+                  <div className="space-y-3">
                 <h4 className="text-md font-medium text-gray-300">Export Build</h4>
                 <div className="flex flex-col sm:flex-row gap-2">
                   <input
@@ -2891,14 +3319,14 @@ export default function SL2Calculator() {
                   <div className="flex gap-2">
                     <button
                       onClick={() => exportBuild(buildName)}
-                      className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded flex items-center gap-2 transition-colors"
+                      className={`px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded flex items-center gap-2 transition-colors ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''}`}
                     >
                       <Download size={16} />
                       Download JSON
                     </button>
                     <button
                       onClick={() => copyBuildToClipboard(buildName)}
-                      className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded flex items-center gap-2 transition-colors"
+                      className={`px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded flex items-center gap-2 transition-colors ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''}`}
                     >
                       <Copy size={16} />
                       Copy to Clipboard
@@ -2922,7 +3350,7 @@ export default function SL2Calculator() {
                     <button
                       onClick={() => importBuild(importText)}
                       disabled={!importText.trim()}
-                      className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white rounded flex items-center gap-2"
+                      className={`px-4 py-2 bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white rounded flex items-center gap-2 ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''}`}
                     >
                       <Upload size={16} />
                       Import from Text
@@ -2946,7 +3374,7 @@ export default function SL2Calculator() {
                     />
                     <label
                       htmlFor="import-file"
-                      className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded flex items-center gap-2 cursor-pointer"
+                      className={`px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded flex items-center gap-2 cursor-pointer ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''}`}
                     >
                       <Upload size={16} />
                       Import from File
@@ -2959,14 +3387,14 @@ export default function SL2Calculator() {
               <div className="space-y-3">
                 <h4 className="text-md font-medium text-gray-300">Template Builds</h4>
                 <p className="text-sm text-gray-400">Load basic builds for simple templates!</p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-3">
                   {Object.entries(TEMPLATE_BUILDS).map(([key, template]) => (
                     <div key={key} className="bg-gray-700 border border-gray-600 rounded p-3" title={template.reasoning}>
                       <div className="flex justify-between items-start mb-2">
                         <h5 className="font-medium text-white text-sm">{template.name}</h5>
                         <button
                           onClick={() => loadTemplate(key)}
-                          className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded text-xs"
+                          className={`px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded text-xs ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''}`}
                         >
                           Load
                         </button>
@@ -2999,6 +3427,8 @@ export default function SL2Calculator() {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
           )}
 
           {/* Raw vs True Stats Toggle */}
@@ -3006,7 +3436,7 @@ export default function SL2Calculator() {
             <div className="bg-gray-700 rounded-lg p-1 flex">
               <button
                 onClick={() => setShowRawStats(false)}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''} ${
                   !showRawStats 
                     ? 'bg-blue-600 text-white' 
                     : 'text-gray-300 hover:text-white'
@@ -3016,7 +3446,7 @@ export default function SL2Calculator() {
               </button>
               <button
                 onClick={() => setShowRawStats(true)}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''} ${
                   showRawStats 
                     ? 'bg-orange-600 text-white' 
                     : 'text-gray-300 hover:text-white'
@@ -3027,19 +3457,22 @@ export default function SL2Calculator() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 xl:gap-6">
             <div className="space-y-1">
               <StatRow label="Strength" statKey="str" />
               <StatRow label="Will" statKey="wil" />
               <StatRow label="Skill" statKey="ski" />
               <StatRow label="Celerity" statKey="cel" />
-              <StatRow label="Defense" statKey="def" />
-              <StatRow label="Resistance" statKey="res" />
             </div>
             
             <div className="space-y-1">
+              <StatRow label="Defense" statKey="def" />
+              <StatRow label="Resistance" statKey="res" />
               <StatRow label="Vitality" statKey="vit" />
               <StatRow label="Faith" statKey="fai" />
+            </div>
+
+            <div className="space-y-1">
               <StatRow label="Luck" statKey="luc" />
               <StatRow label="Guile" statKey="gui" />
               <StatRow label="Sanctity" statKey="san" />
@@ -3047,44 +3480,44 @@ export default function SL2Calculator() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6 pt-6 border-t border-gray-700">
-            <div className="bg-gray-700 rounded p-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-8 gap-3 xl:gap-4 mt-6 pt-6 border-t border-gray-700">
+            <div className={`bg-gray-700 rounded p-4 ${retroMode ? 'glow-border font-retro' : ''}`}>
               <div className="text-sm text-gray-400">HP</div>
               <div className="text-2xl font-bold text-red-400">
                 {calculateHP()} <span className="text-base text-gray-400">/ {calculateMaxHP()}</span>
               </div>
             </div>
-            <div className="bg-gray-700 rounded p-4">
+            <div className={`bg-gray-700 rounded p-4 ${retroMode ? 'glow-border font-retro' : ''}`}>
               <div className="text-sm text-gray-400">FP</div>
               <div className="text-2xl font-bold text-blue-400">{calculateMP()}</div>
             </div>
-            <div className="bg-gray-700 rounded p-4">
+            <div className={`bg-gray-700 rounded p-4 ${retroMode ? 'glow-border font-retro' : ''}`}>
               <div className="text-sm text-gray-400">Phys. Def</div>
               <div className="text-2xl font-bold text-purple-400">{Math.floor(stats.def * 0.9)}%</div>
             </div>
-            <div className="bg-gray-700 rounded p-4">
+            <div className={`bg-gray-700 rounded p-4 ${retroMode ? 'glow-border font-retro' : ''}`}>
               <div className="text-sm text-gray-400">Mag. Def</div>
               <div className="text-2xl font-bold text-pink-400">{Math.floor(stats.res * 0.9)}%</div>
             </div>
-            <div className="bg-gray-700 rounded p-4">
+            <div className={`bg-gray-700 rounded p-4 ${retroMode ? 'glow-border font-retro' : ''}`}>
               <div className="text-sm text-gray-400">Evade</div>
               <div className="text-xl font-bold text-yellow-400">
                 {Math.floor(stats.cel * 2) + baseEvade + Math.min(bonusEvade, 50) - (giantGene ? 10 : 0)}
               </div>
             </div>
-            <div className="bg-gray-700 rounded p-4">
+            <div className={`bg-gray-700 rounded p-4 ${retroMode ? 'glow-border font-retro' : ''}`}>
               <div className="text-sm text-gray-400">Crit Evade</div>
               <div className="text-xl font-bold text-cyan-400">
                 {Math.floor(stats.fai + stats.luc)}
               </div>
             </div>
-            <div className="bg-gray-700 rounded p-4">
+            <div className={`bg-gray-700 rounded p-4 ${retroMode ? 'glow-border font-retro' : ''}`}>
               <div className="text-sm text-gray-400">Status Inflict</div>
               <div className="text-xl font-bold text-green-400">
                 {Math.floor(stats.ski * 2 + stats.wil)}%
               </div>
             </div>
-            <div className="bg-gray-700 rounded p-4">
+            <div className={`bg-gray-700 rounded p-4 ${retroMode ? 'glow-border font-retro' : ''}`}>
               <div className="text-sm text-gray-400">Status Resist</div>
               <div className="text-xl font-bold text-indigo-400">
                 {Math.floor(stats.san * 2 + stats.fai)}%
@@ -3094,9 +3527,9 @@ export default function SL2Calculator() {
 
           <div className="mt-6 pt-6 border-t border-gray-700">
             <h3 className="font-bold text-lg mb-4">Elemental ATK & RES</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-10 gap-3">
               {elements.map(elem => (
-                <div key={elem} className="bg-gray-700 rounded p-3">
+                <div key={elem} className={`bg-gray-700 rounded p-3 ${retroMode ? 'glow-border font-retro' : ''}`}>
                   <div 
                     className="text-sm font-semibold mb-2" 
                     style={{ color: ELEMENT_COLORS[elem] }}
@@ -3219,54 +3652,90 @@ export default function SL2Calculator() {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6 pt-6 border-t border-gray-700">
-            <div className="bg-gray-700 rounded p-3">
+            <div className={`bg-gray-700 rounded p-3 ${retroMode ? 'glow-border font-retro' : ''}`}>
               <div className="text-sm text-gray-400">Initiative</div>
               <div className="text-lg font-bold">
                 {(SUBRACES[subrace]?.cel || 0) + addedStats.cel + customBaseStats.cel + (astroBonus.cel || 0)}
               </div>
             </div>
-            <div className="bg-gray-700 rounded p-3">
+            <div className={`bg-gray-700 rounded p-3 ${retroMode ? 'glow-border font-retro' : ''}`}>
               <div className="text-sm text-gray-400">Youkai Cap</div>
               <div className="text-lg font-bold text-purple-400">{youkaiCap}</div>
             </div>
-            <div className="bg-gray-700 rounded p-3">
+            <div className={`bg-gray-700 rounded p-3 ${retroMode ? 'glow-border font-retro' : ''}`}>
               <div className="text-sm text-gray-400">Flanking</div>
               <div className="text-lg font-bold">
                 {Math.floor(5 + stats.gui / 2)}
               </div>
             </div>
-            <div className="bg-gray-700 rounded p-3">
+            <div className={`bg-gray-700 rounded p-3 ${retroMode ? 'glow-border font-retro' : ''}`}>
               <div className="text-sm text-gray-400">Skill Pool</div>
               <div className="text-lg font-bold">
                 {11 + Math.floor(stats.gui / 5) + Math.floor(stats.ski / 5) + Math.floor(stats.wil / 10) + ((RACES[race]?.human || SUBRACES[subrace]?.human) ? 2 : 0)}
               </div>
             </div>
-            <div className="bg-gray-700 rounded p-3">
+            <div className={`bg-gray-700 rounded p-3 ${retroMode ? 'glow-border font-retro' : ''}`}>
               <div className="text-sm text-gray-400">Battle Weight</div>
               <div className="text-lg font-bold">
                 0/{Math.floor(stats.str) + 5}
               </div>
             </div>
-            <div className="bg-gray-700 rounded p-3">
+            <div className={`bg-gray-700 rounded p-3 ${retroMode ? 'glow-border font-retro' : ''}`}>
               <div className="text-sm text-gray-400">Encumbrance</div>
               <div className="text-lg font-bold">
                 0/{Math.floor(stats.str + stats.vit) + 5 + (subrace === 'Dullahan' ? 30 : 0) + (subrace.includes('Mechanation') ? 20 : 0)}
               </div>
             </div>
           </div>
-            </>
+            </motion.div>
           )}
 
           {/* Weapon Calculator Tab */}
           {activeTab === 'weapon' && (
-            <WeaponCalculator stats={stats} />
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+            >
+              <WeaponCalculator stats={stats} retroMode={retroMode} config={weaponConfig} onConfigChange={setWeaponConfig} extraCritChance={conditionalCriticalBonus} />
+            </motion.div>
+          )}
+
+          {activeTab === 'armor' && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+            >
+              <ArmorCalculator 
+                equippedArmor={equippedArmor}
+                onArmorChange={(armor) => {
+                  setEquippedArmor(armor);
+                  // Reset conditional bonuses when armor changes
+                  setArmorConditionalBonuses({});
+                }}
+                conditionalBonusStates={armorConditionalBonuses}
+                onConditionalBonusChange={(bonusKey, enabled) => {
+                setArmorConditionalBonuses(prev => ({
+                  ...prev,
+                  [bonusKey]: enabled
+                }));
+              }}
+              retroMode={retroMode}
+            />
+            </motion.div>
           )}
 
           {/* Stat Optimizer Tab */}
           {activeTab === 'optimizer' && (
-            <div className="space-y-6">
-              <div className="bg-gradient-to-r from-green-900 to-blue-900 bg-opacity-30 border border-green-700 rounded-lg p-6">
-                <h2 className="text-2xl font-bold mb-4 text-green-400">Stat Optimizer</h2>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              className="space-y-6"
+            >
+              <div className="glass-effect rounded-lg p-6 border border-green-500/30">
+                <h2 className="text-2xl font-bold mb-4 text-green-400 font-display">Stat Optimizer</h2>
                 <p className="text-gray-300 mb-4">
                   The optimizer considers class synergies, weapon scaling, APT efficiency, and build-specific thresholds. It is very much a work in progress, so please double-check results!
                 </p>
@@ -3278,7 +3747,7 @@ export default function SL2Calculator() {
                     <select
                       value={selectedBuildType}
                       onChange={(e) => setSelectedBuildType(e.target.value)}
-                      className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2"
+                      className={`w-full bg-dark-700 border border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 transition-all ${retroMode ? 'font-retro glow-border sound-hover' : ''}`}
                     >
                       {Object.entries(BUILD_TYPES).map(([key, buildType]) => (
                         <option key={key} value={key}>{buildType.name}</option>
@@ -3298,7 +3767,7 @@ export default function SL2Calculator() {
                       max="60"
                       value={optimizerTargetLevel}
                       onChange={(e) => setOptimizerTargetLevel(Math.min(60, Math.max(1, parseInt(e.target.value) || 60)))}
-                      className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2"
+                      className="w-full bg-dark-700 border border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 transition-all"
                     />
                     <p className="text-xs text-gray-400 mt-1">
                       Available stat points: {optimizerTargetLevel * 4}
@@ -3510,7 +3979,7 @@ export default function SL2Calculator() {
                       <select
                         value={selectedWeaponType}
                         onChange={(e) => setSelectedWeaponType(e.target.value)}
-                        className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2"
+                        className={`w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 ${retroMode ? 'font-retro glow-border sound-hover' : ''}`}
                       >
                         <option value="">Auto-detect from classes</option>
                         <option value="Swords">Swords (STR/SKI)</option>
@@ -3774,7 +4243,7 @@ export default function SL2Calculator() {
                               <select
                                 value={customWeights.targetAPT || 36}
                                 onChange={(e) => setCustomWeights({...customWeights, targetAPT: parseInt(e.target.value) as 36 | 42 | 80})}
-                                className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1"
+                                className={`w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 ${retroMode ? 'font-retro glow-border sound-hover' : ''}`}
                               >
                                 <option value={36}>36 APT (Standard)</option>
                                 <option value={42}>42 APT (High Efficiency)</option>
@@ -3814,7 +4283,7 @@ export default function SL2Calculator() {
                   <button
                     onClick={runOptimization}
                     disabled={isOptimizing}
-                    className="px-6 py-3 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:cursor-not-allowed rounded-lg font-semibold transition-colors flex items-center gap-2"
+                    className="sound-click sound-hover px-6 py-3 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:cursor-not-allowed rounded-lg font-semibold transition-colors flex items-center gap-2"
                   >
                     {isOptimizing ? (
                       <>
@@ -3831,7 +4300,7 @@ export default function SL2Calculator() {
                   {optimizationResult && (
                     <button
                       onClick={applyOptimization}
-                      className="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg font-semibold transition-colors"
+                      className="sound-click sound-hover px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg font-semibold transition-colors"
                     >
                       Apply to Calculator
                     </button>
@@ -3917,9 +4386,330 @@ export default function SL2Calculator() {
                   </div>
                 </div>
               )}
-            </div>
+            </motion.div>
           )}
-        </div>
+
+          {/* Screenshot Mode Tab */}
+          {activeTab === 'screenshot' && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              className="space-y-6"
+            >
+              {/* Screenshot Button */}
+              <div className="flex justify-between items-center mb-6">
+                <h2 className={`text-2xl font-bold ${retroMode ? 'glitch-title text-emerald-300' : 'text-accent-purple font-display'}`}>Screenshot Mode</h2>
+                <motion.button
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={takeScreenshot}
+                  className="sound-click sound-hover flex items-center gap-2 px-6 py-3 glow-border shine text-white rounded-lg font-semibold"
+                >
+                  <Camera size={20} />
+                  Save Screenshot
+                </motion.button>
+              </div>
+
+              {/* Screenshot Content */}
+              <div ref={screenshotRef} className={`${retroMode ? 'panel-contrast font-retro glow-border' : 'glass-effect'} rounded-lg p-8 space-y-6`}>
+                {/* Build Header */}
+                <div className={`border-b border-gray-700 pb-4 ${retroMode ? 'glow-border' : ''}`}>
+                  <h1 className={`text-3xl font-bold mb-3 ${retroMode ? 'glitch-title text-yellow-300' : 'font-display text-gradient'}`}>{buildName || 'Unnamed Build'}</h1>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
+                    <div>
+                      <span className="text-gray-400">Race: </span>
+                      <span className="font-semibold">{subrace}</span>
+                    </div>
+                    <div>
+                      <span className="text-gray-400">Main Class: </span>
+                      <span className="font-semibold">{mainClass}</span>
+                    </div>
+                    <div>
+                      <span className="text-gray-400">Sub Class: </span>
+                      <span className="font-semibold">{subClass}</span>
+                    </div>
+                    <div>
+                      <span className="text-gray-400">Level: </span>
+                      <span className="font-semibold">{characterLevel}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Stats Display */}
+                <div>
+                  <h3 className={`text-xl font-bold mb-4 ${retroMode ? 'glitch-title text-blue-300' : 'text-blue-400'}`}>Character Stats</h3>
+                  <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+                    {Object.entries(stats).map(([stat, value]) => (
+                      <div key={stat} className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-700'} rounded-lg p-3`}>
+                        <div className="text-xs text-gray-400 uppercase tracking-wide mb-1">{stat}</div>
+                        <div 
+                          className="text-xl font-bold"
+                          style={{ 
+                            color: STAT_COLORS[stat as StatKey] === 'rainbow' 
+                              ? '#ffffff' 
+                              : STAT_COLORS[stat as StatKey] 
+                          }}
+                        >
+                          {value}
+                        </div>
+                        <div className="text-xs text-gray-500 mt-0.5">
+                          {SUBRACES[subrace]?.[stat as StatKey] || 0} + {addedStats[stat as StatKey]}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Derived Stats */}
+                <div>
+                  <h3 className={`text-xl font-bold mb-4 ${retroMode ? 'glitch-title text-green-300' : 'text-green-400'}`}>Combat Stats</h3>
+                  <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-3">
+                    <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-700'} rounded-lg p-3`}>
+                      <div className="text-xs text-gray-400">HP</div>
+                      <div className="text-lg font-bold text-red-400">
+                        {calculateHP()} / {calculateMaxHP()}
+                      </div>
+                    </div>
+                    <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-700'} rounded-lg p-3`}>
+                      <div className="text-xs text-gray-400">FP</div>
+                      <div className="text-lg font-bold text-blue-400">{calculateMP()}</div>
+                    </div>
+                    <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-700'} rounded-lg p-3`}>
+                      <div className="text-xs text-gray-400">Phys. Def</div>
+                      <div className="text-lg font-bold text-purple-400">{Math.floor(stats.def * 0.9)}%</div>
+                    </div>
+                    <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-700'} rounded-lg p-3`}>
+                      <div className="text-xs text-gray-400">Mag. Def</div>
+                      <div className="text-lg font-bold text-pink-400">{Math.floor(stats.res * 0.9)}%</div>
+                    </div>
+                    <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-700'} rounded-lg p-3`}>
+                      <div className="text-xs text-gray-400">Evade</div>
+                      <div className="text-lg font-bold text-yellow-400">
+                        {Math.floor(stats.cel * 2) + baseEvade + Math.min(bonusEvade, 50) + (equippedArmor?.evade || 0) + conditionalEvadeBonus - (giantGene ? 10 : 0)}
+                      </div>
+                    </div>
+                    <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-700'} rounded-lg p-3`}>
+                      <div className="text-xs text-gray-400">Crit Evade</div>
+                      <div className="text-lg font-bold text-cyan-400">
+                        {Math.floor(stats.fai + stats.luc)}
+                      </div>
+                    </div>
+                    <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-700'} rounded-lg p-3`}>
+                      <div className="text-xs text-gray-400">Status Inflict</div>
+                      <div className="text-lg font-bold text-green-400">
+                        {Math.floor(stats.ski * 2 + stats.wil)}%
+                      </div>
+                    </div>
+                    <div className="bg-gray-700 rounded-lg p-3">
+                      <div className="text-xs text-gray-400">Status Resist</div>
+                      <div className="text-lg font-bold text-indigo-400">
+                        {Math.floor(stats.san * 2 + stats.fai)}%
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Elemental Stats */}
+                <div>
+                  <h3 className={`text-xl font-bold mb-4 ${retroMode ? 'glitch-title text-orange-300' : 'text-orange-400'}`}>Elemental ATK & RES</h3>
+                  <div className="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-10 gap-3 element-grid">
+                    {elements.map(elem => {
+                      const elemKey = elem as ElementKey;
+                      return (
+                        <div key={elem} className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-700'} rounded-lg p-3`}>
+                          <div 
+                            className="text-sm font-semibold mb-2 element-label"
+                            style={{ color: ELEMENT_COLORS[elemKey] }}
+                            title={elem}
+                            aria-label={elem}
+                          >
+                            {activeTab === 'screenshot' ? (ELEMENT_EMOJI_LABELS[elem] || elem) : elem}
+                          </div>
+                          <div className="flex justify-between text-xs">
+                            <span className="text-gray-400">ATK:</span>
+                            <span className="font-semibold">{calculateElementalATK(elem)}</span>
+                          </div>
+                          <div className="flex justify-between text-xs">
+                            <span className="text-gray-400">RES:</span>
+                            <span className="font-semibold">{calculateElementalRES(elem)}%</span>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Equipment Bonuses Applied */}
+                <div>
+                  <h3 className={`text-xl font-bold mb-4 ${retroMode ? 'glitch-title text-amber-300' : 'text-amber-400'}`}>Equipment Bonuses</h3>
+                  <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+                    {(['str','wil','ski','cel','def','res','vit','fai','luc','gui','san','apt'] as StatKey[]).map((stat) => {
+                      const armorBase = armorBonus[stat] || 0;
+                      const armorConditional = conditionalArmorBonus[stat] || 0;
+                      const weaponBonus = getWeaponStatBonus()[stat] || 0;
+                      const total = armorBase + armorConditional + weaponBonus;
+                      if (total === 0) return null;
+                      return (
+                        <div key={stat} className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-700'} rounded-lg p-3`}>
+                          <div className="text-xs text-gray-400 uppercase tracking-wide mb-1">{stat}</div>
+                          <div className="text-lg font-bold text-amber-300">+{total}</div>
+                          <div className="text-xs text-gray-500 mt-0.5">Armor: +{armorBase}{armorConditional ? `, +${armorConditional} cond.` : ''}{weaponBonus ? `, Weapon: +${weaponBonus}` : ''}</div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Weapon Information */}
+                <div>
+                  <h3 className={`text-xl font-bold mb-4 ${retroMode ? 'glitch-title text-yellow-300' : 'text-yellow-400'}`}>Weapon Stats</h3>
+                  {/* Selected Weapon Summary (for screenshot clarity) */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                    <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-800'} rounded-lg p-3`}>
+                      <div className="text-xs text-gray-400">Selected Weapon</div>
+                      <div className="text-sm font-bold text-white">
+                        {weaponConfig?.selectedWeaponName || 'None selected'}
+                      </div>
+                    </div>
+                    <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-800'} rounded-lg p-3`}>
+                      <div className="text-xs text-gray-400">Type</div>
+                      <div className="text-sm font-bold text-white">
+                        {weaponConfig?.weaponType || '—'}
+                      </div>
+                    </div>
+                  </div>
+                  <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-700'} rounded-lg p-4`}>
+                    <WeaponCalculator stats={stats} readOnly={true} retroMode={retroMode} config={weaponConfig} extraCritChance={conditionalCriticalBonus} />
+                  </div>
+                </div>
+
+                {/* Conditional Bonus Sources */}
+                {(conditionalCriticalBonus > 0 || conditionalEvadeBonus > 0) && (
+                  <div>
+                    <h3 className={`text-xl font-bold mb-4 ${retroMode ? 'glitch-title text-pink-300' : 'text-pink-400'}`}>Bonus Sources</h3>
+                    <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-700'} rounded-lg p-4 space-y-3`}>
+                      {conditionalCriticalBonus > 0 && (
+                        <div>
+                          <div className="text-sm font-semibold text-yellow-300">Critical Chance: +{conditionalCriticalBonus}</div>
+                          <div className="text-xs text-gray-300 mt-1">Source{equippedArmor ? `: ${equippedArmor.name}` : ''}</div>
+                          <div className="text-xs text-gray-400 mt-1 space-y-1">
+                            {Object.entries(equippedArmor?.conditionalBonuses || {})
+                              .filter(([key, bonus]) => armorConditionalBonuses[key] && (bonus as any).critical)
+                              .map(([key, bonus]) => (
+                                <div key={`crit-${key}`}>• {(bonus as any).condition}</div>
+                              ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {conditionalEvadeBonus > 0 && (
+                        <div>
+                          <div className="text-sm font-semibold text-green-300">Evade: +{conditionalEvadeBonus}</div>
+                          <div className="text-xs text-gray-300 mt-1">Source{equippedArmor ? `: ${equippedArmor.name}` : ''}</div>
+                          <div className="text-xs text-gray-400 mt-1 space-y-1">
+                            {Object.entries(equippedArmor?.conditionalBonuses || {})
+                              .filter(([key, bonus]) => armorConditionalBonuses[key] && (bonus as any).evade)
+                              .map(([key, bonus]) => (
+                                <div key={`evade-${key}`}>• {(bonus as any).condition}</div>
+                              ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* Armor Information */}
+                <div>
+                  <h3 className={`text-xl font-bold mb-4 ${retroMode ? 'glitch-title text-orange-300' : 'text-orange-400'}`}>Armor Stats</h3>
+                  <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-700'} rounded-lg p-4`}>
+                    {equippedArmor ? (
+                      <div className="space-y-4">
+                        {/* Basic Armor Info */}
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                          <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-800'} rounded-lg p-3`}>
+                            <div className="text-xs text-gray-400">Armor Name</div>
+                            <div className="text-sm font-bold text-white">{equippedArmor.name}</div>
+                          </div>
+                          <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-800'} rounded-lg p-3`}>
+                            <div className="text-xs text-gray-400">Type</div>
+                            <div className="text-sm font-bold text-white">{equippedArmor.type}</div>
+                          </div>
+                          <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-800'} rounded-lg p-3`}>
+                            <div className="text-xs text-gray-400">Rarity</div>
+                            <div className="text-sm font-bold text-yellow-400">{'★'.repeat(equippedArmor.rarity)}</div>
+                          </div>
+                          <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-800'} rounded-lg p-3`}>
+                            <div className="text-xs text-gray-400">Weight</div>
+                            <div className="text-sm font-bold text-red-400">{equippedArmor.weight}</div>
+                          </div>
+                        </div>
+                        
+                        {/* Armor Properties */}
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                          <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-800'} rounded-lg p-3`}>
+                            <div className="text-xs text-gray-400">Physical Armor</div>
+                            <div className="text-lg font-bold text-orange-400">{equippedArmor.armor}</div>
+                          </div>
+                          <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-800'} rounded-lg p-3`}>
+                            <div className="text-xs text-gray-400">Magic Armor</div>
+                            <div className="text-lg font-bold text-blue-400">{equippedArmor.magicArmor}</div>
+                          </div>
+                          <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-800'} rounded-lg p-3`}>
+                            <div className="text-xs text-gray-400">Evade</div>
+                            <div className="text-lg font-bold text-yellow-400">{equippedArmor.evade}</div>
+                          </div>
+                        </div>
+
+                        {/* Stat Bonuses */}
+                        {equippedArmor.statBonuses && Object.keys(equippedArmor.statBonuses).length > 0 && (
+                          <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
+                            {Object.entries(equippedArmor.statBonuses).map(([stat, value]) => {
+                              if (value === undefined || value === 0) return null;
+                              const statKey = stat as StatKey;
+                              const color = STAT_COLORS[statKey] === 'rainbow' ? '#ffffff' : STAT_COLORS[statKey];
+                              return (
+                                <div key={stat} className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-800'} rounded-lg p-3`}>
+                                  <div className="text-xs text-gray-400 uppercase tracking-wide">{stat}</div>
+                                  <div className="text-sm font-bold" style={{ color }}>+{value}</div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        )}
+
+                        {/* Special Effects */}
+                        {equippedArmor.specialEffects && equippedArmor.specialEffects.length > 0 && (
+                          <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-800'} rounded-lg p-3`}>
+                            <div className="text-xs text-gray-400 mb-2">Special Effects</div>
+                            <div className="space-y-1">
+                              {equippedArmor.specialEffects.map((effect, index) => (
+                                <div key={index} className="text-xs text-purple-300">• {effect}</div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    ) : (
+                      <div className={`text-center py-4 ${retroMode ? 'text-gray-300 panel-soft glow-border rounded-lg' : 'text-gray-400'}`}>
+                        <div className="text-sm">No armor equipped</div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Build Notes */}
+                <div className="border-t border-gray-700 pt-4 text-xs text-gray-400">
+                  <div>Generated by SL2 Calculator Suite v0.5.0</div>
+                  <div>Date: {new Date().toLocaleDateString()}</div>
+                  {history !== 'None' && <div>History: {history}</div>}
+                  {food !== 'None' && <div>Food: {food}</div>}
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </motion.div>
 
         {/* Stat Information Modal */}
         {showStatInfo && selectedStat && STAT_INFO[selectedStat] && (
@@ -3928,14 +4718,14 @@ export default function SL2Calculator() {
             onClick={() => setShowStatInfo(false)}
           >
             <div 
-              className="bg-gray-800 rounded-lg shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto"
+              className={`bg-gray-800 rounded-lg shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto ${retroMode ? 'glow-border font-retro' : ''}`}
               onClick={(e) => e.stopPropagation()}
             >
               <div className="sticky top-0 bg-gray-800 border-b border-gray-700 p-3 sm:p-4 md:p-6 flex justify-between items-center">
-                <h2 className="text-lg sm:text-xl md:text-2xl font-bold">{STAT_INFO[selectedStat].title}</h2>
+                <h2 className={`text-lg sm:text-xl md:text-2xl font-bold ${retroMode ? 'font-retro' : ''}`}>{retroMode ? (<span className="glitch" data-text={STAT_INFO[selectedStat].title}>{STAT_INFO[selectedStat].title}</span>) : STAT_INFO[selectedStat].title}</h2>
                 <button
                   onClick={() => setShowStatInfo(false)}
-                  className="p-2 hover:bg-gray-700 rounded-full transition-colors"
+                  className={`p-2 hover:bg-gray-700 rounded-full transition-colors ${retroMode ? 'glow-border sound-click sound-hover' : ''}`}
                   title="Close"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -3999,6 +4789,117 @@ export default function SL2Calculator() {
                         </div>
                       </div>
                     </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Food Bonuses Modal */}
+        {showFood && (
+          <div 
+            className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-2 sm:p-4"
+            onClick={() => setShowFood(false)}
+          >
+            <div 
+              className={`bg-gray-800 rounded-lg shadow-2xl max-w-5xl w-full max-h-[90vh] overflow-y-auto ${retroMode ? 'glow-border font-retro' : ''}`}
+              onClick={(e) => e.stopPropagation()}
+            >
+                <div className="sticky top-0 bg-gray-800 border-b border-gray-700 p-3 sm:p-4 md:p-6 flex justify-between items-center">
+                <h2 className={`text-lg sm:text-xl md:text-2xl font-bold ${retroMode ? 'font-retro' : ''}`}>{retroMode ? (<span className="glitch" data-text="Food Bonuses">Food Bonuses</span>) : 'Food Bonuses'}</h2>
+                <button
+                  onClick={() => setShowFood(false)}
+                  className={`p-2 hover:bg-gray-700 rounded-full transition-colors ${retroMode ? 'glow-border sound-click sound-hover' : ''}`}
+                  title="Close"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
+              </div>
+              
+              <div className="p-3 sm:p-4 md:p-6">
+                <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3">
+                  {Object.keys(FOODS).map(f => (
+                    <button
+                      key={f}
+                      onClick={() => {
+                        setFood(f);
+                        setShowFood(false);
+                      }}
+                      className={`px-3 sm:px-4 py-2 rounded text-sm sm:text-base tap-target ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''} ${
+                        food === f ? 'bg-green-600' : 'bg-gray-600 hover:bg-gray-500'
+                      }`}
+                    >
+                      {f}
+                      {f !== 'None' && (
+                        <span className="text-xs block text-gray-300 truncate">
+                          {Object.entries(FOODS[f]).filter(([_, v]) => v > 0).map(([k, v]) => `+${v} ${k.toUpperCase()}`).join(', ')}
+                        </span>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* History & Stamps Modal */}
+        {showStamps && (
+          <div 
+            className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-2 sm:p-4"
+            onClick={() => setShowStamps(false)}
+          >
+            <div 
+              className={`bg-gray-800 rounded-lg shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto ${retroMode ? 'glow-border font-retro' : ''}`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="sticky top-0 bg-gray-800 border-b border-gray-700 p-3 sm:p-4 md:p-6 flex justify-between items-center">
+                <h2 className={`text-lg sm:text-xl md:text-2xl font-bold ${retroMode ? 'font-retro' : ''}`}>{retroMode ? (<span className="glitch" data-text="History & Stamps">History & Stamps</span>) : 'History & Stamps'}</h2>
+                <button
+                  onClick={() => setShowStamps(false)}
+                  className={`p-2 hover:bg-gray-700 rounded-full transition-colors ${retroMode ? 'glow-border sound-click sound-hover' : ''}`}
+                  title="Close"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
+              </div>
+              
+              <div className="p-3 sm:p-4 md:p-6 space-y-4">
+                <div>
+                  <label className="block text-sm font-medium mb-2">Character History</label>
+                  <select
+                    value={history}
+                    onChange={(e) => handleHistoryChange(e.target.value)}
+                    className={`w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-sm sm:text-base tap-target ${retroMode ? 'font-retro glow-border sound-hover' : ''}`}
+                  >
+                    {Object.keys(HISTORY).map(h => (
+                      <option key={h} value={h}>{h}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <h4 className="font-semibold mb-2 text-sm sm:text-base">Stat Stamps</h4>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 sm:gap-3">
+                    {(Object.keys(stamps) as StampKey[]).map(stat => (
+                      <div key={stat}>
+                        <label className="block text-xs sm:text-sm mb-1 capitalize">{stat.toUpperCase()}</label>
+                        <input
+                          type="number"
+                          min="0"
+                          max="10"
+                          value={stamps[stat]}
+                          onChange={(e) => setStamps(prev => ({ ...prev, [stat]: Number(e.target.value) }))}
+                          className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm tap-target"
+                        />
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
