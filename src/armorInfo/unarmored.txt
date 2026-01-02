@@ -1,0 +1,164 @@
+**1★ Wisp Cloak**
+Armor: 1 | Magic Armor: 4 | Evade: 10 | Weight: 1
+Details: +30 FP Made from magical cloth, this cloak holds an amount of Focus within it.
+Location: Random Drops • Tailoring • Tutorial Shop
+
+**3★ Flower-Wreathed Tunic**
+Armor: 2 | Magic Armor: 2 | Evade: 5 | Weight: 4
+Details: Material: Wood +3 Earth ATK Reduces damage from Plant race enemies by 5%. Creates 1 flower at a random unoccupied tile in 1 Range on battle start and every 2 rounds. (Lasts 5 rounds.) Gain +3 Evade for every plant special tile within 3 Range.  A simple earthen tunic adorned with flowers that seem to grow from nowhere.
+Location: Random Drops • Plant Drop Table
+
+**3★ Swimsuit**
+Armor: 2 | Magic Armor: 2 | Evade: 8 | Weight: 1
+Details: +15 HP 10% Water Resistance On Unequip During Battle: Infliction-based chance to inflict Charm LV 15 on all enemies (5 rounds), and gain Evade Up (Undispellable) LV 10+X (X = item's Evade stat) for 5 rounds. A swimsuit for swimming, which prepares you mentally for water!
+Location: Random Drops • Water Drop Table
+
+**4★ Priest Robe**
+Armor: 0 | Magic Armor: 6 | Evade: 8 | Weight: 2
+Details: +4 WIL +20 FP A type of clothing often worn by priests, as the name might imply.
+Location: Random Drops • Light Drop Table
+
+**5★ Animal Pelt**
+Armor: 4 | Magic Armor: 2 | Evade: 6 | Weight: 1
+Details: Material: Furcloth +10 HP +3 Power to Nature Spells On Battle Start: The heart of a beast gives you Evade Up LV 10 for 3 rounds (6 rounds if you are treated as Beast race). Gain +5 Evade for every other Beast ally within 3 Range. Gives the sense that you're a barbarian, but it works well with nature.
+Location: Random Drops • Tailoring • Beast Drop Table
+
+**5★ Battle Maid Dress**
+Armor: 1 | Magic Armor: 3 | Evade: 6 | Weight: 5
+Details: +10 FP 5% Fire, Earth and Water Resistance On Battle Start: Gain Evade Up LV 10 for 5 rounds if you have the Servant Training trait. The common combat butler's counterpart. The uniform of the servant is often resistant to the common elements you find on the job.
+Location: Random Drops • Highway Drop Table
+
+**5★ Ninja Armor**
+Armor: 0 | Magic Armor: 0 | Evade: 9 | Weight: 1
+Details: On Battle Start: Gain Ninja Strike LV 10 status for 3 rounds, granting +LV% Critical Damage with daggers. This effect is reapplied if you trigger the Ninjitsu talent's Danmaku subtalent. A true ninja's armor doesn't protect them at all!
+Location: Random Drops • Tailoring • Wind Drop Table • Eastern Drop Table
+
+**6★ Cloak of Many Colors**
+Armor: 0 | Magic Armor: 0 | Evade: 5 | Weight: 5
+Details: 8-15% Fire, Ice, Lightning and Wind Resistance A light leather cloak covered in young dragon scales of many different colors, giving it some protection against elements.
+Location: Random Drops • Space Drop Table
+
+**6★ Padded Vest-Cloak**
+Armor: 1 | Magic Armor: 4 | Evade: 6 | Weight: 3
+Details: 8% Blunt Resistance Reduces damage you take from critical hits by 10%. A vest with a cloak sewn onto it. The interior of the whole thing has lightweight, but thick, padding, that helps dull blows.
+Location: Random Drops • Tailoring • Ice Drop Table
+
+**6★ Sarashi Gi**
+Armor: 2 | Magic Armor: 2 | Evade: 5 | Weight: 2
+Details: +12 Evade and +12 Critical if you are using a main weapon and sub weapon of the same weapon type. This type of gi is often used by sword dancers found inhabiting desert regions. The way it is made helps facilitate movement with two weapons.
+Location: Random Drops • Tailoring • Wind Drop Table • Eastern Drop Table
+
+**6★ Warding Cloth**
+Armor: 1 | Magic Armor: 4 | Evade: 7 | Weight: 1
+Details: Increases status resistance by 10%. A protective, enchanted cloth which helps ward of bad spirits.
+Location: Random Drops • Tailoring • Light Drop Table
+
+**6★ Batwing Cloak**
+Armor: 0 | Magic Armor: 0 | Evade: 7 | Weight: 1
+Details: Airborne effects you are under do not automatically end when turns shift. When a field object explodes while you are in its effective radius, you become Airborne (3 rounds) and gain Agile Bat as a substatus to it (LV = 30 - Battle Weight). While Airborne, if this torso is enchanted with Winged, enemy Critical Damage is reduced by 25% when attacking you. Agile Bat Increases Evade and Critical Evade by LV. Immune to Airborne. This cloak is seemingly normal, but when hit with a powerful explosive wind, it unwraps into a pair of parachuting bat wings.
+Location: Random Drops • Wind Drop Table • Beast Drop Table
+
+**7★ Berserker Shell**
+Armor: 0 | Magic Armor: 0 | Evade: 9 | Weight: 2
+Details: +20 HP Gain increased Critical with Axe weapons based on how much HP you are missing. People won't like you when you're angry.
+Location: Random Drops • Tailoring • Water Drop Table • Labryinth Drop Table
+
+**7★ Dragon Gi**
+Armor: 3 | Magic Armor: 4 | Evade: 7 | Weight: 1
+Details: +15 HP, +15 FP Set: Like a Dragon 2+ - Gain Cast Off Flexing Skill. When you use Cast Off Flexing; Activate all of your Arcane Tattoo traits. Activate Crack Knuckles skill (if equipped). Gain Dragon Fist status permanently. (+2 Attack Range for Bare Fists. Bare Fists' Attack skill moves you to an unoccupied tile next to the target if not in 1 Range, and gains Trickery - Activate Kick skill on the target. Kick skill Momentum cost reduced by 1 during a turn where you've used Attack. This cloth gi is enchanted with spiritual energy, increasing the life power of the person who wears it.
+Location: Random Drops • Light Drop Table • Summon Drop Table
+
+**8★ Caster's Cape**
+Armor: 0 | Magic Armor: 3 | Evade: 4 | Weight: 1
+Details: If your main class is a Mage class, the stat bonuses it gives you are increased by 50% (min. 1 if &gt;0). The magic in this cape is only used well by the mage.
+Location: Random Drops • Space Drop Table
+
+**8★ Farmer's Shirt**
+Armor: 0 | Magic Armor: 1 | Evade: 10 | Weight: 1
+Details: If your main class is a Martial Artist class, the stat bonuses it gives you are increased by 50% (min. 1 if &gt; 0). Really, it's just a shirt that a farmer wears, but great things can come from such humble beginnings.
+Location: Random Drops • Earth Drop Table
+
+**8★ Healer's Shroud**
+Armor: 0 | Magic Armor: 5 | Evade: 2 | Weight: 2
+Details: If your main class is a Curate class, the stat bonuses it gives you are increased by 50% (min. 1 if &gt;0). Set: Church Faithful 2+ - +15% Healing-tag skill Power and +3 Light ATK 3+ - +15 Evade versus Vampire race, Possessed race, and Cladis Mortem Null enemies. 4+ - Can't be targeted by the Banquet skill. Vampiric effects (item effects or miniboss skill) do not work against you. Pray skill's Momentum cost becomes 3. Be humble and helpful.
+Location: Random Drops • Light Drop Table
+
+**8★ Kaminah Robes**
+Armor: 0 | Magic Armor: 0 | Evade: 5 | Weight: 1
+Details: Replaces Blind status effects that are applied to you with Beyond Sight instead. The robes of a spiritual faction located in Lordwain. Many of its monks are blind, but claim they can still see.
+Location: Loyrwell Tombs • Random Drops • Tailoring • Light Drop Table
+
+**8★ Shadow Gi**
+Armor: 1 | Magic Armor: 1 | Evade: 7 | Weight: 5
+Details: 10% Light Resistance Grants Skill: Ninja Telepo  1 Momentum, 10FP Throw your hands together in a ninjutsu sign and disappear, reappearing at a nearby location within 2 Range. You also gain a status called Double Telepo for 3 Rounds. (When you evade an attack, you disappear in a puff of smoke and appear at the tile behind your attacker, if it is a valid battle tile. Expires after triggered.) A swift and light set of clothes often used by ninja. As black as the cloth is, so is the smoke it leaves behind.
+Location: Random Drops • Dark Drop Table
+
+**8★ Alchemic Wrap**
+Armor: 0 | Magic Armor: 0 | Evade: 0 | Weight: 8
+Details: Doubles item material effects that modify this item's parameters (such as Armor, Evade, etc.). Through a secretive alchemic process, the material of its construction is greatly augmented.
+Location: Random Drops • Space Drop Table
+
+**9★ Boltstruck Gi**
+Armor: 1 | Magic Armor: 6 | Evade: 5 | Weight: 5
+Details: Gain +15 Critical for 2 Rounds after casting a Nature spell. A mage's clothing enchanted to react when spells are used.
+Location: Random Drops • Tailoring • Lightning Drop Table
+
+**9★ Elementalist's Gi**
+Armor: 1 | Magic Armor: 6 | Evade: 5 | Weight: 5
+Details: Gain +15 STR for 2 rounds after casting a Nerifian spell. Gain a chilly air barrier that deals 15 unresistible Ice damage to attackers for 2 rounds after casting a Aquarian spell. Gain +15 Evade for 1 attack, 2 Rounds after casting a Sylphid spell. Gain +15 Critical for 2 rounds after casting a Nature spell. A complex gi of elemental power. Reacting to many elements, it can grant great power to its wearer.
+Location: Tailoring
+
+**9★ Embroidered Boltstruck Gi**
+Armor: 2 | Magic Armor: 7 | Evade: 6 | Weight: 10
+Details: Material: Sunderthread Gain + 25 Critical for 3 rounds after casting a Nature spell. This spellcaster's gi has been embroidered with magical threads, enhancing its abilities.
+Location: Tailoring
+
+**9★ Embroidered Flamedance Gi**
+Armor: 2 | Magic Armor: 7 | Evade: 6 | Weight: 10
+Details: Material: Singethread Gain +20 STR for 3 rounds after casting a Nerifian spell. This spellcaster's gi has been embroidered with magical threads, enhancing its abilities.
+Location: Tailoring
+
+**9★ Embroidered Frosttouch Gi**
+Armor: 2 | Magic Armor: 7 | Evade: 6 | Weight: 10
+Details: Material: Shiverthread Gain a chilly air barrier that deals 25 unresistible Ice damage to attackers for 3 rounds after casting a Aquarian spell. This spellcaster's gi has been embroidered with magical threads, enhancing its abilities.
+Location: Tailoring
+
+**9★ Embroidered Windswept Gi**
+Armor: 2 | Magic Armor: 7 | Evade: 6 | Weight: 10
+Details: Material: Swiftthread Gain +20 Evade for 1 attack, 3 Rounds after casting a Sylphid spell. This spellcaster's gi has been embroidered with magical threads, enhancing its abilities.
+Location: Tailoring
+
+**9★ Flamedance Gi**
+Armor: 1 | Magic Armor: 6 | Evade: 5 | Weight: 5
+Details: Gain +15 STR for 2 rounds after casting a Nerifian spell. A mage's clothing enchanted to react when spells are used.
+Location: Random Drops • Tailoring • Fire Drop Table
+
+**9★ Frosttouch Gi**
+Armor: 1 | Magic Armor: 6 | Evade: 5 | Weight: 5
+Details: Gain a chilly air barrier that deals 15 unresistable Ice damage to attackers for 2 rounds after casting an Aquarian spell. A mage's clothing enchanted to react when spells are used.
+Location: Random Drops • Tailoring • Ice Drop Table
+
+**9★ Windswept Gi**
+Armor: 1 | Magic Armor: 6 | Evade: 5 | Weight: 5
+Details: Gain +15 Evade for 1 Attack, 2 Rounds after casting a Sylphid spell. A mage's clothing enchanted to react when spells are used.
+Location: Random Drops • Tailoring • Wind Drop Table
+
+**10★ Armor of Eyes**
+Armor: 1 | Magic Armor: 3 | Evade: 5 | Weight: 4
+Details: Material: Metal Increases Hit by UL/2, except when Blinded. UL% chance when critically hit by an enemy to reduce the critical damage multiplier by UL%. This set of armor almost appears alive with the slow way the eyes shift around and seem to focus on targets. It's almost like you can see what the armor itself sees... a dull sense, at least, which bothers you.
+Location: Level 56+ Red Gorgon
+
+**10★ Embroidered Elemenetalist's Gi**
+Armor: 1 | Magic Armor: 6 | Evade: 0 | Weight: 15
+Details: Gain +20 STR for 3 rounds after casting a Nerifian spell. Gain a chilly air barrier that deals 25 unresistible Ice damage to attackers for 3 rounds after casting a Aquarian spell. Gain +20 Evade for 1 attack, 3 Rounds after casting a Sylphid spell. Gain +25 Critical for 3 rounds after casting a Nature spell. Pushed to new heights, the elementalist gi is a heavy but powerful veil waiting to react to the spells of its master, granting them great benefits.
+Location: Tailoring
+
+**10★ Haunted Poncho**
+Armor: 4 | Magic Armor: 4 | Evade: 0 | Weight: 2
+Details: On Battle Start: Gain Phantom Cloak LV UL*2 for 5 rounds. This haunted poncho seems made of underworldly wind. While the wind will steer outside forces away from you, it will eventually disappear against the persistent.
+Location: Level 56+ Spectre
+
+**10★ Jarmor**
+Armor: 0 | Magic Armor: 0 | Evade: 7 | Weight: 1
+Details: Material: Metal On Battle Start: Gain a full damage shield made of jam for 50 rounds with a LV equal to 10+(UL*3). Before your HP is damaged, this shield's LV will be reduced. (Full Damage Shields will also absorb any excess damage when broken.) While not traditional armor, this mutated jammer core can be worn around your chest and somewhat be commanded to produce a large amount of jam, although this is limited. Its effects could be refined.
+Location: Level 56+ Jammer Omega

@@ -330,3 +330,60 @@ export interface Weapon {
   description: string;
   location: string[];
 }
+
+/**
+ * Armor interface for equipment system
+ */
+export interface Armor {
+  name: string;
+  armor: number;
+  magicArmor: number;
+  evade: number;
+  weight: number;
+  type: 'Heavy' | 'Light' | 'Unarmored';
+  details?: string;
+  statBonuses?: {
+    str?: number;
+    wil?: number;
+    ski?: number;
+    cel?: number;
+    def?: number;
+    res?: number;
+    vit?: number;
+    fai?: number;
+    luc?: number;
+    gui?: number;
+    san?: number;
+    apt?: number;
+    hp?: number;
+    fp?: number;
+    [key: string]: number | undefined;
+  };
+  resistances?: {
+    [element: string]: number;
+  };
+  specialEffects?: string[];
+  conditionalBonuses?: {
+    [key: string]: {
+      str?: number;
+      wil?: number;
+      ski?: number;
+      cel?: number;
+      def?: number;
+      res?: number;
+      vit?: number;
+      fai?: number;
+      luc?: number;
+      gui?: number;
+      san?: number;
+      apt?: number;
+      hp?: number;
+      fp?: number;
+      evade?: number;
+      critical?: number;
+      special?: string;
+      condition: string;
+    };
+  };
+  rarity: number;
+}

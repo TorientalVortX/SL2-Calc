@@ -1,3 +1,18 @@
+/* Subtle high-contrast panel background for calculators */
+.panel-contrast {
+  background-color: #0b1020;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 12px 12px, 12px 12px;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+/* Softer card style to replace overly glossy gradients */
+.panel-soft {
+  background-color: rgba(17, 24, 39, 0.9); /* slate-900/90 */
+  border: 1px solid rgba(255,255,255,0.08);
+}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,12 +23,157 @@
   padding: 0;
 }
 
+/* Fox Rain Easter Egg */
+.fox-rain {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.fox-emoji {
+  position: absolute;
+  top: -10vh;
+  font-size: clamp(18px, 2.5vw, 36px);
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.5));
+  animation-name: foxFall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes foxFall {
+  0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+  10% { opacity: 1; }
+  100% { transform: translateY(110vh) rotate(360deg); opacity: 0.9; }
+}
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Darker, bluer deep-space gradient */
+  background: linear-gradient(135deg, #020617 0%, #020407 50%, #000311 100%);
+  background-size: 300% 300%;
+  animation: gradientShift 24s ease-in-out infinite;
+  min-height: 100vh;
+  color: #e2e8f0;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Animated background particles */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(96, 165, 250, 0.04) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(167, 139, 250, 0.035) 0%, transparent 55%),
+    radial-gradient(circle at 40% 20%, rgba(34, 211, 238, 0.02) 0%, transparent 55%);
+  pointer-events: none;
+  z-index: 0;
+  animation: float 20s ease-in-out infinite;
+}
+
+/* Glass morphism effect */
+.glass-effect {
+  background: rgba(30, 41, 59, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+/* Glowing border effect */
+.glow-border {
+  position: relative;
+  background: linear-gradient(145deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9));
+  border: 1px solid rgba(96, 165, 250, 0.3);
+  box-shadow: 
+    0 0 15px rgba(96, 165, 250, 0.2),
+    inset 0 0 15px rgba(96, 165, 250, 0.05);
+  transition: all 0.3s ease;
+}
+
+.glow-border:hover {
+  border-color: rgba(96, 165, 250, 0.6);
+  box-shadow: 
+    0 0 25px rgba(96, 165, 250, 0.4),
+    inset 0 0 15px rgba(96, 165, 250, 0.1);
+}
+
+/* Smooth button transitions */
+button {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+button:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+/* Input styling */
+input, select, textarea {
+  transition: all 0.3s ease;
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #e2e8f0;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: rgba(96, 165, 250, 0.5);
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
+  background: rgba(30, 41, 59, 0.8);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.5);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #60a5fa, #a78bfa);
+  border-radius: 5px;
+  border: 2px solid rgba(15, 23, 42, 0.5);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #3b82f6, #8b5cf6);
 }
 
 /* Mobile-specific utilities */
@@ -39,6 +199,35 @@ body {
 }
 
 /* Mobile viewport adjustments */
+
+/* Screenshot capture stabilization: reduce animation/letter-spacing issues */
+.screenshot-capture, .screenshot-capture * {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Prevent last-letter clipping on labels during capture */
+.screenshot-capture .element-label {
+  white-space: nowrap;
+  display: inline-block;
+  padding-right: 6px; /* buffer to avoid last-glyph cut */
+  letter-spacing: normal;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Ensure text overflows are visible for capture */
+.screenshot-capture .panel-soft,
+.screenshot-capture .bg-gray-700,
+.screenshot-capture .bg-gray-800 {
+  overflow: visible;
+}
+
+/* Ensure elemental grid and children won't clip overflow */
+.screenshot-capture .element-grid,
+.screenshot-capture .element-grid > div {
+  overflow: visible;
+}
 @media (max-width: 640px) {
   html {
     font-size: 14px;
@@ -51,4 +240,136 @@ body {
     right: 1rem !important;
     width: auto !important;
   }
+}
+
+/* Card hover effects */
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(96, 165, 250, 0.3);
+}
+
+/* Text gradient effects */
+.text-gradient {
+  background: linear-gradient(135deg, #60a5fa, #a78bfa, #22d3ee);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  background-size: 200% 200%;
+  animation: gradientShift 3s ease infinite;
+}
+
+/* Shine effect for interactive elements */
+.shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.shine::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(45deg);
+  animation: shine 3s infinite;
+}
+
+@keyframes shine {
+  0% { transform: translateX(-100%) rotate(45deg); }
+  100% { transform: translateX(100%) rotate(45deg); }
+}
+
+/* Sparkle background */
+.sparkle-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.sparkle-dot {
+  position: absolute;
+  background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.2) 60%, transparent 100%);
+  border-radius: 50%;
+  animation: twinkle 3s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(0.9); }
+  50% { opacity: 0.8; transform: scale(1.3); }
+}
+
+/* Retro font helper */
+.font-retro {
+  font-family: 'Press Start 2P', 'VT323', monospace;
+  letter-spacing: 0.02em;
+}
+
+/* CRT scanline overlay */
+.crt-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.02) 0px,
+    rgba(255,255,255,0.02) 1px,
+    rgba(0,0,0,0.02) 2px,
+    rgba(0,0,0,0.02) 3px
+  );
+  z-index: 2;
+}
+
+/* Glitch effect */
+.glitch {
+  position: relative;
+  display: inline-block;
+}
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  overflow: hidden;
+}
+.glitch::before {
+  color: #60a5fa;
+  transform: translate(2px, -1px);
+  clip-path: inset(0 0 50% 0);
+  animation: glitchTop 1.5s infinite steps(1, end);
+}
+.glitch::after {
+  color: #a78bfa;
+  transform: translate(-2px, 1px);
+  clip-path: inset(50% 0 0 0);
+  animation: glitchBottom 1.5s infinite steps(1, end);
+}
+@keyframes glitchTop {
+  0% { transform: translate(1px, -1px); }
+  20% { transform: translate(-1px, 1px); }
+  40% { transform: translate(3px, -2px); }
+  60% { transform: translate(-2px, 2px); }
+  80% { transform: translate(2px, -1px); }
+  100% { transform: translate(0, 0); }
+}
+@keyframes glitchBottom {
+  0% { transform: translate(-1px, 1px); }
+  20% { transform: translate(1px, -1px); }
+  40% { transform: translate(-3px, 2px); }
+  60% { transform: translate(2px, -2px); }
+  80% { transform: translate(-2px, 1px); }
+  100% { transform: translate(0, 0); }
 }

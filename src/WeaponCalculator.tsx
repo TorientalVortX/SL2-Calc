@@ -7,6 +7,32 @@ import { useState, useEffect } from 'react';
 import { WEAPONS } from './data/weapons';
 import { Weapon } from './types';
 
+// Serializable config for persistence/screenshot mode
+export interface WeaponConfig {
+  selectedWeaponName: string | null;
+  weaponType: string;
+  basePower: number;
+  baseCrit: number;
+  baseHit: number;
+  baseWeight: number;
+  baseCritDamage: number;
+  material: string;
+  part1: string;
+  part2: string;
+  part3: string;
+  enchantment: string;
+  upgradeLevel: number;
+  rarity: number;
+  powerQuality: boolean;
+  critQuality: boolean;
+  hitQuality: boolean;
+  weightPlus: boolean;
+  weightMinus: boolean;
+  sentimentality: boolean;
+  twoHandedSkillRank: number;
+  customScaling: { str: number; wil: number; ski: number; cel: number; def: number; res: number; vit: number; fai: number; luc: number; gui: number; san: number };
+}
+
 interface WeaponCalculatorProps {
   stats: {
     str: number;
@@ -22,6 +48,12 @@ interface WeaponCalculatorProps {
     san: number;
     apt: number;
   };
+  readOnly?: boolean;
+  retroMode?: boolean;
+  config?: WeaponConfig;
+  onConfigChange?: (config: WeaponConfig) => void;
+  // Additional crit chance from external equipment conditionals (e.g., armor effects)
+  extraCritChance?: number;
 }
 
 interface WeaponPart {
@@ -405,7 +437,7 @@ const STAT_SCALING: Record<string, { str: number; wil: number; ski: number; cel:
   'Dagger': { str: 50, wil: 0, ski: 0, cel: 50, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0 },
 };
 
-export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
+export default function WeaponCalculator({ stats, readOnly = false, retroMode = false, config, onConfigChange, extraCritChance = 0 }: WeaponCalculatorProps) {
   // Comparison mode state
   const [comparisonMode, setComparisonMode] = useState(false);
   
@@ -798,7 +830,7 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
     // This applies to the STR scaling component only, not base STR
     const strScaledCrit = hasPrimaryStrScaling() ? Math.floor(calculateStrScaling() * 0.4) : 0;
     const weaponCritWithStr = weaponCritical + strScaledCrit;
-    const finalCrit = weaponCritWithStr + Math.floor(stats.ski / 2) + Math.floor(stats.luc) + '%';
+    const finalCrit = weaponCritWithStr + Math.floor(stats.ski / 2) + Math.floor(stats.luc) + extraCritChance + '%';
 
     // Critical damage multiplier (influenced by weapon type and GUI)
     // Base crit damage (default 100%), modified by enchantment and GUI
@@ -998,30 +1030,104 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
 
   const weaponStats2 = calculateWeaponStats2();
 
+  // Build config from current state
+  const buildConfig = (): WeaponConfig => ({
+    selectedWeaponName: selectedWeapon?.name || null,
+    weaponType,
+    basePower,
+    baseCrit,
+    baseHit,
+    baseWeight,
+    baseCritDamage,
+    material,
+    part1,
+    part2,
+    part3,
+    enchantment,
+    upgradeLevel,
+    rarity,
+    powerQuality,
+    critQuality,
+    hitQuality,
+    weightPlus,
+    weightMinus,
+    sentimentality,
+    twoHandedSkillRank,
+    customScaling,
+  });
+
+  // Hydrate state from incoming config
+  // - Always hydrate in readOnly mode (screenshot display)
+  // - In interactive mode, hydrate only once on mount to restore prior settings
+  const [hasHydratedFromConfig, setHasHydratedFromConfig] = useState(false);
+  useEffect(() => {
+    if (!config) return;
+    if (!readOnly && hasHydratedFromConfig) return;
+    if (config.selectedWeaponName) {
+      const found = WEAPONS.find(w => w.name === config.selectedWeaponName) || null as any as Weapon | null;
+      setSelectedWeapon(found as Weapon | null);
+    } else {
+      setSelectedWeapon(null);
+    }
+    setWeaponType(config.weaponType);
+    setBasePower(config.basePower);
+    setBaseCrit(config.baseCrit);
+    setBaseHit(config.baseHit);
+    setBaseWeight(config.baseWeight);
+    setBaseCritDamage(config.baseCritDamage);
+    setMaterial(config.material);
+    setPart1(config.part1);
+    setPart2(config.part2);
+    setPart3(config.part3);
+    setEnchantment(config.enchantment);
+    setUpgradeLevel(config.upgradeLevel);
+    setRarity(config.rarity);
+    setPowerQuality(config.powerQuality);
+    setCritQuality(config.critQuality);
+    setHitQuality(config.hitQuality);
+    setWeightPlus(config.weightPlus);
+    setWeightMinus(config.weightMinus);
+    setSentimentality(config.sentimentality);
+    setTwoHandedSkillRank(config.twoHandedSkillRank);
+    setCustomScaling({ ...config.customScaling });
+    if (!readOnly) setHasHydratedFromConfig(true);
+  }, [config, readOnly, hasHydratedFromConfig]);
+
+  // Emit config changes upward to persist
+  useEffect(() => {
+    if (!onConfigChange) return;
+    onConfigChange(buildConfig());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedWeapon, weaponType, basePower, baseCrit, baseHit, baseWeight, baseCritDamage, material, part1, part2, part3, enchantment, upgradeLevel, rarity, powerQuality, critQuality, hitQuality, weightPlus, weightMinus, sentimentality, twoHandedSkillRank, customScaling]);
+
   return (
-    <div className="bg-gray-800 rounded-lg shadow-xl p-6">
+    <div className={`panel-contrast rounded-lg shadow-xl p-6 ${retroMode ? 'font-retro glow-border' : ''}`}>
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold">Weapon Calculator</h2>
-        <div className="flex gap-2">
-          <button
-            onClick={() => setComparisonMode(!comparisonMode)}
-            className={`px-4 py-2 rounded text-white font-medium transition-colors ${
-              comparisonMode 
-                ? 'bg-purple-600 hover:bg-purple-700' 
-                : 'bg-gray-600 hover:bg-gray-700'
-            }`}
-          >
-            {comparisonMode ? '✓ Comparison Mode' : 'Compare Weapons'}
-          </button>
-          <button
-            onClick={resetWeapon}
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded text-white font-medium transition-colors"
-          >
-            Reset Weapon
-          </button>
-        </div>
+        <h2 className={`text-2xl font-bold ${retroMode ? 'glitch-title text-emerald-300' : ''}`}>Weapon Calculator</h2>
+        {!readOnly && (
+          <div className="flex gap-2">
+            <button
+              onClick={() => setComparisonMode(!comparisonMode)}
+              className={`px-4 py-2 rounded text-white font-medium transition-colors ${
+                comparisonMode 
+                  ? 'bg-purple-600 hover:bg-purple-700' 
+                  : 'bg-gray-600 hover:bg-gray-700'
+              } ${retroMode ? 'glow-border sound-click sound-hover' : ''}`}
+            >
+              {comparisonMode ? '✓ Comparison Mode' : 'Compare Weapons'}
+            </button>
+            <button
+              onClick={resetWeapon}
+              className={`px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded text-white font-medium transition-colors ${retroMode ? 'glow-border sound-click sound-hover' : ''}`}
+            >
+              Reset Weapon
+            </button>
+          </div>
+        )}
       </div>
 
+      {!readOnly && (
+        <>
       {/* SL2 Weapon Mechanics Info */}
       <div className="mb-6 bg-gradient-to-br from-indigo-900 to-purple-900 p-4 rounded-lg border border-indigo-700">
         <h3 className="text-lg font-semibold mb-3 text-indigo-300">SL2 Weapon Mechanics Guide</h3>
@@ -1081,9 +1187,8 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
         </h2>
         
         {/* Weapon Selection */}
-        <div className="mb-4 border border-blue-500 rounded p-3 bg-gray-800">
+        <div className={`mb-4 border border-blue-500 rounded p-3 bg-gray-800 ${retroMode ? 'glow-border' : ''}`}>
           <h3 className="text-lg font-semibold mb-3 text-blue-400">🔍 Weapon Selection</h3>
-          
           {selectedWeapon && (
             <div className="mb-3 p-2 bg-blue-900 rounded border border-blue-600">
               <div className="flex justify-between items-center">
@@ -1096,14 +1201,13 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
                 </div>
                 <button
                   onClick={clearWeaponSelection}
-                  className="px-2 py-1 bg-red-600 hover:bg-red-700 rounded text-sm"
+                  className={`px-2 py-1 bg-red-600 hover:bg-red-700 rounded text-sm ${retroMode ? 'glow-border sound-click sound-hover' : ''}`}
                 >
                   Clear
                 </button>
               </div>
               <div className="text-xs text-gray-400 mt-1">
-                Power: {selectedWeapon.power} | Accuracy: {selectedWeapon.accuracy}% | 
-                Critical: {selectedWeapon.critical}% | Weight: {selectedWeapon.weight}
+                Power: {selectedWeapon.power} | Accuracy: {selectedWeapon.accuracy}% | Critical: {selectedWeapon.critical}% | Weight: {selectedWeapon.weight}
               </div>
             </div>
           )}
@@ -1115,12 +1219,12 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
                 placeholder="Search..."
                 value={weaponSearchTerm}
                 onChange={(e) => setWeaponSearchTerm(e.target.value)}
-                className="bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm"
+                className={`bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm ${retroMode ? 'glow-border sound-hover' : ''}`}
               />
               <select
                 value={weaponTypeFilter}
                 onChange={(e) => setWeaponTypeFilter(e.target.value)}
-                className="bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm"
+                className={`bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm ${retroMode ? 'glow-border sound-click sound-hover' : ''}`}
               >
                 <option value="All">All Types</option>
                 <option value="Axe">Axe</option>
@@ -1137,7 +1241,7 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
               <select
                 value={subtypeFilter}
                 onChange={(e) => setSubtypeFilter(e.target.value)}
-                className="bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm"
+                className={`bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm ${retroMode ? 'glow-border sound-click sound-hover' : ''}`}
                 disabled={availableSubtypes.length === 0}
               >
                 <option value="All">All Subtypes</option>
@@ -1151,7 +1255,7 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
               <select
                 value={rarityFilter}
                 onChange={(e) => setRarityFilter(e.target.value)}
-                className="bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm"
+                className={`bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm ${retroMode ? 'glow-border sound-click sound-hover' : ''}`}
               >
                 <option value="All">All ★</option>
                 {[10, 9, 8, 7, 6, 5, 4, 3, 2, 1].map(r => (
@@ -1161,13 +1265,13 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
             </div>
           </div>
 
-          {filteredWeapons.length > 0 && (
-            <div className="max-h-48 overflow-y-auto bg-gray-900 rounded border border-gray-600">
+            {filteredWeapons.length > 0 && (
+            <div className={`max-h-48 overflow-y-auto bg-gray-900 rounded border border-gray-600 ${retroMode ? 'glow-border' : ''}`}>
               {filteredWeapons.slice(0, weaponSearchTerm ? 20 : 10).map((weapon) => (
                 <div
                   key={weapon.name}
                   onClick={() => selectWeapon(weapon)}
-                  className="p-2 border-b border-gray-600 hover:bg-gray-700 cursor-pointer"
+                  className={`p-2 border-b border-gray-600 hover:bg-gray-700 cursor-pointer ${retroMode ? 'sound-hover sound-click' : ''}`}
                 >
                   <div className="flex justify-between items-center">
                     <div>
@@ -1198,7 +1302,7 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
           <div>
             <label className="block text-xs font-medium mb-1">Material</label>
             <select value={material} onChange={(e) => setMaterial(e.target.value)}
-              className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm">
+              className={`w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm ${retroMode ? 'glow-border sound-click sound-hover' : ''}`}>
               {Object.keys(MATERIAL_CATEGORIES).map(category => (
                 <optgroup key={category} label={category}>
                   {MATERIAL_CATEGORIES[category as keyof typeof MATERIAL_CATEGORIES].map(mat => (
@@ -1212,7 +1316,7 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
           <div>
             <label className="block text-xs font-medium mb-1">Part 1</label>
             <select value={part1} onChange={(e) => setPart1(e.target.value)}
-              className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm">
+              className={`w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm ${retroMode ? 'glow-border sound-click sound-hover' : ''}`}>
               <option value="None">None</option>
               {Object.keys(WEAPON_PART_CATEGORIES).slice(1).map(category => (
                 <optgroup key={category} label={category}>
@@ -1227,7 +1331,7 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
           <div>
             <label className="block text-xs font-medium mb-1">Part 2</label>
             <select value={part2} onChange={(e) => setPart2(e.target.value)}
-              className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm">
+              className={`w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm ${retroMode ? 'glow-border sound-click sound-hover' : ''}`}>
               <option value="None">None</option>
               {Object.keys(WEAPON_PART_CATEGORIES).slice(1).map(category => (
                 <optgroup key={category} label={category}>
@@ -1242,7 +1346,7 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
           <div>
             <label className="block text-xs font-medium mb-1">Part 3</label>
             <select value={part3} onChange={(e) => setPart3(e.target.value)}
-              className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm">
+              className={`w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm ${retroMode ? 'glow-border sound-click sound-hover' : ''}`}>
               <option value="None">None</option>
               {Object.keys(WEAPON_PART_CATEGORIES).slice(1).map(category => (
                 <optgroup key={category} label={category}>
@@ -1257,7 +1361,7 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
           <div>
             <label className="block text-xs font-medium mb-1">Enchantment</label>
             <select value={enchantment} onChange={(e) => setEnchantment(e.target.value)}
-              className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm">
+              className={`w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm ${retroMode ? 'glow-border sound-click sound-hover' : ''}`}>
               {Object.keys(ENCHANTMENTS).map(ench => (
                 <option key={ench} value={ench}>{ench}</option>
               ))}
@@ -1268,14 +1372,14 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
             <label className="block text-xs font-medium mb-1">Upgrade Level</label>
             <input type="number" min="0" max="10" value={upgradeLevel}
               onChange={(e) => setUpgradeLevel(Number(e.target.value))}
-              className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1" />
+              className={`w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 ${retroMode ? 'glow-border sound-hover' : ''}`} />
           </div>
 
           <div>
             <label className="block text-xs font-medium mb-1">Rarity</label>
             <input type="number" min="1" max="10" value={rarity}
               onChange={(e) => setRarity(Number(e.target.value))}
-              className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1"
+              className={`w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 ${retroMode ? 'glow-border sound-hover' : ''}`}
               disabled={selectedWeapon !== null} />
           </div>
 
@@ -1283,7 +1387,7 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
             <label className="block text-xs font-medium mb-1">Two-Handed Rank</label>
             <input type="number" min="0" max="5" value={twoHandedSkillRank}
               onChange={(e) => setTwoHandedSkillRank(Number(e.target.value))}
-              className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1" />
+              className={`w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 ${retroMode ? 'glow-border sound-hover' : ''}`} />
           </div>
         </div>
 
@@ -1317,35 +1421,35 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
 
         {/* Base stats if custom weapon */}
         {!selectedWeapon && (
-          <div className="mt-4 grid grid-cols-2 md:grid-cols-5 gap-3 text-sm bg-gray-800 p-3 rounded">
+          <div className={`mt-4 grid grid-cols-2 md:grid-cols-5 gap-3 text-sm bg-gray-800 p-3 rounded ${retroMode ? 'glow-border' : ''}`}>
             <div>
               <label className="block text-xs">Base Power</label>
               <input type="number" value={basePower} onChange={(e) => setBasePower(Number(e.target.value))}
-                className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1" />
+                className={`w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 ${retroMode ? 'glow-border sound-hover' : ''}`} />
             </div>
             <div>
               <label className="block text-xs">Base Crit</label>
               <input type="number" value={baseCrit} onChange={(e) => setBaseCrit(Number(e.target.value))}
-                className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1" />
+                className={`w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 ${retroMode ? 'glow-border sound-hover' : ''}`} />
             </div>
             <div>
               <label className="block text-xs">Base Hit</label>
               <input type="number" value={baseHit} onChange={(e) => setBaseHit(Number(e.target.value))}
-                className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1" />
+                className={`w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 ${retroMode ? 'glow-border sound-hover' : ''}`} />
             </div>
             <div>
               <label className="block text-xs">Base Weight</label>
               <input type="number" value={baseWeight} onChange={(e) => setBaseWeight(Number(e.target.value))}
-                className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1" />
+                className={`w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 ${retroMode ? 'glow-border sound-hover' : ''}`} />
             </div>
           </div>
         )}
       </div>
 
       {/* Custom Stat Scaling */}
-      <div className="mt-6 bg-gray-700 p-4 rounded-lg">
+      <div className={`mt-6 bg-gray-700 p-4 rounded-lg ${retroMode ? 'glow-border' : ''}`}>
         <div className="flex items-center justify-between mb-3">
-          <h3 className="text-lg font-semibold text-cyan-400">Custom Stat Scaling</h3>
+          <h3 className={`text-lg font-semibold text-cyan-400 ${retroMode ? 'font-retro' : ''}`}>Custom Stat Scaling</h3>
         </div>
 
         <p className="text-sm text-gray-400 mb-3">
@@ -1358,7 +1462,7 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
                   type="number"
                   value={customScaling.str}
                   onChange={(e) => setCustomScaling({ ...customScaling, str: Number(e.target.value) })}
-                  className="w-full bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm"
+                  className={`w-full bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm ${retroMode ? 'glow-border sound-hover' : ''}`}
                 />
               </div>
               <div>
@@ -1367,7 +1471,7 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
                   type="number"
                   value={customScaling.wil}
                   onChange={(e) => setCustomScaling({ ...customScaling, wil: Number(e.target.value) })}
-                  className="w-full bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm"
+                  className={`w-full bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm ${retroMode ? 'glow-border sound-hover' : ''}`}
                 />
               </div>
               <div>
@@ -1376,7 +1480,7 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
                   type="number"
                   value={customScaling.ski}
                   onChange={(e) => setCustomScaling({ ...customScaling, ski: Number(e.target.value) })}
-                  className="w-full bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm"
+                  className={`w-full bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm ${retroMode ? 'glow-border sound-hover' : ''}`}
                 />
               </div>
               <div>
@@ -1385,7 +1489,7 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
                   type="number"
                   value={customScaling.cel}
                   onChange={(e) => setCustomScaling({ ...customScaling, cel: Number(e.target.value) })}
-                  className="w-full bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm"
+                  className={`w-full bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm ${retroMode ? 'glow-border sound-hover' : ''}`}
                 />
               </div>
               <div>
@@ -1394,7 +1498,7 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
                   type="number"
                   value={customScaling.def}
                   onChange={(e) => setCustomScaling({ ...customScaling, def: Number(e.target.value) })}
-                  className="w-full bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm"
+                  className={`w-full bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm ${retroMode ? 'glow-border sound-hover' : ''}`}
                 />
               </div>
               <div>
@@ -1403,7 +1507,7 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
                   type="number"
                   value={customScaling.res}
                   onChange={(e) => setCustomScaling({ ...customScaling, res: Number(e.target.value) })}
-                  className="w-full bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm"
+                  className={`w-full bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm ${retroMode ? 'glow-border sound-hover' : ''}`}
                 />
               </div>
               <div>
@@ -1412,7 +1516,7 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
                   type="number"
                   value={customScaling.vit}
                   onChange={(e) => setCustomScaling({ ...customScaling, vit: Number(e.target.value) })}
-                  className="w-full bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm"
+                  className={`w-full bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm ${retroMode ? 'glow-border sound-hover' : ''}`}
                 />
               </div>
               <div>
@@ -1421,7 +1525,7 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
                   type="number"
                   value={customScaling.fai}
                   onChange={(e) => setCustomScaling({ ...customScaling, fai: Number(e.target.value) })}
-                  className="w-full bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm"
+                  className={`w-full bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm ${retroMode ? 'glow-border sound-hover' : ''}`}
                 />
               </div>
               <div>
@@ -1430,7 +1534,7 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
                   type="number"
                   value={customScaling.luc}
                   onChange={(e) => setCustomScaling({ ...customScaling, luc: Number(e.target.value) })}
-                  className="w-full bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm"
+                  className={`w-full bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm ${retroMode ? 'glow-border sound-hover' : ''}`}
                 />
               </div>
               <div>
@@ -1439,7 +1543,7 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
                   type="number"
                   value={customScaling.gui}
                   onChange={(e) => setCustomScaling({ ...customScaling, gui: Number(e.target.value) })}
-                  className="w-full bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm"
+                  className={`w-full bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm ${retroMode ? 'glow-border sound-hover' : ''}`}
                 />
               </div>
               <div>
@@ -1459,8 +1563,8 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
 
       {/* Weapon Details */}
       {selectedWeapon && (
-        <div className="mt-6 bg-gradient-to-br from-blue-800 to-indigo-800 p-4 rounded-lg border-2 border-blue-400">
-          <h3 className="text-lg font-semibold mb-3 text-blue-200">
+        <div className={`mt-6 bg-gradient-to-br from-blue-800 to-indigo-800 p-4 rounded-lg border-2 border-blue-400 ${retroMode ? 'glow-border' : ''}`}>
+          <h3 className={`text-lg font-semibold mb-3 text-blue-200 ${retroMode ? 'font-retro' : ''}`}>
             {selectedWeapon.name} Details
           </h3>
           
@@ -1543,7 +1647,7 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
 
       {/* Mutation Enchant Info */}
       {enchantment === 'Mutation' && (
-        <div className="mt-6 bg-gradient-to-br from-purple-800 to-pink-800 p-4 rounded-lg border-2 border-purple-400">
+        <div className={`mt-6 bg-gradient-to-br from-purple-800 to-pink-800 p-4 rounded-lg border-2 border-purple-400 ${retroMode ? 'glow-border' : ''}`}>
           <h3 className="text-lg font-semibold mb-3 text-purple-200">
             Mutation Enchantment
           </h3>
@@ -1573,7 +1677,7 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
 
       {/* Rebellion Enchant Info */}
       {enchantment === 'Rebellion' && (
-        <div className="mt-6 bg-gradient-to-br from-red-800 to-orange-800 p-4 rounded-lg border-2 border-red-400">
+        <div className={`mt-6 bg-gradient-to-br from-red-800 to-orange-800 p-4 rounded-lg border-2 border-red-400 ${retroMode ? 'glow-border' : ''}`}>
           <h3 className="text-lg font-semibold mb-3 text-red-200">
             Rebellion Enchantment
           </h3>
@@ -1596,7 +1700,7 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
 
       {/* Gigantic Enchant Info */}
       {enchantment === 'Gigantic' && (
-        <div className="mt-6 bg-gradient-to-br from-gray-800 to-stone-800 p-4 rounded-lg border-2 border-gray-400">
+        <div className={`mt-6 bg-gradient-to-br from-gray-800 to-stone-800 p-4 rounded-lg border-2 border-gray-400 ${retroMode ? 'glow-border' : ''}`}>
           <h3 className="text-lg font-semibold mb-3 text-gray-200">
             Gigantic Enchantment
           </h3>
@@ -1612,7 +1716,7 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
 
       {/* Vorpal Enchant Info */}
       {enchantment === 'Vorpal' && (
-        <div className="mt-6 bg-gradient-to-br from-purple-800 to-indigo-800 p-4 rounded-lg border-2 border-purple-400">
+        <div className={`mt-6 bg-gradient-to-br from-purple-800 to-indigo-800 p-4 rounded-lg border-2 border-purple-400 ${retroMode ? 'glow-border' : ''}`}>
           <h3 className="text-lg font-semibold mb-3 text-purple-200">
             Vorpal Enchantment
           </h3>
@@ -1627,11 +1731,11 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
 
             {/* Weapon 2 Configuration - Only shown in comparison mode */}
       {comparisonMode && (
-        <div className="mt-8 border-4 border-green-600 rounded-lg p-6 bg-gradient-to-br from-green-900 to-emerald-900">
-          <h2 className="text-2xl font-bold mb-4 text-center text-green-300">Weapon 2 Configuration</h2>
+        <div className={`mt-8 border-4 border-green-600 rounded-lg p-6 bg-gradient-to-br from-green-900 to-emerald-900 ${retroMode ? 'glow-border' : ''}`}>
+          <h2 className={`text-2xl font-bold mb-4 text-center text-green-300 ${retroMode ? 'font-retro glitch-title' : ''}`}>Weapon 2 Configuration</h2>
           
           {/* Weapon 2 Selection */}
-          <div className="mb-4 border border-green-500 rounded p-3 bg-gray-800">
+          <div className={`mb-4 border border-green-500 rounded p-3 bg-gray-800 ${retroMode ? 'glow-border' : ''}`}>
             <h3 className="text-lg font-semibold mb-3 text-green-400">🔍 Weapon Selection</h3>
             
             {selectedWeapon2 && (
@@ -1646,7 +1750,7 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
                   </div>
                   <button
                     onClick={clearWeaponSelection2}
-                    className="px-2 py-1 bg-red-600 hover:bg-red-700 rounded text-sm"
+                    className={`px-2 py-1 bg-red-600 hover:bg-red-700 rounded text-sm ${retroMode ? 'glow-border sound-click sound-hover' : ''}`}
                   >
                     Clear
                   </button>
@@ -1665,12 +1769,12 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
                   placeholder="Search..."
                   value={weaponSearchTerm2}
                   onChange={(e) => setWeaponSearchTerm2(e.target.value)}
-                  className="bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm"
+                  className={`bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm ${retroMode ? 'glow-border sound-hover' : ''}`}
                 />
                 <select
                   value={weaponTypeFilter2}
                   onChange={(e) => setWeaponTypeFilter2(e.target.value)}
-                  className="bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm"
+                  className={`bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm ${retroMode ? 'glow-border sound-click sound-hover' : ''}`}
                 >
                   <option value="All">All Types</option>
                   <option value="Axe">Axe</option>
@@ -1687,7 +1791,7 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
                 <select
                   value={subtypeFilter2}
                   onChange={(e) => setSubtypeFilter2(e.target.value)}
-                  className="bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm"
+                  className={`bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm ${retroMode ? 'glow-border sound-click sound-hover' : ''}`}
                   disabled={availableSubtypes2.length === 0}
                 >
                   <option value="All">All Subtypes</option>
@@ -1701,7 +1805,7 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
                 <select
                   value={rarityFilter2}
                   onChange={(e) => setRarityFilter2(e.target.value)}
-                  className="bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm"
+                  className={`bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm ${retroMode ? 'glow-border sound-click sound-hover' : ''}`}
                 >
                   <option value="All">All ★</option>
                   {[10, 9, 8, 7, 6, 5, 4, 3, 2, 1].map(r => (
@@ -1712,12 +1816,12 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
             </div>
 
             {filteredWeapons2.length > 0 && (
-              <div className="max-h-48 overflow-y-auto bg-gray-900 rounded border border-gray-600">
+              <div className={`max-h-48 overflow-y-auto bg-gray-900 rounded border border-gray-600 ${retroMode ? 'glow-border' : ''}`}>
                 {filteredWeapons2.slice(0, weaponSearchTerm2 ? 20 : 10).map((weapon) => (
                   <div
                     key={weapon.name}
                     onClick={() => selectWeapon2(weapon)}
-                    className="p-2 border-b border-gray-600 hover:bg-gray-700 cursor-pointer"
+                    className={`p-2 border-b border-gray-600 hover:bg-gray-700 cursor-pointer ${retroMode ? 'sound-hover sound-click' : ''}`}
                   >
                     <div className="flex justify-between items-center">
                       <div>
@@ -1748,7 +1852,7 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
             <div>
               <label className="block text-xs font-medium mb-1">Material</label>
               <select value={material2} onChange={(e) => setMaterial2(e.target.value)}
-                className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm">
+                className={`w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm ${retroMode ? 'glow-border sound-click sound-hover' : ''}`}>
                 {Object.keys(MATERIAL_CATEGORIES).map(category => (
                   <optgroup key={category} label={category}>
                     {MATERIAL_CATEGORIES[category as keyof typeof MATERIAL_CATEGORIES].map(mat => (
@@ -1762,7 +1866,7 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
             <div>
               <label className="block text-xs font-medium mb-1">Part 1</label>
               <select value={part1_2} onChange={(e) => setPart1_2(e.target.value)}
-                className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm">
+                className={`w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm ${retroMode ? 'glow-border sound-click sound-hover' : ''}`}>
                 <option value="None">None</option>
                 {Object.keys(WEAPON_PART_CATEGORIES).slice(1).map(category => (
                   <optgroup key={category} label={category}>
@@ -1777,7 +1881,7 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
             <div>
               <label className="block text-xs font-medium mb-1">Part 2</label>
               <select value={part2_2} onChange={(e) => setPart2_2(e.target.value)}
-                className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm">
+                className={`w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm ${retroMode ? 'glow-border sound-click sound-hover' : ''}`}>
                 <option value="None">None</option>
                 {Object.keys(WEAPON_PART_CATEGORIES).slice(1).map(category => (
                   <optgroup key={category} label={category}>
@@ -1792,7 +1896,7 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
             <div>
               <label className="block text-xs font-medium mb-1">Part 3</label>
               <select value={part3_2} onChange={(e) => setPart3_2(e.target.value)}
-                className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm">
+                className={`w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm ${retroMode ? 'glow-border sound-click sound-hover' : ''}`}>
                 <option value="None">None</option>
                 {Object.keys(WEAPON_PART_CATEGORIES).slice(1).map(category => (
                   <optgroup key={category} label={category}>
@@ -1807,7 +1911,7 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
             <div>
               <label className="block text-xs font-medium mb-1">Enchantment</label>
               <select value={enchantment2} onChange={(e) => setEnchantment2(e.target.value)}
-                className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm">
+                className={`w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm ${retroMode ? 'glow-border sound-click sound-hover' : ''}`}>
                 {Object.keys(ENCHANTMENTS).map(ench => (
                   <option key={ench} value={ench}>{ench}</option>
                 ))}
@@ -1818,14 +1922,14 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
               <label className="block text-xs font-medium mb-1">Upgrade Level</label>
               <input type="number" min="0" max="10" value={upgradeLevel2}
                 onChange={(e) => setUpgradeLevel2(Number(e.target.value))}
-                className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1" />
+                className={`w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 ${retroMode ? 'glow-border sound-hover' : ''}`} />
             </div>
 
             <div>
               <label className="block text-xs font-medium mb-1">Rarity</label>
               <input type="number" min="1" max="10" value={rarity2}
                 onChange={(e) => setRarity2(Number(e.target.value))}
-                className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1"
+                className={`w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 ${retroMode ? 'glow-border sound-hover' : ''}`}
                 disabled={selectedWeapon2 !== null} />
             </div>
 
@@ -1833,7 +1937,7 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
               <label className="block text-xs font-medium mb-1">Two-Handed Rank</label>
               <input type="number" min="0" max="5" value={twoHandedSkillRank2}
                 onChange={(e) => setTwoHandedSkillRank2(Number(e.target.value))}
-                className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1" />
+                className={`w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 ${retroMode ? 'glow-border sound-hover' : ''}`} />
             </div>
           </div>
 
@@ -1894,7 +1998,7 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
       )}
 
       {/* Stat Verification Section */}
-      <div className="mt-6 bg-gray-700 p-4 rounded-lg">
+      <div className={`mt-6 bg-gray-700 p-4 rounded-lg ${retroMode ? 'glow-border' : ''}`}>
         <h3 className="text-lg font-semibold mb-3 text-cyan-400">Character Stats (from Calculator)</h3>
         <p className="text-xs text-gray-400 mb-3">These are your scaled stats being used for weapon calculations:</p>
         <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 text-sm">
@@ -1952,11 +2056,12 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
         </div>
       </div>
 
-
+        </>
+      )}
 
       {/* Results */}
-      <div className="mt-6 bg-gradient-to-br from-purple-900 to-blue-900 p-6 rounded-lg">
-        <h3 className="text-2xl font-bold mb-4 text-center">Final Weapon Stats</h3>
+      <div className={`mt-6 panel-soft p-6 rounded-lg ${retroMode ? 'glow-border' : ''}`}>
+        <h3 className={`text-2xl font-bold mb-4 text-center ${retroMode ? 'font-retro glitch-title text-yellow-300' : 'text-white'}`}>Final Weapon Stats</h3>
         
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           <div className="bg-black bg-opacity-30 p-3 rounded text-center">
@@ -2062,12 +2167,12 @@ export default function WeaponCalculator({ stats }: WeaponCalculatorProps) {
 
       {/* Comparison View */}
       {comparisonMode && (
-        <div className="mt-8 border-t-4 border-purple-600 pt-6">
-          <h2 className="text-3xl font-bold mb-6 text-center text-purple-400">Weapon Comparison</h2>
+        <div className={`mt-8 border-t-4 border-purple-600 pt-6 ${retroMode ? 'glow-border' : ''}`}>
+          <h2 className={`text-3xl font-bold mb-6 text-center text-purple-400 ${retroMode ? 'font-retro glitch-title' : ''}`}>Weapon Comparison</h2>
           
           {/* Comparison Stats Grid */}
-          <div className="bg-gray-800 p-6 rounded-lg mb-6">
-            <h3 className="text-xl font-bold mb-4">Final Stats Comparison</h3>
+          <div className={`bg-gray-800 p-6 rounded-lg mb-6 ${retroMode ? 'glow-border' : ''}`}>
+            <h3 className={`text-xl font-bold mb-4 ${retroMode ? 'font-retro' : ''}`}>Final Stats Comparison</h3>
             <div className="overflow-x-auto">
               <table className="w-full text-center">
                 <thead>

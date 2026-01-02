@@ -1,4 +1,41 @@
-node_modules
-dist
+node_modules/
+dist/
 .DS_Store
+Thumbs.db
+
+# Logs
+logs/
 *.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Editor/IDE
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Caches & temp
+.cache/
+tmp/
+temp/
+.eslintcache
+
+# TypeScript
+*.tsbuildinfo
+
+# Coverage
+coverage/
+.nyc_output/
+
+# Project planning docs (exclude from repo)
+Important SL2 Information for classes.txt
+SL2_Calculations_and_Stats_Summary.txt
