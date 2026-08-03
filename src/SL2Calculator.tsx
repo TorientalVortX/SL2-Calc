@@ -3,14 +3,15 @@
  * Added features: Class Passives, Rising Game, Instinct, Subrace support
  */
 
-import { useState, useRef, useEffect } from 'react';
+import { lazy, useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import IntroOverlay from './IntroOverlay';
 import SparkleBackground from './SparkleBackground';
 import FoxRain from './FoxRain';
 import { Plus, Minus, RotateCcw, Settings, Utensils, BookOpen, Download, Upload, Copy, StarIcon, Camera } from 'lucide-react';
-import WeaponCalculator from './WeaponCalculator';
-import ArmorCalculator from './ArmorCalculator';
+import PwaUpdatePrompt from './PwaUpdatePrompt';
+import ClassFamilyPicker from './ClassFamilyPicker';
+import OptimizerPanel from './OptimizerPanel';
 import type {
   StatKey,
   StampKey,
@@ -19,61 +20,58 @@ import type {
   StampRecord,
   ElementalRecord,
   ClassPassive,
-  BuildData,
-  OptimizationResult,
-  OptimizationParams,
-  Armor
+  BuildState,
+  SaveSlotV1,
+  SharePayloadV1,
+  OptimizationCandidate,
+  Armor,
+  WeaponConfig
 } from './types';
+
+const WeaponCalculator = lazy(() => import('./WeaponCalculator'));
+const ArmorCalculator = lazy(() => import('./ArmorCalculator'));
 
 // Import data constants
 import { STAT_COLORS, ELEMENT_COLORS } from './data/colors';
 import { RACES, SUBRACES, RACE_RESISTANCES} from './data/races';
 import { CLASSES, CLASS_PASSIVES, CLASS_HIERARCHY  } from './data/classes';
 import { FOODS, HISTORY, LEGEND_EXTEND, ASTROLOGY_PLANETS, PLANET_ELEMENTS } from './data/bonuses';
-import { STAT_INFO, BUILD_TYPES } from './data/stats';
-import { MAX_POINTS, APTITUDE_NUMBER, TEMPLATE_BUILDS } from './data/constants';
-import { StatOptimizer } from './utilities/StatOptimizer';
+import { STAT_INFO } from './data/stats';
+import { MAX_POINTS, TEMPLATE_BUILDS } from './data/constants';
+import { ARMORS } from './data/armors';
 import { soundManager } from './utilities/SoundManager';
+import { calculateArmorConditionals } from './domain/derivedCalculations';
+import { evaluateBuild } from './domain/buildEvaluation';
+import {
+  APP_VERSION,
+  GAME_DATA_MANIFEST,
+  createBuildFile,
+  decodeSharePayload,
+  discardRecoveryDraft,
+  encodeSharePayload,
+  loadRecoveryDraft,
+  loadPreferences,
+  loadSaveSlots,
+  parseBuildFile,
+  persistSaveSlots,
+  saveRecoveryDraft,
+  savePreferences,
+} from './domain/buildPersistence';
 
 export default function SL2Calculator() {
-  const [showIntro, setShowIntro] = useState(() => {
-    try {
-      return localStorage.getItem('sl2_skip_intro') === '1' ? false : true;
-    } catch {
-      return true;
-    }
-  });
-  const [uiSounds, setUiSounds] = useState(() => {
-    try {
-      return localStorage.getItem('sl2_ui_sounds') !== '0';
-    } catch {
-      return true;
-    }
-  });
-  const [retroMode, setRetroMode] = useState(() => {
-    try {
-      return localStorage.getItem('sl2_retro_mode') !== '0';
-    } catch {
-      return true;
-    }
-  });
+  const initialPreferences = useRef(loadPreferences()).current;
+  const [showIntroOnStartup, setShowIntroOnStartup] = useState(initialPreferences.showIntro);
+  const [showIntro, setShowIntro] = useState(initialPreferences.showIntro);
+  const [uiSounds, setUiSounds] = useState(initialPreferences.uiSounds);
+  const [retroMode, setRetroMode] = useState(initialPreferences.retroMode);
+
+  useEffect(() => {
+    try { savePreferences({ showIntro: showIntroOnStartup, uiSounds, retroMode }); } catch {}
+  }, [showIntroOnStartup, uiSounds, retroMode]);
   const [showSettings, setShowSettings] = useState(false);
   // Konami easter egg state (retro-only)
   const [konamiActive, setKonamiActive] = useState(false);
   const konamiIndexRef = useRef(0);
-    useEffect(() => {
-      const onKeyDown = (e: KeyboardEvent) => {
-        if (e.key === 'Escape') {
-          setShowSettings(false);
-        }
-      };
-      if (showSettings) {
-        document.addEventListener('keydown', onKeyDown);
-      }
-      return () => {
-        document.removeEventListener('keydown', onKeyDown);
-      };
-    }, [showSettings]);
   
   // Listen for Konami code when in retro mode and not showing intro
   useEffect(() => {
@@ -126,7 +124,6 @@ export default function SL2Calculator() {
   const [showMainClassDropdown, setShowMainClassDropdown] = useState(false);
   const [showSubClassDropdown, setShowSubClassDropdown] = useState(false);
   
-  const [totalPoints, setTotalPoints] = useState(MAX_POINTS);
   const [characterLevel, setCharacterLevel] = useState(60);
   const [food, setFood] = useState('None');
   const [history, setHistory] = useState('None');
@@ -135,6 +132,8 @@ export default function SL2Calculator() {
     str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0,
     vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0
   });
+  const pointsSpent = Object.values(addedStats).reduce((sum, value) => sum + value, 0);
+  const totalPoints = Math.max(0, characterLevel * 4 - pointsSpent);
 
   const [customStats, setCustomStats] = useState<StatRecord>({
     str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0,
@@ -192,13 +191,7 @@ export default function SL2Calculator() {
   const [equippedArmor, setEquippedArmor] = useState<Armor | null>(null);
   const [armorConditionalBonuses, setArmorConditionalBonuses] = useState<Record<string, boolean>>({});
   // Persisted weapon configuration for screenshot mode
-  const [weaponConfig, setWeaponConfig] = useState<import('./WeaponCalculator').WeaponConfig | undefined>(undefined);
-  
-  useEffect(() => {
-    const newTotalPoints = characterLevel * 4;
-    const pointsSpent = Object.values(addedStats).reduce((sum, val) => sum + val, 0);
-    setTotalPoints(Math.max(0, newTotalPoints - pointsSpent));
-  }, [characterLevel, addedStats]);
+  const [weaponConfig, setWeaponConfig] = useState<WeaponConfig | undefined>(undefined);
 
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [showFood, setShowFood] = useState(false);
@@ -211,164 +204,48 @@ export default function SL2Calculator() {
   const [showImportExport, setShowImportExport] = useState(false);
   const [buildName, setBuildName] = useState('My Build');
   const [importText, setImportText] = useState('');
+  const [notice, setNotice] = useState<{ type: 'success' | 'error' | 'info'; message: string } | null>(null);
+  const [saveSlots, setSaveSlots] = useState<SaveSlotV1[]>(() => {
+    try { return loadSaveSlots(); } catch { return []; }
+  });
+  const [activeSaveId, setActiveSaveId] = useState<string | null>(null);
+  const [draftTimestamp, setDraftTimestamp] = useState<string | null>(() => {
+    try { return loadRecoveryDraft()?.exportedAt ?? null; } catch { return null; }
+  });
+  const [pendingSharedBuild, setPendingSharedBuild] = useState<SharePayloadV1 | null>(null);
+  const [showChanges, setShowChanges] = useState(false);
+  const [isOnline, setIsOnline] = useState(() => navigator.onLine);
+
+  useEffect(() => {
+    const updateOnlineState = () => setIsOnline(navigator.onLine);
+    window.addEventListener('online', updateOnlineState);
+    window.addEventListener('offline', updateOnlineState);
+    return () => {
+      window.removeEventListener('online', updateOnlineState);
+      window.removeEventListener('offline', updateOnlineState);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!showSettings && !showImportExport && !showChanges && !pendingSharedBuild) return;
+    const closeTopDialog = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return;
+      if (pendingSharedBuild) clearShareLink();
+      else if (showChanges) setShowChanges(false);
+      else if (showImportExport) setShowImportExport(false);
+      else setShowSettings(false);
+    };
+    document.addEventListener('keydown', closeTopDialog);
+    return () => document.removeEventListener('keydown', closeTopDialog);
+  }, [showSettings, showImportExport, showChanges, pendingSharedBuild]);
   
   // Active tab state
-  const [activeTab, setActiveTab] = useState<'stats' | 'weapon' | 'armor' | 'optimizer' | 'screenshot'>('stats');
+  const [activeTab, setActiveTab] = useState<'stats' | 'weapon' | 'armor' | 'screenshot'>('stats');
   
   // Screenshot ref
   const screenshotRef = useRef<HTMLDivElement>(null);
 
-  // Stat Optimizer state
-  const [selectedBuildType, setSelectedBuildType] = useState<string>('hybrid');
-  const [optimizerTargetLevel, setOptimizerTargetLevel] = useState<number>(60);
-  const [optimizeWeaponScaling, setOptimizeWeaponScaling] = useState<boolean>(true);
-  const [selectedWeaponType, setSelectedWeaponType] = useState<string>('');
-  const [optimizationResult, setOptimizationResult] = useState<OptimizationResult | null>(null);
-  const [isOptimizing, setIsOptimizing] = useState<boolean>(false);
-  const [optimizationMode, setOptimizationMode] = useState<'weights' | 'targets'>('weights');
-  
-  // Target stats for target-based optimization
-  const [targetStats, setTargetStats] = useState({
-    str: 50, wil: 50, ski: 55, cel: 40, def: 35, res: 35, 
-    vit: 40, fai: 30, luc: 35, gui: 30, san: 25, apt: 36
-  });
-  
-  // Custom weights state
-  const [customWeights, setCustomWeights] = useState({
-    youkaiCount: 5, // Starting base youkai count
-    summonSurvivability: 5,
-    criticalFocus: 5,
-    magicDamageFocus: 5,
-    physicalDamageFocus: 5,
-    accuracyFocus: 5,
-    minimumHP: 700, // Restore reasonable default minimum HP
-    fpPriority: 5,
-    physicalDefense: 5,
-    magicalDefense: 5,
-    initiativePriority: 5,
-    statusResistance: 5,
-    carryCapacity: 0,
-    targetAPT: 36 as 36 | 42 | 80, // Standard APT target for multiclass (80 for Undeniable Innovator)
-    targetEvade: 0, // Target evade value (0 = no target)
-  });
-  const [showCustomWeights, setShowCustomWeights] = useState<boolean>(false);
-
-  // My descent into madness while writing this function was not worth it
-  // I hate myself
-  // Please forgive me
-  const getBuildTypeWeights = (buildType: string) => {
-    const buildDefaults: Record<string, typeof customWeights> = {
-      'evade': {
-        youkaiCount: 5,
-        summonSurvivability: 3,
-        criticalFocus: 7,
-        magicDamageFocus: 3,
-        physicalDamageFocus: 6,
-        accuracyFocus: 8,
-        minimumHP: 600, // Lower HP for evade tanks
-        fpPriority: 5,
-        physicalDefense: 2,
-        magicalDefense: 3,
-        initiativePriority: 9, // High initiative for evade builds
-        statusResistance: 4,
-        carryCapacity: 2,
-        targetAPT: 36 as 36 | 42 | 80, // Standard APT for multiclass
-        targetEvade: 115, // High evade target for evade tanks
-      },
-      'tank': {
-        youkaiCount: 5,
-        summonSurvivability: 7,
-        criticalFocus: 3,
-        magicDamageFocus: 4,
-        physicalDamageFocus: 5,
-        accuracyFocus: 6,
-        minimumHP: 850, // Higher HP for tanks
-        fpPriority: 6,
-        physicalDefense: 10, // Max physical defense
-        magicalDefense: 10, // Max magical defense
-        initiativePriority: 3,
-        statusResistance: 8, // High status resistance
-        carryCapacity: 4,
-        targetAPT: 36 as 36 | 42 | 80, // Lower APT for stat-focused tanks (changed from 30)
-        targetEvade: 35, // Basic mobility
-      },
-      'glass_cannon': {
-        youkaiCount: 8, // Higher youkai for magic glass cannons
-        summonSurvivability: 4,
-        criticalFocus: 9, // High crit focus
-        magicDamageFocus: 9, // High magic damage
-        physicalDamageFocus: 8, // High physical damage
-        accuracyFocus: 9, // High accuracy for damage
-        minimumHP: 500, // Lower HP (glass cannon)
-        fpPriority: 8, // High FP for sustained damage
-        physicalDefense: 1, // Minimal defense
-        magicalDefense: 2,
-        initiativePriority: 7, // First strike advantage
-        statusResistance: 3,
-        carryCapacity: 2,
-        targetAPT: 42 as 36 | 42 | 80, // Higher APT for damage efficiency
-        targetEvade: 55, // Moderate mobility for DPS
-      },
-      'hybrid': {
-        youkaiCount: 6,
-        summonSurvivability: 5,
-        criticalFocus: 5,
-        magicDamageFocus: 5,
-        physicalDamageFocus: 5,
-        accuracyFocus: 6,
-        minimumHP: 700, // Balanced HP
-        fpPriority: 6, // Balanced FP
-        physicalDefense: 5, // Balanced defense
-        magicalDefense: 5,
-        initiativePriority: 5,
-        statusResistance: 5,
-        carryCapacity: 3,
-        targetAPT: 36 as 36 | 42 | 80, // Standard APT for versatility
-        targetEvade: 75, // Moderate evade for hybrid builds
-      },
-      'support': {
-        youkaiCount: 7, // Higher for support summons
-        summonSurvivability: 8, // Keep summons alive
-        criticalFocus: 3,
-        magicDamageFocus: 6, // Some magic for healing/buffs
-        physicalDamageFocus: 2,
-        accuracyFocus: 5,
-        minimumHP: 650, // More reasonable HP for support
-        fpPriority: 9, // High FP for sustained support
-        physicalDefense: 6,
-        magicalDefense: 7,
-        initiativePriority: 6,
-        statusResistance: 9, // High status resistance for support
-        carryCapacity: 4,
-        targetAPT: 36 as 36 | 42 | 80, // Standard APT for support utility
-        targetEvade: 55, // Some mobility for positioning
-      },
-      'critical': {
-        youkaiCount: 5,
-        summonSurvivability: 3,
-        criticalFocus: 10, // Max critical focus
-        magicDamageFocus: 4,
-        physicalDamageFocus: 8, // High physical for crit builds
-        accuracyFocus: 8, // Need accuracy for crits to land
-        minimumHP: 550, // More reasonable HP for crit builds
-        fpPriority: 5,
-        physicalDefense: 3,
-        magicalDefense: 3,
-        initiativePriority: 8,
-        statusResistance: 4,
-        carryCapacity: 3,
-        targetAPT: 36 as 36 | 42 | 80, // Standard APT for flexibility (changed from 30)
-        targetEvade: 95, // Good evade for positioning in crit builds
-      }
-    };
-
-    return buildDefaults[buildType] || buildDefaults['hybrid'];
-  };
-
-  useEffect(() => {
-    const newWeights = getBuildTypeWeights(selectedBuildType);
-    setCustomWeights(newWeights);
-  }, [selectedBuildType]);
+  const [optimizerUndo, setOptimizerUndo] = useState<Pick<BuildState, 'mainClass' | 'subClass' | 'selectedMainBaseClass' | 'selectedSubBaseClass' | 'mainClassPassive' | 'subClassPassive' | 'addedStats'> | null>(null);
 
   // Stat info modal state
   const [showStatInfo, setShowStatInfo] = useState(false);
@@ -376,156 +253,125 @@ export default function SL2Calculator() {
 
   const monoclassModifier = mainClass === subClass ? 2 : 1;
 
-  const exportBuild = (buildName: string = "My Build"): void => {
-    const buildData: BuildData = {
-      buildName,
-      race,
-      subrace,
-      mainClass,
-      subClass,
-      selectedMainBaseClass,
-      selectedSubBaseClass,
-      totalPoints,
-      characterLevel,
-      food,
-      history,
-      addedStats,
-      customStats,
-      customBaseStats,
-      stamps,
-      legendExtend,
-      astrology,
-      customHP,
-      customFP,
-      baseEvade,
-      bonusEvade,
-      giantGene,
-      dragonKing,
-      dragonQueen,
-      hpPercent,
-      sanguineCrest,
-      felidaeInstinct,
-      lupineInstinct,
-      risingGame,
-      redtailFortuneLevel,
-      redtailDiceColor,
-      karakuriYoukai,
-      fortitude,
-      painTolerance,
-      warwalk,
-      endurance,
-      luminaryElement,
-      persistenceOfNormalcy,
-      powerOfNormalcy,
-      mainClassPassive,
-      subClassPassive,
-      elementalATKAdjustments,
-      elementalRESAdjustments,
-      version: "0.5.0"
-    };
+  const getCurrentBuildState = (): BuildState => ({
+    race, subrace, mainClass, subClass, selectedMainBaseClass, selectedSubBaseClass,
+    characterLevel, food, history, addedStats, customStats, customBaseStats, stamps,
+    legendExtend, astrology, customHP, customFP, baseEvade, bonusEvade, giantGene,
+    dragonKing, dragonQueen, hpPercent, sanguineCrest, felidaeInstinct, lupineInstinct,
+    risingGame, redtailFortuneLevel, redtailDiceColor, karakuriYoukai, fortitude,
+    painTolerance, warwalk, endurance, luminaryElement, persistenceOfNormalcy,
+    powerOfNormalcy, mainClassPassive, subClassPassive, elementalATKAdjustments,
+    elementalRESAdjustments,
+    equipment: {
+      armorName: equippedArmor?.name ?? null,
+      armorConditionalBonuses,
+      primaryWeapon: weaponConfig,
+    },
+  });
 
-    const jsonString = JSON.stringify(buildData, null, 2);
+  const applyBuildState = (build: BuildState): void => {
+    setRace(build.race);
+    setSubrace(build.subrace);
+    setMainClass(build.mainClass);
+    setSubClass(build.subClass);
+    setSelectedMainBaseClass(build.selectedMainBaseClass ?? 'Soldier');
+    setSelectedSubBaseClass(build.selectedSubBaseClass ?? 'Soldier');
+    setCharacterLevel(build.characterLevel);
+    setFood(build.food);
+    setHistory(build.history);
+    setAddedStats(build.addedStats);
+    setCustomStats(build.customStats);
+    setCustomBaseStats(build.customBaseStats);
+    setStamps(build.stamps);
+    setLegendExtend(build.legendExtend);
+    setAstrology(build.astrology);
+    setCustomHP(build.customHP);
+    setCustomFP(build.customFP);
+    setBaseEvade(build.baseEvade);
+    setBonusEvade(build.bonusEvade);
+    setGiantGene(build.giantGene);
+    setDragonKing(build.dragonKing);
+    setDragonQueen(build.dragonQueen);
+    setHpPercent(build.hpPercent);
+    setSanguineCrest(build.sanguineCrest);
+    setFelidaeInstinct(build.felidaeInstinct);
+    setLupineInstinct(build.lupineInstinct);
+    setRisingGame(build.risingGame);
+    setRedtailFortuneLevel(build.redtailFortuneLevel);
+    setRedtailDiceColor(build.redtailDiceColor);
+    setKarakuriYoukai(build.karakuriYoukai);
+    setFortitude(build.fortitude);
+    setPainTolerance(build.painTolerance);
+    setWarwalk(build.warwalk);
+    setEndurance(build.endurance);
+    setLuminaryElement(build.luminaryElement);
+    setPersistenceOfNormalcy(build.persistenceOfNormalcy);
+    setPowerOfNormalcy(build.powerOfNormalcy);
+    setMainClassPassive(build.mainClassPassive);
+    setSubClassPassive(build.subClassPassive);
+    setElementalATKAdjustments(build.elementalATKAdjustments);
+    setElementalRESAdjustments(build.elementalRESAdjustments);
+    setEquippedArmor(build.equipment.armorName ? ARMORS[build.equipment.armorName] ?? null : null);
+    setArmorConditionalBonuses(build.equipment.armorConditionalBonuses);
+    setWeaponConfig(build.equipment.primaryWeapon);
+  };
+
+  const downloadBuild = (name: string, build: BuildState): void => {
+    const jsonString = JSON.stringify(createBuildFile(name, build), null, 2);
     const blob = new Blob([jsonString], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
-    
     const link = document.createElement('a');
     link.href = url;
-    link.download = `${buildName.replace(/[^a-zA-Z0-9]/g, '_')}_build.json`;
+    link.download = `${name.replace(/[^a-zA-Z0-9]/g, '_') || 'SL2'}_build.json`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
+    setNotice({ type: 'success', message: 'Build JSON downloaded.' });
   };
+
+  const exportBuild = (name: string = 'My Build'): void => downloadBuild(name, getCurrentBuildState());
 
   const importBuild = (jsonString: string): boolean => {
     try {
-      const buildData: BuildData = JSON.parse(jsonString);
-      
-      if (!buildData.race || !buildData.subrace || !buildData.mainClass || !buildData.subClass) {
-        throw new Error("Invalid build data: missing required fields");
-      }
-
-      setRace(buildData.race);
-      setSubrace(buildData.subrace);
-      setMainClass(buildData.mainClass);
-      setSubClass(buildData.subClass);
-      
-      if (buildData.selectedMainBaseClass) {
-        setSelectedMainBaseClass(buildData.selectedMainBaseClass);
-      } else {
-        const mainBaseClass = Object.entries(CLASS_HIERARCHY).find(([, data]) => 
-          data.subClasses.includes(buildData.mainClass) || data.name === buildData.mainClass
-        )?.[0] || 'Soldier';
-        setSelectedMainBaseClass(mainBaseClass);
-      }
-      
-      if (buildData.selectedSubBaseClass) {
-        setSelectedSubBaseClass(buildData.selectedSubBaseClass);
-      } else {
-        const subBaseClass = Object.entries(CLASS_HIERARCHY).find(([, data]) => 
-          data.subClasses.includes(buildData.subClass) || data.name === buildData.subClass
-        )?.[0] || 'Soldier';
-        setSelectedSubBaseClass(subBaseClass);
-      }
-      
-      setTotalPoints(buildData.totalPoints || MAX_POINTS);
-      setCharacterLevel(buildData.characterLevel || 60);
-      setFood(buildData.food || 'None');
-      setHistory(buildData.history || 'None');
-      setAddedStats(buildData.addedStats || {
-        str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0,
-        vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0
-      });
-      setCustomStats(buildData.customStats || {
-        str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0,
-        vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0
-      });
-      setCustomBaseStats(buildData.customBaseStats || {
-        str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0,
-        vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0
-      });
-      setStamps(buildData.stamps || { str: 0, wil: 0, ski: 0, cel: 0, vit: 0, fai: 0 });
-      setLegendExtend(buildData.legendExtend || {});
-      setAstrology(buildData.astrology || '');
-      setCustomHP(buildData.customHP || 0);
-      setCustomFP(buildData.customFP || 0);
-      setBaseEvade(buildData.baseEvade || 0);
-      setBonusEvade(buildData.bonusEvade || 0);
-      setGiantGene(buildData.giantGene || false);
-      setDragonKing(buildData.dragonKing || 0);
-      setDragonQueen(buildData.dragonQueen || 0);
-      setHpPercent(buildData.hpPercent || 100);
-      setSanguineCrest(buildData.sanguineCrest || false);
-      setFelidaeInstinct(buildData.felidaeInstinct || false);
-      setLupineInstinct(buildData.lupineInstinct || false);
-      setRisingGame(buildData.risingGame || 0);
-      setRedtailFortuneLevel(buildData.redtailFortuneLevel || 1);
-      setRedtailDiceColor(buildData.redtailDiceColor || 'red');
-      setKarakuriYoukai(buildData.karakuriYoukai || 'None');
-      setFortitude(buildData.fortitude || false);
-      setPainTolerance(buildData.painTolerance || 0);
-      setWarwalk(buildData.warwalk || false);
-      setEndurance(buildData.endurance || false);
-      setLuminaryElement(buildData.luminaryElement || false);
-      setPersistenceOfNormalcy(buildData.persistenceOfNormalcy || false);
-      setPowerOfNormalcy(buildData.powerOfNormalcy || false);
-      setMainClassPassive(buildData.mainClassPassive || 0);
-      setSubClassPassive(buildData.subClassPassive || 0);
-      
-      // Import elemental adjustments with defaults
-      setElementalATKAdjustments(buildData.elementalATKAdjustments || {
-        Fire: 0, Ice: 0, Wind: 0, Earth: 0, Dark: 0, Water: 0, Light: 0, Lightning: 0, Acid: 0, Sound: 0
-      });
-      setElementalRESAdjustments(buildData.elementalRESAdjustments || {
-        Fire: 0, Ice: 0, Wind: 0, Earth: 0, Dark: 0, Water: 0, Light: 0, Lightning: 0, Acid: 0, Sound: 0
-      });
-      
+      const file = parseBuildFile(jsonString);
+      applyBuildState(file.build);
+      setBuildName(file.buildName);
+      setActiveSaveId(null);
+      setNotice({ type: 'success', message: `Imported ${file.buildName}.` });
       return true;
     } catch (error) {
       console.error('Failed to import build:', error);
+      setNotice({ type: 'error', message: error instanceof Error ? error.message : 'Build import failed.' });
       return false;
     }
   };
+
+  const serializedDraft = JSON.stringify(getCurrentBuildState());
+  const initialDraftSnapshot = useRef(serializedDraft);
+  const [draftWriteEnabled, setDraftWriteEnabled] = useState(() => !draftTimestamp);
+  useEffect(() => {
+    if (!draftWriteEnabled) {
+      if (serializedDraft !== initialDraftSnapshot.current) setDraftWriteEnabled(true);
+      return;
+    }
+    const timer = window.setTimeout(() => {
+      try {
+        saveRecoveryDraft(buildName, JSON.parse(serializedDraft) as BuildState);
+        setDraftTimestamp(new Date().toISOString());
+      } catch (error) {
+        setNotice({ type: 'error', message: error instanceof Error ? `Draft could not be saved: ${error.message}` : 'Draft could not be saved.' });
+      }
+    }, 600);
+    return () => window.clearTimeout(timer);
+  }, [serializedDraft, buildName, draftWriteEnabled]);
+
+  useEffect(() => {
+    const encoded = new URLSearchParams(window.location.hash.slice(1)).get('build');
+    if (!encoded) return;
+    try { setPendingSharedBuild(decodeSharePayload(encoded)); }
+    catch (error) { setNotice({ type: 'error', message: error instanceof Error ? error.message : 'Shared build link is invalid.' }); }
+  }, []);
 
   const loadTemplate = (templateKey: string): void => {
     const template = TEMPLATE_BUILDS[templateKey as keyof typeof TEMPLATE_BUILDS];
@@ -592,63 +438,130 @@ export default function SL2Calculator() {
       Fire: 0, Ice: 0, Wind: 0, Earth: 0, Dark: 0, Water: 0, Light: 0, Lightning: 0, Acid: 0, Sound: 0
     });
 
-    const pointsSpent = Object.values(template.stats).reduce((sum: number, val: number) => sum + val, 0);
-    setTotalPoints(Math.max(0, 240 - pointsSpent));
   };
 
-  const copyBuildToClipboard = async (buildName: string = "My Build"): Promise<boolean> => {
-    const buildData: BuildData = {
-      buildName,
-      race,
-      subrace,
-      mainClass,
-      subClass,
-      totalPoints,
-      characterLevel,
-      food,
-      history,
-      addedStats,
-      customStats,
-      customBaseStats,
-      stamps,
-      legendExtend,
-      astrology,
-      customHP,
-      customFP,
-      baseEvade,
-      bonusEvade,
-      giantGene,
-      dragonKing,
-      dragonQueen,
-      hpPercent,
-      sanguineCrest,
-      felidaeInstinct,
-      lupineInstinct,
-      risingGame,
-      redtailFortuneLevel,
-      redtailDiceColor,
-      karakuriYoukai,
-      fortitude,
-      painTolerance,
-      warwalk,
-      endurance,
-      luminaryElement,
-      persistenceOfNormalcy,
-      powerOfNormalcy,
-      mainClassPassive,
-      subClassPassive,
-      elementalATKAdjustments,
-      elementalRESAdjustments,
-      version: "0.5.0"
-    };
-
+  const copyBuildToClipboard = async (name: string = 'My Build'): Promise<boolean> => {
     try {
-      await navigator.clipboard.writeText(JSON.stringify(buildData, null, 2));
+      await navigator.clipboard.writeText(JSON.stringify(createBuildFile(name, getCurrentBuildState()), null, 2));
+      setNotice({ type: 'success', message: 'Build JSON copied to the clipboard.' });
       return true;
     } catch (error) {
       console.error('Failed to copy to clipboard:', error);
+      setNotice({ type: 'error', message: 'Clipboard access failed. Download the JSON instead.' });
       return false;
     }
+  };
+
+  const copyShareLink = async (): Promise<void> => {
+    try {
+      const encoded = encodeSharePayload(buildName, getCurrentBuildState());
+      const url = new URL(window.location.href);
+      url.hash = new URLSearchParams({ build: encoded }).toString();
+      await navigator.clipboard.writeText(url.toString());
+      setNotice({ type: 'success', message: 'Private build link copied. No build data was uploaded.' });
+    } catch (error) {
+      setNotice({ type: 'error', message: error instanceof Error ? error.message : 'Could not create a share link.' });
+    }
+  };
+
+  const shareBuild = async (): Promise<void> => {
+    try {
+      const url = new URL(window.location.href);
+      url.hash = new URLSearchParams({ build: encodeSharePayload(buildName, getCurrentBuildState()) }).toString();
+      const canShare = 'share' in navigator && typeof navigator.share === 'function';
+      if (canShare) await navigator.share({ title: `${buildName} - SL2 Calculator`, url: url.toString() });
+      else await navigator.clipboard.writeText(url.toString());
+      setNotice({ type: 'success', message: canShare ? 'Build shared.' : 'Build link copied.' });
+    } catch (error) {
+      if (error instanceof DOMException && error.name === 'AbortError') return;
+      setNotice({ type: 'error', message: 'Could not share this build.' });
+    }
+  };
+
+  const clearShareLink = (): void => {
+    window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
+    setPendingSharedBuild(null);
+  };
+
+  const acceptSharedBuild = (): void => {
+    if (!pendingSharedBuild) return;
+    applyBuildState(pendingSharedBuild.build);
+    setBuildName(pendingSharedBuild.buildName);
+    setActiveSaveId(null);
+    clearShareLink();
+    setNotice({ type: 'success', message: `Loaded shared build ${pendingSharedBuild.buildName}.` });
+  };
+
+  const commitSaveSlots = (next: SaveSlotV1[]): void => {
+    try {
+      persistSaveSlots(next);
+      setSaveSlots(next);
+    } catch (error) {
+      setNotice({ type: 'error', message: error instanceof Error ? `Saves could not be stored: ${error.message}` : 'Saves could not be stored.' });
+    }
+  };
+
+  const createSaveSlot = (): void => {
+    const now = new Date().toISOString();
+    const slot: SaveSlotV1 = {
+      id: crypto.randomUUID?.() ?? `${Date.now()}-${Math.random().toString(16).slice(2)}`,
+      name: buildName.trim() || 'Untitled Build',
+      createdAt: now,
+      updatedAt: now,
+      build: getCurrentBuildState(),
+    };
+    commitSaveSlots([slot, ...saveSlots]);
+    setActiveSaveId(slot.id);
+    setNotice({ type: 'success', message: `Saved ${slot.name}.` });
+  };
+
+  const updateActiveSave = (): void => {
+    if (!activeSaveId) return setNotice({ type: 'info', message: 'Load or create a named save first.' });
+    const now = new Date().toISOString();
+    commitSaveSlots(saveSlots.map((slot) => slot.id === activeSaveId ? { ...slot, name: buildName.trim() || slot.name, updatedAt: now, build: getCurrentBuildState() } : slot));
+    setNotice({ type: 'success', message: 'Named save updated explicitly.' });
+  };
+
+  const loadNamedSave = (slot: SaveSlotV1): void => {
+    applyBuildState(slot.build);
+    setBuildName(slot.name);
+    setActiveSaveId(slot.id);
+    setNotice({ type: 'success', message: `Loaded ${slot.name}. Edits remain in the recovery draft until Update Save.` });
+  };
+
+  const duplicateSave = (slot: SaveSlotV1): void => {
+    const now = new Date().toISOString();
+    const copy = { ...slot, id: crypto.randomUUID?.() ?? `${Date.now()}-${Math.random().toString(16).slice(2)}`, name: `${slot.name} Copy`, createdAt: now, updatedAt: now };
+    commitSaveSlots([copy, ...saveSlots]);
+    setNotice({ type: 'success', message: `Duplicated ${slot.name}.` });
+  };
+
+  const deleteSave = (slot: SaveSlotV1): void => {
+    if (!window.confirm(`Delete the named save "${slot.name}"?`)) return;
+    commitSaveSlots(saveSlots.filter((candidate) => candidate.id !== slot.id));
+    if (activeSaveId === slot.id) setActiveSaveId(null);
+    setNotice({ type: 'success', message: `Deleted ${slot.name}.` });
+  };
+
+  const restoreDraft = (): void => {
+    try {
+      const draft = loadRecoveryDraft();
+      if (!draft) return setNotice({ type: 'info', message: 'No recovery draft is available.' });
+      applyBuildState(draft.build);
+      setBuildName(draft.buildName);
+      setDraftWriteEnabled(true);
+      setActiveSaveId(null);
+      setNotice({ type: 'success', message: `Recovery draft restored from ${new Date(draft.exportedAt).toLocaleString()}.` });
+    } catch (error) {
+      setNotice({ type: 'error', message: error instanceof Error ? error.message : 'Recovery draft could not be restored.' });
+    }
+  };
+
+  const discardDraft = (): void => {
+    discardRecoveryDraft();
+    setDraftTimestamp(null);
+    setDraftWriteEnabled(true);
+    setNotice({ type: 'success', message: 'Recovery draft discarded. Current values were not changed.' });
   };
 
   const getAvailableSubraces = (): string[] => {
@@ -718,7 +631,6 @@ export default function SL2Calculator() {
     newHistory: string = history
   ): StatRecord => {
     const adjustedStats = { ...currentAddedStats };
-    let totalPointsFreed = 0;
 
     const newLeBonus: Partial<StatRecord> = {};
     Object.entries(newLegendExtend).forEach(([key, enabled]) => {
@@ -738,7 +650,7 @@ export default function SL2Calculator() {
       const raceBase = subraceData?.[stat] || 0;
       const customBase = newCustomBaseStats[stat] || 0;
       const legendExtendBonus = newLeBonus[stat] || 0;
-      const historyBonus = (newHistoryBonus as any)[stat] || 0;
+      const historyBonus = newHistoryBonus?.stats[stat] || 0;
       const manualPoints = adjustedStats[stat];
 
       const total = raceBase + customBase + manualPoints + legendExtendBonus + historyBonus;
@@ -749,7 +661,6 @@ export default function SL2Calculator() {
         const pointsRemoved = manualPoints - newManualPoints;
         
         adjustedStats[stat] = newManualPoints;
-        totalPointsFreed += pointsRemoved;
 
         const inputElement = inputRefs.current[stat];
         if (inputElement) {
@@ -759,10 +670,6 @@ export default function SL2Calculator() {
         console.log(`Stat ${stat.toUpperCase()} capped: ${manualPoints} → ${newManualPoints} (${pointsRemoved} points freed)`);
       }
     });
-
-    if (totalPointsFreed > 0) {
-      setTotalPoints(prev => Math.min(MAX_POINTS, prev + totalPointsFreed));
-    }
 
     return adjustedStats;
   };
@@ -796,95 +703,6 @@ export default function SL2Calculator() {
     // Validate and adjust manual stats to ensure they don't exceed hard caps
     const adjustedStats = validateStatCaps(subrace, customBaseStats, legendExtend, addedStats, newHistory);
     setAddedStats(adjustedStats);
-  };
-
-  // Calculate Rising Game bonus
-  const calculateRisingGame = (): Partial<StatRecord> => {
-
-
-        // Prevent stat decrease if HP is above 100%
-    if (hpPercent > 100) {
-      return {
-        str: 0,
-        wil: 0,
-        ski: 0,
-        cel: 0,
-        res: 0,
-        luc: 0
-      };
-    } else {
-      const hpLost = 100 - hpPercent;
-      let bonusPerStat = Math.floor(hpLost / 15);
-      // Cap based on rising game rank
-      const caps = [0, 2, 3, 4, 5, 6];
-      bonusPerStat = Math.min(bonusPerStat, caps[risingGame] || 0);
-    
-      return {
-        str: bonusPerStat,
-        wil: bonusPerStat,
-        ski: bonusPerStat,
-        cel: bonusPerStat,
-        res: bonusPerStat,
-        luc: bonusPerStat
-      };
-    }
-  };
-
-  // Calculate Instinct bonus (Felidae/Grimalkin/Lupine)
-  const calculateInstinct = (): Partial<StatRecord> => {
-    if (hpPercent > 50) return {};
-    
-    const baseInstinct = Math.floor(stats.san * 0.1 + 1);
-    const bonus = hpPercent <= 25 ? baseInstinct * 2 : baseInstinct;
-    
-    // Felidae & Grimalkin Instinct: SKI, CEL, LUC, GUI
-    if ((subrace === 'Felidae' || subrace === 'Grimalkin') && felidaeInstinct) {
-      return { ski: bonus, cel: bonus, gui: bonus, luc: bonus };
-    }
-    
-    // Lupine Instinct: STR, WIL, DEF, RES
-    if (subrace === 'Lupine' && lupineInstinct) {
-      return { str: bonus, wil: bonus, def: bonus, res: bonus };
-    }
-    
-    // Leporidae Instinct: Currently only affects Rabbit Foot (not stat-related)
-    // We track the state but don't add stat bonuses
-    
-    return {};
-  };
-
-  // Calculate Redtail Fox God's Blessing bonus
-  const calculateRedtailBonus = (): Partial<StatRecord> => {
-    if (subrace !== 'Redtail') return {};
-    
-    const scaledSAN = Math.floor(stats.san);
-    const sanMultiplier = Math.min(Math.floor(scaledSAN / 10), 5); // Max 5x
-    const fortuneLevel = redtailFortuneLevel;
-    
-    // Base multiplier: 1x per Fortune Level
-    // Enhanced by SAN: +1x per 10 Scaled SAN (max +5x total)
-    const totalMultiplier = 1 + sanMultiplier;
-    
-    const bonuses: Partial<StatRecord> = {};
-    
-    if (redtailDiceColor === 'red') {
-      // Red Dice: Hit and Critical
-      // These are combat stats we can't directly add to StatRecord
-      // But if Fortune Level is 1, apply penalties
-      // Note: Hit/Critical aren't in StatRecord, so this is mainly for display
-      // In a real implementation, you'd track these separately
-      return {}; // Combat stats handled separately
-    } else if (redtailDiceColor === 'green') {
-      // Green Dice: Luck-based status effect chances
-      // This is also a combat effect, not a base stat
-      return {}; // Combat effects handled separately
-    } else if (redtailDiceColor === 'yellow') {
-      // Yellow Dice: Evade and Critical Evade
-      // These are also combat stats, not base stats
-      return {}; // Combat stats handled separately
-    }
-    
-    return bonuses;
   };
 
   const getLEBonus = (): Partial<StatRecord> => {
@@ -923,126 +741,6 @@ export default function SL2Calculator() {
     return className;
   };
 
-  // Get class passive bonuses
-  const getClassPassiveBonus = (className: string, rank: number): Partial<StatRecord> => {
-    if (rank === 0) return {};
-    
-    const bonuses: Partial<StatRecord> = {};
-    
-    // Check for passive in the current class
-    const classPassive = CLASS_PASSIVES[className];
-    if (classPassive) {
-      Object.entries(classPassive.stats).forEach(([stat, value]) => {
-        bonuses[stat as StatKey] = (bonuses[stat as StatKey] || 0) + (value || 0) * rank;
-      });
-    }
-    
-    // Also check for base class passive (if different from current class)
-    const baseClass = getBaseClass(className);
-    if (baseClass !== className) {
-      const basePassive = CLASS_PASSIVES[baseClass];
-      if (basePassive) {
-        Object.entries(basePassive.stats).forEach(([stat, value]) => {
-          bonuses[stat as StatKey] = (bonuses[stat as StatKey] || 0) + (value || 0) * rank;
-        });
-      }
-    }
-    
-    // Special case for Dark Bard - extra STR bonus at rank 7+
-    if (className === 'Dark Bard' && rank >= 7) {
-      bonuses.str = (bonuses.str || 0) + (rank - 6);
-    }
-    
-    return bonuses;
-  };
-
-  const calculateDiminishingReturns = (
-    racialStat: number, 
-    addedStat: number, 
-    classStat: number, 
-    customStat: number,
-    aptitudeBonus: number, 
-    dragonBonus = 0
-  ): number => {
-    const softCap = racialStat + 40 + dragonBonus;
-    let totalStat = racialStat + addedStat + (classStat * monoclassModifier) + customStat + aptitudeBonus;
-    
-    if (dragonBonus > 0) {
-      totalStat = totalStat + Math.floor(totalStat * 0.05 * (dragonBonus / 3));
-    }
-    
-    if (softCap >= totalStat) return totalStat;
-    
-    let effective = softCap;
-    let remaining = totalStat - softCap;
-    let multiplier = 0.9;
-    
-    while (remaining > 3) {
-      remaining -= 3;
-      effective += 3 * multiplier;
-      multiplier -= 0.08;
-      if (multiplier < 0.1) multiplier = 0.1;
-    }
-    
-    return effective + (remaining * multiplier);
-  };
-  
-
-  const getAptitudeBonus = (): number => {
-    const subraceData = SUBRACES[subrace];
-    const effectiveApt = calculateDiminishingReturns(
-      (subraceData?.apt || 0) + customBaseStats.apt,
-      addedStats.apt,
-      0,
-      customStats.apt,
-      0
-    );
-    return Math.floor(effectiveApt / APTITUDE_NUMBER);
-  };
-
-  // Get combined class passive bonuses, avoiding double-counting base class passives
-  const getCombinedClassPassiveBonuses = (mainClass: string, mainRank: number, subClass: string, subRank: number): Partial<StatRecord> => {
-    const bonuses: Partial<StatRecord> = {};
-    
-    // Get main class bonuses
-    const mainBonuses = getClassPassiveBonus(mainClass, mainRank);
-    Object.entries(mainBonuses).forEach(([stat, value]) => {
-      bonuses[stat as StatKey] = (bonuses[stat as StatKey] || 0) + (value || 0);
-    });
-    
-    // Get sub class bonuses
-    const subBonuses = getClassPassiveBonus(subClass, subRank);
-    
-    // Check if main and sub classes share the same base class
-    const mainBaseClass = getBaseClass(mainClass);
-    const subBaseClass = getBaseClass(subClass);
-    const sharedBaseClass = mainBaseClass === subBaseClass ? mainBaseClass : null;
-    
-    // Apply sub class bonuses, but subtract shared base class passive if it would be double-counted
-    Object.entries(subBonuses).forEach(([stat, value]) => {
-      let adjustedValue = value || 0;
-      
-      // If classes share a base class and both would inherit the same base passive, subtract one instance
-      if (sharedBaseClass && sharedBaseClass !== mainClass && sharedBaseClass !== subClass) {
-        const basePassive = CLASS_PASSIVES[sharedBaseClass];
-        if (basePassive && basePassive.stats[stat as StatKey]) {
-          // Only subtract if both classes are actually inheriting from base (not using their own passive)
-          const mainHasOwnPassive = CLASS_PASSIVES[mainClass] !== undefined;
-          const subHasOwnPassive = CLASS_PASSIVES[subClass] !== undefined;
-          
-          if (!mainHasOwnPassive && !subHasOwnPassive) {
-            // Both classes are inheriting from base, so subtract one instance
-            adjustedValue -= (basePassive.stats[stat as StatKey] || 0) * subRank;
-          }
-        }
-      }
-      
-      bonuses[stat as StatKey] = (bonuses[stat as StatKey] || 0) + adjustedValue;
-    });
-    
-    return bonuses;
-  };
-
   // Helper function to check if a class has access to a passive (either its own or inherited)
   const hasClassPassive = (className: string): boolean => {
     // Check if class has its own passive
@@ -1067,42 +765,10 @@ export default function SL2Calculator() {
     return undefined;
   };
 
-  const aptitudeBonus = Math.max(0, getAptitudeBonus());
   const leBonus = getLEBonus();
   const astroBonus = getAstrologyBonus();
   const foodBonus = FOODS[food];
   const historyBonus = HISTORY[history];
-  const sanguineBonus = (sanguineCrest && (subrace === 'Oni' || subrace === 'Vampire')) ? 2 : 0;
-  const risingGameBonus = calculateRisingGame();
-  const combinedPassiveBonuses = getCombinedClassPassiveBonuses(mainClass, mainClassPassive, subClass, subClassPassive);
-
-  // Karakuri youkai modifiers
-  const getKarakuriYoukaiBonus = (): StatRecord => {
-    if (subrace !== 'Karakuri') {
-      return { str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0 };
-    }
-
-    switch (karakuriYoukai) {
-      case 'Avian':
-        return { str: 0, wil: -3, ski: 0, cel: 2, def: -2, res: 0, vit: 0, fai: 0, luc: 0, gui: 3, san: 0, apt: 0 };
-      case 'Beast':
-        return { str: 0, wil: 0, ski: 3, cel: 0, def: 0, res: -3, vit: 0, fai: 0, luc: 2, gui: -2, san: 0, apt: 0 };
-      case 'Dragon':
-        return { str: 3, wil: 0, ski: 0, cel: -3, def: 2, res: -2, vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0 };
-      case 'Fairy':
-        return { str: -3, wil: -2, ski: 0, cel: 3, def: 0, res: 0, vit: 0, fai: 0, luc: 2, gui: 0, san: 0, apt: 0 };
-      case 'Mystic':
-        return { str: -3, wil: 3, ski: 2, cel: 0, def: 0, res: -2, vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0 };
-      case 'Night':
-        return { str: 0, wil: 0, ski: 0, cel: 0, def: -3, res: 3, vit: 0, fai: -2, luc: 0, gui: 2, san: 0, apt: 0 };
-      case 'Plant':
-        return { str: 0, wil: 0, ski: 0, cel: 0, def: 3, res: 0, vit: 2, fai: 0, luc: -2, gui: -3, san: 0, apt: 0 };
-      default:
-        return { str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0 };
-    }
-  };
-
-  const karakuriYoukaiBonus = getKarakuriYoukaiBonus();
 
   // Calculate armor bonuses
   const armorBonus: Partial<StatRecord> = {};
@@ -1114,29 +780,10 @@ export default function SL2Calculator() {
     });
   }
 
-  // Calculate conditional armor bonuses
-  const conditionalArmorBonus: Partial<StatRecord> = {};
-  let conditionalEvadeBonus = 0;
-  let conditionalCriticalBonus = 0;
-  
-  if (equippedArmor?.conditionalBonuses) {
-    Object.entries(equippedArmor.conditionalBonuses).forEach(([bonusKey, bonus]) => {
-      if (armorConditionalBonuses[bonusKey]) {
-        // Add stat bonuses
-        Object.entries(bonus).forEach(([stat, value]) => {
-          if (stat !== 'condition' && value !== undefined && value !== 0) {
-            if (stat === 'evade') {
-              conditionalEvadeBonus += value as number;
-            } else if (stat === 'critical') {
-              conditionalCriticalBonus += value as number;
-            } else if (stat in {str: 1, wil: 1, ski: 1, cel: 1, def: 1, res: 1, vit: 1, fai: 1, luc: 1, gui: 1, san: 1, apt: 1}) {
-              conditionalArmorBonus[stat as StatKey] = (conditionalArmorBonus[stat as StatKey] || 0) + (value as number);
-            }
-          }
-        });
-      }
-    });
-  }
+  const conditionalArmor = calculateArmorConditionals(equippedArmor, armorConditionalBonuses);
+  const conditionalArmorBonus = conditionalArmor.stats;
+  const conditionalEvadeBonus = conditionalArmor.evade;
+  const conditionalCriticalBonus = conditionalArmor.critical;
 
   // Weapon enchantment-derived stat bonuses (equipment influencing stats)
   const getWeaponStatBonus = (): Partial<StatRecord> => {
@@ -1160,391 +807,25 @@ export default function SL2Calculator() {
     return bonus;
   };
 
-  const getEffectiveStat = (statName: StatKey): number => {
-    const subraceData = SUBRACES[subrace];
-    const classData = CLASSES[mainClass];
-    
-    // Legend Extend is treated as a base stat (affects soft cap)
-    const racialValue = (subraceData?.[statName] || 0) + customBaseStats[statName] + (karakuriYoukaiBonus[statName] || 0) + (leBonus[statName] || 0);
-    const stampValue = statName in stamps ? (stamps[statName as StampKey] || 0) : 0;
-    
-    // Sanguine Crest only affects STR, WIL, SKI, CEL, DEF
-    const sanguineBonusForStat = (['str', 'wil', 'ski', 'cel', 'def'].includes(statName)) ? sanguineBonus : 0;
-    
-    // Power of Normalcy affects all stats except APT
-    const powerOfNormalcyBonus = (() => {
-      if (statName === 'apt' || !powerOfNormalcy) return 0;
-      
-      const mainIsBase = Object.values(CLASS_HIERARCHY).some(data => data.name === mainClass && data.baseClass);
-      const subIsBase = Object.values(CLASS_HIERARCHY).some(data => data.name === subClass && data.baseClass);
-      
-      if (mainIsBase && subIsBase) {
-        return mainClass === subClass ? 8 : 4; // Same Base Class: +8, Both Base Classes: +4
-      }
-      return 0;
-    })();
-    
-    const addedValue = addedStats[statName] 
-      + (astroBonus[statName] || 0) 
-      + (foodBonus.stats[statName] || 0) 
-      + (historyBonus.stats[statName] || 0)
-      + stampValue 
-      + sanguineBonusForStat
-      + powerOfNormalcyBonus
-      + (risingGameBonus[statName] || 0)
-      + (combinedPassiveBonuses[statName] || 0)
-      + (armorBonus[statName] || 0)
-      + (conditionalArmorBonus[statName] || 0);
-    
-    const classValue = classData?.[statName] || 0;
-    const customValue = customStats[statName];
-    
-    let dragonBonus = 0;
-    if (statName === 'str') dragonBonus = dragonKing * 3;
-    if (statName === 'wil') dragonBonus = dragonQueen * 3;
-    
-    const aptBonusToApply = statName === 'apt' ? 0 : aptitudeBonus;
-    const effective = calculateDiminishingReturns(racialValue, addedValue, classValue, customValue, aptBonusToApply, dragonBonus);
-    
-    return effective;
-  };
-
-  const getRawStat = (statName: StatKey): number => {
-    const subraceData = SUBRACES[subrace];
-    const classData = CLASSES[mainClass];
-    
-    // Legend Extend is treated as a base stat (affects soft cap)
-    const racialValue = (subraceData?.[statName] || 0) + customBaseStats[statName] + (karakuriYoukaiBonus[statName] || 0) + (leBonus[statName] || 0);
-    const stampValue = statName in stamps ? (stamps[statName as StampKey] || 0) : 0;
-    
-    // Sanguine Crest only affects STR, WIL, SKI, CEL, DEF
-    const sanguineBonusForStat = (['str', 'wil', 'ski', 'cel', 'def'].includes(statName)) ? sanguineBonus : 0;
-    
-    // Power of Normalcy affects all stats except APT
-    const powerOfNormalcyBonus = (() => {
-      if (statName === 'apt' || !powerOfNormalcy) return 0;
-      
-      const mainIsBase = Object.values(CLASS_HIERARCHY).some(data => data.name === mainClass && data.baseClass);
-      const subIsBase = Object.values(CLASS_HIERARCHY).some(data => data.name === subClass && data.baseClass);
-      
-      if (mainIsBase && subIsBase) {
-        return mainClass === subClass ? 8 : 4; // Same Base Class: +8, Both Base Classes: +4
-      }
-      return 0;
-    })();
-    
-    const addedValue = addedStats[statName] 
-      + (astroBonus[statName] || 0) 
-      + (foodBonus.stats[statName] || 0) 
-      + (historyBonus.stats[statName] || 0)
-      + stampValue 
-      + sanguineBonusForStat
-      + powerOfNormalcyBonus
-      + (risingGameBonus[statName] || 0)
-      + (combinedPassiveBonuses[statName] || 0)
-      + (armorBonus[statName] || 0)
-      + (conditionalArmorBonus[statName] || 0);
-    
-    const classValue = (classData?.[statName] || 0) * monoclassModifier;
-    const customValue = customStats[statName];
-    
-    let dragonBonus = 0;
-    if (statName === 'str') dragonBonus = dragonKing * 3;
-    if (statName === 'wil') dragonBonus = dragonQueen * 3;
-    
-    const aptBonusToApply = statName === 'apt' ? 0 : aptitudeBonus;
-    
-    // Raw stat = base + additions + class + custom + dragon + aptitude (no diminishing returns)
-    return racialValue + addedValue + classValue + customValue + dragonBonus + aptBonusToApply;
-  };
-
-  const stats: StatRecord = {
-    str: getEffectiveStat('str'),
-    wil: getEffectiveStat('wil'),
-    ski: getEffectiveStat('ski'),
-    cel: getEffectiveStat('cel'),
-    def: getEffectiveStat('def'),
-    res: getEffectiveStat('res'),
-    vit: getEffectiveStat('vit'),
-    fai: getEffectiveStat('fai'),
-    luc: getEffectiveStat('luc'),
-    gui: getEffectiveStat('gui'),
-    san: getEffectiveStat('san'),
-    apt: getEffectiveStat('apt')
-  };
-
-  const rawStats: StatRecord = {
-    str: getRawStat('str'),
-    wil: getRawStat('wil'),
-    ski: getRawStat('ski'),
-    cel: getRawStat('cel'),
-    def: getRawStat('def'),
-    res: getRawStat('res'),
-    vit: getRawStat('vit'),
-    fai: getRawStat('fai'),
-    luc: getRawStat('luc'),
-    gui: getRawStat('gui'),
-    san: getRawStat('san'),
-    apt: getRawStat('apt')
-  };
-
-  // Apply instinct bonus after initial calculation
-  const instinctBonus = calculateInstinct();
-  Object.entries(instinctBonus).forEach(([stat, value]) => {
-    if (value) {
-      stats[stat as StatKey] += value;
-      rawStats[stat as StatKey] += value; // Apply to raw stats too
-    }
-  });
-
-  if (dragonKing > 0) {
-    stats.str = Math.floor(stats.str * (1 + 0.05 * dragonKing));
-    // Raw stats don't get the percentage bonus from dragon pieces - they already include the flat +3 per piece
-  }
-  if (dragonQueen > 0) {
-    stats.wil = Math.floor(stats.wil * (1 + 0.05 * dragonQueen));
-    // Raw stats don't get the percentage bonus from dragon pieces - they already include the flat +3 per piece
-  }
+  const currentBuild = getCurrentBuildState();
+  const buildEvaluation = evaluateBuild(currentBuild);
+  const stats: StatRecord = buildEvaluation.scaledStats;
+  const rawStats: StatRecord = buildEvaluation.rawStats;
 
   // Choose which stats to display
   const displayStats = showRawStats ? rawStats : stats;
 
-  const calculateMaxHP = (): number => {
-    const raceData = RACES[race];
-    const subraceData = SUBRACES[subrace];
-    
-    let vitHP = Math.floor(stats.vit * 10);
-    if (raceData?.homunculi || subraceData?.homunculi) {
-      vitHP -= Math.floor(stats.vit / 2);
-    }
-    
-    const sanHP = Math.floor(stats.san * 2);
-    const strHP = (addedStats.str + (subraceData?.str || 0) + (astroBonus.str || 0)) * 3;
-    const pointsSpent = MAX_POINTS - totalPoints;
-    
-    let maxHP = vitHP + sanHP + strHP + pointsSpent;
-    
-    if (giantGene) {
-      maxHP = Math.floor(maxHP * 1.1);
-    }
-    
-    // Fortitude bonus
-    if (fortitude) {
-      maxHP += Math.floor(maxHP * 0.1);
-    }
-    
-    // Pain Tolerance
-    maxHP += painTolerance * 10;
-    
-    // Warwalk
-    if (warwalk) {
-      maxHP += 30;
-    }
-    
-    // Endurance
-    if (endurance) {
-      maxHP = Math.floor(maxHP * 1.15);
-    }
-    
-    maxHP += customHP;
-    
-    // Armor HP bonuses
-    if (equippedArmor?.statBonuses?.hp) {
-      maxHP += equippedArmor.statBonuses.hp;
-    }
-
-    // Conditional armor HP bonuses
-    if (equippedArmor?.conditionalBonuses) {
-      Object.entries(equippedArmor.conditionalBonuses).forEach(([bonusKey, bonus]) => {
-        if (armorConditionalBonuses[bonusKey] && bonus.hp) {
-          maxHP += bonus.hp;
-        }
-      });
-    }
-    
-    // Persistence of Normalcy
-    if (persistenceOfNormalcy) {
-      const mainIsBase = Object.values(CLASS_HIERARCHY).some(data => data.name === mainClass && data.baseClass);
-      const subIsBase = Object.values(CLASS_HIERARCHY).some(data => data.name === subClass && data.baseClass);
-      
-      if (mainIsBase && subIsBase) {
-        if (mainClass === subClass) {
-          maxHP += 200; // Same Base Class
-        } else {
-          maxHP += 100; // Both Base Classes
-        }
-      }
-    }
-    
-    // Lich Magia Detremus: -30% HP (reduced by 1% per 2 Scaled SAN)
-    if (subrace === 'Lich') {
-      const sanModifier = Math.floor(stats.san / 2);
-      const hpPenalty = Math.max(0, 30 - sanModifier); // Can't go below 0% penalty
-      maxHP = Math.floor(maxHP * (1 - hpPenalty / 100));
-    }
-    
-    return maxHP;
-  };
+  const calculateMaxHP = (): number => buildEvaluation.derived.maxHP;
 
   const calculateHP = (): number => {
-    const maxHP = calculateMaxHP();
-    return Math.floor(maxHP * (hpPercent / 100));
+    return buildEvaluation.derived.currentHP;
   };
 
-  const calculateMP = (): number => {
-    const raceData = RACES[race];
-    const subraceData = SUBRACES[subrace];
-    
-    let willMP = Math.floor(stats.wil * 5);
-    if (raceData?.homunculi || subraceData?.homunculi) {
-      willMP += Math.floor(stats.wil);
-    }
-    
-    const sanMP = Math.floor(stats.san * 2);
-    const faiMP = Math.floor(stats.fai * 3);
-    
-    let maxMP = willMP + sanMP + faiMP;
-    
-    // Warwalk
-    if (warwalk) {
-      maxMP += 30;
-    }
-    
-    // Armor FP bonuses
-    if (equippedArmor && equippedArmor.statBonuses?.fp) {
-      maxMP += equippedArmor.statBonuses.fp;
-    }
+  const calculateMP = (): number => buildEvaluation.derived.fp;
 
-    // Conditional armor FP bonuses
-    if (equippedArmor?.conditionalBonuses) {
-      Object.entries(equippedArmor.conditionalBonuses).forEach(([bonusKey, bonus]) => {
-        if (armorConditionalBonuses[bonusKey] && bonus.fp) {
-          maxMP += bonus.fp;
-        }
-      });
-    }
-    
-    maxMP += customFP;
-    
-    // Lich Magia Detremus: +50% FP (increased by 1% per 2 Scaled SAN)
-    if (subrace === 'Lich') {
-      const sanModifier = Math.floor(stats.san / 2);
-      const fpBonus = 50 + sanModifier;
-      maxMP = Math.floor(maxMP * (1 + fpBonus / 100));
-    }
-    
-    return maxMP;
-  };
+  const calculateElementalATK = (element: string): number => buildEvaluation.elementalAttack[element as ElementKey];
 
-  const calculateElementalATK = (element: string): number => {
-    // Helper function to get raw (unscaled) stat value for a given stat
-    const getRawStat = (statName: StatKey): number => {
-      const subraceData = SUBRACES[subrace];
-      const classData = CLASSES[mainClass];
-      
-      // Calculate the same way as getEffectiveStat but without diminishing returns
-      const racialValue = (subraceData?.[statName] || 0) + customBaseStats[statName] + (karakuriYoukaiBonus[statName] || 0);
-      const stampValue = statName in stamps ? (stamps[statName as StampKey] || 0) : 0;
-      
-      // Sanguine Crest only affects STR, WIL, SKI, CEL, DEF
-      const sanguineBonusForStat = (['str', 'wil', 'ski', 'cel', 'def'].includes(statName)) ? sanguineBonus : 0;
-      
-      const addedValue = addedStats[statName] 
-        + (astroBonus[statName] || 0) 
-        + (foodBonus.stats[statName] || 0) 
-        + (historyBonus.stats[statName] || 0)
-        + stampValue 
-        + sanguineBonusForStat
-        + (risingGameBonus[statName] || 0)
-        + (combinedPassiveBonuses[statName] || 0);
-      
-      const classValue = classData?.[statName] || 0;
-      const customValue = customStats[statName];
-      
-      let dragonBonus = 0;
-      if (statName === 'str') dragonBonus = dragonKing * 3;
-      if (statName === 'wil') dragonBonus = dragonQueen * 3;
-      
-      const aptBonusToApply = statName === 'apt' ? 0 : aptitudeBonus;
-      
-      // Return the raw total without diminishing returns, but include LE bonus
-      let rawTotal = racialValue + addedValue + (classValue * monoclassModifier) + customValue + aptBonusToApply + dragonBonus;
-      
-      // Add Legend Extend bonuses (these come after everything)
-      rawTotal += (leBonus[statName] || 0);
-      
-      return rawTotal;
-    };
-
-    const statMap: Record<string, StatKey> = {
-      'Fire': 'str', 'Ice': 'ski', 'Wind': 'cel', 'Earth': 'def',
-      'Dark': 'res', 'Water': 'vit', 'Light': 'fai', 'Lightning': 'luc',
-      'Acid': 'gui', 'Sound': 'san'
-    };
-
-    // Add +2 elemental attack if the matching planet sign is selected
-    const planetBonus = (astrology && PLANET_ELEMENTS[astrology] === element) ? 2 : 0;
-    
-    // Get the starsign's element if astrology is selected
-    const starsignElement = astrology ? PLANET_ELEMENTS[astrology] : null;
-    
-    let wilBonus = 0;
-    let statBonus = 0;
-    
-    if (luminaryElement) {
-      // Luminary Element: WIL no longer increases all elements
-      // Instead, it increases your Starsign's element by 1 per 1 WIL (no diminishing returns)
-      // The original stat that grants a bonus to this element no longer does so
-      if (starsignElement === element) {
-        // For starsign element: Raw WIL gives 1:1 bonus (ignoring diminishing returns), original stat gives 0
-        wilBonus = getRawStat('wil');
-        statBonus = 0;
-      } else {
-        // For other elements: no WIL bonus, use scaled stat bonus normally
-        wilBonus = 0;
-        statBonus = stats[statMap[element]];
-      }
-    } else {
-      // Normal WIL behavior: adds to all elemental ATK except Sound and Acid (per 4 points, using scaled WIL)
-      wilBonus = (element !== 'Sound' && element !== 'Acid') ? Math.floor(stats.wil / 4) : 0;
-      statBonus = stats[statMap[element]];
-    }
-    
-    // Add manual adjustment for this element
-    const manualAdjustment = elementalATKAdjustments[element as ElementKey] || 0;
-    
-    // Handle special racial attack bonuses
-    let raceBonus = 0;
-    if (subrace === 'Umbral' && element === 'Dark') {
-      // Umbral: Dark ATK increased by half of character level (max: 15)
-      raceBonus = Math.min(15, Math.floor(characterLevel / 2));
-    } else if (subrace === 'Theno' && element === 'Sound') {
-      // Theno: Base Sound ATK equals character level, doesn't increase from stat points
-      return Math.floor(characterLevel + planetBonus + manualAdjustment);
-    }
-    
-    return Math.floor(statBonus + wilBonus + planetBonus + manualAdjustment + raceBonus);
-  };
-
-  const calculateElementalRES = (element: string): number => {
-    // Elemental resistance: +1% per 6 SAN points for Fire, Ice, Wind, Earth, Water, Lightning, Dark, and Light
-    // Sound and Acid elements don't get SAN-based resistance
-    let baseResistance = 0;
-    if (element !== 'Sound' && element !== 'Acid') {
-      baseResistance = Math.floor(stats.san / 6);
-    }
-    
-    // Add manual adjustment for this element
-    const manualAdjustment = elementalRESAdjustments[element as ElementKey] || 0;
-    
-    // Add race-based resistance/weakness for this element
-    const raceAdjustment = getRaceResistances()[element as ElementKey] || 0;
-
-    // Add armor-based resistance for this element
-    const armorAdjustment = equippedArmor?.resistances?.[element] || 0;
-
-    return Math.floor(baseResistance + manualAdjustment + raceAdjustment + armorAdjustment);
-  };
+  const calculateElementalRES = (element: string): number => buildEvaluation.elementalResistance[element as ElementKey];
 
   // Get race-based elemental resistances for the current subrace
   const getRaceResistances = (): ElementalRecord => {
@@ -1631,7 +912,7 @@ export default function SL2Calculator() {
     return baseResistances;
   };
 
-  const youkaiCap = Math.floor(((SUBRACES[subrace]?.fai || 0) + customBaseStats.fai + addedStats.fai + (leBonus.fai || 0) + (astroBonus.fai || 0)) / 5) + 5;
+  const youkaiCap = buildEvaluation.derived.youkaiCap;
 
   const addStat = (statName: StatKey): void => {
     // Comprehensive validation before adding
@@ -1644,7 +925,7 @@ export default function SL2Calculator() {
     const raceBase = subraceData?.[statName] || 0;
     const customBase = customBaseStats[statName];
     const legendExtendBonus = leBonus[statName] || 0;
-    const currentHistoryBonus = (historyBonus as any)[statName] || 0;
+    const currentHistoryBonus = historyBonus.stats[statName] || 0;
     
     const totalBase = raceBase + customBase;
     const currentTotal = totalBase + currentValue + legendExtendBonus + currentHistoryBonus;
@@ -1653,7 +934,6 @@ export default function SL2Calculator() {
     // Only add if we have points available, current value is valid, and we haven't hit hard cap
     if (availablePoints > 0 && currentValue >= 0 && currentValue < MAX_POINTS && !wouldExceedHardCap) {
       setAddedStats(prev => ({ ...prev, [statName]: prev[statName] + 1 }));
-      setTotalPoints(prev => Math.max(0, prev - 1));
       
       // Update any input field that might be showing this stat
       const inputElement = inputRefs.current[statName];
@@ -1671,7 +951,6 @@ export default function SL2Calculator() {
     // Only remove if current value is positive and total won't exceed max
     if (currentValue > 0 && currentTotal < MAX_POINTS) {
       setAddedStats(prev => ({ ...prev, [statName]: Math.max(0, prev[statName] - 1) }));
-      setTotalPoints(prev => Math.min(MAX_POINTS, prev + 1));
       
       // Update any input field that might be showing this stat
       const inputElement = inputRefs.current[statName];
@@ -1694,7 +973,6 @@ export default function SL2Calculator() {
       str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0,
       vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0
     });
-    setTotalPoints(MAX_POINTS);
     setLegendExtend({});
     setAstrology('');
     setCustomHP(0);
@@ -1760,7 +1038,7 @@ export default function SL2Calculator() {
     const raceBase = subraceData?.[statKey] || 0;
     const customBase = customBaseStats[statKey];
     const legendExtendBonus = leBonus[statKey] || 0;
-    const currentHistoryBonus = (historyBonus as any)[statKey] || 0;
+    const currentHistoryBonus = historyBonus.stats[statKey] || 0;
     const currentAstrologyBonus = astroBonus[statKey] || 0;
     
     const totalBase = raceBase + customBase;
@@ -1789,7 +1067,6 @@ export default function SL2Calculator() {
         if (pointsToAdd > 0) {
           const actualNewValue = currentPoints + pointsToAdd;
           setAddedStats(prev => ({ ...prev, [statKey]: actualNewValue }));
-          setTotalPoints(prev => Math.max(0, prev - pointsToAdd));
           inputElement.value = actualNewValue.toString();
         } else {
           // Can't add any points, revert input to current value
@@ -1802,7 +1079,6 @@ export default function SL2Calculator() {
         
         if (pointsToRemove > 0) {
           setAddedStats(prev => ({ ...prev, [statKey]: actualTarget }));
-          setTotalPoints(prev => Math.min(MAX_POINTS, prev + pointsToRemove));
           inputElement.value = actualTarget.toString();
         }
       }
@@ -1816,23 +1092,6 @@ export default function SL2Calculator() {
     inputElement.style.borderColor = '';
     inputElement.style.color = '';
   };
-
-  // Validation function to ensure point integrity
-  const validatePointTotals = () => {
-    const totalUsedPoints = Object.values(addedStats).reduce((sum, value) => sum + value, 0);
-    const expectedRemainingPoints = MAX_POINTS - totalUsedPoints;
-    
-    // If totals don't match, correct them
-    if (totalPoints !== expectedRemainingPoints) {
-      console.warn(`Point total mismatch detected. Correcting from ${totalPoints} to ${expectedRemainingPoints}`);
-      setTotalPoints(Math.max(0, Math.min(MAX_POINTS, expectedRemainingPoints)));
-    }
-  };
-
-  // Auto-validate point totals whenever addedStats or totalPoints change
-  useEffect(() => {
-    validatePointTotals();
-  }, [addedStats, totalPoints]);
 
   // Check if class has fortitude access
   const hasFortitude = ['Soldier', 'Black Knight', 'Tactician', 'Demon Hunter', 'Solblader'].includes(mainClass) 
@@ -1888,7 +1147,7 @@ export default function SL2Calculator() {
     ].filter(Boolean).join('\n');
 
     return (
-      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 py-2 border-b border-gray-700">
+      <div className="flex min-w-0 max-w-full flex-col items-start gap-2 overflow-hidden border-b border-gray-700 py-2 sm:flex-row sm:items-center">
         <button 
           className={`w-full sm:w-24 font-semibold text-left hover:underline cursor-pointer text-sm sm:text-base ${retroMode ? 'font-retro' : ''}`} 
           style={isRainbow ? {
@@ -1905,7 +1164,7 @@ export default function SL2Calculator() {
         >
           {retroMode ? statKey.toUpperCase() : label}
         </button>
-        <div className="flex items-center gap-2 w-full sm:w-auto">
+        <div className="flex min-w-0 w-full items-center gap-2 sm:w-auto sm:flex-1">
           <button
             onClick={() => removeStat(statKey)}
             disabled={addedStats[statKey] === 0}
@@ -1925,7 +1184,7 @@ export default function SL2Calculator() {
               const raceBase = subraceData?.[statKey] || 0;
               const customBase = customBaseStats[statKey];
               const legendExtendBonus = leBonus[statKey] || 0;
-              const currentHistoryBonus = (historyBonus as any)[statKey] || 0;
+              const currentHistoryBonus = historyBonus.stats[statKey] || 0;
               
               const totalBase = raceBase + customBase;
               const maxAllowedManualPoints = 80 - totalBase - legendExtendBonus - currentHistoryBonus;
@@ -1938,7 +1197,7 @@ export default function SL2Calculator() {
               const raceBase = subraceData?.[statKey] || 0;
               const customBase = customBaseStats[statKey];
               const legendExtendBonus = leBonus[statKey] || 0;
-              const currentHistoryBonus = (historyBonus as any)[statKey] || 0;
+              const currentHistoryBonus = historyBonus.stats[statKey] || 0;
               
               const totalBase = raceBase + customBase;
               const maxAllowedManualPoints = 80 - totalBase - legendExtendBonus - currentHistoryBonus;
@@ -1960,7 +1219,7 @@ export default function SL2Calculator() {
               const raceBase = subraceData?.[statKey] || 0;
               const customBase = customBaseStats[statKey];
               const legendExtendBonus = leBonus[statKey] || 0;
-              const currentHistoryBonus = (historyBonus as any)[statKey] || 0;
+              const currentHistoryBonus = historyBonus.stats[statKey] || 0;
               
               const totalBase = raceBase + customBase;
               return 80 - totalBase - legendExtendBonus - currentHistoryBonus;
@@ -1978,7 +1237,7 @@ export default function SL2Calculator() {
               const raceBase = subraceData?.[statKey] || 0;
               const customBase = customBaseStats[statKey];
               const legendExtendBonus = leBonus[statKey] || 0;
-              const currentHistoryBonus = (historyBonus as any)[statKey] || 0;
+              const currentHistoryBonus = historyBonus.stats[statKey] || 0;
               
               const totalBase = raceBase + customBase;
               const maxAllowedManualPoints = 80 - totalBase - legendExtendBonus - currentHistoryBonus;
@@ -2007,7 +1266,7 @@ export default function SL2Calculator() {
             className="w-12 sm:w-16 border rounded px-1 sm:px-2 py-1 text-center bg-gray-700 border-gray-600 text-sm tap-target"
             title="Type number and press Enter or click away to apply"
           />
-          <div className={`flex-1 text-right min-w-0 ${retroMode ? 'font-retro' : ''}`}>
+          <div className={`ml-auto min-w-[3rem] max-w-[6rem] flex-none text-right ${retroMode ? 'font-retro' : ''}`}>
             <span 
               className="text-lg sm:text-xl md:text-2xl font-bold" 
               style={isRainbow ? {
@@ -2029,200 +1288,27 @@ export default function SL2Calculator() {
     );
   };
 
-  // Close dropdowns when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as Element;
-      if (!target.closest('.hierarchical-class-selector')) {
-        setShowMainClassDropdown(false);
-        setShowSubClassDropdown(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
-
-  // POE-style hierarchical class selection component
-  const HierarchicalClassSelector = ({ 
-    type, 
-    selectedBaseClass, 
-    selectedClass, 
-    onBaseClassChange, 
-    onClassChange, 
-    showDropdown, 
-    setShowDropdown 
-  }: {
-    type: 'Main' | 'Sub';
-    selectedBaseClass: string;
-    selectedClass: string;
-    onBaseClassChange: (baseClass: string) => void;
-    onClassChange: (className: string) => void;
-    showDropdown: boolean;
-    setShowDropdown: (show: boolean) => void;
-  }) => {
-    return (
-      <div className="relative hierarchical-class-selector">
-        <label className="block text-sm font-medium mb-2">{type} Class</label>
-        
-        {/* Selected class display */}
-        <div 
-          onClick={() => setShowDropdown(!showDropdown)}
-          className={`w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 cursor-pointer hover:bg-gray-600 flex justify-between items-center text-sm md:text-base tap-target ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''}`}
-        >
-          <div className="flex flex-col min-w-0">
-            <span className="text-white truncate">{selectedClass}</span>
-            {selectedClass !== selectedBaseClass && (
-              <span className="text-xs text-gray-400 truncate">from {selectedBaseClass}</span>
-            )}
-          </div>
-          <span className="text-gray-400 ml-2 flex-shrink-0">▼</span>
-        </div>
-
-        {/* Dropdown menu */}
-        {showDropdown && (
-          <div className="absolute z-50 w-full mt-1 bg-gray-800 border border-gray-600 rounded shadow-lg max-h-60 sm:max-h-80 overflow-y-auto">
-            <div className="px-3 py-2 text-xs text-gray-400 bg-gray-900 border-b border-gray-700 sticky top-0">
-              💡 Select a base class or its promotion class
-            </div>
-            {Object.entries(CLASS_HIERARCHY).map(([baseClassName, baseClassData]) => (
-              <div key={baseClassName} className="border-b border-gray-700 last:border-b-0">
-                {/* Base class header - styled like POE skill tree nodes */}
-                <div 
-                  className={`px-4 py-3 text-sm font-bold cursor-pointer transition-colors border-l-4 relative ${retroMode ? 'font-retro sound-click sound-hover' : ''} ${
-                    selectedBaseClass === baseClassName 
-                      ? 'bg-red-800 text-red-100 border-red-400' 
-                      : 'bg-red-700 text-red-200 border-red-500 hover:bg-red-600 hover:border-red-400'
-                  }`}
-                  onClick={() => {
-                    onBaseClassChange(baseClassName);
-                    onClassChange(baseClassName); // Set base class as selected
-                    setShowDropdown(false);
-                  }}
-                >
-                  <div className="flex items-center justify-between">
-                    <span>⚔️ {baseClassName}</span>
-                    <span className="text-xs opacity-75">
-                      {selectedClass === baseClassName ? '✓ Selected' : 'Click to select'}
-                    </span>
-                  </div>
-                </div>
-                
-                {/* Subclasses header */}
-                <div className="px-4 py-1 text-xs text-gray-500 bg-gray-800 border-l-2 border-gray-600 ml-2">
-                  Promotion Classes:
-                </div>
-                
-                {/* Subclasses - styled like POE ascendancy classes */}
-                <div className="bg-gray-900">
-                  {baseClassData.subClasses.map(subClassName => (
-                    <div
-                      key={subClassName}
-                      className={`px-6 py-2 text-sm cursor-pointer transition-colors border-l-2 ml-2 relative ${retroMode ? 'font-retro sound-click sound-hover' : ''} ${
-                        selectedClass === subClassName
-                          ? 'bg-blue-800 text-blue-100 border-blue-400'
-                          : 'text-gray-300 border-gray-600 hover:bg-gray-700 hover:border-blue-500'
-                      }`}
-                      onClick={() => {
-                        onBaseClassChange(baseClassName);
-                        onClassChange(subClassName);
-                        setShowDropdown(false);
-                      }}
-                    >
-                      <div className="flex items-center justify-between">
-                        <span>↳ {subClassName}</span>
-                        {selectedClass === subClassName && (
-                          <span className="text-xs opacity-75">✓</span>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    );
+  const applyOptimizationCandidate = (candidate: OptimizationCandidate): void => {
+    setOptimizerUndo({ mainClass, subClass, selectedMainBaseClass, selectedSubBaseClass, mainClassPassive, subClassPassive, addedStats: { ...addedStats } });
+    setMainClass(candidate.patch.mainClass);
+    setSubClass(candidate.patch.subClass);
+    setSelectedMainBaseClass(candidate.patch.selectedMainBaseClass);
+    setSelectedSubBaseClass(candidate.patch.selectedSubBaseClass);
+    setMainClassPassive(candidate.patch.mainClassPassive);
+    setSubClassPassive(candidate.patch.subClassPassive);
+    setAddedStats({ ...candidate.patch.addedStats });
   };
 
-  /**
-   * Run stat optimization
-   */
-  const runOptimization = async (): Promise<void> => {
-    setIsOptimizing(true);
-    setOptimizationResult(null);
-
-    try {
-      // Small delay for UI responsiveness
-      await new Promise(resolve => setTimeout(resolve, 100));
-
-      const buildType = BUILD_TYPES[selectedBuildType];
-      if (!buildType) {
-        throw new Error('Invalid build type selected');
-      }
-
-      const params: OptimizationParams = {
-        buildType: selectedBuildType,
-        mainClass,
-        subClass,
-        race,
-        subrace,
-        history,
-        astrology,
-        legendExtend,
-        targetLevel: optimizerTargetLevel,
-        includeCustomStats: true,
-        customStats,
-        customBaseStats,
-        customHP,
-        customFP,
-        prioritizeWeaponScaling: optimizeWeaponScaling,
-        weaponType: selectedWeaponType,
-        mainClassPassive,
-        subClassPassive,
-        baseEvade,
-        bonusEvade,
-        optimizationMode,
-        targetStats: optimizationMode === 'targets' ? targetStats : undefined,
-        customWeights: optimizationMode === 'weights' ? customWeights : undefined
-      };
-
-      const optimizer = new StatOptimizer(buildType, params);
-      const result = optimizer.optimize();
-
-      setOptimizationResult(result);
-    } catch (error) {
-      console.error('Optimization failed:', error);
-      setOptimizationResult({
-        stats: { str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0 },
-        race: race,
-        subrace: subrace,
-        mainClass: mainClass,
-        subClass: subClass,
-        allocatedStats: { str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0 },
-        totalPoints: 0,
-        score: 0,
-        reasoning: ['Optimization failed: ' + (error instanceof Error ? error.message : 'Unknown error')],
-        warnings: [],
-        analysis: {}
-      });
-    } finally {
-      setIsOptimizing(false);
-    }
-  };
-
-  /**
-   * Apply optimization result to current build
-   */
-  const applyOptimization = (): void => {
-    if (!optimizationResult) return;
-
-    setAddedStats(optimizationResult.allocatedStats);
-    const pointsUsed = Object.values(optimizationResult.allocatedStats).reduce((sum, val) => sum + val, 0);
-    setTotalPoints(MAX_POINTS - pointsUsed);
+  const undoOptimization = (): void => {
+    if (!optimizerUndo) return;
+    setMainClass(optimizerUndo.mainClass);
+    setSubClass(optimizerUndo.subClass);
+    setSelectedMainBaseClass(optimizerUndo.selectedMainBaseClass ?? getBaseClass(optimizerUndo.mainClass));
+    setSelectedSubBaseClass(optimizerUndo.selectedSubBaseClass ?? getBaseClass(optimizerUndo.subClass));
+    setMainClassPassive(optimizerUndo.mainClassPassive);
+    setSubClassPassive(optimizerUndo.subClassPassive);
+    setAddedStats({ ...optimizerUndo.addedStats });
+    setOptimizerUndo(null);
   };
 
   /**
@@ -2329,6 +1415,7 @@ export default function SL2Calculator() {
   return (
     <div className="min-h-screen p-2 sm:p-4 md:p-6 lg:p-8 relative">
       <SparkleBackground />
+      <PwaUpdatePrompt />
       {retroMode && !showIntro && (
         <div className="crt-overlay" style={{ zIndex: 50 }} />
       )}
@@ -2343,6 +1430,46 @@ export default function SL2Calculator() {
         </>
       )}
       {showIntro && <IntroOverlay onFinish={() => setShowIntro(false)} enableSounds={uiSounds} />}
+      {!isOnline && (
+        <div className="fixed top-2 left-1/2 -translate-x-1/2 z-[80] rounded-full border border-amber-400/50 bg-amber-950/95 px-4 py-2 text-xs text-amber-200 shadow-xl" role="status">
+          Offline mode — calculations and local saves remain available
+        </div>
+      )}
+      {notice && (
+        <div className={`fixed bottom-4 left-4 right-4 sm:left-auto sm:max-w-md z-[90] rounded-lg border px-4 py-3 shadow-2xl ${notice.type === 'error' ? 'bg-red-950 border-red-500 text-red-100' : notice.type === 'success' ? 'bg-emerald-950 border-emerald-500 text-emerald-100' : 'bg-slate-900 border-blue-400 text-blue-100'}`} role={notice.type === 'error' ? 'alert' : 'status'}>
+          <div className="flex items-start justify-between gap-4">
+            <span className="text-sm">{notice.message}</span>
+            <button onClick={() => setNotice(null)} aria-label="Dismiss notification" className="shrink-0 text-lg leading-none">×</button>
+          </div>
+        </div>
+      )}
+      {pendingSharedBuild && (
+        <div className="fixed inset-0 z-[85] flex items-center justify-center bg-black/80 p-4" role="dialog" aria-modal="true" aria-labelledby="shared-build-title" onClick={clearShareLink}>
+          <div className={`w-full max-w-lg rounded-xl border border-cyan-500/40 bg-slate-950 p-5 shadow-2xl ${retroMode ? 'font-retro glow-border' : ''}`} onClick={(event) => event.stopPropagation()}>
+            <h2 id="shared-build-title" className="text-xl font-bold text-cyan-300">Shared Build Found</h2>
+            <p className="mt-3 text-sm text-slate-300">Loading this link will replace the current recovery draft, but it will not overwrite a named save.</p>
+            <dl className="mt-4 grid grid-cols-2 gap-3 rounded-lg bg-slate-900 p-4 text-sm">
+              <div><dt className="text-slate-400">Name</dt><dd>{pendingSharedBuild.buildName}</dd></div>
+              <div><dt className="text-slate-400">Data</dt><dd>{pendingSharedBuild.dataVersion}</dd></div>
+              <div><dt className="text-slate-400">Race</dt><dd>{pendingSharedBuild.build.subrace}</dd></div>
+              <div><dt className="text-slate-400">Classes</dt><dd>{pendingSharedBuild.build.mainClass} / {pendingSharedBuild.build.subClass}</dd></div>
+            </dl>
+            <div className="mt-5 flex flex-wrap justify-end gap-2">
+              <button autoFocus onClick={clearShareLink} className="rounded border border-slate-600 px-4 py-2">Cancel & Clean URL</button>
+              <button onClick={acceptSharedBuild} className="rounded bg-cyan-600 px-4 py-2 font-semibold text-white">Load Shared Build</button>
+            </div>
+          </div>
+        </div>
+      )}
+      {showChanges && (
+        <div className="fixed inset-0 z-[85] flex items-center justify-center bg-black/80 p-4" role="dialog" aria-modal="true" aria-labelledby="changes-title" onClick={() => setShowChanges(false)}>
+          <div className={`w-full max-w-xl rounded-xl border border-violet-500/40 bg-slate-950 p-5 shadow-2xl ${retroMode ? 'font-retro glow-border' : ''}`} onClick={(event) => event.stopPropagation()}>
+            <div className="flex items-center justify-between gap-3"><h2 id="changes-title" className="text-xl font-bold text-violet-300">What Changed?</h2><button onClick={() => setShowChanges(false)} aria-label="Close changes" className="text-2xl">×</button></div>
+            <p className="mt-2 text-sm text-slate-400">Game data {GAME_DATA_MANIFEST.dataVersion} · Updated {GAME_DATA_MANIFEST.updatedAt}</p>
+            <ul className="mt-4 list-disc space-y-2 pl-5 text-sm text-slate-200">{GAME_DATA_MANIFEST.changes.map((change) => <li key={change}>{change}</li>)}</ul>
+          </div>
+        </div>
+      )}
       <div className={`max-w-full lg:max-w-[95%] xl:max-w-[90%] 2xl:max-w-[85%] mx-auto relative z-10 ${showIntro ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
@@ -2369,7 +1496,7 @@ export default function SL2Calculator() {
               transition={{ delay: 0.3, duration: 0.5 }}
               className="flex items-center gap-2"
             >
-              <div className="text-xs sm:text-sm text-gray-400 px-3 py-1 rounded-full bg-dark-800 border border-gray-700">Version 0.5.0</div>
+              <button onClick={() => setShowChanges(true)} className="text-xs sm:text-sm text-gray-300 px-3 py-1 rounded-full bg-dark-800 border border-gray-700 hover:border-violet-400" title="View data changes">v{APP_VERSION} · Data {GAME_DATA_MANIFEST.dataVersion}</button>
               <button
                 onClick={() => setShowSettings(v => !v)}
                 className={`px-3 py-1 rounded glow-border sound-click sound-hover ${retroMode ? 'font-retro' : ''}`}
@@ -2385,10 +1512,11 @@ export default function SL2Calculator() {
                   className="fixed inset-0 bg-black/50 z-10"
                   onClick={() => setShowSettings(false)}
                 />
-                <div className="absolute right-4 top-4 bg-dark-800 border border-gray-700 rounded-lg p-3 shadow-xl w-64 z-20">
+                <div className="absolute right-4 top-4 bg-dark-800 border border-gray-700 rounded-lg p-3 shadow-xl w-64 z-20" role="dialog" aria-modal="true" aria-labelledby="settings-title">
                   <div className="flex items-center justify-between mb-2">
-                    <div className="text-sm font-semibold">Settings</div>
+                    <div id="settings-title" className="text-sm font-semibold">Settings</div>
                     <button
+                      autoFocus
                       aria-label="Close settings"
                       className="px-2 py-1 rounded glow-border sound-click sound-hover"
                       onClick={() => setShowSettings(false)}
@@ -2400,12 +1528,8 @@ export default function SL2Calculator() {
                   <div className="text-sm">Show Intro on Startup</div>
                   <input
                     type="checkbox"
-                    checked={localStorage.getItem('sl2_skip_intro') !== '1'}
-                    onChange={(e) => {
-                      try {
-                        localStorage.setItem('sl2_skip_intro', e.target.checked ? '0' : '1');
-                      } catch {}
-                    }}
+                    checked={showIntroOnStartup}
+                    onChange={(e) => setShowIntroOnStartup(e.target.checked)}
                   />
                   </div>
                   <div className="flex items-center justify-between mb-2">
@@ -2413,10 +1537,7 @@ export default function SL2Calculator() {
                   <input
                     type="checkbox"
                     checked={uiSounds}
-                    onChange={(e) => {
-                      setUiSounds(e.target.checked);
-                      try { localStorage.setItem('sl2_ui_sounds', e.target.checked ? '1' : '0'); } catch {}
-                    }}
+                    onChange={(e) => setUiSounds(e.target.checked)}
                   />
                   </div>
                   <div className="flex items-center justify-between mb-2">
@@ -2424,13 +1545,10 @@ export default function SL2Calculator() {
                   <input
                     type="checkbox"
                     checked={retroMode}
-                    onChange={(e) => {
-                      setRetroMode(e.target.checked);
-                      try { localStorage.setItem('sl2_retro_mode', e.target.checked ? '1' : '0'); } catch {}
-                    }}
+                    onChange={(e) => setRetroMode(e.target.checked)}
                   />
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex flex-wrap gap-2">
                   <button className="px-2 py-1 rounded glow-border sound-click" onClick={() => soundManager.play('click')}>Test Click</button>
                   <button className="px-2 py-1 rounded glow-border sound-click" onClick={() => soundManager.play('hover')}>Test Hover</button>
                   </div>
@@ -2445,8 +1563,12 @@ export default function SL2Calculator() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.5 }}
             className="flex gap-0.5 sm:gap-1 md:gap-2 mb-4 md:mb-6 border-b border-gray-700 overflow-x-auto scrollbar-hide -mx-2 px-2 sm:mx-0 sm:px-0"
+            role="tablist"
+            aria-label="Calculator workspaces"
           >
             <motion.button
+              role="tab"
+              aria-selected={activeTab === 'stats'}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setActiveTab('stats')}
@@ -2460,6 +1582,8 @@ export default function SL2Calculator() {
               <span className="inline sm:hidden">Stats</span>
             </motion.button>
             <motion.button
+              role="tab"
+              aria-selected={activeTab === 'weapon'}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setActiveTab('weapon')}
@@ -2473,6 +1597,8 @@ export default function SL2Calculator() {
               <span className="inline sm:hidden">Weapon</span>
             </motion.button>
             <motion.button
+              role="tab"
+              aria-selected={activeTab === 'armor'}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setActiveTab('armor')}
@@ -2486,19 +1612,8 @@ export default function SL2Calculator() {
               <span className="inline sm:hidden">Armor</span>
             </motion.button>
             <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setActiveTab('optimizer')}
-              className={`sound-click sound-hover flex-1 min-w-[80px] sm:min-w-0 px-2 sm:px-3 md:px-6 py-2 md:py-3 font-semibold transition-all whitespace-nowrap text-xs sm:text-sm md:text-base tap-target rounded-t-lg ${retroMode ? 'font-retro glow-border' : ''} ${
-                activeTab === 'optimizer'
-                  ? 'border-b-2 border-green-500 text-green-400 bg-dark-800 shadow-lg'
-                  : 'text-gray-400 hover:text-gray-200 hover:bg-dark-800'
-              }`}
-            >
-              <span className="hidden sm:inline">Stat Optimizer</span>
-              <span className="inline sm:hidden">Optimizer</span>
-            </motion.button>
-            <motion.button
+              role="tab"
+              aria-selected={activeTab === 'screenshot'}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setActiveTab('screenshot')}
@@ -2569,14 +1684,12 @@ export default function SL2Calculator() {
               )}
             </div>
             
-            <HierarchicalClassSelector
-              type="Main"
-              selectedBaseClass={selectedMainBaseClass}
+            <ClassFamilyPicker
+              label="Main Class"
               selectedClass={mainClass}
-              onBaseClassChange={(baseClass) => {
-                setSelectedMainBaseClass(baseClass);
-              }}
-              onClassChange={(className) => {
+              open={showMainClassDropdown}
+              onOpenChange={setShowMainClassDropdown}
+              onSelect={(className) => {
                 // Find which base class this subclass belongs to
                 const baseClass = Object.entries(CLASS_HIERARCHY).find(([, data]) => 
                   data.subClasses.includes(className) || data.name === className
@@ -2585,18 +1698,15 @@ export default function SL2Calculator() {
                 setMainClass(className);
                 setMainClassPassive(0);
               }}
-              showDropdown={showMainClassDropdown}
-              setShowDropdown={setShowMainClassDropdown}
+              retroMode={retroMode}
             />
             
-            <HierarchicalClassSelector
-              type="Sub"
-              selectedBaseClass={selectedSubBaseClass}
+            <ClassFamilyPicker
+              label="Sub Class"
               selectedClass={subClass}
-              onBaseClassChange={(baseClass) => {
-                setSelectedSubBaseClass(baseClass);
-              }}
-              onClassChange={(className) => {
+              open={showSubClassDropdown}
+              onOpenChange={setShowSubClassDropdown}
+              onSelect={(className) => {
                 // Find which base class this subclass belongs to
                 const baseClass = Object.entries(CLASS_HIERARCHY).find(([, data]) => 
                   data.subClasses.includes(className) || data.name === className
@@ -2605,8 +1715,7 @@ export default function SL2Calculator() {
                 setSubClass(className);
                 setSubClassPassive(0);
               }}
-              showDropdown={showSubClassDropdown}
-              setShowDropdown={setShowSubClassDropdown}
+              retroMode={retroMode}
             />
           </div>
 
@@ -2731,42 +1840,42 @@ export default function SL2Calculator() {
                 className={`flex items-center justify-center bg-green-600 hover:bg-green-700 px-2 sm:px-3 py-2 rounded text-xs sm:text-sm transition-colors tap-target ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''}`}
               >
                 <Utensils size={16} className="sm:w-4 sm:h-4" />
-                <span className="hidden sm:inline ml-1.5">Food</span>
+                <span className="ml-1.5">Food</span>
               </button>
               <button
                 onClick={() => setShowStamps(true)}
                 className={`flex items-center justify-center bg-yellow-600 hover:bg-yellow-700 px-2 sm:px-3 py-2 rounded text-xs sm:text-sm transition-colors tap-target ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''}`}
               >
                 <BookOpen size={16} className="sm:w-4 sm:h-4" />
-                <span className="hidden sm:inline ml-1.5">History</span>
+                <span className="ml-1.5">History</span>
               </button>
               <button
                 onClick={() => setShowTalents(true)}
                 className={`flex items-center justify-center bg-orange-600 hover:bg-orange-700 px-2 sm:px-3 py-2 rounded text-xs sm:text-sm transition-colors tap-target ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''}`}
               >
                 <StarIcon size={16} className="sm:w-4 sm:h-4" />
-                <span className="hidden sm:inline ml-1.5">Talents</span>
+                <span className="ml-1.5">Talents</span>
               </button>
               <button
                 onClick={() => setShowAdvanced(true)}
                 className={`flex items-center justify-center bg-purple-600 hover:bg-purple-700 px-2 sm:px-3 py-2 rounded text-xs sm:text-sm transition-colors tap-target ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''}`}
               >
                 <Settings size={16} className="sm:w-4 sm:h-4" />
-                <span className="hidden sm:inline ml-1.5">Advanced</span>
+                <span className="ml-1.5">Advanced</span>
               </button>
               <button
                 onClick={() => setShowImportExport(true)}
                 className={`flex items-center justify-center bg-indigo-600 hover:bg-indigo-700 px-2 sm:px-3 py-2 rounded text-xs sm:text-sm transition-colors tap-target ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''}`}
               >
                 <Download size={16} className="sm:w-4 sm:h-4" />
-                <span className="hidden sm:inline ml-1.5">Import/Export</span>
+                <span className="ml-1.5">Saves</span>
               </button>
               <button
                 onClick={resetStats}
                 className={`flex items-center justify-center bg-blue-600 hover:bg-blue-700 px-2 sm:px-3 py-2 rounded text-xs sm:text-sm transition-colors tap-target ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''}`}
               >
                 <RotateCcw size={16} className="sm:w-4 sm:h-4" />
-                <span className="hidden sm:inline ml-1.5">Reset</span>
+                <span className="ml-1.5">Reset</span>
               </button>
             </div>
           </div>
@@ -3285,17 +2394,22 @@ export default function SL2Calculator() {
             <div 
               className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-2 sm:p-4"
               onClick={() => setShowImportExport(false)}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="saves-dialog-title"
             >
               <div 
                 className={`bg-gray-800 rounded-lg shadow-2xl max-w-6xl w-full max-h-[90vh] overflow-y-auto ${retroMode ? 'glow-border font-retro' : ''}`}
                 onClick={(e) => e.stopPropagation()}
               >
                 <div className="sticky top-0 bg-gray-800 border-b border-gray-700 p-3 sm:p-4 md:p-6 flex justify-between items-center">
-                  <h2 className={`text-lg sm:text-xl md:text-2xl font-bold ${retroMode ? 'font-retro' : ''}`}>{retroMode ? (<span className="glitch" data-text="Build Import/Export">Build Import/Export</span>) : 'Build Import/Export'}</h2>
+                  <h2 id="saves-dialog-title" className={`text-lg sm:text-xl md:text-2xl font-bold ${retroMode ? 'font-retro' : ''}`}>{retroMode ? (<span className="glitch" data-text="Saves & Sharing">Saves & Sharing</span>) : 'Saves & Sharing'}</h2>
                   <button
+                    autoFocus
                     onClick={() => setShowImportExport(false)}
                     className={`p-2 hover:bg-gray-700 rounded-full transition-colors ${retroMode ? 'glow-border sound-click sound-hover' : ''}`}
                     title="Close"
+                    aria-label="Close saves and sharing"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -3331,8 +2445,49 @@ export default function SL2Calculator() {
                       <Copy size={16} />
                       Copy to Clipboard
                     </button>
+                    <button
+                      onClick={copyShareLink}
+                      className={`px-4 py-2 bg-cyan-700 hover:bg-cyan-600 text-white rounded flex items-center gap-2 transition-colors ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''}`}
+                    >
+                      <Copy size={16} /> Copy Share Link
+                    </button>
+                    <button
+                      onClick={shareBuild}
+                      className={`px-4 py-2 bg-violet-700 hover:bg-violet-600 text-white rounded flex items-center gap-2 transition-colors ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''}`}
+                    >
+                      Share
+                    </button>
                   </div>
                 </div>
+              </div>
+
+              <div className="space-y-3 border-t border-gray-700 pt-4">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div>
+                    <h4 className="text-md font-medium text-gray-300">Local Saves</h4>
+                    <p className="text-xs text-gray-400">Named saves change only when you explicitly update them.</p>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    <button onClick={createSaveSlot} className="rounded bg-emerald-700 px-3 py-2 text-sm hover:bg-emerald-600">Create Named Save</button>
+                    <button onClick={updateActiveSave} disabled={!activeSaveId} className="rounded bg-blue-700 px-3 py-2 text-sm hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50">Update Save</button>
+                  </div>
+                </div>
+                <div className="rounded-lg border border-amber-500/30 bg-amber-950/20 p-3">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div><div className="text-sm font-semibold text-amber-200">Recovery Draft</div><div className="text-xs text-gray-400">{draftTimestamp ? `Last saved ${new Date(draftTimestamp).toLocaleString()}` : 'No recovery draft available'}</div></div>
+                    <div className="flex gap-2"><button onClick={restoreDraft} disabled={!draftTimestamp} className="rounded border border-amber-500/50 px-3 py-2 text-sm disabled:opacity-40">Restore</button><button onClick={discardDraft} disabled={!draftTimestamp} className="rounded border border-red-500/50 px-3 py-2 text-sm text-red-200 disabled:opacity-40">Discard</button></div>
+                  </div>
+                </div>
+                {saveSlots.length > 0 ? (
+                  <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+                    {saveSlots.map((slot) => (
+                      <div key={slot.id} className={`rounded-lg border p-3 ${activeSaveId === slot.id ? 'border-cyan-400 bg-cyan-950/20' : 'border-gray-600 bg-gray-700/50'}`}>
+                        <div className="flex items-start justify-between gap-2"><div><div className="font-medium text-white">{slot.name}</div><div className="text-xs text-gray-400">Updated {new Date(slot.updatedAt).toLocaleString()}</div></div>{activeSaveId === slot.id && <span className="rounded bg-cyan-900 px-2 py-1 text-xs text-cyan-200">Loaded</span>}</div>
+                        <div className="mt-3 flex flex-wrap gap-2 text-xs"><button onClick={() => loadNamedSave(slot)} className="rounded bg-blue-700 px-2 py-1">Load</button><button onClick={() => duplicateSave(slot)} className="rounded bg-gray-600 px-2 py-1">Duplicate</button><button onClick={() => downloadBuild(slot.name, slot.build)} className="rounded bg-gray-600 px-2 py-1">Export</button><button onClick={() => deleteSave(slot)} className="rounded bg-red-900 px-2 py-1 text-red-100">Delete</button></div>
+                      </div>
+                    ))}
+                  </div>
+                ) : <p className="text-sm text-gray-500">No named saves yet.</p>}
               </div>
 
               {/* Import Section */}
@@ -3493,34 +2648,34 @@ export default function SL2Calculator() {
             </div>
             <div className={`bg-gray-700 rounded p-4 ${retroMode ? 'glow-border font-retro' : ''}`}>
               <div className="text-sm text-gray-400">Phys. Def</div>
-              <div className="text-2xl font-bold text-purple-400">{Math.floor(stats.def * 0.9)}%</div>
+              <div className="text-2xl font-bold text-purple-400">{buildEvaluation.derived.physicalDefense}%</div>
             </div>
             <div className={`bg-gray-700 rounded p-4 ${retroMode ? 'glow-border font-retro' : ''}`}>
               <div className="text-sm text-gray-400">Mag. Def</div>
-              <div className="text-2xl font-bold text-pink-400">{Math.floor(stats.res * 0.9)}%</div>
+              <div className="text-2xl font-bold text-pink-400">{buildEvaluation.derived.magicalDefense}%</div>
             </div>
             <div className={`bg-gray-700 rounded p-4 ${retroMode ? 'glow-border font-retro' : ''}`}>
               <div className="text-sm text-gray-400">Evade</div>
               <div className="text-xl font-bold text-yellow-400">
-                {Math.floor(stats.cel * 2) + baseEvade + Math.min(bonusEvade, 50) - (giantGene ? 10 : 0)}
+                {buildEvaluation.derived.evade}
               </div>
             </div>
             <div className={`bg-gray-700 rounded p-4 ${retroMode ? 'glow-border font-retro' : ''}`}>
               <div className="text-sm text-gray-400">Crit Evade</div>
               <div className="text-xl font-bold text-cyan-400">
-                {Math.floor(stats.fai + stats.luc)}
+                {buildEvaluation.derived.criticalEvade}
               </div>
             </div>
             <div className={`bg-gray-700 rounded p-4 ${retroMode ? 'glow-border font-retro' : ''}`}>
               <div className="text-sm text-gray-400">Status Inflict</div>
               <div className="text-xl font-bold text-green-400">
-                {Math.floor(stats.ski * 2 + stats.wil)}%
+                {buildEvaluation.derived.statusInfliction}%
               </div>
             </div>
             <div className={`bg-gray-700 rounded p-4 ${retroMode ? 'glow-border font-retro' : ''}`}>
               <div className="text-sm text-gray-400">Status Resist</div>
               <div className="text-xl font-bold text-indigo-400">
-                {Math.floor(stats.san * 2 + stats.fai)}%
+                {buildEvaluation.derived.statusResistance}%
               </div>
             </div>
           </div>
@@ -3665,28 +2820,36 @@ export default function SL2Calculator() {
             <div className={`bg-gray-700 rounded p-3 ${retroMode ? 'glow-border font-retro' : ''}`}>
               <div className="text-sm text-gray-400">Flanking</div>
               <div className="text-lg font-bold">
-                {Math.floor(5 + stats.gui / 2)}
+                {buildEvaluation.derived.flanking}
               </div>
             </div>
             <div className={`bg-gray-700 rounded p-3 ${retroMode ? 'glow-border font-retro' : ''}`}>
               <div className="text-sm text-gray-400">Skill Pool</div>
               <div className="text-lg font-bold">
-                {11 + Math.floor(stats.gui / 5) + Math.floor(stats.ski / 5) + Math.floor(stats.wil / 10) + ((RACES[race]?.human || SUBRACES[subrace]?.human) ? 2 : 0)}
+                {buildEvaluation.derived.skillPool}
               </div>
             </div>
             <div className={`bg-gray-700 rounded p-3 ${retroMode ? 'glow-border font-retro' : ''}`}>
               <div className="text-sm text-gray-400">Battle Weight</div>
               <div className="text-lg font-bold">
-                0/{Math.floor(stats.str) + 5}
+                0/{buildEvaluation.derived.battleWeight}
               </div>
             </div>
             <div className={`bg-gray-700 rounded p-3 ${retroMode ? 'glow-border font-retro' : ''}`}>
               <div className="text-sm text-gray-400">Encumbrance</div>
               <div className="text-lg font-bold">
-                0/{Math.floor(stats.str + stats.vit) + 5 + (subrace === 'Dullahan' ? 30 : 0) + (subrace.includes('Mechanation') ? 20 : 0)}
+                0/{buildEvaluation.derived.encumbrance}
               </div>
             </div>
           </div>
+          <OptimizerPanel
+            build={currentBuild}
+            currentEvaluation={buildEvaluation}
+            onApply={applyOptimizationCandidate}
+            canUndo={optimizerUndo !== null}
+            onUndo={undoOptimization}
+            retroMode={retroMode}
+          />
             </motion.div>
           )}
 
@@ -3723,669 +2886,6 @@ export default function SL2Calculator() {
               }}
               retroMode={retroMode}
             />
-            </motion.div>
-          )}
-
-          {/* Stat Optimizer Tab */}
-          {activeTab === 'optimizer' && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-              className="space-y-6"
-            >
-              <div className="glass-effect rounded-lg p-6 border border-green-500/30">
-                <h2 className="text-2xl font-bold mb-4 text-green-400 font-display">Stat Optimizer</h2>
-                <p className="text-gray-300 mb-4">
-                  The optimizer considers class synergies, weapon scaling, APT efficiency, and build-specific thresholds. It is very much a work in progress, so please double-check results!
-                </p>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-                  {/* Build Type Selection */}
-                  <div>
-                    <label className="block text-sm font-medium mb-2 text-green-300">Build Type</label>
-                    <select
-                      value={selectedBuildType}
-                      onChange={(e) => setSelectedBuildType(e.target.value)}
-                      className={`w-full bg-dark-700 border border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 transition-all ${retroMode ? 'font-retro glow-border sound-hover' : ''}`}
-                    >
-                      {Object.entries(BUILD_TYPES).map(([key, buildType]) => (
-                        <option key={key} value={key}>{buildType.name}</option>
-                      ))}
-                    </select>
-                    <p className="text-xs text-gray-400 mt-1">
-                      {BUILD_TYPES[selectedBuildType]?.description}
-                    </p>
-                  </div>
-
-                  {/* Target Level */}
-                  <div>
-                    <label className="block text-sm font-medium mb-2 text-green-300">Target Level</label>
-                    <input
-                      type="number"
-                      min="1"
-                      max="60"
-                      value={optimizerTargetLevel}
-                      onChange={(e) => setOptimizerTargetLevel(Math.min(60, Math.max(1, parseInt(e.target.value) || 60)))}
-                      className="w-full bg-dark-700 border border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 transition-all"
-                    />
-                    <p className="text-xs text-gray-400 mt-1">
-                      Available stat points: {optimizerTargetLevel * 4}
-                    </p>
-                  </div>
-
-                  {/* Optimization Mode */}
-                  <div>
-                    <label className="block text-sm font-medium mb-2 text-blue-300">Optimization Mode</label>
-                    <div className="flex gap-4">
-                      <label className="flex items-center">
-                        <input
-                          type="radio"
-                          name="optimizationMode"
-                          value="weights"
-                          checked={optimizationMode === 'weights'}
-                          onChange={(e) => setOptimizationMode(e.target.value as 'weights' | 'targets')}
-                          className="mr-2"
-                        />
-                        <span className="text-sm">Weight-based (sliders)</span>
-                      </label>
-                      {/* <label className="flex items-center">
-                        <input
-                          type="radio"
-                          name="optimizationMode"
-                          value="targets"
-                          checked={optimizationMode === 'targets'}
-                          onChange={(e) => setOptimizationMode(e.target.value as 'weights' | 'targets')}
-                          className="mr-2"
-                        />
-                        <span className="text-sm">Target-based (goals)</span>
-                      </label> */}
-                    </div>
-                  </div>
-
-                  {optimizationMode === 'targets' && (
-                    <div className="bg-gray-800 p-4 rounded-lg">
-                      <h4 className="text-sm font-medium mb-1 text-blue-300">Target Stats</h4>
-                      <p className="text-xs text-gray-400 mb-3">
-                        All targets are <strong>scaled values</strong> (after racial bonuses). APT: 36/42/80 are common scaled targets.
-                      </p>
-                      <div className="grid grid-cols-2 gap-3">
-                        <div>
-                          <label className="block text-xs text-gray-300 mb-1">STR Target</label>
-                          <input
-                            type="number"
-                            min="0"
-                            max="255"
-                            value={targetStats.str}
-                            onChange={(e) => setTargetStats(prev => ({ ...prev, str: parseInt(e.target.value) || 0 }))}
-                            className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-xs text-gray-300 mb-1">WIL Target</label>
-                          <input
-                            type="number"
-                            min="0"
-                            max="255"
-                            value={targetStats.wil}
-                            onChange={(e) => setTargetStats(prev => ({ ...prev, wil: parseInt(e.target.value) || 0 }))}
-                            className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-xs text-gray-300 mb-1">SKI Target</label>
-                          <input
-                            type="number"
-                            min="0"
-                            max="255"
-                            value={targetStats.ski}
-                            onChange={(e) => setTargetStats(prev => ({ ...prev, ski: parseInt(e.target.value) || 0 }))}
-                            className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-xs text-gray-300 mb-1">CEL Target</label>
-                          <input
-                            type="number"
-                            min="0"
-                            max="255"
-                            value={targetStats.cel}
-                            onChange={(e) => setTargetStats(prev => ({ ...prev, cel: parseInt(e.target.value) || 0 }))}
-                            className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-xs text-gray-300 mb-1">DEF Target</label>
-                          <input
-                            type="number"
-                            min="0"
-                            max="255"
-                            value={targetStats.def}
-                            onChange={(e) => setTargetStats(prev => ({ ...prev, def: parseInt(e.target.value) || 0 }))}
-                            className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-xs text-gray-300 mb-1">RES Target</label>
-                          <input
-                            type="number"
-                            min="0"
-                            max="255"
-                            value={targetStats.res}
-                            onChange={(e) => setTargetStats(prev => ({ ...prev, res: parseInt(e.target.value) || 0 }))}
-                            className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-xs text-gray-300 mb-1">VIT Target</label>
-                          <input
-                            type="number"
-                            min="0"
-                            max="255"
-                            value={targetStats.vit}
-                            onChange={(e) => setTargetStats(prev => ({ ...prev, vit: parseInt(e.target.value) || 0 }))}
-                            className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-xs text-gray-300 mb-1">LUC Target</label>
-                          <input
-                            type="number"
-                            min="0"
-                            max="255"
-                            value={targetStats.luc}
-                            onChange={(e) => setTargetStats(prev => ({ ...prev, luc: parseInt(e.target.value) || 0 }))}
-                            className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-xs text-gray-300 mb-1">FAI Target</label>
-                          <input
-                            type="number"
-                            min="0"
-                            max="255"
-                            value={targetStats.fai}
-                            onChange={(e) => setTargetStats(prev => ({ ...prev, fai: parseInt(e.target.value) || 0 }))}
-                            className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-xs text-gray-300 mb-1">GUI Target</label>
-                          <input
-                            type="number"
-                            min="0"
-                            max="255"
-                            value={targetStats.gui}
-                            onChange={(e) => setTargetStats(prev => ({ ...prev, gui: parseInt(e.target.value) || 0 }))}
-                            className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-xs text-gray-300 mb-1">SAN Target</label>
-                          <input
-                            type="number"
-                            min="0"
-                            max="255"
-                            value={targetStats.san}
-                            onChange={(e) => setTargetStats(prev => ({ ...prev, san: parseInt(e.target.value) || 0 }))}
-                            className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-xs text-gray-300 mb-1">APT Target (Scaled)</label>
-                          <div className="flex gap-1 mb-1">
-                            <button
-                              onClick={() => setTargetStats(prev => ({ ...prev, apt: 36 }))}
-                              className="px-2 py-1 bg-blue-600 hover:bg-blue-700 rounded text-xs"
-                            >
-                              36
-                            </button>
-                            <button
-                              onClick={() => setTargetStats(prev => ({ ...prev, apt: 42 }))}
-                              className="px-2 py-1 bg-blue-600 hover:bg-blue-700 rounded text-xs"
-                            >
-                              42
-                            </button>
-                          </div>
-                          <input
-                            type="number"
-                            min="0"
-                            max="255"
-                            value={targetStats.apt}
-                            onChange={(e) => setTargetStats(prev => ({ ...prev, apt: parseInt(e.target.value) || 0 }))}
-                            className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm"
-                          />
-                        </div>
-                      </div>
-                      <p className="text-xs text-gray-400 mt-2">
-                        Total target points: {Object.values(targetStats).reduce((sum, val) => sum + val, 0)} / {optimizerTargetLevel * 4}
-                      </p>
-                    </div>
-                  )}
-
-                  {/* Weapon Type Priority */}
-                  <div>
-                    <label className="block text-sm font-medium mb-2 text-green-300">Weapon Priority</label>
-                    <div className="flex items-center gap-2 mb-2">
-                      <input
-                        type="checkbox"
-                        checked={optimizeWeaponScaling}
-                        onChange={(e) => setOptimizeWeaponScaling(e.target.checked)}
-                        className="rounded"
-                      />
-                      <span className="text-sm">Optimize for weapon scaling</span>
-                    </div>
-                    {optimizeWeaponScaling && (
-                      <select
-                        value={selectedWeaponType}
-                        onChange={(e) => setSelectedWeaponType(e.target.value)}
-                        className={`w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 ${retroMode ? 'font-retro glow-border sound-hover' : ''}`}
-                      >
-                        <option value="">Auto-detect from classes</option>
-                        <option value="Swords">Swords (STR/SKI)</option>
-                        <option value="Axes">Axes (STR)</option>
-                        <option value="Spears">Spears (STR/SKI)</option>
-                        <option value="Bows">Bows (STR/SKI)</option>
-                        <option value="Guns">Guns (GUI/SKI)</option>
-                        <option value="Daggers">Daggers (GUI/SKI)</option>
-                        <option value="Tomes">Tomes (WIL/SKI)</option>
-                        <option value="Fist">Fist (STR/SKI)</option>
-                      </select>
-                    )}
-                  </div>
-                </div>
-
-                {/* Custom Weights Section */}
-                {optimizationMode === 'weights' && (
-                <div className="bg-gray-800 rounded-lg p-4 mb-4">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-lg font-semibold">Custom Build Preferences</h3>
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => setCustomWeights(getBuildTypeWeights(selectedBuildType))}
-                        className="px-3 py-1 bg-green-600 hover:bg-green-700 rounded text-sm"
-                        title="Reset sliders to match current build type"
-                      >
-                        Reset to {BUILD_TYPES[selectedBuildType]?.name} Defaults
-                      </button>
-                      <button
-                        onClick={() => setShowCustomWeights(!showCustomWeights)}
-                        className="px-3 py-1 bg-blue-600 hover:bg-blue-700 rounded text-sm"
-                      >
-                        {showCustomWeights ? 'Hide' : 'Show'} Advanced Options
-                      </button>
-                    </div>
-                  </div>
-                  
-                  {showCustomWeights && (
-                    <div className="space-y-4">
-                      <div className="bg-blue-900 bg-opacity-20 border border-blue-700 rounded p-3">
-                        <p className="text-blue-300 text-sm mb-2">
-                          <strong>Auto-Adjustment:</strong> Sliders automatically adjust when you change build types to match typical preferences for that build style.
-                        </p>
-                        <p className="text-gray-400 text-sm">
-                          Adjust these sliders to influence stat priorities based on your specific build goals. 
-                          Higher values increase the priority of related stats.
-                        </p>
-                      </div>
-                      
-                      {/* Summoner Preferences */}
-                      {(mainClass === 'Summoner' || subClass === 'Summoner' || 
-                        mainClass === 'Grand Summoner' || subClass === 'Grand Summoner' ||
-                        mainClass === 'Shapeshifter' || subClass === 'Shapeshifter' ||
-                        mainClass === 'Bonder' || subClass === 'Bonder') && (
-                        <div className="bg-purple-900 bg-opacity-30 border border-purple-700 rounded p-3">
-                          <h4 className="font-medium text-purple-300 mb-2">Summoner Preferences</h4>
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            <div>
-                              <label className="block text-sm text-gray-300 mb-1">
-                                Youkai Count: {customWeights.youkaiCount}
-                              </label>
-                              <input
-                                type="range"
-                                min="5"
-                                max="12"
-                                value={customWeights.youkaiCount}
-                                onChange={(e) => setCustomWeights({...customWeights, youkaiCount: parseInt(e.target.value)})}
-                                className="w-full"
-                              />
-                              <span className="text-xs text-gray-400">Youkai slots (5 base + Faith investment: 6=5pts, 7=10pts, 8=15pts, etc.)</span>
-                            </div>
-                            <div>
-                              <label className="block text-sm text-gray-300 mb-1">
-                                Summon Survivability: {customWeights.summonSurvivability}/10
-                              </label>
-                              <input
-                                type="range"
-                                min="0"
-                                max="10"
-                                value={customWeights.summonSurvivability}
-                                onChange={(e) => setCustomWeights({...customWeights, summonSurvivability: parseInt(e.target.value)})}
-                                className="w-full"
-                              />
-                              <span className="text-xs text-gray-400">Focus on keeping summons alive</span>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                      
-                      {/* Combat Preferences */}
-                      <div className="bg-red-900 bg-opacity-30 border border-red-700 rounded p-3">
-                        <h4 className="font-medium text-red-300 mb-2">Combat Focus</h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                          <div>
-                            <label className="block text-sm text-gray-300 mb-1">
-                              Critical Focus: {customWeights.criticalFocus}/10
-                            </label>
-                            <input
-                              type="range"
-                              min="0"
-                              max="10"
-                              value={customWeights.criticalFocus}
-                              onChange={(e) => setCustomWeights({...customWeights, criticalFocus: parseInt(e.target.value)})}
-                              className="w-full"
-                            />
-                          </div>
-                          <div>
-                            <label className="block text-sm text-gray-300 mb-1">
-                              Magic Damage: {customWeights.magicDamageFocus}/10
-                            </label>
-                            <input
-                              type="range"
-                              min="0"
-                              max="10"
-                              value={customWeights.magicDamageFocus}
-                              onChange={(e) => setCustomWeights({...customWeights, magicDamageFocus: parseInt(e.target.value)})}
-                              className="w-full"
-                            />
-                          </div>
-                          <div>
-                            <label className="block text-sm text-gray-300 mb-1">
-                              Physical Damage: {customWeights.physicalDamageFocus}/10
-                            </label>
-                            <input
-                              type="range"
-                              min="0"
-                              max="10"
-                              value={customWeights.physicalDamageFocus}
-                              onChange={(e) => setCustomWeights({...customWeights, physicalDamageFocus: parseInt(e.target.value)})}
-                              className="w-full"
-                            />
-                          </div>
-                          <div>
-                            <label className="block text-sm text-gray-300 mb-1">
-                              Accuracy Focus: {customWeights.accuracyFocus}/10
-                            </label>
-                            <input
-                              type="range"
-                              min="0"
-                              max="10"
-                              value={customWeights.accuracyFocus}
-                              onChange={(e) => setCustomWeights({...customWeights, accuracyFocus: parseInt(e.target.value)})}
-                              className="w-full"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      
-                      {/* Defensive Preferences */}
-                      <div className="bg-blue-900 bg-opacity-30 border border-blue-700 rounded p-3">
-                        <h4 className="font-medium text-blue-300 mb-2">Defensive Focus</h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                          <div>
-                            <label className="block text-sm text-gray-300 mb-1">
-                              Minimum HP (Hard Constraint)
-                            </label>
-                            <input
-                              type="number"
-                              min="400"
-                              max="1200"
-                              step="50"
-                              value={customWeights.minimumHP}
-                              onChange={(e) => setCustomWeights({...customWeights, minimumHP: parseInt(e.target.value) || 700})}
-                              className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1"
-                            />
-                            <span className="text-xs text-gray-400">Required minimum HP for all builds</span>
-                          </div>
-                          <div>
-                            <label className="block text-sm text-gray-300 mb-1">
-                              FP Priority: {customWeights.fpPriority}/10
-                            </label>
-                            <input
-                              type="range"
-                              min="0"
-                              max="10"
-                              value={customWeights.fpPriority}
-                              onChange={(e) => setCustomWeights({...customWeights, fpPriority: parseInt(e.target.value)})}
-                              className="w-full"
-                            />
-                            <span className="text-xs text-gray-400">Target: 200+ FP for sustained combat</span>
-                          </div>
-                          <div>
-                            <label className="block text-sm text-gray-300 mb-1">
-                              Physical Defense: {customWeights.physicalDefense}/10
-                            </label>
-                            <input
-                              type="range"
-                              min="0"
-                              max="10"
-                              value={customWeights.physicalDefense}
-                              onChange={(e) => setCustomWeights({...customWeights, physicalDefense: parseInt(e.target.value)})}
-                              className="w-full"
-                            />
-                          </div>
-                          <div>
-                            <label className="block text-sm text-gray-300 mb-1">
-                              Magical Defense: {customWeights.magicalDefense}/10
-                            </label>
-                            <input
-                              type="range"
-                              min="0"
-                              max="10"
-                              value={customWeights.magicalDefense}
-                              onChange={(e) => setCustomWeights({...customWeights, magicalDefense: parseInt(e.target.value)})}
-                              className="w-full"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      
-                      {/* Utility Preferences */}
-                      <div className="bg-green-900 bg-opacity-30 border border-green-700 rounded p-3">
-                        <h4 className="font-medium text-green-300 mb-2">Utility & Special</h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                          <div>
-                            <label className="block text-sm text-gray-300 mb-1">
-                              Initiative Priority: {customWeights.initiativePriority}/10
-                            </label>
-                            <input
-                              type="range"
-                              min="0"
-                              max="10"
-                              value={customWeights.initiativePriority}
-                              onChange={(e) => setCustomWeights({...customWeights, initiativePriority: parseInt(e.target.value)})}
-                              className="w-full"
-                            />
-                          </div>
-                          <div>
-                            <label className="block text-sm text-gray-300 mb-1">
-                              Status Resistance: {customWeights.statusResistance}/10
-                            </label>
-                            <input
-                              type="range"
-                              min="0"
-                              max="10"
-                              value={customWeights.statusResistance}
-                              onChange={(e) => setCustomWeights({...customWeights, statusResistance: parseInt(e.target.value)})}
-                              className="w-full"
-                            />
-                          </div>
-                          <div>
-                            <label className="block text-sm text-gray-300 mb-1">
-                              Target Evade
-                            </label>
-                            <input
-                              type="number"
-                              min="0"
-                              max="200"
-                              step="10"
-                              value={customWeights.targetEvade || 0}
-                              onChange={(e) => setCustomWeights({...customWeights, targetEvade: parseInt(e.target.value) || 0})}
-                              className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1"
-                            />
-                            <span className="text-xs text-gray-400">Target evade value (CEL×2 + base + bonus)</span>
-                          </div>
-                          { (
-                            <div>
-                              <label className="block text-sm text-gray-300 mb-1">
-                                Target APT (Hard Constraint)
-                              </label>
-                              <select
-                                value={customWeights.targetAPT || 36}
-                                onChange={(e) => setCustomWeights({...customWeights, targetAPT: parseInt(e.target.value) as 36 | 42 | 80})}
-                                className={`w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 ${retroMode ? 'font-retro glow-border sound-hover' : ''}`}
-                              >
-                                <option value={36}>36 APT (Standard)</option>
-                                <option value={42}>42 APT (High Efficiency)</option>
-                                <option value={80}>80 APT (Undeniable Innovator)</option>
-                              </select>
-                              <span className="text-xs text-gray-400">Target final APT for multiclass builds</span>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
-                )}
-
-                {/* Current Class Configuration Display */}
-                <div className="bg-gray-800 rounded-lg p-4 mb-4">
-                  <h3 className="text-lg font-semibold mb-2">Current Configuration</h3>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                    <div>
-                      <span className="text-gray-400">Race:</span> {subrace}
-                    </div>
-                    <div>
-                      <span className="text-gray-400">Main Class:</span> {mainClass}
-                    </div>
-                    <div>
-                      <span className="text-gray-400">Sub Class:</span> {subClass}
-                    </div>
-                    <div>
-                      <span className="text-gray-400">History:</span> {history || 'None'}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Optimize Button */}
-                <div className="flex gap-4">
-                  <button
-                    onClick={runOptimization}
-                    disabled={isOptimizing}
-                    className="sound-click sound-hover px-6 py-3 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:cursor-not-allowed rounded-lg font-semibold transition-colors flex items-center gap-2"
-                  >
-                    {isOptimizing ? (
-                      <>
-                        <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></div>
-                        Optimizing...
-                      </>
-                    ) : (
-                      <>
-                        Optimize Stats
-                      </>
-                    )}
-                  </button>
-                  
-                  {optimizationResult && (
-                    <button
-                      onClick={applyOptimization}
-                      className="sound-click sound-hover px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg font-semibold transition-colors"
-                    >
-                      Apply to Calculator
-                    </button>
-                  )}
-                </div>
-              </div>
-
-              {/* Optimization Results */}
-              {optimizationResult && (
-                <div className="bg-gray-800 rounded-lg p-6">
-                  <h3 className="text-xl font-bold mb-4 text-green-400">Optimization Results</h3>
-                  
-                  {/* Score and Summary */}
-                  <div className="mb-6">
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="bg-green-900 bg-opacity-50 rounded-lg px-4 py-2">
-                        <span className="text-green-300 font-semibold">Score: {Math.round(optimizationResult.score)}</span>
-                      </div>
-                      <div className="bg-blue-900 bg-opacity-50 rounded-lg px-4 py-2">
-                        <span className="text-blue-300 font-semibold">Points Used: {optimizationResult.totalPoints}/240</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Optimized Stats Display */}
-                  <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-6">
-                    {Object.entries(optimizationResult.allocatedStats).map(([stat, value]) => (
-                      <div key={stat} className="bg-gray-700 rounded-lg p-3 text-center">
-                        <div className="text-xs text-gray-400 uppercase tracking-wide">{stat}</div>
-                        <div className="text-lg font-bold" style={{ color: STAT_COLORS[stat as StatKey] === 'rainbow' ? '#ffffff' : STAT_COLORS[stat as StatKey] }}>
-                          {value}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Reasoning */}
-                  {optimizationResult.reasoning.length > 0 && (
-                    <div className="mb-4">
-                      <h4 className="text-lg font-semibold mb-2 text-blue-400">💡 Optimization Reasoning</h4>
-                      <ul className="space-y-1">
-                        {optimizationResult.reasoning.map((reason, index) => (
-                          <li key={index} className="text-gray-300 text-sm">• {reason}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-
-                  {/* Warnings */}
-                  {optimizationResult.warnings.length > 0 && (
-                    <div className="mb-4">
-                      <h4 className="text-lg font-semibold mb-2 text-yellow-400">⚠️ Warnings</h4>
-                      <ul className="space-y-1">
-                        {optimizationResult.warnings.map((warning, index) => (
-                          <li key={index} className="text-yellow-300 text-sm">• {warning}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-
-                  {/* Build Type Compatibility */}
-                  <div className="bg-gray-900 rounded-lg p-4">
-                    <h4 className="text-lg font-semibold mb-2 text-purple-400">Class Compatibility</h4>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                      {BUILD_TYPES[selectedBuildType]?.classCompatibility && Object.entries(BUILD_TYPES[selectedBuildType].classCompatibility)
-                        .filter(([className]) => className === mainClass || className === subClass)
-                        .map(([className, compatibility]) => (
-                          <div key={className} className="flex justify-between items-center bg-gray-800 rounded px-3 py-2">
-                            <span className="text-sm">{className}</span>
-                            <div className="flex">
-                              {Array.from({ length: 10 }, (_, i) => (
-                                <div
-                                  key={i}
-                                  className={`w-2 h-2 rounded-full mr-1 ${
-                                    i < compatibility ? 'bg-green-500' : 'bg-gray-600'
-                                  }`}
-                                />
-                              ))}
-                            </div>
-                          </div>
-                        ))}
-                    </div>
-                  </div>
-                </div>
-              )}
             </motion.div>
           )}
 
@@ -4477,34 +2977,34 @@ export default function SL2Calculator() {
                     </div>
                     <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-700'} rounded-lg p-3`}>
                       <div className="text-xs text-gray-400">Phys. Def</div>
-                      <div className="text-lg font-bold text-purple-400">{Math.floor(stats.def * 0.9)}%</div>
+                      <div className="text-lg font-bold text-purple-400">{buildEvaluation.derived.physicalDefense}%</div>
                     </div>
                     <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-700'} rounded-lg p-3`}>
                       <div className="text-xs text-gray-400">Mag. Def</div>
-                      <div className="text-lg font-bold text-pink-400">{Math.floor(stats.res * 0.9)}%</div>
+                      <div className="text-lg font-bold text-pink-400">{buildEvaluation.derived.magicalDefense}%</div>
                     </div>
                     <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-700'} rounded-lg p-3`}>
                       <div className="text-xs text-gray-400">Evade</div>
                       <div className="text-lg font-bold text-yellow-400">
-                        {Math.floor(stats.cel * 2) + baseEvade + Math.min(bonusEvade, 50) + (equippedArmor?.evade || 0) + conditionalEvadeBonus - (giantGene ? 10 : 0)}
+                        {buildEvaluation.derived.evade}
                       </div>
                     </div>
                     <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-700'} rounded-lg p-3`}>
                       <div className="text-xs text-gray-400">Crit Evade</div>
                       <div className="text-lg font-bold text-cyan-400">
-                        {Math.floor(stats.fai + stats.luc)}
+                        {buildEvaluation.derived.criticalEvade}
                       </div>
                     </div>
                     <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-700'} rounded-lg p-3`}>
                       <div className="text-xs text-gray-400">Status Inflict</div>
                       <div className="text-lg font-bold text-green-400">
-                        {Math.floor(stats.ski * 2 + stats.wil)}%
+                        {buildEvaluation.derived.statusInfliction}%
                       </div>
                     </div>
                     <div className="bg-gray-700 rounded-lg p-3">
                       <div className="text-xs text-gray-400">Status Resist</div>
                       <div className="text-lg font-bold text-indigo-400">
-                        {Math.floor(stats.san * 2 + stats.fai)}%
+                        {buildEvaluation.derived.statusResistance}%
                       </div>
                     </div>
                   </div>
@@ -4701,7 +3201,7 @@ export default function SL2Calculator() {
 
                 {/* Build Notes */}
                 <div className="border-t border-gray-700 pt-4 text-xs text-gray-400">
-                  <div>Generated by SL2 Calculator Suite v0.5.0</div>
+                  <div>Generated by SL2 Calculator Suite v{APP_VERSION}</div>
                   <div>Date: {new Date().toLocaleDateString()}</div>
                   {history !== 'None' && <div>History: {history}</div>}
                   {food !== 'None' && <div>Food: {food}</div>}

@@ -1,0 +1,377 @@
+SL2 CALCULATOR - COMPLETE CALCULATIONS & STAT DETAILS SUMMARY
+================================================================
+================================================================
+1. CORE STAT SYSTEM
+================================================================
+
+Primary Stats (StatKey):
+- STR (Strength) - Physical power and Fire affinity:
+  * +1 Fire ATK (per 1 Scaled point)
+  * +1 Max Battle Weight, letting you equip heavier items without penalties (per 1 Scaled point)
+  * +1 Max Encumbrance, letting you carry more items in your inventory without slowing down (per 1 Scaled point)
+  * +3 Max HP (per 1 Base point only - not affected by stat scaling)
+  * +0.4 Critical, for STR Primary Scaling weapons only (per 1 Scaled point)
+- WIL (Will) - Mental strength, FP capacity, and elemental affinity:
+  * +5 FP (per 1 Scaled point)
+  * +1 to All Elemental ATK per 4 points (excludes Sound and Acid) (per 1 Scaled point)
+  * +1 Status Infliction, increasing your chance to inflict status effects on enemies (per 1 Scaled point)
+  * +1 Max Skill Pool Size per 10 points, increasing the amount of skills you can equip (per 1 Scaled point)
+- SKI (Skill) - Coordination, accuracy, and Ice affinity:
+  * +1 Ice ATK (per 1 Scaled point)
+  * +2 Hit (per 1 Scaled point)
+  * +0.5 Critical (per 1 Scaled point)
+  * +2 Status Infliction, increasing your chance to inflict status effects on enemies (per 1 Scaled point)
+  * +1 Max Skill Pool Size per 5 points, increasing the amount of skills you can equip (per 1 Scaled point)
+- CEL (Celerity) - Speed, agility, and Wind affinity:
+  * +1 Wind ATK (per 1 Scaled point)
+  * +2 Evade (per 1 Scaled point)
+  * Starting Turn Order, determined by who has the highest CEL (per 1 Scaled point)
+- DEF (Defense) - Physical resilience and Earth affinity:
+  * +1 Earth ATK (per 1 Scaled point)
+  * +0.9% Physical Defense, lowering physical damage taken (per 1 Scaled point)
+- RES (Resistance) - Supernatural protection and Dark affinity:
+  * +1 Dark ATK (per 1 Scaled point)
+  * +0.9% Magical Defense, lowering magical damage taken (per 1 Scaled point)
+- VIT (Vitality) - Health, durability, and Water affinity:
+  * +1 Water ATK (per 1 Scaled point)
+  * +10 HP (per 1 Scaled point)
+  * +1 Max Encumbrance, letting you carry more items in your inventory without slowing down (per 1 Scaled point)
+- FAI (Faith) - Conviction, belief, and Light affinity:
+  * +1 Light ATK (per 1 Scaled point)
+  * +3 FP (per 1 Scaled point)
+  * +1 Status Resistance, decreasing the chance for enemies to inflict you with status effects (per 1 Scaled point)
+  * +1 Critical Evade, lowering the chance of taking critical hits (per 1 Scaled point)
+- LUC (Luck) - Fortune and Lightning affinity:
+  * +1 Lightning ATK (per 1 Scaled point)
+  * +1 Critical (per 1 Scaled point)
+  * +1 Critical Evade, lowering the chance of taking critical hits (per 1 Scaled point)
+  * +1% Item Drop Chance, boosting chances for you or allies to receive items after battle (per 1 Scaled point)
+  * Only the highest LUC in the party is applied for Item Drop Chance
+- GUI (Guile) - Cunning, alternative thinking, and Acid affinity:
+  * +1 Acid ATK (per 1 Scaled point)
+  * +0.5 Flanking (per 1 Scaled point)
+  * +1% Critical Damage (per 1 Scaled point)
+  * -1 Farshot Penalty per 5 points (per 1 Scaled point)
+  * +1 Max Skill Pool Size per 5 points, increasing the amount of skills you can equip (per 1 Scaled point)
+- SAN (Sanctity) - Divine presence, racial gifts, and Sound affinity:
+  * +1 Sound ATK (per 1 Scaled point)
+  * +2 HP (per 1 Scaled point)
+  * +2 FP (per 1 Scaled point)
+  * +2 Status Resistance, decreasing the chance for enemies to inflict you with status effects (per 1 Scaled point)
+  * +1% Elemental Resistance per 6 points, for Fire, Ice, Wind, Earth, Water, Lightning, Dark, and Light elements (per 1 Scaled point)
+- APT (Aptitude) - Flexibility and adaptability:
+  * +1% Experience Earned (per 1 Scaled point)
+  * +1 bonus to all other stats per 6 points (per 1 Scaled point)
+  * IMPORTANT: Stats obtained by APT are NOT base stats, they are bonus stats. This means they will not count towards trait requirements, and are subject to mechanics involving bonus stats (e.g., DEF from APT is negated while Burned)
+
+
+================================================================
+2. BASE STATS CALCULATION
+================================================================
+
+Final Stat Formula:
+Final Stat = (Base Racial + Custom Base + Added Points + Food + History + Class Passive + Stamps + Custom) + APT Bonus + Legend Extend
+
+Base Racial: Starting stats from race/subrace
+Custom Base: Manual adjustments to racial base
+Added Points: Player-allocated stat points (limited by level * 4)
+Food: Temporary food bonuses
+History: Background choice bonuses
+Class Passive: Bonuses from main/sub class passives
+Stamps: Equipped stamp bonuses
+Custom: Additional custom adjustments
+APT Bonus: +1 to all other stats per 6 APT points
+Legend Extend: +1 to selected stat if enabled
+
+Character Level: Determines available stat points (Level * 4 = total points)
+Max Points: 240 (Level 60 standard)
+
+================================================================
+3. DAMAGE CALCULATIONS
+================================================================
+
+Elemental ATK Calculation:
+- Fire ATK = STR + Equipment + Bonuses
+- Ice ATK = SKI + Equipment + Bonuses
+- Wind ATK = CEL + Equipment + Bonuses  
+- Earth ATK = DEF + Equipment + Bonuses
+- Dark ATK = RES + Equipment + Bonuses
+- Water ATK = VIT + Equipment + Bonuses
+- Light ATK = FAI + Equipment + Bonuses
+- Lightning ATK = LUC + Equipment + Bonuses
+- Acid ATK = GUI + Equipment + Bonuses
+- Sound ATK = SAN + Equipment + Bonuses
+
+Weapon Scaling:
+Only STR provides +0.4 Critical per point for STR Primary Scaling weapons
+
+Scaling Types Found in Weapons:
+- Basic (100% single stat): Most basic weapons
+- Finesse (70% primary, 30% secondary): Balanced weapons
+- Vampiric (80% primary, 30% VIT): Life-stealing weapons
+- Faithful (70% primary, 40% FAI): Holy weapons
+- Firearms (60% GUI, 40% SKI): Gun weapons
+- Spiritual (70% GUI, 40% SAN): Spirit-based weapons
+- Dextria-Sound (80% primary, 30% SAN): Musical weapons
+- Cunning (70% STR, 40% GUI): Clever weapons
+- Earthen (70% STR, 40% DEF): Defensive weapons
+- Sylphid (70% STR, 40% CEL): Wind-based weapons
+- Darkness (70% STR, 40% RES): Dark weapons
+
+Critical Hit Calculation:
+Base Critical = SKI * 0.5 + LUC * 1.0 + (STR * 0.4 if using STR Primary Scaling weapon)
+Critical Damage = 150% + (GUI * 1%) base damage
+
+================================================================
+4. DEFENSE CALCULATIONS
+================================================================
+
+Physical Defense:
+Physical Defense % = DEF * 0.9%
+Reduces all physical damage taken by this percentage
+
+Magical Defense: 
+Magical Defense % = RES * 0.9%
+Reduces all magical damage taken by this percentage
+
+Elemental Resistance:
+Elemental Resistance % = SAN * (1/6)% per element
+Applies to Fire, Ice, Wind, Earth, Water, Lightning, Dark, Light
+
+Critical Evade:
+Critical Evade = FAI + LUC
+Reduces chance of receiving critical hits
+
+Evade Calculation:
+Total Evade = Base Evade + Bonus Evade + (CEL * 2)
+Base Evade: Equipment and racial base
+Bonus Evade: Temporary buffs and skills
+CEL contributes 2 evade per point
+
+================================================================
+5. DERIVED STATS
+================================================================
+
+Health Points (HP):
+Base HP = 100 + (Base STR * 3) + (Scaled VIT * 10) + (Scaled SAN * 2) + Custom HP + Food/History HP
+Note: Only BASE STR contributes (not scaled), all other stats use scaled values
+
+Focus Points (FP):
+Base FP = 50 + (Scaled WIL * 5) + (Scaled FAI * 3) + (Scaled SAN * 2) + Custom FP + Food/History FP
+
+Hit Accuracy:
+Hit = SKI * 2 + Equipment + Buffs + Weapon bonuses
+
+Status Infliction:
+Status Infliction = WIL * 1 + SKI * 2
+Increases chance to inflict status effects on enemies
+
+Status Resistance:
+Status Resistance = FAI * 1 + SAN * 2
+Decreases chance of receiving status effects
+
+Battle Weight:
+Max Battle Weight = STR + Equipment modifiers
+Determines what armor/equipment you can wear without penalties
+
+Encumbrance:
+Max Encumbrance = STR + VIT + Equipment modifiers
+Determines inventory carrying capacity before movement penalties
+
+Skill Pool Size:
+Base Skill Pool = 4 (or 5 for specific races)
+Additional slots from: WIL/10, SKI/5, GUI/5
+Total = Base + WIL/10 + SKI/5 + GUI/5
+
+================================================================
+6. WEAPON SCALING
+================================================================
+
+Weapon Types & Primary Stats:
+- Swords: STR primary (gets +0.4 crit/point), various scaling types
+  * Basic (100% STR), Finesse (70% STR, 30% SKI), Vampiric (80% STR, 30% VIT)
+  * Faithful (70% STR, 40% FAI), Darkness (70% STR, 40% RES)
+- Axes: STR primary (gets +0.4 crit/point), various scaling types
+  * Basic (100% STR), Finesse (70% STR, 30% SKI), Vampiric (80% STR, 30% VIT)
+  * Cunning (70% STR, 40% GUI)
+- Polearms/Spears: STR primary (gets +0.4 crit/point), various scaling types
+  * Basic (100% STR), Finesse (70% STR, 30% SKI), Vampiric (80% STR, 30% VIT)
+  * Faithful (70% STR, 40% FAI)
+- Bows: STR primary (gets +0.4 crit/point), various scaling types
+  * Basic (100% STR), Finesse (70% STR, 30% SKI), Dextria-Sound (80% STR, 30% SAN)
+  * Note: Crossbows use Basic (100% SKI)
+- Guns: GUI primary (no crit bonus), secondary SKI
+  * Firearms (60% GUI, 40% SKI), Spiritual (70% GUI, 40% SAN)
+- Daggers: GUI primary (no crit bonus), various scaling types
+  * Basic (100% GUI), Finesse (70% GUI, 30% SKI), Vampiric (80% GUI, 30% VIT)
+  * Dextria-Sound (80% GUI, 30% SAN) for instruments
+- Tomes: WIL primary (no crit bonus)
+  * Basic (100% WIL) - elemental damage varies by tome type
+- Fists: STR primary (gets +0.4 crit/point), various scaling types
+  * Basic (100% STR), Finesse (70% STR, 30% SKI), Vampiric (80% STR, 30% VIT)
+  * Earthen (70% STR, 40% DEF), Sylphid (70% STR, 40% CEL)
+  * Dextria-Sound (80% STR, 30% SAN) for instruments
+
+Material Modifiers:
+Materials affect: Power, Critical, Hit, Weight
+Categories: Hard Materials, Wood Materials, Page Materials
+Examples:
+- Dragon Remains: +3 Power, +5 Crit, +5 Hit, +8 Weight
+- Boulder: +10 Power, +10 Crit, -5 Hit, +25 Weight  
+- Thinsteel: -3 Power, +3 Crit, +5 Hit, -2 Weight
+
+Enchantments:
+Modify: Power, Critical, Critical Modifier, Hit, Weight, Weight Modifier
+Apply multiplicative bonuses to base weapon stats
+
+Parts System:
+Different weapon types use different part categories:
+- Blades, Guards, Hilts (Swords)
+- Spearheads, Poles (Spears)  
+- Knuckles, Wrists (Fist)
+- Bow Bodies, Strings, Arrows (Bows)
+- Barrels, Grips, Bullets (Guns)
+
+================================================================
+8. CLASS BONUSES
+================================================================
+
+Class Stats (Main/Sub):
+Each class provides base stat bonuses when selected
+Main class gets higher priority in optimization
+Monoclass builds (same main/sub) get 2x modifier bonuses
+
+Example Class Stats:
+- Soldier: +2 STR, +2 DEF, +1 VIT, +1 SKI
+- Mage: +2 WIL, +2 SKI, +1 CEL, +1 RES
+- Rogue: +2 SKI, +2 CEL, +1 LUC, +1 GUI
+
+Class Passives:
+Rankable abilities (0-5) providing additional bonuses
+Cost Focus Points to maintain
+Examples:
+- Soldier Mettle: +HP, +Physical Defense
+- Mage Aptitude: +WIL, +Elemental ATK
+- Rogue Cunning: +CEL, +Critical
+
+Valid Weapons per Class:
+Determines what weapon types can be equipped
+Affects optimization weapon scaling priorities
+Some classes are more flexible than others
+
+Class Hierarchy:
+Base Classes: Soldier, Mage, Rogue, Duelist
+Advanced Classes: Specialized versions with unique abilities
+Multi-class compatibility varies by build type
+
+================================================================
+9. RACIAL BONUSES
+================================================================
+
+Race Base Stats:
+Each race/subrace combination provides different starting stats
+Affects total stat budget and optimization priorities
+
+Example Races:
+- Human: Balanced stats, APT bonus, flexibility
+- Elf: High WIL/SKI, magical affinity
+- Doriad: Nature-based bonuses, SAN focus
+
+Subrace Variants:
+Provide additional stat modifications and special abilities
+Examples:
+- Imperialist (Human): Balanced approach
+- Phenex (Elf): Fire magic specialization
+- Wild (Doriad): Physical nature build
+
+Racial Resistances:
+Some races have innate elemental resistances
+Affects defensive calculations and build viability
+
+Special Racial Abilities:
+- Giant Gene: Size/reach bonuses
+- Corrupted traits: SAN penalties but unique benefits
+- Beast traits: Instinct-based abilities
+
+================================================================
+10. FOOD & HISTORY BONUSES
+================================================================
+
+Food System:
+Temporary stat bonuses from consumed food items
+Duration varies, affects current stats only
+Examples:
+- Fugu: +3 STR, +3 WIL (dangerous delicacy)
+- Pumpkin Lollipop: +5 CEL (seasonal treat)
+- Salad: +3 VIT (healthy option)
+
+History Backgrounds:
+Permanent character background bonuses
+Applied once during character creation
+Examples:
+- Warrior: +2 STR, +1 SKI (combat focused)
+- Magician: +2 WIL, +1 CEL (arcane studies)
+- Assassin: +2 SKI, +1 LUC (stealth specialist)
+
+Optimization Integration:
+Both food and history bonuses are considered in stat calculations
+History bonuses count as "invested points" for efficiency
+Food bonuses are temporary and calculated separately
+
+================================================================
+11. LEGEND EXTEND & ASTROLOGY
+================================================================
+
+Legend Extend:
+Provides +1 to selected stat when enabled
+Available stats: STR, WIL, SKI, CEL, DEF, RES, VIT, FAI, LUC, GUI, SAN
+Can only select one at a time
+Examples:
+- Axysal (STR): +1 Strength
+- Kashic (WIL): +1 Will
+- Zerogyn (SKI): +1 Skill
+
+Astrology System:
+Planet selection provides +1 to associated stat
+Planet-Stat Mapping:
+- Mercury: +1 SKI (Ice element)
+- Venus: +1 DEF (Earth element)
+- Mars: +1 STR (Fire element)
+- Jupiter: +1 LUC (Lightning element)
+- Saturn: +1 CEL (Wind element)
+- Neptune: +1 VIT (Water element)
+- Uranus: +1 FAI (Light element)
+- Pluto: +1 RES (Dark element)
+
+Elemental Correspondence:
+Each planet also corresponds to an elemental ATK type
+Useful for builds focusing on specific elements
+
+================================================================
+12. SPECIAL MECHANICS
+================================================================
+
+APT Efficiency Rule:
+Final APT should be divisible by 6 for maximum efficiency
+Provides +1 to all other stats per 6 APT points
+Common targets: 36 (6 bonus), 42 (7 bonus), 80 (Undeniable Innovator)
+
+Stat Scaling vs Base:
+- Base stats: Count for trait requirements, unaffected by debuffs
+- Scaled stats: Affected by equipment, can be negated by conditions
+- APT bonuses: Considered scaled stats, not base
+
+Diminishing Returns:
+Some stats have soft caps or diminishing returns:
+- Defense stats: ~40-45 for 36% reduction is efficient
+- Evade: Higher values become harder to achieve/maintain
+- Damage stats: Balance between offense and accuracy needed
+
+Status Effect Mechanics:
+Infliction = WIL + (SKI * 2) + Equipment
+Resistance = FAI + (SAN * 2) + Equipment
+Critical Evade = FAI + LUC + Equipment
+
+Monoclass vs Multiclass:
+Monoclass (same main/sub): 2x class passive bonuses
+Multiclass: Access to more diverse skills and abilities

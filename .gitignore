@@ -35,7 +35,3 @@ temp/
 # Coverage
 coverage/
 .nyc_output/
-
-# Project planning docs (exclude from repo)
-Important SL2 Information for classes.txt
-SL2_Calculations_and_Stats_Summary.txt

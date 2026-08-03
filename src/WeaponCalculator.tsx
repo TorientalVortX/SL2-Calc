@@ -5,33 +5,10 @@
 
 import { useState, useEffect } from 'react';
 import { WEAPONS } from './data/weapons';
-import { Weapon } from './types';
-
-// Serializable config for persistence/screenshot mode
-export interface WeaponConfig {
-  selectedWeaponName: string | null;
-  weaponType: string;
-  basePower: number;
-  baseCrit: number;
-  baseHit: number;
-  baseWeight: number;
-  baseCritDamage: number;
-  material: string;
-  part1: string;
-  part2: string;
-  part3: string;
-  enchantment: string;
-  upgradeLevel: number;
-  rarity: number;
-  powerQuality: boolean;
-  critQuality: boolean;
-  hitQuality: boolean;
-  weightPlus: boolean;
-  weightMinus: boolean;
-  sentimentality: boolean;
-  twoHandedSkillRank: number;
-  customScaling: { str: number; wil: number; ski: number; cel: number; def: number; res: number; vit: number; fai: number; luc: number; gui: number; san: number };
-}
+import type { Weapon, WeaponConfig } from './types';
+import modifierData from './data/content/weapon-modifiers.json';
+import { calculateWeaponSlot } from './domain/weaponCalculation';
+export type { WeaponConfig } from './types';
 
 interface WeaponCalculatorProps {
   stats: {
@@ -80,362 +57,14 @@ interface Enchantment {
   weightMod: number;
 }
 
-// Material categories for organized dropdown
-const MATERIAL_CATEGORIES = {
-  'Basic': ['None'],
-  'Hard Materials': [
-    'Accursed Remains', 'Arctic Gold', 'Aureate', 'Boulder', 'Carapace', 'Clawice', 
-    'Conduiz', 'Coral', 'Dragon Remains', 'Etherium', 'Fireblood Remains', 'Fish Remains', 
-    'Folded Steel', 'Fossil', 'Gasprock', 'Gorgon Remains', 'Gravestone', 'Iceblood Remains', 
-    'Insect Remains', 'Iron Ore', 'Kraboid Remains', 'Meteorite', 'Nerif\'s Blood', 
-    'Orichalum', 'Planetarium', 'Rockdirt', 'Sandstone', 'Shark Remains', 'Slipheed\'s Curse', 
-    'Snakeman Remains', 'Spatial Remains', 'Thinsteel'
-  ],
-  'Wood Materials': [
-    'Ash Wood', 'Coldbark', 'Devilbark', 'Etherbark', 'Firebark', 'Fungusbark', 
-    'Hollow Log', 'Ivorybark', 'Loyrwell Rotwood', 'Markedbark', 'Mossybark', 
-    'Nightflower', 'Oribark', 'Petrified Wood', 'Rainbowbark', 'Scorched Wood', 
-    'Seedbark', 'Smoothbark', 'Windbark'
-  ],
-  'Page Materials': [
-    'Aquarian Page', 'Ashen Page', 'Beast Page', 'Fine Art', 'Foamy Page', 
-    'Heretic Page', 'Isesip Page', 'Mercalan Page', 'Moldy Page', 'Nerifian Page', 
-    'Orichal Page', 'Paper', 'Sandy Page', 'Sheet Music', 'Star Page', 'Storm Page', 
-    'Sylphid Page', 'Thin Page'
-  ]
-};
-
-// Material definitions organized by category
-const MATERIALS: Record<string, Material> = {
-  // Basic
-  'None': { power: 0, crit: 0, hit: 0, weight: 0 },
-
-  // Hard Materials (Ores and Remains)
-  'Accursed Remains': { power: 0, crit: 6, hit: 0, weight: 8 },
-  'Arctic Gold': { power: 0, crit: 5, hit: -5, weight: 0 },
-  'Aureate': { power: -2, crit: -5, hit: 0, weight: 6 },
-  'Boulder': { power: 10, crit: 10, hit: -5, weight: 25 },
-  'Carapace': { power: 2, crit: 0, hit: 0, weight: 5 },
-  'Clawice': { power: 1, crit: 3, hit: 3, weight: 5 },
-  'Conduiz': { power: 0, crit: 3, hit: 0, weight: 0 },
-  'Coral': { power: 1, crit: 3, hit: 3, weight: 1 },
-  'Dragon Remains': { power: 3, crit: 5, hit: 5, weight: 8 },
-  'Etherium': { power: 0, crit: 0, hit: 0, weight: 0 }, // Special: Self-repairing
-  'Fireblood Remains': { power: 8, crit: 0, hit: 0, weight: 8 },
-  'Fish Remains': { power: 3, crit: 0, hit: 3, weight: 8 },
-  'Folded Steel': { power: 2, crit: 5, hit: 0, weight: 0 },
-  'Fossil': { power: 5, crit: -5, hit: 0, weight: 6 },
-  'Gasprock': { power: 2, crit: 0, hit: 3, weight: 5 },
-  'Gorgon Remains': { power: 0, crit: 0, hit: 8, weight: 8 },
-  'Gravestone': { power: 2, crit: -5, hit: 0, weight: 3 },
-  'Iceblood Remains': { power: 0, crit: 8, hit: 0, weight: 8 },
-  'Insect Remains': { power: 0, crit: 3, hit: 3, weight: 8 },
-  'Iron Ore': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Kraboid Remains': { power: 0, crit: 0, hit: 6, weight: 8 },
-  'Meteorite': { power: 5, crit: 0, hit: 0, weight: 8 },
-  'Nerif\'s Blood': { power: 2, crit: -5, hit: 0, weight: 0 },
-  'Orichalum': { power: -1, crit: -1, hit: -1, weight: 2 },
-  'Planetarium': { power: 1, crit: 2, hit: 2, weight: -2 },
-  'Rockdirt': { power: 1, crit: 4, hit: 2, weight: 4 },
-  'Sandstone': { power: -2, crit: 5, hit: 0, weight: 3 },
-  'Shark Remains': { power: 6, crit: 0, hit: 0, weight: 8 },
-  'Slipheed\'s Curse': { power: -2, crit: 0, hit: 5, weight: -5 },
-  'Snakeman Remains': { power: 0, crit: 8, hit: 0, weight: 8 },
-  'Spatial Remains': { power: 3, crit: 3, hit: 0, weight: 8 },
-  'Thinsteel': { power: -3, crit: 3, hit: 5, weight: -2 },
-
-  // Wood Materials
-  'Ash Wood': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Coldbark': { power: 0, crit: 5, hit: -5, weight: 0 },
-  'Devilbark': { power: 2, crit: 0, hit: 0, weight: 5 },
-  'Etherbark': { power: 0, crit: 0, hit: 0, weight: 0 }, // Special: Self-repairing
-  'Firebark': { power: 2, crit: -5, hit: 0, weight: 0 },
-  'Fungusbark': { power: 2, crit: 0, hit: 0, weight: 2 },
-  'Hollow Log': { power: 10, crit: 10, hit: -5, weight: 25 },
-  'Ivorybark': { power: -2, crit: -5, hit: 0, weight: 6 },
-  'Loyrwell Rotwood': { power: 0, crit: 0, hit: 3, weight: 0 },
-  'Markedbark': { power: 0, crit: 4, hit: 4, weight: 4 },
-  'Mossybark': { power: 3, crit: -3, hit: 3, weight: 3 },
-  'Nightflower': { power: 0, crit: 0, hit: -5, weight: 0 },
-  'Oribark': { power: -1, crit: -1, hit: -1, weight: 2 },
-  'Petrified Wood': { power: 5, crit: 0, hit: 0, weight: 6 },
-  'Rainbowbark': { power: 3, crit: 3, hit: 3, weight: 0 },
-  'Scorched Wood': { power: 2, crit: 3, hit: 3, weight: 6 },
-  'Seedbark': { power: 4, crit: -3, hit: 2, weight: 4 },
-  'Smoothbark': { power: 3, crit: 3, hit: 0, weight: 2 },
-  'Windbark': { power: -2, crit: 0, hit: 5, weight: -2 },
-
-  // Page Materials
-  'Aquarian Page': { power: 3, crit: 0, hit: 3, weight: 2 },
-  'Ashen Page': { power: 2, crit: 0, hit: 3, weight: 6 },
-  'Beast Page': { power: 3, crit: 3, hit: 3, weight: 8 },
-  'Fine Art': { power: -2, crit: -5, hit: 0, weight: 6 },
-  'Foamy Page': { power: 1, crit: 0, hit: 5, weight: 6 },
-  'Heretic Page': { power: 5, crit: 0, hit: 0, weight: 5 },
-  'Isesip Page': { power: 2, crit: 2, hit: 2, weight: 2 },
-  'Mercalan Page': { power: 0, crit: 0, hit: 5, weight: 5 },
-  'Moldy Page': { power: 2, crit: 0, hit: 0, weight: 3 },
-  'Nerifian Page': { power: 3, crit: 3, hit: 0, weight: 2 },
-  'Orichal Page': { power: -1, crit: -1, hit: -1, weight: 2 },
-  'Paper': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Sandy Page': { power: 2, crit: 0, hit: 3, weight: 6 },
-  'Sheet Music': { power: 1, crit: 2, hit: 3, weight: 4 },
-  'Star Page': { power: 1, crit: 5, hit: 0, weight: 6 },
-  'Storm Page': { power: 0, crit: 5, hit: 0, weight: 5 },
-  'Sylphid Page': { power: 0, crit: 3, hit: 3, weight: 2 },
-  'Thin Page': { power: -2, crit: 3, hit: 0, weight: -6 }
-};
-
-// Weapon Part Categories for organized dropdowns
-const WEAPON_PART_CATEGORIES = {
-  'Basic': ['None'],
-  'Blades': [
-    'Standard Blade', 'Serrated Blade', 'Razor Blade', 'Balanced Blade', 'Piercing Blade', 'Huge Blade'
-  ],
-  'Guards': [
-    'Standard Guard', 'Sturdy Guard', 'Full Guard', 'Empty Guard', 'Razor Guard', 'Locking Guard'
-  ],
-  'Hilts': [
-    'Standard Hilt', 'Firm Hilt', 'Sharp Hilt', 'Onigan Hilt', 'Insulated Hilt', 'Wooden Hilt'
-  ],
-  'Spearheads': [
-    'Standard Spearhead', 'Barbed Spearhead', 'Crescent Spearhead', 'Hollow Spearhead', 'Thin Spearhead', 'Hooked Spearhead'
-  ],
-  'Axeheads': [
-    'Standard Axehead', 'Tempered Axehead', 'Guillotine Axehead', 'Cutting Axehead', 'Curved Axehead', 'Spiked Axehead'
-  ],
-  'Poles': [
-    'Standard Pole', 'Wooden Pole', 'Helix Pole', 'Curved Pole', 'Flexible Pole', 'Extended Pole'
-  ],
-  'Knuckles': [
-    'Standard Knuckles', 'Dense Knuckles', 'Elongated Knuckles', 'Leather Knuckles', 'Wrapped Knuckles', 'Spiked Knuckles'
-  ],
-  'Wrists': [
-    'Standard Wrist', 'Wrist Guard', 'Spiked Wrist', 'Wrist Strings', 'Loose Wrist', 'Weighted Wrist'
-  ],
-  'Bow Bodies': [
-    'Standard Body', 'Thin Body', 'Compact Body', 'Short Body', 'Focused Body', 'Large Body', 'Composite Body'
-  ],
-  'Strings': [
-    'Standard String', 'Wire String', 'Silk String', 'Tight String', 'Double String', 'Chain String'
-  ],
-  'Arrows': [
-    'Standard Arrows', 'Sharp Arrows', 'Fire Arrows', 'Light Arrows', 'Thin Arrows', 'Heavy Arrows'
-  ],
-  'Barrels': [
-    'Standard Barrel', 'Short Barrel', 'Wide Barrel', 'Long Barrel', 'Double Barrel', 'Sniper Barrel'
-  ],
-  'Grips': [
-    'Standard Grip', 'Soft Grip', 'Steady Grip', 'Revolver Grip', 'Extended Grip', 'Custom Grip'
-  ],
-  'Bullets': [
-    'Standard Bullets', 'Aerodynamic Bullets', 'Piercing Bullets', 'Hellhound Bullets', 'Scatter Bullets', 'Silver Bullets'
-  ],
-  'Covers': [
-    'Standard Cover', 'Hardback Cover', 'Thin Cover', 'Blank Cover', 'Hellish Eye', 'Diary Lock'
-  ],
-  'Binds': [
-    'Standard Binds', 'Leather Binds', 'Metal Binds', 'Magic Binds', 'Bone Binds', 'Long Binds'
-  ]
-};
-
-// Weapon Part 1 definitions - All weapon parts available
-const WEAPON_PART1: Record<string, WeaponPart> = {
-  // Basic
-  'None': { power: 0, crit: 0, hit: 0, weight: 0 },
-
-  // Blades
-  'Standard Blade': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Serrated Blade': { power: -1, crit: 0, hit: 0, weight: 0 },
-  'Razor Blade': { power: 0, crit: 10, hit: 0, weight: 0 },
-  'Balanced Blade': { power: 0, crit: 0, hit: 3, weight: 1 },
-  'Piercing Blade': { power: 2, crit: -5, hit: -5, weight: 0 },
-  'Huge Blade': { power: 5, crit: -10, hit: -10, weight: 10 },
-
-  // Guards
-  'Standard Guard': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Sturdy Guard': { power: 0, crit: 0, hit: 3, weight: 1 },
-  'Full Guard': { power: 0, crit: 0, hit: 0, weight: 4 },
-  'Empty Guard': { power: 0, crit: 5, hit: -5, weight: 0 },
-  'Razor Guard': { power: 1, crit: 0, hit: 0, weight: 1 },
-  'Locking Guard': { power: 0, crit: 0, hit: 0, weight: 1 },
-
-  // Hilts
-  'Standard Hilt': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Firm Hilt': { power: 0, crit: 0, hit: 3, weight: 0 },
-  'Sharp Hilt': { power: 1, crit: 0, hit: -5, weight: 0 },
-  'Onigan Hilt': { power: 0, crit: 5, hit: -5, weight: 0 },
-  'Insulated Hilt': { power: -1, crit: 0, hit: 0, weight: 0 },
-  'Wooden Hilt': { power: 0, crit: 0, hit: 0, weight: -3 },
-
-  // Spearheads
-  'Standard Spearhead': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Barbed Spearhead': { power: 1, crit: 5, hit: 0, weight: 2 },
-  'Crescent Spearhead': { power: 0, crit: -5, hit: 5, weight: 0 },
-  'Hollow Spearhead': { power: -2, crit: 0, hit: 0, weight: -5 },
-  'Thin Spearhead': { power: 2, crit: 0, hit: -5, weight: -2 },
-  'Hooked Spearhead': { power: 1, crit: -5, hit: 0, weight: 0 },
-
-  // Axeheads
-  'Standard Axehead': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Tempered Axehead': { power: -1, crit: 0, hit: 0, weight: 0 },
-  'Guillotine Axehead': { power: 3, crit: 0, hit: -5, weight: 1 },
-  'Cutting Axehead': { power: -1, crit: 10, hit: -5, weight: 0 },
-  'Curved Axehead': { power: -1, crit: 0, hit: 5, weight: 0 },
-  'Spiked Axehead': { power: 2, crit: 0, hit: 0, weight: 0 },
-
-  // Poles
-  'Standard Pole': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Wooden Pole': { power: 0, crit: 0, hit: 0, weight: -5 },
-  'Helix Pole': { power: 1, crit: 0, hit: -4, weight: 2 },
-  'Curved Pole': { power: -1, crit: 5, hit: 0, weight: 0 },
-  'Flexible Pole': { power: 0, crit: 0, hit: -5, weight: 0 },
-  'Extended Pole': { power: -1, crit: 0, hit: 5, weight: 0 },
-
-  // Knuckles
-  'Standard Knuckles': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Dense Knuckles': { power: 2, crit: 0, hit: 0, weight: 0 },
-  'Elongated Knuckles': { power: 0, crit: 8, hit: 0, weight: 4 },
-  'Leather Knuckles': { power: -2, crit: 0, hit: 5, weight: 0 },
-  'Wrapped Knuckles': { power: 0, crit: -4, hit: 0, weight: 0 },
-  'Spiked Knuckles': { power: 1, crit: 0, hit: -4, weight: 0 },
-
-  // Wrists
-  'Standard Wrist': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Wrist Guard': { power: 0, crit: 0, hit: 0, weight: 2 },
-  'Spiked Wrist': { power: 1, crit: 0, hit: 0, weight: 2 },
-  'Wrist Strings': { power: 0, crit: 0, hit: 4, weight: 0 },
-  'Loose Wrist': { power: 0, crit: 0, hit: -6, weight: 0 },
-  'Weighted Wrist': { power: 0, crit: 10, hit: -5, weight: 8 },
-
-  // Bow Bodies
-  'Standard Body': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Thin Body': { power: -1, crit: 0, hit: 0, weight: -4 },
-  'Compact Body': { power: 0, crit: 15, hit: 0, weight: -4 },
-  'Short Body': { power: 0, crit: 3, hit: 0, weight: -4 },
-  'Focused Body': { power: 0, crit: 0, hit: 5, weight: 0 },
-  'Large Body': { power: 0, crit: 0, hit: 0, weight: 6 },
-  'Composite Body': { power: 2, crit: -5, hit: 0, weight: 0 },
-
-  // Strings
-  'Standard String': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Wire String': { power: 1, crit: 0, hit: 0, weight: 0 },
-  'Silk String': { power: -2, crit: 0, hit: 5, weight: 0 },
-  'Tight String': { power: 0, crit: 5, hit: -5, weight: 0 },
-  'Double String': { power: 0, crit: -5, hit: 0, weight: 0 },
-  'Chain String': { power: 2, crit: 0, hit: 0, weight: 10 },
-
-  // Arrows
-  'Standard Arrows': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Sharp Arrows': { power: 0, crit: 10, hit: -5, weight: 0 },
-  'Fire Arrows': { power: 1, crit: -5, hit: 0, weight: 0 },
-  'Light Arrows': { power: 0, crit: 5, hit: -5, weight: 0 },
-  'Thin Arrows': { power: -1, crit: 0, hit: 5, weight: 0 },
-  'Heavy Arrows': { power: 2, crit: 0, hit: -5, weight: 5 },
-
-  // Barrels
-  'Standard Barrel': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Short Barrel': { power: 5, crit: 0, hit: 0, weight: 0 },
-  'Wide Barrel': { power: 0, crit: 5, hit: -5, weight: 0 },
-  'Long Barrel': { power: 0, crit: -5, hit: 0, weight: 0 },
-  'Double Barrel': { power: 0, crit: 0, hit: 5, weight: 3 },
-  'Sniper Barrel': { power: 0, crit: 15, hit: 0, weight: 8 },
-
-  // Grips
-  'Standard Grip': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Soft Grip': { power: -1, crit: 0, hit: 0, weight: 0 },
-  'Steady Grip': { power: 0, crit: -5, hit: 5, weight: 0 },
-  'Revolver Grip': { power: -2, crit: 5, hit: 0, weight: 0 },
-  'Extended Grip': { power: 0, crit: 0, hit: 0, weight: 2 },
-  'Custom Grip': { power: 0, crit: 3, hit: 3, weight: 0 },
-
-  // Bullets
-  'Standard Bullets': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Aerodynamic Bullets': { power: 0, crit: -5, hit: 5, weight: 0 },
-  'Piercing Bullets': { power: 5, crit: -5, hit: 0, weight: 0 },
-  'Hellhound Bullets': { power: 0, crit: 5, hit: -5, weight: 0 },
-  'Scatter Bullets': { power: -2, crit: 0, hit: 5, weight: 0 },
-  'Silver Bullets': { power: 0, crit: 0, hit: -5, weight: 0 },
-
-  // Covers
-  'Standard Cover': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Hardback Cover': { power: 2, crit: 0, hit: 0, weight: 3 },
-  'Thin Cover': { power: 0, crit: 0, hit: 0, weight: -5 },
-  'Blank Cover': { power: -2, crit: 5, hit: 0, weight: 0 },
-  'Hellish Eye': { power: 0, crit: -5, hit: 3, weight: 5 },
-  'Diary Lock': { power: 0, crit: 3, hit: -3, weight: 5 },
-
-  // Binds
-  'Standard Binds': { power: 0, crit: 0, hit: 0, weight: 0 },
-  'Leather Binds': { power: -2, crit: 0, hit: 3, weight: -3 },
-  'Metal Binds': { power: 3, crit: 0, hit: 0, weight: 3 },
-  'Magic Binds': { power: 0, crit: 0, hit: -3, weight: -8 },
-  'Bone Binds': { power: 0, crit: 5, hit: 0, weight: 3 },
-  'Long Binds': { power: 0, crit: 0, hit: 0, weight: 5 }
-};
-
-// Weapon Part 2 definitions - Same as Part 1 for flexibility
-const WEAPON_PART2: Record<string, WeaponPart> = {
-  ...WEAPON_PART1
-};
-
-// Weapon Part 3 definitions - Same as Part 1 for flexibility  
-const WEAPON_PART3: Record<string, WeaponPart> = {
-  ...WEAPON_PART1
-};
-
-// Enchantment definitions
-const ENCHANTMENTS: Record<string, Enchantment> = {
-  'None': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 },
-  'Feather': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 0.5 }, // Weapon weight is halved
-  'Jeweled': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // +2 FAI, +3 Light ATK (not calculated here)
-  'Exorcism': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // +2 FAI, +2 SAN, anti-undead damage
-  'Avalon': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // HP regen based on Chivalry
-  'Fated': { power: 3, crit: 3, critMod: 0, hit: 3, weight: 3, weightMod: 1 }, // All weapon parameters +3
-  'Rampaging': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // Defense reduction on hit
-  'Gigantic': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1.5 }, // +1 Range, -10 Evade, +50% Weight (min 2)
-  'Bloodhunt': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // +1 Hit per 4% missing target HP
-  'Mutation': { power: 0, crit: 0, critMod: 0, hit: -5, weight: 0, weightMod: 1.25 }, // -5 Hit, weapon type changes, +25% Weight
-  'Volcanic': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // Fire AOE on crit
-  'Runed': { power: 2, crit: 2, critMod: 0, hit: 2, weight: -2, weightMod: 1 }, // +2 Power/Crit/Hit, -2 Weight, casting tool
-  'Mundane': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // Removes scaling tags
-  'Arcane': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // Spelledge weapon, Alterated tag (-10% scaling)
-  'Blessed': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // +Hit vs undead based on FAI
-  'Reaper': { power: 5, crit: 5, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // +5 Power, +5 Critical
-  'Rebellion': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // +1.5 Power/-1.5 Hit per rarity below 9
-  'Bloodtaking': { power: -5, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // -5 Power, life drain effect
-  'Envenomed': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // Alterated tag, poison on hit
-  'Enflamed': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // Alterated tag, fire damage on hit
-  'Divine': { power: 2, crit: 5, critMod: 0, hit: 5, weight: -2, weightMod: 1 }, // +2 Power, +5 Crit/Hit, -2 Weight, unbreakable
-  'Vorpal': { power: 0, crit: 10, critMod: 5, hit: 0, weight: 0, weightMod: 1 }, // +10 Weapon Crit, +5% Crit Damage, 5% vorpal strike
-  'Melting': { power: 0, crit: 0, critMod: 0, hit: 5, weight: 0, weightMod: 1 }, // +5 Hit in 1 range, durability effects
-  'Haunted': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // -2 WIL, fear chance, possessed race
-  'Haunted Soul': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // Fear on hit, -25% status resist
-  'Blood Drenched': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // Attracts monsters
-  'Demonic': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // +3 STR, -10% status resist
-  'Tainted': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // Same as Demonic
-  'Misplaced': { power: 2, crit: 2, critMod: 0, hit: 2, weight: 2, weightMod: 1 }, // All parameters +2, can be dropped
-  'Fleeting': { power: 2, crit: 2, critMod: 0, hit: 2, weight: 2, weightMod: 1 }, // Same as Misplaced
-  'Parasitic': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // Crit: -5 HP, +3 durability
-  'Rustic': { power: 5, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // +5 Power, max durability 4
-  'Evolving': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // +10% EXP, battle power boost
-  // Legacy entries for backward compatibility
-  'Blessed(Divine Sign)': { power: 0, crit: 0, critMod: 0, hit: 0, weight: 0, weightMod: 1 }, // Same as Blessed
-  'Purity Edge': { power: 5, crit: 0, critMod: 0, hit: -5, weight: 0, weightMod: 1 } // Custom enchant (keeping for compatibility)
-};
-
-// Stat scaling definitions (based on SL2 weapon mechanics)
-const STAT_SCALING: Record<string, { str: number; wil: number; ski: number; cel: number; def: number; res: number; vit: number; fai: number; luc: number; gui: number; san: number }> = {
-  'Sword': { str: 100, wil: 0, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0 },
-  'Axe': { str: 120, wil: 0, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0 },
-  'Polearm': { str: 100, wil: 0, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0 },
-  'Bow': { str: 80, wil: 0, ski: 20, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0 },
-  'Gun': { str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 100, san: 0 },
-  'Tome': { str: 0, wil: 100, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0 },
-  'Staff': { str: 80, wil: 20, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0 },
-  'Fist': { str: 100, wil: 0, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0 },
-  'Dagger': { str: 50, wil: 0, ski: 0, cel: 50, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0 },
-};
+const MATERIAL_CATEGORIES = modifierData.materialCategories as Record<string, string[]>;
+const MATERIALS = modifierData.materials as Record<string, Material>;
+const WEAPON_PART_CATEGORIES = modifierData.partCategories as Record<string, string[]>;
+const WEAPON_PART1 = modifierData.parts as Record<string, WeaponPart>;
+const WEAPON_PART2 = WEAPON_PART1;
+const WEAPON_PART3 = WEAPON_PART1;
+const ENCHANTMENTS = modifierData.enchantments as Record<string, Enchantment>;
+const STAT_SCALING = modifierData.defaultScaling as Record<string, Omit<WeaponConfig['customScaling'], 'apt'>>;
 
 export default function WeaponCalculator({ stats, readOnly = false, retroMode = false, config, onConfigChange, extraCritChance = 0 }: WeaponCalculatorProps) {
   // Comparison mode state
@@ -759,103 +388,15 @@ export default function WeaponCalculator({ stats, readOnly = false, retroMode = 
     const p2 = WEAPON_PART2[part2] || WEAPON_PART2['None'];
     const p3 = WEAPON_PART3[part3] || WEAPON_PART3['None'];
     const ench = ENCHANTMENTS[enchantment] || ENCHANTMENTS['None'];
-
-    // Quality bonuses
-    const powerBonus = powerQuality ? 2 : 0;
-    const critBonus = critQuality ? 4 : 0;
-    const hitBonus = hitQuality ? 4 : 0;
-    
-    // Sentimentality bonuses (+10 Max Durability, +2 Power, +2 Critical, +2 Hit)
-    const sentimentalityPowerBonus = sentimentality ? 2 : 0;
-    const sentimentalityCritBonus = sentimentality ? 2 : 0;
-    const sentimentalityHitBonus = sentimentality ? 2 : 0;
-    
-    // Weight modifications
-    let weightBonus = 0;
-    if (weightPlus && !weightMinus) weightBonus = 2;
-    if (!weightPlus && weightMinus) weightBonus = -2;
-
-    // Upgrade bonuses - each upgrade level adds +1 to Power, Crit, and Hit
-    const upgradePowerBonus = upgradeLevel;
-    const upgradeCritBonus = upgradeLevel;
-    const upgradeHitBonus = upgradeLevel;
-
-    // Special enchantment bonuses
     const enchBonus = calculateEnchantmentBonus();
-
-    // Calculate base totals before Two-Handed skill
-    const baseTotalPower = basePower + mat.power + p1.power + p2.power + p3.power + ench.power + powerBonus + sentimentalityPowerBonus + upgradePowerBonus + enchBonus.bonusPower + calculateScaling();
-    const weaponCritical = baseCrit + mat.crit + p1.crit + p2.crit + p3.crit + ench.crit + critBonus + sentimentalityCritBonus + upgradeCritBonus;
-    const baseWeaponAccuracy = baseHit + mat.hit + p1.hit + p2.hit + p3.hit + ench.hit + hitBonus + sentimentalityHitBonus + upgradeHitBonus + enchBonus.bonusHit;
-    
-    // Calculate weight with special handling for Gigantic enchantment
-    let totalWeight = Math.floor((baseWeight + mat.weight + p1.weight + p2.weight + p3.weight + ench.weight + weightBonus) * ench.weightMod);
-    
-    // Gigantic enchantment: minimum weight of 2 after all calculations
-    if (enchantment === 'Gigantic' && totalWeight < 2) {
-      totalWeight = 2;
-    }
-
-    // Two-Handed skill bonuses
-    let twoHandedPowerBonus = 0;
-    let twoHandedHitBonus = 0;
-    
-    if (twoHandedSkillRank > 0) {
-      const effectiveWeaponType = getEffectiveWeaponType();
-      
-      // For Swords, Axes, and Spears: +SR*2 SWA (doubled if weapon weight >= 20)
-      if (['Sword', 'Axe', 'Spear'].includes(effectiveWeaponType)) {
-        const baseBonus = twoHandedSkillRank * 2;
-        twoHandedPowerBonus = totalWeight >= 20 ? baseBonus * 2 : baseBonus;
-      }
-      
-      // For Gun weapons: +SR*2 Hit (doubled for Rifle subtype)
-      if (effectiveWeaponType === 'Gun') {
-        const baseBonus = twoHandedSkillRank * 2;
-        // Note: We don't have rifle subtype detection, so treating all guns the same for now
-        // In actual implementation, you'd need to check weapon name/subtype
-        twoHandedHitBonus = baseBonus; // Could be doubled for rifles
-      }
-    }
-
-    // Apply Two-Handed bonuses
-    const totalPower = baseTotalPower + twoHandedPowerBonus;
-    const weaponAccuracy = baseWeaponAccuracy + twoHandedHitBonus;
-
-    // Hit calculation (Skill * 2 + Weapon Accuracy)
-    const finalHit = Math.floor(stats.ski * 2) + weaponAccuracy + '%';
-
-    // Critical chance calculation (Weapon Critical + Skill/2 + Luck)
-    // Primary STR scaling weapons get +0.4 crit per STR point that contributes to weapon power
-    // This applies to the STR scaling component only, not base STR
-    const strScaledCrit = hasPrimaryStrScaling() ? Math.floor(calculateStrScaling() * 0.4) : 0;
-    const weaponCritWithStr = weaponCritical + strScaledCrit;
-    const finalCrit = weaponCritWithStr + Math.floor(stats.ski / 2) + Math.floor(stats.luc) + extraCritChance + '%';
-
-    // Critical damage multiplier (influenced by weapon type and GUI)
-    // Base crit damage (default 100%), modified by enchantment and GUI
-    const guiCritDamageBonus = Math.floor(stats.gui);
-    const critDamageMod = baseCritDamage + guiCritDamageBonus + ench.critMod;
-
-    // SWA calculation (Scaled Weapon Attack) - Two-Handed bonus is already included in totalPower
-    const swa = totalPower;
-
-    // Critical SWA calculation (SWA with critical damage multiplier applied)
-    const critSwa = Math.floor(swa * (critDamageMod / 100));
-
-    return {
-      power: totalPower,
-      weaponCritical: weaponCritWithStr,
-      crit: finalCrit,
-      weaponAccuracy,
-      hit: finalHit,
-      weight: totalWeight,
-      critDamageMod,
-      swa,
-      critSwa,
-      twoHandedPowerBonus,
-      twoHandedHitBonus
-    };
+    return calculateWeaponSlot({
+      stats, weaponType, effectiveWeaponType: getEffectiveWeaponType(), basePower, baseCrit, baseHit, baseWeight, baseCritDamage,
+      material: mat, parts: [p1, p2, p3], enchantmentName: enchantment, enchantment: ench,
+      upgradeLevel, rarity, powerQuality, critQuality, hitQuality, weightPlus, weightMinus,
+      sentimentality, twoHandedSkillRank, scalingContribution: calculateScaling(),
+      strScalingContribution: calculateStrScaling(), hasPrimaryStrScaling: hasPrimaryStrScaling(),
+      enchantmentPowerBonus: enchBonus.bonusPower, enchantmentHitBonus: enchBonus.bonusHit, extraCritChance,
+    });
   };
 
   const weaponStats = calculateWeaponStats();
@@ -951,81 +492,17 @@ export default function WeaponCalculator({ stats, readOnly = false, retroMode = 
     const p2 = WEAPON_PART2[part2_2] || WEAPON_PART2['None'];
     const p3 = WEAPON_PART3[part3_2] || WEAPON_PART3['None'];
     const ench = ENCHANTMENTS[enchantment2] || ENCHANTMENTS['None'];
-
-    const powerBonus = powerQuality2 ? 2 : 0;
-    const critBonus = critQuality2 ? 4 : 0;
-    const hitBonus = hitQuality2 ? 4 : 0;
-    
-    // Sentimentality bonuses (+10 Max Durability, +2 Power, +2 Critical, +2 Hit)
-    const sentimentalityPowerBonus = sentimentality2 ? 2 : 0;
-    const sentimentalityCritBonus = sentimentality2 ? 2 : 0;
-    const sentimentalityHitBonus = sentimentality2 ? 2 : 0;
-    
-    let weightBonus = 0;
-    if (weightPlus2 && !weightMinus2) weightBonus = 1;
-    if (!weightPlus2 && weightMinus2) weightBonus = -1;
-
-    const upgradePowerBonus = upgradeLevel2;
-    const upgradeCritBonus = upgradeLevel2;
-    const upgradeHitBonus = upgradeLevel2;
-
     const enchBonus = calculateEnchantmentBonus2();
-
-    const baseTotalPower = basePower2 + mat.power + p1.power + p2.power + p3.power + ench.power + powerBonus + sentimentalityPowerBonus + upgradePowerBonus + enchBonus.bonusPower + calculateScaling2();
-    const weaponCritical = baseCrit2 + mat.crit + p1.crit + p2.crit + p3.crit + ench.crit + critBonus + sentimentalityCritBonus + upgradeCritBonus;
-    const baseWeaponAccuracy = baseHit2 + mat.hit + p1.hit + p2.hit + p3.hit + ench.hit + hitBonus + sentimentalityHitBonus + upgradeHitBonus + enchBonus.bonusHit;
-    
-    let totalWeight = Math.floor((baseWeight2 + mat.weight + p1.weight + p2.weight + p3.weight + ench.weight + weightBonus) * ench.weightMod);
-    
-    if (enchantment2 === 'Gigantic' && totalWeight < 2) {
-      totalWeight = 2;
-    }
-
-    let twoHandedPowerBonus = 0;
-    let twoHandedHitBonus = 0;
-    
-    if (twoHandedSkillRank2 > 0) {
-      const effectiveWeaponType = getEffectiveWeaponType2();
-      
-      if (['Sword', 'Axe', 'Spear'].includes(effectiveWeaponType)) {
-        const baseBonus = twoHandedSkillRank2 * 2;
-        twoHandedPowerBonus = totalWeight >= 20 ? baseBonus * 2 : baseBonus;
-      }
-      
-      if (effectiveWeaponType === 'Gun') {
-        const baseBonus = twoHandedSkillRank2 * 2;
-        twoHandedHitBonus = baseBonus;
-      }
-    }
-
-    const totalPower = baseTotalPower + twoHandedPowerBonus;
-    const weaponAccuracy = baseWeaponAccuracy + twoHandedHitBonus;
-
-    const finalHit = Math.floor(stats.ski * 2) + weaponAccuracy + '%';
-
-    const strScaledCrit = hasPrimaryStrScaling2() ? Math.floor(calculateStrScaling2() * 0.4) : 0;
-    const weaponCritWithStr = weaponCritical + strScaledCrit;
-    const finalCrit = weaponCritWithStr + Math.floor(stats.ski / 2) + Math.floor(stats.luc) + '%';
-
-    const guiCritDamageBonus = Math.floor(stats.gui);
-    const critDamageMod = baseCritDamage2 + guiCritDamageBonus + ench.critMod;
-
-    const swa = totalPower;
-    const critSwa = Math.floor(swa * (critDamageMod / 100));
-
-    return {
-      power: totalPower,
-      weaponCritical: weaponCritWithStr,
-      crit: finalCrit,
-      weaponAccuracy,
-      hit: finalHit,
-      weight: totalWeight,
-      critDamageMod,
-      swa,
-      critSwa,
-      twoHandedPowerBonus,
-      twoHandedHitBonus
-    };
+    return calculateWeaponSlot({
+      stats, weaponType: weaponType2, effectiveWeaponType: getEffectiveWeaponType2(), basePower: basePower2,
+      baseCrit: baseCrit2, baseHit: baseHit2, baseWeight: baseWeight2, baseCritDamage: baseCritDamage2,
+      material: mat, parts: [p1, p2, p3], enchantmentName: enchantment2, enchantment: ench,
+      upgradeLevel: upgradeLevel2, rarity: rarity2, powerQuality: powerQuality2, critQuality: critQuality2,
+      hitQuality: hitQuality2, weightPlus: weightPlus2, weightMinus: weightMinus2, sentimentality: sentimentality2,
+      twoHandedSkillRank: twoHandedSkillRank2, scalingContribution: calculateScaling2(),
+      strScalingContribution: calculateStrScaling2(), hasPrimaryStrScaling: hasPrimaryStrScaling2(),
+      enchantmentPowerBonus: enchBonus.bonusPower, enchantmentHitBonus: enchBonus.bonusHit, extraCritChance,
+    });
   };
 
   const weaponStats2 = calculateWeaponStats2();
@@ -1054,6 +531,31 @@ export default function WeaponCalculator({ stats, readOnly = false, retroMode = 
     sentimentality,
     twoHandedSkillRank,
     customScaling,
+    comparisonMode,
+    secondaryWeapon: {
+      selectedWeaponName: selectedWeapon2?.name || null,
+      weaponType: weaponType2,
+      basePower: basePower2,
+      baseCrit: baseCrit2,
+      baseHit: baseHit2,
+      baseWeight: baseWeight2,
+      baseCritDamage: baseCritDamage2,
+      material: material2,
+      part1: part1_2,
+      part2: part2_2,
+      part3: part3_2,
+      enchantment: enchantment2,
+      upgradeLevel: upgradeLevel2,
+      rarity: rarity2,
+      powerQuality: powerQuality2,
+      critQuality: critQuality2,
+      hitQuality: hitQuality2,
+      weightPlus: weightPlus2,
+      weightMinus: weightMinus2,
+      sentimentality: sentimentality2,
+      twoHandedSkillRank: twoHandedSkillRank2,
+      customScaling: customScaling2,
+    },
   });
 
   // Hydrate state from incoming config
@@ -1090,6 +592,32 @@ export default function WeaponCalculator({ stats, readOnly = false, retroMode = 
     setSentimentality(config.sentimentality);
     setTwoHandedSkillRank(config.twoHandedSkillRank);
     setCustomScaling({ ...config.customScaling });
+    setComparisonMode(Boolean(config.comparisonMode));
+    if (config.secondaryWeapon) {
+      const secondary = config.secondaryWeapon;
+      setSelectedWeapon2(secondary.selectedWeaponName ? WEAPONS.find((weapon) => weapon.name === secondary.selectedWeaponName) ?? null : null);
+      setWeaponType2(secondary.weaponType);
+      setBasePower2(secondary.basePower);
+      setBaseCrit2(secondary.baseCrit);
+      setBaseHit2(secondary.baseHit);
+      setBaseWeight2(secondary.baseWeight);
+      setBaseCritDamage2(secondary.baseCritDamage);
+      setMaterial2(secondary.material);
+      setPart1_2(secondary.part1);
+      setPart2_2(secondary.part2);
+      setPart3_2(secondary.part3);
+      setEnchantment2(secondary.enchantment);
+      setUpgradeLevel2(secondary.upgradeLevel);
+      setRarity2(secondary.rarity);
+      setPowerQuality2(secondary.powerQuality);
+      setCritQuality2(secondary.critQuality);
+      setHitQuality2(secondary.hitQuality);
+      setWeightPlus2(secondary.weightPlus);
+      setWeightMinus2(secondary.weightMinus);
+      setSentimentality2(secondary.sentimentality);
+      setTwoHandedSkillRank2(secondary.twoHandedSkillRank);
+      setCustomScaling2({ ...secondary.customScaling });
+    }
     if (!readOnly) setHasHydratedFromConfig(true);
   }, [config, readOnly, hasHydratedFromConfig]);
 
@@ -1098,7 +626,7 @@ export default function WeaponCalculator({ stats, readOnly = false, retroMode = 
     if (!onConfigChange) return;
     onConfigChange(buildConfig());
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedWeapon, weaponType, basePower, baseCrit, baseHit, baseWeight, baseCritDamage, material, part1, part2, part3, enchantment, upgradeLevel, rarity, powerQuality, critQuality, hitQuality, weightPlus, weightMinus, sentimentality, twoHandedSkillRank, customScaling]);
+  }, [selectedWeapon, weaponType, basePower, baseCrit, baseHit, baseWeight, baseCritDamage, material, part1, part2, part3, enchantment, upgradeLevel, rarity, powerQuality, critQuality, hitQuality, weightPlus, weightMinus, sentimentality, twoHandedSkillRank, customScaling, comparisonMode, selectedWeapon2, weaponType2, basePower2, baseCrit2, baseHit2, baseWeight2, baseCritDamage2, material2, part1_2, part2_2, part3_2, enchantment2, upgradeLevel2, rarity2, powerQuality2, critQuality2, hitQuality2, weightPlus2, weightMinus2, sentimentality2, twoHandedSkillRank2, customScaling2]);
 
   return (
     <div className={`panel-contrast rounded-lg shadow-xl p-6 ${retroMode ? 'font-retro glow-border' : ''}`}>

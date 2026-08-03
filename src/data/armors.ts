@@ -3,16 +3,17 @@
  * Loads armor data from JSON file for easy updates
  */
 
-import { Armor } from '../types';
+import type { Armor } from '../types';
 import armorData from './armors.json';
 
 // Convert JSON data to proper Armor objects
 export const ARMORS: Record<string, Armor> = {};
 
 // Process each armor type and convert to Armor objects
-Object.entries(armorData).forEach(([type, armors]) => {
-  armors.forEach((armorJson: any) => {
+Object.entries(armorData as Record<string, Omit<Armor, 'type'>[]>).forEach(([type, armors]) => {
+  armors.forEach((armorJson) => {
     const armor: Armor = {
+      id: armorJson.id,
       name: armorJson.name,
       armor: armorJson.armor,
       magicArmor: armorJson.magicArmor,

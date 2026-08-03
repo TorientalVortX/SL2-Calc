@@ -1,0 +1,1107 @@
+[
+  {
+    "id": "weapon:bow:bow",
+    "name": "Bow",
+    "rarity": 1,
+    "weaponType": "Bow",
+    "range": 3,
+    "power": 5,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 6,
+    "damageType": "Pierce",
+    "scaling": [
+      {
+        "type": "Basic",
+        "str": 100
+      }
+    ],
+    "description": "A common bow.",
+    "location": [
+      "Random drops",
+      "Woodworking"
+    ]
+  },
+  {
+    "id": "weapon:bow:guiding-shot",
+    "name": "Guiding Shot",
+    "rarity": 1,
+    "weaponType": "Bow",
+    "subtype": "Shortbow",
+    "range": 3,
+    "power": 5,
+    "accuracy": 90,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 8,
+    "damageType": "Pierce",
+    "scaling": [
+      {
+        "type": "Finesse",
+        "str": 70,
+        "ski": 30
+      }
+    ],
+    "description": "This bow has been modified with a guide, making it easier to use and more accurate.",
+    "location": [
+      "Random drops",
+      "Woodworking"
+    ]
+  },
+  {
+    "id": "weapon:bow:bow-enhanced",
+    "name": "Bow (Enhanced)",
+    "rarity": 2,
+    "weaponType": "Bow",
+    "range": 3,
+    "power": 5,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 6,
+    "damageType": "Pierce",
+    "scaling": [
+      {
+        "type": "Basic",
+        "str": 100
+      }
+    ],
+    "specials": [
+      {
+        "name": "Enhanced Stats",
+        "type": "Passive",
+        "description": "+3 SKI"
+      }
+    ],
+    "description": "A common bow.",
+    "location": [
+      "Enchanting"
+    ]
+  },
+  {
+    "id": "weapon:bow:crossbow",
+    "name": "Crossbow",
+    "rarity": 2,
+    "weaponType": "Bow",
+    "subtype": "Crossbow",
+    "range": 2,
+    "power": 10,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 120,
+    "weight": 10,
+    "damageType": "Pierce",
+    "scaling": [
+      {
+        "type": "Basic",
+        "ski": 100
+      }
+    ],
+    "description": "A heavy but effective alternative to bows, the crossbow is simple enough that almost anyone can use it.",
+    "location": [
+      "Random drops",
+      "Purchased from Blacksmiths"
+    ]
+  },
+  {
+    "id": "weapon:bow:hunting-bow",
+    "name": "Hunting Bow",
+    "rarity": 2,
+    "weaponType": "Bow",
+    "subtype": "Shortbow",
+    "range": 3,
+    "power": 6,
+    "accuracy": 80,
+    "critical": 10,
+    "criticalDamage": 125,
+    "weight": 8,
+    "damageType": "Pierce",
+    "scaling": [
+      {
+        "type": "Finesse",
+        "str": 100
+      }
+    ],
+    "specials": [
+      {
+        "name": "On The Hunt",
+        "type": "PotentialSkill",
+        "description": "Targets an enemy up to 8 Range away and inflicts Hunted on them with a LV equal to half of UL, for 3 rounds. (LV increased by 2x for Beast race, 1.5x for Kaelensia.) Using this skill will end any currently active Hunted status effects you have applied.",
+        "momentumCost": 3,
+        "fpCost": 0,
+        "cooldown": 3
+      }
+    ],
+    "description": "A strong bow for driving arrows into the vital points of the target. Often used for hunting animals.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:bow:gel-naia",
+    "name": "Gel'naia",
+    "rarity": 3,
+    "weaponType": "Bow",
+    "range": 3,
+    "power": 8,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 11,
+    "damageType": "Fire",
+    "scaling": [
+      {
+        "type": "Basic",
+        "str": 100
+      }
+    ],
+    "specials": [
+      {
+        "name": "Fire Damage",
+        "type": "OnHit",
+        "description": "Deals magic Fire damage equal to 50% of your Fire ATK, which ignores armor."
+      },
+      {
+        "name": "Burning Rope",
+        "type": "PotentialSkill",
+        "description": "The Archer skill Pulling Shot is changed in the following ways; 1) The attack damage becomes Fire element. 2) Tiles the rope passes over create Cinders LV X (X = 25% Fire ATK) for 3 rounds. 3) Increases FP cost by 5."
+      }
+    ],
+    "description": "A magical bow originally created by a famous bowsmith, any arrow it fires will be ignited.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:bow:harp-bow",
+    "name": "Harp Bow",
+    "rarity": 3,
+    "weaponType": "Bow",
+    "subtype": "Instrument",
+    "range": 3,
+    "power": 9,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 12,
+    "damageType": "Sound",
+    "scaling": [
+      {
+        "type": "Dextria-Sound",
+        "str": 80,
+        "san": 30
+      }
+    ],
+    "specials": [
+      {
+        "name": "Sound ATK Bonus",
+        "type": "Passive",
+        "description": "+5 Sound ATK"
+      },
+      {
+        "name": "Song Enhancement",
+        "type": "Passive",
+        "description": "When played (via a Song Skill): Gain a status that causes Harp Bow basic attacks to deal 15 bonus armor-ignoring Sound magic damage on hit, for 3 rounds."
+      }
+    ],
+    "description": "An odd but interesting bow made in the shape of a harp. It is functional as both a weapon and an instrument.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:bow:knightslayer",
+    "name": "Knightslayer",
+    "rarity": 3,
+    "weaponType": "Bow",
+    "range": 3,
+    "power": 10,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 13,
+    "damageType": "Pierce",
+    "scaling": [
+      {
+        "type": "Basic",
+        "str": 100
+      }
+    ],
+    "specials": [
+      {
+        "name": "Armor Reduction",
+        "type": "Passive",
+        "description": "Reduces effectiveness of enemy Armor by 5."
+      },
+      {
+        "name": "Wear Down",
+        "type": "PotentialSkill",
+        "description": "When an enemy is damaged by weapons that reduce enemy Armor effectiveness, either by basic attacks or by skills using them, a Wear Down status is applied for 3 rounds, or powered up. This status decreases the enemy's Armor by 5 per LV. (Max LV of 20, max duration of 3 rounds.)"
+      }
+    ],
+    "description": "Pierces full plate as if it were tree bark.",
+    "location": [
+      "Random drops",
+      "Woodworking"
+    ]
+  },
+  {
+    "id": "weapon:bow:longbow",
+    "name": "Longbow",
+    "rarity": 3,
+    "weaponType": "Bow",
+    "range": 3,
+    "power": 11,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 10,
+    "damageType": "Pierce",
+    "scaling": [
+      {
+        "type": "Basic",
+        "str": 100
+      }
+    ],
+    "description": "Tannis, a fishing village located high in the mountains, uses these high-quality bows in their militia.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:bow:nighthunt",
+    "name": "Nighthunt",
+    "rarity": 3,
+    "weaponType": "Bow",
+    "range": 3,
+    "power": 8,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 11,
+    "damageType": "Dark",
+    "scaling": [
+      {
+        "type": "Darkness",
+        "str": 70,
+        "res": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "SKI Reduction",
+        "type": "OnHit",
+        "description": "Target suffers -5 SKI for 2 rounds."
+      }
+    ],
+    "description": "A bow of darkness that no one can hide from.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:bow:redwing",
+    "name": "Redwing",
+    "rarity": 3,
+    "weaponType": "Bow",
+    "range": 3,
+    "power": 7,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 10,
+    "damageType": "Pierce",
+    "scaling": [
+      {
+        "type": "Vampiric",
+        "str": 80,
+        "vit": 30
+      }
+    ],
+    "specials": [
+      {
+        "name": "Vampiric",
+        "type": "Passive",
+        "description": "Vampiric (10%)"
+      }
+    ],
+    "description": "Makes the blood of your enemies fly.",
+    "location": [
+      "Random drops",
+      "Woodworking"
+    ]
+  },
+  {
+    "id": "weapon:bow:thunder-shot",
+    "name": "Thunder Shot",
+    "rarity": 3,
+    "weaponType": "Bow",
+    "range": 3,
+    "power": 10,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 12,
+    "damageType": "Lightning",
+    "scaling": [
+      {
+        "type": "Electrical",
+        "str": 70,
+        "luc": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Lightning Damage",
+        "type": "OnHit",
+        "description": "Deals magic Lightning bonus damage equal to 50% of your Lightning ATK, which ignores armor."
+      },
+      {
+        "name": "Carved Circuit",
+        "type": "SpecialStrike",
+        "description": "Triggers before an enemy is attacked. Inflicts the target with Lightning Resist Down (LV 15, 3 hits) (2 rounds), and if it hits, all other enemies in 5 Range of the target take Thunder Shot's On Hit effects.",
+        "triggerRate": "10% + 8% Bonus"
+      }
+    ],
+    "description": "This basic bow is enchanted with a potent charge that electrifies arrows it shoots.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:bow:bow-of-the-green-forest",
+    "name": "Bow of the Green Forest",
+    "rarity": 4,
+    "weaponType": "Bow",
+    "range": 3,
+    "power": 9,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 12,
+    "damageType": "Pierce",
+    "scaling": [
+      {
+        "type": "Cunning",
+        "str": 70,
+        "gui": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Poison on Crit",
+        "type": "OnCrit",
+        "description": "Inflicts Poison LV 3 for 3 rounds. If already poisoned, instead increases duration and LV by 3."
+      },
+      {
+        "name": "Poisonous Forest",
+        "type": "PotentialSkill",
+        "description": "Stepping on a plant tile that was not created by another unit transfers ownership of it to you. At the start of a new round, all plant tiles you own spawn a Creeping Poison Mist LV X (X = half of your level, min. 3) for 5 rounds. Creeping Poison Mist can inflict Poison with the same LV when created and at the start of a new round. If no enemy is in the same tile, it will slowly move towards one."
+      }
+    ],
+    "description": "Made from the wood of a tree deep in a noxious forest.",
+    "location": [
+      "Random drops",
+      "Woodworking"
+    ]
+  },
+  {
+    "id": "weapon:bow:daikyu",
+    "name": "Daikyu",
+    "rarity": 4,
+    "weaponType": "Bow",
+    "range": 3,
+    "power": 12,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 14,
+    "damageType": "Pierce",
+    "scaling": [
+      {
+        "type": "Basic",
+        "str": 100
+      }
+    ],
+    "specials": [
+      {
+        "name": "Two-Handing Bonus",
+        "type": "Passive",
+        "description": "When you are two-handing this weapon, it gains +2 Farshot Bonus."
+      },
+      {
+        "name": "Daikyu Snipe",
+        "type": "PotentialSkill",
+        "description": "Targets 1 unoccupied tile within 1 Range and fires a long-reaching arrow from the Daikyu, which travels up to 15 tiles away. The first enemy hit by the arrow is attacked by the Daikyu with no Farshot Penalty. If the bow is fitted with Light Arrows, this arrow cannot be reflected, dispells Darkness tiles it passes near, and gains +100 Critical against Supernatural enemies. If you have 40+ FAI, it also creates Sanctuary tiles (LV 1, 2 rounds).",
+        "momentumCost": 3,
+        "fpCost": 15
+      }
+    ],
+    "description": "The daikyu is a longbow with an irregular draw, positioned below the center of the bow. This makes the bow well-suited for use on horseback, as the bow is less likely to catch on the horse. However, the stress on the wood requires greater levels of maintenance, and its draw form is different from standard bows. Someone using a daikyu without the proper training will not have a functional one for long.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:bow:soulshot",
+    "name": "Soulshot",
+    "rarity": 4,
+    "weaponType": "Bow",
+    "range": 3,
+    "power": 9,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 12,
+    "damageType": "Pierce",
+    "scaling": [
+      {
+        "type": "Spiritual",
+        "str": 70,
+        "san": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Leyline Path",
+        "type": "OnHit",
+        "description": "Leaves a leyline path to the target, causing your next attack against them to automatically hit."
+      }
+    ],
+    "description": "A bow that leads arrows with spiritual guidance.",
+    "location": [
+      "Random drops",
+      "Woodworking"
+    ]
+  },
+  {
+    "id": "weapon:bow:spirit-bow",
+    "name": "Spirit Bow",
+    "rarity": 4,
+    "weaponType": "Bow",
+    "range": 3,
+    "power": 10,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 8,
+    "damageType": "Pierce",
+    "scaling": [
+      {
+        "type": "Spiritual",
+        "str": 70,
+        "san": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Focus Restoration",
+        "type": "Passive",
+        "description": "Restores Focus based on damage dealt. (10%)"
+      }
+    ],
+    "description": "This bow absorbs Focus from the wounds that it makes.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:bow:hankyu",
+    "name": "Hankyu",
+    "rarity": 5,
+    "weaponType": "Bow",
+    "subtype": "Shortbow",
+    "range": 3,
+    "power": 9,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 10,
+    "damageType": "Pierce",
+    "scaling": [
+      {
+        "type": "Basic",
+        "str": 100
+      }
+    ],
+    "specials": [
+      {
+        "name": "Two-Handing Bonus",
+        "type": "Passive",
+        "description": "When you are two-handing this weapon, it gains +10 Power and +10 Critical against enemies within 2 Range."
+      },
+      {
+        "name": "Hankyu Posture",
+        "type": "PotentialSkill",
+        "description": "Take a swift knee and gain Firing Posture (until your next turn). Gain +10 Evade and Critical Evade while in Firing Posture. If the Hankyu is fitted with Light Arrows, attacks while in Firing Posture deal 75% of your Light ATK as armor-ignoring bonus magic damage (doubled against Supernatural enemies). If you have 40+ FAI, attacking a field object while in Firing Posture applies this bonus damage to all enemies in 3 Range of it.",
+        "momentumCost": 1,
+        "fpCost": 0
+      }
+    ],
+    "description": "The hankyu is a more compact version of the daikyu bow, with an irregular, uneven draw slightly below the center of the bow. While its power at long distances is less impressive than its sister bow, its smaller body allows it to be used for low profile shooting, such as when ducking.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:bow:hell-sniper",
+    "name": "Hell Sniper",
+    "rarity": 6,
+    "weaponType": "Bow",
+    "range": 3,
+    "power": 11,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 9,
+    "damageType": "Dark",
+    "scaling": [
+      {
+        "type": "Darkness",
+        "str": 70,
+        "res": 40
+      }
+    ],
+    "enchantment": "Tainted (Cursed)",
+    "specials": [
+      {
+        "name": "Marked Target Bonus",
+        "type": "Passive",
+        "description": "Marked Target damage bonus increases by 8% when triggered by this weapon."
+      },
+      {
+        "name": "Cursed Marking",
+        "type": "OnNewRound",
+        "description": "If this weapon is Cursed or Doomed, lose 15 HP (non-fatal) and a random enemy becomes one of your Marked Targets (LV 15)."
+      }
+    ],
+    "description": "This bow glowers with a fatal curse, and its arrows are painfully accurate, even when fired from hell.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:bow:thorn-shooter",
+    "name": "Thorn Shooter",
+    "rarity": 6,
+    "weaponType": "Bow",
+    "range": 3,
+    "power": 10,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 12,
+    "damageType": "Earth",
+    "scaling": [
+      {
+        "type": "Earthen",
+        "str": 70,
+        "def": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Earth Damage",
+        "type": "OnHit",
+        "description": "Deals magic Earth damage equal to 50% of your Earth ATK, which ignores armor."
+      },
+      {
+        "name": "Thorn Wrap",
+        "type": "OnCrit",
+        "description": "Thorn Wrap LV15 the target for 3 rounds. (Inflicts protection-ignoring Pierce damage to the target when they use a Movement skill.)"
+      }
+    ],
+    "description": "It kind of hurts to hold it, but the thorns it fires as quite painful too.",
+    "location": [
+      "Random drops",
+      "Mad Vines"
+    ]
+  },
+  {
+    "id": "weapon:bow:fortune-s-favor",
+    "name": "Fortune's Favor",
+    "rarity": 7,
+    "weaponType": "Bow",
+    "range": 3,
+    "power": 14,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 7,
+    "damageType": "Lightning",
+    "scaling": [
+      {
+        "type": "Dextria-Lightning",
+        "str": 70,
+        "luc": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "LUC Bonus",
+        "type": "Passive",
+        "description": "+5 LUC"
+      },
+      {
+        "name": "FP Recovery",
+        "type": "Passive",
+        "description": "When you deal non-bonus damage that an enemy is weak to, you recover 10 FP."
+      },
+      {
+        "name": "Weak Seeker",
+        "type": "SpecialStrike",
+        "description": "Triggers before an enemy is attacked. Increases the damage the attack deals by 5, and changes the damage type to the element the attack target is weakest against (if any).",
+        "triggerRate": "10% + 8% Bonus"
+      }
+    ],
+    "description": "A magical bow that will ensure you get some lucky shots in.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:bow:magical-meteor",
+    "name": "Magical Meteor",
+    "rarity": 7,
+    "weaponType": "Bow",
+    "range": 3,
+    "power": 12,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 12,
+    "damageType": "Magical",
+    "scaling": [
+      {
+        "type": "Magical",
+        "str": 70,
+        "wil": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Spelledge",
+        "type": "Passive",
+        "description": "This weapon can be used as a casting tool for spells."
+      }
+    ],
+    "description": "Leave streaks of stardust across the sky. Will not help you transform, however.",
+    "location": [
+      "Random drops",
+      "Woodworking"
+    ]
+  },
+  {
+    "id": "weapon:bow:sea-hunter-bow",
+    "name": "Sea Hunter Bow",
+    "rarity": 7,
+    "weaponType": "Bow",
+    "range": 3,
+    "power": 13,
+    "accuracy": 80,
+    "critical": 7,
+    "criticalDamage": 110,
+    "weight": 10,
+    "damageType": "Pierce",
+    "scaling": [
+      {
+        "type": "Basic",
+        "str": 100
+      }
+    ],
+    "material": "Coral",
+    "specials": [
+      {
+        "name": "Material Bonus",
+        "type": "Passive",
+        "description": "+1 Power, +3 Critical, +3 Accuracy, +1 Weight, +3 Water ATK"
+      },
+      {
+        "name": "Seafaring Hunted",
+        "type": "OnHit",
+        "description": "Inflicts Hunted LV14 for 3 rounds if the target is a seafaring monster."
+      }
+    ],
+    "description": "This bow was born from the sea, and as anyone who lives there knows, anything that lives in the sea is out to get everything else... that lives in the sea.",
+    "location": [
+      "Fishing Contest"
+    ]
+  },
+  {
+    "id": "weapon:bow:artemis-replica",
+    "name": "Artemis Replica",
+    "rarity": 8,
+    "weaponType": "Bow",
+    "range": 3,
+    "power": 16,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 15,
+    "damageType": "Pierce",
+    "scaling": [
+      {
+        "type": "Replica",
+        "str": 70,
+        "ski": 20,
+        "san": 20
+      }
+    ],
+    "enchantment": "Divine Weapon",
+    "specials": [
+      {
+        "name": "Divine Weapon",
+        "type": "Passive",
+        "description": "+2 Power, +5 Critical, +5 Accuracy, -2 Weight. Weapon durability cannot decrease."
+      }
+    ],
+    "description": "A replica of the bow used by Mercala. It possesses extremely high power.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:bow:grandia",
+    "name": "Grandia",
+    "rarity": 8,
+    "weaponType": "Bow",
+    "range": 3,
+    "power": 11,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 125,
+    "weight": 6,
+    "damageType": "Lightning",
+    "scaling": [
+      {
+        "type": "Finesse",
+        "str": 70,
+        "ski": 30
+      }
+    ],
+    "specials": [
+      {
+        "name": "Lightning ATK Substitution",
+        "type": "OnHit",
+        "description": "Replaces your Lightning ATK with the target's for 2 rounds."
+      },
+      {
+        "name": "Neutralize Charge",
+        "type": "PotentialSkill",
+        "description": "Requires Substitute Lightning ATK to be active. Consumes the status caused by the weapon, deals 20 kickback Lightning magic damage to you, and cures any Magentize and Interference status you have. 3 round CD.",
+        "momentumCost": 1,
+        "fpCost": 0,
+        "cooldown": 3
+      }
+    ],
+    "description": "A bow with an odd shape that creates wounds in the shape of lightning bolts.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:bow:adversity-annihilator",
+    "name": "Adversity Annihilator",
+    "rarity": 9,
+    "weaponType": "Bow",
+    "subtype": "Shortbow",
+    "range": 3,
+    "power": 11,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 10,
+    "damageType": "Wind",
+    "scaling": [
+      {
+        "type": "Sylphid",
+        "str": 70,
+        "cel": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Multi-Target vs Summoner",
+        "type": "OnAttack",
+        "description": "On Attacking a Summoner or Youkai: Attacks all controlled youkai and the Summoner."
+      }
+    ],
+    "description": "A magical bow that seems to be in rough shape. It seeks out summoners and their ilk with worrying enthusiasm. As to where it came from and why it exists, that much is unclear.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:bow:fae-bow",
+    "name": "Fae Bow",
+    "rarity": 9,
+    "weaponType": "Bow",
+    "subtype": "Shortbow",
+    "range": 3,
+    "power": 12,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 11,
+    "damageType": "Lightning",
+    "scaling": [
+      {
+        "type": "Electrical",
+        "str": 70,
+        "luc": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Fairy Synergy",
+        "type": "Passive",
+        "description": "Scaled Weapon Attack increased by 15 for each Fairy-race ally."
+      },
+      {
+        "name": "Midsummer's Majesty",
+        "type": "SpecialStrike",
+        "description": "Triggers after the attack hits an enemy. Restores 50 HP to yourself and all Fairy Youkai you have summoned. Furthermore, it has a chance to inflict the target with Charm LV X (X = 10 + 10 per Fairy ally, max. 50) for 3 rounds.",
+        "triggerRate": "10% + 8% Bonus"
+      }
+    ],
+    "description": "This bow was blessed in long forgotten forests by the whimsical fae, and it only grows stronger near them.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:bow:howling-handshot",
+    "name": "Howling Handshot",
+    "rarity": 9,
+    "weaponType": "Bow",
+    "subtype": "Crossbow",
+    "range": 2,
+    "power": 12,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 120,
+    "weight": 25,
+    "damageType": "Pierce",
+    "scaling": [
+      {
+        "type": "Precision",
+        "str": 30,
+        "ski": 70
+      }
+    ],
+    "specials": [
+      {
+        "name": "Dual Weapon Type",
+        "type": "Passive",
+        "description": "Also qualifies as a Sword weapon."
+      },
+      {
+        "name": "Razor Flurry",
+        "type": "PotentialSkill",
+        "description": "Changes the Archer skill Aerial Razor in the following ways; +5 FP cost. The skill will affect all cardinal directions around the user, instead of just the one they are facing."
+      }
+    ],
+    "description": "A somewhat large and very heavy crossbow. The edges of its front half are razor sharp. Be careful not to chop your hand off when reloading.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:bow:blind-bright",
+    "name": "Blind Bright",
+    "rarity": 10,
+    "weaponType": "Bow",
+    "subtype": "Whip",
+    "range": 3,
+    "power": 12,
+    "accuracy": 80,
+    "critical": 10,
+    "criticalDamage": 110,
+    "weight": 15,
+    "damageType": "Light",
+    "scaling": [
+      {
+        "type": "Finesse",
+        "str": 40,
+        "ski": 30
+      },
+      {
+        "type": "Faithful",
+        "fai": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Light ATK Bonus",
+        "type": "Passive",
+        "description": "Increases Light ATK by UL/2. (Doesn't stack.)"
+      },
+      {
+        "name": "Whip Glow Activation",
+        "type": "OnNewRound",
+        "description": "If there is a Light Shaft at your location, the whip glows. This effect also activates when you step on a Light Shaft, and when one is created at your location. While the whip is glowing, you gain +10 Status Resistance, you are immune to Light Shafts, and damage from this weapon cannot hurt allies (even if you are Confused)."
+      },
+      {
+        "name": "Light Burst",
+        "type": "OnHit",
+        "description": "If the whip is glowing, the target and enemies within 3 Range of it are caught in a burst of light, which deals Light magic bonus damage that ignores armor equal to 20% + (UL x 4)% of your Light ATK which can critically hit, and inflicts them with Glowing LV 10 for 2 rounds. The whip then stops glowing."
+      }
+    ],
+    "description": "This bow has a string that envelops itself in light, allowing it to extend and lash out, much like a tail or whip. The holy magic that it glows with protects friends and punishes foes.",
+    "location": [
+      "Level 56+ Yellow Dragon Knights"
+    ]
+  },
+  {
+    "id": "weapon:bow:filcherbird",
+    "name": "Filcherbird",
+    "rarity": 10,
+    "weaponType": "Bow",
+    "subtype": "Shortbow",
+    "range": 4,
+    "power": 13,
+    "accuracy": 85,
+    "critical": 5,
+    "criticalDamage": 110,
+    "weight": 12,
+    "damageType": "Wind",
+    "scaling": [
+      {
+        "type": "Sylphid",
+        "str": 70,
+        "cel": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Auto-Steal",
+        "type": "OnHit",
+        "description": "UL% of automatically applying Steal to the target. (Does not activate Trickery effects.)"
+      }
+    ],
+    "description": "This little bird may have crooked wings, but her arrows fly true and may even come back with a little something special.",
+    "location": [
+      "Level 56+ Bandit Archer"
+    ]
+  },
+  {
+    "id": "weapon:bow:kraken-s-sigh",
+    "name": "Kraken's Sigh",
+    "rarity": 10,
+    "weaponType": "Bow",
+    "range": 5,
+    "power": 14,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 14,
+    "damageType": "Ice",
+    "scaling": [
+      {
+        "type": "Cold",
+        "str": 70,
+        "ski": 40
+      }
+    ],
+    "material": "Coldbark",
+    "specials": [
+      {
+        "name": "Material Bonus",
+        "type": "Passive",
+        "description": "+5 Critical, -5 Accuracy, +3 Ice ATK"
+      },
+      {
+        "name": "Ice Immunity Negation",
+        "type": "Passive",
+        "description": "Negates Ice immunity and absorb effects for you and enemies you damage or are damaged by."
+      },
+      {
+        "name": "Ice Spear Launch",
+        "type": "OnAttack",
+        "description": "This weapon's attack skill has a ULx2% chance of launching an icey spear at the target, travelling in a line towards them, creating Ice Sheets (5 rounds) in its path. Enemies that the spear travels within 1 Range of also become attack targets, and all attack targets take bonus damage equal to 10 + UL. (1 round CD)"
+      }
+    ],
+    "description": "A tendril-styled bow that is chilly to the touch.",
+    "location": [
+      "Level 56+ Grindylows"
+    ]
+  },
+  {
+    "id": "weapon:bow:razing-salamander",
+    "name": "Razing Salamander",
+    "rarity": 10,
+    "weaponType": "Bow",
+    "range": 5,
+    "power": 14,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 14,
+    "damageType": "Fire",
+    "scaling": [
+      {
+        "type": "Basic",
+        "str": 100
+      }
+    ],
+    "material": "Firebark",
+    "specials": [
+      {
+        "name": "Material Bonus",
+        "type": "Passive",
+        "description": "+2 Power, -5 Critical, +3 Fire ATK"
+      },
+      {
+        "name": "Fire Immunity Negation",
+        "type": "Passive",
+        "description": "Negates Fire immunity and absorb effects for you and enemies you damage or are damaged by."
+      },
+      {
+        "name": "Fire Spear Launch",
+        "type": "OnAttack",
+        "description": "This weapon's attack skill has a ULx2% chance of launching a fiery spear at the target, travelling in a line towards them, creating Cinders (LV 15, 3 rounds) in its path. Enemies that the spear travels within 1 Range of also become attack targets, and all attack targets take bonus damage equal to 10 + UL. (1 round CD)"
+      }
+    ],
+    "description": "Made of salamander skin, this bow is warm to the touch. Like a volcano, it will suddenly and violently erupt, often in a painful way.",
+    "location": [
+      "Level 56+ Lava Slime"
+    ]
+  },
+  {
+    "id": "weapon:bow:star-shooter",
+    "name": "Star Shooter",
+    "rarity": 10,
+    "weaponType": "Bow",
+    "range": 3,
+    "power": 15,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 15,
+    "damageType": "Light",
+    "scaling": [
+      {
+        "type": "Faithful",
+        "str": 70,
+        "fai": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Shooting Stars",
+        "type": "OnNewRound",
+        "description": "Fires shooting stars at all enemies, dealing UL/2 unresistable Light damage."
+      },
+      {
+        "name": "Light Shaft Creation",
+        "type": "OnHit",
+        "description": "Creates a Light Shaft (LV = UL) at the target's location for 3 Rounds."
+      }
+    ],
+    "description": "A bow of light that produces stars around it. These stars will fly towards your enemies and help them see stars in a different sense of the phrase.",
+    "location": [
+      "Level 56+ Spatial Terror"
+    ]
+  }
+]

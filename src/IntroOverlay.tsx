@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 
 interface IntroOverlayProps {
@@ -17,7 +17,7 @@ const LOADING_STEPS = [
   'Applying soft caps…',
   'Creating cookies… please don’t eat them',
   'Sharpening swords… don’t eat these either',
-  'Feeding Bear… he’s beary apprceciative',
+  'Feeding Bear… he’s beary appreciative',
   'Summoning dagger buffs… hold onto your GUI',
 ];
 
@@ -26,7 +26,6 @@ export default function IntroOverlay({ onFinish, enableSounds = true }: IntroOve
   const [progress, setProgress] = useState(0);
   const [doneTyping, setDoneTyping] = useState(false);
   const [stepIndex, setStepIndex] = useState(0);
-  const [rememberNext, setRememberNext] = useState(false);
   const typingIntervalRef = useRef<number | null>(null);
   const progressIntervalRef = useRef<number | null>(null);
   const stepIntervalRef = useRef<number | null>(null);
@@ -94,7 +93,6 @@ export default function IntroOverlay({ onFinish, enableSounds = true }: IntroOve
 
   const finish = () => {
     try {
-      if (rememberNext) localStorage.setItem('sl2_skip_intro', '1');
     } catch {}
     onFinish();
   };
@@ -144,7 +142,8 @@ export default function IntroOverlay({ onFinish, enableSounds = true }: IntroOve
         </div>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-          <div className="text-xs text-gray-500">Press Enter to skip</div>
+          <button type="button" onClick={finish} className="rounded border border-cyan-500/40 px-4 py-2 text-xs text-cyan-200 hover:bg-cyan-950">Skip Intro</button>
+          <div className="text-xs text-gray-500">or press Enter</div>
         </div>
       </div>
     </motion.div>

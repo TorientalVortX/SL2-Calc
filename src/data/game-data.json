@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "2026.07.19",
+  "updatedAt": "2026-07-19",
+  "changes": [
+    "Moved calculator records into validated, structured data files.",
+    "Added versioned build saves, recovery drafts, and share links.",
+    "Added offline installation and Cloudflare Pages delivery safeguards.",
+    "Added community-informed optimizer reference profiles and primary-class locking."
+  ]
+}

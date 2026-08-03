@@ -1,0 +1,310 @@
+{
+  "foods": {
+    "None": {
+      "hp": 0,
+      "fp": 0,
+      "stats": {},
+      "description": "No food bonus"
+    },
+    "Salad": {
+      "hp": 0,
+      "fp": 0,
+      "stats": {
+        "vit": 3
+      },
+      "description": "Fresh vegetables"
+    },
+    "Potatoes & Carrots": {
+      "hp": 0,
+      "fp": 0,
+      "stats": {
+        "ski": 3
+      },
+      "description": "Hearty root vegetables"
+    },
+    "Fugu": {
+      "hp": 0,
+      "fp": 0,
+      "stats": {
+        "str": 3,
+        "wil": 3
+      },
+      "description": "Dangerous delicacy"
+    },
+    "Sushi": {
+      "hp": 0,
+      "fp": 0,
+      "stats": {
+        "str": 2,
+        "wil": 2
+      },
+      "description": "Fresh fish preparation"
+    },
+    "Pumpkin Lollipop": {
+      "hp": 0,
+      "fp": 0,
+      "stats": {
+        "cel": 5
+      },
+      "description": "Sweet seasonal treat"
+    },
+    "Redpop": {
+      "hp": 0,
+      "fp": 0,
+      "stats": {
+        "cel": 4
+      },
+      "description": "Energizing candy"
+    },
+    "Cocky": {
+      "hp": 0,
+      "fp": 0,
+      "stats": {
+        "cel": 3
+      },
+      "description": "Confidence-boosting snack"
+    },
+    "Kat Knip": {
+      "hp": 0,
+      "fp": 0,
+      "stats": {
+        "cel": 3
+      },
+      "description": "Feline-inspired treat"
+    },
+    "Androbar": {
+      "hp": 0,
+      "fp": 0,
+      "stats": {
+        "cel": 3
+      },
+      "description": "Android energy bar"
+    },
+    "Chocolate Bar": {
+      "hp": 0,
+      "fp": 0,
+      "stats": {
+        "cel": 2
+      },
+      "description": "Simple chocolate"
+    },
+    "Sweet Bites": {
+      "hp": 0,
+      "fp": 0,
+      "stats": {
+        "cel": 1
+      },
+      "description": "Small candy pieces"
+    }
+  },
+  "history": {
+    "None": {
+      "stats": {},
+      "description": "No background bonus"
+    },
+    "Warrior": {
+      "stats": {
+        "str": 2,
+        "ski": 1
+      },
+      "description": "Combat-focused background"
+    },
+    "Hero": {
+      "stats": {
+        "str": 2,
+        "luc": 1
+      },
+      "description": "Heroic background"
+    },
+    "Magician": {
+      "stats": {
+        "wil": 2,
+        "cel": 1
+      },
+      "description": "Arcane studies"
+    },
+    "Spellblade": {
+      "stats": {
+        "str": 1,
+        "wil": 2
+      },
+      "description": "Magic warrior"
+    },
+    "Assassin": {
+      "stats": {
+        "ski": 2,
+        "luc": 1
+      },
+      "description": "Stealth specialist"
+    },
+    "Myrmdon": {
+      "stats": {
+        "ski": 2,
+        "cel": 1
+      },
+      "description": "Elite soldier"
+    },
+    "Fencer": {
+      "stats": {
+        "cel": 2,
+        "def": 1
+      },
+      "description": "Dueling expert"
+    },
+    "Thief": {
+      "stats": {
+        "cel": 2,
+        "luc": 1
+      },
+      "description": "Criminal background"
+    },
+    "Ward": {
+      "stats": {
+        "def": 2,
+        "res": 1
+      },
+      "description": "Defensive specialist"
+    },
+    "Shaman": {
+      "stats": {
+        "def": 1,
+        "fai": 2
+      },
+      "description": "Spiritual guide"
+    },
+    "Ghost": {
+      "stats": {
+        "res": 2,
+        "luc": 1
+      },
+      "description": "Otherworldly connection"
+    },
+    "Witchhunter": {
+      "stats": {
+        "str": 1,
+        "res": 2
+      },
+      "description": "Anti-magic specialist"
+    },
+    "Marauder": {
+      "stats": {
+        "vit": 2,
+        "luc": 1
+      },
+      "description": "Raider background"
+    },
+    "Knight": {
+      "stats": {
+        "def": 1,
+        "vit": 2
+      },
+      "description": "Noble warrior"
+    },
+    "Faithful": {
+      "stats": {
+        "res": 1,
+        "fai": 2
+      },
+      "description": "Religious devotee"
+    },
+    "Priest": {
+      "stats": {
+        "wil": 1,
+        "fai": 2
+      },
+      "description": "Holy servant"
+    },
+    "Survivor": {
+      "stats": {
+        "wil": 1,
+        "vit": 1,
+        "luc": 2
+      },
+      "description": "Hardened by trials"
+    },
+    "Gambler": {
+      "stats": {
+        "str": 1,
+        "luc": 2
+      },
+      "description": "Risk-taking lifestyle"
+    }
+  },
+  "legendExtend": {
+    "Axysal": {
+      "stat": "str",
+      "name": "Axys Al",
+      "color": "#ef4444"
+    },
+    "Kashic": {
+      "stat": "wil",
+      "name": "Kash Ic",
+      "color": "#ffffff"
+    },
+    "Zerogyn": {
+      "stat": "ski",
+      "name": "Zero Gyn",
+      "color": "#06b6d4"
+    },
+    "Rabeur": {
+      "stat": "cel",
+      "name": "Rabe Ur",
+      "color": "#34d399"
+    },
+    "Grenut": {
+      "stat": "def",
+      "name": "Gren Ut",
+      "color": "#92400e"
+    },
+    "Choier": {
+      "stat": "res",
+      "name": "Choi Er",
+      "color": "#7c3aed"
+    },
+    "Bldiia": {
+      "stat": "vit",
+      "name": "Bldi Ia",
+      "color": "#1e40af"
+    },
+    "Holymr": {
+      "stat": "fai",
+      "name": "Holy Mr",
+      "color": "#fbbf24"
+    },
+    "Kagiji": {
+      "stat": "luc",
+      "name": "Kagi Ji",
+      "color": "#f97316"
+    },
+    "Akurzo": {
+      "stat": "gui",
+      "name": "Akur Zo",
+      "color": "#22c55e"
+    },
+    "Luncau": {
+      "stat": "san",
+      "name": "Luna Cu",
+      "color": "#6b7280"
+    }
+  },
+  "astrologyPlanets": {
+    "Mercury": "ski",
+    "Venus": "def",
+    "Mars": "str",
+    "Jupiter": "luc",
+    "Saturn": "cel",
+    "Neptune": "vit",
+    "Uranus": "fai",
+    "Pluto": "res"
+  },
+  "planetElements": {
+    "Mars": "Fire",
+    "Mercury": "Ice",
+    "Saturn": "Wind",
+    "Venus": "Earth",
+    "Pluto": "Dark",
+    "Neptune": "Water",
+    "Uranus": "Light",
+    "Jupiter": "Lightning"
+  }
+}

@@ -15,6 +15,13 @@ export type StatRecord = Record<StatKey, number>;
 export type StampRecord = Record<StampKey, number>;
 export type ElementalRecord = Record<ElementKey, number>;
 
+export interface GameDataManifest {
+  schemaVersion: 1;
+  dataVersion: string;
+  updatedAt: string;
+  changes: string[];
+}
+
 /**
  * Base stats interface with optional race flags
  */
@@ -122,6 +129,70 @@ export interface BuildData {
   version: string; // For future compatibility
 }
 
+export interface WeaponSlotConfig {
+  selectedWeaponName: string | null;
+  weaponType: string;
+  basePower: number;
+  baseCrit: number;
+  baseHit: number;
+  baseWeight: number;
+  baseCritDamage: number;
+  material: string;
+  part1: string;
+  part2: string;
+  part3: string;
+  enchantment: string;
+  upgradeLevel: number;
+  rarity: number;
+  powerQuality: boolean;
+  critQuality: boolean;
+  hitQuality: boolean;
+  weightPlus: boolean;
+  weightMinus: boolean;
+  sentimentality: boolean;
+  twoHandedSkillRank: number;
+  customScaling: Omit<StatRecord, 'apt'>;
+}
+
+export interface WeaponConfig extends WeaponSlotConfig {
+  comparisonMode?: boolean;
+  secondaryWeapon?: WeaponSlotConfig;
+}
+
+export interface BuildEquipmentState {
+  armorName: string | null;
+  armorConditionalBonuses: Record<string, boolean>;
+  primaryWeapon?: WeaponConfig;
+}
+
+export type BuildState = Omit<BuildData, 'buildName' | 'totalPoints' | 'version'> & {
+  equipment: BuildEquipmentState;
+};
+
+export interface BuildFileV1 {
+  schemaVersion: 1;
+  appVersion: string;
+  dataVersion: string;
+  exportedAt: string;
+  buildName: string;
+  build: BuildState;
+}
+
+export interface SharePayloadV1 {
+  schemaVersion: 1;
+  dataVersion: string;
+  buildName: string;
+  build: BuildState;
+}
+
+export interface SaveSlotV1 {
+  id: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  build: BuildState;
+}
+
 /**
  * Build type configuration for stat optimization
  */
@@ -138,58 +209,141 @@ export interface BuildType {
  * Optimization result interface
  */
 export interface OptimizationResult {
-  stats: StatRecord;
-  race: string;
-  subrace: string;
-  mainClass: string;
-  subClass: string;
-  score: number;
-  allocatedStats: StatRecord;
-  totalPoints: number;
-  reasoning: string[];
-  warnings: string[];
-  analysis: Record<string, string>;
+  candidates: OptimizationCandidate[];
+  pointBudget: number;
+  evaluatedClassPairs: number;
+  durationMs: number;
 }
 
-/**
- * Optimization parameters interface
- */
-export interface OptimizationParams {
-  customWeights?: any;
-  mainClass: string;
-  subClass: string;
+export type OptimizationMetric = StatKey
+  | 'maxHP' | 'fp' | 'physicalDefense' | 'magicalDefense' | 'evade'
+  | 'criticalEvade' | 'statusInfliction' | 'statusResistance'
+  | 'initiative' | 'youkaiCap' | 'flanking' | 'skillPool'
+  | 'battleWeight' | 'encumbrance' | 'weaponPower' | 'weaponHit'
+  | 'weaponCritical' | 'weaponCriticalDamage';
+
+export interface OptimizationConstraint {
+  metric: OptimizationMetric;
+  minimum: number;
+}
+
+export interface OptimizationPreset {
+  id: string;
+  name: string;
+  description: string;
+  metricWeights: Partial<Record<OptimizationMetric, number>>;
+  classCompatibility?: Record<string, number>;
+}
+
+export interface OptimizationReferenceProfile {
+  id: string;
+  name: string;
+  enabled: boolean;
+  unavailableReason?: string;
   race: string;
   subrace: string;
-  buildType: string;
-  targetLevel: number;
-  targetStats?: Partial<StatRecord>;
-  optimizationMode?: 'weights' | 'targets';
-  baseEvade?: number;
-  bonusEvade?: number;
-  customHP?: number;
-  customFP?: number;
-  prioritizeWeaponScaling?: boolean;
-  allowedRaces?: string[];
-  allowedSubraces?: string[];
-  allowedMainClasses?: string[];
-  allowedSubClasses?: string[];
-  prioritizeDefense?: boolean;
-  prioritizeHealth?: boolean;
-  prioritizeEvade?: boolean;
-  minStatRequirements?: Partial<StatRecord>;
-  maxStatLimits?: Partial<StatRecord>;
-  includeLegendExtend?: boolean;
-  includeStamps?: boolean;
-  includeFood?: boolean;
-  weaponType?: string;
-  legendExtend?: Record<string, boolean>;
-  astrology?: string;
-  history?: string;
-  includeCustomStats?: boolean;
-  customStats?: Partial<StatRecord>;
-  customBaseStats?: Partial<StatRecord>;
-  mainClassPassive?: number;
-  subClassPassive?: number;
+  primaryClass: string;
+  secondaryClass: string;
+  karakuriYoukai?: string;
+  archetype: string;
+  weapon: {
+    name: string;
+    effectiveType: string;
+    scaling: Partial<Omit<StatRecord, 'apt'>>;
+  };
+  scaledStatTargets: Partial<StatRecord>;
+  priorityStats: StatKey[];
+  notes: string;
+}
+
+export type BuildGuideCheckStatus = 'pass' | 'fail' | 'verify';
+export type BuildGuideCheckBasis = 'document' | 'assumption' | 'calculator-data';
+
+export interface BuildGuideCheck {
+  id: string;
+  label: string;
+  status: BuildGuideCheckStatus;
+  summary: string;
+  basis: BuildGuideCheckBasis;
+}
+
+export interface BuildGuideValidation {
+  checks: BuildGuideCheck[];
+  passed: number;
+  failed: number;
+  requiresVerification: number;
+  /** Normalized numeric shortfall used only to rank otherwise comparable candidates. */
+  supportedDeficit: number;
+}
+
+export interface BuildEvaluation {
+  rawStats: StatRecord;
+  scaledStats: StatRecord;
+  maxInvestedStats: StatRecord;
+  pointsSpent: number;
+  pointBudget: number;
+  derived: {
+    maxHP: number;
+    currentHP: number;
+    fp: number;
+    physicalDefense: number;
+    magicalDefense: number;
+    evade: number;
+    criticalEvade: number;
+    statusInfliction: number;
+    statusResistance: number;
+    initiative: number;
+    youkaiCap: number;
+    flanking: number;
+    skillPool: number;
+    battleWeight: number;
+    encumbrance: number;
+  };
+  elementalAttack: ElementalRecord;
+  elementalResistance: ElementalRecord;
+  primaryWeapon?: {
+    power: number;
+    hit: number;
+    critical: number;
+    criticalDamage: number;
+    weight: number;
+  };
+}
+
+export interface OptimizationBuildPatch {
+  mainClass: string;
+  subClass: string;
+  selectedMainBaseClass: string;
+  selectedSubBaseClass: string;
+  mainClassPassive: number;
+  subClassPassive: number;
+  addedStats: StatRecord;
+}
+
+export interface OptimizationCandidate {
+  id: string;
+  patch: OptimizationBuildPatch;
+  evaluation: BuildEvaluation;
+  score: number;
+  constraintDeficits: Partial<Record<OptimizationMetric, number>>;
+  feasible: boolean;
+  guideValidation: BuildGuideValidation;
+  reasoning: string[];
+  warnings: string[];
+}
+
+export interface OptimizationRequest {
+  build: BuildState;
+  preset: OptimizationPreset;
+  constraints: OptimizationConstraint[];
+  /** When set, every candidate must keep this class in the primary/main slot. */
+  primaryClass?: string;
+  /** Optional curated soft prior for class pairing and final scaled-stat shape. */
+  referenceProfileId?: string;
+  searchClasses: boolean;
+  assumedMainPassiveRank: number;
+  assumedSubPassiveRank: number;
+  resultLimit?: number;
 }
 
 /**
@@ -311,6 +465,8 @@ export interface WeaponSpecial {
  * Complete weapon data structure
  */
 export interface Weapon {
+  /** Stable data reference; display names may change without breaking future files. */
+  id: string;
   name: string;
   rarity: number;
   weaponType: WeaponType;
@@ -335,6 +491,8 @@ export interface Weapon {
  * Armor interface for equipment system
  */
 export interface Armor {
+  /** Stable data reference; display names may change without breaking future files. */
+  id: string;
   name: string;
   armor: number;
   magicArmor: number;
