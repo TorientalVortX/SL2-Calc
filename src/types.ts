@@ -479,6 +479,13 @@ export interface AiOptimizationMetadata {
     outputTokens: number;
     totalTokens: number;
   };
+  knowledge: {
+    loaded: boolean;
+    sourceCount: number;
+    sources: string[];
+    characters: number;
+    liveWebAccess: false;
+  };
   summary?: string;
 }
 
