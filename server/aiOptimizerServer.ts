@@ -1,33 +1,11 @@
 import { createServer, type IncomingMessage, type ServerResponse } from 'node:http';
-import { readdir, readFile } from 'node:fs/promises';
-import path from 'node:path';
 import type { AiOptimizationRequest } from '../src/types';
 import { runAiOptimization } from './agentCore';
+import { readPersonalNotes } from './personalKnowledge';
 
 const host = '127.0.0.1';
 const port = Number.parseInt(process.env.OPTIMIZER_AI_PORT ?? '8787', 10);
 const root = process.cwd();
-
-async function readPersonalNotes(): Promise<string> {
-  const directory = path.join(root, 'optimizer-knowledge');
-  try {
-    const collectMarkdown = async (current: string, relative = ''): Promise<string[]> => {
-      const entries = (await readdir(current, { withFileTypes: true })).sort((a, b) => a.name.localeCompare(b.name));
-      const files: string[] = [];
-      for (const entry of entries) {
-        const relativeName = path.join(relative, entry.name);
-        if (entry.isDirectory()) files.push(...await collectMarkdown(path.join(current, entry.name), relativeName));
-        else if (entry.isFile() && entry.name.toLowerCase().endsWith('.md') && !entry.name.startsWith('_')) files.push(relativeName);
-      }
-      return files;
-    };
-    const names = await collectMarkdown(directory);
-    const notes = await Promise.all(names.map(async name => `## ${name.replaceAll('\\', '/')}\n${await readFile(path.join(directory, name), 'utf8')}`));
-    return notes.join('\n\n').slice(0, 40_000);
-  } catch {
-    return '';
-  }
-}
 
 async function readJson(request: IncomingMessage): Promise<unknown> {
   const chunks: Buffer[] = [];
@@ -85,7 +63,7 @@ const server = createServer(async (request, response) => {
       json(response, 400, { error: 'Invalid AI optimization request.' });
       return;
     }
-    const personalNotes = await readPersonalNotes();
+    const personalNotes = await readPersonalNotes(root);
     const result = await runAiOptimization(body, { personalNotes });
     json(response, 200, result);
   } catch (error) {

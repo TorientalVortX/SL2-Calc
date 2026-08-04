@@ -278,7 +278,7 @@ export function executeAgentTool(session: AgentSession, name: string, rawArgumen
       intent: session.request.intent,
       selectedReferenceProfileId: session.request.referenceProfileId ?? null,
       referencePolicy: 'Unselected profiles are comparison evidence only and cannot bias deterministic search.',
-      personalNotes: session.personalNotes.slice(0, 40_000),
+      personalNotes: session.personalNotes.slice(0, 60_000),
       knowledgeRules: OPTIMIZER_KNOWLEDGE.rules,
     };
   }
