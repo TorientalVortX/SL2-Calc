@@ -309,6 +309,10 @@ export function evaluateBuild(build: BuildState): BuildEvaluation {
     });
   }
 
+  const primaryWeapon = evaluateWeapon(build.equipment.primaryWeapon, scaledStats, armorConditional.critical);
+  const battleWeight = Math.floor(scaledStats.str) + 5;
+  const armorWeight = armor?.weight ?? 0;
+  const equipmentLoad = (primaryWeapon?.weight ?? 0) + armorWeight;
   const derived = {
     maxHP,
     currentHP: calculateCurrentHealth(maxHP, build.hpPercent),
@@ -323,7 +327,13 @@ export function evaluateBuild(build: BuildState): BuildEvaluation {
     youkaiCap: calculateYoukaiCap((subrace.fai ?? 0) + build.customBaseStats.fai + build.addedStats.fai + (leBonus.fai ?? 0) + (astrologyStat === 'fai' ? 1 : 0)),
     flanking: Math.floor(5 + scaledStats.gui / 2),
     skillPool: 11 + Math.floor(scaledStats.gui / 5) + Math.floor(scaledStats.ski / 5) + Math.floor(scaledStats.wil / 10) + (race?.human || subrace.human ? 2 : 0),
-    battleWeight: Math.floor(scaledStats.str) + 5,
+    battleWeight,
+    armor: armor?.armor ?? 0,
+    magicArmor: armor?.magicArmor ?? 0,
+    armorEvade: (armor?.evade ?? 0) + armorConditional.evade,
+    armorWeight,
+    equipmentLoad,
+    battleWeightRemaining: battleWeight - equipmentLoad,
     encumbrance: Math.floor(scaledStats.str + scaledStats.vit) + 5 + (build.subrace === 'Dullahan' ? 30 : 0) + (build.subrace.includes('Mechanation') ? 20 : 0),
   };
 
@@ -336,7 +346,7 @@ export function evaluateBuild(build: BuildState): BuildEvaluation {
     derived,
     elementalAttack,
     elementalResistance,
-    primaryWeapon: evaluateWeapon(build.equipment.primaryWeapon, scaledStats, armorConditional.critical),
+    primaryWeapon,
   };
 }
 

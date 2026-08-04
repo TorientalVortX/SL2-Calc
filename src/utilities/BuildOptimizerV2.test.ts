@@ -108,4 +108,42 @@ describe('build optimizer V2', () => {
       expect(result.candidates.some(other => other.id !== candidate.id && candidateMechanicallyDominates(other, candidate))).toBe(false);
     }
   });
+
+  it('treats an Evade plan as a reliable minimum and saturates at the preferred target', () => {
+    const build = baseBuild(60);
+    build.bonusEvade = 50;
+    const evadeRequest = request(build, {
+      preset: OPTIMIZATION_PRESETS.evade,
+      defensePlan: 'evade',
+      defenseContract: { minimumEvade: 140, preferredEvade: 150, reliableBonusEvade: 20, requirePartialBattleWeight: true },
+    });
+    const result = optimizeBuildV2(evadeRequest);
+    for (const candidate of result.candidates) {
+      expect(candidate.defenseScenario?.reliableBonusEvade).toBe(20);
+      expect(candidate.defenseScenario?.reliableEvade).toBeGreaterThanOrEqual(140);
+      expect(candidate.defenseScenario?.configuredEvade).toBeGreaterThanOrEqual(candidate.defenseScenario?.reliableEvade ?? 0);
+      expect(candidate.defenseScenario?.battleWeightRemaining).toBeGreaterThanOrEqual(0);
+      expect(candidate.feasible).toBe(true);
+    }
+  }, 15_000);
+
+  it('scores native torso defenses and excludes unverified armor conditionals', () => {
+    const conditionalArmor = Object.values(ARMORS).find(armor => Object.values(armor.conditionalBonuses ?? {}).some(bonus => (bonus.evade ?? 0) > 0));
+    expect(conditionalArmor).toBeTruthy();
+    const conditionalKey = Object.keys(conditionalArmor?.conditionalBonuses ?? {})[0];
+    const build = baseBuild(10);
+    build.equipment.armorName = conditionalArmor?.name ?? null;
+    build.equipment.armorConditionalBonuses = { [conditionalKey]: true };
+    const shared = {
+      locks: { subClass: 'Soldier', weaponName: 'Spine Leash', armorName: conditionalArmor?.name },
+      defensePlan: 'evade' as const,
+      preset: OPTIMIZATION_PRESETS.evade,
+      searchClasses: false,
+    };
+    const baseline = optimizeBuildV2(request(build, { ...shared, defenseContract: { minimumEvade: 0, preferredEvade: 200, armorConditionalPolicy: 'baseline' } })).candidates[0];
+    const verified = optimizeBuildV2(request(build, { ...shared, defenseContract: { minimumEvade: 0, preferredEvade: 200, armorConditionalPolicy: 'verified-current' } })).candidates[0];
+    expect(baseline.defenseScenario?.armor).toBe(conditionalArmor?.armor);
+    expect(baseline.defenseScenario?.magicArmor).toBe(conditionalArmor?.magicArmor);
+    expect(verified.defenseScenario?.reliableEvade).toBeGreaterThan(baseline.defenseScenario?.reliableEvade ?? 0);
+  });
 });

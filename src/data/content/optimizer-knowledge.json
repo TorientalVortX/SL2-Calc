@@ -19,6 +19,8 @@
   "rules": [
     { "id": "fixed-character", "statement": "Race, subrace, main class, character level, and active character bonuses are immutable during optimization.", "source": "user", "confidence": "verified" },
     { "id": "conditional-aptitude", "statement": "APT grants +1 to every non-APT stat at each 6-scaled-APT breakpoint. Optimize its exact breakpoint gain and point opportunity cost; 48 and screenshot values are historical planning evidence unless the user explicitly makes one a hard constraint.", "source": "calculator-formula-and-SL2BuildInfo", "confidence": "verified" },
+    { "id": "evade-contract", "statement": "An Evade plan is valid only when its reliable scenario meets the requested minimum. Use 195 minimum and 200 preferred when unspecified, stop rewarding surplus Evade, and separate baseline, reliable bonuses, and configured maximums.", "source": "SL2BuildInfo-and-calculator-formula", "confidence": "verified" },
+    { "id": "armor-defense", "statement": "Torso Armor, Magic Armor, Evade, weight, stat bonuses, resistances, and only verified conditionals must be evaluated together. Weapon-plus-torso load must not exceed Battle Weight when that partial check is enabled.", "source": "calculator-data", "confidence": "verified" },
     { "id": "unknown-skills", "statement": "Unstructured class-skill and item-effect behavior must be labeled as requiring verification and contributes no invented numeric bonus.", "source": "calculator-boundary", "confidence": "verified" }
   ]
 }

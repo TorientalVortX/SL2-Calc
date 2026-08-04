@@ -35,6 +35,12 @@ describe('shared build evaluation', () => {
     expect(result.scaledStats.apt).toBeGreaterThan(0);
     expect(result.scaledStats.str).toBeGreaterThan(result.rawStats.str - 3);
     expect(result.derived.evade).toBe(Math.floor(result.scaledStats.cel * 2) + 10 - 8);
+    expect(result.derived.armor).toBe(7);
+    expect(result.derived.magicArmor).toBe(0);
+    expect(result.derived.armorEvade).toBe(-8);
+    expect(result.derived.armorWeight).toBe(24);
+    expect(result.derived.equipmentLoad).toBe(24);
+    expect(result.derived.battleWeightRemaining).toBe(result.derived.battleWeight - 24);
     expect(result.derived.maxHP).toBeGreaterThan(0);
     expect(result.elementalAttack.Fire).toBeTypeOf('number');
     expect(result.elementalResistance.Fire).toBeTypeOf('number');

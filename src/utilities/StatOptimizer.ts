@@ -20,6 +20,7 @@ const emptyStats = (): StatRecord => ({ str: 0, wil: 0, ski: 0, cel: 0, def: 0, 
 const metricScale: Record<OptimizationMetric, number> = {
   str: 60, wil: 60, ski: 60, cel: 60, def: 60, res: 60, vit: 60, fai: 60, luc: 60, gui: 60, san: 60, apt: 42,
   maxHP: 900, fp: 450, physicalDefense: 50, magicalDefense: 50, evade: 130, criticalEvade: 100,
+  armor: 10, magicArmor: 10, equipmentLoad: 50, battleWeightRemaining: 50,
   statusInfliction: 170, statusResistance: 170, initiative: 60, youkaiCap: 12, flanking: 40,
   skillPool: 40, battleWeight: 70, encumbrance: 130, weaponPower: 100, weaponHit: 200,
   weaponCritical: 120, weaponCriticalDamage: 220,
@@ -30,12 +31,12 @@ const compatibilityFor = (id: string) => BUILD_TYPES[id]?.classCompatibility ?? 
 export const OPTIMIZATION_PRESETS: Record<string, OptimizationPreset> = {
   hybrid: {
     id: 'hybrid', name: 'Balanced Hybrid', description: 'Balanced weapon reliability, durability, and utility.',
-    metricWeights: { weaponPower: 6, weaponHit: 5, maxHP: 5, fp: 3, physicalDefense: 4, magicalDefense: 4, evade: 3, skillPool: 2 },
+    metricWeights: { weaponPower: 6, weaponHit: 5, maxHP: 5, fp: 3, physicalDefense: 4, magicalDefense: 4, armor: 2, magicArmor: 2, evade: 3, skillPool: 2 },
     classCompatibility: compatibilityFor('hybrid'),
   },
   tank: {
     id: 'tank', name: 'Defense Tank', description: 'Prioritizes HP, physical and magical defense, and status resilience.',
-    metricWeights: { maxHP: 9, physicalDefense: 10, magicalDefense: 10, statusResistance: 6, criticalEvade: 4, weaponHit: 3 },
+    metricWeights: { maxHP: 9, physicalDefense: 10, magicalDefense: 10, armor: 7, magicArmor: 7, statusResistance: 6, criticalEvade: 4, weaponHit: 3 },
     classCompatibility: compatibilityFor('tank'),
   },
   evade: {

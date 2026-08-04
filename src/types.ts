@@ -220,6 +220,7 @@ export interface OptimizationResult {
 
 export type OptimizationMetric = StatKey
   | 'maxHP' | 'fp' | 'physicalDefense' | 'magicalDefense' | 'evade'
+  | 'armor' | 'magicArmor' | 'equipmentLoad' | 'battleWeightRemaining'
   | 'criticalEvade' | 'statusInfliction' | 'statusResistance'
   | 'initiative' | 'youkaiCap' | 'flanking' | 'skillPool'
   | 'battleWeight' | 'encumbrance' | 'weaponPower' | 'weaponHit'
@@ -267,6 +268,41 @@ export interface OptimizationReferenceProfile {
 export type OptimizationDefensePlan = 'auto' | 'tank' | 'evade' | 'bruiser' | 'hybrid' | 'glass';
 export type OptimizationExtraPackage = 'auto' | 'critical' | 'faith' | 'sanctity' | 'none';
 export type OptimizationSearchDepth = 'standard' | 'deep';
+export type ArmorConditionalPolicy = 'baseline' | 'verified-current';
+
+export interface OptimizationDefenseContract {
+  minimumEvade?: number;
+  preferredEvade?: number;
+  reliableBonusEvade?: number;
+  minimumScaledDefense?: number;
+  minimumScaledResistance?: number;
+  minimumArmor?: number;
+  minimumMagicArmor?: number;
+  requirePartialBattleWeight?: boolean;
+  armorConditionalPolicy?: ArmorConditionalPolicy;
+}
+
+export interface OptimizationDefenseScenario {
+  plan: OptimizationDefensePlan;
+  baselineEvade: number;
+  reliableEvade: number;
+  configuredEvade: number;
+  minimumEvade?: number;
+  preferredEvade?: number;
+  reliableBonusEvade: number;
+  scaledDefense: number;
+  scaledResistance: number;
+  armor: number;
+  magicArmor: number;
+  armorEvade: number;
+  equipmentLoad: number;
+  battleWeightCapacity: number;
+  battleWeightRemaining: number;
+  meetsMinimum: boolean;
+  reachesPreferred: boolean;
+  failures: string[];
+  assumptions: string[];
+}
 
 export interface OptimizationEquipmentLocks {
   subClass?: string;
@@ -339,6 +375,12 @@ export interface BuildEvaluation {
     flanking: number;
     skillPool: number;
     battleWeight: number;
+    armor: number;
+    magicArmor: number;
+    armorEvade: number;
+    armorWeight: number;
+    equipmentLoad: number;
+    battleWeightRemaining: number;
     encumbrance: number;
   };
   elementalAttack: ElementalRecord;
@@ -378,6 +420,7 @@ export interface OptimizationCandidate {
   tradeoffs?: string[];
   confidence?: 'high' | 'medium' | 'low';
   aptitudeReport?: AptitudeOptimizationReport;
+  defenseScenario?: OptimizationDefenseScenario;
 }
 
 export interface OptimizationRequest {
@@ -395,6 +438,7 @@ export interface OptimizationRequest {
   engine?: 'legacy' | 'v2';
   locks?: OptimizationEquipmentLocks;
   defensePlan?: OptimizationDefensePlan;
+  defenseContract?: OptimizationDefenseContract;
   extraPackage?: OptimizationExtraPackage;
   searchDepth?: OptimizationSearchDepth;
   intent?: string;
@@ -408,6 +452,7 @@ export interface AiOptimizationRequest {
   constraints: OptimizationConstraint[];
   locks: OptimizationEquipmentLocks;
   defensePlan: OptimizationDefensePlan;
+  defenseContract?: OptimizationDefenseContract;
   extraPackage: OptimizationExtraPackage;
   referenceProfileId?: string;
   intent: string;

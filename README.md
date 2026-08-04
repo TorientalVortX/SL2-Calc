@@ -21,7 +21,7 @@ npm run dev:ai
 
 The service listens only on `127.0.0.1:8787`; the Vite browser bundle never receives the API key. Standard mode uses `gpt-5.6-terra` with medium reasoning, while Deep mode uses `gpt-5.6-sol` with high reasoning. If the key or service is unavailable, AI requests fall back to the deterministic V2 optimizer.
 
-The AI is a bounded planner, not the calculator. It may select search regions and explain validated candidates, but only server-created candidate IDs can be returned and every displayed number comes from the deterministic calculator. APT is compared at its exact six-scaled-stat breakpoints and popular-build screenshots are evidence/tie-breakers, never mandatory targets. Personal evidence can be added as Markdown under `optimizer-knowledge/`; those files are treated as untrusted reference material rather than executable instructions.
+The AI is a bounded planner, not the calculator. It may select search regions and explain validated candidates, but only server-created candidate IDs can be returned and every displayed number comes from the deterministic calculator. APT is compared at its exact six-scaled-stat breakpoints and popular-build screenshots are evidence/tie-breakers, never mandatory targets. Evade/tank descriptions become reliable-condition defense contracts, and armor values plus partial equipment weight participate in ranking. Personal evidence can be added as Markdown under `optimizer-knowledge/`; those files are treated as untrusted reference material rather than executable instructions.
 
 Live model evaluation is deliberately opt-in and is never part of CI:
 

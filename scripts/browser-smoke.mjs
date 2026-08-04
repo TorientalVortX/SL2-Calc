@@ -101,10 +101,10 @@ for (let attempt = 0; attempt < 30; attempt += 1) {
   const finished = await request('Runtime.evaluate', { expression: `document.body.innerText.includes('Apply primary build') || Boolean(document.querySelector('[role="alert"]'))`, returnByValue: true });
   if (finished.result.value) break;
 }
-const optimizerState = await request('Runtime.evaluate', { expression: `JSON.stringify({ result: document.body.innerText.includes('Apply primary build'), validated: document.body.innerText.includes('Validated candidate'), equipment: document.body.innerText.includes('Primary weapon') && document.body.innerText.includes('Torso'), aptitude: document.body.innerText.includes('APT breakpoint efficiency') && document.body.innerText.includes('stranded'), oldTab: [...document.querySelectorAll('[role="tab"]')].some((tab) => tab.innerText.includes('Optimizer')) })`, returnByValue: true });
+const optimizerState = await request('Runtime.evaluate', { expression: `JSON.stringify({ result: document.body.innerText.includes('Apply primary build'), validated: document.body.innerText.includes('Validated candidate'), equipment: document.body.innerText.includes('Primary weapon') && document.body.innerText.includes('Torso'), aptitude: document.body.innerText.includes('APT breakpoint efficiency') && document.body.innerText.includes('stranded'), defense: document.body.innerText.includes('Reliable defense scenario') && document.body.innerText.includes('Partial load'), oldTab: [...document.querySelectorAll('[role="tab"]')].some((tab) => tab.innerText.includes('Optimizer')) })`, returnByValue: true });
 console.log(`optimizer=${optimizerState.result.value}`);
 const optimizer = JSON.parse(optimizerState.result.value);
-if (!optimizer.result || !optimizer.validated || !optimizer.equipment || !optimizer.aptitude || optimizer.oldTab) process.exitCode = 1;
+if (!optimizer.result || !optimizer.validated || !optimizer.equipment || !optimizer.aptitude || !optimizer.defense || optimizer.oldTab) process.exitCode = 1;
 await request('Runtime.evaluate', { expression: `[...document.querySelectorAll('button')].find((button) => button.innerText.includes('Apply primary build'))?.click()` });
 await new Promise((resolve) => setTimeout(resolve, 300));
 const undoState = await request('Runtime.evaluate', { expression: `document.body.innerText.includes('Undo optimizer')`, returnByValue: true });

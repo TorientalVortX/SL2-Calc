@@ -7,6 +7,8 @@ import type {
   OptimizationCandidate,
   OptimizationConstraint,
   OptimizationDefensePlan,
+  OptimizationDefenseContract,
+  OptimizationDefenseScenario,
   OptimizationExtraPackage,
   OptimizationMetric,
   OptimizationObjectives,
@@ -32,6 +34,7 @@ const emptyStats = (): StatRecord => ({ str: 0, wil: 0, ski: 0, cel: 0, def: 0, 
 const metricScale: Record<OptimizationMetric, number> = {
   str: 60, wil: 60, ski: 60, cel: 60, def: 60, res: 60, vit: 60, fai: 60, luc: 60, gui: 60, san: 60, apt: 48,
   maxHP: 900, fp: 450, physicalDefense: 50, magicalDefense: 50, evade: 200, criticalEvade: 100,
+  armor: 10, magicArmor: 10, equipmentLoad: 50, battleWeightRemaining: 50,
   statusInfliction: 170, statusResistance: 170, initiative: 60, youkaiCap: 12, flanking: 40,
   skillPool: 40, battleWeight: 70, encumbrance: 130, weaponPower: 100, weaponHit: 200,
   weaponCritical: 120, weaponCriticalDamage: 220,
@@ -53,6 +56,7 @@ interface ScoredBuild {
   deficitTotal: number;
   scalar: number;
   evidence: string[];
+  defenseScenario: OptimizationDefenseScenario;
 }
 
 interface SearchBudget {
@@ -143,6 +147,69 @@ function constraintState(evaluation: BuildEvaluation, constraints: OptimizationC
 
 const clamp01 = (value: number) => Math.max(0, Math.min(1, value));
 
+function effectiveDefenseContract(request: OptimizationRequest): OptimizationDefenseContract {
+  const plan = request.defensePlan ?? 'auto';
+  const defaults: OptimizationDefenseContract = {
+    ...(plan === 'evade' ? { minimumEvade: 195, preferredEvade: 200, reliableBonusEvade: 50 } : {}),
+    ...(plan === 'tank' ? { minimumScaledDefense: 45, minimumScaledResistance: 45 } : {}),
+    requirePartialBattleWeight: true,
+    armorConditionalPolicy: 'baseline',
+  };
+  return { ...defaults, ...request.defenseContract };
+}
+
+function defenseScenarioFor(build: BuildState, configured: BuildEvaluation, request: OptimizationRequest): { scenario: OptimizationDefenseScenario; reliable: BuildEvaluation } {
+  const contract = effectiveDefenseContract(request);
+  const configuredBonusEvade = Math.max(0, Math.min(build.bonusEvade, 50));
+  const hasEnabledArmorConditionals = Object.values(build.equipment.armorConditionalBonuses).some(Boolean);
+  const baseline = hasEnabledArmorConditionals
+    ? evaluateBuild({ ...build, bonusEvade: 0, equipment: { ...build.equipment, armorConditionalBonuses: {} } })
+    : { ...configured, derived: { ...configured.derived, evade: configured.derived.evade - configuredBonusEvade } };
+  const preserveConditionals = contract.armorConditionalPolicy === 'verified-current'
+    && request.locks?.armorName === build.equipment.armorName
+    && request.build.equipment.armorName === build.equipment.armorName;
+  const reliableBonusEvade = Math.max(0, Math.min(build.bonusEvade, contract.reliableBonusEvade ?? 0, 50));
+  const reliableBase = preserveConditionals
+    ? { ...configured, derived: { ...configured.derived, evade: configured.derived.evade - configuredBonusEvade } }
+    : baseline;
+  const reliable = { ...reliableBase, derived: { ...reliableBase.derived, evade: reliableBase.derived.evade + reliableBonusEvade } };
+  const failures: string[] = [];
+  if (contract.minimumEvade !== undefined && reliable.derived.evade < contract.minimumEvade) failures.push(`Reliable Evade ${reliable.derived.evade} is below ${contract.minimumEvade}.`);
+  if (contract.minimumScaledDefense !== undefined && reliable.scaledStats.def < contract.minimumScaledDefense) failures.push(`Scaled DEF ${Math.floor(reliable.scaledStats.def)} is below ${contract.minimumScaledDefense}.`);
+  if (contract.minimumScaledResistance !== undefined && reliable.scaledStats.res < contract.minimumScaledResistance) failures.push(`Scaled RES ${Math.floor(reliable.scaledStats.res)} is below ${contract.minimumScaledResistance}.`);
+  if (contract.minimumArmor !== undefined && reliable.derived.armor < contract.minimumArmor) failures.push(`Torso Armor ${reliable.derived.armor} is below ${contract.minimumArmor}.`);
+  if (contract.minimumMagicArmor !== undefined && reliable.derived.magicArmor < contract.minimumMagicArmor) failures.push(`Torso Magic Armor ${reliable.derived.magicArmor} is below ${contract.minimumMagicArmor}.`);
+  if (contract.requirePartialBattleWeight && reliable.derived.battleWeightRemaining < 0) failures.push(`Weapon and torso exceed Battle Weight by ${Math.abs(reliable.derived.battleWeightRemaining)}.`);
+  return {
+    reliable,
+    scenario: {
+      plan: request.defensePlan ?? 'auto',
+      baselineEvade: baseline.derived.evade,
+      reliableEvade: reliable.derived.evade,
+      configuredEvade: configured.derived.evade,
+      minimumEvade: contract.minimumEvade,
+      preferredEvade: contract.preferredEvade,
+      reliableBonusEvade,
+      scaledDefense: reliable.scaledStats.def,
+      scaledResistance: reliable.scaledStats.res,
+      armor: reliable.derived.armor,
+      magicArmor: reliable.derived.magicArmor,
+      armorEvade: reliable.derived.armorEvade,
+      equipmentLoad: reliable.derived.equipmentLoad,
+      battleWeightCapacity: reliable.derived.battleWeight,
+      battleWeightRemaining: reliable.derived.battleWeightRemaining,
+      meetsMinimum: failures.length === 0,
+      reachesPreferred: contract.preferredEvade === undefined || reliable.derived.evade >= contract.preferredEvade,
+      failures,
+      assumptions: [
+        `Only ${reliableBonusEvade} configured bonus Evade is treated as reliable.`,
+        preserveConditionals ? 'The locked current torso uses the user-verified active conditionals.' : 'Armor conditional effects are excluded from the reliable scenario.',
+        'Equipment load covers the primary weapon and torso only; other slots remain unmodeled.',
+      ],
+    },
+  };
+}
+
 function profileFit(evaluation: BuildEvaluation, profile?: OptimizationReferenceProfile): number {
   if (!profile) return 0;
   const targets = Object.entries(profile.scaledStatTargets).filter((entry): entry is [StatKey, number] => entry[0] !== 'apt' && typeof entry[1] === 'number' && entry[1] > 0);
@@ -172,9 +239,13 @@ function objectiveState(evaluation: BuildEvaluation, request: OptimizationReques
   const extra: OptimizationExtraPackage = request.extraPackage ?? 'auto';
   const offense = clamp01(((weapon?.power ?? 0) / 120 + (weapon?.criticalDamage ?? 0) / 260) / 2);
   const accuracy = clamp01(((weapon?.hit ?? 0) / 220 + evaluation.scaledStats.ski / 70) / 2);
-  const tank = (evaluation.derived.maxHP / 1000 + evaluation.derived.physicalDefense / 60 + evaluation.derived.magicalDefense / 60) / 3;
-  const evade = (evaluation.derived.evade / 210 + evaluation.derived.initiative / 70) / 2;
-  const durability = clamp01(plan === 'evade' ? evade : plan === 'tank' ? tank : (tank + evade) / 2);
+  const contract = effectiveDefenseContract(request);
+  const tank = (clamp01(evaluation.derived.maxHP / 1000) + clamp01(evaluation.derived.physicalDefense / 50) + clamp01(evaluation.derived.magicalDefense / 50)
+    + clamp01(evaluation.derived.armor / 10) + clamp01(evaluation.derived.magicArmor / 10)) / 5;
+  const evadeTarget = contract.preferredEvade ?? contract.minimumEvade ?? 200;
+  const evade = clamp01(evaluation.derived.evade / Math.max(1, evadeTarget));
+  const evadeDurability = evade * 0.75 + clamp01(evaluation.derived.initiative / 60) * 0.1 + tank * 0.15;
+  const durability = clamp01(plan === 'evade' ? evadeDurability : plan === 'tank' ? tank : plan === 'glass' ? tank * 0.4 : (tank + evade) / 2);
   const sustain = clamp01((evaluation.derived.fp / 450 + evaluation.derived.statusResistance / 180 + evaluation.derived.skillPool / 45) / 3);
   const criticalUtility = ((weapon?.critical ?? 0) / 130 + evaluation.scaledStats.luc / 65 + evaluation.scaledStats.gui / 65) / 3;
   const faithUtility = (evaluation.scaledStats.fai / 65 + evaluation.derived.youkaiCap / 12 + evaluation.derived.fp / 450) / 3;
@@ -186,24 +257,38 @@ function objectiveState(evaluation: BuildEvaluation, request: OptimizationReques
 
 function presetUtility(evaluation: BuildEvaluation, request: OptimizationRequest): number {
   return Object.entries(request.preset.metricWeights).reduce((sum, [metric, weight]) => {
-    return sum + metricValue(evaluation, metric as OptimizationMetric) / metricScale[metric as OptimizationMetric] * (weight ?? 0) / 10;
+    const typedMetric = metric as OptimizationMetric;
+    const scale = typedMetric === 'evade' ? effectiveDefenseContract(request).preferredEvade ?? metricScale.evade : metricScale[typedMetric];
+    return sum + clamp01(metricValue(evaluation, typedMetric) / Math.max(1, scale)) * (weight ?? 0) / 10;
   }, 0);
 }
 
 function scoreBuild(build: BuildState, request: OptimizationRequest, evidence: string[] = []): ScoredBuild {
   const evaluation = evaluateBuild(build);
+  const { scenario: defenseScenario, reliable } = defenseScenarioFor(build, evaluation, request);
   const profile = referenceProfile(request);
-  const constraints = constraintState(evaluation, request.constraints);
-  const objectives = objectiveState(evaluation, request, profile);
+  const constraints = constraintState(reliable, request.constraints);
+  const contract = effectiveDefenseContract(request);
+  const contractDeficits: Partial<Record<OptimizationMetric, number>> = {};
+  if (contract.minimumEvade !== undefined && reliable.derived.evade < contract.minimumEvade) contractDeficits.evade = contract.minimumEvade - reliable.derived.evade;
+  if (contract.minimumScaledDefense !== undefined && reliable.scaledStats.def < contract.minimumScaledDefense) contractDeficits.def = contract.minimumScaledDefense - reliable.scaledStats.def;
+  if (contract.minimumScaledResistance !== undefined && reliable.scaledStats.res < contract.minimumScaledResistance) contractDeficits.res = contract.minimumScaledResistance - reliable.scaledStats.res;
+  if (contract.minimumArmor !== undefined && reliable.derived.armor < contract.minimumArmor) contractDeficits.armor = contract.minimumArmor - reliable.derived.armor;
+  if (contract.minimumMagicArmor !== undefined && reliable.derived.magicArmor < contract.minimumMagicArmor) contractDeficits.magicArmor = contract.minimumMagicArmor - reliable.derived.magicArmor;
+  if (contract.requirePartialBattleWeight && reliable.derived.battleWeightRemaining < 0) contractDeficits.battleWeightRemaining = -reliable.derived.battleWeightRemaining;
+  const deficits = { ...constraints.deficits, ...contractDeficits };
+  const deficitCount = Object.keys(deficits).length;
+  const deficitTotal = Object.entries(deficits).reduce((sum, [metric, value]) => sum + (value ?? 0) / Math.max(1, metricScale[metric as OptimizationMetric]), 0);
+  const objectives = objectiveState(reliable, request, profile);
   const pairBonus = profile && build.subClass === profile.secondaryClass ? 0.05 : 0;
   const evidenceBonus = CLASS_PAIR_EVIDENCE[`${build.mainClass}::${build.subClass}`] ? 0.08 : 0;
   const profileWeight = profile ? 0.35 : 0;
-  const scalar = -constraints.deficitCount * 100 - constraints.deficitTotal * 20
-    + presetUtility(evaluation, request)
+  const scalar = -deficitCount * 100 - deficitTotal * 20
+    + presetUtility(reliable, request)
     + objectives.offense * 1.5 + objectives.accuracy * 1.5 + objectives.durability * 1.5
     + objectives.sustain + objectives.utility + objectives.guideFit * 1.25 + objectives.profileFit * profileWeight
     + pairBonus + evidenceBonus;
-  return { build, evaluation, objectives, ...constraints, scalar, evidence };
+  return { build, evaluation, objectives, deficits, deficitCount, deficitTotal, scalar, evidence, defenseScenario };
 }
 
 function dominates(a: ScoredBuild, b: ScoredBuild): boolean {
@@ -423,12 +508,24 @@ function evaluateArmors(request: OptimizationRequest, item: ScoredBuild, limit: 
 function conditionalGuideValidation(item: ScoredBuild, request: OptimizationRequest): BuildGuideValidation {
   const validation = validateBuildAgainstGuide(item.build, item.evaluation, request.preset);
   const aptitude = analyzeAptitudeAllocation(item.build, item.evaluation);
-  const checks = validation.checks.map(check => check.id !== 'aptitude' ? check : {
+  let checks = validation.checks.map(check => check.id !== 'aptitude' ? check : {
     ...check,
     status: aptitude.efficientBreakpoint ? 'pass' as const : 'fail' as const,
     summary: `${aptitude.summary} The 48-scaled-APT guide is reported as historical planning evidence, not imposed as a mathematical target.`,
     basis: 'calculator-data' as const,
   });
+  if (request.defensePlan === 'evade' || request.defensePlan === 'tank') {
+    checks = checks.filter(check => check.id !== 'defense');
+    checks.push({
+      id: 'defense',
+      label: request.defensePlan === 'evade' ? 'Reliable Evade defense' : 'Reliable mitigation defense',
+      status: item.defenseScenario.meetsMinimum ? 'pass' : 'fail',
+      basis: 'calculator-data',
+      summary: request.defensePlan === 'evade'
+        ? `Reliable Evade ${Math.floor(item.defenseScenario.reliableEvade)}; minimum ${item.defenseScenario.minimumEvade ?? 'not set'}, preferred ${item.defenseScenario.preferredEvade ?? 'not set'}. Baseline without configured bonus Evade is ${Math.floor(item.defenseScenario.baselineEvade)}.`
+        : `Reliable scaled DEF/RES ${Math.floor(item.defenseScenario.scaledDefense)}/${Math.floor(item.defenseScenario.scaledResistance)} with torso Armor/Magic Armor ${item.defenseScenario.armor}/${item.defenseScenario.magicArmor}.`,
+    });
+  }
   return {
     ...validation,
     checks,
@@ -449,7 +546,7 @@ function toCandidate(item: ScoredBuild, request: OptimizationRequest, index: num
   const guideValidation = conditionalGuideValidation(item, request);
   const weaponName = item.build.equipment.primaryWeapon?.selectedWeaponName ?? 'Unknown weapon';
   const armorName = item.build.equipment.armorName ?? 'No torso';
-  const warnings = [...(profile?.dataGaps ?? [])];
+  const warnings = [...(profile?.dataGaps ?? []), ...item.defenseScenario.failures];
   if (!CLASS_PAIR_EVIDENCE[`${item.build.mainClass}::${item.build.subClass}`]) warnings.push('Class-skill synergy is not represented by verified structured data.');
   return {
     id: `v2::${item.build.mainClass}::${item.build.subClass}::${weaponName}::${armorName}::${index}`,
@@ -473,10 +570,12 @@ function toCandidate(item: ScoredBuild, request: OptimizationRequest, index: num
     tradeoffs: tradeoffsFor(item),
     confidence: profile && item.build.subClass === profile.secondaryClass && weaponName === profile.weapon.name ? 'high' : item.evidence.length ? 'medium' : 'low',
     aptitudeReport: analyzeAptitudeAllocation(item.build, item.evaluation),
+    defenseScenario: item.defenseScenario,
     reasoning: [
       `Keeps ${request.build.race} / ${request.build.subrace} and primary ${request.build.mainClass} fixed.`,
       `Pairs ${item.build.mainClass} with ${item.build.subClass}, using ${weaponName} and ${armorName}.`,
       `Uses ${item.evaluation.pointsSpent}/${item.evaluation.pointBudget} invested points and satisfies ${Object.keys(request.preset.metricWeights).length} preset dimensions.`,
+      `Defense is ranked from the reliable scenario: ${Math.floor(item.defenseScenario.reliableEvade)} Evade, ${Math.floor(item.defenseScenario.scaledDefense)}/${Math.floor(item.defenseScenario.scaledResistance)} scaled DEF/RES, and ${item.defenseScenario.armor}/${item.defenseScenario.magicArmor} torso Armor/Magic Armor.`,
       ...(profile ? [`Considered ${profile.name} only as exploration evidence and a close-result tie-breaker.`] : []),
     ],
     warnings,

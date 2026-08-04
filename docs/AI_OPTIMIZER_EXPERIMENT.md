@@ -35,6 +35,10 @@ Popular builds are exploration evidence and regression fixtures, not templates o
 
 APT is optimized by the calculator's stepwise formula rather than screenshot proximity. Every 6 scaled APT adds +1 to every non-APT stat, so V2 evaluates the exact point cost of reaching or giving up each breakpoint and compares the resulting full objective vector. Stranded points above a retained breakpoint are moved elsewhere. The historical 48-APT guide remains visible as evidence but is not a mathematical target unless the user adds an explicit APT constraint.
 
+Defense descriptions are converted into explicit contracts. Evade defaults to a 195 reliable minimum and 200 preferred target when the user supplies no values; score saturates at the preferred target so surplus points can fund the rest of the build. Tank defaults use 45 scaled DEF and RES. The reliable scenario excludes bonus Evade beyond the declared allowance and excludes armor conditionals unless the user locks the current torso and marks its active conditions verified.
+
+Torso Armor, Magic Armor, native Evade, weight, stat bonuses, resistances, and verified conditionals are calculator inputs. The optimizer also checks primary-weapon-plus-torso weight against Battle Weight and labels it as a partial load check because other equipment slots remain unavailable.
+
 ## Knowledge maintenance
 
 Structured evidence lives in `src/data/content/optimizer-knowledge.json`. It records archetypes, defense plans, damage paths, class-pair evidence, required mechanics, provenance, and confidence. Additional personal Markdown notes can be placed in `optimizer-knowledge/` without changing agent code.

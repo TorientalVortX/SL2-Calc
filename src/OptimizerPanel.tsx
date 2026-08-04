@@ -8,6 +8,7 @@ import type {
   OptimizationCandidate,
   OptimizationConstraint,
   OptimizationDefensePlan,
+  OptimizationDefenseContract,
   OptimizationEquipmentLocks,
   OptimizationExtraPackage,
   OptimizationMetric,
@@ -22,6 +23,7 @@ const metricLabels: Record<OptimizationMetric, string> = {
   str: 'Scaled STR', wil: 'Scaled WIL', ski: 'Scaled SKI', cel: 'Scaled CEL', def: 'Scaled DEF', res: 'Scaled RES',
   vit: 'Scaled VIT', fai: 'Scaled FAI', luc: 'Scaled LUC', gui: 'Scaled GUI', san: 'Scaled SAN', apt: 'Scaled APT',
   maxHP: 'Max HP', fp: 'FP', physicalDefense: 'Physical Defense', magicalDefense: 'Magical Defense', evade: 'Evade',
+  armor: 'Torso Armor', magicArmor: 'Torso Magic Armor', equipmentLoad: 'Weapon + Torso Weight', battleWeightRemaining: 'Partial Battle Weight Remaining',
   criticalEvade: 'Critical Evade', statusInfliction: 'Status Infliction', statusResistance: 'Status Resistance',
   initiative: 'Initiative', youkaiCap: 'Youkai Cap', flanking: 'Flanking', skillPool: 'Skill Pool',
   battleWeight: 'Battle Weight', encumbrance: 'Encumbrance', weaponPower: 'Weapon Power', weaponHit: 'Weapon Hit',
@@ -50,6 +52,15 @@ export default function OptimizerPanel({ build, currentEvaluation, onApply, canU
   const [subRank, setSubRank] = useState(build.subClassPassive);
   const [constraints, setConstraints] = useState<OptimizationConstraint[]>([]);
   const [defensePlan, setDefensePlan] = useState<OptimizationDefensePlan>('auto');
+  const [minimumEvade, setMinimumEvade] = useState(195);
+  const [preferredEvade, setPreferredEvade] = useState(200);
+  const [reliableBonusEvade, setReliableBonusEvade] = useState(0);
+  const [minimumDefense, setMinimumDefense] = useState(45);
+  const [minimumResistance, setMinimumResistance] = useState(45);
+  const [minimumArmor, setMinimumArmor] = useState(0);
+  const [minimumMagicArmor, setMinimumMagicArmor] = useState(0);
+  const [requirePartialBattleWeight, setRequirePartialBattleWeight] = useState(true);
+  const [useVerifiedArmorConditionals, setUseVerifiedArmorConditionals] = useState(false);
   const [extraPackage, setExtraPackage] = useState<OptimizationExtraPackage>('auto');
   const [weaponLockMode, setWeaponLockMode] = useState<ItemLockMode>('all');
   const [armorLockMode, setArmorLockMode] = useState<ItemLockMode>('all');
@@ -79,6 +90,14 @@ export default function OptimizerPanel({ build, currentEvaluation, onApply, canU
     if (armorLockMode === 'type' && currentArmor) next.armorType = currentArmor.type;
     return next;
   }, [armorLockMode, build.equipment, build.subClass, searchClasses, weaponLockMode]);
+  const defenseContract = useMemo<OptimizationDefenseContract>(() => ({
+    ...(defensePlan === 'evade' ? { minimumEvade, preferredEvade: Math.max(minimumEvade, preferredEvade), reliableBonusEvade: Math.min(50, reliableBonusEvade) } : {}),
+    ...(defensePlan === 'tank' ? { minimumScaledDefense: minimumDefense, minimumScaledResistance: minimumResistance } : {}),
+    ...(minimumArmor > 0 ? { minimumArmor } : {}),
+    ...(minimumMagicArmor > 0 ? { minimumMagicArmor } : {}),
+    requirePartialBattleWeight,
+    armorConditionalPolicy: useVerifiedArmorConditionals ? 'verified-current' : 'baseline',
+  }), [defensePlan, minimumArmor, minimumDefense, minimumEvade, minimumMagicArmor, minimumResistance, preferredEvade, reliableBonusEvade, requirePartialBattleWeight, useVerifiedArmorConditionals]);
 
   useEffect(() => {
     setResult(null);
@@ -148,6 +167,7 @@ export default function OptimizerPanel({ build, currentEvaluation, onApply, canU
         engine: workerEngine === 'v2' ? 'v2' : 'legacy',
         locks,
         defensePlan,
+        defenseContract,
         extraPackage,
         searchDepth: aiMode,
         intent,
@@ -176,7 +196,7 @@ export default function OptimizerPanel({ build, currentEvaluation, onApply, canU
         headers: { 'Content-Type': 'application/json' },
         signal: controller.signal,
         body: JSON.stringify({
-          build, presetId, constraints, locks, defensePlan, extraPackage,
+          build, presetId, constraints, locks, defensePlan, defenseContract, extraPackage,
           referenceProfileId: referenceProfileId || undefined,
           intent: intent.trim() || `Create a ${OPTIMIZATION_PRESETS[presetId].name.toLowerCase()} build using the fixed character choices.`,
           mode: aiMode, previousResponseId, assumedMainPassiveRank: mainRank, assumedSubPassiveRank: subRank,
@@ -216,7 +236,7 @@ export default function OptimizerPanel({ build, currentEvaluation, onApply, canU
 
   const candidate = result?.candidates[selectedIndex];
   const selectedReferenceProfile = referenceProfileId ? OPTIMIZER_REFERENCE_PROFILE_BY_ID[referenceProfileId] : undefined;
-  const compareMetrics: OptimizationMetric[] = ['maxHP', 'fp', 'physicalDefense', 'magicalDefense', 'evade', 'statusInfliction', 'statusResistance', 'weaponPower', 'weaponHit', 'weaponCritical', 'weaponCriticalDamage'];
+  const compareMetrics: OptimizationMetric[] = ['maxHP', 'fp', 'physicalDefense', 'magicalDefense', 'armor', 'magicArmor', 'evade', 'equipmentLoad', 'battleWeightRemaining', 'statusInfliction', 'statusResistance', 'weaponPower', 'weaponHit', 'weaponCritical', 'weaponCriticalDamage'];
 
   return (
     <section className={`mt-6 rounded-xl border border-green-500/30 bg-gray-900/70 p-4 sm:p-6 ${retroMode ? 'font-retro glow-border' : ''}`} aria-labelledby="optimizer-title">
@@ -264,6 +284,12 @@ export default function OptimizerPanel({ build, currentEvaluation, onApply, canU
         <div className="grid grid-cols-2 gap-2"><label className="text-xs text-gray-400">Main passive<input type="number" min="0" max="10" value={mainRank} onChange={event => setMainRank(Math.max(0, Number(event.target.value)))} className="mt-1 w-full bg-gray-800 border border-gray-600 rounded px-2 py-2 text-sm" /></label><label className="text-xs text-gray-400">Sub passive<input type="number" min="0" max="10" value={subRank} onChange={event => setSubRank(Math.max(0, Number(event.target.value)))} className="mt-1 w-full bg-gray-800 border border-gray-600 rounded px-2 py-2 text-sm" /></label></div>
       </div>
 
+      <div className="mt-4 rounded-lg border border-cyan-800/70 bg-cyan-950/15 p-3"><div className="mb-3"><h4 className="font-semibold text-cyan-200">Defense contract</h4><p className="text-xs text-gray-500">Requirements are checked against reliable conditions before damage or utility can win the ranking.</p></div><div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        {defensePlan === 'evade' && <><label className="text-xs text-gray-400">Minimum reliable Evade<input aria-label="Minimum reliable Evade" type="number" min="0" value={minimumEvade} onChange={event => setMinimumEvade(Math.max(0, Number(event.target.value)))} className="mt-1 w-full bg-gray-800 border border-gray-600 rounded px-2 py-2 text-sm" /></label><label className="text-xs text-gray-400">Preferred Evade<input aria-label="Preferred Evade" type="number" min={minimumEvade} value={preferredEvade} onChange={event => setPreferredEvade(Math.max(0, Number(event.target.value)))} className="mt-1 w-full bg-gray-800 border border-gray-600 rounded px-2 py-2 text-sm" /></label><label className="text-xs text-gray-400">Reliable bonus Evade<input aria-label="Reliable bonus Evade" type="number" min="0" max="50" value={reliableBonusEvade} onChange={event => setReliableBonusEvade(Math.max(0, Math.min(50, Number(event.target.value))))} className="mt-1 w-full bg-gray-800 border border-gray-600 rounded px-2 py-2 text-sm" /></label></>}
+        {defensePlan === 'tank' && <><label className="text-xs text-gray-400">Minimum scaled DEF<input aria-label="Minimum scaled DEF" type="number" min="0" value={minimumDefense} onChange={event => setMinimumDefense(Math.max(0, Number(event.target.value)))} className="mt-1 w-full bg-gray-800 border border-gray-600 rounded px-2 py-2 text-sm" /></label><label className="text-xs text-gray-400">Minimum scaled RES<input aria-label="Minimum scaled RES" type="number" min="0" value={minimumResistance} onChange={event => setMinimumResistance(Math.max(0, Number(event.target.value)))} className="mt-1 w-full bg-gray-800 border border-gray-600 rounded px-2 py-2 text-sm" /></label></>}
+        <label className="text-xs text-gray-400">Minimum torso Armor<input aria-label="Minimum torso Armor" type="number" min="0" value={minimumArmor} onChange={event => setMinimumArmor(Math.max(0, Number(event.target.value)))} className="mt-1 w-full bg-gray-800 border border-gray-600 rounded px-2 py-2 text-sm" /></label><label className="text-xs text-gray-400">Minimum Magic Armor<input aria-label="Minimum Magic Armor" type="number" min="0" value={minimumMagicArmor} onChange={event => setMinimumMagicArmor(Math.max(0, Number(event.target.value)))} className="mt-1 w-full bg-gray-800 border border-gray-600 rounded px-2 py-2 text-sm" /></label>
+      </div><div className="mt-3 flex flex-wrap gap-4 text-xs"><label className="flex items-center gap-2"><input type="checkbox" checked={requirePartialBattleWeight} onChange={event => setRequirePartialBattleWeight(event.target.checked)} />Require weapon + torso within Battle Weight</label><label className="flex items-center gap-2"><input type="checkbox" checked={useVerifiedArmorConditionals} disabled={armorLockMode !== 'current'} onChange={event => setUseVerifiedArmorConditionals(event.target.checked)} />Use verified conditionals on locked current torso</label></div></div>
+
       {selectedReferenceProfile && <div className="mt-4 rounded-lg border border-violet-700/60 bg-violet-950/20 p-3 text-sm"><strong className="text-violet-200">{selectedReferenceProfile.archetype}</strong><div className="text-gray-400">{selectedReferenceProfile.name} · {selectedReferenceProfile.weapon.name} → {selectedReferenceProfile.weapon.effectiveType}</div><div className="mt-2 flex flex-wrap gap-1.5">{selectedReferenceProfile.priorityStats.map(stat => <span key={stat} className="rounded bg-violet-900/60 px-2 py-1 text-xs">{stat.toUpperCase()} {selectedReferenceProfile.scaledStatTargets[stat]}</span>)}</div>{selectedReferenceProfile.dataGaps?.map(gap => <p key={gap} className="mt-1 text-xs text-yellow-300">{gap}</p>)}</div>}
 
       <div className="mt-5 border-t border-gray-700 pt-4"><div className="flex items-center justify-between mb-3"><div><h4 className="font-semibold">Hard minimums</h4><p className="text-xs text-gray-500">These override soft guide and profile preferences.</p></div><button type="button" onClick={addConstraint} className="px-3 py-1.5 rounded bg-blue-700 hover:bg-blue-600 text-sm">Add minimum</button></div><div className="grid grid-cols-1 md:grid-cols-2 gap-2">{constraints.map((constraint, index) => <div key={`${constraint.metric}-${index}`} className="flex gap-2"><select value={constraint.metric} onChange={event => setConstraints(items => items.map((item, itemIndex) => itemIndex === index ? { ...item, metric: event.target.value as OptimizationMetric } : item))} className="min-w-0 flex-1 bg-gray-800 border border-gray-600 rounded px-2 py-2 text-sm">{metrics.map(metric => <option key={metric} value={metric}>{metricLabels[metric]}</option>)}</select><input aria-label={`Minimum ${metricLabels[constraint.metric]}`} type="number" value={constraint.minimum} onChange={event => setConstraints(items => items.map((item, itemIndex) => itemIndex === index ? { ...item, minimum: Number(event.target.value) } : item))} className="w-28 bg-gray-800 border border-gray-600 rounded px-2 py-2 text-sm" /><button type="button" aria-label="Remove constraint" onClick={() => setConstraints(items => items.filter((_, itemIndex) => itemIndex !== index))} className="p-2 rounded hover:bg-gray-700"><X size={17} /></button></div>)}{!constraints.length && <p className="text-sm text-gray-500">No custom hard minimums.</p>}</div></div>
@@ -283,6 +309,7 @@ export default function OptimizerPanel({ build, currentEvaluation, onApply, canU
           <div className="overflow-x-auto"><table className="w-full min-w-[680px] text-sm"><thead><tr className="text-left text-gray-400 border-b border-gray-700"><th className="py-2">Value</th><th>Current</th><th>Proposed</th><th>Change</th></tr></thead><tbody>{compareMetrics.map(metric => { const current = metricValue(currentEvaluation, metric); const proposed = metricValue(candidate.evaluation, metric); if (metric.startsWith('weapon') && !candidate.evaluation.primaryWeapon) return null; return <tr key={metric} className="border-b border-gray-800"><td className="py-2">{metricLabels[metric]}</td><td>{Math.round(current)}</td><td>{Math.round(proposed)}</td><td className={proposed >= current ? 'text-green-300' : 'text-red-300'}>{proposed - current >= 0 ? '+' : ''}{Math.round(proposed - current)}</td></tr>; })}</tbody></table></div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">{STAT_KEYS.map(stat => <div key={stat} className="bg-gray-800 rounded p-2 text-center"><span className="block text-xs text-gray-500">{stat.toUpperCase()} invested</span><strong>{build.addedStats[stat]} → {candidate.patch.addedStats[stat]}</strong><span className="block text-xs text-gray-500">Scaled {Math.floor(candidate.evaluation.scaledStats[stat])}</span></div>)}</div>
           {candidate.aptitudeReport && <div className={`rounded-lg border p-3 ${candidate.aptitudeReport.efficientBreakpoint ? 'border-cyan-800 bg-cyan-950/20' : 'border-yellow-700 bg-yellow-950/20'}`}><h4 className="font-semibold text-cyan-200">APT breakpoint efficiency</h4><p className="mt-1 text-sm text-gray-300">{candidate.aptitudeReport.summary}</p><div className="mt-2 flex flex-wrap gap-3 text-xs text-gray-400"><span>Global bonus +{candidate.aptitudeReport.globalStatBonus}</span><span>{candidate.aptitudeReport.investedPoints} invested</span><span>{candidate.aptitudeReport.redundantInvestedPoints} stranded</span><span>Next breakpoint: {candidate.aptitudeReport.pointsToNextBonus ?? 'unreachable'} point(s)</span></div></div>}
+          {candidate.defenseScenario && <div className={`rounded-lg border p-3 ${candidate.defenseScenario.meetsMinimum ? 'border-emerald-800 bg-emerald-950/20' : 'border-red-700 bg-red-950/20'}`}><h4 className="font-semibold text-emerald-200">Reliable defense scenario</h4><div className="mt-2 grid grid-cols-2 sm:grid-cols-4 gap-2 text-sm"><span>Evade <strong>{Math.floor(candidate.defenseScenario.reliableEvade)}</strong></span><span>Baseline <strong>{Math.floor(candidate.defenseScenario.baselineEvade)}</strong></span><span>DEF/RES <strong>{Math.floor(candidate.defenseScenario.scaledDefense)}/{Math.floor(candidate.defenseScenario.scaledResistance)}</strong></span><span>Armor/M.Armor <strong>{candidate.defenseScenario.armor}/{candidate.defenseScenario.magicArmor}</strong></span><span>Armor Evade <strong>{candidate.defenseScenario.armorEvade >= 0 ? '+' : ''}{candidate.defenseScenario.armorEvade}</strong></span><span>Partial load <strong>{candidate.defenseScenario.equipmentLoad}/{candidate.defenseScenario.battleWeightCapacity}</strong></span></div>{candidate.defenseScenario.failures.map(failure => <p key={failure} className="mt-1 text-sm text-red-300">{failure}</p>)}{candidate.defenseScenario.assumptions.map(assumption => <p key={assumption} className="mt-1 text-xs text-gray-500">{assumption}</p>)}</div>}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-3"><div className="rounded border border-gray-700 p-3"><h4 className="font-semibold">Reasoning and evidence</h4><ul className="mt-2 text-sm text-gray-300 list-disc pl-5">{candidate.reasoning.map(reason => <li key={reason}>{reason}</li>)}</ul>{candidate.evidence?.map(item => <p key={item} className="mt-1 text-xs text-cyan-300">Evidence: {item}</p>)}</div><div className="rounded border border-gray-700 p-3"><h4 className="font-semibold">Tradeoffs and verification</h4>{candidate.tradeoffs?.map(item => <p key={item} className="mt-1 text-sm text-yellow-200">{item}</p>)}{candidate.warnings.map(warning => <p key={warning} className="mt-1 text-sm text-yellow-300">{warning}</p>)}</div></div>
           <div className="rounded-lg border border-cyan-800/70 bg-cyan-950/20 p-3"><h4 className="font-semibold text-cyan-200 flex items-center gap-2"><ShieldCheck size={17} /> Validation</h4><p className="mt-1 text-xs text-gray-400">{candidate.guideValidation.passed} pass · {candidate.guideValidation.failed} fail · {candidate.guideValidation.requiresVerification} require verification.</p></div>
           <button type="button" onClick={() => onApply(candidate)} className="px-5 py-3 rounded-lg bg-blue-700 hover:bg-blue-600 font-semibold">Apply {selectedIndex === 0 ? 'primary build' : `alternative ${selectedIndex}`}</button>
