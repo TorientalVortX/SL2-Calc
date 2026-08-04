@@ -1,5 +1,6 @@
 import type {
   Armor,
+  AptitudeOptimizationReport,
   BuildEvaluation,
   BuildGuideValidation,
   BuildState,
@@ -144,7 +145,7 @@ const clamp01 = (value: number) => Math.max(0, Math.min(1, value));
 
 function profileFit(evaluation: BuildEvaluation, profile?: OptimizationReferenceProfile): number {
   if (!profile) return 0;
-  const targets = Object.entries(profile.scaledStatTargets).filter((entry): entry is [StatKey, number] => typeof entry[1] === 'number' && entry[1] > 0);
+  const targets = Object.entries(profile.scaledStatTargets).filter((entry): entry is [StatKey, number] => entry[0] !== 'apt' && typeof entry[1] === 'number' && entry[1] > 0);
   if (!targets.length) return 0;
   const priority = new Set(profile.priorityStats);
   let weightTotal = 0;
@@ -158,13 +159,11 @@ function profileFit(evaluation: BuildEvaluation, profile?: OptimizationReference
 }
 
 function guideFit(evaluation: BuildEvaluation, profile?: OptimizationReferenceProfile): number {
-  const aptTarget = profile?.scaledStatTargets.apt ?? 48;
   const skiTarget = profile?.scaledStatTargets.ski ?? 57;
   const vitTarget = profile?.scaledStatTargets.vit ?? 35;
-  const apt = clamp01(1 - Math.abs(evaluation.scaledStats.apt - aptTarget) / Math.max(10, aptTarget));
   const ski = clamp01(evaluation.scaledStats.ski / Math.max(1, skiTarget));
   const vit = clamp01(evaluation.rawStats.vit / Math.max(1, vitTarget));
-  return (apt + ski + vit) / 3;
+  return (ski + vit) / 2;
 }
 
 function objectiveState(evaluation: BuildEvaluation, request: OptimizationRequest, profile?: OptimizationReferenceProfile): OptimizationObjectives {
@@ -196,25 +195,29 @@ function scoreBuild(build: BuildState, request: OptimizationRequest, evidence: s
   const profile = referenceProfile(request);
   const constraints = constraintState(evaluation, request.constraints);
   const objectives = objectiveState(evaluation, request, profile);
-  const pairBonus = profile && build.subClass === profile.secondaryClass ? 0.35 : 0;
+  const pairBonus = profile && build.subClass === profile.secondaryClass ? 0.05 : 0;
   const evidenceBonus = CLASS_PAIR_EVIDENCE[`${build.mainClass}::${build.subClass}`] ? 0.08 : 0;
-  const profileWeight = profile ? 7 : 0;
+  const profileWeight = profile ? 0.35 : 0;
   const scalar = -constraints.deficitCount * 100 - constraints.deficitTotal * 20
     + presetUtility(evaluation, request)
     + objectives.offense * 1.5 + objectives.accuracy * 1.5 + objectives.durability * 1.5
-    + objectives.sustain + objectives.utility + objectives.guideFit * (profile ? 2.5 : 1.25) + objectives.profileFit * profileWeight
+    + objectives.sustain + objectives.utility + objectives.guideFit * 1.25 + objectives.profileFit * profileWeight
     + pairBonus + evidenceBonus;
   return { build, evaluation, objectives, ...constraints, scalar, evidence };
 }
 
 function dominates(a: ScoredBuild, b: ScoredBuild): boolean {
   if (a.deficitCount > b.deficitCount || a.deficitTotal > b.deficitTotal + 1e-9) return false;
-  const aValues = Object.values(a.objectives);
-  const bValues = Object.values(b.objectives);
+  const aValues = mechanicalObjectiveValues(a.objectives);
+  const bValues = mechanicalObjectiveValues(b.objectives);
   const noWorse = aValues.every((value, index) => value + 1e-9 >= bValues[index]);
   const better = a.deficitCount < b.deficitCount || a.deficitTotal + 1e-9 < b.deficitTotal
     || aValues.some((value, index) => value > bValues[index] + 1e-9);
   return noWorse && better;
+}
+
+function mechanicalObjectiveValues(objectives: OptimizationObjectives): number[] {
+  return [objectives.offense, objectives.accuracy, objectives.durability, objectives.sustain, objectives.utility, objectives.guideFit];
 }
 
 function selectPareto(items: ScoredBuild[], limit: number): ScoredBuild[] {
@@ -248,12 +251,12 @@ function seedPreScore(request: OptimizationRequest, subClass: string, weapon: We
   }
   const pairEvidence = CLASS_PAIR_EVIDENCE[`${request.build.mainClass}::${subClass}`];
   if (pairEvidence) {
-    preScore += 0.45;
+    preScore += 0.15;
     evidence.push(`Community profile supports ${request.build.mainClass} / ${subClass}.`);
   }
   if (profile) {
-    if (subClass === profile.secondaryClass) preScore += 3;
-    if (weapon.name === profile.weapon.name) preScore += 3;
+    if (subClass === profile.secondaryClass) preScore += 0.25;
+    if (weapon.name === profile.weapon.name) preScore += 0.25;
   }
   return { subClass, weapon, preScore, evidence };
 }
@@ -314,6 +317,90 @@ function refineStats(request: OptimizationRequest, initial: ScoredBuild, passes:
   return current;
 }
 
+function aptitudeBonus(evaluation: BuildEvaluation): number {
+  return Math.max(0, Math.floor(evaluation.scaledStats.apt / 6));
+}
+
+function buildWithAptitude(build: BuildState, investedAptitude: number): BuildState {
+  return { ...build, addedStats: { ...build.addedStats, apt: investedAptitude } };
+}
+
+export function analyzeAptitudeAllocation(build: BuildState, evaluation = evaluateBuild(build)): AptitudeOptimizationReport {
+  const investedPoints = build.addedStats.apt;
+  const globalStatBonus = aptitudeBonus(evaluation);
+  let retainedBreakpointInvestment = investedPoints;
+  for (let aptitude = investedPoints - 1; aptitude >= 0; aptitude--) {
+    if (aptitudeBonus(evaluateBuild(buildWithAptitude(build, aptitude))) !== globalStatBonus) break;
+    retainedBreakpointInvestment = aptitude;
+  }
+
+  let pointsToNextBonus: number | null = null;
+  for (let aptitude = investedPoints + 1; aptitude <= evaluation.maxInvestedStats.apt; aptitude++) {
+    if (aptitudeBonus(evaluateBuild(buildWithAptitude(build, aptitude))) > globalStatBonus) {
+      pointsToNextBonus = aptitude - investedPoints;
+      break;
+    }
+  }
+  const redundantInvestedPoints = investedPoints - retainedBreakpointInvestment;
+  const nextScaledBreakpoint = (globalStatBonus + 1) * 6;
+  const efficientBreakpoint = redundantInvestedPoints === 0;
+  const next = pointsToNextBonus === null ? 'the next bonus is unreachable at the current cap' : `${pointsToNextBonus} more invested point${pointsToNextBonus === 1 ? '' : 's'} would reach the next +1 global-stat bonus`;
+  return {
+    scaledAptitude: evaluation.scaledStats.apt,
+    globalStatBonus,
+    investedPoints,
+    retainedBreakpointInvestment,
+    redundantInvestedPoints,
+    nextScaledBreakpoint,
+    pointsToNextBonus,
+    efficientBreakpoint,
+    summary: `Scaled APT ${evaluation.scaledStats.apt.toFixed(2)} provides +${globalStatBonus} to every non-APT stat; ${redundantInvestedPoints ? `${redundantInvestedPoints} invested point${redundantInvestedPoints === 1 ? ' is' : 's are'} above the retained breakpoint` : 'no invested points are stranded above the retained breakpoint'}, and ${next}.`,
+  };
+}
+
+function refineAptitudeBreakpoints(request: OptimizationRequest, initial: ScoredBuild, maxSteps: number): ScoredBuild {
+  let current = initial;
+  for (let step = 0; step < maxSteps; step++) {
+    let best = current;
+    const report = analyzeAptitudeAllocation(current.build, current.evaluation);
+
+    if (report.pointsToNextBonus && current.build.addedStats.apt + report.pointsToNextBonus <= current.evaluation.maxInvestedStats.apt) {
+      for (const from of STAT_KEYS) {
+        if (from === 'apt' || current.build.addedStats[from] < report.pointsToNextBonus) continue;
+        const allocation = {
+          ...current.build.addedStats,
+          [from]: current.build.addedStats[from] - report.pointsToNextBonus,
+          apt: current.build.addedStats.apt + report.pointsToNextBonus,
+        };
+        const candidate = scoreBuild({ ...current.build, addedStats: allocation }, request, current.evidence);
+        if (candidate.scalar > best.scalar + 1e-9) best = candidate;
+      }
+    }
+
+    const currentMinimum = report.retainedBreakpointInvestment;
+    if (currentMinimum > 0) {
+      const lowerEvaluation = evaluateBuild(buildWithAptitude(current.build, currentMinimum - 1));
+      const lowerBonus = aptitudeBonus(lowerEvaluation);
+      let lowerMinimum = currentMinimum - 1;
+      for (let aptitude = currentMinimum - 2; aptitude >= 0; aptitude--) {
+        if (aptitudeBonus(evaluateBuild(buildWithAptitude(current.build, aptitude))) !== lowerBonus) break;
+        lowerMinimum = aptitude;
+      }
+      const released = current.build.addedStats.apt - lowerMinimum;
+      for (const to of STAT_KEYS) {
+        if (to === 'apt' || current.build.addedStats[to] + released > current.evaluation.maxInvestedStats[to]) continue;
+        const allocation = { ...current.build.addedStats, apt: lowerMinimum, [to]: current.build.addedStats[to] + released };
+        const candidate = scoreBuild({ ...current.build, addedStats: allocation }, request, current.evidence);
+        if (candidate.scalar > best.scalar + 1e-9) best = candidate;
+      }
+    }
+
+    if (best === current) break;
+    current = refineStats(request, best, 1);
+  }
+  return current;
+}
+
 function evaluateArmors(request: OptimizationRequest, item: ScoredBuild, limit: number): ScoredBuild[] {
   const choices = armorCandidates(request);
   if (!choices.length) return [item];
@@ -335,14 +422,12 @@ function evaluateArmors(request: OptimizationRequest, item: ScoredBuild, limit: 
 
 function conditionalGuideValidation(item: ScoredBuild, request: OptimizationRequest): BuildGuideValidation {
   const validation = validateBuildAgainstGuide(item.build, item.evaluation, request.preset);
-  const profile = referenceProfile(request);
-  const target = profile?.scaledStatTargets.apt;
-  if (!profile || typeof target !== 'number' || target === 48) return validation;
+  const aptitude = analyzeAptitudeAllocation(item.build, item.evaluation);
   const checks = validation.checks.map(check => check.id !== 'aptitude' ? check : {
     ...check,
-    status: Math.floor(item.evaluation.scaledStats.apt) === Math.floor(target) ? 'pass' as const : 'fail' as const,
-    summary: `Applicable reference target from ${profile.name}: scaled APT ${Math.floor(target)}; candidate ${Math.floor(item.evaluation.scaledStats.apt)}. The generic 48-APT guide target is conditional.`,
-    basis: 'assumption' as const,
+    status: aptitude.efficientBreakpoint ? 'pass' as const : 'fail' as const,
+    summary: `${aptitude.summary} The 48-scaled-APT guide is reported as historical planning evidence, not imposed as a mathematical target.`,
+    basis: 'calculator-data' as const,
   });
   return {
     ...validation,
@@ -387,11 +472,12 @@ function toCandidate(item: ScoredBuild, request: OptimizationRequest, index: num
     evidence: item.evidence,
     tradeoffs: tradeoffsFor(item),
     confidence: profile && item.build.subClass === profile.secondaryClass && weaponName === profile.weapon.name ? 'high' : item.evidence.length ? 'medium' : 'low',
+    aptitudeReport: analyzeAptitudeAllocation(item.build, item.evaluation),
     reasoning: [
       `Keeps ${request.build.race} / ${request.build.subrace} and primary ${request.build.mainClass} fixed.`,
       `Pairs ${item.build.mainClass} with ${item.build.subClass}, using ${weaponName} and ${armorName}.`,
       `Uses ${item.evaluation.pointsSpent}/${item.evaluation.pointBudget} invested points and satisfies ${Object.keys(request.preset.metricWeights).length} preset dimensions.`,
-      ...(profile ? [`Uses ${profile.name} as community evidence without forcing an exact copy.`] : []),
+      ...(profile ? [`Considered ${profile.name} only as exploration evidence and a close-result tie-breaker.`] : []),
     ],
     warnings,
   };
@@ -440,6 +526,16 @@ export function validateV2Candidate(candidate: OptimizationCandidate, request: O
   return errors;
 }
 
+export function candidateMechanicallyDominates(a: OptimizationCandidate, b: OptimizationCandidate): boolean {
+  if (!a.objectives || !b.objectives) return false;
+  if (Object.keys(a.constraintDeficits).length > Object.keys(b.constraintDeficits).length) return false;
+  const aValues = mechanicalObjectiveValues(a.objectives);
+  const bValues = mechanicalObjectiveValues(b.objectives);
+  return aValues.every((value, index) => value + 1e-9 >= bValues[index])
+    && (Object.keys(a.constraintDeficits).length < Object.keys(b.constraintDeficits).length
+      || aValues.some((value, index) => value > bValues[index] + 1e-9));
+}
+
 export function optimizeBuildV2(request: OptimizationRequest, control: OptimizationControl = {}): OptimizationResult {
   const started = performance.now();
   const budget = budgets[request.searchDepth ?? 'standard'];
@@ -448,19 +544,17 @@ export function optimizeBuildV2(request: OptimizationRequest, control: Optimizat
   seeds.forEach((seed, index) => {
     if (control.isCancelled?.()) return;
     const allocation = allocateWithBeam(request, seed, budget.beamWidth, control.isCancelled);
-    const refined = refineStats(request, allocation, budget.refinePasses);
-    finalists.push(...evaluateArmors(request, refined, budget.armorsPerSeed));
+    const refined = refineAptitudeBreakpoints(request, refineStats(request, allocation, budget.refinePasses), budget.refinePasses * 4);
+    const armored = evaluateArmors(request, refined, budget.armorsPerSeed);
+    finalists.push(...armored.map(item => refineAptitudeBreakpoints(request, refineStats(request, item, 1), budget.refinePasses * 2)));
     const progress: OptimizationProgress = { completed: index + 1, total: seeds.length, message: `V2: ${seed.subClass} / ${seed.weapon.name}` };
     control.onProgress?.(progress);
   });
   const ranked = finalists.sort((a, b) => b.scalar - a.scalar);
-  const selected = selectDiverse(ranked, Math.max(1, request.resultLimit ?? 3));
-  const profile = referenceProfile(request);
-  if (profile && findWeaponByName(profile.weapon.name)) {
-    const profileItem = ranked.find(item => item.build.subClass === profile.secondaryClass
-      && item.build.equipment.primaryWeapon?.selectedWeaponName === profile.weapon.name);
-    if (profileItem && !selected.includes(profileItem)) selected[selected.length - 1] = profileItem;
-  }
+  const limit = Math.max(1, request.resultLimit ?? 3);
+  const frontier = ranked.filter((item, index) => !ranked.some((other, otherIndex) => otherIndex !== index && dominates(other, item)));
+  const selectionPool = frontier.length >= limit ? frontier : [...frontier, ...ranked.filter(item => !frontier.includes(item))];
+  const selected = selectDiverse(selectionPool, limit);
   const candidates = selected.map((item, index) => toCandidate(item, request, index));
   for (const candidate of candidates) {
     const errors = validateV2Candidate(candidate, request);

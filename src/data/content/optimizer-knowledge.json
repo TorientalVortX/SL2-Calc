@@ -18,7 +18,7 @@
   ],
   "rules": [
     { "id": "fixed-character", "statement": "Race, subrace, main class, character level, and active character bonuses are immutable during optimization.", "source": "user", "confidence": "verified" },
-    { "id": "conditional-aptitude", "statement": "48 scaled APT is a general guide target, not a universal hard constraint; an applicable user or reference target takes precedence.", "source": "SL2BuildInfo-and-community-profiles", "confidence": "community" },
+    { "id": "conditional-aptitude", "statement": "APT grants +1 to every non-APT stat at each 6-scaled-APT breakpoint. Optimize its exact breakpoint gain and point opportunity cost; 48 and screenshot values are historical planning evidence unless the user explicitly makes one a hard constraint.", "source": "calculator-formula-and-SL2BuildInfo", "confidence": "verified" },
     { "id": "unknown-skills", "statement": "Unstructured class-skill and item-effect behavior must be labeled as requiring verification and contributes no invented numeric bonus.", "source": "calculator-boundary", "confidence": "verified" }
   ]
 }

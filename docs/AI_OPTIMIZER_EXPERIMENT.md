@@ -31,7 +31,9 @@ The loop is capped at 10 tool-call rounds and 24 exact surfaced candidate evalua
 
 V2 searches subclass, stats, primary weapon, and torso armor. It starts from popular-profile and archetype seeds, uses Pareto beam allocation across offense, accuracy, durability, resource sustainability, utility, guide fit, and profile fit, and then performs deterministic stat-swap refinement. Candidate selection preserves meaningful class/equipment diversity instead of reducing all goals to one keyword or scalar score.
 
-Popular builds are evidence, priors, and regression fixtures. They are not templates. Profile-specific targets can supersede generic guide defaults, and missing canonical items such as Tricky Yoyo or Hissei remain explicit data gaps.
+Popular builds are exploration evidence and regression fixtures, not templates or optimization targets. An unselected profile cannot bias deterministic search. An explicitly selected profile only seeds exploration and breaks close mechanical ties; it cannot preserve a candidate that is mathematically dominated under the same modeled constraints. Missing canonical items such as Tricky Yoyo or Hissei remain explicit data gaps.
+
+APT is optimized by the calculator's stepwise formula rather than screenshot proximity. Every 6 scaled APT adds +1 to every non-APT stat, so V2 evaluates the exact point cost of reaching or giving up each breakpoint and compares the resulting full objective vector. Stranded points above a retained breakpoint are moved elsewhere. The historical 48-APT guide remains visible as evidence but is not a mathematical target unless the user adds an explicit APT constraint.
 
 ## Knowledge maintenance
 
@@ -48,4 +50,4 @@ npm run check
 npm run build
 ```
 
-Normal tests mock the Responses API and never make a live model call. `npm run eval:ai` is the explicit live path and requires `OPENAI_API_KEY`. Its seven-profile benchmark requires the represented subclass and weapon in the top three unless the profile item is explicitly unavailable or a same-constraint candidate formally dominates it.
+Normal tests mock the Responses API and never make a live model call. `npm run eval:ai` is the explicit live path and requires `OPENAI_API_KEY`. Its seven-profile benchmark reports reference recovery as a diagnostic, while pass/fail is based on constraint success, calculator validation, fallback use, and zero stranded APT investment. A lower reference-recovery score is acceptable when mechanics-first candidates dominate the screenshot build.

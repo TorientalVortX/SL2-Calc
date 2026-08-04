@@ -3,9 +3,9 @@ import type { BuildState, OptimizationRequest } from '../types';
 import { parseBuildFile } from '../domain/buildPersistence';
 import { ARMORS } from '../data/armors';
 import { findWeaponByName } from '../domain/equipment';
-import { ENABLED_OPTIMIZER_REFERENCE_PROFILES, OPTIMIZER_REFERENCE_PROFILE_BY_ID } from '../data/optimizerProfiles';
+import { OPTIMIZER_REFERENCE_PROFILE_BY_ID } from '../data/optimizerProfiles';
 import { OPTIMIZATION_PRESETS } from './StatOptimizer';
-import { optimizeBuildV2, validateV2Candidate } from './BuildOptimizerV2';
+import { analyzeAptitudeAllocation, candidateMechanicallyDominates, optimizeBuildV2, validateV2Candidate } from './BuildOptimizerV2';
 
 function baseBuild(level = 3): BuildState {
   return parseBuildFile(JSON.stringify({
@@ -60,7 +60,7 @@ describe('build optimizer V2', () => {
     expect(Object.values(candidate.patch.equipment?.armorConditionalBonuses ?? {})).not.toContain(true);
   });
 
-  it('uses an applicable profile APT target instead of universally enforcing 48', () => {
+  it('evaluates APT by exact global-bonus breakpoints instead of a profile screenshot target', () => {
     const profile = OPTIMIZER_REFERENCE_PROFILE_BY_ID['amalgama-shapeshifter-ghost'];
     const build = baseBuild(60);
     build.race = profile.race;
@@ -73,25 +73,39 @@ describe('build optimizer V2', () => {
       locks: { subClass: profile.secondaryClass, weaponName: profile.weapon.name, armorName: 'Breastplate' },
     }));
     const candidate = result.candidates[0];
-    expect(Math.floor(candidate.evaluation.scaledStats.apt)).not.toBe(48);
     expect(candidate.feasible).toBe(true);
-    expect(candidate.guideValidation.checks.find(check => check.id === 'aptitude')?.summary).toContain(profile.name);
+    expect(candidate.aptitudeReport?.globalStatBonus).toBe(Math.floor(candidate.evaluation.scaledStats.apt / 6));
+    expect(candidate.aptitudeReport?.redundantInvestedPoints).toBe(0);
+    expect(candidate.guideValidation.checks.find(check => check.id === 'aptitude')?.summary).toContain('breakpoint');
+    expect(candidate.guideValidation.checks.find(check => check.id === 'aptitude')?.summary).not.toContain(profile.name);
   });
 
-  it('recovers represented popular subclass/weapon evidence in the top three and reports missing items', () => {
-    for (const profile of ENABLED_OPTIMIZER_REFERENCE_PROFILES) {
-      const build = baseBuild(2);
-      build.race = profile.race;
-      build.subrace = profile.subrace;
-      build.mainClass = profile.primaryClass;
-      build.subClass = profile.secondaryClass;
-      const result = optimizeBuildV2(request(build, { referenceProfileId: profile.id }));
-      if (!profile.canonicalWeaponId) {
-        expect(profile.dataGaps?.some(gap => gap.includes(profile.weapon.name)), profile.id).toBe(true);
-        continue;
-      }
-      expect(result.candidates.some(candidate => candidate.patch.subClass === profile.secondaryClass
-        && candidate.patch.equipment?.primaryWeapon?.selectedWeaponName === profile.weapon.name), profile.id).toBe(true);
+  it('identifies stranded APT investment exactly', () => {
+    const build = baseBuild(60);
+    const startingBonus = Math.floor(analyzeAptitudeAllocation(build).scaledAptitude / 6);
+    let breakpoint = 0;
+    for (let aptitude = 1; aptitude <= 80; aptitude++) {
+      build.addedStats.apt = aptitude;
+      if (Math.floor(analyzeAptitudeAllocation(build).scaledAptitude / 6) > startingBonus) { breakpoint = aptitude; break; }
+    }
+    expect(breakpoint).toBeGreaterThan(0);
+    build.addedStats.apt = breakpoint + 2;
+    const report = analyzeAptitudeAllocation(build);
+    expect(report.retainedBreakpointInvestment).toBe(breakpoint);
+    expect(report.redundantInvestedPoints).toBe(2);
+    expect(report.efficientBreakpoint).toBe(false);
+  });
+
+  it('returns a mechanically non-dominated frontier even when reference evidence is selected', () => {
+    const profile = OPTIMIZER_REFERENCE_PROFILE_BY_ID['amalgama-ghost-black-knight'];
+    const build = baseBuild(10);
+    build.race = profile.race;
+    build.subrace = profile.subrace;
+    build.mainClass = profile.primaryClass;
+    const result = optimizeBuildV2(request(build, { referenceProfileId: profile.id }));
+    for (const candidate of result.candidates) {
+      expect(candidate.aptitudeReport?.redundantInvestedPoints).toBe(0);
+      expect(result.candidates.some(other => other.id !== candidate.id && candidateMechanicallyDominates(other, candidate))).toBe(false);
     }
   });
 });

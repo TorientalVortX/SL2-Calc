@@ -85,4 +85,35 @@ describe('AI optimizer agent core', () => {
     expect(value.result.ai?.fallback).toBe(true);
     expect(value.result.candidates.every(candidate => candidate.patch.mainClass === 'Soldier')).toBe(true);
   });
+
+  it('does not let the model activate a reference profile the user did not select', async () => {
+    let call = 0;
+    let ids: string[] = [];
+    let surfacedProfileFits: number[] = [];
+    const client = {
+      responses: {
+        create: async (params: { input?: unknown }) => {
+          call++;
+          if (call === 1) return response('profile_1', [{
+            type: 'function_call', call_id: 'call_search', name: 'search_candidate_pool',
+            arguments: JSON.stringify({ presetId: 'hybrid', defensePlan: 'hybrid', extraPackage: 'none', referenceProfileId: 'amalgama-ghost-black-knight', searchDepth: 'standard', resultLimit: 3 }),
+          }]);
+          if (call === 2) {
+            const outputs = params.input as Array<{ output: string }>;
+            const candidates = JSON.parse(outputs[0].output) as Array<{ id: string; objectives: { profileFit: number } }>;
+            ids = candidates.map(candidate => candidate.id);
+            surfacedProfileFits = candidates.map(candidate => candidate.objectives.profileFit);
+            return response('profile_2', [{ type: 'function_call', call_id: 'call_validate', name: 'validate_final_candidates', arguments: JSON.stringify({ ids }) }]);
+          }
+          return response('profile_3', [], JSON.stringify({
+            candidateIds: ids, summary: 'Mechanics-first selection.', clarification: '',
+            rationale: ids.map(id => ({ id, reasons: [], strengths: [], weaknesses: [], evidence: [] })),
+          }));
+        },
+      },
+    } as unknown as OpenAI;
+    const value = await runAiOptimization(request(), { apiKey: 'test-key', client });
+    expect(value.result.ai?.fallback).toBe(false);
+    expect(surfacedProfileFits.every(fit => fit === 0)).toBe(true);
+  });
 });

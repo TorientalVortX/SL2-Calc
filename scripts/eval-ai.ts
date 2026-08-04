@@ -32,12 +32,16 @@ for (const profile of ENABLED_OPTIMIZER_REFERENCE_PROFILES) {
     const response = await runAiOptimization(request);
     const match = response.result.candidates.some(candidate => candidate.patch.subClass === profile.secondaryClass
       && (!profile.canonicalWeaponId || candidate.patch.equipment?.primaryWeapon?.selectedWeaponName === profile.weapon.name));
+    const constraintsMet = response.result.candidates.every(candidate => candidate.feasible);
+    const strandedAptitudePoints = response.result.candidates.reduce((sum, candidate) => sum + (candidate.aptitudeReport?.redundantInvestedPoints ?? 0), 0);
     rows.push({
       profile: profile.id,
       mode,
       model: response.result.ai?.model,
       fallback: response.result.ai?.fallback,
       topThreeReferenceMatch: match,
+      constraintsMet,
+      strandedAptitudePoints,
       toolRounds: response.result.ai?.toolRounds,
       exactEvaluations: response.result.ai?.exactEvaluations,
       tokens: response.result.ai?.usage?.totalTokens,
@@ -50,8 +54,8 @@ for (const profile of ENABLED_OPTIMIZER_REFERENCE_PROFILES) {
 
 console.table(rows.map(row => ({
   profile: row.profile, mode: row.mode, model: row.model, fallback: row.fallback,
-  match: row.topThreeReferenceMatch, rounds: row.toolRounds, tokens: row.tokens, ms: row.durationMs,
+  referenceMatch: row.topThreeReferenceMatch, constraints: row.constraintsMet, strandedApt: row.strandedAptitudePoints, rounds: row.toolRounds, tokens: row.tokens, ms: row.durationMs,
 })));
 process.stdout.write(`${JSON.stringify(rows, null, 2)}\n`);
 
-if (rows.some(row => row.fallback || !row.topThreeReferenceMatch)) process.exitCode = 1;
+if (rows.some(row => row.fallback || !row.constraintsMet || Number(row.strandedAptitudePoints) > 0)) process.exitCode = 1;

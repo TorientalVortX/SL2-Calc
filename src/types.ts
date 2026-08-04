@@ -286,6 +286,18 @@ export interface OptimizationObjectives {
   profileFit: number;
 }
 
+export interface AptitudeOptimizationReport {
+  scaledAptitude: number;
+  globalStatBonus: number;
+  investedPoints: number;
+  retainedBreakpointInvestment: number;
+  redundantInvestedPoints: number;
+  nextScaledBreakpoint: number;
+  pointsToNextBonus: number | null;
+  efficientBreakpoint: boolean;
+  summary: string;
+}
+
 export type BuildGuideCheckStatus = 'pass' | 'fail' | 'verify';
 export type BuildGuideCheckBasis = 'document' | 'assumption' | 'calculator-data';
 
@@ -365,6 +377,7 @@ export interface OptimizationCandidate {
   evidence?: string[];
   tradeoffs?: string[];
   confidence?: 'high' | 'medium' | 'low';
+  aptitudeReport?: AptitudeOptimizationReport;
 }
 
 export interface OptimizationRequest {
@@ -373,7 +386,7 @@ export interface OptimizationRequest {
   constraints: OptimizationConstraint[];
   /** When set, every candidate must keep this class in the primary/main slot. */
   primaryClass?: string;
-  /** Optional curated soft prior for class pairing and final scaled-stat shape. */
+  /** Optional curated evidence. It may seed exploration and break close ties, but never overrides modeled performance. */
   referenceProfileId?: string;
   searchClasses: boolean;
   assumedMainPassiveRank: number;

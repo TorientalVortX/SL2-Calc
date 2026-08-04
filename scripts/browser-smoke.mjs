@@ -77,7 +77,7 @@ await request('Runtime.evaluate', { expression: `[...document.querySelectorAll('
 await new Promise((resolve) => setTimeout(resolve, 300));
 
 await request('Runtime.evaluate', { expression: `(() => {
-  const select = [...document.querySelectorAll('label')].find((label) => label.innerText.includes('Popular-build evidence'))?.querySelector('select');
+  const select = [...document.querySelectorAll('label')].find((label) => label.innerText.includes('Reference evidence'))?.querySelector('select');
   if (!select) return false;
   select.value = 'amalgama-ghost-black-knight';
   select.dispatchEvent(new Event('change', { bubbles: true }));
@@ -85,7 +85,7 @@ await request('Runtime.evaluate', { expression: `(() => {
 })()` });
 await new Promise((resolve) => setTimeout(resolve, 200));
 const profileState = await request('Runtime.evaluate', { expression: `JSON.stringify({
-  selected: [...document.querySelectorAll('label')].find((label) => label.innerText.includes('Popular-build evidence'))?.querySelector('select')?.value === 'amalgama-ghost-black-knight',
+  selected: [...document.querySelectorAll('label')].find((label) => label.innerText.includes('Reference evidence'))?.querySelector('select')?.value === 'amalgama-ghost-black-knight',
   fixedMain: document.querySelector('[aria-labelledby="optimizer-title"]')?.innerText.includes('main class Ghost'),
   engineChoices: [...document.querySelectorAll('[role="radio"]')].map((button) => button.innerText.trim())
 })`, returnByValue: true });
@@ -101,10 +101,10 @@ for (let attempt = 0; attempt < 30; attempt += 1) {
   const finished = await request('Runtime.evaluate', { expression: `document.body.innerText.includes('Apply primary build') || Boolean(document.querySelector('[role="alert"]'))`, returnByValue: true });
   if (finished.result.value) break;
 }
-const optimizerState = await request('Runtime.evaluate', { expression: `JSON.stringify({ result: document.body.innerText.includes('Apply primary build'), validated: document.body.innerText.includes('Validated candidate'), equipment: document.body.innerText.includes('Primary weapon') && document.body.innerText.includes('Torso'), oldTab: [...document.querySelectorAll('[role="tab"]')].some((tab) => tab.innerText.includes('Optimizer')) })`, returnByValue: true });
+const optimizerState = await request('Runtime.evaluate', { expression: `JSON.stringify({ result: document.body.innerText.includes('Apply primary build'), validated: document.body.innerText.includes('Validated candidate'), equipment: document.body.innerText.includes('Primary weapon') && document.body.innerText.includes('Torso'), aptitude: document.body.innerText.includes('APT breakpoint efficiency') && document.body.innerText.includes('stranded'), oldTab: [...document.querySelectorAll('[role="tab"]')].some((tab) => tab.innerText.includes('Optimizer')) })`, returnByValue: true });
 console.log(`optimizer=${optimizerState.result.value}`);
 const optimizer = JSON.parse(optimizerState.result.value);
-if (!optimizer.result || !optimizer.validated || !optimizer.equipment || optimizer.oldTab) process.exitCode = 1;
+if (!optimizer.result || !optimizer.validated || !optimizer.equipment || !optimizer.aptitude || optimizer.oldTab) process.exitCode = 1;
 await request('Runtime.evaluate', { expression: `[...document.querySelectorAll('button')].find((button) => button.innerText.includes('Apply primary build'))?.click()` });
 await new Promise((resolve) => setTimeout(resolve, 300));
 const undoState = await request('Runtime.evaluate', { expression: `document.body.innerText.includes('Undo optimizer')`, returnByValue: true });
