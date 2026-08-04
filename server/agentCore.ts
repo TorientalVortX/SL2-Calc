@@ -448,7 +448,7 @@ Priority order:
 3. Meaningful playstyle diversity and clearly labeled uncertainty.
 4. Popular builds, screenshots, and notes only as exploration evidence or a tie-breaker between mechanically close candidates.
 
-APT is stepwise: each 6 scaled APT grants +1 to every non-APT stat. Judge APT by its exact breakpoint report and opportunity cost, not proximity to 48 or to a reference screenshot. Avoid stranded APT points. Prefer another stat when reaching the next APT bonus costs more than the modeled gains justify.
+APT is stepwise: each 6 scaled APT grants +1 to all 11 non-APT stats. The deterministic search purchases it in complete breakpoint bundles so zero-value intermediate points are not pruned. Judge the next breakpoint by its invested-point cost, +11 raw return, exact scaled return after diminishing returns, and whole-build opportunity cost—not proximity to 48 or a reference screenshot. Avoid stranded APT points.
 
 Translate defense language into a concrete contract. For Evade, distinguish baseline, reliable, and configured values; use 195 minimum and 200 preferred only when the user gives no target, and never count an uncertain buff as reliable. For tank builds, use 45 scaled DEF/RES defaults when unspecified and include torso Armor/Magic Armor. Respect exact/type armor locks, reject partial equipment overload, saturate fulfilled targets, and spend surplus points on the user's remaining offense, accuracy, sustain, and utility goals. Treat conditional armor effects as unavailable unless the locked current armor marks them verified.
 

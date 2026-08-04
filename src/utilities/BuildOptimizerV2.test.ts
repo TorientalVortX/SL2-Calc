@@ -75,7 +75,12 @@ describe('build optimizer V2', () => {
     const candidate = result.candidates[0];
     expect(candidate.feasible).toBe(true);
     expect(candidate.aptitudeReport?.globalStatBonus).toBe(Math.floor(candidate.evaluation.scaledStats.apt / 6));
+    expect(candidate.aptitudeReport?.globalStatBonus).toBeGreaterThanOrEqual(8);
+    expect(candidate.aptitudeReport?.globalStatsAffected).toBe(11);
     expect(candidate.aptitudeReport?.redundantInvestedPoints).toBe(0);
+    expect([null, 11]).toContain(candidate.aptitudeReport?.nextBreakpointRawStatGain);
+    if (candidate.aptitudeReport?.nextBreakpointScaledStatGain !== null) expect(candidate.aptitudeReport?.nextBreakpointScaledStatGain).toBeGreaterThan(0);
+    expect(candidate.aptitudeReport?.nextBreakpointScaledEfficient).not.toBe(true);
     expect(candidate.guideValidation.checks.find(check => check.id === 'aptitude')?.summary).toContain('breakpoint');
     expect(candidate.guideValidation.checks.find(check => check.id === 'aptitude')?.summary).not.toContain(profile.name);
   });

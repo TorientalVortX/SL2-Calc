@@ -325,11 +325,16 @@ export interface OptimizationObjectives {
 export interface AptitudeOptimizationReport {
   scaledAptitude: number;
   globalStatBonus: number;
+  globalStatsAffected: number;
   investedPoints: number;
   retainedBreakpointInvestment: number;
   redundantInvestedPoints: number;
   nextScaledBreakpoint: number;
   pointsToNextBonus: number | null;
+  nextBreakpointRawStatGain: number | null;
+  nextBreakpointScaledStatGain: number | null;
+  nextBreakpointRawEfficient: boolean | null;
+  nextBreakpointScaledEfficient: boolean | null;
   efficientBreakpoint: boolean;
   summary: string;
 }

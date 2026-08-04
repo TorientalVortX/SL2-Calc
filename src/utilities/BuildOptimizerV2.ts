@@ -315,6 +315,25 @@ function allocationKey(allocation: StatRecord): string {
   return STAT_KEYS.map(stat => allocation[stat]).join(',');
 }
 
+function uniqueAllocations(items: ScoredBuild[]): ScoredBuild[] {
+  const unique = new Map<string, ScoredBuild>();
+  for (const item of items) {
+    const key = allocationKey(item.build.addedStats);
+    const existing = unique.get(key);
+    if (!existing || item.scalar > existing.scalar) unique.set(key, item);
+  }
+  return [...unique.values()];
+}
+
+function pointsToNextAptitudeBonus(build: BuildState, evaluation: BuildEvaluation): number | null {
+  const currentBonus = aptitudeBonus(evaluation);
+  const invested = build.addedStats.apt;
+  for (let aptitude = invested + 1; aptitude <= evaluation.maxInvestedStats.apt; aptitude++) {
+    if (aptitudeBonus(evaluateBuild(buildWithAptitude(build, aptitude))) > currentBonus) return aptitude - invested;
+  }
+  return null;
+}
+
 function seedPreScore(request: OptimizationRequest, subClass: string, weapon: Weapon): SearchSeed {
   const profile = referenceProfile(request);
   const config = weaponToConfig(weapon, profile?.weapon.name === weapon.name ? {
@@ -360,26 +379,43 @@ function enumerateSeeds(request: OptimizationRequest, limit: number): SearchSeed
 
 function allocateWithBeam(request: OptimizationRequest, seed: SearchSeed, width: number, isCancelled?: () => boolean): ScoredBuild {
   const initial = scoreBuild(buildCandidate(request, seed.subClass, seed.weapon, emptyStats(), null), request, seed.evidence);
-  let beam = [initial];
   const budget = initial.evaluation.pointBudget;
-  for (let point = 0; point < budget; point++) {
+  const beamsBySpend = Array.from({ length: budget + 1 }, () => [] as ScoredBuild[]);
+  beamsBySpend[0] = [initial];
+  let furthestBeam = [initial];
+  const aptitudeCostByInvestment = new Map<number, number | null>();
+
+  for (let spent = 0; spent <= budget; spent++) {
     if (isCancelled?.()) break;
-    const expanded: ScoredBuild[] = [];
-    const seen = new Set<string>();
+    if (!beamsBySpend[spent].length) continue;
+    const beam = selectPareto(uniqueAllocations(beamsBySpend[spent]), width);
+    furthestBeam = beam;
+    if (spent === budget) continue;
+
     for (const item of beam) {
       for (const stat of STAT_KEYS) {
+        if (stat === 'apt') continue;
         if (item.build.addedStats[stat] >= item.evaluation.maxInvestedStats[stat]) continue;
         const allocation = { ...item.build.addedStats, [stat]: item.build.addedStats[stat] + 1 };
-        const key = allocationKey(allocation);
-        if (seen.has(key)) continue;
-        seen.add(key);
-        expanded.push(scoreBuild(buildCandidate(request, seed.subClass, seed.weapon, allocation, null), request, seed.evidence));
+        beamsBySpend[spent + 1].push(scoreBuild(buildCandidate(request, seed.subClass, seed.weapon, allocation, null), request, seed.evidence));
+      }
+
+      // APT is discontinuous: intermediate points have no value until the next
+      // scaled multiple of six. Treat the whole breakpoint as one search move so
+      // Pareto pruning cannot discard the investment before its global payoff.
+      const investedAptitude = item.build.addedStats.apt;
+      let aptitudeCost = aptitudeCostByInvestment.get(investedAptitude);
+      if (!aptitudeCostByInvestment.has(investedAptitude)) {
+        aptitudeCost = pointsToNextAptitudeBonus(item.build, item.evaluation);
+        aptitudeCostByInvestment.set(investedAptitude, aptitudeCost);
+      }
+      if (aptitudeCost && spent + aptitudeCost <= budget) {
+        const allocation = { ...item.build.addedStats, apt: investedAptitude + aptitudeCost };
+        beamsBySpend[spent + aptitudeCost].push(scoreBuild(buildCandidate(request, seed.subClass, seed.weapon, allocation, null), request, seed.evidence));
       }
     }
-    if (!expanded.length) break;
-    beam = selectPareto(expanded, width);
   }
-  return beam.sort((a, b) => b.scalar - a.scalar)[0];
+  return furthestBeam.sort((a, b) => b.scalar - a.scalar)[0];
 }
 
 function refineStats(request: OptimizationRequest, initial: ScoredBuild, passes: number): ScoredBuild {
@@ -410,9 +446,45 @@ function buildWithAptitude(build: BuildState, investedAptitude: number): BuildSt
   return { ...build, addedStats: { ...build.addedStats, apt: investedAptitude } };
 }
 
+function fundAptitudeBreakpoint(request: OptimizationRequest, current: ScoredBuild, cost: number): ScoredBuild | null {
+  let funding = current;
+  for (let point = 0; point < cost; point++) {
+    let leastCostlyRemoval: ScoredBuild | null = null;
+    for (const from of STAT_KEYS) {
+      if (from === 'apt' || funding.build.addedStats[from] <= 0) continue;
+      const allocation = { ...funding.build.addedStats, [from]: funding.build.addedStats[from] - 1 };
+      const candidate = scoreBuild({ ...funding.build, addedStats: allocation }, request, current.evidence);
+      if (!leastCostlyRemoval || candidate.scalar > leastCostlyRemoval.scalar + 1e-9) leastCostlyRemoval = candidate;
+    }
+    if (!leastCostlyRemoval) return null;
+    funding = leastCostlyRemoval;
+  }
+  const allocation = { ...funding.build.addedStats, apt: current.build.addedStats.apt + cost };
+  return scoreBuild({ ...funding.build, addedStats: allocation }, request, current.evidence);
+}
+
+function redistributeAptitudeInvestment(request: OptimizationRequest, current: ScoredBuild, targetAptitude: number): ScoredBuild | null {
+  const released = current.build.addedStats.apt - targetAptitude;
+  if (released <= 0) return null;
+  let redistributed = scoreBuild(buildWithAptitude(current.build, targetAptitude), request, current.evidence);
+  for (let point = 0; point < released; point++) {
+    let bestAddition: ScoredBuild | null = null;
+    for (const to of STAT_KEYS) {
+      if (to === 'apt' || redistributed.build.addedStats[to] >= redistributed.evaluation.maxInvestedStats[to]) continue;
+      const allocation = { ...redistributed.build.addedStats, [to]: redistributed.build.addedStats[to] + 1 };
+      const candidate = scoreBuild({ ...redistributed.build, addedStats: allocation }, request, current.evidence);
+      if (!bestAddition || candidate.scalar > bestAddition.scalar + 1e-9) bestAddition = candidate;
+    }
+    if (!bestAddition) return null;
+    redistributed = bestAddition;
+  }
+  return redistributed;
+}
+
 export function analyzeAptitudeAllocation(build: BuildState, evaluation = evaluateBuild(build)): AptitudeOptimizationReport {
   const investedPoints = build.addedStats.apt;
   const globalStatBonus = aptitudeBonus(evaluation);
+  const globalStatsAffected = STAT_KEYS.length - 1;
   let retainedBreakpointInvestment = investedPoints;
   for (let aptitude = investedPoints - 1; aptitude >= 0; aptitude--) {
     if (aptitudeBonus(evaluateBuild(buildWithAptitude(build, aptitude))) !== globalStatBonus) break;
@@ -420,26 +492,44 @@ export function analyzeAptitudeAllocation(build: BuildState, evaluation = evalua
   }
 
   let pointsToNextBonus: number | null = null;
+  let nextEvaluation: BuildEvaluation | null = null;
   for (let aptitude = investedPoints + 1; aptitude <= evaluation.maxInvestedStats.apt; aptitude++) {
-    if (aptitudeBonus(evaluateBuild(buildWithAptitude(build, aptitude))) > globalStatBonus) {
+    const evaluated = evaluateBuild(buildWithAptitude(build, aptitude));
+    if (aptitudeBonus(evaluated) > globalStatBonus) {
       pointsToNextBonus = aptitude - investedPoints;
+      nextEvaluation = evaluated;
       break;
     }
   }
   const redundantInvestedPoints = investedPoints - retainedBreakpointInvestment;
   const nextScaledBreakpoint = (globalStatBonus + 1) * 6;
   const efficientBreakpoint = redundantInvestedPoints === 0;
-  const next = pointsToNextBonus === null ? 'the next bonus is unreachable at the current cap' : `${pointsToNextBonus} more invested point${pointsToNextBonus === 1 ? '' : 's'} would reach the next +1 global-stat bonus`;
+  const nextBreakpointRawStatGain = nextEvaluation ? globalStatsAffected : null;
+  const nextBreakpointScaledStatGain = nextEvaluation
+    ? STAT_KEYS.filter(stat => stat !== 'apt').reduce((sum, stat) => sum + Math.max(0, nextEvaluation.scaledStats[stat] - evaluation.scaledStats[stat]), 0)
+    : null;
+  const nextBreakpointRawEfficient = pointsToNextBonus === null ? null : pointsToNextBonus <= globalStatsAffected;
+  const nextBreakpointScaledEfficient = pointsToNextBonus === null || nextBreakpointScaledStatGain === null
+    ? null
+    : pointsToNextBonus <= nextBreakpointScaledStatGain + 1e-9;
+  const next = pointsToNextBonus === null
+    ? 'the next bonus is unreachable at the current cap'
+    : `the next +1 global bonus costs ${pointsToNextBonus} invested point${pointsToNextBonus === 1 ? '' : 's'} for +${globalStatsAffected} raw stats (${nextBreakpointScaledStatGain?.toFixed(2)} effective scaled-stat total) before build-specific priorities`;
   return {
     scaledAptitude: evaluation.scaledStats.apt,
     globalStatBonus,
+    globalStatsAffected,
     investedPoints,
     retainedBreakpointInvestment,
     redundantInvestedPoints,
     nextScaledBreakpoint,
     pointsToNextBonus,
+    nextBreakpointRawStatGain,
+    nextBreakpointScaledStatGain,
+    nextBreakpointRawEfficient,
+    nextBreakpointScaledEfficient,
     efficientBreakpoint,
-    summary: `Scaled APT ${evaluation.scaledStats.apt.toFixed(2)} provides +${globalStatBonus} to every non-APT stat; ${redundantInvestedPoints ? `${redundantInvestedPoints} invested point${redundantInvestedPoints === 1 ? ' is' : 's are'} above the retained breakpoint` : 'no invested points are stranded above the retained breakpoint'}, and ${next}.`,
+    summary: `Scaled APT ${evaluation.scaledStats.apt.toFixed(2)} provides +${globalStatBonus} to all ${globalStatsAffected} non-APT stats; ${redundantInvestedPoints ? `${redundantInvestedPoints} invested point${redundantInvestedPoints === 1 ? ' is' : 's are'} above the retained breakpoint` : 'no invested points are stranded above the retained breakpoint'}, and ${next}.`,
   };
 }
 
@@ -450,16 +540,15 @@ function refineAptitudeBreakpoints(request: OptimizationRequest, initial: Scored
     const report = analyzeAptitudeAllocation(current.build, current.evaluation);
 
     if (report.pointsToNextBonus && current.build.addedStats.apt + report.pointsToNextBonus <= current.evaluation.maxInvestedStats.apt) {
-      for (const from of STAT_KEYS) {
-        if (from === 'apt' || current.build.addedStats[from] < report.pointsToNextBonus) continue;
-        const allocation = {
-          ...current.build.addedStats,
-          [from]: current.build.addedStats[from] - report.pointsToNextBonus,
-          apt: current.build.addedStats.apt + report.pointsToNextBonus,
-        };
-        const candidate = scoreBuild({ ...current.build, addedStats: allocation }, request, current.evidence);
-        if (candidate.scalar > best.scalar + 1e-9) best = candidate;
-      }
+      const candidate = fundAptitudeBreakpoint(request, current, report.pointsToNextBonus);
+      // When the breakpoint returns at least as much effective scaled-stat value
+      // as it costs, preserve that globally efficient purchase even if a narrow
+      // archetype score would rather concentrate every point in one stat. Explicit
+      // user constraints still take precedence over this efficiency rule.
+      const preservesConstraints = candidate
+        && candidate.deficitCount <= current.deficitCount
+        && candidate.deficitTotal <= current.deficitTotal + 1e-9;
+      if (candidate && ((report.nextBreakpointScaledEfficient && preservesConstraints) || candidate.scalar > best.scalar + 1e-9)) best = candidate;
     }
 
     const currentMinimum = report.retainedBreakpointInvestment;
@@ -471,13 +560,9 @@ function refineAptitudeBreakpoints(request: OptimizationRequest, initial: Scored
         if (aptitudeBonus(evaluateBuild(buildWithAptitude(current.build, aptitude))) !== lowerBonus) break;
         lowerMinimum = aptitude;
       }
-      const released = current.build.addedStats.apt - lowerMinimum;
-      for (const to of STAT_KEYS) {
-        if (to === 'apt' || current.build.addedStats[to] + released > current.evaluation.maxInvestedStats[to]) continue;
-        const allocation = { ...current.build.addedStats, apt: lowerMinimum, [to]: current.build.addedStats[to] + released };
-        const candidate = scoreBuild({ ...current.build, addedStats: allocation }, request, current.evidence);
-        if (candidate.scalar > best.scalar + 1e-9) best = candidate;
-      }
+      const candidate = redistributeAptitudeInvestment(request, current, lowerMinimum);
+      const loweredReport = candidate ? analyzeAptitudeAllocation(candidate.build, candidate.evaluation) : null;
+      if (candidate && loweredReport?.nextBreakpointScaledEfficient !== true && candidate.scalar > best.scalar + 1e-9) best = candidate;
     }
 
     if (best === current) break;

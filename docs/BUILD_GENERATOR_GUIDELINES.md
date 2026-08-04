@@ -61,6 +61,8 @@ Do not prorate these targets for a lower-level build unless a verified leveling 
 
 The calculator currently treats `rawStats` as its unscaled total. **Assumption:** mapping that value to the document's “final” label is not explicitly defined by the document. Keep this label visible when evaluating final Vitality or the document's 65-final-Skill baseline.
 
+APT must be searched in complete breakpoints rather than one point at a time. Each +1 global bonus affects all 11 non-APT stats, so compare the invested points needed for the next breakpoint against both its +11 raw-stat return and its exact post-diminishing-return scaled-stat gain. Then compare the whole breakpoint-funded build against distributing those points directly among the build's important stats. Intermediate APT points must not be pruned before their breakpoint payoff is evaluated.
+
 ## Required output order
 
 Return one primary build and one alternative in this order:
@@ -97,7 +99,7 @@ Each line must be `PASS`, `FAIL`, or `REQUIRES VERIFICATION`, followed by the ev
 
 ## Current calculator boundary
 
-The optimizer can automatically evaluate scaled and raw stats, derived Evade, configured weapon scaling/access, and the configured torso. V2 can search subclass, stats, primary weapon, and torso while enforcing fixed character choices and equipment locks. Generic numeric targets are evidence, while explicit user minimums remain hard constraints. For APT specifically, V2 evaluates the calculator's +1-to-every-non-APT-stat benefit at each 6-scaled-APT breakpoint and its point opportunity cost. It reports the document's 48 target but does not force it unless the user adds an explicit APT constraint.
+The optimizer can automatically evaluate scaled and raw stats, derived Evade, configured weapon scaling/access, and the configured torso. V2 can search subclass, stats, primary weapon, and torso while enforcing fixed character choices and equipment locks. Generic numeric targets are evidence, while explicit user minimums remain hard constraints. For APT specifically, V2 evaluates complete 6-scaled-APT breakpoint purchases, their +11 raw-stat return, their exact effective scaled-stat gain, and their opportunity cost. It reports the document's 48 target but does not force it unless the user adds an explicit APT constraint.
 
 Defense plans are evaluated as reliable-condition contracts. Evade distinguishes baseline, declared-reliable bonus, and fully configured totals; it requires the chosen minimum before rewarding secondary goals and saturates at the preferred target. Tank checks scaled DEF/RES alongside native torso Armor and Magic Armor. Armor conditionals remain excluded unless the exact current torso is locked and the user marks its active conditions verified. Primary weapon plus torso weight is checked against Battle Weight, but this remains a partial check until all equipment slots are modeled.
 
