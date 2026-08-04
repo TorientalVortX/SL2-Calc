@@ -11,8 +11,18 @@ const root = process.cwd();
 async function readPersonalNotes(): Promise<string> {
   const directory = path.join(root, 'optimizer-knowledge');
   try {
-    const names = (await readdir(directory)).filter(name => name.toLowerCase().endsWith('.md')).sort();
-    const notes = await Promise.all(names.map(async name => `## ${name}\n${await readFile(path.join(directory, name), 'utf8')}`));
+    const collectMarkdown = async (current: string, relative = ''): Promise<string[]> => {
+      const entries = (await readdir(current, { withFileTypes: true })).sort((a, b) => a.name.localeCompare(b.name));
+      const files: string[] = [];
+      for (const entry of entries) {
+        const relativeName = path.join(relative, entry.name);
+        if (entry.isDirectory()) files.push(...await collectMarkdown(path.join(current, entry.name), relativeName));
+        else if (entry.isFile() && entry.name.toLowerCase().endsWith('.md') && !entry.name.startsWith('_')) files.push(relativeName);
+      }
+      return files;
+    };
+    const names = await collectMarkdown(directory);
+    const notes = await Promise.all(names.map(async name => `## ${name.replaceAll('\\', '/')}\n${await readFile(path.join(directory, name), 'utf8')}`));
     return notes.join('\n\n').slice(0, 40_000);
   } catch {
     return '';
