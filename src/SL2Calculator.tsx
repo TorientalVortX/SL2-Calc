@@ -245,7 +245,7 @@ export default function SL2Calculator() {
   // Screenshot ref
   const screenshotRef = useRef<HTMLDivElement>(null);
 
-  const [optimizerUndo, setOptimizerUndo] = useState<Pick<BuildState, 'mainClass' | 'subClass' | 'selectedMainBaseClass' | 'selectedSubBaseClass' | 'mainClassPassive' | 'subClassPassive' | 'addedStats'> | null>(null);
+  const [optimizerUndo, setOptimizerUndo] = useState<Pick<BuildState, 'mainClass' | 'subClass' | 'selectedMainBaseClass' | 'selectedSubBaseClass' | 'mainClassPassive' | 'subClassPassive' | 'addedStats' | 'equipment'> | null>(null);
 
   // Stat info modal state
   const [showStatInfo, setShowStatInfo] = useState(false);
@@ -1289,7 +1289,15 @@ export default function SL2Calculator() {
   };
 
   const applyOptimizationCandidate = (candidate: OptimizationCandidate): void => {
-    setOptimizerUndo({ mainClass, subClass, selectedMainBaseClass, selectedSubBaseClass, mainClassPassive, subClassPassive, addedStats: { ...addedStats } });
+    setOptimizerUndo({
+      mainClass, subClass, selectedMainBaseClass, selectedSubBaseClass, mainClassPassive, subClassPassive,
+      addedStats: { ...addedStats },
+      equipment: {
+        armorName: equippedArmor?.name ?? null,
+        armorConditionalBonuses: { ...armorConditionalBonuses },
+        primaryWeapon: weaponConfig ? { ...weaponConfig, customScaling: { ...weaponConfig.customScaling } } : undefined,
+      },
+    });
     setMainClass(candidate.patch.mainClass);
     setSubClass(candidate.patch.subClass);
     setSelectedMainBaseClass(candidate.patch.selectedMainBaseClass);
@@ -1297,6 +1305,13 @@ export default function SL2Calculator() {
     setMainClassPassive(candidate.patch.mainClassPassive);
     setSubClassPassive(candidate.patch.subClassPassive);
     setAddedStats({ ...candidate.patch.addedStats });
+    if (candidate.patch.equipment) {
+      setEquippedArmor(candidate.patch.equipment.armorName ? ARMORS[candidate.patch.equipment.armorName] ?? null : null);
+      setArmorConditionalBonuses({ ...candidate.patch.equipment.armorConditionalBonuses });
+      setWeaponConfig(candidate.patch.equipment.primaryWeapon
+        ? { ...candidate.patch.equipment.primaryWeapon, customScaling: { ...candidate.patch.equipment.primaryWeapon.customScaling } }
+        : undefined);
+    }
   };
 
   const undoOptimization = (): void => {
@@ -1308,6 +1323,11 @@ export default function SL2Calculator() {
     setMainClassPassive(optimizerUndo.mainClassPassive);
     setSubClassPassive(optimizerUndo.subClassPassive);
     setAddedStats({ ...optimizerUndo.addedStats });
+    setEquippedArmor(optimizerUndo.equipment.armorName ? ARMORS[optimizerUndo.equipment.armorName] ?? null : null);
+    setArmorConditionalBonuses({ ...optimizerUndo.equipment.armorConditionalBonuses });
+    setWeaponConfig(optimizerUndo.equipment.primaryWeapon
+      ? { ...optimizerUndo.equipment.primaryWeapon, customScaling: { ...optimizerUndo.equipment.primaryWeapon.customScaling } }
+      : undefined);
     setOptimizerUndo(null);
   };
 

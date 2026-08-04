@@ -11,6 +11,26 @@ npm ci
 npm run dev
 ```
 
+### Private AI optimizer experiment
+
+The `experiment/build-optimizer-v2` branch adds a local-only AI planning service. Copy `.env.example` to `.env.local`, add your personal key as `OPENAI_API_KEY`, and start both the browser app and companion service:
+
+```sh
+npm run dev:ai
+```
+
+The service listens only on `127.0.0.1:8787`; the Vite browser bundle never receives the API key. Standard mode uses `gpt-5.6-terra` with medium reasoning, while Deep mode uses `gpt-5.6-sol` with high reasoning. If the key or service is unavailable, AI requests fall back to the deterministic V2 optimizer.
+
+The AI is a bounded planner, not the calculator. It may select search regions and explain validated candidates, but only server-created candidate IDs can be returned and every displayed number comes from the deterministic calculator. Personal evidence can be added as Markdown under `optimizer-knowledge/`; those files are treated as untrusted reference material rather than executable instructions.
+
+Live model evaluation is deliberately opt-in and is never part of CI:
+
+```sh
+npm run eval:ai
+```
+
+Set `AI_EVAL_MODE=standard`, `deep`, or `both` to limit the run. The evaluation covers all seven enabled popular profiles and reports profile recovery, constraint success, latency, tool rounds, token use, fallback use, and invented-ID protection. See `docs/AI_OPTIMIZER_EXPERIMENT.md` for the architecture and verification boundary.
+
 The complete local quality gate is:
 
 ```sh
@@ -41,7 +61,7 @@ Files under `reference/` are historical notes only and are not authoritative or 
 
 ### Optimizer reference profiles
 
-`src/data/content/optimizer-profiles.json` stores representative community builds as regression fixtures and optional soft optimizer priors. A profile may guide class pairing and the shape of final scaled stats, but it never overrides formulas, point limits, the current race/equipment, or explicit minimum constraints. Class skills that are not represented by structured calculator data are not simulated.
+`src/data/content/optimizer-profiles.json` stores representative community builds as regression fixtures and optional soft optimizer priors. A profile may guide class pairing and the shape of final scaled stats, but it never overrides formulas, point limits, fixed race/main-class choices, equipment locks, or explicit minimum constraints. Profile-specific targets supersede generic guide defaults for that profile. Class skills that are not represented by structured calculator data are not simulated.
 
 Keep profiles disabled when their race or class data is unavailable. The retained Redtail Chemist / Monk example follows this rule until authoritative Chemist stats and passive information are added.
 

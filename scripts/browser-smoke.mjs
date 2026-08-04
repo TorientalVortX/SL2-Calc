@@ -47,7 +47,7 @@ await new Promise((resolve) => setTimeout(resolve, 6000));
 await request('Runtime.evaluate', { expression: `[...document.querySelectorAll('button')].find((button) => button.innerText.includes('Skip Intro'))?.click()` });
 await new Promise((resolve) => setTimeout(resolve, 750));
 
-for (const [label, expected] of [['Weapon', 'Weapon Calculator'], ['Armor', 'Armor Calculator'], ['Screen', 'Screenshot Mode'], ['Stats', 'Optimize this build']]) {
+for (const [label, expected] of [['Weapon', 'Weapon Calculator'], ['Armor', 'Armor Calculator'], ['Screen', 'Screenshot Mode'], ['Stats', 'Private build optimizer experiment']]) {
   await request('Runtime.evaluate', { expression: `[...document.querySelectorAll('[role="tab"]')].find((button) => button.innerText.trim() === ${JSON.stringify(label)})?.click()` });
   await new Promise((resolve) => setTimeout(resolve, 500));
   const workspace = await request('Runtime.evaluate', { expression: `document.getElementById('root')?.innerText.includes(${JSON.stringify(expected)})`, returnByValue: true });
@@ -70,8 +70,14 @@ console.log(`class-dialog:keyboard=${dialogState.result.value}`);
 const keyboardState = JSON.parse(dialogState.result.value);
 if (!keyboardState.closed || !keyboardState.focusReturned) process.exitCode = 1;
 
+await request('Runtime.evaluate', { expression: `document.querySelector('button[aria-label^="Choose Main Class"]')?.click()` });
+await new Promise((resolve) => setTimeout(resolve, 200));
+await request('Runtime.evaluate', { expression: `[...document.querySelectorAll('[data-class-choice="true"]')].find((button) => button.innerText.trim() === 'Ghost')?.click()` });
+await request('Runtime.evaluate', { expression: `[...document.querySelectorAll('[role="tab"]')].find((button) => button.innerText.trim() === 'Stats')?.click()` });
+await new Promise((resolve) => setTimeout(resolve, 300));
+
 await request('Runtime.evaluate', { expression: `(() => {
-  const select = [...document.querySelectorAll('label')].find((label) => label.innerText.includes('Reference build'))?.querySelector('select');
+  const select = [...document.querySelectorAll('label')].find((label) => label.innerText.includes('Popular-build evidence'))?.querySelector('select');
   if (!select) return false;
   select.value = 'amalgama-ghost-black-knight';
   select.dispatchEvent(new Event('change', { bubbles: true }));
@@ -79,20 +85,26 @@ await request('Runtime.evaluate', { expression: `(() => {
 })()` });
 await new Promise((resolve) => setTimeout(resolve, 200));
 const profileState = await request('Runtime.evaluate', { expression: `JSON.stringify({
-  selected: [...document.querySelectorAll('label')].find((label) => label.innerText.includes('Reference build'))?.querySelector('select')?.value === 'amalgama-ghost-black-knight',
-  primary: [...document.querySelectorAll('label')].find((label) => label.innerText.includes('Primary class'))?.querySelector('select')?.value
+  selected: [...document.querySelectorAll('label')].find((label) => label.innerText.includes('Popular-build evidence'))?.querySelector('select')?.value === 'amalgama-ghost-black-knight',
+  fixedMain: document.querySelector('[aria-labelledby="optimizer-title"]')?.innerText.includes('main class Ghost'),
+  engineChoices: [...document.querySelectorAll('[role="radio"]')].map((button) => button.innerText.trim())
 })`, returnByValue: true });
 console.log(`optimizer:profile=${profileState.result.value}`);
 const profile = JSON.parse(profileState.result.value);
-if (!profile.selected || profile.primary !== 'Ghost') process.exitCode = 1;
+if (!profile.selected || !profile.fixedMain || profile.engineChoices.length !== 3) process.exitCode = 1;
 
-await request('Runtime.evaluate', { expression: `[...document.querySelectorAll('label')].find((label) => label.innerText.includes('Compare secondary classes'))?.querySelector('input')?.click()` });
-await request('Runtime.evaluate', { expression: `[...document.querySelectorAll('button')].find((button) => button.innerText.includes('Optimize stats and class pairing'))?.click()` });
-await new Promise((resolve) => setTimeout(resolve, 5000));
-const optimizerState = await request('Runtime.evaluate', { expression: `JSON.stringify({ result: document.body.innerText.includes('Apply primary build'), oldTab: [...document.querySelectorAll('[role="tab"]')].some((tab) => tab.innerText.includes('Optimizer')) })`, returnByValue: true });
+await request('Runtime.evaluate', { expression: `[...document.querySelectorAll('[role="radio"]')].find((button) => button.innerText.includes('V2 search'))?.click()` });
+await new Promise((resolve) => setTimeout(resolve, 300));
+await request('Runtime.evaluate', { expression: `[...document.querySelectorAll('button')].find((button) => button.innerText.includes('Run V2 optimizer'))?.click()` });
+for (let attempt = 0; attempt < 30; attempt += 1) {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  const finished = await request('Runtime.evaluate', { expression: `document.body.innerText.includes('Apply primary build') || Boolean(document.querySelector('[role="alert"]'))`, returnByValue: true });
+  if (finished.result.value) break;
+}
+const optimizerState = await request('Runtime.evaluate', { expression: `JSON.stringify({ result: document.body.innerText.includes('Apply primary build'), validated: document.body.innerText.includes('Validated candidate'), equipment: document.body.innerText.includes('Primary weapon') && document.body.innerText.includes('Torso'), oldTab: [...document.querySelectorAll('[role="tab"]')].some((tab) => tab.innerText.includes('Optimizer')) })`, returnByValue: true });
 console.log(`optimizer=${optimizerState.result.value}`);
 const optimizer = JSON.parse(optimizerState.result.value);
-if (!optimizer.result || optimizer.oldTab) process.exitCode = 1;
+if (!optimizer.result || !optimizer.validated || !optimizer.equipment || optimizer.oldTab) process.exitCode = 1;
 await request('Runtime.evaluate', { expression: `[...document.querySelectorAll('button')].find((button) => button.innerText.includes('Apply primary build'))?.click()` });
 await new Promise((resolve) => setTimeout(resolve, 300));
 const undoState = await request('Runtime.evaluate', { expression: `document.body.innerText.includes('Undo optimizer')`, returnByValue: true });
@@ -135,7 +147,7 @@ if (verifyOffline) {
   if (!offlineState.controlled || !offlineState.rootText?.includes('SL2 Calculator Suite')) process.exitCode = 1;
   await request('Runtime.evaluate', { expression: `[...document.querySelectorAll('button')].find((button) => button.innerText.includes('Skip Intro'))?.click()` });
   await new Promise((resolve) => setTimeout(resolve, 750));
-  for (const [label, expected] of [['Weapon', 'Weapon Calculator'], ['Armor', 'Armor Calculator'], ['Screen', 'Screenshot Mode'], ['Stats', 'Optimize this build']]) {
+  for (const [label, expected] of [['Weapon', 'Weapon Calculator'], ['Armor', 'Armor Calculator'], ['Screen', 'Screenshot Mode'], ['Stats', 'Private build optimizer experiment']]) {
     await request('Runtime.evaluate', { expression: `[...document.querySelectorAll('[role="tab"]')].find((button) => button.innerText.trim() === ${JSON.stringify(label)})?.click()` });
     await new Promise((resolve) => setTimeout(resolve, 750));
     const workspace = await request('Runtime.evaluate', { expression: `document.getElementById('root')?.innerText.includes(${JSON.stringify(expected)})`, returnByValue: true });

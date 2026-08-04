@@ -126,6 +126,26 @@ for (const [index, profile] of (optimizerProfiles.profiles ?? []).entries()) {
   }
 }
 
+const optimizerKnowledge = await readJson('optimizer-knowledge.json');
+if (optimizerKnowledge.schemaVersion !== 1) fail('optimizer-knowledge.json.schemaVersion', 'only schema version 1 is supported');
+for (const [index, archetype] of (optimizerKnowledge.archetypes ?? []).entries()) {
+  const location = `optimizer-knowledge.json.archetypes[${index}]`;
+  if (!archetype?.id || typeof archetype.id !== 'string') fail(`${location}.id`, 'expected a stable ID');
+  if (!['tank', 'evade', 'bruiser', 'hybrid', 'glass'].includes(archetype?.defensePlan)) fail(`${location}.defensePlan`, 'unsupported defense plan');
+}
+for (const [index, evidence] of (optimizerKnowledge.classPairEvidence ?? []).entries()) {
+  const location = `optimizer-knowledge.json.classPairEvidence[${index}]`;
+  if (!classes.classes?.[evidence.mainClass]) fail(`${location}.mainClass`, `unknown class "${evidence.mainClass}"`);
+  if (!classes.classes?.[evidence.subClass]) fail(`${location}.subClass`, `unknown class "${evidence.subClass}"`);
+  if (!profileIds.has(evidence.profileId)) fail(`${location}.profileId`, `unknown profile "${evidence.profileId}"`);
+  if (!Array.isArray(evidence.tags) || evidence.tags.some((tag) => typeof tag !== 'string')) fail(`${location}.tags`, 'expected an array of strings');
+}
+for (const [index, rule] of (optimizerKnowledge.rules ?? []).entries()) {
+  const location = `optimizer-knowledge.json.rules[${index}]`;
+  if (!rule?.id || typeof rule.id !== 'string') fail(`${location}.id`, 'expected a stable ID');
+  if (!rule?.statement || typeof rule.statement !== 'string') fail(`${location}.statement`, 'expected a statement');
+}
+
 const bonuses = await readJson('bonuses.json');
 for (const [name, food] of Object.entries(bonuses.foods ?? {})) validateStatRecord(food.stats, `bonuses.json.foods.${name}.stats`, true);
 for (const [name, history] of Object.entries(bonuses.history ?? {})) validateStatRecord(history.stats, `bonuses.json.history.${name}.stats`, true);
@@ -166,4 +186,4 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log(`Data valid: ${weaponCount} weapons, ${armorCount} armors, ${Object.keys(races.subraces).length} subraces, ${Object.keys(classes.classes).length} classes, ${optimizerProfiles.profiles.length} optimizer profiles (${optimizerProfiles.profiles.filter((profile) => profile.enabled).length} enabled).`);
+console.log(`Data valid: ${weaponCount} weapons, ${armorCount} armors, ${Object.keys(races.subraces).length} subraces, ${Object.keys(classes.classes).length} classes, ${optimizerProfiles.profiles.length} optimizer profiles (${optimizerProfiles.profiles.filter((profile) => profile.enabled).length} enabled), and ${optimizerKnowledge.classPairEvidence.length} optimizer evidence records.`);

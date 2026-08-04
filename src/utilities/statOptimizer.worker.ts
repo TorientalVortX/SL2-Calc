@@ -2,6 +2,7 @@
 
 import type { OptimizationRequest } from '../types';
 import { optimizeBuild } from './StatOptimizer';
+import { optimizeBuildV2 } from './BuildOptimizerV2';
 
 let cancelled = false;
 
@@ -12,7 +13,8 @@ self.onmessage = (event: MessageEvent<{ type: 'optimize'; request: OptimizationR
   }
   cancelled = false;
   try {
-    const result = optimizeBuild(event.data.request, {
+    const optimizer = event.data.request.engine === 'v2' ? optimizeBuildV2 : optimizeBuild;
+    const result = optimizer(event.data.request, {
       isCancelled: () => cancelled,
       onProgress: progress => self.postMessage({ type: 'progress', progress }),
     });

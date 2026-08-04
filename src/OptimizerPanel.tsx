@@ -1,16 +1,21 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { AlertTriangle, CheckCircle2, Play, RotateCcw, X } from 'lucide-react';
+import { AlertTriangle, Bot, CheckCircle2, Play, RotateCcw, ShieldCheck, Sparkles, X } from 'lucide-react';
 import type {
+  AiOptimizationMode,
+  AiOptimizationResponse,
   BuildEvaluation,
   BuildState,
   OptimizationCandidate,
   OptimizationConstraint,
+  OptimizationDefensePlan,
+  OptimizationEquipmentLocks,
+  OptimizationExtraPackage,
   OptimizationMetric,
   OptimizationResult,
 } from './types';
 import { OPTIMIZATION_PRESETS, type OptimizationProgress } from './utilities/StatOptimizer';
 import { STAT_KEYS, metricValue } from './domain/buildEvaluation';
-import { CLASSES } from './data/classes';
+import { ARMORS } from './data/armors';
 import { OPTIMIZER_REFERENCE_PROFILES, OPTIMIZER_REFERENCE_PROFILE_BY_ID } from './data/optimizerProfiles';
 
 const metricLabels: Record<OptimizationMetric, string> = {
@@ -24,6 +29,8 @@ const metricLabels: Record<OptimizationMetric, string> = {
 };
 
 const metrics = Object.keys(metricLabels) as OptimizationMetric[];
+type EngineMode = 'legacy' | 'v2' | 'ai';
+type ItemLockMode = 'all' | 'current' | 'type';
 
 interface OptimizerPanelProps {
   build: BuildState;
@@ -35,46 +42,81 @@ interface OptimizerPanelProps {
 }
 
 export default function OptimizerPanel({ build, currentEvaluation, onApply, canUndo, onUndo, retroMode = false }: OptimizerPanelProps) {
+  const [engine, setEngine] = useState<EngineMode>('ai');
   const [presetId, setPresetId] = useState('hybrid');
-  const [primaryClass, setPrimaryClass] = useState(build.mainClass);
   const [referenceProfileId, setReferenceProfileId] = useState('');
   const [searchClasses, setSearchClasses] = useState(true);
   const [mainRank, setMainRank] = useState(build.mainClassPassive);
   const [subRank, setSubRank] = useState(build.subClassPassive);
   const [constraints, setConstraints] = useState<OptimizationConstraint[]>([]);
+  const [defensePlan, setDefensePlan] = useState<OptimizationDefensePlan>('auto');
+  const [extraPackage, setExtraPackage] = useState<OptimizationExtraPackage>('auto');
+  const [weaponLockMode, setWeaponLockMode] = useState<ItemLockMode>('all');
+  const [armorLockMode, setArmorLockMode] = useState<ItemLockMode>('all');
+  const [intent, setIntent] = useState('');
+  const [aiMode, setAiMode] = useState<AiOptimizationMode>('standard');
+  const [previousResponseId, setPreviousResponseId] = useState<string>();
+  const [clarification, setClarification] = useState('');
+  const [aiHealth, setAiHealth] = useState<{ keyConfigured: boolean; standardModel: string; deepModel: string } | null>(null);
   const [result, setResult] = useState<OptimizationResult | null>(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [running, setRunning] = useState(false);
   const [progress, setProgress] = useState<OptimizationProgress | null>(null);
   const [error, setError] = useState('');
   const workerRef = useRef<Worker | null>(null);
+  const abortRef = useRef<AbortController | null>(null);
   const buildSignature = useMemo(() => JSON.stringify(build), [build]);
+
+  const applicableProfiles = useMemo(() => OPTIMIZER_REFERENCE_PROFILES.filter(profile => profile.enabled && profile.primaryClass === build.mainClass), [build.mainClass]);
+  const locks = useMemo<OptimizationEquipmentLocks>(() => {
+    const next: OptimizationEquipmentLocks = {};
+    if (!searchClasses) next.subClass = build.subClass;
+    const currentWeapon = build.equipment.primaryWeapon;
+    if (weaponLockMode === 'current' && currentWeapon?.selectedWeaponName) next.weaponName = currentWeapon.selectedWeaponName;
+    if (weaponLockMode === 'type' && currentWeapon?.weaponType) next.weaponType = currentWeapon.weaponType;
+    const currentArmor = build.equipment.armorName ? ARMORS[build.equipment.armorName] : undefined;
+    if (armorLockMode === 'current' && currentArmor) next.armorName = currentArmor.name;
+    if (armorLockMode === 'type' && currentArmor) next.armorType = currentArmor.type;
+    return next;
+  }, [armorLockMode, build.equipment, build.subClass, searchClasses, weaponLockMode]);
 
   useEffect(() => {
     setResult(null);
     setSelectedIndex(0);
-  }, [buildSignature, presetId, primaryClass, referenceProfileId, searchClasses, mainRank, subRank, constraints]);
+    setPreviousResponseId(undefined);
+    setClarification('');
+  }, [buildSignature]);
 
   useEffect(() => {
-    setPrimaryClass(build.mainClass);
     setMainRank(build.mainClassPassive);
     setSubRank(build.subClassPassive);
-  }, [build.mainClass, build.subClass, build.mainClassPassive, build.subClassPassive]);
+  }, [build.mainClassPassive, build.subClassPassive]);
 
-  useEffect(() => () => workerRef.current?.terminate(), []);
+  useEffect(() => {
+    let active = true;
+    fetch('/api/optimizer-health')
+      .then(response => response.ok ? response.json() : Promise.reject(new Error('offline')))
+      .then((health: { keyConfigured: boolean; standardModel: string; deepModel: string }) => { if (active) setAiHealth(health); })
+      .catch(() => { if (active) setAiHealth(null); });
+    return () => { active = false; };
+  }, []);
 
-  const run = () => {
+  useEffect(() => () => {
+    workerRef.current?.terminate();
+    abortRef.current?.abort();
+  }, []);
+
+  const startWorker = (workerEngine: 'legacy' | 'v2', fallbackMessage?: string) => {
     workerRef.current?.terminate();
     const worker = new Worker(new URL('./utilities/statOptimizer.worker.ts', import.meta.url), { type: 'module' });
     workerRef.current = worker;
     setRunning(true);
-    setResult(null);
-    setError('');
-    setProgress({ completed: 0, total: 1, message: 'Preparing class candidates' });
+    setProgress({ completed: 0, total: 1, message: fallbackMessage ?? `Preparing ${workerEngine === 'v2' ? 'V2' : 'legacy'} candidates` });
     worker.onmessage = (event: MessageEvent<{ type: string; progress?: OptimizationProgress; result?: OptimizationResult; message?: string }>) => {
       if (event.data.type === 'progress' && event.data.progress) setProgress(event.data.progress);
       if (event.data.type === 'result' && event.data.result) {
         setResult(event.data.result);
+        setSelectedIndex(0);
         setRunning(false);
         setProgress(null);
         worker.terminate();
@@ -97,17 +139,69 @@ export default function OptimizerPanel({ build, currentEvaluation, onApply, canU
         build,
         preset: OPTIMIZATION_PRESETS[presetId],
         constraints,
-        primaryClass: primaryClass || undefined,
+        primaryClass: build.mainClass,
         referenceProfileId: referenceProfileId || undefined,
         searchClasses,
         assumedMainPassiveRank: mainRank,
         assumedSubPassiveRank: subRank,
-        resultLimit: 2,
+        resultLimit: 3,
+        engine: workerEngine === 'v2' ? 'v2' : 'legacy',
+        locks,
+        defensePlan,
+        extraPackage,
+        searchDepth: aiMode,
+        intent,
       },
     });
   };
 
+  const run = async () => {
+    workerRef.current?.terminate();
+    abortRef.current?.abort();
+    setRunning(true);
+    setResult(null);
+    setSelectedIndex(0);
+    setError('');
+    setClarification('');
+    if (engine !== 'ai') {
+      startWorker(engine);
+      return;
+    }
+    const controller = new AbortController();
+    abortRef.current = controller;
+    setProgress({ completed: 0, total: 10, message: `AI planning with ${aiMode === 'deep' ? 'Sol' : 'Terra'}` });
+    try {
+      const response = await fetch('/api/optimizer-ai', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        signal: controller.signal,
+        body: JSON.stringify({
+          build, presetId, constraints, locks, defensePlan, extraPackage,
+          referenceProfileId: referenceProfileId || undefined,
+          intent: intent.trim() || `Create a ${OPTIMIZATION_PRESETS[presetId].name.toLowerCase()} build using the fixed character choices.`,
+          mode: aiMode, previousResponseId, assumedMainPassiveRank: mainRank, assumedSubPassiveRank: subRank,
+        }),
+      });
+      if (!response.ok) throw new Error((await response.json() as { error?: string }).error ?? `AI service returned ${response.status}.`);
+      const payload = await response.json() as AiOptimizationResponse;
+      setResult(payload.result);
+      setClarification(payload.clarification ?? '');
+      setPreviousResponseId(payload.result.ai?.responseId);
+      setRunning(false);
+      setProgress(null);
+    } catch (caught) {
+      if (controller.signal.aborted) {
+        setRunning(false);
+        setProgress(null);
+        return;
+      }
+      setError(`${caught instanceof Error ? caught.message : 'AI service unavailable'} Falling back to deterministic V2.`);
+      startWorker('v2', 'AI unavailable; running deterministic V2 fallback');
+    }
+  };
+
   const cancel = () => {
+    abortRef.current?.abort();
     workerRef.current?.postMessage({ type: 'cancel' });
     workerRef.current?.terminate();
     workerRef.current = null;
@@ -119,6 +213,7 @@ export default function OptimizerPanel({ build, currentEvaluation, onApply, canU
     const metric = metrics.find(candidate => !constraints.some(item => item.metric === candidate)) ?? 'maxHP';
     setConstraints(items => [...items, { metric, minimum: Math.ceil(metricValue(currentEvaluation, metric)) }]);
   };
+
   const candidate = result?.candidates[selectedIndex];
   const selectedReferenceProfile = referenceProfileId ? OPTIMIZER_REFERENCE_PROFILE_BY_ID[referenceProfileId] : undefined;
   const compareMetrics: OptimizationMetric[] = ['maxHP', 'fp', 'physicalDefense', 'magicalDefense', 'evade', 'statusInfliction', 'statusResistance', 'weaponPower', 'weaponHit', 'weaponCritical', 'weaponCriticalDamage'];
@@ -127,163 +222,71 @@ export default function OptimizerPanel({ build, currentEvaluation, onApply, canU
     <section className={`mt-6 rounded-xl border border-green-500/30 bg-gray-900/70 p-4 sm:p-6 ${retroMode ? 'font-retro glow-border' : ''}`} aria-labelledby="optimizer-title">
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-5">
         <div>
-          <h3 id="optimizer-title" className="text-xl font-bold text-green-400">Optimize this build</h3>
-          <p className="text-sm text-gray-400">Uses the current level-{build.characterLevel} build and all active bonuses. It can compare classes and reallocates only invested stat points.</p>
-          <p className="mt-1 text-xs text-cyan-300">SL2BuildInfo baselines guide endgame ranking; unsupported mechanics are reported as assumptions or checks requiring calculator/game-data verification.</p>
+          <h3 id="optimizer-title" className="text-xl font-bold text-green-400 flex items-center gap-2"><Sparkles size={20} /> Private build optimizer experiment</h3>
+          <p className="text-sm text-gray-400">Fixed character: {build.race} / {build.subrace} · main class {build.mainClass} · level {build.characterLevel}.</p>
+          <p className="mt-1 text-xs text-cyan-300">AI plans and explains; exact calculator tools enforce stats, locks, equipment, and point limits.</p>
         </div>
         {canUndo && <button type="button" onClick={onUndo} className="px-3 py-2 rounded bg-gray-700 hover:bg-gray-600 flex items-center gap-2 self-start"><RotateCcw size={16} /> Undo optimizer</button>}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-6 gap-4">
-        <label className="text-sm">
-          <span className="block mb-1 text-green-300">Build preset</span>
-          <select value={presetId} onChange={event => setPresetId(event.target.value)} className="w-full bg-gray-800 border border-gray-600 rounded px-3 py-2">
-            {Object.values(OPTIMIZATION_PRESETS).map(preset => <option key={preset.id} value={preset.id}>{preset.name}</option>)}
-          </select>
-          <span className="block text-xs text-gray-500 mt-1">{OPTIMIZATION_PRESETS[presetId].description}</span>
-        </label>
-        <label className="text-sm">
-          <span className="block mb-1 text-cyan-300">Primary class</span>
-          <select value={primaryClass} onChange={event => {
-            setPrimaryClass(event.target.value);
-            const profile = referenceProfileId ? OPTIMIZER_REFERENCE_PROFILE_BY_ID[referenceProfileId] : undefined;
-            if (profile && profile.primaryClass !== event.target.value) setReferenceProfileId('');
-          }} className="w-full bg-gray-800 border border-cyan-700 rounded px-3 py-2">
-            <option value="">Any primary class</option>
-            {Object.keys(CLASSES).sort().map(className => <option key={className} value={className}>{className}</option>)}
-          </select>
-          <span className="block text-xs text-gray-500 mt-1">{primaryClass ? `${primaryClass} remains the main class in every result.` : 'Broad discovery mode may replace both classes.'}</span>
-        </label>
-        <label className="text-sm">
-          <span className="block mb-1 text-violet-300">Reference build</span>
-          <select value={referenceProfileId} onChange={event => {
-            const nextId = event.target.value;
-            setReferenceProfileId(nextId);
-            const profile = nextId ? OPTIMIZER_REFERENCE_PROFILE_BY_ID[nextId] : undefined;
-            if (profile?.enabled) setPrimaryClass(profile.primaryClass);
-          }} className="w-full bg-gray-800 border border-violet-700 rounded px-3 py-2">
-            <option value="">No reference profile</option>
-            {OPTIMIZER_REFERENCE_PROFILES.filter(profile => profile.enabled).map(profile => <option key={profile.id} value={profile.id}>{profile.name}</option>)}
-            {OPTIMIZER_REFERENCE_PROFILES.some(profile => !profile.enabled) && <optgroup label="Waiting for game data">
-              {OPTIMIZER_REFERENCE_PROFILES.filter(profile => !profile.enabled).map(profile => <option key={profile.id} value={profile.id} disabled>{profile.name}</option>)}
-            </optgroup>}
-          </select>
-          <span className="block text-xs text-gray-500 mt-1">Optional community-informed pairing and stat-shape guidance.</span>
-        </label>
-        <label className="text-sm flex items-start gap-2 pt-7">
-          <input type="checkbox" checked={searchClasses} onChange={event => setSearchClasses(event.target.checked)} className="mt-1" />
-          <span><span className="block text-white">Compare secondary classes</span><span className="text-xs text-gray-500">Finds the best subclass pairing; turn off to keep the current subclass.</span></span>
-        </label>
-        <label className="text-sm">
-          <span className="block mb-1 text-blue-300">Assumed main passive rank</span>
-          <input type="number" min="0" max="10" value={mainRank} onChange={event => setMainRank(Math.max(0, Number(event.target.value)))} className="w-full bg-gray-800 border border-gray-600 rounded px-3 py-2" />
-        </label>
-        <label className="text-sm">
-          <span className="block mb-1 text-blue-300">Assumed sub passive rank</span>
-          <input type="number" min="0" max="10" value={subRank} onChange={event => setSubRank(Math.max(0, Number(event.target.value)))} className="w-full bg-gray-800 border border-gray-600 rounded px-3 py-2" />
-        </label>
+      <div className="grid grid-cols-3 gap-2 mb-5" role="radiogroup" aria-label="Optimizer engine">
+        {([
+          ['ai', 'AI planner', 'Terra/Sol with exact tools'],
+          ['v2', 'V2 search', 'Pareto beam and equipment'],
+          ['legacy', 'Legacy', 'Original comparison baseline'],
+        ] as const).map(([value, label, description]) => (
+          <button key={value} type="button" role="radio" aria-checked={engine === value} onClick={() => setEngine(value)} className={`rounded-lg border p-3 text-left ${engine === value ? 'border-violet-400 bg-violet-950/50' : 'border-gray-700 bg-gray-800/70 hover:border-gray-500'}`}>
+            <strong className="block">{label}</strong><span className="text-xs text-gray-400">{description}</span>
+          </button>
+        ))}
       </div>
 
-      {selectedReferenceProfile && (
-        <div className="mt-4 rounded-lg border border-violet-700/60 bg-violet-950/20 p-3 text-sm">
-          <div className="flex flex-wrap items-start justify-between gap-2">
-            <div><strong className="text-violet-200">{selectedReferenceProfile.archetype}</strong><div className="text-gray-400">{selectedReferenceProfile.race} / {selectedReferenceProfile.subrace} · {selectedReferenceProfile.primaryClass} / {selectedReferenceProfile.secondaryClass}</div></div>
-            <div className="text-xs text-gray-400">Reference weapon: {selectedReferenceProfile.weapon.name} → {selectedReferenceProfile.weapon.effectiveType}</div>
-          </div>
-          <div className="mt-2 flex flex-wrap gap-1.5">{selectedReferenceProfile.priorityStats.map(stat => <span key={stat} className="rounded bg-violet-900/60 px-2 py-1 text-xs text-violet-100">{stat.toUpperCase()} target {selectedReferenceProfile.scaledStatTargets[stat]}</span>)}</div>
-          <p className="mt-2 text-xs text-gray-400">Soft prior only: it influences ranking and allocation shape but does not replace the current race, weapon, formulas, point caps, or minimum constraints. Class-skill effects are not simulated.</p>
-        </div>
-      )}
-
-      <div className="mt-5 border-t border-gray-700 pt-4">
-        <div className="flex items-center justify-between mb-3">
-          <div><h4 className="font-semibold">Minimum constraints</h4><p className="text-xs text-gray-500">Optional hard goals based on final calculator outputs.</p></div>
-          <button type="button" onClick={addConstraint} className="px-3 py-1.5 rounded bg-blue-700 hover:bg-blue-600 text-sm">Add minimum</button>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-          {constraints.map((constraint, index) => (
-            <div key={`${constraint.metric}-${index}`} className="flex gap-2">
-              <select value={constraint.metric} onChange={event => setConstraints(items => items.map((item, itemIndex) => itemIndex === index ? { ...item, metric: event.target.value as OptimizationMetric } : item))} className="min-w-0 flex-1 bg-gray-800 border border-gray-600 rounded px-2 py-2 text-sm">
-                {metrics.map(metric => <option key={metric} value={metric}>{metricLabels[metric]}</option>)}
-              </select>
-              <input aria-label={`Minimum ${metricLabels[constraint.metric]}`} type="number" value={constraint.minimum} onChange={event => setConstraints(items => items.map((item, itemIndex) => itemIndex === index ? { ...item, minimum: Number(event.target.value) } : item))} className="w-28 bg-gray-800 border border-gray-600 rounded px-2 py-2 text-sm" />
-              <button type="button" aria-label="Remove constraint" onClick={() => setConstraints(items => items.filter((_, itemIndex) => itemIndex !== index))} className="p-2 rounded hover:bg-gray-700"><X size={17} /></button>
-            </div>
-          ))}
-          {!constraints.length && <p className="text-sm text-gray-500">No minimums set; the preset determines the ranking.</p>}
-        </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+        <label className="text-sm"><span className="block mb-1 text-green-300">Build preset</span><select value={presetId} onChange={event => setPresetId(event.target.value)} className="w-full bg-gray-800 border border-gray-600 rounded px-3 py-2">{Object.values(OPTIMIZATION_PRESETS).map(preset => <option key={preset.id} value={preset.id}>{preset.name}</option>)}</select><span className="block text-xs text-gray-500 mt-1">{OPTIMIZATION_PRESETS[presetId].description}</span></label>
+        <label className="text-sm"><span className="block mb-1 text-cyan-300">Defense plan</span><select value={defensePlan} onChange={event => setDefensePlan(event.target.value as OptimizationDefensePlan)} className="w-full bg-gray-800 border border-gray-600 rounded px-3 py-2"><option value="auto">Infer from request</option><option value="tank">Tank / non-evade</option><option value="evade">Evade</option><option value="bruiser">Bruiser</option><option value="hybrid">Hybrid</option><option value="glass">Intentional glass</option></select></label>
+        <label className="text-sm"><span className="block mb-1 text-cyan-300">Extra-stat package</span><select value={extraPackage} onChange={event => setExtraPackage(event.target.value as OptimizationExtraPackage)} className="w-full bg-gray-800 border border-gray-600 rounded px-3 py-2"><option value="auto">Infer from request</option><option value="critical">Critical</option><option value="faith">Faith</option><option value="sanctity">Sanctity</option><option value="none">None</option></select></label>
+        <label className="text-sm"><span className="block mb-1 text-violet-300">Popular-build evidence</span><select value={referenceProfileId} onChange={event => setReferenceProfileId(event.target.value)} className="w-full bg-gray-800 border border-violet-700 rounded px-3 py-2"><option value="">Automatic / none</option>{applicableProfiles.map(profile => <option key={profile.id} value={profile.id}>{profile.name}</option>)}</select><span className="block text-xs text-gray-500 mt-1">Only profiles with the fixed main class are selectable.</span></label>
       </div>
 
-      <div className="mt-5 flex items-center gap-3">
-        <button type="button" onClick={running ? cancel : run} className={`px-5 py-3 rounded-lg font-semibold flex items-center gap-2 ${running ? 'bg-red-700 hover:bg-red-600' : 'bg-green-700 hover:bg-green-600'}`}>
-          {running ? <><X size={18} /> Cancel</> : <><Play size={18} /> Optimize stats and class pairing</>}
-        </button>
-        {progress && <div className="text-sm text-gray-400"><div>{progress.message}</div><div>{progress.completed}/{progress.total}</div></div>}
-        {error && <div role="alert" className="text-sm text-red-300">{error}</div>}
+      {engine === 'ai' && <div className="mt-4 rounded-lg border border-violet-700/60 bg-violet-950/20 p-4">
+        <label className="text-sm"><span className="block mb-1 text-violet-200">Describe the build you want</span><textarea value={intent} onChange={event => setIntent(event.target.value)} rows={3} placeholder="Make a durable Ghost build that uses critical attacks without sacrificing accuracy..." className="w-full resize-y bg-gray-950 border border-violet-700 rounded px-3 py-2" /></label>
+        <div className="mt-3 flex flex-wrap items-center gap-3 text-sm">
+          <label><span className="mr-2 text-gray-400">AI depth</span><select value={aiMode} onChange={event => setAiMode(event.target.value as AiOptimizationMode)} className="bg-gray-800 border border-gray-600 rounded px-3 py-2"><option value="standard">Standard · Terra / medium</option><option value="deep">Deep · Sol / high</option></select></label>
+          <span className={`text-xs ${aiHealth?.keyConfigured ? 'text-green-300' : 'text-yellow-300'}`}>{aiHealth ? aiHealth.keyConfigured ? `Local service ready · ${aiMode === 'deep' ? aiHealth.deepModel : aiHealth.standardModel}` : 'Local service ready · API key missing, V2 fallback active' : 'Local AI service not detected · browser fallback active'}</span>
+          {previousResponseId && <span className="text-xs text-cyan-300">Follow-up context active</span>}
+        </div>
+      </div>}
+
+      <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 rounded-lg border border-gray-700 p-3">
+        <label className="text-sm flex items-start gap-2"><input type="checkbox" checked={searchClasses} onChange={event => setSearchClasses(event.target.checked)} className="mt-1" /><span><span className="block">Search secondary classes</span><span className="text-xs text-gray-500">Main class always remains {build.mainClass}.</span></span></label>
+        <label className="text-sm"><span className="block text-gray-400 mb-1">Weapon search</span><select value={weaponLockMode} onChange={event => setWeaponLockMode(event.target.value as ItemLockMode)} className="w-full bg-gray-800 border border-gray-600 rounded px-2 py-2"><option value="all">All canonical weapons</option><option value="current" disabled={!build.equipment.primaryWeapon?.selectedWeaponName}>Lock current weapon</option><option value="type" disabled={!build.equipment.primaryWeapon}>Lock current type</option></select></label>
+        <label className="text-sm"><span className="block text-gray-400 mb-1">Torso search</span><select value={armorLockMode} onChange={event => setArmorLockMode(event.target.value as ItemLockMode)} className="w-full bg-gray-800 border border-gray-600 rounded px-2 py-2"><option value="all">All torso armor</option><option value="current" disabled={!build.equipment.armorName}>Lock current torso</option><option value="type" disabled={!build.equipment.armorName}>Lock current type</option></select></label>
+        <div className="grid grid-cols-2 gap-2"><label className="text-xs text-gray-400">Main passive<input type="number" min="0" max="10" value={mainRank} onChange={event => setMainRank(Math.max(0, Number(event.target.value)))} className="mt-1 w-full bg-gray-800 border border-gray-600 rounded px-2 py-2 text-sm" /></label><label className="text-xs text-gray-400">Sub passive<input type="number" min="0" max="10" value={subRank} onChange={event => setSubRank(Math.max(0, Number(event.target.value)))} className="mt-1 w-full bg-gray-800 border border-gray-600 rounded px-2 py-2 text-sm" /></label></div>
       </div>
 
-      {result && (
-        <div className="mt-6 border-t border-gray-700 pt-5">
-          <div className="flex flex-wrap gap-2 mb-4" role="tablist" aria-label="Optimization candidates">
-            {result.candidates.map((item, index) => (
-              <button key={item.id} type="button" role="tab" aria-selected={selectedIndex === index} onClick={() => setSelectedIndex(index)} className={`px-4 py-2 rounded-lg border text-left ${selectedIndex === index ? 'bg-blue-800 border-blue-400' : 'bg-gray-800 border-gray-600 hover:border-gray-400'}`}>
-                <span className="block font-semibold">{index === 0 ? 'Primary' : 'Alternative'} · {item.patch.mainClass} / {item.patch.subClass}</span>
-                <span className={`text-xs ${item.feasible ? 'text-green-300' : 'text-yellow-300'}`}>{item.feasible ? 'All custom minimums met' : `${Object.keys(item.constraintDeficits).length} custom minimum shortfall(s)`}</span>
-                <span className={`block text-xs ${item.guideValidation.failed ? 'text-red-300' : 'text-cyan-300'}`}>Guide: {item.guideValidation.passed} pass · {item.guideValidation.failed} fail · {item.guideValidation.requiresVerification} verify</span>
-              </button>
-            ))}
-          </div>
+      {selectedReferenceProfile && <div className="mt-4 rounded-lg border border-violet-700/60 bg-violet-950/20 p-3 text-sm"><strong className="text-violet-200">{selectedReferenceProfile.archetype}</strong><div className="text-gray-400">{selectedReferenceProfile.name} · {selectedReferenceProfile.weapon.name} → {selectedReferenceProfile.weapon.effectiveType}</div><div className="mt-2 flex flex-wrap gap-1.5">{selectedReferenceProfile.priorityStats.map(stat => <span key={stat} className="rounded bg-violet-900/60 px-2 py-1 text-xs">{stat.toUpperCase()} {selectedReferenceProfile.scaledStatTargets[stat]}</span>)}</div>{selectedReferenceProfile.dataGaps?.map(gap => <p key={gap} className="mt-1 text-xs text-yellow-300">{gap}</p>)}</div>}
 
-          {candidate && (
-            <div className="space-y-4">
-              <div className={`rounded-lg border p-3 flex gap-2 ${candidate.feasible && !candidate.guideValidation.failed ? 'border-green-700 bg-green-950/30' : 'border-yellow-700 bg-yellow-950/30'}`}>
-                {candidate.feasible && !candidate.guideValidation.failed ? <CheckCircle2 className="text-green-400 shrink-0" /> : <AlertTriangle className="text-yellow-400 shrink-0" />}
-                <div className="text-sm"><strong>{!candidate.feasible ? 'Closest custom-constraint result' : candidate.guideValidation.failed ? 'Custom constraints met; guide failures remain' : 'Custom constraints and supported guide checks met'}</strong><div className="text-gray-400">Evaluated {result.evaluatedClassPairs} ordered class pairs in {Math.round(result.durationMs)} ms.</div></div>
-              </div>
+      <div className="mt-5 border-t border-gray-700 pt-4"><div className="flex items-center justify-between mb-3"><div><h4 className="font-semibold">Hard minimums</h4><p className="text-xs text-gray-500">These override soft guide and profile preferences.</p></div><button type="button" onClick={addConstraint} className="px-3 py-1.5 rounded bg-blue-700 hover:bg-blue-600 text-sm">Add minimum</button></div><div className="grid grid-cols-1 md:grid-cols-2 gap-2">{constraints.map((constraint, index) => <div key={`${constraint.metric}-${index}`} className="flex gap-2"><select value={constraint.metric} onChange={event => setConstraints(items => items.map((item, itemIndex) => itemIndex === index ? { ...item, metric: event.target.value as OptimizationMetric } : item))} className="min-w-0 flex-1 bg-gray-800 border border-gray-600 rounded px-2 py-2 text-sm">{metrics.map(metric => <option key={metric} value={metric}>{metricLabels[metric]}</option>)}</select><input aria-label={`Minimum ${metricLabels[constraint.metric]}`} type="number" value={constraint.minimum} onChange={event => setConstraints(items => items.map((item, itemIndex) => itemIndex === index ? { ...item, minimum: Number(event.target.value) } : item))} className="w-28 bg-gray-800 border border-gray-600 rounded px-2 py-2 text-sm" /><button type="button" aria-label="Remove constraint" onClick={() => setConstraints(items => items.filter((_, itemIndex) => itemIndex !== index))} className="p-2 rounded hover:bg-gray-700"><X size={17} /></button></div>)}{!constraints.length && <p className="text-sm text-gray-500">No custom hard minimums.</p>}</div></div>
 
-              <div className="overflow-x-auto">
-                <table className="w-full min-w-[680px] text-sm">
-                  <thead><tr className="text-left text-gray-400 border-b border-gray-700"><th className="py-2">Value</th><th>Current</th><th>Proposed</th><th>Change</th></tr></thead>
-                  <tbody>
-                    <tr className="border-b border-gray-800"><td className="py-2">Classes</td><td>{build.mainClass} / {build.subClass}</td><td>{candidate.patch.mainClass} / {candidate.patch.subClass}</td><td>Ranks {candidate.patch.mainClassPassive} / {candidate.patch.subClassPassive}</td></tr>
-                    {compareMetrics.map(metric => {
-                      const current = metricValue(currentEvaluation, metric);
-                      const proposed = metricValue(candidate.evaluation, metric);
-                      if ((metric.startsWith('weapon') && !candidate.evaluation.primaryWeapon) || (metric.startsWith('weapon') && !currentEvaluation.primaryWeapon)) return null;
-                      return <tr key={metric} className="border-b border-gray-800"><td className="py-2">{metricLabels[metric]}</td><td>{Math.round(current)}</td><td>{Math.round(proposed)}</td><td className={proposed >= current ? 'text-green-300' : 'text-red-300'}>{proposed - current >= 0 ? '+' : ''}{Math.round(proposed - current)}</td></tr>;
-                    })}
-                  </tbody>
-                </table>
-              </div>
+      <div className="mt-5 flex flex-wrap items-center gap-3"><button type="button" onClick={running ? cancel : run} className={`px-5 py-3 rounded-lg font-semibold flex items-center gap-2 ${running ? 'bg-red-700 hover:bg-red-600' : engine === 'ai' ? 'bg-violet-700 hover:bg-violet-600' : 'bg-green-700 hover:bg-green-600'}`}>{running ? <><X size={18} /> Cancel</> : engine === 'ai' ? <><Bot size={18} /> Plan with AI</> : <><Play size={18} /> Run {engine === 'v2' ? 'V2' : 'legacy'} optimizer</>}</button>{progress && <div className="text-sm text-gray-400"><div>{progress.message}</div>{progress.total > 1 && <div>{progress.completed}/{progress.total}</div>}</div>}{error && <div role="alert" className="text-sm text-yellow-300">{error}</div>}</div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
-                {STAT_KEYS.map(stat => <div key={stat} className="bg-gray-800 rounded p-2 text-center"><span className="block text-xs text-gray-500">{stat.toUpperCase()} invested</span><strong>{build.addedStats[stat]} → {candidate.patch.addedStats[stat]}</strong><span className="block text-xs text-gray-500">Scaled {Math.floor(candidate.evaluation.scaledStats[stat])}</span></div>)}
-              </div>
+      {clarification && <div className="mt-4 rounded border border-cyan-700 bg-cyan-950/30 p-3 text-sm text-cyan-100"><strong>AI clarification:</strong> {clarification}</div>}
 
-              {!!Object.keys(candidate.constraintDeficits).length && <ul className="text-sm text-yellow-300">{Object.entries(candidate.constraintDeficits).map(([metric, deficit]) => <li key={metric}>{metricLabels[metric as OptimizationMetric]} is short by {Math.ceil(deficit ?? 0)}.</li>)}</ul>}
-              <ul className="text-sm text-gray-400 list-disc pl-5">{candidate.reasoning.map(reason => <li key={reason}>{reason}</li>)}</ul>
-              {candidate.warnings.map(warning => <p key={warning} className="text-sm text-yellow-300">{warning}</p>)}
-              <div className="rounded-lg border border-cyan-800/70 bg-cyan-950/20 p-3">
-                <h4 className="font-semibold text-cyan-200">SL2BuildInfo validation checklist</h4>
-                <p className="mt-1 text-xs text-gray-400">Only checks supported by the current build state can pass or fail automatically. “Verify” items are not guessed.</p>
-                <div className="mt-3 grid grid-cols-1 lg:grid-cols-2 gap-2">
-                  {candidate.guideValidation.checks.map(check => (
-                    <div key={check.id} className={`rounded border p-2 text-sm ${check.status === 'pass' ? 'border-green-800/70 bg-green-950/20' : check.status === 'fail' ? 'border-red-800/70 bg-red-950/20' : 'border-yellow-800/70 bg-yellow-950/20'}`}>
-                      <div className="flex items-center justify-between gap-2">
-                        <strong>{check.label}</strong>
-                        <span className={`text-xs uppercase ${check.status === 'pass' ? 'text-green-300' : check.status === 'fail' ? 'text-red-300' : 'text-yellow-300'}`}>{check.status}</span>
-                      </div>
-                      <p className="mt-1 text-xs text-gray-300">{check.summary}</p>
-                      <p className="mt-1 text-[10px] uppercase tracking-wide text-gray-500">Basis: {check.basis === 'document' ? 'SL2BuildInfo document' : check.basis === 'assumption' ? 'assumption' : 'calculator data'}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <button type="button" onClick={() => onApply(candidate)} className="px-5 py-3 rounded-lg bg-blue-700 hover:bg-blue-600 font-semibold">Apply {selectedIndex === 0 ? 'primary build' : 'alternative build'}</button>
-            </div>
-          )}
-        </div>
-      )}
+      {result && <div className="mt-6 border-t border-gray-700 pt-5">
+        {result.ai && <div className="mb-4 rounded-lg border border-violet-800 bg-violet-950/20 p-3 text-sm"><div className="flex flex-wrap gap-x-4 gap-y-1"><span><Bot size={15} className="inline mr-1" />{result.ai.model}</span><span>{result.ai.fallback ? 'Deterministic fallback' : `${result.ai.toolRounds} tool rounds`}</span><span>{result.ai.exactEvaluations} surfaced candidates</span>{result.ai.usage && <span>{result.ai.usage.totalTokens.toLocaleString()} tokens</span>}</div>{result.ai.summary && <p className="mt-2 text-gray-300">{result.ai.summary}</p>}</div>}
+        <div className="flex flex-wrap gap-2 mb-4" role="tablist" aria-label="Optimization candidates">{result.candidates.map((item, index) => <button key={item.id} type="button" role="tab" aria-selected={selectedIndex === index} onClick={() => setSelectedIndex(index)} className={`px-4 py-2 rounded-lg border text-left ${selectedIndex === index ? 'bg-blue-800 border-blue-400' : 'bg-gray-800 border-gray-600 hover:border-gray-400'}`}><span className="block font-semibold">{index === 0 ? 'Primary' : `Alternative ${index}`} · {item.patch.mainClass} / {item.patch.subClass}</span><span className="block text-xs text-gray-300">{item.patch.equipment?.primaryWeapon?.selectedWeaponName ?? 'Current weapon'} · {item.patch.equipment?.armorName ?? 'Current torso'}</span><span className={`text-xs ${item.feasible ? 'text-green-300' : 'text-yellow-300'}`}>{item.feasible ? 'Hard constraints met' : `${Object.keys(item.constraintDeficits).length} shortfall(s)`}</span></button>)}</div>
+
+        {candidate && <div className="space-y-4">
+          <div className={`rounded-lg border p-3 flex gap-2 ${candidate.feasible ? 'border-green-700 bg-green-950/30' : 'border-yellow-700 bg-yellow-950/30'}`}>{candidate.feasible ? <CheckCircle2 className="text-green-400 shrink-0" /> : <AlertTriangle className="text-yellow-400 shrink-0" />}<div className="text-sm"><strong>{candidate.feasible ? 'Validated candidate' : 'Closest constrained candidate'}</strong><div className="text-gray-400">{candidate.confidence && `${candidate.confidence} confidence · `}{result.engine ?? 'legacy'} engine · {Math.round(result.durationMs)} ms</div></div></div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm"><div className="rounded bg-gray-800 p-3"><span className="block text-xs text-gray-500">Classes</span><strong>{candidate.patch.mainClass} / {candidate.patch.subClass}</strong></div><div className="rounded bg-gray-800 p-3"><span className="block text-xs text-gray-500">Primary weapon</span><strong>{candidate.patch.equipment?.primaryWeapon?.selectedWeaponName ?? build.equipment.primaryWeapon?.selectedWeaponName ?? 'None'}</strong></div><div className="rounded bg-gray-800 p-3"><span className="block text-xs text-gray-500">Torso</span><strong>{candidate.patch.equipment?.armorName ?? build.equipment.armorName ?? 'None'}</strong></div></div>
+          {candidate.objectives && <div><h4 className="mb-2 font-semibold">Modeled objectives</h4><div className="grid grid-cols-2 sm:grid-cols-4 gap-2">{Object.entries(candidate.objectives).map(([name, value]) => <div key={name} className="rounded bg-gray-800 p-2"><div className="flex justify-between text-xs"><span className="capitalize text-gray-400">{name.replace(/([A-Z])/g, ' $1')}</span><span>{Math.round(value * 100)}%</span></div><div className="mt-1 h-1.5 rounded bg-gray-700"><div className="h-full rounded bg-cyan-500" style={{ width: `${Math.max(0, Math.min(100, value * 100))}%` }} /></div></div>)}</div></div>}
+          <div className="overflow-x-auto"><table className="w-full min-w-[680px] text-sm"><thead><tr className="text-left text-gray-400 border-b border-gray-700"><th className="py-2">Value</th><th>Current</th><th>Proposed</th><th>Change</th></tr></thead><tbody>{compareMetrics.map(metric => { const current = metricValue(currentEvaluation, metric); const proposed = metricValue(candidate.evaluation, metric); if (metric.startsWith('weapon') && !candidate.evaluation.primaryWeapon) return null; return <tr key={metric} className="border-b border-gray-800"><td className="py-2">{metricLabels[metric]}</td><td>{Math.round(current)}</td><td>{Math.round(proposed)}</td><td className={proposed >= current ? 'text-green-300' : 'text-red-300'}>{proposed - current >= 0 ? '+' : ''}{Math.round(proposed - current)}</td></tr>; })}</tbody></table></div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">{STAT_KEYS.map(stat => <div key={stat} className="bg-gray-800 rounded p-2 text-center"><span className="block text-xs text-gray-500">{stat.toUpperCase()} invested</span><strong>{build.addedStats[stat]} → {candidate.patch.addedStats[stat]}</strong><span className="block text-xs text-gray-500">Scaled {Math.floor(candidate.evaluation.scaledStats[stat])}</span></div>)}</div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-3"><div className="rounded border border-gray-700 p-3"><h4 className="font-semibold">Reasoning and evidence</h4><ul className="mt-2 text-sm text-gray-300 list-disc pl-5">{candidate.reasoning.map(reason => <li key={reason}>{reason}</li>)}</ul>{candidate.evidence?.map(item => <p key={item} className="mt-1 text-xs text-cyan-300">Evidence: {item}</p>)}</div><div className="rounded border border-gray-700 p-3"><h4 className="font-semibold">Tradeoffs and verification</h4>{candidate.tradeoffs?.map(item => <p key={item} className="mt-1 text-sm text-yellow-200">{item}</p>)}{candidate.warnings.map(warning => <p key={warning} className="mt-1 text-sm text-yellow-300">{warning}</p>)}</div></div>
+          <div className="rounded-lg border border-cyan-800/70 bg-cyan-950/20 p-3"><h4 className="font-semibold text-cyan-200 flex items-center gap-2"><ShieldCheck size={17} /> Validation</h4><p className="mt-1 text-xs text-gray-400">{candidate.guideValidation.passed} pass · {candidate.guideValidation.failed} fail · {candidate.guideValidation.requiresVerification} require verification.</p></div>
+          <button type="button" onClick={() => onApply(candidate)} className="px-5 py-3 rounded-lg bg-blue-700 hover:bg-blue-600 font-semibold">Apply {selectedIndex === 0 ? 'primary build' : `alternative ${selectedIndex}`}</button>
+        </div>}
+      </div>}
     </section>
   );
 }

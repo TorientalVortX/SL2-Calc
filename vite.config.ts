@@ -7,6 +7,12 @@ import packageJson from './package.json'
 const cacheNamespace = `sl2-${packageJson.version}-${gameData.dataVersion}`
 
 export default defineConfig({
+  server: {
+    proxy: {
+      '/api/optimizer-ai': 'http://127.0.0.1:8787',
+      '/api/optimizer-health': 'http://127.0.0.1:8787',
+    },
+  },
   plugins: [
     react(),
     VitePWA({

@@ -213,6 +213,9 @@ export interface OptimizationResult {
   pointBudget: number;
   evaluatedClassPairs: number;
   durationMs: number;
+  engine?: 'legacy' | 'v2' | 'ai';
+  evaluatedCandidates?: number;
+  ai?: AiOptimizationMetadata;
 }
 
 export type OptimizationMetric = StatKey
@@ -254,6 +257,33 @@ export interface OptimizationReferenceProfile {
   scaledStatTargets: Partial<StatRecord>;
   priorityStats: StatKey[];
   notes: string;
+  provenance?: string;
+  confidence?: 'verified' | 'community' | 'historical' | 'unavailable';
+  canonicalWeaponId?: string;
+  requiredWeaponEnchantment?: string;
+  dataGaps?: string[];
+}
+
+export type OptimizationDefensePlan = 'auto' | 'tank' | 'evade' | 'bruiser' | 'hybrid' | 'glass';
+export type OptimizationExtraPackage = 'auto' | 'critical' | 'faith' | 'sanctity' | 'none';
+export type OptimizationSearchDepth = 'standard' | 'deep';
+
+export interface OptimizationEquipmentLocks {
+  subClass?: string;
+  weaponName?: string;
+  weaponType?: string;
+  armorName?: string;
+  armorType?: Armor['type'];
+}
+
+export interface OptimizationObjectives {
+  offense: number;
+  accuracy: number;
+  durability: number;
+  sustain: number;
+  utility: number;
+  guideFit: number;
+  profileFit: number;
 }
 
 export type BuildGuideCheckStatus = 'pass' | 'fail' | 'verify';
@@ -318,6 +348,7 @@ export interface OptimizationBuildPatch {
   mainClassPassive: number;
   subClassPassive: number;
   addedStats: StatRecord;
+  equipment?: BuildEquipmentState;
 }
 
 export interface OptimizationCandidate {
@@ -330,6 +361,10 @@ export interface OptimizationCandidate {
   guideValidation: BuildGuideValidation;
   reasoning: string[];
   warnings: string[];
+  objectives?: OptimizationObjectives;
+  evidence?: string[];
+  tradeoffs?: string[];
+  confidence?: 'high' | 'medium' | 'low';
 }
 
 export interface OptimizationRequest {
@@ -344,6 +379,49 @@ export interface OptimizationRequest {
   assumedMainPassiveRank: number;
   assumedSubPassiveRank: number;
   resultLimit?: number;
+  engine?: 'legacy' | 'v2';
+  locks?: OptimizationEquipmentLocks;
+  defensePlan?: OptimizationDefensePlan;
+  extraPackage?: OptimizationExtraPackage;
+  searchDepth?: OptimizationSearchDepth;
+  intent?: string;
+}
+
+export type AiOptimizationMode = 'standard' | 'deep';
+
+export interface AiOptimizationRequest {
+  build: BuildState;
+  presetId: string;
+  constraints: OptimizationConstraint[];
+  locks: OptimizationEquipmentLocks;
+  defensePlan: OptimizationDefensePlan;
+  extraPackage: OptimizationExtraPackage;
+  referenceProfileId?: string;
+  intent: string;
+  mode: AiOptimizationMode;
+  previousResponseId?: string;
+  assumedMainPassiveRank: number;
+  assumedSubPassiveRank: number;
+}
+
+export interface AiOptimizationMetadata {
+  model: string;
+  responseId?: string;
+  toolRounds: number;
+  exactEvaluations: number;
+  fallback: boolean;
+  phase: string;
+  usage?: {
+    inputTokens: number;
+    outputTokens: number;
+    totalTokens: number;
+  };
+  summary?: string;
+}
+
+export interface AiOptimizationResponse {
+  result: OptimizationResult;
+  clarification?: string;
 }
 
 /**

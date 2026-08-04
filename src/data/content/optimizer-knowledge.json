@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "archetypes": [
+    { "id": "balanced", "label": "Balanced hybrid", "defensePlan": "hybrid", "damagePath": "weapon", "source": "calculator", "confidence": "verified" },
+    { "id": "tank", "label": "Non-evade tank", "defensePlan": "tank", "damagePath": "weapon", "source": "SL2BuildInfo", "confidence": "community" },
+    { "id": "evade", "label": "Evade attacker", "defensePlan": "evade", "damagePath": "weapon", "source": "SL2BuildInfo", "confidence": "community" },
+    { "id": "critical", "label": "Critical attacker", "defensePlan": "bruiser", "damagePath": "weapon-critical", "source": "calculator", "confidence": "verified" },
+    { "id": "support", "label": "Resource and status support", "defensePlan": "hybrid", "damagePath": "utility", "source": "calculator", "confidence": "verified" }
+  ],
+  "classPairEvidence": [
+    { "mainClass": "Bonder", "subClass": "Monk", "profileId": "sal-am-bonder-monk", "tags": ["frontline", "durable", "strength"], "source": "community-profile", "confidence": "community" },
+    { "mainClass": "Shapeshifter", "subClass": "Ghost", "profileId": "amalgama-shapeshifter-ghost", "tags": ["hybrid", "high-aptitude", "strength"], "source": "community-profile", "confidence": "community" },
+    { "mainClass": "Kensei", "subClass": "Bonder", "profileId": "karakuri-dragon-kensei-bonder", "tags": ["critical", "bruiser", "strength"], "source": "community-profile", "confidence": "community" },
+    { "mainClass": "Spellthief", "subClass": "Magic Gunner", "profileId": "mechanation-spellthief-magic-gunner", "tags": ["ranged", "celerity", "guile"], "source": "community-profile", "confidence": "community" },
+    { "mainClass": "Hexer", "subClass": "Priest", "profileId": "karatynn-hexer-priest", "tags": ["faith", "support", "durable"], "source": "community-profile", "confidence": "community" },
+    { "mainClass": "Ghost", "subClass": "Black Knight", "profileId": "amalgama-ghost-black-knight", "tags": ["critical", "bruiser", "luck"], "source": "community-profile", "confidence": "community" },
+    { "mainClass": "Kensei", "subClass": "Bonder", "profileId": "karakuri-avian-kensei-bonder", "tags": ["celerity", "accuracy", "hybrid"], "source": "community-profile", "confidence": "community" }
+  ],
+  "rules": [
+    { "id": "fixed-character", "statement": "Race, subrace, main class, character level, and active character bonuses are immutable during optimization.", "source": "user", "confidence": "verified" },
+    { "id": "conditional-aptitude", "statement": "48 scaled APT is a general guide target, not a universal hard constraint; an applicable user or reference target takes precedence.", "source": "SL2BuildInfo-and-community-profiles", "confidence": "community" },
+    { "id": "unknown-skills", "statement": "Unstructured class-skill and item-effect behavior must be labeled as requiring verification and contributes no invented numeric bonus.", "source": "calculator-boundary", "confidence": "verified" }
+  ]
+}
