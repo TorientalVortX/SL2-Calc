@@ -609,6 +609,12 @@ export interface WeaponSpecial {
   effect?: string;
 }
 
+export interface WeaponOptimizationPolicy {
+  automaticRecommendation: 'allowed' | 'explicit-opt-in';
+  restriction: string;
+  optInTerms?: string[];
+}
+
 /**
  * Complete weapon data structure
  */
@@ -631,6 +637,8 @@ export interface Weapon {
   material?: string;
   enchantment?: string;
   specials?: WeaponSpecial[];
+  /** Conservative optimizer handling for restrictions not represented by numeric weapon stats. */
+  optimizationPolicy?: WeaponOptimizationPolicy;
   description: string;
   location: string[];
 }

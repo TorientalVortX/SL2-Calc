@@ -80,11 +80,28 @@ function normalizeCategory(type: string): string {
   return ({ Sword: 'Swords', Axe: 'Axes', Bow: 'Bows', Dagger: 'Daggers', Fist: 'Fist', Gun: 'Guns', Polearm: 'Spears', Spear: 'Spears', Tome: 'Tomes' } as Record<string, string>)[type] ?? type;
 }
 
+export interface WeaponOptimizationEligibility {
+  eligible: boolean;
+  explicitOptIn: boolean;
+  restriction?: string;
+}
+
+export function weaponOptimizationEligibility(weapon: Weapon, request: OptimizationRequest): WeaponOptimizationEligibility {
+  const policy = weapon.optimizationPolicy;
+  if (!policy || policy.automaticRecommendation === 'allowed') return { eligible: true, explicitOptIn: false };
+  const isExactLock = request.locks?.weaponName === weapon.name;
+  const intent = (request.intent ?? '').toLocaleLowerCase();
+  const explicitOptIn = isExactLock || (policy.optInTerms ?? []).some(term => intent.includes(term.toLocaleLowerCase()));
+  return { eligible: explicitOptIn, explicitOptIn, restriction: policy.restriction };
+}
+
 function weaponCandidates(request: OptimizationRequest): Weapon[] {
   const locked = request.locks?.weaponName ? findWeaponByName(request.locks.weaponName) : undefined;
   if (locked) return [locked];
   const type = request.locks?.weaponType;
-  return ALL_WEAPONS.filter(weapon => !type || weapon.weaponType === type).sort((a, b) => a.id.localeCompare(b.id));
+  return ALL_WEAPONS
+    .filter(weapon => (!type || weapon.weaponType === type) && weaponOptimizationEligibility(weapon, request).eligible)
+    .sort((a, b) => a.id.localeCompare(b.id));
 }
 
 function armorCandidates(request: OptimizationRequest): Armor[] {
@@ -349,6 +366,8 @@ function seedPreScore(request: OptimizationRequest, subClass: string, weapon: We
   const scalingFocus = scaling.length ? Math.max(...scaling) / 100 : 0;
   let preScore = compatibility / 10 + weapon.power / 100 + weapon.accuracy / 200 + weapon.critical / 140 + scalingFocus;
   const evidence: string[] = [];
+  const weaponEligibility = weaponOptimizationEligibility(weapon, request);
+  if (weaponEligibility.restriction) evidence.push(`${weapon.name} was explicitly opted into despite its restriction: ${weaponEligibility.restriction}`);
   if (mainAccess || subAccess) {
     preScore += mainAccess ? 0.5 : 0.25;
     evidence.push(`${category} access is present in structured class data.`);
@@ -632,6 +651,9 @@ function toCandidate(item: ScoredBuild, request: OptimizationRequest, index: num
   const weaponName = item.build.equipment.primaryWeapon?.selectedWeaponName ?? 'Unknown weapon';
   const armorName = item.build.equipment.armorName ?? 'No torso';
   const warnings = [...(profile?.dataGaps ?? []), ...item.defenseScenario.failures];
+  const selectedWeapon = findWeaponByName(weaponName);
+  const weaponRestriction = selectedWeapon ? weaponOptimizationEligibility(selectedWeapon, request).restriction : undefined;
+  if (weaponRestriction) warnings.push(`${weaponName} restriction: ${weaponRestriction}`);
   if (!CLASS_PAIR_EVIDENCE[`${item.build.mainClass}::${item.build.subClass}`]) warnings.push('Class-skill synergy is not represented by verified structured data.');
   return {
     id: `v2::${item.build.mainClass}::${item.build.subClass}::${weaponName}::${armorName}::${index}`,
@@ -700,7 +722,9 @@ export function validateV2Candidate(candidate: OptimizationCandidate, request: O
   const equipment = candidate.patch.equipment;
   const weaponName = equipment?.primaryWeapon?.selectedWeaponName;
   const armorName = equipment?.armorName;
-  if (!weaponName || !findWeaponByName(weaponName)) errors.push('The weapon is not canonical.');
+  const weapon = weaponName ? findWeaponByName(weaponName) : undefined;
+  if (!weapon) errors.push('The weapon is not canonical.');
+  else if (!weaponOptimizationEligibility(weapon, request).eligible) errors.push(`${weapon.name} requires explicit opt-in because its casting restriction is not compatible with a general build search.`);
   if (!armorName || !ARMORS[armorName]) errors.push('The armor is not canonical.');
   if (request.locks?.weaponName && weaponName !== request.locks.weaponName) errors.push('The weapon lock changed.');
   if (request.locks?.armorName && armorName !== request.locks.armorName) errors.push('The armor lock changed.');

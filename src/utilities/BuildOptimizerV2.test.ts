@@ -5,7 +5,7 @@ import { ARMORS } from '../data/armors';
 import { findWeaponByName } from '../domain/equipment';
 import { OPTIMIZER_REFERENCE_PROFILE_BY_ID } from '../data/optimizerProfiles';
 import { OPTIMIZATION_PRESETS } from './StatOptimizer';
-import { analyzeAptitudeAllocation, candidateMechanicallyDominates, optimizeBuildV2, validateV2Candidate } from './BuildOptimizerV2';
+import { analyzeAptitudeAllocation, candidateMechanicallyDominates, optimizeBuildV2, validateV2Candidate, weaponOptimizationEligibility } from './BuildOptimizerV2';
 
 function baseBuild(level = 3): BuildState {
   return parseBuildFile(JSON.stringify({
@@ -58,6 +58,34 @@ describe('build optimizer V2', () => {
     expect(candidate.patch.equipment?.primaryWeapon?.selectedWeaponName).toBe('Spine Leash');
     expect(candidate.patch.equipment?.armorName).toBe('Breastplate');
     expect(Object.values(candidate.patch.equipment?.armorConditionalBonuses ?? {})).not.toContain(true);
+  });
+
+  it('requires explicit opt-in before recommending Devil\'s Tome', () => {
+    const weapon = findWeaponByName("Devil's Tome");
+    expect(weapon).toBeTruthy();
+    const build = baseBuild(2);
+    build.mainClass = 'Shapeshifter';
+    build.subClass = 'Shapeshifter';
+    const flexible = request(build, { intent: 'Make a flexible multi-element Shapeshifter.' });
+    expect(weaponOptimizationEligibility(weapon!, flexible)).toMatchObject({ eligible: false, explicitOptIn: false });
+    expect(weaponOptimizationEligibility(weapon!, { ...flexible, intent: 'Make a Nerifian Shapeshifter.' })).toMatchObject({ eligible: true, explicitOptIn: true });
+    expect(weaponOptimizationEligibility(weapon!, { ...flexible, locks: { weaponName: "Devil's Tome" } })).toMatchObject({ eligible: true, explicitOptIn: true });
+    const automatic = optimizeBuildV2({ ...flexible, searchClasses: false, locks: { weaponType: 'Tome' } });
+    expect(automatic.candidates.every(candidate => candidate.patch.equipment?.primaryWeapon?.selectedWeaponName !== "Devil's Tome")).toBe(true);
+  });
+
+  it('honors a locked Devil\'s Tome but reports its spell-domain restriction', () => {
+    const build = baseBuild(2);
+    build.mainClass = 'Shapeshifter';
+    build.subClass = 'Shapeshifter';
+    const locked = request(build, {
+      intent: 'Use my locked weapon.', searchClasses: false,
+      locks: { subClass: 'Shapeshifter', weaponName: "Devil's Tome", armorName: 'Breastplate' },
+    });
+    const candidate = optimizeBuildV2(locked).candidates[0];
+    expect(candidate.patch.equipment?.primaryWeapon?.selectedWeaponName).toBe("Devil's Tome");
+    expect(candidate.warnings.some(warning => warning.includes('Nerifian domain'))).toBe(true);
+    expect(validateV2Candidate(candidate, locked)).toEqual([]);
   });
 
   it('evaluates APT by exact global-bonus breakpoints instead of a profile screenshot target', () => {

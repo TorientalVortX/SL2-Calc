@@ -54,6 +54,15 @@ for (const filename of weaponFiles) {
         if (typeof amount !== 'number' || amount < 0) fail(`${location}.scaling[${scalingIndex}].${key}`, 'expected a non-negative number');
       }
     });
+    if (weapon?.optimizationPolicy !== undefined) {
+      const policy = weapon.optimizationPolicy;
+      if (!isRecord(policy)) fail(`${location}.optimizationPolicy`, 'expected an object');
+      else {
+        if (!['allowed', 'explicit-opt-in'].includes(policy.automaticRecommendation)) fail(`${location}.optimizationPolicy.automaticRecommendation`, 'expected allowed or explicit-opt-in');
+        if (typeof policy.restriction !== 'string' || !policy.restriction.trim()) fail(`${location}.optimizationPolicy.restriction`, 'expected a non-empty string');
+        if (policy.optInTerms !== undefined && (!Array.isArray(policy.optInTerms) || policy.optInTerms.some((term) => typeof term !== 'string' || !term.trim()))) fail(`${location}.optimizationPolicy.optInTerms`, 'expected non-empty strings');
+      }
+    }
   });
 }
 

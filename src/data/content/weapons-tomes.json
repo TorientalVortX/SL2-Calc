@@ -602,6 +602,11 @@
         "description": "Material: Devilbark (+2 Power, +5 Weight, +3 Dark ATK). Changes Fire damage dealt by this weapon into Hellfire damage. Spells other than Nerifian domain spells cannot be cast."
       }
     ],
+    "optimizationPolicy": {
+      "automaticRecommendation": "explicit-opt-in",
+      "restriction": "Spells other than Nerifian domain spells cannot be cast while using Devil's Tome, making it unsuitable for general or multi-element spell plans.",
+      "optInTerms": ["Devil's Tome", "Devils Tome", "Nerifian"]
+    },
     "description": "A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.",
     "location": [
       "Random drops",

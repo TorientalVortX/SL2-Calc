@@ -14,6 +14,12 @@ Source: validated files in `src/data/content/`. Confidence: `calculator-verified
 
 Descriptions/effects remain version-sensitive even when base values are locally canonical. The source files under `reference/weaponInfo/` and `reference/armorInfo/` are historical and must not override validated JSON without testing.
 
+### Restricted automatic recommendations
+
+Devil's Tome is not a general-purpose high-stat Tome. Its canonical `Devilbark Material` passive says that spells outside the Nerifian domain cannot be cast. This conflicts directly with flexible and multi-element spell plans, including the normal reason to value Shapeshifter's elemental breadth. Confidence: `calculator-verified` from `src/data/content/weapons-tomes.json`, corroborated by `reference/weaponInfo/Tomes.txt`.
+
+Optimizer policy: exclude Devil's Tome from automatic weapon generation unless the user explicitly requests Devil's Tome or a Nerifian plan. An exact user weapon lock remains a hard constraint, but the result must report the casting restriction. Its Power, Hit, Critical, Hellfire damage, and WIL scaling cannot compensate for an incompatible spell-access requirement.
+
 ## Weapon evaluation
 
 Source: `src/domain/weaponCalculation.ts`. Confidence: `calculator-verified`.
@@ -71,4 +77,3 @@ Not yet represented in deterministic candidate generation:
 - Whether effects stack, share a cap, are dispellable, or are main-/sub-hand specific.
 - Required class, skill, armor type, weapon type, range, facing, or status.
 - Controlled before/after screenshots or logs and current game version.
-
