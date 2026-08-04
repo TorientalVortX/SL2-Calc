@@ -51,6 +51,7 @@ describe('AI optimizer agent core', () => {
     const previousIds: Array<string | null | undefined> = [];
     let call = 0;
     let ids: string[] = [];
+    let searchedCandidates: Array<{ id: string; constraintDeficits: { youkaiCap?: number }; damageReport?: { skills: unknown[] } }> = [];
     const client = {
       responses: {
         create: async (params: { previous_response_id?: string | null; input?: unknown }) => {
@@ -59,11 +60,16 @@ describe('AI optimizer agent core', () => {
           if (call === 1) return response('resp_1', [{ type: 'function_call', call_id: 'call_context', name: 'get_build_context', arguments: '{}' }]);
           if (call === 2) return response('resp_2', [{
             type: 'function_call', call_id: 'call_search', name: 'search_candidate_pool',
-            arguments: JSON.stringify({ presetId: 'hybrid', defensePlan: 'hybrid', extraPackage: 'none', referenceProfileId: null, searchDepth: 'standard', resultLimit: 3 }),
+            arguments: JSON.stringify({
+              presetId: 'hybrid', defensePlan: 'hybrid', extraPackage: 'critical', referenceProfileId: null, searchDepth: 'standard', resultLimit: 3,
+              additionalMinimums: [{ metric: 'youkaiCap', minimum: 8 }],
+              damageSkills: [{ label: 'Fire formula', swaPercent: 100, element: 'Fire', elementalAttackPercent: 150, weight: 1 }],
+            }),
           }]);
           if (call === 3) {
             const outputs = params.input as Array<{ output: string }>;
-            ids = (JSON.parse(outputs[0].output) as Array<{ id: string }>).map(item => item.id);
+            searchedCandidates = JSON.parse(outputs[0].output) as typeof searchedCandidates;
+            ids = searchedCandidates.map(item => item.id);
             return response('resp_3', [{ type: 'function_call', call_id: 'call_validate', name: 'validate_final_candidates', arguments: JSON.stringify({ ids }) }]);
           }
           return response('resp_4', [], JSON.stringify({
@@ -79,6 +85,8 @@ describe('AI optimizer agent core', () => {
     expect(value.result.ai?.exactEvaluations).toBe(3);
     expect(value.result.candidates.every(candidate => ids.includes(candidate.id))).toBe(true);
     expect(value.result.candidates.some(candidate => candidate.id === 'invented-candidate')).toBe(false);
+    expect(searchedCandidates[0].constraintDeficits.youkaiCap).toBeGreaterThan(0);
+    expect(searchedCandidates[0].damageReport?.skills).toHaveLength(1);
     expect(value.result.ai?.knowledge).toEqual({
       loaded: true,
       sourceCount: 2,
@@ -150,7 +158,7 @@ describe('AI optimizer agent core', () => {
     expect(value.result.ai?.knowledge.loaded).toBe(false);
   });
 
-  it('falls back when final candidates were not validated by the last tool call', async () => {
+  it('revalidates final candidates on the server even when validation was not the last model tool', async () => {
     let call = 0;
     let ids: string[] = [];
     const client = {
@@ -164,14 +172,53 @@ describe('AI optimizer agent core', () => {
           }]);
           const outputs = params.input as Array<{ output: string }>;
           ids = (JSON.parse(outputs[0].output) as Array<{ id: string }>).map(item => item.id);
-          return response('last_3', [], JSON.stringify({ candidateIds: ids, summary: '', clarification: '', rationale: [] }));
+          return response('last_3', [], JSON.stringify({
+            candidateIds: ids, summary: 'Server-validated handoff.', clarification: '',
+            rationale: ids.map(id => ({ id, reasons: [], strengths: [], weaknesses: [], evidence: ['01-core-mechanics/formulas.md'] })),
+          }));
         },
       },
     } as unknown as OpenAI;
     const value = await runAiOptimization(request(), { apiKey: 'test-key', client, personalNotes: PERSONAL_NOTES });
     expect(ids).toHaveLength(3);
-    expect(value.result.ai?.fallback).toBe(true);
-    expect(value.result.ai?.summary).toContain('validate_final_candidates must be the final tool call');
+    expect(value.result.ai?.fallback).toBe(false);
+    expect(value.result.candidates).toHaveLength(3);
+  });
+
+  it('returns one grounded AI candidate when hard locks collapse the search space', async () => {
+    let call = 0;
+    let id = '';
+    const client = {
+      responses: {
+        create: async (params: { input?: unknown }) => {
+          call++;
+          if (call === 1) return response('locked_1', [{ type: 'function_call', call_id: 'call_context', name: 'get_build_context', arguments: '{}' }]);
+          if (call === 2) return response('locked_2', [{
+            type: 'function_call', call_id: 'call_search', name: 'search_candidate_pool',
+            arguments: JSON.stringify({
+              presetId: 'hybrid', defensePlan: 'hybrid', extraPackage: 'none', referenceProfileId: null, searchDepth: 'standard', resultLimit: 3,
+              additionalMinimums: [], damageSkills: [],
+            }),
+          }]);
+          if (call === 3) {
+            const candidates = JSON.parse((params.input as Array<{ output: string }>)[0].output) as Array<{ id: string }>;
+            expect(candidates).toHaveLength(1);
+            id = candidates[0].id;
+            return response('locked_3', [{ type: 'function_call', call_id: 'call_validate', name: 'validate_final_candidates', arguments: JSON.stringify({ ids: [id] }) }]);
+          }
+          return response('locked_4', [], JSON.stringify({
+            candidateIds: [id], summary: 'Only one distinct build exists under the hard locks.', clarification: '',
+            rationale: [{ id, reasons: [], strengths: [], weaknesses: [], evidence: ['01-core-mechanics/formulas.md'] }],
+          }));
+        },
+      },
+    } as unknown as OpenAI;
+    const lockedRequest = request();
+    lockedRequest.locks = { subClass: 'Soldier', weaponName: "Devil's Tome", armorName: 'Breastplate' };
+    lockedRequest.intent = "Use my locked Devil's Tome.";
+    const value = await runAiOptimization(lockedRequest, { apiKey: 'test-key', client, personalNotes: PERSONAL_NOTES });
+    expect(value.result.ai?.fallback).toBe(false);
+    expect(value.result.candidates).toHaveLength(1);
   });
 
   it('rejects an AI selection that does not cite delivered local evidence', async () => {

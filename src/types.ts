@@ -224,7 +224,9 @@ export type OptimizationMetric = StatKey
   | 'criticalEvade' | 'statusInfliction' | 'statusResistance'
   | 'initiative' | 'youkaiCap' | 'flanking' | 'skillPool'
   | 'battleWeight' | 'encumbrance' | 'weaponPower' | 'weaponHit'
-  | 'weaponCritical' | 'weaponCriticalDamage';
+  | 'weaponCritical' | 'weaponCriticalDamage'
+  | 'fireAttack' | 'iceAttack' | 'windAttack' | 'earthAttack' | 'darkAttack'
+  | 'waterAttack' | 'lightAttack' | 'lightningAttack' | 'acidAttack' | 'soundAttack';
 
 export interface OptimizationConstraint {
   metric: OptimizationMetric;
@@ -320,6 +322,29 @@ export interface OptimizationObjectives {
   utility: number;
   guideFit: number;
   profileFit: number;
+}
+
+export interface OptimizationDamageSkill {
+  label: string;
+  swaPercent: number;
+  element: ElementKey | null;
+  elementalAttackPercent: number;
+  weight: number;
+}
+
+export interface OptimizationDamageProfile {
+  skills: OptimizationDamageSkill[];
+}
+
+export interface OptimizationDamageReport {
+  weightedScore: number;
+  skills: Array<OptimizationDamageSkill & {
+    weaponPowerContribution: number;
+    elementalAttack: number;
+    elementalContribution: number;
+    modeledTotal: number;
+  }>;
+  caveat: string;
 }
 
 export interface AptitudeOptimizationReport {
@@ -426,6 +451,7 @@ export interface OptimizationCandidate {
   confidence?: 'high' | 'medium' | 'low';
   aptitudeReport?: AptitudeOptimizationReport;
   defenseScenario?: OptimizationDefenseScenario;
+  damageReport?: OptimizationDamageReport;
 }
 
 export interface OptimizationRequest {
@@ -447,6 +473,7 @@ export interface OptimizationRequest {
   extraPackage?: OptimizationExtraPackage;
   searchDepth?: OptimizationSearchDepth;
   intent?: string;
+  damageProfile?: OptimizationDamageProfile;
 }
 
 export type AiOptimizationMode = 'standard' | 'deep';

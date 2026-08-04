@@ -9,6 +9,8 @@ import type {
   OptimizationDefensePlan,
   OptimizationDefenseContract,
   OptimizationDefenseScenario,
+  OptimizationDamageProfile,
+  OptimizationDamageReport,
   OptimizationExtraPackage,
   OptimizationMetric,
   OptimizationObjectives,
@@ -38,6 +40,8 @@ const metricScale: Record<OptimizationMetric, number> = {
   statusInfliction: 170, statusResistance: 170, initiative: 60, youkaiCap: 12, flanking: 40,
   skillPool: 40, battleWeight: 70, encumbrance: 130, weaponPower: 100, weaponHit: 200,
   weaponCritical: 120, weaponCriticalDamage: 220,
+  fireAttack: 100, iceAttack: 100, windAttack: 100, earthAttack: 100, darkAttack: 100,
+  waterAttack: 100, lightAttack: 100, lightningAttack: 100, acidAttack: 100, soundAttack: 100,
 };
 
 interface SearchSeed {
@@ -57,6 +61,7 @@ interface ScoredBuild {
   scalar: number;
   evidence: string[];
   defenseScenario: OptimizationDefenseScenario;
+  damageReport?: OptimizationDamageReport;
 }
 
 interface SearchBudget {
@@ -167,7 +172,7 @@ const clamp01 = (value: number) => Math.max(0, Math.min(1, value));
 function effectiveDefenseContract(request: OptimizationRequest): OptimizationDefenseContract {
   const plan = request.defensePlan ?? 'auto';
   const defaults: OptimizationDefenseContract = {
-    ...(plan === 'evade' ? { minimumEvade: 195, preferredEvade: 200, reliableBonusEvade: 50 } : {}),
+    ...(plan === 'evade' ? { minimumEvade: 195, preferredEvade: 200, reliableBonusEvade: 0 } : {}),
     ...(plan === 'tank' ? { minimumScaledDefense: 45, minimumScaledResistance: 45 } : {}),
     requirePartialBattleWeight: true,
     armorConditionalPolicy: 'baseline',
@@ -185,7 +190,7 @@ function defenseScenarioFor(build: BuildState, configured: BuildEvaluation, requ
   const preserveConditionals = contract.armorConditionalPolicy === 'verified-current'
     && request.locks?.armorName === build.equipment.armorName
     && request.build.equipment.armorName === build.equipment.armorName;
-  const reliableBonusEvade = Math.max(0, Math.min(build.bonusEvade, contract.reliableBonusEvade ?? 0, 50));
+  const reliableBonusEvade = Math.max(0, Math.min(contract.reliableBonusEvade ?? 0, 50));
   const reliableBase = preserveConditionals
     ? { ...configured, derived: { ...configured.derived, evade: configured.derived.evade - configuredBonusEvade } }
     : baseline;
@@ -219,7 +224,7 @@ function defenseScenarioFor(build: BuildState, configured: BuildEvaluation, requ
       reachesPreferred: contract.preferredEvade === undefined || reliable.derived.evade >= contract.preferredEvade,
       failures,
       assumptions: [
-        `Only ${reliableBonusEvade} configured bonus Evade is treated as reliable.`,
+        `${reliableBonusEvade} bonus Evade explicitly supplied by the defense contract is treated as reliable; the calculator's separate configured bonus is reported independently.`,
         preserveConditionals ? 'The locked current torso uses the user-verified active conditionals.' : 'Armor conditional effects are excluded from the reliable scenario.',
         'Equipment load covers the primary weapon and torso only; other slots remain unmodeled.',
       ],
@@ -250,11 +255,31 @@ function guideFit(evaluation: BuildEvaluation, profile?: OptimizationReferencePr
   return (ski + vit) / 2;
 }
 
+export function evaluateDamageProfile(evaluation: BuildEvaluation, profile?: OptimizationDamageProfile): OptimizationDamageReport | undefined {
+  if (!profile?.skills.length) return undefined;
+  const skills = profile.skills.map(skill => {
+    const weaponPowerContribution = (evaluation.primaryWeapon?.power ?? 0) * skill.swaPercent / 100;
+    const elementalAttack = skill.element ? evaluation.elementalAttack[skill.element] : 0;
+    const elementalContribution = elementalAttack * skill.elementalAttackPercent / 100;
+    return { ...skill, weaponPowerContribution, elementalAttack, elementalContribution, modeledTotal: weaponPowerContribution + elementalContribution };
+  });
+  const weightTotal = skills.reduce((sum, skill) => sum + Math.max(0, skill.weight), 0);
+  const weightedScore = skills.reduce((sum, skill) => sum + skill.modeledTotal * Math.max(0, skill.weight), 0) / Math.max(1, weightTotal);
+  return {
+    weightedScore,
+    skills,
+    caveat: 'Coefficient score before enemy defenses, skill-specific flat modifiers, criticals, and unverified class effects; it is used for relative stat allocation only.',
+  };
+}
+
 function objectiveState(evaluation: BuildEvaluation, request: OptimizationRequest, profile?: OptimizationReferenceProfile): OptimizationObjectives {
   const weapon = evaluation.primaryWeapon;
   const plan: OptimizationDefensePlan = request.defensePlan ?? 'auto';
   const extra: OptimizationExtraPackage = request.extraPackage ?? 'auto';
-  const offense = clamp01(((weapon?.power ?? 0) / 120 + (weapon?.criticalDamage ?? 0) / 260) / 2);
+  const damageReport = evaluateDamageProfile(evaluation, request.damageProfile);
+  const offense = damageReport
+    ? clamp01(damageReport.weightedScore / 300)
+    : clamp01(((weapon?.power ?? 0) / 120 + (weapon?.criticalDamage ?? 0) / 260) / 2);
   const accuracy = clamp01(((weapon?.hit ?? 0) / 220 + evaluation.scaledStats.ski / 70) / 2);
   const contract = effectiveDefenseContract(request);
   const tank = (clamp01(evaluation.derived.maxHP / 1000) + clamp01(evaluation.derived.physicalDefense / 50) + clamp01(evaluation.derived.magicalDefense / 50)
@@ -297,15 +322,16 @@ function scoreBuild(build: BuildState, request: OptimizationRequest, evidence: s
   const deficitCount = Object.keys(deficits).length;
   const deficitTotal = Object.entries(deficits).reduce((sum, [metric, value]) => sum + (value ?? 0) / Math.max(1, metricScale[metric as OptimizationMetric]), 0);
   const objectives = objectiveState(reliable, request, profile);
+  const damageReport = evaluateDamageProfile(reliable, request.damageProfile);
   const pairBonus = profile && build.subClass === profile.secondaryClass ? 0.05 : 0;
   const evidenceBonus = CLASS_PAIR_EVIDENCE[`${build.mainClass}::${build.subClass}`] ? 0.08 : 0;
   const profileWeight = profile ? 0.35 : 0;
   const scalar = -deficitCount * 100 - deficitTotal * 20
     + presetUtility(reliable, request)
-    + objectives.offense * 1.5 + objectives.accuracy * 1.5 + objectives.durability * 1.5
+    + objectives.offense * (damageReport ? 4 : 1.5) + objectives.accuracy * 1.5 + objectives.durability * 1.5
     + objectives.sustain + objectives.utility + objectives.guideFit * 1.25 + objectives.profileFit * profileWeight
     + pairBonus + evidenceBonus;
-  return { build, evaluation, objectives, deficits, deficitCount, deficitTotal, scalar, evidence, defenseScenario };
+  return { build, evaluation, objectives, deficits, deficitCount, deficitTotal, scalar, evidence, defenseScenario, damageReport };
 }
 
 function dominates(a: ScoredBuild, b: ScoredBuild): boolean {
@@ -678,10 +704,12 @@ function toCandidate(item: ScoredBuild, request: OptimizationRequest, index: num
     confidence: profile && item.build.subClass === profile.secondaryClass && weaponName === profile.weapon.name ? 'high' : item.evidence.length ? 'medium' : 'low',
     aptitudeReport: analyzeAptitudeAllocation(item.build, item.evaluation),
     defenseScenario: item.defenseScenario,
+    damageReport: item.damageReport,
     reasoning: [
       `Keeps ${request.build.race} / ${request.build.subrace} and primary ${request.build.mainClass} fixed.`,
       `Pairs ${item.build.mainClass} with ${item.build.subClass}, using ${weaponName} and ${armorName}.`,
       `Uses ${item.evaluation.pointsSpent}/${item.evaluation.pointBudget} invested points and satisfies ${Object.keys(request.preset.metricWeights).length} preset dimensions.`,
+      ...(request.constraints.length ? [`Hard minimums evaluated: ${request.constraints.map(constraint => `${constraint.metric} ≥ ${constraint.minimum}`).join(', ')}.`] : []),
       `Defense is ranked from the reliable scenario: ${Math.floor(item.defenseScenario.reliableEvade)} Evade, ${Math.floor(item.defenseScenario.scaledDefense)}/${Math.floor(item.defenseScenario.scaledResistance)} scaled DEF/RES, and ${item.defenseScenario.armor}/${item.defenseScenario.magicArmor} torso Armor/Magic Armor.`,
       ...(profile ? [`Considered ${profile.name} only as exploration evidence and a close-result tie-breaker.`] : []),
     ],

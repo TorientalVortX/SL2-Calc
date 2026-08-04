@@ -23,6 +23,7 @@ Research snapshot: 2026-08-04. This policy defines how to make decisions when th
 - DEF/RES: evaluate expected physical/magical damage mix, percentage mitigation, flat armor, HP, healing, penetration, and armor-/protection-ignoring attacks.
 - Critical: optimize expected critical contribution against target Critical Evade, not displayed Critical in isolation.
 - Damage: compare expected damage per Momentum, per round, and per resource—not only weapon Power or a single maximum hit.
+- Supplied damage formulas: preserve every SWA and elemental-ATK coefficient exactly. Optimize the weighted formula itself (for example, `100% SWA + 150% Fire ATK`), not a generic weapon score; do not reward Critical Damage when the request explicitly wants Critical chance but not Critical Damage.
 - Status: Status Infliction has value only for statuses the rotation actually uses and opponents that are not immune; compare against target Status Resistance.
 - Utility: quantify movement, range, cooldown reduction, cleanses, control, ally protection, and setup only when their mechanics and target scenario are known.
 - Conditional effects: multiply by justified uptime or keep them outside the reliable score. Never assume 100% uptime from an item description alone.
@@ -43,6 +44,7 @@ A candidate should normally have:
 ## Evidence precedence
 
 - Explicit user requirements override generic guide targets.
+- A stronger numeric requirement in prose overrides a weaker structured minimum; neither source may silently weaken the other. For example, prose requiring 8 Youkai overrides a control still set to 7.
 - Current verified mechanics override historical documents.
 - Calculator output overrides AI arithmetic for modeled formulas.
 - A popular build can seed a candidate and reveal interactions but cannot override a mathematically stronger validated candidate.
@@ -57,4 +59,3 @@ The three final candidates should differ materially, for example:
 - Counter-specialized: changes armor, range, resistance, or action plan for a stated threat.
 
 Do not present a candidate as optimized if unmodeled class skills or equipment effects are the primary reason it is supposed to work.
-

@@ -24,6 +24,8 @@ const metricScale: Record<OptimizationMetric, number> = {
   statusInfliction: 170, statusResistance: 170, initiative: 60, youkaiCap: 12, flanking: 40,
   skillPool: 40, battleWeight: 70, encumbrance: 130, weaponPower: 100, weaponHit: 200,
   weaponCritical: 120, weaponCriticalDamage: 220,
+  fireAttack: 100, iceAttack: 100, windAttack: 100, earthAttack: 100, darkAttack: 100,
+  waterAttack: 100, lightAttack: 100, lightningAttack: 100, acidAttack: 100, soundAttack: 100,
 };
 
 const compatibilityFor = (id: string) => BUILD_TYPES[id]?.classCompatibility ?? {};

@@ -356,5 +356,10 @@ export function metricValue(evaluation: BuildEvaluation, metric: import('../type
   if (metric === 'weaponHit') return evaluation.primaryWeapon?.hit ?? 0;
   if (metric === 'weaponCritical') return evaluation.primaryWeapon?.critical ?? 0;
   if (metric === 'weaponCriticalDamage') return evaluation.primaryWeapon?.criticalDamage ?? 0;
+  const elementalMetrics = {
+    fireAttack: 'Fire', iceAttack: 'Ice', windAttack: 'Wind', earthAttack: 'Earth', darkAttack: 'Dark',
+    waterAttack: 'Water', lightAttack: 'Light', lightningAttack: 'Lightning', acidAttack: 'Acid', soundAttack: 'Sound',
+  } as const;
+  if (metric in elementalMetrics) return evaluation.elementalAttack[elementalMetrics[metric as keyof typeof elementalMetrics]];
   return evaluation.derived[metric as keyof BuildEvaluation['derived']];
 }

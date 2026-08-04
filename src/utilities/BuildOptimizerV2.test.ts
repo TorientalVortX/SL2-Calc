@@ -5,7 +5,7 @@ import { ARMORS } from '../data/armors';
 import { findWeaponByName } from '../domain/equipment';
 import { OPTIMIZER_REFERENCE_PROFILE_BY_ID } from '../data/optimizerProfiles';
 import { OPTIMIZATION_PRESETS } from './StatOptimizer';
-import { analyzeAptitudeAllocation, candidateMechanicallyDominates, optimizeBuildV2, validateV2Candidate, weaponOptimizationEligibility } from './BuildOptimizerV2';
+import { analyzeAptitudeAllocation, candidateMechanicallyDominates, evaluateDamageProfile, optimizeBuildV2, validateV2Candidate, weaponOptimizationEligibility } from './BuildOptimizerV2';
 
 function baseBuild(level = 3): BuildState {
   return parseBuildFile(JSON.stringify({
@@ -88,6 +88,32 @@ describe('build optimizer V2', () => {
     expect(validateV2Candidate(candidate, locked)).toEqual([]);
   });
 
+  it('allocates against supplied SWA and elemental attack formulas', () => {
+    const build = baseBuild(60);
+    build.mainClass = 'Shapeshifter';
+    build.subClass = 'Shinobi';
+    const damageProfile = {
+      skills: [
+        { label: 'Pure fire skill', swaPercent: 0, element: 'Fire' as const, elementalAttackPercent: 250, weight: 1 },
+        { label: 'Mixed fire skill', swaPercent: 100, element: 'Fire' as const, elementalAttackPercent: 150, weight: 1 },
+      ],
+    };
+    const shared = request(build, {
+      preset: OPTIMIZATION_PRESETS.evade, searchClasses: false, extraPackage: 'critical',
+      locks: { subClass: 'Shinobi', weaponName: "Devil's Tome", armorName: 'Embroidered Flamedance Gi' },
+      constraints: [{ metric: 'youkaiCap', minimum: 8 }, { metric: 'weaponCritical', minimum: 80 }],
+      defensePlan: 'evade', defenseContract: { minimumEvade: 150, preferredEvade: 200, reliableBonusEvade: 50 },
+      intent: "Use Devil's Tome for a Nerifian fire build.",
+    });
+    const generic = optimizeBuildV2(shared).candidates[0];
+    const formula = optimizeBuildV2({ ...shared, damageProfile }).candidates[0];
+    const genericDamage = evaluateDamageProfile(generic.evaluation, damageProfile);
+    expect(formula.damageReport?.skills.map(skill => skill.modeledTotal)).toHaveLength(2);
+    expect(formula.damageReport?.weightedScore).toBeGreaterThanOrEqual(genericDamage?.weightedScore ?? 0);
+    expect(formula.evaluation.elementalAttack.Fire).toBeGreaterThanOrEqual(generic.evaluation.elementalAttack.Fire);
+    expect(formula.reasoning.some(reason => reason.includes('youkaiCap ≥ 8'))).toBe(true);
+  }, 15_000);
+
   it('evaluates APT by exact global-bonus breakpoints instead of a profile screenshot target', () => {
     const profile = OPTIMIZER_REFERENCE_PROFILE_BY_ID['amalgama-shapeshifter-ghost'];
     const build = baseBuild(60);
@@ -159,6 +185,18 @@ describe('build optimizer V2', () => {
       expect(candidate.feasible).toBe(true);
     }
   }, 15_000);
+
+  it('uses the defense contract reliable bonus independently of the current calculator bonus', () => {
+    const build = baseBuild(10);
+    build.bonusEvade = 0;
+    const candidate = optimizeBuildV2(request(build, {
+      locks: { subClass: 'Soldier', weaponName: 'Spine Leash', armorName: 'Breastplate' }, searchClasses: false,
+      defensePlan: 'evade', defenseContract: { minimumEvade: 0, preferredEvade: 200, reliableBonusEvade: 50 },
+    })).candidates[0];
+    expect(candidate.defenseScenario?.reliableBonusEvade).toBe(50);
+    expect(candidate.defenseScenario?.reliableEvade).toBe((candidate.defenseScenario?.baselineEvade ?? 0) + 50);
+    expect(candidate.defenseScenario?.configuredEvade).toBe(candidate.defenseScenario?.baselineEvade);
+  });
 
   it('scores native torso defenses and excludes unverified armor conditionals', () => {
     const conditionalArmor = Object.values(ARMORS).find(armor => Object.values(armor.conditionalBonuses ?? {}).some(bonus => (bonus.evade ?? 0) > 0));
