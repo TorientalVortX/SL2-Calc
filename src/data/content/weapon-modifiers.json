@@ -1,0 +1,1629 @@
+{
+  "materialCategories": {
+    "Basic": [
+      "None"
+    ],
+    "Hard Materials": [
+      "Accursed Remains",
+      "Arctic Gold",
+      "Aureate",
+      "Boulder",
+      "Carapace",
+      "Clawice",
+      "Conduiz",
+      "Coral",
+      "Dragon Remains",
+      "Etherium",
+      "Fireblood Remains",
+      "Fish Remains",
+      "Folded Steel",
+      "Fossil",
+      "Gasprock",
+      "Gorgon Remains",
+      "Gravestone",
+      "Iceblood Remains",
+      "Insect Remains",
+      "Iron Ore",
+      "Kraboid Remains",
+      "Meteorite",
+      "Nerif's Blood",
+      "Orichalum",
+      "Planetarium",
+      "Rockdirt",
+      "Sandstone",
+      "Shark Remains",
+      "Slipheed's Curse",
+      "Snakeman Remains",
+      "Spatial Remains",
+      "Thinsteel"
+    ],
+    "Wood Materials": [
+      "Ash Wood",
+      "Coldbark",
+      "Devilbark",
+      "Etherbark",
+      "Firebark",
+      "Fungusbark",
+      "Hollow Log",
+      "Ivorybark",
+      "Loyrwell Rotwood",
+      "Markedbark",
+      "Mossybark",
+      "Nightflower",
+      "Oribark",
+      "Petrified Wood",
+      "Rainbowbark",
+      "Scorched Wood",
+      "Seedbark",
+      "Smoothbark",
+      "Windbark"
+    ],
+    "Page Materials": [
+      "Aquarian Page",
+      "Ashen Page",
+      "Beast Page",
+      "Fine Art",
+      "Foamy Page",
+      "Heretic Page",
+      "Isesip Page",
+      "Mercalan Page",
+      "Moldy Page",
+      "Nerifian Page",
+      "Orichal Page",
+      "Paper",
+      "Sandy Page",
+      "Sheet Music",
+      "Star Page",
+      "Storm Page",
+      "Sylphid Page",
+      "Thin Page"
+    ]
+  },
+  "materials": {
+    "None": {
+      "power": 0,
+      "crit": 0,
+      "hit": 0,
+      "weight": 0
+    },
+    "Accursed Remains": {
+      "power": 0,
+      "crit": 6,
+      "hit": 0,
+      "weight": 8
+    },
+    "Arctic Gold": {
+      "power": 0,
+      "crit": 5,
+      "hit": -5,
+      "weight": 0
+    },
+    "Aureate": {
+      "power": -2,
+      "crit": -5,
+      "hit": 0,
+      "weight": 6
+    },
+    "Boulder": {
+      "power": 10,
+      "crit": 10,
+      "hit": -5,
+      "weight": 25
+    },
+    "Carapace": {
+      "power": 2,
+      "crit": 0,
+      "hit": 0,
+      "weight": 5
+    },
+    "Clawice": {
+      "power": 1,
+      "crit": 3,
+      "hit": 3,
+      "weight": 5
+    },
+    "Conduiz": {
+      "power": 0,
+      "crit": 3,
+      "hit": 0,
+      "weight": 0
+    },
+    "Coral": {
+      "power": 1,
+      "crit": 3,
+      "hit": 3,
+      "weight": 1
+    },
+    "Dragon Remains": {
+      "power": 3,
+      "crit": 5,
+      "hit": 5,
+      "weight": 8
+    },
+    "Etherium": {
+      "power": 0,
+      "crit": 0,
+      "hit": 0,
+      "weight": 0
+    },
+    "Fireblood Remains": {
+      "power": 8,
+      "crit": 0,
+      "hit": 0,
+      "weight": 8
+    },
+    "Fish Remains": {
+      "power": 3,
+      "crit": 0,
+      "hit": 3,
+      "weight": 8
+    },
+    "Folded Steel": {
+      "power": 2,
+      "crit": 5,
+      "hit": 0,
+      "weight": 0
+    },
+    "Fossil": {
+      "power": 5,
+      "crit": -5,
+      "hit": 0,
+      "weight": 6
+    },
+    "Gasprock": {
+      "power": 2,
+      "crit": 0,
+      "hit": 3,
+      "weight": 5
+    },
+    "Gorgon Remains": {
+      "power": 0,
+      "crit": 0,
+      "hit": 8,
+      "weight": 8
+    },
+    "Gravestone": {
+      "power": 2,
+      "crit": -5,
+      "hit": 0,
+      "weight": 3
+    },
+    "Iceblood Remains": {
+      "power": 0,
+      "crit": 8,
+      "hit": 0,
+      "weight": 8
+    },
+    "Insect Remains": {
+      "power": 0,
+      "crit": 3,
+      "hit": 3,
+      "weight": 8
+    },
+    "Iron Ore": {
+      "power": 0,
+      "crit": 0,
+      "hit": 0,
+      "weight": 0
+    },
+    "Kraboid Remains": {
+      "power": 0,
+      "crit": 0,
+      "hit": 6,
+      "weight": 8
+    },
+    "Meteorite": {
+      "power": 5,
+      "crit": 0,
+      "hit": 0,
+      "weight": 8
+    },
+    "Nerif's Blood": {
+      "power": 2,
+      "crit": -5,
+      "hit": 0,
+      "weight": 0
+    },
+    "Orichalum": {
+      "power": -1,
+      "crit": -1,
+      "hit": -1,
+      "weight": 2
+    },
+    "Planetarium": {
+      "power": 1,
+      "crit": 2,
+      "hit": 2,
+      "weight": -2
+    },
+    "Rockdirt": {
+      "power": 1,
+      "crit": 4,
+      "hit": 2,
+      "weight": 4
+    },
+    "Sandstone": {
+      "power": -2,
+      "crit": 5,
+      "hit": 0,
+      "weight": 3
+    },
+    "Shark Remains": {
+      "power": 6,
+      "crit": 0,
+      "hit": 0,
+      "weight": 8
+    },
+    "Slipheed's Curse": {
+      "power": -2,
+      "crit": 0,
+      "hit": 5,
+      "weight": -5
+    },
+    "Snakeman Remains": {
+      "power": 0,
+      "crit": 8,
+      "hit": 0,
+      "weight": 8
+    },
+    "Spatial Remains": {
+      "power": 3,
+      "crit": 3,
+      "hit": 0,
+      "weight": 8
+    },
+    "Thinsteel": {
+      "power": -3,
+      "crit": 3,
+      "hit": 5,
+      "weight": -2
+    },
+    "Ash Wood": {
+      "power": 0,
+      "crit": 0,
+      "hit": 0,
+      "weight": 0
+    },
+    "Coldbark": {
+      "power": 0,
+      "crit": 5,
+      "hit": -5,
+      "weight": 0
+    },
+    "Devilbark": {
+      "power": 2,
+      "crit": 0,
+      "hit": 0,
+      "weight": 5
+    },
+    "Etherbark": {
+      "power": 0,
+      "crit": 0,
+      "hit": 0,
+      "weight": 0
+    },
+    "Firebark": {
+      "power": 2,
+      "crit": -5,
+      "hit": 0,
+      "weight": 0
+    },
+    "Fungusbark": {
+      "power": 2,
+      "crit": 0,
+      "hit": 0,
+      "weight": 2
+    },
+    "Hollow Log": {
+      "power": 10,
+      "crit": 10,
+      "hit": -5,
+      "weight": 25
+    },
+    "Ivorybark": {
+      "power": -2,
+      "crit": -5,
+      "hit": 0,
+      "weight": 6
+    },
+    "Loyrwell Rotwood": {
+      "power": 0,
+      "crit": 0,
+      "hit": 3,
+      "weight": 0
+    },
+    "Markedbark": {
+      "power": 0,
+      "crit": 4,
+      "hit": 4,
+      "weight": 4
+    },
+    "Mossybark": {
+      "power": 3,
+      "crit": -3,
+      "hit": 3,
+      "weight": 3
+    },
+    "Nightflower": {
+      "power": 0,
+      "crit": 0,
+      "hit": -5,
+      "weight": 0
+    },
+    "Oribark": {
+      "power": -1,
+      "crit": -1,
+      "hit": -1,
+      "weight": 2
+    },
+    "Petrified Wood": {
+      "power": 5,
+      "crit": 0,
+      "hit": 0,
+      "weight": 6
+    },
+    "Rainbowbark": {
+      "power": 3,
+      "crit": 3,
+      "hit": 3,
+      "weight": 0
+    },
+    "Scorched Wood": {
+      "power": 2,
+      "crit": 3,
+      "hit": 3,
+      "weight": 6
+    },
+    "Seedbark": {
+      "power": 4,
+      "crit": -3,
+      "hit": 2,
+      "weight": 4
+    },
+    "Smoothbark": {
+      "power": 3,
+      "crit": 3,
+      "hit": 0,
+      "weight": 2
+    },
+    "Windbark": {
+      "power": -2,
+      "crit": 0,
+      "hit": 5,
+      "weight": -2
+    },
+    "Aquarian Page": {
+      "power": 3,
+      "crit": 0,
+      "hit": 3,
+      "weight": 2
+    },
+    "Ashen Page": {
+      "power": 2,
+      "crit": 0,
+      "hit": 3,
+      "weight": 6
+    },
+    "Beast Page": {
+      "power": 3,
+      "crit": 3,
+      "hit": 3,
+      "weight": 8
+    },
+    "Fine Art": {
+      "power": -2,
+      "crit": -5,
+      "hit": 0,
+      "weight": 6
+    },
+    "Foamy Page": {
+      "power": 1,
+      "crit": 0,
+      "hit": 5,
+      "weight": 6
+    },
+    "Heretic Page": {
+      "power": 5,
+      "crit": 0,
+      "hit": 0,
+      "weight": 5
+    },
+    "Isesip Page": {
+      "power": 2,
+      "crit": 2,
+      "hit": 2,
+      "weight": 2
+    },
+    "Mercalan Page": {
+      "power": 0,
+      "crit": 0,
+      "hit": 5,
+      "weight": 5
+    },
+    "Moldy Page": {
+      "power": 2,
+      "crit": 0,
+      "hit": 0,
+      "weight": 3
+    },
+    "Nerifian Page": {
+      "power": 3,
+      "crit": 3,
+      "hit": 0,
+      "weight": 2
+    },
+    "Orichal Page": {
+      "power": -1,
+      "crit": -1,
+      "hit": -1,
+      "weight": 2
+    },
+    "Paper": {
+      "power": 0,
+      "crit": 0,
+      "hit": 0,
+      "weight": 0
+    },
+    "Sandy Page": {
+      "power": 2,
+      "crit": 0,
+      "hit": 3,
+      "weight": 6
+    },
+    "Sheet Music": {
+      "power": 1,
+      "crit": 2,
+      "hit": 3,
+      "weight": 4
+    },
+    "Star Page": {
+      "power": 1,
+      "crit": 5,
+      "hit": 0,
+      "weight": 6
+    },
+    "Storm Page": {
+      "power": 0,
+      "crit": 5,
+      "hit": 0,
+      "weight": 5
+    },
+    "Sylphid Page": {
+      "power": 0,
+      "crit": 3,
+      "hit": 3,
+      "weight": 2
+    },
+    "Thin Page": {
+      "power": -2,
+      "crit": 3,
+      "hit": 0,
+      "weight": -6
+    }
+  },
+  "partCategories": {
+    "Basic": [
+      "None"
+    ],
+    "Blades": [
+      "Standard Blade",
+      "Serrated Blade",
+      "Razor Blade",
+      "Balanced Blade",
+      "Piercing Blade",
+      "Huge Blade"
+    ],
+    "Guards": [
+      "Standard Guard",
+      "Sturdy Guard",
+      "Full Guard",
+      "Empty Guard",
+      "Razor Guard",
+      "Locking Guard"
+    ],
+    "Hilts": [
+      "Standard Hilt",
+      "Firm Hilt",
+      "Sharp Hilt",
+      "Onigan Hilt",
+      "Insulated Hilt",
+      "Wooden Hilt"
+    ],
+    "Spearheads": [
+      "Standard Spearhead",
+      "Barbed Spearhead",
+      "Crescent Spearhead",
+      "Hollow Spearhead",
+      "Thin Spearhead",
+      "Hooked Spearhead"
+    ],
+    "Axeheads": [
+      "Standard Axehead",
+      "Tempered Axehead",
+      "Guillotine Axehead",
+      "Cutting Axehead",
+      "Curved Axehead",
+      "Spiked Axehead"
+    ],
+    "Poles": [
+      "Standard Pole",
+      "Wooden Pole",
+      "Helix Pole",
+      "Curved Pole",
+      "Flexible Pole",
+      "Extended Pole"
+    ],
+    "Knuckles": [
+      "Standard Knuckles",
+      "Dense Knuckles",
+      "Elongated Knuckles",
+      "Leather Knuckles",
+      "Wrapped Knuckles",
+      "Spiked Knuckles"
+    ],
+    "Wrists": [
+      "Standard Wrist",
+      "Wrist Guard",
+      "Spiked Wrist",
+      "Wrist Strings",
+      "Loose Wrist",
+      "Weighted Wrist"
+    ],
+    "Bow Bodies": [
+      "Standard Body",
+      "Thin Body",
+      "Compact Body",
+      "Short Body",
+      "Focused Body",
+      "Large Body",
+      "Composite Body"
+    ],
+    "Strings": [
+      "Standard String",
+      "Wire String",
+      "Silk String",
+      "Tight String",
+      "Double String",
+      "Chain String"
+    ],
+    "Arrows": [
+      "Standard Arrows",
+      "Sharp Arrows",
+      "Fire Arrows",
+      "Light Arrows",
+      "Thin Arrows",
+      "Heavy Arrows"
+    ],
+    "Barrels": [
+      "Standard Barrel",
+      "Short Barrel",
+      "Wide Barrel",
+      "Long Barrel",
+      "Double Barrel",
+      "Sniper Barrel"
+    ],
+    "Grips": [
+      "Standard Grip",
+      "Soft Grip",
+      "Steady Grip",
+      "Revolver Grip",
+      "Extended Grip",
+      "Custom Grip"
+    ],
+    "Bullets": [
+      "Standard Bullets",
+      "Aerodynamic Bullets",
+      "Piercing Bullets",
+      "Hellhound Bullets",
+      "Scatter Bullets",
+      "Silver Bullets"
+    ],
+    "Covers": [
+      "Standard Cover",
+      "Hardback Cover",
+      "Thin Cover",
+      "Blank Cover",
+      "Hellish Eye",
+      "Diary Lock"
+    ],
+    "Binds": [
+      "Standard Binds",
+      "Leather Binds",
+      "Metal Binds",
+      "Magic Binds",
+      "Bone Binds",
+      "Long Binds"
+    ]
+  },
+  "parts": {
+    "None": {
+      "power": 0,
+      "crit": 0,
+      "hit": 0,
+      "weight": 0
+    },
+    "Standard Blade": {
+      "power": 0,
+      "crit": 0,
+      "hit": 0,
+      "weight": 0
+    },
+    "Serrated Blade": {
+      "power": -1,
+      "crit": 0,
+      "hit": 0,
+      "weight": 0
+    },
+    "Razor Blade": {
+      "power": 0,
+      "crit": 10,
+      "hit": 0,
+      "weight": 0
+    },
+    "Balanced Blade": {
+      "power": 0,
+      "crit": 0,
+      "hit": 3,
+      "weight": 1
+    },
+    "Piercing Blade": {
+      "power": 2,
+      "crit": -5,
+      "hit": -5,
+      "weight": 0
+    },
+    "Huge Blade": {
+      "power": 5,
+      "crit": -10,
+      "hit": -10,
+      "weight": 10
+    },
+    "Standard Guard": {
+      "power": 0,
+      "crit": 0,
+      "hit": 0,
+      "weight": 0
+    },
+    "Sturdy Guard": {
+      "power": 0,
+      "crit": 0,
+      "hit": 3,
+      "weight": 1
+    },
+    "Full Guard": {
+      "power": 0,
+      "crit": 0,
+      "hit": 0,
+      "weight": 4
+    },
+    "Empty Guard": {
+      "power": 0,
+      "crit": 5,
+      "hit": -5,
+      "weight": 0
+    },
+    "Razor Guard": {
+      "power": 1,
+      "crit": 0,
+      "hit": 0,
+      "weight": 1
+    },
+    "Locking Guard": {
+      "power": 0,
+      "crit": 0,
+      "hit": 0,
+      "weight": 1
+    },
+    "Standard Hilt": {
+      "power": 0,
+      "crit": 0,
+      "hit": 0,
+      "weight": 0
+    },
+    "Firm Hilt": {
+      "power": 0,
+      "crit": 0,
+      "hit": 3,
+      "weight": 0
+    },
+    "Sharp Hilt": {
+      "power": 1,
+      "crit": 0,
+      "hit": -5,
+      "weight": 0
+    },
+    "Onigan Hilt": {
+      "power": 0,
+      "crit": 5,
+      "hit": -5,
+      "weight": 0
+    },
+    "Insulated Hilt": {
+      "power": -1,
+      "crit": 0,
+      "hit": 0,
+      "weight": 0
+    },
+    "Wooden Hilt": {
+      "power": 0,
+      "crit": 0,
+      "hit": 0,
+      "weight": -3
+    },
+    "Standard Spearhead": {
+      "power": 0,
+      "crit": 0,
+      "hit": 0,
+      "weight": 0
+    },
+    "Barbed Spearhead": {
+      "power": 1,
+      "crit": 5,
+      "hit": 0,
+      "weight": 2
+    },
+    "Crescent Spearhead": {
+      "power": 0,
+      "crit": -5,
+      "hit": 5,
+      "weight": 0
+    },
+    "Hollow Spearhead": {
+      "power": -2,
+      "crit": 0,
+      "hit": 0,
+      "weight": -5
+    },
+    "Thin Spearhead": {
+      "power": 2,
+      "crit": 0,
+      "hit": -5,
+      "weight": -2
+    },
+    "Hooked Spearhead": {
+      "power": 1,
+      "crit": -5,
+      "hit": 0,
+      "weight": 0
+    },
+    "Standard Axehead": {
+      "power": 0,
+      "crit": 0,
+      "hit": 0,
+      "weight": 0
+    },
+    "Tempered Axehead": {
+      "power": -1,
+      "crit": 0,
+      "hit": 0,
+      "weight": 0
+    },
+    "Guillotine Axehead": {
+      "power": 3,
+      "crit": 0,
+      "hit": -5,
+      "weight": 1
+    },
+    "Cutting Axehead": {
+      "power": -1,
+      "crit": 10,
+      "hit": -5,
+      "weight": 0
+    },
+    "Curved Axehead": {
+      "power": -1,
+      "crit": 0,
+      "hit": 5,
+      "weight": 0
+    },
+    "Spiked Axehead": {
+      "power": 2,
+      "crit": 0,
+      "hit": 0,
+      "weight": 0
+    },
+    "Standard Pole": {
+      "power": 0,
+      "crit": 0,
+      "hit": 0,
+      "weight": 0
+    },
+    "Wooden Pole": {
+      "power": 0,
+      "crit": 0,
+      "hit": 0,
+      "weight": -5
+    },
+    "Helix Pole": {
+      "power": 1,
+      "crit": 0,
+      "hit": -4,
+      "weight": 2
+    },
+    "Curved Pole": {
+      "power": -1,
+      "crit": 5,
+      "hit": 0,
+      "weight": 0
+    },
+    "Flexible Pole": {
+      "power": 0,
+      "crit": 0,
+      "hit": -5,
+      "weight": 0
+    },
+    "Extended Pole": {
+      "power": -1,
+      "crit": 0,
+      "hit": 5,
+      "weight": 0
+    },
+    "Standard Knuckles": {
+      "power": 0,
+      "crit": 0,
+      "hit": 0,
+      "weight": 0
+    },
+    "Dense Knuckles": {
+      "power": 2,
+      "crit": 0,
+      "hit": 0,
+      "weight": 0
+    },
+    "Elongated Knuckles": {
+      "power": 0,
+      "crit": 8,
+      "hit": 0,
+      "weight": 4
+    },
+    "Leather Knuckles": {
+      "power": -2,
+      "crit": 0,
+      "hit": 5,
+      "weight": 0
+    },
+    "Wrapped Knuckles": {
+      "power": 0,
+      "crit": -4,
+      "hit": 0,
+      "weight": 0
+    },
+    "Spiked Knuckles": {
+      "power": 1,
+      "crit": 0,
+      "hit": -4,
+      "weight": 0
+    },
+    "Standard Wrist": {
+      "power": 0,
+      "crit": 0,
+      "hit": 0,
+      "weight": 0
+    },
+    "Wrist Guard": {
+      "power": 0,
+      "crit": 0,
+      "hit": 0,
+      "weight": 2
+    },
+    "Spiked Wrist": {
+      "power": 1,
+      "crit": 0,
+      "hit": 0,
+      "weight": 2
+    },
+    "Wrist Strings": {
+      "power": 0,
+      "crit": 0,
+      "hit": 4,
+      "weight": 0
+    },
+    "Loose Wrist": {
+      "power": 0,
+      "crit": 0,
+      "hit": -6,
+      "weight": 0
+    },
+    "Weighted Wrist": {
+      "power": 0,
+      "crit": 10,
+      "hit": -5,
+      "weight": 8
+    },
+    "Standard Body": {
+      "power": 0,
+      "crit": 0,
+      "hit": 0,
+      "weight": 0
+    },
+    "Thin Body": {
+      "power": -1,
+      "crit": 0,
+      "hit": 0,
+      "weight": -4
+    },
+    "Compact Body": {
+      "power": 0,
+      "crit": 15,
+      "hit": 0,
+      "weight": -4
+    },
+    "Short Body": {
+      "power": 0,
+      "crit": 3,
+      "hit": 0,
+      "weight": -4
+    },
+    "Focused Body": {
+      "power": 0,
+      "crit": 0,
+      "hit": 5,
+      "weight": 0
+    },
+    "Large Body": {
+      "power": 0,
+      "crit": 0,
+      "hit": 0,
+      "weight": 6
+    },
+    "Composite Body": {
+      "power": 2,
+      "crit": -5,
+      "hit": 0,
+      "weight": 0
+    },
+    "Standard String": {
+      "power": 0,
+      "crit": 0,
+      "hit": 0,
+      "weight": 0
+    },
+    "Wire String": {
+      "power": 1,
+      "crit": 0,
+      "hit": 0,
+      "weight": 0
+    },
+    "Silk String": {
+      "power": -2,
+      "crit": 0,
+      "hit": 5,
+      "weight": 0
+    },
+    "Tight String": {
+      "power": 0,
+      "crit": 5,
+      "hit": -5,
+      "weight": 0
+    },
+    "Double String": {
+      "power": 0,
+      "crit": -5,
+      "hit": 0,
+      "weight": 0
+    },
+    "Chain String": {
+      "power": 2,
+      "crit": 0,
+      "hit": 0,
+      "weight": 10
+    },
+    "Standard Arrows": {
+      "power": 0,
+      "crit": 0,
+      "hit": 0,
+      "weight": 0
+    },
+    "Sharp Arrows": {
+      "power": 0,
+      "crit": 10,
+      "hit": -5,
+      "weight": 0
+    },
+    "Fire Arrows": {
+      "power": 1,
+      "crit": -5,
+      "hit": 0,
+      "weight": 0
+    },
+    "Light Arrows": {
+      "power": 0,
+      "crit": 5,
+      "hit": -5,
+      "weight": 0
+    },
+    "Thin Arrows": {
+      "power": -1,
+      "crit": 0,
+      "hit": 5,
+      "weight": 0
+    },
+    "Heavy Arrows": {
+      "power": 2,
+      "crit": 0,
+      "hit": -5,
+      "weight": 5
+    },
+    "Standard Barrel": {
+      "power": 0,
+      "crit": 0,
+      "hit": 0,
+      "weight": 0
+    },
+    "Short Barrel": {
+      "power": 5,
+      "crit": 0,
+      "hit": 0,
+      "weight": 0
+    },
+    "Wide Barrel": {
+      "power": 0,
+      "crit": 5,
+      "hit": -5,
+      "weight": 0
+    },
+    "Long Barrel": {
+      "power": 0,
+      "crit": -5,
+      "hit": 0,
+      "weight": 0
+    },
+    "Double Barrel": {
+      "power": 0,
+      "crit": 0,
+      "hit": 5,
+      "weight": 3
+    },
+    "Sniper Barrel": {
+      "power": 0,
+      "crit": 15,
+      "hit": 0,
+      "weight": 8
+    },
+    "Standard Grip": {
+      "power": 0,
+      "crit": 0,
+      "hit": 0,
+      "weight": 0
+    },
+    "Soft Grip": {
+      "power": -1,
+      "crit": 0,
+      "hit": 0,
+      "weight": 0
+    },
+    "Steady Grip": {
+      "power": 0,
+      "crit": -5,
+      "hit": 5,
+      "weight": 0
+    },
+    "Revolver Grip": {
+      "power": -2,
+      "crit": 5,
+      "hit": 0,
+      "weight": 0
+    },
+    "Extended Grip": {
+      "power": 0,
+      "crit": 0,
+      "hit": 0,
+      "weight": 2
+    },
+    "Custom Grip": {
+      "power": 0,
+      "crit": 3,
+      "hit": 3,
+      "weight": 0
+    },
+    "Standard Bullets": {
+      "power": 0,
+      "crit": 0,
+      "hit": 0,
+      "weight": 0
+    },
+    "Aerodynamic Bullets": {
+      "power": 0,
+      "crit": -5,
+      "hit": 5,
+      "weight": 0
+    },
+    "Piercing Bullets": {
+      "power": 5,
+      "crit": -5,
+      "hit": 0,
+      "weight": 0
+    },
+    "Hellhound Bullets": {
+      "power": 0,
+      "crit": 5,
+      "hit": -5,
+      "weight": 0
+    },
+    "Scatter Bullets": {
+      "power": -2,
+      "crit": 0,
+      "hit": 5,
+      "weight": 0
+    },
+    "Silver Bullets": {
+      "power": 0,
+      "crit": 0,
+      "hit": -5,
+      "weight": 0
+    },
+    "Standard Cover": {
+      "power": 0,
+      "crit": 0,
+      "hit": 0,
+      "weight": 0
+    },
+    "Hardback Cover": {
+      "power": 2,
+      "crit": 0,
+      "hit": 0,
+      "weight": 3
+    },
+    "Thin Cover": {
+      "power": 0,
+      "crit": 0,
+      "hit": 0,
+      "weight": -5
+    },
+    "Blank Cover": {
+      "power": -2,
+      "crit": 5,
+      "hit": 0,
+      "weight": 0
+    },
+    "Hellish Eye": {
+      "power": 0,
+      "crit": -5,
+      "hit": 3,
+      "weight": 5
+    },
+    "Diary Lock": {
+      "power": 0,
+      "crit": 3,
+      "hit": -3,
+      "weight": 5
+    },
+    "Standard Binds": {
+      "power": 0,
+      "crit": 0,
+      "hit": 0,
+      "weight": 0
+    },
+    "Leather Binds": {
+      "power": -2,
+      "crit": 0,
+      "hit": 3,
+      "weight": -3
+    },
+    "Metal Binds": {
+      "power": 3,
+      "crit": 0,
+      "hit": 0,
+      "weight": 3
+    },
+    "Magic Binds": {
+      "power": 0,
+      "crit": 0,
+      "hit": -3,
+      "weight": -8
+    },
+    "Bone Binds": {
+      "power": 0,
+      "crit": 5,
+      "hit": 0,
+      "weight": 3
+    },
+    "Long Binds": {
+      "power": 0,
+      "crit": 0,
+      "hit": 0,
+      "weight": 5
+    }
+  },
+  "enchantments": {
+    "None": {
+      "power": 0,
+      "crit": 0,
+      "critMod": 0,
+      "hit": 0,
+      "weight": 0,
+      "weightMod": 1
+    },
+    "Feather": {
+      "power": 0,
+      "crit": 0,
+      "critMod": 0,
+      "hit": 0,
+      "weight": 0,
+      "weightMod": 0.5
+    },
+    "Jeweled": {
+      "power": 0,
+      "crit": 0,
+      "critMod": 0,
+      "hit": 0,
+      "weight": 0,
+      "weightMod": 1
+    },
+    "Exorcism": {
+      "power": 0,
+      "crit": 0,
+      "critMod": 0,
+      "hit": 0,
+      "weight": 0,
+      "weightMod": 1
+    },
+    "Avalon": {
+      "power": 0,
+      "crit": 0,
+      "critMod": 0,
+      "hit": 0,
+      "weight": 0,
+      "weightMod": 1
+    },
+    "Fated": {
+      "power": 3,
+      "crit": 3,
+      "critMod": 0,
+      "hit": 3,
+      "weight": 3,
+      "weightMod": 1
+    },
+    "Rampaging": {
+      "power": 0,
+      "crit": 0,
+      "critMod": 0,
+      "hit": 0,
+      "weight": 0,
+      "weightMod": 1
+    },
+    "Gigantic": {
+      "power": 0,
+      "crit": 0,
+      "critMod": 0,
+      "hit": 0,
+      "weight": 0,
+      "weightMod": 1.5
+    },
+    "Bloodhunt": {
+      "power": 0,
+      "crit": 0,
+      "critMod": 0,
+      "hit": 0,
+      "weight": 0,
+      "weightMod": 1
+    },
+    "Mutation": {
+      "power": 0,
+      "crit": 0,
+      "critMod": 0,
+      "hit": -5,
+      "weight": 0,
+      "weightMod": 1.25
+    },
+    "Volcanic": {
+      "power": 0,
+      "crit": 0,
+      "critMod": 0,
+      "hit": 0,
+      "weight": 0,
+      "weightMod": 1
+    },
+    "Runed": {
+      "power": 2,
+      "crit": 2,
+      "critMod": 0,
+      "hit": 2,
+      "weight": -2,
+      "weightMod": 1
+    },
+    "Mundane": {
+      "power": 0,
+      "crit": 0,
+      "critMod": 0,
+      "hit": 0,
+      "weight": 0,
+      "weightMod": 1
+    },
+    "Arcane": {
+      "power": 0,
+      "crit": 0,
+      "critMod": 0,
+      "hit": 0,
+      "weight": 0,
+      "weightMod": 1
+    },
+    "Blessed": {
+      "power": 0,
+      "crit": 0,
+      "critMod": 0,
+      "hit": 0,
+      "weight": 0,
+      "weightMod": 1
+    },
+    "Reaper": {
+      "power": 5,
+      "crit": 5,
+      "critMod": 0,
+      "hit": 0,
+      "weight": 0,
+      "weightMod": 1
+    },
+    "Rebellion": {
+      "power": 0,
+      "crit": 0,
+      "critMod": 0,
+      "hit": 0,
+      "weight": 0,
+      "weightMod": 1
+    },
+    "Bloodtaking": {
+      "power": -5,
+      "crit": 0,
+      "critMod": 0,
+      "hit": 0,
+      "weight": 0,
+      "weightMod": 1
+    },
+    "Envenomed": {
+      "power": 0,
+      "crit": 0,
+      "critMod": 0,
+      "hit": 0,
+      "weight": 0,
+      "weightMod": 1
+    },
+    "Enflamed": {
+      "power": 0,
+      "crit": 0,
+      "critMod": 0,
+      "hit": 0,
+      "weight": 0,
+      "weightMod": 1
+    },
+    "Divine": {
+      "power": 2,
+      "crit": 5,
+      "critMod": 0,
+      "hit": 5,
+      "weight": -2,
+      "weightMod": 1
+    },
+    "Vorpal": {
+      "power": 0,
+      "crit": 10,
+      "critMod": 5,
+      "hit": 0,
+      "weight": 0,
+      "weightMod": 1
+    },
+    "Melting": {
+      "power": 0,
+      "crit": 0,
+      "critMod": 0,
+      "hit": 5,
+      "weight": 0,
+      "weightMod": 1
+    },
+    "Haunted": {
+      "power": 0,
+      "crit": 0,
+      "critMod": 0,
+      "hit": 0,
+      "weight": 0,
+      "weightMod": 1
+    },
+    "Haunted Soul": {
+      "power": 0,
+      "crit": 0,
+      "critMod": 0,
+      "hit": 0,
+      "weight": 0,
+      "weightMod": 1
+    },
+    "Blood Drenched": {
+      "power": 0,
+      "crit": 0,
+      "critMod": 0,
+      "hit": 0,
+      "weight": 0,
+      "weightMod": 1
+    },
+    "Demonic": {
+      "power": 0,
+      "crit": 0,
+      "critMod": 0,
+      "hit": 0,
+      "weight": 0,
+      "weightMod": 1
+    },
+    "Tainted": {
+      "power": 0,
+      "crit": 0,
+      "critMod": 0,
+      "hit": 0,
+      "weight": 0,
+      "weightMod": 1
+    },
+    "Misplaced": {
+      "power": 2,
+      "crit": 2,
+      "critMod": 0,
+      "hit": 2,
+      "weight": 2,
+      "weightMod": 1
+    },
+    "Fleeting": {
+      "power": 2,
+      "crit": 2,
+      "critMod": 0,
+      "hit": 2,
+      "weight": 2,
+      "weightMod": 1
+    },
+    "Parasitic": {
+      "power": 0,
+      "crit": 0,
+      "critMod": 0,
+      "hit": 0,
+      "weight": 0,
+      "weightMod": 1
+    },
+    "Rustic": {
+      "power": 5,
+      "crit": 0,
+      "critMod": 0,
+      "hit": 0,
+      "weight": 0,
+      "weightMod": 1
+    },
+    "Evolving": {
+      "power": 0,
+      "crit": 0,
+      "critMod": 0,
+      "hit": 0,
+      "weight": 0,
+      "weightMod": 1
+    },
+    "Blessed(Divine Sign)": {
+      "power": 0,
+      "crit": 0,
+      "critMod": 0,
+      "hit": 0,
+      "weight": 0,
+      "weightMod": 1
+    },
+    "Purity Edge": {
+      "power": 5,
+      "crit": 0,
+      "critMod": 0,
+      "hit": -5,
+      "weight": 0,
+      "weightMod": 1
+    }
+  },
+  "defaultScaling": {
+    "Sword": {
+      "str": 100,
+      "wil": 0,
+      "ski": 0,
+      "cel": 0,
+      "def": 0,
+      "res": 0,
+      "vit": 0,
+      "fai": 0,
+      "luc": 0,
+      "gui": 0,
+      "san": 0
+    },
+    "Axe": {
+      "str": 120,
+      "wil": 0,
+      "ski": 0,
+      "cel": 0,
+      "def": 0,
+      "res": 0,
+      "vit": 0,
+      "fai": 0,
+      "luc": 0,
+      "gui": 0,
+      "san": 0
+    },
+    "Polearm": {
+      "str": 100,
+      "wil": 0,
+      "ski": 0,
+      "cel": 0,
+      "def": 0,
+      "res": 0,
+      "vit": 0,
+      "fai": 0,
+      "luc": 0,
+      "gui": 0,
+      "san": 0
+    },
+    "Bow": {
+      "str": 80,
+      "wil": 0,
+      "ski": 20,
+      "cel": 0,
+      "def": 0,
+      "res": 0,
+      "vit": 0,
+      "fai": 0,
+      "luc": 0,
+      "gui": 0,
+      "san": 0
+    },
+    "Gun": {
+      "str": 0,
+      "wil": 0,
+      "ski": 0,
+      "cel": 0,
+      "def": 0,
+      "res": 0,
+      "vit": 0,
+      "fai": 0,
+      "luc": 0,
+      "gui": 100,
+      "san": 0
+    },
+    "Tome": {
+      "str": 0,
+      "wil": 100,
+      "ski": 0,
+      "cel": 0,
+      "def": 0,
+      "res": 0,
+      "vit": 0,
+      "fai": 0,
+      "luc": 0,
+      "gui": 0,
+      "san": 0
+    },
+    "Staff": {
+      "str": 80,
+      "wil": 20,
+      "ski": 0,
+      "cel": 0,
+      "def": 0,
+      "res": 0,
+      "vit": 0,
+      "fai": 0,
+      "luc": 0,
+      "gui": 0,
+      "san": 0
+    },
+    "Fist": {
+      "str": 100,
+      "wil": 0,
+      "ski": 0,
+      "cel": 0,
+      "def": 0,
+      "res": 0,
+      "vit": 0,
+      "fai": 0,
+      "luc": 0,
+      "gui": 0,
+      "san": 0
+    },
+    "Dagger": {
+      "str": 50,
+      "wil": 0,
+      "ski": 0,
+      "cel": 50,
+      "def": 0,
+      "res": 0,
+      "vit": 0,
+      "fai": 0,
+      "luc": 0,
+      "gui": 0,
+      "san": 0
+    }
+  }
+}

@@ -1,0 +1,1643 @@
+[
+  {
+    "id": "weapon:sword:longsword",
+    "name": "Longsword",
+    "rarity": 1,
+    "weaponType": "Sword",
+    "range": 1,
+    "power": 5,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 6,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Basic",
+        "str": 100
+      }
+    ],
+    "description": "Your standard, boring longsword.",
+    "location": [
+      "Random drops",
+      "Shops",
+      "Metalwork (Lv1)"
+    ]
+  },
+  {
+    "id": "weapon:sword:wooden-longsword",
+    "name": "Wooden Longsword",
+    "rarity": 1,
+    "weaponType": "Sword",
+    "range": 1,
+    "power": 5,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 6,
+    "damageType": "Blunt",
+    "scaling": [
+      {
+        "type": "Basic",
+        "str": 100
+      }
+    ],
+    "description": "Your standard, boring longsword, only this time, it's made out of wood.",
+    "location": [
+      "Random drops",
+      "Woodwork (Lv1)",
+      "Plant Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:sword:wooden-katana",
+    "name": "Wooden Katana",
+    "rarity": 1,
+    "weaponType": "Sword",
+    "subtype": "Katana",
+    "range": 1,
+    "power": 5,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 6,
+    "damageType": "Blunt",
+    "scaling": [
+      {
+        "type": "Finesse",
+        "str": 70,
+        "ski": 30
+      }
+    ],
+    "description": "Also called a bokken in Oniga, the land of the katana's origin. The more you know!",
+    "location": [
+      "Random drops",
+      "Woodwork (Lv1)",
+      "Plant Drop Table",
+      "Eastern Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:sword:wooden-nelten",
+    "name": "Wooden Nelten",
+    "rarity": 1,
+    "weaponType": "Sword",
+    "subtype": "Greatsword",
+    "range": 1,
+    "power": 11,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 12,
+    "damageType": "Blunt",
+    "scaling": [
+      {
+        "type": "Finesse",
+        "str": 70,
+        "ski": 30
+      }
+    ],
+    "description": "A heavy longsword that is iconic to Chaturanga's military division. Its destructive power is high. This one is made out of wood material.",
+    "location": [
+      "Random drops",
+      "Woodwork (Lv3)",
+      "Plant Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:sword:longsword-enhanced",
+    "name": "Longsword (Enhanced)",
+    "rarity": 2,
+    "weaponType": "Sword",
+    "range": 1,
+    "power": 5,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 6,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Finesse",
+        "str": 70,
+        "ski": 30
+      }
+    ],
+    "specials": [
+      {
+        "name": "Enhanced Stats",
+        "type": "Passive",
+        "description": "+3 STR"
+      }
+    ],
+    "description": "Your standard, boring longsword.",
+    "location": [
+      "Enchanting (Lv1)"
+    ]
+  },
+  {
+    "id": "weapon:sword:wo-dao",
+    "name": "Wo-Dao",
+    "rarity": 2,
+    "weaponType": "Sword",
+    "subtype": "Katana",
+    "range": 1,
+    "power": 6,
+    "accuracy": 85,
+    "critical": 10,
+    "criticalDamage": 125,
+    "weight": 5,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Finesse",
+        "str": 70,
+        "ski": 30
+      }
+    ],
+    "specials": [
+      {
+        "name": "Critical Bonus",
+        "type": "Passive",
+        "description": "Increases Critical Chance"
+      }
+    ],
+    "description": "An extremely sharp sword originating from Oniga.",
+    "location": [
+      "Random drops",
+      "Metalwork (Lv2)",
+      "Eastern Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:sword:swordfish-sword",
+    "name": "Swordfish Sword",
+    "rarity": 2,
+    "weaponType": "Sword",
+    "range": 1,
+    "power": 8,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 10,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Aquatic",
+        "str": 70,
+        "vit": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Water Damage",
+        "type": "OnHit",
+        "description": "Deals magic Water bonus damage equal to 50% of your Water ATK, which ignores armor."
+      }
+    ],
+    "description": "Ya-Ha! A sword, made out of... a swordfish.",
+    "location": [
+      "Random drops",
+      "Metalwork (Lv3)",
+      "Water Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:sword:bloody-fang",
+    "name": "Bloody Fang",
+    "rarity": 3,
+    "weaponType": "Sword",
+    "range": 1,
+    "power": 7,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 8,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Vampiric",
+        "str": 80,
+        "vit": 30
+      }
+    ],
+    "specials": [
+      {
+        "name": "Vampiric",
+        "type": "Passive",
+        "description": "Vampiric (10%) (Basic attacks only)"
+      }
+    ],
+    "description": "A sword with a thirst for blood.",
+    "location": [
+      "Random drops",
+      "Metalwork (Lv3)",
+      "Water Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:sword:moonblade",
+    "name": "Moonblade",
+    "rarity": 3,
+    "weaponType": "Sword",
+    "range": 1,
+    "power": 7,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 6,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Faithful",
+        "str": 70,
+        "fai": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Hit Bonus",
+        "type": "OnHit",
+        "description": "+5 Hit for 2 turns. Bonus becomes +10 instead on a critical hit. (At night, bonuses and duration are doubled.)"
+      }
+    ],
+    "description": "Crafted from silver and enchanted under the night sky.",
+    "location": [
+      "Random drops",
+      "Metalwork (Lv3)",
+      "Light Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:sword:eresh",
+    "name": "Eresh",
+    "rarity": 3,
+    "weaponType": "Sword",
+    "range": 1,
+    "power": 8,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 10,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Darkness",
+        "str": 70,
+        "res": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Darkness Damage",
+        "type": "OnHit",
+        "description": "Deals magic Darkness bonus damage equal to 50% of your Darkness ATK, which ignores armor."
+      },
+      {
+        "name": "Impure Stroke",
+        "type": "PotentialSkill",
+        "description": "The Duelist skill Eclair La'Croix is changed in the following ways: 1) Light damage becomes Dark. 2) Slash damage effect also inflicts Reduced Resistance (Dark) LV 30 for 3 rounds. (Reduced Resistance lowers the target's elemental resistance by LV.) 3) FP cost increased by 10."
+      }
+    ],
+    "description": "A sword wrapped in darkness.",
+    "location": [
+      "Random drops",
+      "Metalwork (Lv3)",
+      "Dark Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:sword:fuuma",
+    "name": "Fuuma",
+    "rarity": 3,
+    "weaponType": "Sword",
+    "subtype": "Katana",
+    "range": 1,
+    "power": 9,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 11,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Basic",
+        "str": 100
+      }
+    ],
+    "specials": [
+      {
+        "name": "Armor Reduction",
+        "type": "Passive",
+        "description": "Reduces effectiveness of enemy Armor by 5."
+      },
+      {
+        "name": "Wear Down",
+        "type": "PotentialSkill",
+        "description": "When an enemy is damaged by weapons that reduce enemy Armor effectiveness, either by basic attacks or skills using them, a Wear Down status is applied for 3 rounds, or powered up. This status decreases the enemy's Armor by LV. (Max LV of 20, max duration of 3 rounds)."
+      }
+    ],
+    "description": "A mystical sword that is said to be powerful enough to chop through stones.",
+    "location": [
+      "Random drops",
+      "Metalwork (Lv3)",
+      "Earth Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:sword:nelten",
+    "name": "Nelten",
+    "rarity": 3,
+    "weaponType": "Sword",
+    "subtype": "Greatsword",
+    "range": 1,
+    "power": 11,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 20,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Basic",
+        "str": 100
+      }
+    ],
+    "description": "A heavy greatsword that is iconic to Chaturanga's military division. Its destructive power is high.",
+    "location": [
+      "Random drops",
+      "Metalwork (Lv3)"
+    ]
+  },
+  {
+    "id": "weapon:sword:endless-handkerchief",
+    "name": "Endless Handkerchief",
+    "rarity": 3,
+    "weaponType": "Sword",
+    "subtype": "Whip",
+    "range": 3,
+    "power": 5,
+    "accuracy": 80,
+    "critical": 10,
+    "criticalDamage": 110,
+    "weight": 3,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Spiritual",
+        "str": 20,
+        "san": 70,
+        "ski": 30
+      }
+    ],
+    "specials": [
+      {
+        "name": "Variable Range",
+        "type": "Passive",
+        "description": "Attack range increases by 1 and basic attack damage increases by 3 for every empty Item Belt Slot."
+      },
+      {
+        "name": "Spinning Strike",
+        "type": "OnCrit",
+        "description": "Attack target is spun in a random direction."
+      }
+    ],
+    "description": "Less of a weapon and more of a stage prop, your enemy will be left guessing just where this damn chain of handkerchiefs ends.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:sword:river-sword",
+    "name": "River Sword",
+    "rarity": 4,
+    "weaponType": "Sword",
+    "range": 1,
+    "power": 8,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 8,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Aquatic",
+        "str": 70,
+        "vit": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Water Damage",
+        "type": "OnHit",
+        "description": "Deals magic Water bonus damage equal to 50% of your Water ATK, which ignores armor."
+      },
+      {
+        "name": "Aqua Pulse",
+        "type": "PotentialSkill",
+        "description": "When an enemy is damaged by a weapon that inflicts Water damage by skills or basic attacks, they become Drenched for 3 rounds. While Drenched, the target takes +25% damage from Lightning element attacks and cannot be set on fire."
+      }
+    ],
+    "description": "A sword found deep within the ruins of the sunken city.",
+    "location": [
+      "Random drops",
+      "Metalwork (Lv4)",
+      "Water Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:sword:crystal-blade",
+    "name": "Crystal Blade",
+    "rarity": 4,
+    "weaponType": "Sword",
+    "range": 1,
+    "power": 9,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 9,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Earthen",
+        "str": 70,
+        "def": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Earth Damage",
+        "type": "OnHit",
+        "description": "Deals magic Earth bonus damage equal to 50% of your Earth ATK, which ignores armor."
+      },
+      {
+        "name": "Crystalline Armor",
+        "type": "OnCrit",
+        "description": "Grants the attacker Crystalline Armor for 3 rounds. (+30% physical damage reduction, +20% magical damage reduction. Is removed when the bearer moves 2 or more tiles.)"
+      }
+    ],
+    "description": "A sword crafted from pure crystal, it shimmers like a diamond.",
+    "location": [
+      "Random drops",
+      "Metalwork (Lv4)",
+      "Earth Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:sword:golgorth",
+    "name": "Golgorth",
+    "rarity": 4,
+    "weaponType": "Sword",
+    "subtype": "Greatsword",
+    "range": 1,
+    "power": 14,
+    "accuracy": 75,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 35,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Basic",
+        "str": 100
+      }
+    ],
+    "description": "An enormous executioner's blade. Just wielding it is proof of one's superhuman strength.",
+    "location": [
+      "Random drops",
+      "Metalwork (Lv4)"
+    ]
+  },
+  {
+    "id": "weapon:sword:rapier-of-resent",
+    "name": "Rapier of Resent",
+    "rarity": 4,
+    "weaponType": "Sword",
+    "subtype": "Rapier",
+    "range": 1,
+    "power": 6,
+    "accuracy": 95,
+    "critical": 20,
+    "criticalDamage": 130,
+    "weight": 4,
+    "damageType": "Pierce",
+    "scaling": [
+      {
+        "type": "Darkness",
+        "str": 70,
+        "res": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Darkness Damage",
+        "type": "OnHit",
+        "description": "Deals magic Darkness bonus damage equal to 50% of your Darkness ATK, which ignores armor."
+      },
+      {
+        "name": "Soul Burn",
+        "type": "OnCrit",
+        "description": "If the user is at 50% or less HP, inflicts Soul Burn LV 20 for 5 rounds on the target. (Soul Burn inflicts Dark damage at the start of a round equal to LV.)"
+      }
+    ],
+    "description": "This cursed blade feeds on the wielder's suffering to become more deadly.",
+    "location": [
+      "Random drops",
+      "Metalwork (Lv4)",
+      "Dark Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:sword:spirit-sword",
+    "name": "Spirit Sword",
+    "rarity": 4,
+    "weaponType": "Sword",
+    "range": 1,
+    "power": 7,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 5,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Spiritual",
+        "str": 35,
+        "san": 60,
+        "ski": 35
+      }
+    ],
+    "specials": [
+      {
+        "name": "Ghost Touch",
+        "type": "Passive",
+        "description": "Weapon is treated as having the Ghost enchantment."
+      },
+      {
+        "name": "Soul Strike",
+        "type": "OnCrit",
+        "description": "Target loses 5% of their current FP. (10% if target has a spirit. 0% against spirits.)"
+      }
+    ],
+    "description": "A blade forged from the essence of spirits.",
+    "location": [
+      "Random drops",
+      "Metalwork (Lv4)"
+    ]
+  },
+  {
+    "id": "weapon:sword:bandit-sword",
+    "name": "Bandit Sword",
+    "rarity": 5,
+    "weaponType": "Sword",
+    "range": 1,
+    "power": 9,
+    "accuracy": 80,
+    "critical": 5,
+    "criticalDamage": 110,
+    "weight": 14,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Cunning",
+        "str": 70,
+        "gui": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Steal Bonus",
+        "type": "Passive",
+        "description": "Increases Steal's success rate by 15%."
+      },
+      {
+        "name": "Pilfer",
+        "type": "PotentialSkill",
+        "description": "Targets one enemy within 1 Range. Messes with the target's inventory, preventing them from using items for 2 rounds."
+      }
+    ],
+    "description": "Usually used by bandits, this sword helps you take things from others.",
+    "location": [
+      "Random drops",
+      "Highway Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:sword:engraved-katana",
+    "name": "Engraved Katana",
+    "rarity": 5,
+    "weaponType": "Sword",
+    "subtype": "Katana",
+    "range": 1,
+    "power": 11,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 9,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Finesse",
+        "str": 70,
+        "ski": 30
+      }
+    ],
+    "specials": [
+      {
+        "name": "Extra Scroll Slot",
+        "type": "Passive",
+        "description": "Weapon gains an additional Scroll customization slot."
+      }
+    ],
+    "description": "This katana, as the name implies, has a spell engraved in its metal.",
+    "location": [
+      "Random drops",
+      "Eastern Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:sword:excel-saber",
+    "name": "Excel Saber",
+    "rarity": 6,
+    "weaponType": "Sword",
+    "range": 1,
+    "power": 9,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 18,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Basic",
+        "str": 100
+      }
+    ],
+    "specials": [
+      {
+        "name": "Charge Damage",
+        "type": "OnHit",
+        "description": "Consumes Weapon Charges, dealing 50% more damage per Charge Level."
+      },
+      {
+        "name": "Charge Weapon",
+        "type": "GrantsSkill",
+        "description": "Grants Skill: Charge Weapon (3 Momentum, 5 FP) - Rev your weapon and fill it with focus, increasing its Charge, to a maximum of level 3. When you hit with a weapon that can consume Weapon Charges, the damage you deal with that attack will increase by 50% per level. (Weapon Charges will expire after 5 rounds.)"
+      },
+      {
+        "name": "Elite Engine",
+        "type": "PotentialSkill",
+        "description": "Shared Potential Skill. Charge Weapon FP cost is increased to 8 FP. Attacks do not use up all of your charges, instead the LV is reduced by 1, and the damage bonus is 35% (does not increase with charge amount like normal Excel attacks)."
+      }
+    ],
+    "description": "The Excel line of weapons were developed in Chaturanga, where the ability to be defensive while increasing offensive capabilities was highly valued. By charging up the weapon, it can explosively spend the focus energy when it strikes an enemy, greatly increasing damage. However, the engine module makes it heavier than other weapons.",
+    "location": [
+      "Random drops",
+      "Mine Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:sword:dynaxis",
+    "name": "Dynaxis",
+    "rarity": 6,
+    "weaponType": "Sword",
+    "subtype": "Greatsword",
+    "range": 1,
+    "power": 11,
+    "accuracy": 80,
+    "critical": 5,
+    "criticalDamage": 110,
+    "weight": 11,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Electrical",
+        "str": 70,
+        "luc": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Static Field",
+        "type": "OnHit",
+        "description": "When you perform a basic attack with this weapon, it creates a Static Field LV X (X = Dynaxis's Power) for 2 rounds at the target's location. (Static Fields deal Lightning bonus damage that ignores armor equal to LV to enemies when it is created, at the start of a new round, or when an enemy passes through it.)"
+      },
+      {
+        "name": "Thunder Strike",
+        "type": "SpecialStrike",
+        "description": "Special Strike: Thunder Strike (Trigger Rate: 10% + 8% Bonus, Trigger CD: 2 rounds) - Triggers before an enemy is attacked. Increases the Critical for that attack by 15, changes the damage type to Lightning, and if the attack hits, deals 50 Lightning magic bonus damage to them."
+      }
+    ],
+    "description": "An electrically overcharged greatsword. Anything it passes over will get charged up.",
+    "location": [
+      "Random drops",
+      "Lightning Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:sword:sakabatou",
+    "name": "Sakabatou",
+    "rarity": 6,
+    "weaponType": "Sword",
+    "subtype": "Katana",
+    "range": 1,
+    "power": 9,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 10,
+    "damageType": "Blunt",
+    "scaling": [
+      {
+        "type": "Finesse",
+        "str": 70,
+        "ski": 30
+      }
+    ],
+    "specials": [
+      {
+        "name": "Flip Blade",
+        "type": "GrantsSkill",
+        "description": "Grants Skill: Flip Blade (0M, 0 FP, 1 Round CD) - Turn your Sakabatou around, changing which side you're using. Grants or removes Flipped Blade (permanent duration). Flipped Blade: Your Sakabatou weapons deal Slash damage."
+      },
+      {
+        "name": "Killing Is A Choice",
+        "type": "PotentialSkill",
+        "description": "Sakabatou's Potential Skill. Sakabatou gains +5 Critical while it deals Slash damage, and you gain +5 Armor & Magic Armor while it deals Blunt damage. When you flip the Sakabatou to Slash damage, enemies within its attack range are inflicted with your Sakki (if the skill is equipped) and Slash Resist Down (LV 10, 1 round, 1 hit). 2 round CD if an enemy is affected."
+      },
+      {
+        "name": "Nine Heads",
+        "type": "SpecialStrike",
+        "description": "Special Strike - Nine Heads (Trigger Rate: 10% + 8% Bonus, Trigger CD: 3 Rounds) - Triggers before an enemy is attacked, and replaces the attack. An ultra fast strike hitting from 9 directions at once, dealing 125% Scaled Weapon Attack, and rendering it unavoidable and unparriable, but it deals no extra damage on a Critical Hit."
+      }
+    ],
+    "description": "A reverse-blade sword, meaning the side where the edge normally would be is dull, and vice versa. It is somewhat less lethal with a dull edge, and can be flipped should you need to cut, but it requires a skilled hand to avoid hurting yourself.",
+    "location": [
+      "Random drops",
+      "Eastern Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:sword:raijin",
+    "name": "Raijin",
+    "rarity": 7,
+    "weaponType": "Sword",
+    "subtype": "Katana",
+    "range": 1,
+    "power": 9,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 10,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Electrical",
+        "str": 70,
+        "luc": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Lightning Damage",
+        "type": "OnHit",
+        "description": "Deals magic Lightning bonus damage equal to 50% of your Lightning ATK, which ignores armor."
+      },
+      {
+        "name": "Lightning Resistance",
+        "type": "Passive",
+        "description": "10% Lightning Resistance"
+      },
+      {
+        "name": "Kuuga",
+        "type": "PotentialSkill",
+        "description": "The Kensei skill Hidden Cut's effect changes in the following ways; Damage becomes Lightning magic damage, and can Lightning Critical."
+      }
+    ],
+    "description": "A katana forged in the chaotic skies of a storm, or so it's said.",
+    "location": [
+      "Random drops",
+      "Lightning Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:sword:akuijin",
+    "name": "Akuijin",
+    "rarity": 7,
+    "weaponType": "Sword",
+    "subtype": "Katana",
+    "range": 1,
+    "power": 9,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 10,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Finesse",
+        "str": 70,
+        "ski": 30
+      }
+    ],
+    "specials": [
+      {
+        "name": "Darkness Damage",
+        "type": "OnHit",
+        "description": "Deals magic Darkness bonus damage equal to 50% of your Darkness ATK, which ignores armor."
+      },
+      {
+        "name": "Darkness Resistance",
+        "type": "Passive",
+        "description": "10% Darkness Resistance"
+      },
+      {
+        "name": "Dark Moon",
+        "type": "PotentialSkill",
+        "description": "The Kensei skill Hidden Cut's effect changes in the following ways; Damage becomes Dark magic damage. Monsters who are defeated by this effect melt, becoming Dark Water tiles in a 2 Range circle for 3 rounds."
+      }
+    ],
+    "description": "A katana forged in a pit of evil, or so it's said.",
+    "location": [
+      "Random drops",
+      "Dark Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:sword:sanjin",
+    "name": "Sanjin",
+    "rarity": 7,
+    "weaponType": "Sword",
+    "subtype": "Katana",
+    "range": 1,
+    "power": 9,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 10,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Finesse",
+        "str": 70,
+        "ski": 30
+      }
+    ],
+    "specials": [
+      {
+        "name": "Acid Damage",
+        "type": "OnHit",
+        "description": "Deals magic Acid bonus damage equal to 50% of your Acid ATK, which ignores armor."
+      },
+      {
+        "name": "Acid Resistance",
+        "type": "Passive",
+        "description": "10% Acid Resistance"
+      },
+      {
+        "name": "Mossy Grave",
+        "type": "PotentialSkill",
+        "description": "The Kensei skill Hidden Cut's effect changes in the following ways; Damage becomes Acid magic damage. Monsters who are defeated by this effect melt, becoming LV 30 Poison Pool tiles in a 2 Range circle for 3 rounds."
+      }
+    ],
+    "description": "A katana forged in the stomach of a monster, or so it's said.",
+    "location": [
+      "Random drops",
+      "Snake Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:sword:hakouhen-masterwork-katana",
+    "name": "Hakouhen Masterwork Katana",
+    "rarity": 7,
+    "weaponType": "Sword",
+    "subtype": "Katana",
+    "range": 1,
+    "power": 10,
+    "accuracy": 85,
+    "critical": 8,
+    "criticalDamage": 110,
+    "weight": 6,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Finesse",
+        "str": 70,
+        "ski": 30
+      }
+    ],
+    "specials": [
+      {
+        "name": "Weapon Properties",
+        "type": "Passive",
+        "description": "Always comes with the Sharp, Precise, Deadly, and Lightweight properties."
+      }
+    ],
+    "description": "The Hakouhen style could best be described as a hawk swooping in for the kill; an aerial attack that is precise, powerful, and deadly. This is a sword made specifically for the followers of that school, and it works well as a lightweight weapon focused on attacking. However, because it's lightweight, the material is somewhat thin, making it easier to break than other weapons.",
+    "location": [
+      "G6 Only - Oniga Quest"
+    ]
+  },
+  {
+    "id": "weapon:sword:sea-hunter-sword",
+    "name": "Sea Hunter Sword",
+    "rarity": 7,
+    "weaponType": "Sword",
+    "subtype": "Greatsword",
+    "range": 1,
+    "power": 13,
+    "accuracy": 80,
+    "critical": 7,
+    "criticalDamage": 110,
+    "weight": 12,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Aquatic",
+        "str": 70,
+        "vit": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Anti-Seafaring",
+        "type": "OnHit",
+        "description": "Inflicts Hunted LV14 for 3 rounds if the target is a seafaring monster."
+      },
+      {
+        "name": "Coral Material",
+        "type": "Passive",
+        "description": "Always comes made of Coral. (+1 Power, +3 Accuracy, +3 Critical, +1 Weight, +3 Water ATK.)"
+      }
+    ],
+    "description": "This sword was born from the sea, and as anyone who lives there knows, anything that lives in the sea is out to get everything else... that lives in the sea.",
+    "location": [
+      "Fishing Contest Chest"
+    ]
+  },
+  {
+    "id": "weapon:sword:hisen",
+    "name": "Hisen",
+    "rarity": 8,
+    "weaponType": "Sword",
+    "subtype": "Katana",
+    "range": 1,
+    "power": 9,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 125,
+    "weight": 3,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Finesse",
+        "str": 70,
+        "ski": 30
+      }
+    ],
+    "specials": [
+      {
+        "name": "Fatal Stroke",
+        "type": "PotentialSkill",
+        "description": "The Kensei skill Hidden Cut's effect changes in the following ways; Sheath Sword's FP cost is increased to 25 FP. Damage is increased by 25% and can critically hit. Against non-boss monsters, the damage is increased by 100% instead. If an enemy damaged by this effect is defeated by it, you regain 5 FP for each."
+      }
+    ],
+    "description": "A deadly katana, which is fragile, but extremely sharp.",
+    "location": [
+      "Random drops",
+      "Labyrinth Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:sword:braver-replica",
+    "name": "Braver Replica",
+    "rarity": 8,
+    "weaponType": "Sword",
+    "subtype": "Katana",
+    "range": 1,
+    "power": 16,
+    "accuracy": 90,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 15,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Replica",
+        "str": 70,
+        "ski": 20,
+        "san": 20
+      }
+    ],
+    "enchantment": "Divine Weapon",
+    "specials": [
+      {
+        "name": "Divine Weapon",
+        "type": "Passive",
+        "description": "+2 Power, +5 Critical, +5 Accuracy, -2 Weight. Weapon durability cannot decrease."
+      }
+    ],
+    "description": "A replica of a famous sword used by Ryart. It possesses extremely high power.",
+    "location": [
+      "Casino"
+    ]
+  },
+  {
+    "id": "weapon:sword:ensui",
+    "name": "Ensui",
+    "rarity": 8,
+    "weaponType": "Sword",
+    "range": 1,
+    "power": 10,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 4,
+    "damageType": "Water",
+    "scaling": [
+      {
+        "type": "Aquatic",
+        "str": 70,
+        "vit": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Protective Bubble",
+        "type": "Passive",
+        "description": "Encases you in a protective bubble, reducing all damage you take by 4-7."
+      },
+      {
+        "name": "Dragon Remains",
+        "type": "Passive",
+        "description": "Always comes made of Dragon Remains. (+3 Power, +5 Accuracy, +5 Critical, +8 Weight.)"
+      }
+    ],
+    "description": "A sword made from the remains of a water dragon; it smashes waves against your enemies.",
+    "location": [
+      "Random drops",
+      "Metalwork (Lv5)",
+      "Water Drop Table",
+      "Snake Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:sword:narcus",
+    "name": "Narcus",
+    "rarity": 8,
+    "weaponType": "Sword",
+    "range": 1,
+    "power": 11,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 4,
+    "damageType": "Fire",
+    "scaling": [
+      {
+        "type": "Basic",
+        "str": 100
+      }
+    ],
+    "specials": [
+      {
+        "name": "Narcus Revenge",
+        "type": "Passive",
+        "description": "Upon taking damage: Gain Narcus LV X (X = 50% of damage taken) for 2 rounds, which causes your next basic attack that hits to deal Fire magic bonus damage that ignores armor equal to LV. (Does not stack, but status will refresh upon taking damage if it would result in a higher LV.)"
+      },
+      {
+        "name": "Dragon Remains",
+        "type": "Passive",
+        "description": "Always comes made of Dragon Remains. (+3 Power, +5 Accuracy, +5 Critical, +8 Weight.)"
+      }
+    ],
+    "description": "A flaming sword made from the remains of a fire dragon. It takes punishment and returns it.",
+    "location": [
+      "Random drops",
+      "Metalwork (Lv5)",
+      "Fire Drop Table",
+      "Snake Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:sword:kirosh",
+    "name": "Kirosh",
+    "rarity": 8,
+    "weaponType": "Sword",
+    "range": 1,
+    "power": 10,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 4,
+    "damageType": "Dark",
+    "scaling": [
+      {
+        "type": "Darkness",
+        "str": 70,
+        "res": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Trap Immunity",
+        "type": "Passive",
+        "description": "You do not trigger traps or other field hazards while moving."
+      },
+      {
+        "name": "Dragon Remains",
+        "type": "Passive",
+        "description": "Always comes made of Dragon Remains. (+3 Power, +5 Accuracy, +5 Critical, +8 Weight.)"
+      }
+    ],
+    "description": "A sword made from the remains of a dark dragon. Its movements cannot be traced.",
+    "location": [
+      "Random drops",
+      "Metalwork (Lv5)",
+      "Dark Drop Table",
+      "Snake Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:sword:setsuna",
+    "name": "Setsuna",
+    "rarity": 8,
+    "weaponType": "Sword",
+    "range": 1,
+    "power": 10,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 4,
+    "damageType": "Light",
+    "scaling": [
+      {
+        "type": "Faithful",
+        "str": 70,
+        "fai": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Enemy Analysis",
+        "type": "Passive",
+        "description": "Shows the statistics and skills of most non-monster enemies."
+      },
+      {
+        "name": "Dragon Remains",
+        "type": "Passive",
+        "description": "Always comes made of Dragon Remains. (+3 Power, +5 Accuracy, +5 Critical, +8 Weight.)"
+      }
+    ],
+    "description": "A sword made from the remains of a blind dragon. Truth cannot be hidden.",
+    "location": [
+      "Random drops",
+      "Metalwork (Lv5)",
+      "Light Drop Table",
+      "Snake Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:sword:shine-sword",
+    "name": "Shine Sword",
+    "rarity": 8,
+    "weaponType": "Sword",
+    "range": 1,
+    "power": 10,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 10,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Faithful",
+        "str": 70,
+        "fai": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Light Damage",
+        "type": "OnHit",
+        "description": "Deals magic Light bonus damage equal to 50% of your Light ATK, which ignores armor."
+      },
+      {
+        "name": "Stat Bonus",
+        "type": "Passive",
+        "description": "+2 WIL, +2 FAI."
+      },
+      {
+        "name": "Blessed",
+        "type": "Passive",
+        "description": "Always comes enchanted with Blessed. (Against Undead, Ghost, and Possessed Enemies: Increases weapon's hit by half of your Scaled FAI.)"
+      },
+      {
+        "name": "Shine Knighting",
+        "type": "PotentialSkill",
+        "description": "Requires a Rank D Invocation. After casting, you will temporarily change into a Shine Knight for 5 rounds. While you are a Shine Knight, you gain +5 to all stats, and access to certain new passive skills. (Shining in the Darkness: Grants the owner of this skill immunity to Dark and Light damage.) (Shining Radiance: Enemies who attack the owner of this skill are treated as if they were Blinded, potentially reducing their Hit.)"
+      }
+    ],
+    "description": "Radiant like a jewel... A blessed sword that shines in the holy light of Mercala.",
+    "location": [
+      "Random drops",
+      "Metalwork (Lv4)",
+      "Light Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:sword:larveget",
+    "name": "Larveget",
+    "rarity": 8,
+    "weaponType": "Sword",
+    "subtype": "Instrument",
+    "range": 1,
+    "power": 11,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 6,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Aquatic",
+        "str": 70,
+        "vit": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Sound ATK Substitution",
+        "type": "OnHit",
+        "description": "Replaces your Sound ATK with the target's for 2 rounds."
+      },
+      {
+        "name": "Death Ant Shriek",
+        "type": "PotentialSkill",
+        "description": "Song skill. Requires Substitute Sound ATK to be active. Consumes the status caused by the weapon, deals 20 armor-ignoring Sound Kickback damage to you, and accelerates any Silence effect you're suffering from by 1 round. Additionally grants you Larveget's Cursed Wail (LV = 35% of Substituted Sound ATK, min. 5, 5 rounds). (Larveget's Cursed Wail - -10% Status Resistance. Enemies who attack you take armor-ignoring Sound magic bonus damage equal to LV and apply or power up Cursed Wound by LV (3 rounds). Triggers only once per action.)"
+      }
+    ],
+    "description": "A sword said to be made from the remains of an insect-god whose screams cursed all who harmed him.",
+    "location": [
+      "Random drops",
+      "Water Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:sword:rogue-dasher",
+    "name": "Rogue Dasher",
+    "rarity": 9,
+    "weaponType": "Sword",
+    "range": 1,
+    "power": 14,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 15,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Basic",
+        "str": 100
+      }
+    ],
+    "specials": [
+      {
+        "name": "Anti-Light Armor",
+        "type": "Passive",
+        "description": "Increases Scaled Weapon ATK by 20% if the target's armor type is Light Armor."
+      }
+    ],
+    "description": "A sword made to dash the dastardly and not much else.",
+    "location": [
+      "Random drops",
+      "Highway Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:sword:sogensara",
+    "name": "Sogensara",
+    "rarity": 9,
+    "weaponType": "Sword",
+    "subtype": "Katana",
+    "range": 1,
+    "power": 11,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 12,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Finesse",
+        "str": 70,
+        "ski": 30
+      }
+    ],
+    "specials": [
+      {
+        "name": "Ice Damage",
+        "type": "OnHit",
+        "description": "Deals magic Ice bonus damage equal to 50% of your Ice ATK, which ignores armor."
+      },
+      {
+        "name": "Everblue",
+        "type": "GrantsSkill",
+        "description": "Targets a tile up to 8 Range away that contains an enemy or plant special tile. Creates Ice Sheets in the line along from your current location to that tile, which last 3 rounds. Plant special tiles are frozen and turn into dense ice statues. If an enemy is the target and they are a Plant, they are inflicted with Frozen LV 10 for 2 rounds, but this skill enters a 3 round cooldown.",
+        "momentumCost": 3,
+        "fpCost": 10
+      }
+    ],
+    "description": "An icy katana that gives nature a respite.",
+    "location": [
+      "Random drops",
+      "Ice Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:sword:spectre-sword",
+    "name": "Spectre Sword",
+    "rarity": 9,
+    "weaponType": "Sword",
+    "range": 1,
+    "power": 11,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 4,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Darkness",
+        "str": 70,
+        "res": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Darkness Damage",
+        "type": "OnHit",
+        "description": "Deals magic Darkness bonus damage equal to 50% of your Darkness ATK, which ignores armor."
+      },
+      {
+        "name": "Haunted Soul",
+        "type": "Passive",
+        "description": "Always comes enchanted with Haunted Soul. (Inflicts Fear on hit for 2 rounds. -25% Status Resist.)"
+      },
+      {
+        "name": "Grudge",
+        "type": "PotentialSkill",
+        "description": "When you are defeated by an enemy, if you are not Badly Beaten, that enemy takes 100 Akashic magic damage that ignores protection."
+      }
+    ],
+    "description": "A sword possessed by a powerful spectre that has tainted it with the power of darkness.",
+    "location": [
+      "Random drops",
+      "Spectre Knight",
+      "Dark Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:sword:black-xyston",
+    "name": "Black Xyston",
+    "rarity": 9,
+    "weaponType": "Sword",
+    "range": 1,
+    "power": 9,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 14,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Basic",
+        "str": 100
+      }
+    ],
+    "specials": [
+      {
+        "name": "Dual Weapon Type",
+        "type": "Passive",
+        "description": "Also qualifies as a Polearm weapon."
+      }
+    ],
+    "description": "A large, black, double-edged sword that curves near the base like an umbrella, letting it also function as a spear.",
+    "location": [
+      "Random drops",
+      "Labyrinth Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:sword:salamander-sword",
+    "name": "Salamander Sword",
+    "rarity": 9,
+    "weaponType": "Sword",
+    "range": 1,
+    "power": 8,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 10,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Basic",
+        "str": 100
+      }
+    ],
+    "specials": [
+      {
+        "name": "Power Stacking",
+        "type": "Passive",
+        "description": "Increases the Power of Salamander Sword by 5 every time you deal Fire damage, up to a maximum of +100 Power. (Lasts for the entirety of the battle. Non-monster targets only give +2 Power.)"
+      }
+    ],
+    "description": "Made from cooled salamander blood. This doesn't mean the sword can't get hot again, of course.",
+    "location": [
+      "Random drops",
+      "Fire Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:sword:hooked-twinblade",
+    "name": "Hooked Twinblade",
+    "rarity": 10,
+    "weaponType": "Sword",
+    "range": 1,
+    "power": 14,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 10,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Basic",
+        "str": 100
+      }
+    ],
+    "specials": [
+      {
+        "name": "Pierce Bonus Damage",
+        "type": "OnHit",
+        "description": "Deals physical Pierce bonus damage equal to UL, which ignores armor."
+      },
+      {
+        "name": "Parry Penetration",
+        "type": "Passive",
+        "description": "Reduces the damage reduction of Parry skills triggered by this weapon's basic attack by UL%."
+      }
+    ],
+    "description": "This almost snake-like double blade has some nasty hooks, allowing it to squirm in even through an opponent's parry.",
+    "location": [
+      "Snakemen Twinblade (Lv56+)"
+    ]
+  },
+  {
+    "id": "weapon:sword:gigantys",
+    "name": "Gigantys",
+    "rarity": 10,
+    "weaponType": "Sword",
+    "subtype": "Greatsword",
+    "range": 1,
+    "power": 13,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 5,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Aquatic",
+        "str": 70,
+        "vit": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Weight Scaling",
+        "type": "Passive",
+        "description": "Increases Weight by UL."
+      },
+      {
+        "name": "Heavy Attacks",
+        "type": "Passive",
+        "description": "Basic attacks cost 4M, but inflict bonus damage equal to Weight and can Guard Break."
+      },
+      {
+        "name": "Dragon Remains",
+        "type": "Passive",
+        "description": "Always comes made of Dragon Remains. (+3 Power, +5 Accuracy, +5 Critical, +8 Weight.)"
+      }
+    ],
+    "description": "Made of a large piece of bone from a long dead monster, Gigantys is large and very difficult to wield. However, for those that can manage the burden, its weight also give it extremely potent attack force.",
+    "location": [
+      "Gigas Rex (Lv56+)"
+    ]
+  },
+  {
+    "id": "weapon:sword:tarnada",
+    "name": "Tarnada",
+    "rarity": 10,
+    "weaponType": "Sword",
+    "subtype": "Katana",
+    "range": 1,
+    "power": 15,
+    "accuracy": 80,
+    "critical": 10,
+    "criticalDamage": 110,
+    "weight": 10,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Sylphid",
+        "str": 70,
+        "cel": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Tarnada Charges",
+        "type": "OnCrit",
+        "description": "On Critical: Gain 1+(UL/2) Tarnada Charges. Then, if you have 100 or more Tarnada Charges, consumes them and casts Vydel on the target for free."
+      }
+    ],
+    "description": "Tarnada is a sword empowered by the storms of the desert on Gold. Storing that power, it will suddenly and chaotically unleash it when it decides it wants to.",
+    "location": [
+      "Jammer Delta (Lv56+)"
+    ]
+  },
+  {
+    "id": "weapon:sword:kingslayer",
+    "name": "Kingslayer",
+    "rarity": 10,
+    "weaponType": "Sword",
+    "range": 1,
+    "power": 14,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 10,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Basic",
+        "str": 100
+      }
+    ],
+    "specials": [
+      {
+        "name": "Elite Slayer",
+        "type": "Passive",
+        "description": "Increases the total Power of attacks and skills this weapon is used in by UL%, but only if the enemy is a Boss monster or has at least one 10* item equipped."
+      }
+    ],
+    "description": "The Kingslayer is a powerful sword in its own right, but it has an almost otherworldly efficiency at killing those sitting at the top of the food chain... at least, the ones that can be killed.",
+    "location": [
+      "Jammer (Lv56+)"
+    ]
+  },
+  {
+    "id": "weapon:sword:spine-leash",
+    "name": "Spine Leash",
+    "rarity": 10,
+    "weaponType": "Sword",
+    "subtype": "Whip",
+    "range": 1,
+    "power": 14,
+    "accuracy": 80,
+    "critical": 10,
+    "criticalDamage": 110,
+    "weight": 14,
+    "damageType": "Ice",
+    "scaling": [
+      {
+        "type": "Cold",
+        "str": 70,
+        "ski": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Range Scaling",
+        "type": "Passive",
+        "description": "Attack range increases by 1 for every 7 UL."
+      },
+      {
+        "name": "Ice ATK Bonus",
+        "type": "Passive",
+        "description": "Increases Ice ATK by UL/2. (Doesn't stack.)"
+      },
+      {
+        "name": "Ghostly Dog",
+        "type": "OnBattleStart",
+        "description": "On Battle Start: If UL is at least 10 and fighting monsters, a ghostly dog manifests and joins your battle as an ally."
+      }
+    ],
+    "description": "A bone-like whip that seems to be made from a spine of some creature, although it looks nothing like any animal you've seen. The surface of the bone seems to be covered in frost.",
+    "location": [
+      "Ghost Dog (Lv56+)"
+    ]
+  }
+]

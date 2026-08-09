@@ -1,0 +1,1489 @@
+[
+  {
+    "id": "weapon:dagger:dagger",
+    "name": "Dagger",
+    "rarity": 1,
+    "weaponType": "Dagger",
+    "range": 1,
+    "power": 3,
+    "accuracy": 75,
+    "critical": 0,
+    "criticalDamage": 130,
+    "weight": 4,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Basic",
+        "gui": 100
+      }
+    ],
+    "specials": [
+      {
+        "name": "Forbidden Technique",
+        "type": "PotentialSkill",
+        "description": "Inflicts you with Cursed Vengeance LV10 for 3 rounds. (Cursed Vengeance increases your damage by LV%, but drains your HP by LV% of your maximum HP every round.)",
+        "momentumCost": 3,
+        "fpCost": 20
+      }
+    ],
+    "description": "A simple dagger that anyone can use.",
+    "location": [
+      "Random Drops",
+      "Purchased from Tutorial",
+      "Purchased from Blacksmiths",
+      "Metalworking"
+    ]
+  },
+  {
+    "id": "weapon:dagger:lute",
+    "name": "Lute",
+    "rarity": 1,
+    "weaponType": "Dagger",
+    "subtype": "Instrument",
+    "range": 3,
+    "power": 5,
+    "accuracy": 75,
+    "critical": 0,
+    "criticalDamage": 130,
+    "weight": 5,
+    "damageType": "Sound",
+    "scaling": [
+      {
+        "type": "Dextria-Sound",
+        "gui": 80,
+        "san": 30
+      }
+    ],
+    "description": "The lute is a musician's best friend. If you're a bard, don't leave home without it - you'll need an instrument to play your songs, after all.",
+    "location": [
+      "Random Drops"
+    ]
+  },
+  {
+    "id": "weapon:dagger:whip",
+    "name": "Whip",
+    "rarity": 1,
+    "weaponType": "Dagger",
+    "subtype": "Whip",
+    "range": 4,
+    "power": 4,
+    "accuracy": 75,
+    "critical": 0,
+    "criticalDamage": 130,
+    "weight": 5,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Finesse",
+        "gui": 70,
+        "ski": 30
+      }
+    ],
+    "description": "An incredibly simple yet effective weapon, the whip is less about lethality and more about threat.",
+    "location": [
+      "Random Drops",
+      "Tutorial",
+      "Metalworking"
+    ]
+  },
+  {
+    "id": "weapon:dagger:dagger-enhanced",
+    "name": "Dagger (Enhanced)",
+    "rarity": 2,
+    "weaponType": "Dagger",
+    "range": 1,
+    "power": 3,
+    "accuracy": 75,
+    "critical": 0,
+    "criticalDamage": 130,
+    "weight": 4,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Basic",
+        "gui": 100
+      }
+    ],
+    "specials": [
+      {
+        "name": "Enhanced Stats",
+        "type": "Passive",
+        "description": "+3 GUI"
+      },
+      {
+        "name": "Forbidden Technique",
+        "type": "PotentialSkill",
+        "description": "Inflicts you with Cursed Vengeance LV10 for 3 rounds. (Cursed Vengeance increases your damage by LV%, but drains your HP by LV% of your maximum HP every round.)",
+        "momentumCost": 3,
+        "fpCost": 20
+      }
+    ],
+    "description": "A simple dagger that anyone can use.",
+    "location": [
+      "Enchanting"
+    ]
+  },
+  {
+    "id": "weapon:dagger:stinger",
+    "name": "Stinger",
+    "rarity": 2,
+    "weaponType": "Dagger",
+    "range": 1,
+    "power": 4,
+    "accuracy": 75,
+    "critical": 10,
+    "criticalDamage": 145,
+    "weight": 10,
+    "damageType": "Pierce",
+    "scaling": [
+      {
+        "type": "Finesse",
+        "gui": 70,
+        "ski": 30
+      }
+    ],
+    "description": "A dagger with increased sharpness for extra stabbing.",
+    "location": [
+      "Random Drops",
+      "Metalworking",
+      "Lightning Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:dagger:tanto",
+    "name": "Tanto",
+    "rarity": 2,
+    "weaponType": "Dagger",
+    "subtype": "Katana",
+    "range": 1,
+    "power": 5,
+    "accuracy": 75,
+    "critical": 0,
+    "criticalDamage": 130,
+    "weight": 6,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Finesse",
+        "gui": 70,
+        "ski": 30
+      }
+    ],
+    "description": "A small blade with a sharp edge, the tanto is often used for personal protection or as a backup weapon when longer blades aren't available or are impractical.",
+    "location": [
+      "Random Drops",
+      "Eastern Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:dagger:throwing-dagger",
+    "name": "Throwing Dagger",
+    "rarity": 2,
+    "weaponType": "Dagger",
+    "range": 3,
+    "power": 5,
+    "accuracy": 75,
+    "critical": 0,
+    "criticalDamage": 130,
+    "weight": 5,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Finesse",
+        "gui": 70,
+        "ski": 30
+      }
+    ],
+    "specials": [
+      {
+        "name": "Deadly Roundabout",
+        "type": "SpecialStrike",
+        "description": "Triggers before an enemy is attacked, and replaces the attack. Deals 110% of Throwing Dagger's Scaled Weapon Attack over 10 hits of Pierce damage, which can critically hit.",
+        "triggerRate": "10% + 8% Bonus"
+      }
+    ],
+    "description": "A dagger made for long distance attacks.",
+    "location": [
+      "Random Drops",
+      "Wind Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:dagger:dagger-of-bleeding",
+    "name": "Dagger of Bleeding",
+    "rarity": 3,
+    "weaponType": "Dagger",
+    "range": 1,
+    "power": 5,
+    "accuracy": 75,
+    "critical": 0,
+    "criticalDamage": 130,
+    "weight": 10,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Vampiric",
+        "gui": 80,
+        "vit": 30
+      }
+    ],
+    "specials": [
+      {
+        "name": "Vampiric",
+        "type": "Passive",
+        "description": "Vampiric (10%)"
+      }
+    ],
+    "description": "A dagger with a taste for blood.",
+    "location": [
+      "Random Drops",
+      "Water Drop Table",
+      "Metalworking"
+    ]
+  },
+  {
+    "id": "weapon:dagger:parrying-dagger",
+    "name": "Parrying Dagger",
+    "rarity": 3,
+    "weaponType": "Dagger",
+    "range": 1,
+    "power": 5,
+    "accuracy": 75,
+    "critical": 0,
+    "criticalDamage": 130,
+    "weight": 6,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Basic",
+        "gui": 100
+      }
+    ],
+    "specials": [
+      {
+        "name": "Parry Bonus",
+        "type": "Passive",
+        "description": "Increases activation rate of Parry skills by 15%."
+      }
+    ],
+    "description": "A simple dagger that is made less for attacking and more for catching blades.",
+    "location": [
+      "Random Drops",
+      "Highway Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:dagger:shuriken",
+    "name": "Shuriken",
+    "rarity": 3,
+    "weaponType": "Dagger",
+    "subtype": "Shuriken",
+    "range": 3,
+    "power": 4,
+    "accuracy": 75,
+    "critical": 10,
+    "criticalDamage": 130,
+    "weight": 3,
+    "damageType": "Pierce",
+    "scaling": [
+      {
+        "type": "Finesse",
+        "gui": 70,
+        "ski": 30
+      }
+    ],
+    "description": "A throwing-type dagger that originates from Oniga.",
+    "location": [
+      "Random Drops",
+      "Metalworking",
+      "Eastern Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:dagger:bloodstained-flute",
+    "name": "Bloodstained Flute",
+    "rarity": 4,
+    "weaponType": "Dagger",
+    "subtype": "Instrument",
+    "range": 1,
+    "power": 7,
+    "accuracy": 75,
+    "critical": 5,
+    "criticalDamage": 130,
+    "weight": 4,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Vampiric",
+        "gui": 80,
+        "vit": 30
+      }
+    ],
+    "specials": [
+      {
+        "name": "Vampiric",
+        "type": "Passive",
+        "description": "Vampiric (10%)"
+      },
+      {
+        "name": "Blood Coating",
+        "type": "OnHit",
+        "description": "Covers the flute in blood."
+      },
+      {
+        "name": "Blood Song",
+        "type": "Passive",
+        "description": "When played (via a Song skill), while the flute is covered in blood: Consumes the blood; All allies affected by the song recover HP equal to 5 + UL. All enemies affected by the song take protection-ignoring Dark damage equal to UL."
+      }
+    ],
+    "description": "This bladed flute is stained with dark traces of red; the blood of the performer's enemies.",
+    "location": [
+      "Random Drops",
+      "Water Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:dagger:creeping-darkness",
+    "name": "Creeping Darkness",
+    "rarity": 4,
+    "weaponType": "Dagger",
+    "subtype": "Whip",
+    "range": 4,
+    "power": 6,
+    "accuracy": 75,
+    "critical": 0,
+    "criticalDamage": 130,
+    "weight": 8,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Darkness",
+        "gui": 70,
+        "res": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Fear Progression",
+        "type": "OnCrit",
+        "description": "Inflict the target with Fear. If you have already Feared them, inflicts Hesitation LV 15 instead. If already Hesitating, inflicts Poison LV 5. All effects last 3 rounds."
+      },
+      {
+        "name": "Light Reduction",
+        "type": "OnNewRound",
+        "description": "Reduces the duration of Glowing statuses you suffer from and any Light Shafts at your current location by 2 rounds."
+      },
+      {
+        "name": "Spider Illusion",
+        "type": "Passive",
+        "description": "Whenever one of your item effects reduces Glowing statuses or Light Shafts to 0 duration or less, creates a Spider Illusion at a nearby tile, which will approach enemies and deal 25 armor-ignoring Dark magic damage to them."
+      }
+    ],
+    "description": "A whip adorned with a lash shaped like a spider. It devours light and makes shadows dance.",
+    "location": [
+      "Random Drops",
+      "Dark Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:dagger:nullifying-dirk",
+    "name": "Nullifying Dirk",
+    "rarity": 5,
+    "weaponType": "Dagger",
+    "range": 1,
+    "power": 5,
+    "accuracy": 75,
+    "critical": 0,
+    "criticalDamage": 130,
+    "weight": 6,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Magical",
+        "gui": 70,
+        "wil": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Resistance Bonus",
+        "type": "Passive",
+        "description": "+5 RES"
+      },
+      {
+        "name": "Dispel on Crit",
+        "type": "OnCrit",
+        "description": "Dispells 1 Random buff from the target. (Can only trigger once every 2 rounds.)"
+      },
+      {
+        "name": "Arcanic Pierce",
+        "type": "SpecialStrike",
+        "description": "Triggers before an enemy is attacked. Increases the damage the attack deals by 15, and if it hits, spells you cast this round ignore 15% of elemental resistance.",
+        "triggerRate": "10% + 8% Bonus"
+      }
+    ],
+    "description": "A magical dagger, it seems, with the properties of erasure. It has the capability to restore things to their original state.",
+    "location": [
+      "Random Drops (Korvara Only)",
+      "Mine Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:dagger:thief-blade",
+    "name": "Thief Blade",
+    "rarity": 5,
+    "weaponType": "Dagger",
+    "range": 1,
+    "power": 2,
+    "accuracy": 75,
+    "critical": 0,
+    "criticalDamage": 130,
+    "weight": 4,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Basic",
+        "gui": 100
+      }
+    ],
+    "specials": [
+      {
+        "name": "Steal Bonus",
+        "type": "Passive",
+        "description": "Increases Steal's success rate by 15%."
+      },
+      {
+        "name": "Pilfer",
+        "type": "PotentialSkill",
+        "description": "Targets one enemy within 1 Range. Messes with the target's inventory, preventing them from using items for 2 rounds.",
+        "momentumCost": 3,
+        "fpCost": 5,
+        "cooldown": 2
+      }
+    ],
+    "description": "A blade often used by thieves for its nimbleness.",
+    "location": [
+      "Random Drops",
+      "Highway Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:dagger:byakko-tessen",
+    "name": "Byakko Tessen",
+    "rarity": 6,
+    "weaponType": "Dagger",
+    "subtype": "Fan",
+    "range": 1,
+    "power": 8,
+    "accuracy": 75,
+    "critical": 0,
+    "criticalDamage": 130,
+    "weight": 4,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Finesse",
+        "gui": 50,
+        "ski": 30
+      },
+      {
+        "type": "Dextria-Lightning",
+        "luc": 30
+      }
+    ],
+    "specials": [
+      {
+        "name": "Ice Damage",
+        "type": "OnHit",
+        "description": "Deals magic Ice bonus damage equal to 25% of your Ice ATK, which ignores armor."
+      },
+      {
+        "name": "Water Damage",
+        "type": "OnHit",
+        "description": "Deals magic Water bonus damage equal to 25% of your Water ATK, which ignores armor."
+      }
+    ],
+    "description": "A bladed, iron-fan often used by covert female assassins to kill targets from a close distance.",
+    "location": [
+      "Random Drops",
+      "Metalworking",
+      "Eastern Drop Table",
+      "Ice Drop Table",
+      "Water Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:dagger:seiryuu-tessen",
+    "name": "Seiryuu Tessen",
+    "rarity": 6,
+    "weaponType": "Dagger",
+    "subtype": "Fan",
+    "range": 1,
+    "power": 8,
+    "accuracy": 75,
+    "critical": 0,
+    "criticalDamage": 130,
+    "weight": 4,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Finesse",
+        "gui": 50,
+        "ski": 30
+      },
+      {
+        "type": "Dextria-Wind",
+        "cel": 30
+      }
+    ],
+    "specials": [
+      {
+        "name": "Lightning Damage",
+        "type": "OnHit",
+        "description": "Deals magic Lightning bonus damage equal to 25% of your Lightning ATK, which ignores armor."
+      },
+      {
+        "name": "Wind Damage",
+        "type": "OnHit",
+        "description": "Deals magic Wind bonus damage equal to 25% of your Wind ATK, which ignores armor."
+      },
+      {
+        "name": "Dragon Dance",
+        "type": "PotentialSkill",
+        "description": "Requires a Rank D Invocation. While invoking, if you have a summoned Seiryuu that has at least 3M, 3M will be consumed by them and reduce the momentum cost you pay by 3M. After casting, you will gain Punishing Winds LV 60 for 5 rounds. Punishing Winds gives Seiryuu's Hunter Wind a bonus effect and deals Wind magic damage to all enemies at the start of a round equal to its LV.",
+        "momentumCost": 6,
+        "fpCost": 25
+      }
+    ],
+    "description": "A bladed, iron-fan often used by covert female assassins to kill targets from a close distance.",
+    "location": [
+      "Random Drops",
+      "Metalworking",
+      "Lightning Drop Table",
+      "Wind Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:dagger:summoner-s-tandem-dagger",
+    "name": "Summoner's Tandem Dagger",
+    "rarity": 6,
+    "weaponType": "Dagger",
+    "range": 1,
+    "power": 7,
+    "accuracy": 75,
+    "critical": 5,
+    "criticalDamage": 130,
+    "weight": 8,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Spiritual",
+        "gui": 70,
+        "san": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Summon Attack",
+        "type": "Passive",
+        "description": "When you summon a Youkai with Summon Youkai, while an enemy is within 1 Range of you: you perform a basic attack on them with this weapon (which does 50% damage)."
+      }
+    ],
+    "description": "A dagger that aids in the summoning process. The dance of the blade calls youkai and carves enemies.",
+    "location": [
+      "Random Drops",
+      "Summon Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:dagger:suzaku-tessen",
+    "name": "Suzaku Tessen",
+    "rarity": 6,
+    "weaponType": "Dagger",
+    "subtype": "Fan",
+    "range": 1,
+    "power": 8,
+    "accuracy": 75,
+    "critical": 0,
+    "criticalDamage": 130,
+    "weight": 4,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Finesse",
+        "gui": 50,
+        "ski": 30
+      },
+      {
+        "type": "Dextria-Fire",
+        "str": 30
+      }
+    ],
+    "specials": [
+      {
+        "name": "Fire Damage",
+        "type": "OnHit",
+        "description": "Deals magic Fire bonus damage equal to 25% of your Fire ATK, which ignores armor."
+      },
+      {
+        "name": "Wind Damage",
+        "type": "OnHit",
+        "description": "Deals magic Wind bonus damage equal to 25% of your Wind ATK, which ignores armor."
+      }
+    ],
+    "description": "A bladed, iron-fan often used by covert female assassins to kill targets from a close distance.",
+    "location": [
+      "Random Drops",
+      "Metalworking",
+      "Fire Drop Table",
+      "Eastern Drop Table",
+      "Wind Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:dagger:touyaa-shuriken",
+    "name": "Touyaa Shuriken",
+    "rarity": 6,
+    "weaponType": "Dagger",
+    "subtype": "Shuriken",
+    "range": 6,
+    "power": 13,
+    "accuracy": 75,
+    "critical": 0,
+    "criticalDamage": 130,
+    "weight": 10,
+    "damageType": "Ice",
+    "scaling": [
+      {
+        "type": "Cold",
+        "gui": 40
+      },
+      {
+        "type": "Tool",
+        "ski": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Frostbite",
+        "type": "OnHit",
+        "description": "Status infliction based chance to inflict Frostbite LV20 for 3 turns."
+      },
+      {
+        "name": "Snowflake",
+        "type": "PotentialSkill",
+        "description": "Creates a 3 Range diamond of Ice Sheets at a target location within 3 Range, with a duration of 3 rounds.",
+        "momentumCost": 1,
+        "fpCost": 15,
+        "cooldown": 3
+      }
+    ],
+    "description": "A snowflake-styled shuriken that flies far.",
+    "location": [
+      "Random Drops",
+      "Ice Drop Table",
+      "Eastern Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:dagger:combat-magnifying-glass",
+    "name": "Combat Magnifying Glass",
+    "rarity": 7,
+    "weaponType": "Dagger",
+    "range": 1,
+    "power": 5,
+    "accuracy": 75,
+    "critical": 0,
+    "criticalDamage": 130,
+    "weight": 10,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Basic",
+        "gui": 100
+      }
+    ],
+    "specials": [
+      {
+        "name": "Drop Rate",
+        "type": "Passive",
+        "description": "Increases rate enemies drop items by 25%."
+      },
+      {
+        "name": "Culprit Declaration",
+        "type": "PotentialSkill",
+        "description": "When an enemy defeats an ally, you inflict Hunted LV 30 on them for 5 rounds."
+      }
+    ],
+    "description": "There's no telling when deduction will turn into a brawl, and so it's good to have implements with multiple uses. Like beating someone to death.",
+    "location": [
+      "Purchased from Air",
+      "Purchased from Bandit in Meiaquar Sewers"
+    ]
+  },
+  {
+    "id": "weapon:dagger:konosekai",
+    "name": "Konosekai",
+    "rarity": 7,
+    "weaponType": "Dagger",
+    "subtype": "Fan",
+    "range": 1,
+    "power": 10,
+    "accuracy": 75,
+    "critical": 0,
+    "criticalDamage": 130,
+    "weight": 4,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Spiritual",
+        "gui": 70,
+        "san": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "HP Bonus",
+        "type": "Passive",
+        "description": "+15 HP"
+      },
+      {
+        "name": "Neverending Story Set",
+        "type": "Passive",
+        "description": "2+ - 1) +3 WIL. 2) +3 CEL. 3) +15% Sound Resistance."
+      }
+    ],
+    "description": "A combat fan used in a certain famous singer's dance.",
+    "location": [
+      "Random Drops",
+      "Eastern Drop Table",
+      "Metalwork (Lv4)"
+    ]
+  },
+  {
+    "id": "weapon:dagger:magical-photon",
+    "name": "Magical Photon",
+    "rarity": 7,
+    "weaponType": "Dagger",
+    "range": 1,
+    "power": 10,
+    "accuracy": 75,
+    "critical": 0,
+    "criticalDamage": 130,
+    "weight": 8,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Magical",
+        "gui": 70,
+        "wil": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Spelledge",
+        "type": "Passive",
+        "description": "This weapon can be used as a casting tool for spells."
+      }
+    ],
+    "description": "Suitable for casting technics and wearing fancy hats. Will not help you transform, however.",
+    "location": [
+      "Random Drops",
+      "Space Drop Table",
+      "Metalworking"
+    ]
+  },
+  {
+    "id": "weapon:dagger:sea-hunter-dagger",
+    "name": "Sea Hunter Dagger",
+    "rarity": 7,
+    "weaponType": "Dagger",
+    "range": 3,
+    "power": 12,
+    "accuracy": 75,
+    "critical": 7,
+    "criticalDamage": 130,
+    "weight": 8,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Aquatic",
+        "gui": 70,
+        "vit": 40
+      }
+    ],
+    "material": "Coral",
+    "specials": [
+      {
+        "name": "Hunted",
+        "type": "OnHit",
+        "description": "Inflicts Hunted LV14 for 3 rounds if the target is a seafaring monster."
+      }
+    ],
+    "description": "This dagger was born from the sea, and as anyone who lives there knows, anything that lives in the sea is out to get everything else... that lives in the sea.",
+    "location": [
+      "Fishing Contest"
+    ]
+  },
+  {
+    "id": "weapon:dagger:tamaki-shuriken",
+    "name": "Tamaki Shuriken",
+    "rarity": 7,
+    "weaponType": "Dagger",
+    "subtype": "Shuriken",
+    "range": 5,
+    "power": 10,
+    "accuracy": 75,
+    "critical": 0,
+    "criticalDamage": 130,
+    "weight": 5,
+    "damageType": "Acid",
+    "scaling": [
+      {
+        "type": "Cunning",
+        "gui": 80
+      },
+      {
+        "type": "Tool",
+        "gui": 80
+      }
+    ],
+    "specials": [
+      {
+        "name": "Poison",
+        "type": "OnHit",
+        "description": "Status infliction based on chance to inflict Poison LV 20 for 3 turns."
+      },
+      {
+        "name": "Acid Flower",
+        "type": "PotentialSkill",
+        "description": "Unleashes a barrage of acid shurikens in all directions around you. If these hit an enemy, it performs a basic attack on them with a bonus to hit equal to Tamaki Shuriken's UL. Once it reaches its maximum distance or hits an enemy, it also creates a 2 range circle of Acid Pools and spawns a random flower at the location. These last for 5 rounds and have a LV equal to 1 + Tamaki Shuriken's UL.",
+        "momentumCost": 3,
+        "fpCost": 20,
+        "cooldown": 3
+      }
+    ],
+    "description": "A type of shuriken coated in venom.",
+    "location": [
+      "Random Drops",
+      "Eastern Drop Table",
+      "Snake Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:dagger:creed-replica",
+    "name": "Creed Replica",
+    "rarity": 8,
+    "weaponType": "Dagger",
+    "range": 1,
+    "power": 13,
+    "accuracy": 75,
+    "critical": 0,
+    "criticalDamage": 130,
+    "weight": 6,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Replica",
+        "gui": 70,
+        "ski": 20,
+        "san": 20
+      }
+    ],
+    "enchantment": "Divine Weapon",
+    "specials": [
+      {
+        "name": "Divine Weapon",
+        "type": "Passive",
+        "description": "+2 Power, +5 Critical, +5 Accuracy, -2 Weight. Weapon durability cannot decrease."
+      }
+    ],
+    "description": "A replica of a deadly assassin's dagger. It possesses extremely high power.",
+    "location": [
+      "Purchased from Korvara Casino",
+      "Purchased from Arena"
+    ]
+  },
+  {
+    "id": "weapon:dagger:crelia",
+    "name": "Crelia",
+    "rarity": 8,
+    "weaponType": "Dagger",
+    "range": 1,
+    "power": 11,
+    "accuracy": 75,
+    "critical": 0,
+    "criticalDamage": 130,
+    "weight": 6,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Darkness",
+        "gui": 70,
+        "res": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Ice ATK Substitute",
+        "type": "OnHit",
+        "description": "Replaces your Ice ATK with the target's for 2 rounds."
+      },
+      {
+        "name": "Warmth",
+        "type": "PotentialSkill",
+        "description": "Requires Substitute Ice ATK to be active. Consumes the status caused by the weapon, deals 20 armor-ignoring Ice Kickback damage to you, curing Frostbite effects you suffer from, and creating a wave of warmth that spreads out in a 3 Size Circle around you. In that circle, ice statues, ice sheets, frozen plants, and Frozen & Frostbitten allies thaw out. All allies also recover HP equal to 100% of the Substituted Ice ATK.",
+        "momentumCost": 3,
+        "fpCost": 0,
+        "cooldown": 4
+      }
+    ],
+    "description": "A dagger made with a flowery, but sharp, design.",
+    "location": [
+      "Random Drops",
+      "Dark Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:dagger:hikage",
+    "name": "Hikage",
+    "rarity": 8,
+    "weaponType": "Dagger",
+    "range": 1,
+    "power": 11,
+    "accuracy": 75,
+    "critical": 5,
+    "criticalDamage": 130,
+    "weight": 4,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Flamelit",
+        "gui": 70,
+        "str": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Sun/Moon Set",
+        "type": "Passive",
+        "description": "Damage type changes to Fire if Tsukikage is also equipped. Set: Hayabusa. 2+ - 1) +2 Attack Range with Daggers. 2) Movement type becomes Teleport. If Main Weapon is Tsukikage: Moon Style. Critical hits generate Moon Crests (max 3) and grants Moon Reflection skill. If Main Weapon is Hikage: Sun Style. Critical hits generate Sun Crests (max 3) and grants Rising Sun skill."
+      },
+      {
+        "name": "Lingering Damage",
+        "type": "OnCrit",
+        "description": "Inflict Lingering Damage (Fire) LV 15 for 2 rounds."
+      },
+      {
+        "name": "Rising Sun",
+        "type": "GrantsSkill",
+        "description": "Rising Sun: 2M, 15 FP, 2 Round CD. Consumes 3 Sun Crests. Targets 1 unoccupied tile within 3 Range. Reappear at target location, when you do, become Airborne and deal 30 armor-ignoring Fire bonus damage to all enemies in 2 Range Circle. All damaged enemies are inflicted with Glowing LV 10 until your next turn."
+      },
+      {
+        "name": "Muddle",
+        "type": "PotentialSkill",
+        "description": "Item properties that would change the damage type of your basic attacks are ignored."
+      }
+    ],
+    "description": "A ninja dagger with a red cloth tail, decorated with a moon.",
+    "location": [
+      "Random Drops",
+      "Fire Drop Table",
+      "Eastern Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:dagger:paragi-shuriken",
+    "name": "Paragi Shuriken",
+    "rarity": 8,
+    "weaponType": "Dagger",
+    "subtype": "Shuriken",
+    "range": 3,
+    "power": 6,
+    "accuracy": 75,
+    "critical": 0,
+    "criticalDamage": 130,
+    "weight": 12,
+    "damageType": "Lightning",
+    "scaling": [
+      {
+        "type": "Electrical",
+        "gui": 40
+      },
+      {
+        "type": "Tool",
+        "luc": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Knocked Down",
+        "type": "OnHit",
+        "description": "Status infliction based chance to inflict Knocked Down LV2 for 2 turns."
+      },
+      {
+        "name": "Rairashi",
+        "type": "PotentialSkill",
+        "description": "Launches sparks of lightning at a target enemy within 8 Range, dealing Lightning magic damage that ignores protection equal to 10 + Paragi Shuriken's UL * 3.",
+        "momentumCost": 1,
+        "fpCost": 0,
+        "cooldown": 3
+      }
+    ],
+    "description": "A heavy shuriken that is effective at knocking someone on their butt.",
+    "location": [
+      "Random Drops",
+      "Lightning Drop Table",
+      "Eastern Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:dagger:puppet-strings",
+    "name": "Puppet Strings",
+    "rarity": 8,
+    "weaponType": "Dagger",
+    "subtype": "Whip",
+    "range": 4,
+    "power": 6,
+    "accuracy": 75,
+    "critical": 0,
+    "criticalDamage": 130,
+    "weight": 12,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Finesse",
+        "gui": 70,
+        "ski": 30
+      }
+    ],
+    "specials": [
+      {
+        "name": "String Attached",
+        "type": "OnHit",
+        "description": "Apply or power up String Attached (LV 1, max 4, 3 rounds). Only 1 string can attached per action (even if you have multiple Puppet Strings equipped, or attack with it multiple times). String Attached: The causer has attached a string to you. LV decreases by 1 every time you use a movement skill and end outside of 3 Range from them."
+      },
+      {
+        "name": "Puppet Assault",
+        "type": "GrantsSkill",
+        "description": "Targets 2 tiles in 6 Range. Location 1 must contain an enemy with String Attached LV 2+ (caused by you), and Location 2 must contain a different enemy. You puppeteer the first enemy, who takes 3 steps towards the second. Then, the first enemy is forced to attack the second with their main hand weapon (75% damage, or 100% if String Attached was LV4+). Afterwards, your strings detach from the first target."
+      }
+    ],
+    "description": "Gloves holding within them long puppet strings. One never knows when they may be forced to dance upon them.",
+    "location": [
+      "Random Drops",
+      "Highway Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:dagger:tsukikage",
+    "name": "Tsukikage",
+    "rarity": 8,
+    "weaponType": "Dagger",
+    "range": 1,
+    "power": 11,
+    "accuracy": 75,
+    "critical": 5,
+    "criticalDamage": 130,
+    "weight": 4,
+    "damageType": "Ice",
+    "scaling": [
+      {
+        "type": "Aquatic",
+        "gui": 70,
+        "vit": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Sun/Moon Set",
+        "type": "Passive",
+        "description": "Damage type changes to Water if Hikage is also equipped. Set: Hayabusa. 2+ - 1) +2 Attack Range with Daggers. 2) Movement type becomes Teleport. If Main Weapon is Tsukikage: Moon Style. Critical hits generate Moon Crests (max 3) and grants Moon Reflection skill. If Main Weapon is Hikage: Sun Style. Critical hits generate Sun Crests (max 3) and grants Rising Sun skill."
+      },
+      {
+        "name": "Spelldaze",
+        "type": "OnCrit",
+        "description": "Inflict Spelldaze for 2 rounds."
+      },
+      {
+        "name": "Moon Reflection",
+        "type": "GrantsSkill",
+        "description": "Rising Sun: 2M, 15FP, 2 Round Cooldown. Consumes 3 Moon Crests. Targets 1 unoccupied tile within 3 Range. Appear at location, gain Sneak until next turn and Night Shade (LV15, 2 attacks, 3 rounds)."
+      },
+      {
+        "name": "Muddle",
+        "type": "PotentialSkill",
+        "description": "Item properties that would change the damage type of your basic attacks are ignored."
+      }
+    ],
+    "description": "A ninja dagger with a blue cloth tail, decorated with a moon.",
+    "location": [
+      "Random Drops",
+      "Ice Drop Table",
+      "Eastern Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:dagger:bakaga-shuriken",
+    "name": "Bakaga Shuriken",
+    "rarity": 9,
+    "weaponType": "Dagger",
+    "subtype": "Shuriken",
+    "range": 4,
+    "power": 10,
+    "accuracy": 75,
+    "critical": 0,
+    "criticalDamage": 130,
+    "weight": 8,
+    "damageType": "Dark",
+    "scaling": [
+      {
+        "type": "Darkness",
+        "gui": 40
+      },
+      {
+        "type": "Tool",
+        "res": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Smoke Screen",
+        "type": "OnAttack",
+        "description": "Creates a Smoke Screen at the target's location for 3 rounds, reducing the Hit of those who stand in it by 30."
+      },
+      {
+        "name": "Dark Hole",
+        "type": "PotentialSkill",
+        "description": "Launches a swirling dark energy in a line that will travel up to 5 Range away. If it contacts an enemy, it will deal armor-ignoring Dark magic damage to them equal to 10 + (Bakaga Shuriken's UL*2) and begin moving back towards you, pulling the enemy along with it.",
+        "momentumCost": 1,
+        "fpCost": 15,
+        "cooldown": 3
+      }
+    ],
+    "description": "A shuriken with a smoke bomb hidden inside of it.",
+    "location": [
+      "Random Drops",
+      "Eastern Drop Table",
+      "Dark Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:dagger:copper-coliche",
+    "name": "Copper Coliche",
+    "rarity": 9,
+    "weaponType": "Dagger",
+    "range": 1,
+    "power": 9,
+    "accuracy": 75,
+    "critical": 0,
+    "criticalDamage": 130,
+    "weight": 9,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Basic",
+        "str": 100
+      }
+    ],
+    "specials": [
+      {
+        "name": "Dual Weapon Type",
+        "type": "Passive",
+        "description": "Also qualifies as a Sword weapon."
+      }
+    ],
+    "description": "A small yet thin blade made of a reddish metal. It's somewhere between dagger and sword, making it a versatile blade.",
+    "location": [
+      "Random Drops",
+      "Water Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:dagger:ninshi-shuriken",
+    "name": "Ninshi Shuriken",
+    "rarity": 9,
+    "weaponType": "Dagger",
+    "subtype": "Shuriken",
+    "range": 4,
+    "power": 14,
+    "accuracy": 75,
+    "critical": 0,
+    "criticalDamage": 130,
+    "weight": 12,
+    "damageType": "Fire",
+    "scaling": [
+      {
+        "type": "Flamelit",
+        "gui": 40
+      },
+      {
+        "type": "Tool",
+        "str": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Fire Damage",
+        "type": "OnHit",
+        "description": "Inflicts 30 armor-ignoring Fire damage to all enemies in 2 Range."
+      },
+      {
+        "name": "Ignition",
+        "type": "PotentialSkill",
+        "description": "Targets 1 tile within 5 Range and creates a single Cinder tile with a LV equal to (Ninshi Shuriken's UL * 2) for 5 rounds. If there is an enemy at that location, they also take armor-ignoring Fire damage equal to half of that. If there is a Bomb at that location, it will blow immediately as if you had a set it.",
+        "momentumCost": 1,
+        "fpCost": 10,
+        "cooldown": 3
+      }
+    ],
+    "description": "Shurikens designed to explode on impact.",
+    "location": [
+      "Random Drops",
+      "Fire Drop Table",
+      "Eastern Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:dagger:red-letter",
+    "name": "Red Letter",
+    "rarity": 9,
+    "weaponType": "Dagger",
+    "range": 1,
+    "power": 10,
+    "accuracy": 75,
+    "critical": 0,
+    "criticalDamage": 130,
+    "weight": 6,
+    "damageType": "Fire",
+    "scaling": [
+      {
+        "type": "Flamelit",
+        "gui": 70,
+        "str": 40
+      }
+    ],
+    "material": "Magmic",
+    "specials": [
+      {
+        "name": "Fire Damage",
+        "type": "OnHit",
+        "description": "Deals magic Fire bonus damage equal to 50% of your Fire ATK, which ignores armor."
+      },
+      {
+        "name": "Fire Exhaurire",
+        "type": "SpecialStrike",
+        "description": "Triggers after the attack hits an enemy. Deals 25 Fire bonus magic damage that ignores armor to the target, and you gain Absorb Fire (Limited) LV 1 for 5 rounds.",
+        "triggerRate": "10% + 8% Bonus"
+      }
+    ],
+    "description": "A flame dagger used in ritual sacrifices by an old tribal cult inhabiting the lands near the volcano 'Autumn'.",
+    "location": [
+      "Random Drops",
+      "Fire Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:dagger:atlaua-s-abaniko",
+    "name": "Atlaua's Abaniko",
+    "rarity": 10,
+    "weaponType": "Dagger",
+    "subtype": "Fan",
+    "range": 3,
+    "power": 12,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 130,
+    "weight": 7,
+    "damageType": "Water",
+    "scaling": [
+      {
+        "type": "Finesse",
+        "gui": 50,
+        "ski": 30
+      },
+      {
+        "type": "Dextria-Water",
+        "vit": 30
+      }
+    ],
+    "specials": [
+      {
+        "name": "Silence on Crit",
+        "type": "OnCrit",
+        "description": "UL% chance of inflicting Silence for 2 Rounds."
+      },
+      {
+        "name": "Luckiness Dance",
+        "type": "GrantsSkill",
+        "description": "Begins a rhythmic foreign dance which boosts the SKI and LUC of all party members in the current battle by Atlaua's Abaniko's UL/2 (min. 1) for 3 rounds.",
+        "momentumCost": 6,
+        "fpCost": 20
+      }
+    ],
+    "description": "A famous water dancer's dancing fan, this Abaniko carries with it a strange energy, filling those who watch its dances with joy.",
+    "location": [
+      "Level 56+ Sand Kraboid"
+    ]
+  },
+  {
+    "id": "weapon:dagger:dancing-shiv",
+    "name": "Dancing Shiv",
+    "rarity": 10,
+    "weaponType": "Dagger",
+    "range": 1,
+    "power": 11,
+    "accuracy": 75,
+    "critical": 5,
+    "criticalDamage": 130,
+    "weight": 7,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Sylphid",
+        "gui": 70,
+        "cel": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Skill Cost Reduction",
+        "type": "Passive",
+        "description": "Reduces cost of Dagger Skills by UL%."
+      },
+      {
+        "name": "Fray",
+        "type": "OnAttack",
+        "description": "If you are behind your target, inflict Fray LV 1+(UL/3) for 3 rounds."
+      }
+    ],
+    "description": "While little more than a very well made dagger, the Dancing Shiv earns its name for the way its movements almost seem to be a deadly dance, making it far easier to utilize than most daggers.",
+    "location": [
+      "Level 56+ Bandit Backstabber"
+    ]
+  },
+  {
+    "id": "weapon:dagger:eternal-solitude",
+    "name": "Eternal Solitude",
+    "rarity": 10,
+    "weaponType": "Dagger",
+    "range": 1,
+    "power": 15,
+    "accuracy": 75,
+    "critical": 5,
+    "criticalDamage": 130,
+    "weight": 5,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Darkness",
+        "gui": 70,
+        "res": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Summon Damage",
+        "type": "Passive",
+        "description": "When an enemy effect or skill summons an allied unit: the summoner takes UL protection-ignoring Akashic magic damage."
+      }
+    ],
+    "description": "This thin dagger severs the line between allies.",
+    "location": [
+      "Level 56+ Soulture"
+    ]
+  },
+  {
+    "id": "weapon:dagger:fangfare",
+    "name": "Fangfare",
+    "rarity": 10,
+    "weaponType": "Dagger",
+    "range": 1,
+    "power": 10,
+    "accuracy": 75,
+    "critical": 10,
+    "criticalDamage": 130,
+    "weight": 7,
+    "damageType": "Ice",
+    "scaling": [
+      {
+        "type": "Cold",
+        "gui": 70,
+        "ski": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Evade Teleport",
+        "type": "OnEvadeAttack",
+        "description": "If the tile behind your opponent is a valid battle tile, UL% chance that you teleport behind them, leaving behind an ice statue that shares your appearance. Also inflicts Immobilize on the attacker until their next turn if successful."
+      }
+    ],
+    "description": "An icy fang-shaped dagger, no doubt belonging to some devious ice beast at one point.",
+    "location": [
+      "Level 56+ Fenrirbus"
+    ]
+  },
+  {
+    "id": "weapon:dagger:hexfang",
+    "name": "Hexfang",
+    "rarity": 10,
+    "weaponType": "Dagger",
+    "range": 1,
+    "power": 7,
+    "accuracy": 80,
+    "critical": 10,
+    "criticalDamage": 130,
+    "weight": 5,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Basic",
+        "gui": 100
+      }
+    ],
+    "specials": [
+      {
+        "name": "Curse Infliction",
+        "type": "OnCrit",
+        "description": "Inflict Noshka's Famine, or Crippling Muysig, or Frailty of Credwa LV 3 for 2 rounds (Activation Rate: UL%). Prevents you from receiving Curse statuses by dealing damage to enemies."
+      }
+    ],
+    "description": "A cursed fang with words of evil written on it.",
+    "location": [
+      "Level 56+ Snakeman Pariah"
+    ]
+  },
+  {
+    "id": "weapon:dagger:vorpal-fang",
+    "name": "Vorpal Fang",
+    "rarity": 10,
+    "weaponType": "Dagger",
+    "range": 1,
+    "power": 10,
+    "accuracy": 75,
+    "critical": 10,
+    "criticalDamage": 130,
+    "weight": 10,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Electrical",
+        "gui": 70,
+        "luc": 40
+      }
+    ],
+    "enchantment": "Vorpal",
+    "specials": [
+      {
+        "name": "Vorpal Strike",
+        "type": "Passive",
+        "description": "+10 Critical, +5% Critical Damage. When critically hitting monsters with this weapon (excluding bosses, and monsters whose level is 10 or more higher than yours): 5% chance for the attack to do a Vorpal Strike, dealing 9999 Akashic damage. Critical hits from behind the target when attacking with this weapon have an UL% chance higher of becoming Vorpal Strikes (applies as a percentage to the base chance, not added to it.)"
+      }
+    ],
+    "description": "Some weapons are enchanted to become vorpal. Other weapons are born vorpal, molded by it. The Vorpal Fang is a unique dagger in that sense, taking the powers of the Vorpal Rabbit for itself.",
+    "location": [
+      "Level 56+ Vorpal Rabbits"
+    ]
+  }
+]

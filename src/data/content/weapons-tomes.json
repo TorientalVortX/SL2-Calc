@@ -1,0 +1,1821 @@
+[
+  {
+    "id": "weapon:tome:ampeol",
+    "name": "Ampeol",
+    "rarity": 1,
+    "weaponType": "Tome",
+    "range": 2,
+    "power": 5,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 12,
+    "damageType": "Lightning",
+    "scaling": [
+      {
+        "type": "Basic",
+        "wil": 100
+      }
+    ],
+    "description": "A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.",
+    "location": [
+      "Random drops",
+      "Tutorial",
+      "Enchanting"
+    ]
+  },
+  {
+    "id": "weapon:tome:blacksand",
+    "name": "Blacksand",
+    "rarity": 1,
+    "weaponType": "Tome",
+    "range": 2,
+    "power": 5,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 12,
+    "damageType": "Earth",
+    "scaling": [
+      {
+        "type": "Basic",
+        "wil": 100
+      }
+    ],
+    "specials": [
+      {
+        "name": "Quicksand",
+        "type": "PotentialSkill",
+        "description": "Targets a Size 2 Circle up to 3 Range away. All enemies in the circle take Earth magic damage and may be inflicted with Immobilize for 2 rounds (the chance is higher against Monsters).",
+        "momentumCost": 3,
+        "fpCost": 15,
+        "cooldown": 2
+      }
+    ],
+    "description": "A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.",
+    "location": [
+      "Random drops",
+      "Tutorial",
+      "Enchanting"
+    ]
+  },
+  {
+    "id": "weapon:tome:chorus",
+    "name": "Chorus",
+    "rarity": 1,
+    "weaponType": "Tome",
+    "range": 1,
+    "power": 5,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 12,
+    "damageType": "Light",
+    "scaling": [
+      {
+        "type": "Basic",
+        "wil": 100
+      }
+    ],
+    "description": "A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.",
+    "location": [
+      "Random drops",
+      "Tutorial",
+      "Enchanting"
+    ]
+  },
+  {
+    "id": "weapon:tome:flamberg",
+    "name": "Flamberg",
+    "rarity": 1,
+    "weaponType": "Tome",
+    "range": 1,
+    "power": 5,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 10,
+    "damageType": "Fire",
+    "scaling": [
+      {
+        "type": "Basic",
+        "wil": 100
+      }
+    ],
+    "description": "A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.",
+    "location": [
+      "Random drops",
+      "Tutorial",
+      "Enchanting"
+    ]
+  },
+  {
+    "id": "weapon:tome:fullgust",
+    "name": "Fullgust",
+    "rarity": 1,
+    "weaponType": "Tome",
+    "range": 2,
+    "power": 5,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 12,
+    "damageType": "Wind",
+    "scaling": [
+      {
+        "type": "Basic",
+        "wil": 100
+      }
+    ],
+    "description": "A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.",
+    "location": [
+      "Random drops",
+      "Tutorial",
+      "Enchanting"
+    ]
+  },
+  {
+    "id": "weapon:tome:hymn",
+    "name": "Hymn",
+    "rarity": 1,
+    "weaponType": "Tome",
+    "range": 2,
+    "power": 5,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 12,
+    "damageType": "Darkness",
+    "scaling": [
+      {
+        "type": "Basic",
+        "wil": 100
+      }
+    ],
+    "description": "A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.",
+    "location": [
+      "Random drops",
+      "Tutorial",
+      "Enchanting"
+    ]
+  },
+  {
+    "id": "weapon:tome:well",
+    "name": "Well",
+    "rarity": 1,
+    "weaponType": "Tome",
+    "range": 2,
+    "power": 5,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 12,
+    "damageType": "Water",
+    "scaling": [
+      {
+        "type": "Basic",
+        "wil": 100
+      }
+    ],
+    "description": "A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.",
+    "location": [
+      "Random drops",
+      "Tutorial",
+      "Enchanting"
+    ]
+  },
+  {
+    "id": "weapon:tome:zeroraid",
+    "name": "Zeroraid",
+    "rarity": 1,
+    "weaponType": "Tome",
+    "range": 2,
+    "power": 5,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 12,
+    "damageType": "Ice",
+    "scaling": [
+      {
+        "type": "Basic",
+        "wil": 100
+      }
+    ],
+    "description": "A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.",
+    "location": [
+      "Random drops",
+      "Tutorial",
+      "Enchanting"
+    ]
+  },
+  {
+    "id": "weapon:tome:amplifyia",
+    "name": "Amplifyia",
+    "rarity": 3,
+    "weaponType": "Tome",
+    "range": 2,
+    "power": 9,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 13,
+    "damageType": "Lightning",
+    "scaling": [
+      {
+        "type": "Electrical",
+        "wil": 25,
+        "luc": 35
+      },
+      {
+        "type": "Dextria-Lightning",
+        "wil": 25,
+        "luc": 35
+      }
+    ],
+    "description": "A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.",
+    "location": [
+      "Random drops",
+      "Enchanting"
+    ]
+  },
+  {
+    "id": "weapon:tome:blackmount",
+    "name": "Blackmount",
+    "rarity": 3,
+    "weaponType": "Tome",
+    "range": 2,
+    "power": 5,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 13,
+    "damageType": "Earth",
+    "scaling": [
+      {
+        "type": "Earthen",
+        "wil": 25,
+        "def": 35
+      },
+      {
+        "type": "Dextria-Earth",
+        "wil": 25,
+        "def": 35
+      }
+    ],
+    "description": "A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.",
+    "location": [
+      "Random drops",
+      "Enchanting"
+    ]
+  },
+  {
+    "id": "weapon:tome:chorusaf",
+    "name": "Chorusaf",
+    "rarity": 3,
+    "weaponType": "Tome",
+    "range": 1,
+    "power": 9,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 13,
+    "damageType": "Light",
+    "scaling": [
+      {
+        "type": "Faithful",
+        "wil": 25,
+        "fai": 35
+      },
+      {
+        "type": "Dextria-Light",
+        "wil": 25,
+        "fai": 35
+      }
+    ],
+    "specials": [
+      {
+        "name": "Patient Prayer",
+        "type": "PotentialSkill",
+        "description": "The curate skill Graft is changed in the following ways; 1) Range increase by 2 and pattern changes to a 3 range diamond and targets locations instead of allies. 2) Creates nurse tiles for 5 rounds at tiles in the target area. If an ally steps on the tile, they are healed for it's LV. (LV = 25% of Graft's normal heal value). Enemies that step on the Nurse Tiles consume them with no effect."
+      }
+    ],
+    "description": "A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.",
+    "location": [
+      "Random drops",
+      "Enchanting"
+    ]
+  },
+  {
+    "id": "weapon:tome:flambella",
+    "name": "Flambella",
+    "rarity": 3,
+    "weaponType": "Tome",
+    "range": 1,
+    "power": 5,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 10,
+    "damageType": "Fire",
+    "scaling": [
+      {
+        "type": "Flamelit",
+        "wil": 25,
+        "str": 35
+      },
+      {
+        "type": "Dextria-Fire",
+        "wil": 25,
+        "str": 35
+      }
+    ],
+    "description": "A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.",
+    "location": [
+      "Random drops",
+      "Enchanting"
+    ]
+  },
+  {
+    "id": "weapon:tome:fullphoon",
+    "name": "Fullphoon",
+    "rarity": 3,
+    "weaponType": "Tome",
+    "range": 2,
+    "power": 9,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 13,
+    "damageType": "Wind",
+    "scaling": [
+      {
+        "type": "Sylphid",
+        "wil": 25,
+        "cel": 35
+      },
+      {
+        "type": "Dextria-Wind",
+        "wil": 25,
+        "cel": 35
+      }
+    ],
+    "description": "A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.",
+    "location": [
+      "Random drops",
+      "Enchanting"
+    ]
+  },
+  {
+    "id": "weapon:tome:hymnta",
+    "name": "Hymnta",
+    "rarity": 3,
+    "weaponType": "Tome",
+    "range": 2,
+    "power": 9,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 13,
+    "damageType": "Darkness",
+    "scaling": [
+      {
+        "type": "Darkness",
+        "wil": 25,
+        "res": 35
+      },
+      {
+        "type": "Dextria-Dark",
+        "wil": 25,
+        "res": 35
+      }
+    ],
+    "description": "A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.",
+    "location": [
+      "Random drops",
+      "Enchanting"
+    ]
+  },
+  {
+    "id": "weapon:tome:wellweg",
+    "name": "Wellweg",
+    "rarity": 3,
+    "weaponType": "Tome",
+    "range": 2,
+    "power": 9,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 13,
+    "damageType": "Water",
+    "scaling": [
+      {
+        "type": "Aquatic",
+        "wil": 25,
+        "vit": 35
+      },
+      {
+        "type": "Dextria-Water",
+        "wil": 25,
+        "vit": 35
+      }
+    ],
+    "description": "A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.",
+    "location": [
+      "Random drops",
+      "Enchanting"
+    ]
+  },
+  {
+    "id": "weapon:tome:zerotrain",
+    "name": "Zerotrain",
+    "rarity": 3,
+    "weaponType": "Tome",
+    "range": 2,
+    "power": 9,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 13,
+    "damageType": "Ice",
+    "scaling": [
+      {
+        "type": "Cold",
+        "wil": 25,
+        "ski": 35
+      },
+      {
+        "type": "Dextria-Ice",
+        "wil": 25,
+        "ski": 35
+      }
+    ],
+    "specials": [
+      {
+        "name": "Aggressive Cold",
+        "type": "PotentialSkill",
+        "description": "Zerotrain's Potential Skill. Your Ice Sheets, when created, deal Ice magic damage that ignores protection equal to half of your level (or 20, whichever is higher) to any enemy on the same tile."
+      }
+    ],
+    "description": "A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.",
+    "location": [
+      "Random drops",
+      "Enchanting"
+    ]
+  },
+  {
+    "id": "weapon:tome:sthenno",
+    "name": "Sthenno",
+    "rarity": 5,
+    "weaponType": "Tome",
+    "subtype": "Whip",
+    "range": 5,
+    "power": 5,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 10,
+    "damageType": "Acid",
+    "scaling": [
+      {
+        "type": "Cunning",
+        "wil": 70,
+        "gui": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Youkai Summon Damage",
+        "type": "Passive",
+        "description": "When you summon a youkai using summon youkai, all enemies with 4 Range of that youkai take protection-ignoring Acid magic bonus damage equal to 10 + 25% of it's level."
+      },
+      {
+        "name": "Arcanic Spark",
+        "type": "SpecialStrike",
+        "description": "Triggers before an enemy is attacked. Increases the damage the attack deals by 15, and reduces the FP cost of your next spell (within 3 rounds) to 0.",
+        "triggerRate": "10% + 8% Bonus"
+      }
+    ],
+    "description": "A whip with a snake-like design. Sometimes you think you might hear it hissing...",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:tome:ampgeneoule",
+    "name": "Ampgeneoule",
+    "rarity": 6,
+    "weaponType": "Tome",
+    "range": 2,
+    "power": 13,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 14,
+    "damageType": "Lightning",
+    "scaling": [
+      {
+        "type": "Dextria-Lightning",
+        "wil": 80,
+        "luc": 30
+      }
+    ],
+    "description": "A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.",
+    "location": [
+      "Random drops",
+      "Enchanting"
+    ]
+  },
+  {
+    "id": "weapon:tome:blackmeteor",
+    "name": "Blackmeteor",
+    "rarity": 6,
+    "weaponType": "Tome",
+    "range": 2,
+    "power": 13,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 14,
+    "damageType": "Earth",
+    "scaling": [
+      {
+        "type": "Dextria-Earth",
+        "wil": 80,
+        "def": 30
+      }
+    ],
+    "description": "A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.",
+    "location": [
+      "Random drops",
+      "Enchanting"
+    ]
+  },
+  {
+    "id": "weapon:tome:chrousafhybyn",
+    "name": "Chrousafhybyn",
+    "rarity": 6,
+    "weaponType": "Tome",
+    "range": 2,
+    "power": 13,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 14,
+    "damageType": "Light",
+    "scaling": [
+      {
+        "type": "Dextria-Light",
+        "wil": 80,
+        "fai": 30
+      }
+    ],
+    "description": "A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.",
+    "location": [
+      "Random drops",
+      "Enchanting"
+    ]
+  },
+  {
+    "id": "weapon:tome:devil-s-tome",
+    "name": "Devil's Tome",
+    "rarity": 6,
+    "weaponType": "Tome",
+    "range": 2,
+    "power": 14,
+    "accuracy": 85,
+    "critical": 6,
+    "criticalDamage": 110,
+    "weight": 13,
+    "damageType": "Hellfire",
+    "material": "Devilbark",
+    "scaling": [
+      {
+        "type": "Basic",
+        "wil": 100
+      }
+    ],
+    "specials": [
+      {
+        "name": "Devilbark Material",
+        "type": "Passive",
+        "description": "Material: Devilbark (+2 Power, +5 Weight, +3 Dark ATK). Changes Fire damage dealt by this weapon into Hellfire damage. Spells other than Nerifian domain spells cannot be cast."
+      }
+    ],
+    "optimizationPolicy": {
+      "automaticRecommendation": "explicit-opt-in",
+      "restriction": "Spells other than Nerifian domain spells cannot be cast while using Devil's Tome, making it unsuitable for general or multi-element spell plans.",
+      "optInTerms": ["Devil's Tome", "Devils Tome", "Nerifian"]
+    },
+    "description": "A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.",
+    "location": [
+      "Random drops",
+      "Woodworking"
+    ]
+  },
+  {
+    "id": "weapon:tome:excelgraph",
+    "name": "Excelgraph",
+    "rarity": 6,
+    "weaponType": "Tome",
+    "range": 2,
+    "power": 9,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 10,
+    "damageType": "Wind",
+    "scaling": [
+      {
+        "type": "Basic",
+        "wil": 100
+      }
+    ],
+    "specials": [
+      {
+        "name": "Charge Weapon",
+        "type": "GrantsSkill",
+        "description": "Rev your weapon and fill it with focus, increasing its Charge, to a maximum of level 3. When you hit with a weapon that can consume Weapon Charges, the damage you deal with that attack will increase by 50% per level. (Weapon Charges will expire after 5 rounds.)",
+        "momentumCost": 3,
+        "fpCost": 5
+      },
+      {
+        "name": "Weapon Charge Consumption",
+        "type": "OnHit",
+        "description": "Consumes Weapon Charge, dealing 50% more damage per Charge Level."
+      },
+      {
+        "name": "Elite Engine",
+        "type": "PotentialSkill",
+        "description": "Charge Weapon FP cost is increased to 8 FP. Attacks do not use up all of your charges, instead the LV is reduced by 1, and the damage bonus is 35% (does not increase with charge amount like normal Excel attacks)."
+      }
+    ],
+    "description": "The Excel line of weapons were developed in Chaturanga, where the ability to be defensive while increasing offensive capabilities was highly valued. By charging up the weapon, it can explosively spend the focus energy when it strikes an enemy, greatly increasing damage. However, the engine module makes it heavier than other weapons.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:tome:flamnyaghra",
+    "name": "Flamnyaghra",
+    "rarity": 6,
+    "weaponType": "Tome",
+    "range": 1,
+    "power": 5,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 10,
+    "damageType": "Fire",
+    "scaling": [
+      {
+        "type": "Dextria-Fire",
+        "wil": 80,
+        "str": 30
+      }
+    ],
+    "description": "A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.",
+    "location": [
+      "Random drops",
+      "Enchanting"
+    ]
+  },
+  {
+    "id": "weapon:tome:fullurricane",
+    "name": "Fullurricane",
+    "rarity": 6,
+    "weaponType": "Tome",
+    "range": 2,
+    "power": 13,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 14,
+    "damageType": "Wind",
+    "scaling": [
+      {
+        "type": "Dextria-Wind",
+        "wil": 80,
+        "cel": 30
+      }
+    ],
+    "description": "A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.",
+    "location": [
+      "Random drops",
+      "Enchanting"
+    ]
+  },
+  {
+    "id": "weapon:tome:hymntaturych",
+    "name": "Hymntaturych",
+    "rarity": 6,
+    "weaponType": "Tome",
+    "range": 1,
+    "power": 13,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 14,
+    "damageType": "Darkness",
+    "scaling": [
+      {
+        "type": "Dextria-Dark",
+        "wil": 80,
+        "res": 30
+      }
+    ],
+    "description": "A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.",
+    "location": [
+      "Random drops",
+      "Enchanting"
+    ]
+  },
+  {
+    "id": "weapon:tome:stone-vector",
+    "name": "Stone Vector",
+    "rarity": 6,
+    "weaponType": "Tome",
+    "subtype": "Whip",
+    "range": 5,
+    "power": 8,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 14,
+    "damageType": "Earth",
+    "scaling": [
+      {
+        "type": "Earthen",
+        "wil": 70,
+        "def": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Astral Vector",
+        "type": "Passive",
+        "description": "Casting Astral Belt or refining a natural resource applies or powers up Astral Vector LV 5 (max 100) for 3 rounds. (Astral Vector causes this weapon's basic attacks to deal LV% of your Earth ATK as Earth magic bonus damage. In addition, damage from Astral Belt is increased by half of its LV.)"
+      },
+      {
+        "name": "Attract Objects",
+        "type": "OnCrit",
+        "description": "If you have Magnetized the target, inflicts Attract Objects LV2 until your next turn on the target."
+      },
+      {
+        "name": "Vector Lash",
+        "type": "SpecialStrike",
+        "description": "Triggers before an enemy is attacked. Activate Stone Vector's Astral Vector gaining effect (LV15 instead of 5). If the attack hits, unearth 2 Rocks, and if the user can gain Geomaterial, they gain 2.",
+        "triggerRate": "10% + 8% Bonus"
+      }
+    ],
+    "description": "A magic whip using the power of magnetism to draw in loose rocks. Kicking some up will make the whip more and more powerful.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:tome:wellwegwet",
+    "name": "Wellwegwet",
+    "rarity": 6,
+    "weaponType": "Tome",
+    "range": 2,
+    "power": 13,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 14,
+    "damageType": "Water",
+    "scaling": [
+      {
+        "type": "Dextria-Water",
+        "wil": 80,
+        "vit": 30
+      }
+    ],
+    "description": "A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.",
+    "location": [
+      "Random drops",
+      "Enchanting"
+    ]
+  },
+  {
+    "id": "weapon:tome:zerorewuin",
+    "name": "Zerorewuin",
+    "rarity": 6,
+    "weaponType": "Tome",
+    "range": 2,
+    "power": 13,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 14,
+    "damageType": "Ice",
+    "scaling": [
+      {
+        "type": "Dextria-Ice",
+        "wil": 80,
+        "ski": 30
+      }
+    ],
+    "description": "A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.",
+    "location": [
+      "Random drops",
+      "Enchanting"
+    ]
+  },
+  {
+    "id": "weapon:tome:betrayer-s-wit",
+    "name": "Betrayer's Wit",
+    "rarity": 7,
+    "weaponType": "Tome",
+    "range": 3,
+    "power": 10,
+    "accuracy": 85,
+    "critical": 10,
+    "criticalDamage": 120,
+    "weight": 14,
+    "damageType": "Acid",
+    "scaling": [
+      {
+        "type": "Magical",
+        "gui": 70,
+        "wil": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Betrayal Bonus",
+        "type": "Passive",
+        "description": "Damaging a unit in the same party as you with this weapon activates the following effect; +10 Upgrade Level to all of Betrayer's Wit's stats for 3 rounds, and restores FP equal to 10% of damage dealt."
+      },
+      {
+        "name": "No One's Friend",
+        "type": "PotentialSkill",
+        "description": "Inflicts yourself with Confusion for 3 rounds.",
+        "momentumCost": 1,
+        "fpCost": 0,
+        "cooldown": 3
+      }
+    ],
+    "description": "One should look beyond the cover, lest dangerous words and sharp pages sit close upon your shelf.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:tome:jade-insect-whistle",
+    "name": "Jade Insect Whistle",
+    "rarity": 7,
+    "weaponType": "Tome",
+    "subtype": "Instrument",
+    "range": 2,
+    "power": 10,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 7,
+    "damageType": "Sound",
+    "scaling": [
+      {
+        "type": "Dextria-Sound",
+        "wil": 80,
+        "san": 30
+      }
+    ],
+    "specials": [
+      {
+        "name": "Lightning ATK Bonus",
+        "type": "Passive",
+        "description": "+5 Lightning ATK."
+      },
+      {
+        "name": "Insect Song Effects",
+        "type": "Passive",
+        "description": "When played (via a Song skill): All enemy Insects affected by the song may be inflicted with Confusion for 2 rounds. All allied Insects affected by the song gain Encourage LV3 for 3 rounds, boosting their stats."
+      },
+      {
+        "name": "Insect Summon",
+        "type": "Passive",
+        "description": "When played (via a Song skill): If in a battle against monsters, if this is the first time the flute has been played this battle, summons a random Insect monster ally with a level identical to your own to a random battlefield tile."
+      }
+    ],
+    "description": "A whistle made out of jade, whose tones seem to attract and distract all manners of multi-legged creepy crawlies.",
+    "location": [
+      "Korvara Puzzle",
+      "Crafting"
+    ]
+  },
+  {
+    "id": "weapon:tome:mugendai",
+    "name": "Mugendai",
+    "rarity": 7,
+    "weaponType": "Tome",
+    "subtype": "Fan",
+    "range": 2,
+    "power": 10,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 6,
+    "damageType": "Light",
+    "scaling": [
+      {
+        "type": "Spiritual",
+        "wil": 70,
+        "san": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "FP Bonus",
+        "type": "Passive",
+        "description": "+15 FP."
+      },
+      {
+        "name": "Neverending Story Set",
+        "type": "SetBonus",
+        "description": "Set: Neverending Story. 2+ - 1) +3 WIL. 2) +3 CEL. 3) +15% Sound Resistance."
+      }
+    ],
+    "description": "A combat fan used in a certain famous singer's dance.",
+    "location": [
+      "Random drops",
+      "Enchanting (Lv5)"
+    ]
+  },
+  {
+    "id": "weapon:tome:rose-whip",
+    "name": "Rose Whip",
+    "rarity": 7,
+    "weaponType": "Tome",
+    "subtype": "Whip",
+    "range": 1,
+    "power": 5,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 10,
+    "damageType": "Earth",
+    "scaling": [
+      {
+        "type": "Finesse",
+        "wil": 20,
+        "ski": 30
+      },
+      {
+        "type": "Electrical",
+        "wil": 20,
+        "luc": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Nature Spell Power",
+        "type": "Passive",
+        "description": "+10% Power to Nature Spells (Halved if not main weapon.)"
+      },
+      {
+        "name": "Charm on Critical",
+        "type": "OnCrit",
+        "description": "Level 15 Charm for 2 Rounds."
+      },
+      {
+        "name": "Rose Flourish",
+        "type": "SpecialStrike",
+        "description": "Triggers before an enemy is attacked, and replaces the attack. Deals three hits of Slash, Earth and Pierce respectively to the enemy, dealing a total of 110% of Rose Whip's Scaled Weapon Attack. This damage gains a +10 to Hit, and can also critically hit (if it does, applies on critical effects for Rose Whip).",
+        "triggerRate": "10% + 8% Bonus"
+      }
+    ],
+    "description": "A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.",
+    "location": [
+      "Random drops",
+      "Enchanting",
+      "Alraune"
+    ]
+  },
+  {
+    "id": "weapon:tome:sea-hunter-tome",
+    "name": "Sea Hunter Tome",
+    "rarity": 7,
+    "weaponType": "Tome",
+    "range": 2,
+    "power": 13,
+    "accuracy": 85,
+    "critical": 7,
+    "criticalDamage": 110,
+    "weight": 12,
+    "damageType": "Water",
+    "material": "Coral",
+    "scaling": [
+      {
+        "type": "Aquatic",
+        "wil": 70,
+        "vit": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Coral Material",
+        "type": "Passive",
+        "description": "Material: Coral."
+      },
+      {
+        "name": "Hunted",
+        "type": "OnHit",
+        "description": "Inflicts Hunted LV14 for 3 rounds if the target is a seafaring monster."
+      }
+    ],
+    "description": "This tome was born from the sea, and as anyone who lives there knows, anything that lives in the sea is out to get everything else... that lives in the sea.",
+    "location": [
+      "Fishing Contest"
+    ]
+  },
+  {
+    "id": "weapon:tome:baihurai",
+    "name": "Baihurai",
+    "rarity": 8,
+    "weaponType": "Tome",
+    "subtype": "Fan",
+    "range": 2,
+    "power": 2,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 6,
+    "damageType": "Lightning",
+    "scaling": [
+      {
+        "type": "Electrical",
+        "wil": 20,
+        "luc": 40
+      },
+      {
+        "type": "Earthen",
+        "wil": 20,
+        "def": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Knockback",
+        "type": "OnHit",
+        "description": "Knockback 1 tile."
+      },
+      {
+        "name": "Nature and Isespia Spell Power",
+        "type": "Passive",
+        "description": "+10% Power to Nature and Isespia Spells (halved if off-hand)."
+      }
+    ],
+    "description": "A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:tome:farren",
+    "name": "Farren",
+    "rarity": 8,
+    "weaponType": "Tome",
+    "range": 2,
+    "power": 11,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 10,
+    "damageType": "Light",
+    "scaling": [
+      {
+        "type": "Sylphid",
+        "wil": 70,
+        "cel": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Substitute Light ATK",
+        "type": "OnHit",
+        "description": "Replaces your Light ATK with the target's for 2 rounds."
+      },
+      {
+        "name": "Spotlight",
+        "type": "PotentialSkill",
+        "description": "Requires Substitute Light ATK to be active. Consumes the status by the weapon and creates Light Shafts in a 2 Size Diamond within 5 Range (LV = Farren's Upgrade Level (UL), 3 rounds).",
+        "momentumCost": 1,
+        "fpCost": 10
+      }
+    ],
+    "description": "A book containing the autobiography of a mage turned priest.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:tome:kigal-replica",
+    "name": "Kigal Replica",
+    "rarity": 8,
+    "weaponType": "Tome",
+    "range": 2,
+    "power": 16,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 20,
+    "damageType": "Darkness",
+    "enchantment": "Divine Weapon",
+    "scaling": [
+      {
+        "type": "Replica",
+        "wil": 70,
+        "ski": 20,
+        "san": 20
+      }
+    ],
+    "specials": [
+      {
+        "name": "Divine Weapon",
+        "type": "Passive",
+        "description": "Always enchanted with Divine Weapon (+2 Power, +5 Critical, +5 Accuracy, -2 Weight. Weapon durability cannot decrease.)"
+      }
+    ],
+    "description": "A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.",
+    "location": [
+      "Korvara Casino",
+      "Arena"
+    ]
+  },
+  {
+    "id": "weapon:tome:qinglongram",
+    "name": "Qinglongram",
+    "rarity": 8,
+    "weaponType": "Tome",
+    "subtype": "Fan",
+    "range": 1,
+    "power": 2,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 6,
+    "damageType": "Wind",
+    "scaling": [
+      {
+        "type": "Electrical",
+        "wil": 20,
+        "luc": 40
+      },
+      {
+        "type": "Sylphid",
+        "wil": 20,
+        "cel": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Knockback",
+        "type": "OnHit",
+        "description": "Knockback 1 tile."
+      },
+      {
+        "name": "Nature and Sylphid Spell Power",
+        "type": "Passive",
+        "description": "+10% Power to Nature and Sylphid spells (halved if off-hand)."
+      }
+    ],
+    "description": "A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:tome:xuanwuken",
+    "name": "Xuanwuken",
+    "rarity": 8,
+    "weaponType": "Tome",
+    "subtype": "Fan",
+    "range": 2,
+    "power": 2,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 6,
+    "damageType": "Earth",
+    "scaling": [
+      {
+        "type": "Cold",
+        "wil": 20,
+        "ski": 40
+      },
+      {
+        "type": "Earthen",
+        "wil": 20,
+        "def": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Knockback",
+        "type": "OnHit",
+        "description": "Knockback 1 tile."
+      },
+      {
+        "name": "Aquarian and Isespian Spell Power",
+        "type": "Passive",
+        "description": "+10% Power to Aquarian and Isespian Spells (halved if off-hand)."
+      }
+    ],
+    "description": "A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:tome:zhuquelare",
+    "name": "Zhuquelare",
+    "rarity": 8,
+    "weaponType": "Tome",
+    "subtype": "Fan",
+    "range": 2,
+    "power": 2,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 6,
+    "damageType": "Fire",
+    "scaling": [
+      {
+        "type": "Flamelit",
+        "wil": 20,
+        "str": 40
+      },
+      {
+        "type": "Sylphid",
+        "wil": 20,
+        "cel": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Knockback",
+        "type": "OnHit",
+        "description": "Knockback 1 tile."
+      },
+      {
+        "name": "Nerifian and Sylphid Spell Power",
+        "type": "Passive",
+        "description": "+10% Power to Nerifian and Sylphid spells (halved if off-hand)."
+      }
+    ],
+    "description": "A tome enchanted with magic, with chants written in high fonts and galdors, which are similar to language said to be used by Divine-level races, such as Dragons, Herons, and Phoenixes.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:tome:dynamic-tome",
+    "name": "Dynamic Tome",
+    "rarity": 9,
+    "weaponType": "Tome",
+    "range": 2,
+    "power": 5,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 15,
+    "damageType": "Magical",
+    "scaling": [
+      {
+        "type": "Magical",
+        "wil": 70,
+        "gui": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Custom Spell",
+        "type": "GrantsSkill",
+        "description": "Grants access to a custom spell in battle. The spell will deal magic damage to units it targets equal to the scaling of this weapon, plus 100% of your Elem ATK of the same element. By installing Spell Seeds into this tome's customization slots, their effects will also be applied, generally to the targets of the spell. This special tome can be modified with Spell Seeds to give its spell additional effects. You can right-click this item and select 'set-style-mode' to change the effect of style seeds to display on enemies, yourself, or the location(s) you target."
+      }
+    ],
+    "description": "This special tome can be modified with Spell Seeds to give its spell additional effects.",
+    "location": [
+      "Purchased from Calrys (Karaten Blacksmith)"
+    ]
+  },
+  {
+    "id": "weapon:tome:forgrint",
+    "name": "Forgrint",
+    "rarity": 9,
+    "weaponType": "Tome",
+    "range": 2,
+    "power": 14,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 16,
+    "damageType": "Pierce",
+    "scaling": [
+      {
+        "type": "Flamelit",
+        "wil": 70,
+        "str": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Transform to Spear",
+        "type": "GrantsSkill",
+        "description": "Grants a skill that can change this weapon into a Spear (or back into a Tome)."
+      },
+      {
+        "name": "Fallenharn",
+        "type": "PotentialSkill",
+        "description": "Shoots a spirit spear into the air, causing it to land at a target location within 5 Range. At the end of the round, the spear will release accumulated energy, dealing X Blunt magic damage (X = Scaled Weapon Power + 50% of Light ATK) to all enemies in a 4 Range circle around it. It may also Blind damaged enemies for 2 rounds (more effective VS monsters). It may also stun Spatial enemies.",
+        "momentumCost": 3,
+        "fpCost": 15
+      }
+    ],
+    "description": "A type of artificer tome that creates magical spears. It can even change into one itself.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:tome:grandovyn",
+    "name": "Grandovyn",
+    "rarity": 9,
+    "weaponType": "Tome",
+    "range": 2,
+    "power": 14,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 16,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Flamelit",
+        "wil": 70,
+        "str": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Transform to Sword",
+        "type": "GrantsSkill",
+        "description": "Grants a skill that can change this weapon into a Sword (or back into a Tome)."
+      },
+      {
+        "name": "Swordsmith Rain",
+        "type": "PotentialSkill",
+        "description": "Creates a rain of swords at a 3 Range circle up to 3 Range away, dealing X Pierce magic damage (X = Scaled Weapon Power + 50% of Lightning ATK) to all enemies inside of it. It may also inflict Lingering Damage (Pierce) LV X (X = 8 + Upgrade Level of Grandovyn) for 3 rounds (more effective VS monsters). It may also stun Jammer enemies.",
+        "momentumCost": 3,
+        "fpCost": 15
+      }
+    ],
+    "description": "A type of artificer tome that creates magical swords. It can even change into one itself.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:tome:morimayer",
+    "name": "Morimayer",
+    "rarity": 9,
+    "weaponType": "Tome",
+    "range": 3,
+    "power": 8,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 16,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Spiritual",
+        "wil": 70,
+        "san": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Random Spirit Attack",
+        "type": "Passive",
+        "description": "This weapon's attack skill uses one of 4 random spirits; each will provide a different bonus and damage type for the attack. If the attack hits, you also gain a status effect based on the animal, which increases either your Scaled Weapon Attack, Hit, Critical, or Armor by a small amount, and provides a single-use cast of a random spell. (Shark of Morimayer: Water damage, +10 SWA to the initial attack, +3 SWA buff, Wild Waterfall.) (Tiger of Morimayer: Lightning damage, +10 Critical to the initial attack, +3 Critical buff, Ritual Levin) (Rock Eater of Morimayer: Earth damage, +10 Critical Damage to the initial attack, +3 Armor buff, Geo of Crumbling) (Crow of Morimayer: Wind damage, +10 Hit to the initial attack, +3 Hit buff, Star Stream)"
+      }
+    ],
+    "description": "A summoning scroll holding a small host of minor spirits. Its power is unpredictable, yet formidable.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:tome:rexys",
+    "name": "Rexys",
+    "rarity": 9,
+    "weaponType": "Tome",
+    "range": 2,
+    "power": 14,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 16,
+    "damageType": "Blunt",
+    "scaling": [
+      {
+        "type": "Flamelit",
+        "wil": 70,
+        "str": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Transform to Axe",
+        "type": "GrantsSkill",
+        "description": "Grants a skill that can change this weapon into an Axe (or back into a Tome)."
+      },
+      {
+        "name": "Spirit Trip",
+        "type": "PotentialSkill",
+        "description": "Creates a spirit axe that travels in a line, dealing X Slash magic damage (X = Scaled Weapon Power of Rexys + 50% of Fire ATK) to all enemies in it. It also has a chance to inflict Burn LV X (X = 8 + UL) for 3 rounds (more effective VS monsters). In addition, any Possessed or Ghost monsters hit by it may be stunned.",
+        "momentumCost": 3,
+        "fpCost": 15
+      }
+    ],
+    "description": "A type of artificer tome that creates magical rods. It can even change into one itself.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:tome:screaming-tome",
+    "name": "Screaming Tome",
+    "rarity": 9,
+    "weaponType": "Tome",
+    "range": 2,
+    "power": 7,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 14,
+    "damageType": "Sound",
+    "scaling": [
+      {
+        "type": "Spiritual",
+        "wil": 70,
+        "san": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Screamer",
+        "type": "GrantsSkill",
+        "description": "Have the Screaming Tome bite your hand, causing you to take 10% (20% if not your main hand weapon) of your maximum HP as unresistable Piercing damage. In exchange, the magical bite will remove any Silence you are suffering (ignoring any effects that would prevent its curing), letting you yelp in pain.",
+        "momentumCost": 1,
+        "fpCost": 0
+      }
+    ],
+    "description": "This tome seems to be rather... occult in nature, given that the skull on it seems to move around a bit. You might want to watch your fingers. Also, it makes a dreadful noise.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:tome:aquaphobia",
+    "name": "Aquaphobia",
+    "rarity": 10,
+    "weaponType": "Tome",
+    "range": 2,
+    "power": 13,
+    "accuracy": 90,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 9,
+    "damageType": "Water",
+    "scaling": [
+      {
+        "type": "Aquatic",
+        "wil": 70,
+        "vit": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Water ATK Bonus",
+        "type": "Passive",
+        "description": "Increases Water ATK by UL/2. (Doesn't stack.)"
+      },
+      {
+        "name": "Fear Infliction",
+        "type": "OnHit",
+        "description": "100% Chance to Inflict Fear for 3 turns."
+      },
+      {
+        "name": "Frozen Fear",
+        "type": "GrantsSkill",
+        "description": "Creates (or moves, if already active) a Frozen Fear at target location within 5 Range. While active, the Frozen Fear becomes the center point for Aquarian spells you cast (excluding movement skills). You can use this skill on your current location to destroy your Frozen Fear. (Destroying it will restore 2 Momentum.)",
+        "momentumCost": 3,
+        "fpCost": 5
+      }
+    ],
+    "description": "The fear of water is quite logical. Many of its victims would agree.",
+    "location": [
+      "Level 56+ Dripping Corpse"
+    ]
+  },
+  {
+    "id": "weapon:tome:balrog",
+    "name": "Balrog",
+    "rarity": 10,
+    "weaponType": "Tome",
+    "subtype": "Whip",
+    "range": 5,
+    "power": 15,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 15,
+    "damageType": "Fire",
+    "scaling": [
+      {
+        "type": "Finesse",
+        "wil": 40,
+        "ski": 30
+      },
+      {
+        "type": "Flamelit",
+        "wil": 20,
+        "str": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Fire ATK Bonus",
+        "type": "Passive",
+        "description": "Increases Fire ATK by UL/2. (Doesn't stack.)"
+      },
+      {
+        "name": "Lingering Fire Damage",
+        "type": "OnCrit",
+        "description": "Inflict Lingering Damage (Fire) LV UL for 2 rounds."
+      },
+      {
+        "name": "Fire Warrior Summon",
+        "type": "Passive",
+        "description": "On Defeat Enemy: If the enemy wasn't Illusion race, summons a smoldering copy of it as a Fire Warrior. Fire Warriors do not retain the special abilities of the copied unit, but their Fire damage ignores immunities and similar effects. (Doesn't stack.)"
+      }
+    ],
+    "description": "Said to be the whip of a volcanic, demon-like entity. Its cruel lash becomes a collar that burns its victims until the very last ash is cured.",
+    "location": [
+      "Level 56+ Jaki Imp"
+    ]
+  },
+  {
+    "id": "weapon:tome:carteblanche",
+    "name": "Carteblanche",
+    "rarity": 10,
+    "weaponType": "Tome",
+    "range": 2,
+    "power": 15,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 5,
+    "damageType": "Ice",
+    "scaling": [
+      {
+        "type": "Cold",
+        "wil": 70,
+        "ski": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Airborne Range Bonus",
+        "type": "Passive",
+        "description": "While Airborne, basic attack and sub-attack range is increased by UL/6."
+      },
+      {
+        "name": "Ice Sheet Airborne",
+        "type": "Passive",
+        "description": "Stepping on Ice Sheets doesn't trigger them and instead makes you Airborne. Airborne is sustained as if you had Flight while over Ice Sheets."
+      },
+      {
+        "name": "Circle Attack",
+        "type": "Passive",
+        "description": "Attacks in a Circle (2) area."
+      }
+    ],
+    "description": "A snowstorm in two-hundred pages.",
+    "location": [
+      "Level 56+ Ice Giants"
+    ]
+  },
+  {
+    "id": "weapon:tome:coastal-squall",
+    "name": "Coastal Squall",
+    "rarity": 10,
+    "weaponType": "Tome",
+    "subtype": "Fan",
+    "range": 2,
+    "power": 15,
+    "accuracy": 90,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 8,
+    "damageType": "Wind",
+    "scaling": [
+      {
+        "type": "Cold",
+        "wil": 20,
+        "ski": 40
+      },
+      {
+        "type": "Aquatic",
+        "wil": 20,
+        "vit": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Aquarian Spell Power",
+        "type": "Passive",
+        "description": "+UL% Power to Aquarian Spells (Halved if not main weapon.)"
+      },
+      {
+        "name": "Sylphid Spell Power",
+        "type": "Passive",
+        "description": "+UL% Power to Sylphid Spells (Halved if not main weapon.)"
+      },
+      {
+        "name": "Hurricane Summon",
+        "type": "AfterAttack",
+        "description": "After Cast Spell: If a Sylphid or Aquarian spell, if you have casted both a Sylphid and Aquarian spell this round, +UL% chance to summon a Hurricane LV UL for 4 rounds."
+      }
+    ],
+    "description": "This magical fan's dance will inspire nature itself to get up and shake it... just be careful you don't get lost in the resulting hurricane.",
+    "location": [
+      "Level 56+ Feathered Serpent"
+    ]
+  },
+  {
+    "id": "weapon:tome:desert-wind",
+    "name": "Desert Wind",
+    "rarity": 10,
+    "weaponType": "Tome",
+    "subtype": "Fan",
+    "range": 2,
+    "power": 15,
+    "accuracy": 90,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 8,
+    "damageType": "Wind",
+    "scaling": [
+      {
+        "type": "Earthen",
+        "wil": 20,
+        "def": 40
+      },
+      {
+        "type": "Sylphid",
+        "wil": 20,
+        "cel": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Isesipian and Sylphid Spell Power",
+        "type": "Passive",
+        "description": "+UL% Power to Isesipian and Sylphid Spells (halved if off-hand)."
+      },
+      {
+        "name": "Sandstorm Creation",
+        "type": "AfterAttack",
+        "description": "UL% chance after casting a Isesipian and Sylphid spell in the same round to create a sandstorm, dealing UL unresistable Earth Damage to all enemies for 4 Rounds."
+      }
+    ],
+    "description": "This magical fan's dance will inspire nature itself to get up and shake it... just be careful you don't get lost in the resulting sandstorm.",
+    "location": [
+      "Level 56+ Goblin Shaman"
+    ]
+  },
+  {
+    "id": "weapon:tome:manic-slasher",
+    "name": "Manic Slasher",
+    "rarity": 10,
+    "weaponType": "Tome",
+    "subtype": "Whip",
+    "range": 2,
+    "power": 14,
+    "accuracy": 85,
+    "critical": 10,
+    "criticalDamage": 110,
+    "weight": 14,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Flamelit",
+        "wil": 70,
+        "str": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Range Increase",
+        "type": "Passive",
+        "description": "Attack range increases by UL/6."
+      },
+      {
+        "name": "Lingering Damage on Critical",
+        "type": "OnCrit",
+        "description": "UL Lingering Damage for 3 Rounds."
+      }
+    ],
+    "description": "A whip that lashes with manic fury.",
+    "location": [
+      "Level 56+ Mad Vine"
+    ]
+  },
+  {
+    "id": "weapon:tome:torment-noctis",
+    "name": "Torment Noctis",
+    "rarity": 10,
+    "weaponType": "Tome",
+    "range": 2,
+    "power": 6,
+    "accuracy": 70,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 3,
+    "damageType": "Darkness",
+    "scaling": [
+      {
+        "type": "Darkness",
+        "wil": 70,
+        "res": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Status Infliction Bonus",
+        "type": "Passive",
+        "description": "Increases status infliction rate by UL/2%."
+      },
+      {
+        "name": "Black Spirit Consumption",
+        "type": "Passive",
+        "description": "When using a Curse skill; if you are possessed by Black Spirit(s), one of them will be consumed at random to boost the LV and duration of the Curse status by 50%."
+      }
+    ],
+    "description": "A paintbrush used to draw circles and other symbols for rituals, specifically made to help channel souls into arcane rituals and curses in a unique way.",
+    "location": [
+      "Level 56+ Souls Tainted by Darkness"
+    ]
+  },
+  {
+    "id": "weapon:tome:vorso-verso",
+    "name": "Vorso Verso",
+    "rarity": 10,
+    "weaponType": "Tome",
+    "range": 2,
+    "power": 13,
+    "accuracy": 85,
+    "critical": 5,
+    "criticalDamage": 110,
+    "weight": 22,
+    "damageType": "Sound",
+    "scaling": [
+      {
+        "type": "Spiritual",
+        "wil": 25,
+        "san": 35
+      },
+      {
+        "type": "Dextria-Sound",
+        "wil": 25,
+        "san": 35
+      }
+    ],
+    "specials": [
+      {
+        "name": "Youkai Contract Bonus",
+        "type": "Passive",
+        "description": "Increases Youkai contract maximum by 1 per 12 UL."
+      },
+      {
+        "name": "Tactician's Order Boost",
+        "type": "Passive",
+        "description": "Increases the LV of Tactician's Order skills by UL%."
+      },
+      {
+        "name": "Party Spell Power",
+        "type": "Passive",
+        "description": "Spell power increased by 1 per party member (including associates) up to a maximum of UL/3."
+      }
+    ],
+    "description": "This nefarious tome contains many texts on how to motivate and manipulate large amounts of people. Could be used for good or ill...",
+    "location": [
+      "Level 56+ Bandit Boss"
+    ]
+  }
+]

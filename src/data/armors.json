@@ -1,6 +1,7 @@
 {
   "Heavy": [
     {
+      "id": "armor:heavy:breastplate",
       "name": "Breastplate",
       "armor": 4,
       "magicArmor": 0,
@@ -10,513 +11,730 @@
       "rarity": 1
     },
     {
+      "id": "armor:heavy:body-guard",
       "name": "Body Guard",
       "armor": 7,
       "magicArmor": 0,
       "evade": 0,
       "weight": 40,
       "details": "Reduces all damage that exceeds your current HP by 25%. A mystical wood+metal armor that deflects blows from vital areas.",
-      "specialEffects": ["Reduces damage exceeding current HP by 25%"],
+      "specialEffects": [
+        "Reduces damage exceeding current HP by 25%"
+      ],
       "rarity": 3
     },
     {
+      "id": "armor:heavy:half-plate",
       "name": "Half-Plate",
       "armor": 9,
       "magicArmor": 0,
       "evade": 0,
       "weight": 25,
       "details": "+5% Pierce and Slash Resistance A partial suit of armor that offers great protection.",
-      "resistances": { "Pierce": 5, "Slash": 5 },
+      "resistances": {
+        "Pierce": 5,
+        "Slash": 5
+      },
       "rarity": 3
     },
     {
+      "id": "armor:heavy:mist-armor",
       "name": "Mist Armor",
       "armor": 0,
       "magicArmor": 0,
       "evade": 0,
       "weight": 10,
       "details": "On Battle Start: Gain Mist Armor LV4. A heavy and mysterious armor that gradually vanishes.",
-      "specialEffects": ["Mist Armor LV4 on battle start"],
+      "specialEffects": [
+        "Mist Armor LV4 on battle start"
+      ],
       "rarity": 4
     },
     {
+      "id": "armor:heavy:akmedis",
       "name": "Akmedis",
       "armor": 7,
       "magicArmor": 4,
       "evade": 0,
       "weight": 15,
       "details": "+25 HP, +25 FP Reduces Critical Damage modifier for low power weapons.",
-      "statBonuses": { "hp": 25, "fp": 25 },
-      "specialEffects": ["Critical damage reduction vs low power weapons"],
+      "statBonuses": {
+        "hp": 25,
+        "fp": 25
+      },
+      "specialEffects": [
+        "Critical damage reduction vs low power weapons"
+      ],
       "rarity": 6
     },
     {
+      "id": "armor:heavy:brightray-plate",
       "name": "Brightray Plate",
       "armor": 7,
       "magicArmor": 0,
       "evade": 0,
       "weight": 20,
       "details": "+5 Power to Mercalan Spells 10% Darkness Resistance A golden glowing suit of armor.",
-      "statBonuses": { "Mercalan": 5 },
-      "resistances": { "Darkness": 10 },
+      "statBonuses": {
+        "Mercalan": 5
+      },
+      "resistances": {
+        "Darkness": 10
+      },
       "rarity": 8
     },
     {
+      "id": "armor:heavy:knight-s-armor",
       "name": "Knight's Armor",
       "armor": 6,
       "magicArmor": 2,
       "evade": 0,
       "weight": 10,
       "details": "If your main class is a Soldier class, the stat bonuses it gives you are increased by 50% (min. 1 if >0).",
-      "specialEffects": ["Soldier class bonus enhancement"],
+      "specialEffects": [
+        "Soldier class bonus enhancement"
+      ],
       "rarity": 8
     },
     {
+      "id": "armor:heavy:alchemic-plate",
       "name": "Alchemic Plate",
       "armor": 0,
       "magicArmor": 0,
       "evade": 0,
       "weight": 8,
       "details": "Doubles item material effects that modify this item's parameters.",
-      "specialEffects": ["Doubles material effects"],
+      "specialEffects": [
+        "Doubles material effects"
+      ],
       "rarity": 8
     },
     {
+      "id": "armor:heavy:braveheart",
       "name": "Braveheart",
       "armor": 7,
       "magicArmor": 5,
       "evade": 0,
       "weight": 20,
       "details": "Immunity to Hesitation. The shine of this armor inspires its wearer to do great things.",
-      "specialEffects": ["Immunity to Hesitation"],
+      "specialEffects": [
+        "Immunity to Hesitation"
+      ],
       "rarity": 9
     },
     {
+      "id": "armor:heavy:cruel-commander",
       "name": "Cruel Commander",
       "armor": 7,
       "magicArmor": 0,
       "evade": 0,
       "weight": 15,
       "details": "Grants Skill: Contract of Blood. Sometimes, the best strategy isn't the most compassionate.",
-      "specialEffects": ["Grants Contract of Blood skill"],
+      "specialEffects": [
+        "Grants Contract of Blood skill"
+      ],
       "rarity": 9
     },
     {
+      "id": "armor:heavy:dragon-king-s-armor",
       "name": "Dragon King's Armor",
       "armor": 7,
       "magicArmor": 0,
       "evade": -8,
       "weight": 24,
       "details": "Set: Dragon King Increases total Strength by 5% and soft cap for Strength by 3 for each Dragon King item equipped.",
-      "specialEffects": ["Dragon King Set", "+5% total STR per set piece", "+3 STR soft cap per set piece"],
+      "specialEffects": [
+        "Dragon King Set",
+        "+5% total STR per set piece",
+        "+3 STR soft cap per set piece"
+      ],
       "rarity": 9
     },
     {
+      "id": "armor:heavy:terrasque-shell",
       "name": "Terrasque Shell",
       "armor": 5,
       "magicArmor": 2,
       "evade": 0,
       "weight": 19,
       "details": "+50 HP Recover 3 HP Each Round. Fragment of shell from a legendary beast.",
-      "statBonuses": { "hp": 50 },
-      "specialEffects": ["Recover 3 HP per round"],
+      "statBonuses": {
+        "hp": 50
+      },
+      "specialEffects": [
+        "Recover 3 HP per round"
+      ],
       "rarity": 9
     },
     {
+      "id": "armor:heavy:wyvern-rider-s-plate",
       "name": "Wyvern Rider's Plate",
       "armor": 10,
       "magicArmor": 0,
       "evade": -10,
       "weight": 24,
       "details": "-10% damage from Bow weapons. +10 Critical Evade VS Bow weapons.",
-      "specialEffects": ["10% bow damage reduction", "+10 Critical Evade vs bows"],
+      "specialEffects": [
+        "10% bow damage reduction",
+        "+10 Critical Evade vs bows"
+      ],
       "rarity": 9
     },
     {
+      "id": "armor:heavy:starless-night",
       "name": "Starless Night",
       "armor": 3,
       "magicArmor": 4,
       "evade": 5,
       "weight": 6,
       "details": "+3 Darkness ATK Protection From Spatial race. Darkheart enchant blocks Star Map skills.",
-      "statBonuses": { "Darkness": 3 },
-      "specialEffects": ["10% Spatial damage reduction", "Star Map immunity with Darkheart"],
+      "statBonuses": {
+        "Darkness": 3
+      },
+      "specialEffects": [
+        "10% Spatial damage reduction",
+        "Star Map immunity with Darkheart"
+      ],
       "rarity": 9
     },
     {
+      "id": "armor:heavy:bellplate",
       "name": "Bellplate",
       "armor": 10,
       "magicArmor": 5,
       "evade": 0,
       "weight": 25,
       "details": "On Attacked: If hit by ranged weapon, deals 1+UL Sound damage to attacker.",
-      "specialEffects": ["Sound damage on ranged hit"],
+      "specialEffects": [
+        "Sound damage on ranged hit"
+      ],
       "rarity": 10
     },
     {
+      "id": "armor:heavy:haunted-armor",
       "name": "Haunted Armor",
       "armor": 5,
       "magicArmor": 5,
       "evade": 0,
       "weight": 25,
       "details": "UL*2% chance to inflict Fear on attacker. Barghest ally if UL >= 10.",
-      "specialEffects": ["Fear chance on hit", "Barghest summon at UL 10+"],
+      "specialEffects": [
+        "Fear chance on hit",
+        "Barghest summon at UL 10+"
+      ],
       "rarity": 10
     },
     {
+      "id": "armor:heavy:turtle-shell",
       "name": "Turtle Shell",
       "armor": 7,
       "magicArmor": 3,
       "evade": 0,
       "weight": 17,
       "details": "Getting up from knockdown costs +1 Momentum. Reduces back damage and grants back Critical Evade.",
-      "specialEffects": ["+1 Momentum knockdown recovery", "Back damage reduction", "Back Critical Evade"],
+      "specialEffects": [
+        "+1 Momentum knockdown recovery",
+        "Back damage reduction",
+        "Back Critical Evade"
+      ],
       "rarity": 10
     }
   ],
   "Light": [
     {
+      "id": "armor:light:roughspun-tunic",
       "name": "Roughspun Tunic",
       "armor": 2,
       "magicArmor": 1,
       "evade": 5,
       "weight": 3,
       "details": "Material: Cloth +10 HP Set: Unassuming Adventurer.",
-      "statBonuses": { "hp": 10 },
-      "specialEffects": ["Unassuming Adventurer Set"],
+      "statBonuses": {
+        "hp": 10
+      },
+      "specialEffects": [
+        "Unassuming Adventurer Set"
+      ],
       "rarity": 1
     },
     {
+      "id": "armor:light:armor-of-nails",
       "name": "Armor of Nails",
       "armor": 7,
       "magicArmor": 0,
       "evade": 0,
       "weight": 15,
       "details": "Material: Cloth On Attacked: Deals 25% of your level as Pierce damage to attacker.",
-      "specialEffects": ["On Attacked: Pierce damage to attacker"],
+      "specialEffects": [
+        "On Attacked: Pierce damage to attacker"
+      ],
       "rarity": 3
     },
     {
+      "id": "armor:light:irisgold",
       "name": "Irisgold",
       "armor": 6,
       "magicArmor": 2,
       "evade": 5,
       "weight": 10,
       "details": "30% Light Resistance Increases STR and WIL by 2 when HP is restored.",
-      "resistances": { "Light": 30 },
-      "specialEffects": ["+2 STR/WIL when HP restored"],
+      "resistances": {
+        "Light": 30
+      },
+      "specialEffects": [
+        "+2 STR/WIL when HP restored"
+      ],
       "rarity": 3
     },
     {
+      "id": "armor:light:mayelia",
       "name": "Mayelia",
       "armor": 6,
       "magicArmor": 2,
       "evade": 5,
       "weight": 10,
       "details": "30% Fire Resistance Restores 15% HP if turn is skipped due to status.",
-      "resistances": { "Fire": 30 },
-      "specialEffects": ["Restore 15% HP on skipped turns"],
+      "resistances": {
+        "Fire": 30
+      },
+      "specialEffects": [
+        "Restore 15% HP on skipped turns"
+      ],
       "rarity": 3
     },
     {
+      "id": "armor:light:whynesfelt",
       "name": "Whynesfelt",
       "armor": 6,
       "magicArmor": 2,
       "evade": 5,
       "weight": 10,
       "details": "Material: Cloth 30% Earth Resistance Prevents caster from using Attack/Dispel spells next turn.",
-      "resistances": { "Earth": 30 },
-      "specialEffects": ["Blocks caster spell usage"],
+      "resistances": {
+        "Earth": 30
+      },
+      "specialEffects": [
+        "Blocks caster spell usage"
+      ],
       "rarity": 3
     },
     {
+      "id": "armor:light:zwellrauss",
       "name": "Zwellrauss",
       "armor": 6,
       "magicArmor": 2,
       "evade": 5,
       "weight": 10,
       "details": "30% Water Resistance Gives party +2 Power when you are attacked.",
-      "resistances": { "Water": 30 },
-      "specialEffects": ["Party +2 Power when attacked"],
+      "resistances": {
+        "Water": 30
+      },
+      "specialEffects": [
+        "Party +2 Power when attacked"
+      ],
       "rarity": 3
     },
     {
+      "id": "armor:light:argonaut",
       "name": "Argonaut",
       "armor": 5,
       "magicArmor": 5,
       "evade": 0,
       "weight": 5,
       "details": "10% Water Resistance Ignore movement penalties from Flooded Water tiles.",
-      "resistances": { "Water": 10 },
-      "specialEffects": ["Ignore water movement penalties"],
+      "resistances": {
+        "Water": 10
+      },
+      "specialEffects": [
+        "Ignore water movement penalties"
+      ],
       "rarity": 5
     },
     {
+      "id": "armor:light:mermanmail",
       "name": "Mermanmail",
       "armor": 3,
       "magicArmor": 3,
       "evade": 5,
       "weight": 8,
       "details": "+3 Water ATK Bonuses while on water tiles.",
-      "statBonuses": { "Water": 3 },
-      "specialEffects": ["+5 Evade/Armor on water tiles", "Move bonus on water"],
+      "statBonuses": {
+        "Water": 3
+      },
+      "specialEffects": [
+        "+5 Evade/Armor on water tiles",
+        "Move bonus on water"
+      ],
       "rarity": 7
     },
     {
+      "id": "armor:light:adversity-tunic",
       "name": "Adversity Tunic",
       "armor": 4,
       "magicArmor": 2,
       "evade": 4,
       "weight": 8,
       "details": "Material: Cloth Reduces damage by 10% per enemy beyond first within 2 Range (max 40%).",
-      "specialEffects": ["Damage reduction vs multiple enemies"],
+      "specialEffects": [
+        "Damage reduction vs multiple enemies"
+      ],
       "rarity": 8
     },
     {
+      "id": "armor:light:blackheart",
       "name": "Blackheart",
       "armor": 2,
       "magicArmor": 4,
       "evade": 5,
       "weight": 10,
       "details": "+3 STR, +3 WIL 10% Light Resistance.",
-      "statBonuses": { "str": 3, "wil": 3 },
-      "resistances": { "Light": 10 },
+      "statBonuses": {
+        "str": 3,
+        "wil": 3
+      },
+      "resistances": {
+        "Light": 10
+      },
       "rarity": 8
     },
     {
+      "id": "armor:light:detective-trenchcoat",
       "name": "Detective Trenchcoat",
       "armor": 5,
       "magicArmor": 5,
       "evade": 5,
       "weight": 6,
       "details": "Material: Cloth Reduces gun damage by 5. Increases max encumbrance by 5.",
-      "specialEffects": ["Reduce gun damage by 5", "+5 max encumbrance"],
+      "specialEffects": [
+        "Reduce gun damage by 5",
+        "+5 max encumbrance"
+      ],
       "rarity": 8
     },
     {
+      "id": "armor:light:fencer-s-chestguard",
       "name": "Fencer's Chestguard",
       "armor": 5,
       "magicArmor": 0,
       "evade": 0,
       "weight": 5,
       "details": "If main class is Duelist, stat bonuses increased by 50% (min. 1).",
-      "specialEffects": ["Duelist class bonus enhancement"],
+      "specialEffects": [
+        "Duelist class bonus enhancement"
+      ],
       "rarity": 8
     },
     {
+      "id": "armor:light:jerkin-of-fortune",
       "name": "Jerkin of Fortune",
       "armor": 5,
       "magicArmor": 5,
       "evade": 10,
       "weight": 5,
       "details": "Material: Cloth On Battle Start: Gain +5 Luck. Set: Precautionary Tale.",
-      "statBonuses": { "luc": 5 },
-      "specialEffects": ["Precautionary Tale Set", "Luck bonus lost on status infliction"],
+      "statBonuses": {
+        "luc": 5
+      },
+      "specialEffects": [
+        "Precautionary Tale Set",
+        "Luck bonus lost on status infliction"
+      ],
       "rarity": 8
     },
     {
+      "id": "armor:light:sniper-s-chainmail",
       "name": "Sniper's Chainmail",
       "armor": 4,
       "magicArmor": 0,
       "evade": 2,
       "weight": 4,
       "details": "Material: Cloth If main class is Archer, stat bonuses increased by 50% (min. 1).",
-      "specialEffects": ["Archer class bonus enhancement"],
+      "specialEffects": [
+        "Archer class bonus enhancement"
+      ],
       "rarity": 8
     },
     {
+      "id": "armor:light:tamer-s-regalia",
       "name": "Tamer's Regalia",
       "armor": 3,
       "magicArmor": 3,
       "evade": 3,
       "weight": 3,
       "details": "Material: Cloth If main class is Summoner, stat bonuses increased by 50% (min. 1).",
-      "specialEffects": ["Summoner class bonus enhancement"],
+      "specialEffects": [
+        "Summoner class bonus enhancement"
+      ],
       "rarity": 8
     },
     {
+      "id": "armor:light:thief-s-poncho",
       "name": "Thief's Poncho",
       "armor": 2,
       "magicArmor": 1,
       "evade": 6,
       "weight": 2,
       "details": "Material: Cloth If main class is Rogue, stat bonuses increased by 50% (min. 1).",
-      "specialEffects": ["Rogue class bonus enhancement"],
+      "specialEffects": [
+        "Rogue class bonus enhancement"
+      ],
       "rarity": 8
     },
     {
+      "id": "armor:light:alchemic-grain",
       "name": "Alchemic Grain",
       "armor": 0,
       "magicArmor": 0,
       "evade": 0,
       "weight": 8,
       "details": "Doubles item material effects that modify this item's parameters.",
-      "specialEffects": ["Doubles material effects"],
+      "specialEffects": [
+        "Doubles material effects"
+      ],
       "rarity": 8
     },
     {
+      "id": "armor:light:rough-ranger",
       "name": "Rough Ranger",
       "armor": 3,
       "magicArmor": 4,
       "evade": 5,
       "weight": 6,
       "details": "Material: Cloth +3 Fire ATK Reduce Beast damage by 5%. Ignore thick vine penalties.",
-      "statBonuses": { "Fire": 3 },
-      "specialEffects": ["Reduce Beast damage by 5%", "Ignore thick vine penalties"],
+      "statBonuses": {
+        "Fire": 3
+      },
+      "specialEffects": [
+        "Reduce Beast damage by 5%",
+        "Ignore thick vine penalties"
+      ],
       "rarity": 9
     },
     {
+      "id": "armor:light:worg-pelt",
       "name": "Worg Pelt",
       "armor": 3,
       "magicArmor": 0,
       "evade": 5,
       "weight": 5,
       "details": "Material: Cloth 10% Ice Resistance Triggers Roar skill when taking Dark damage.",
-      "resistances": { "Ice": 10 },
-      "specialEffects": ["Roar skill on Dark damage"],
+      "resistances": {
+        "Ice": 10
+      },
+      "specialEffects": [
+        "Roar skill on Dark damage"
+      ],
       "rarity": 9
     },
     {
+      "id": "armor:light:green-scale-tunic",
       "name": "Green-Scale Tunic",
       "armor": 3,
       "magicArmor": 4,
       "evade": 5,
       "weight": 9,
       "details": "Increases Evade vs enemies based on their missing FP. Saps FP on evade.",
-      "specialEffects": ["Evade bonus vs low FP enemies", "FP sap on evade"],
+      "specialEffects": [
+        "Evade bonus vs low FP enemies",
+        "FP sap on evade"
+      ],
       "rarity": 10
     },
     {
+      "id": "armor:light:in-fighter-gi",
       "name": "In-Fighter Gi",
       "armor": 1,
       "magicArmor": 2,
       "evade": 5,
       "weight": 4,
       "details": "Material: Cloth Increases Evade against enemies within 1 Range by UL.",
-      "specialEffects": ["Evade bonus vs close enemies"],
+      "specialEffects": [
+        "Evade bonus vs close enemies"
+      ],
       "rarity": 10
     },
     {
+      "id": "armor:light:ooze-armor",
       "name": "Ooze Armor",
       "armor": 3,
       "magicArmor": 3,
       "evade": 6,
       "weight": 1,
       "details": "-3 CEL Puts enemy skills on cooldown when hit. UL% chance for 2 round cooldown.",
-      "statBonuses": { "cel": -3 },
-      "specialEffects": ["Skill cooldown on hit", "UL% chance for extended cooldown"],
+      "statBonuses": {
+        "cel": -3
+      },
+      "specialEffects": [
+        "Skill cooldown on hit",
+        "UL% chance for extended cooldown"
+      ],
       "rarity": 10
     },
     {
+      "id": "armor:light:reactive-armor",
       "name": "Reactive Armor",
       "armor": 3,
       "magicArmor": 5,
       "evade": 0,
       "weight": 7,
       "details": "Explodes when critically hit or taking Fire damage. Creates Firey Armor on Fire trigger.",
-      "specialEffects": ["Fire explosion on crit/fire damage", "Firey Armor effect"],
+      "specialEffects": [
+        "Fire explosion on crit/fire damage",
+        "Firey Armor effect"
+      ],
       "rarity": 10
     }
   ],
   "Unarmored": [
     {
+      "id": "armor:unarmored:wisp-cloak",
       "name": "Wisp Cloak",
       "armor": 1,
       "magicArmor": 4,
       "evade": 10,
       "weight": 1,
       "details": "+30 FP Made from magical cloth, this cloak holds Focus within it.",
-      "statBonuses": { "fp": 30 },
+      "statBonuses": {
+        "fp": 30
+      },
       "rarity": 1
     },
     {
+      "id": "armor:unarmored:flower-wreathed-tunic",
       "name": "Flower-Wreathed Tunic",
       "armor": 2,
       "magicArmor": 2,
       "evade": 5,
       "weight": 4,
       "details": "Material: Wood +3 Earth ATK Creates flowers and gains evade bonuses.",
-      "statBonuses": { "Earth": 3 },
-      "specialEffects": ["Creates flowers", "+3 Evade per plant tile"],
+      "statBonuses": {
+        "Earth": 3
+      },
+      "specialEffects": [
+        "Creates flowers",
+        "+3 Evade per plant tile"
+      ],
       "rarity": 3
     },
     {
+      "id": "armor:unarmored:swimsuit",
       "name": "Swimsuit",
       "armor": 2,
       "magicArmor": 2,
       "evade": 8,
       "weight": 1,
       "details": "+15 HP 10% Water Resistance Special unequip effect.",
-      "statBonuses": { "hp": 15 },
-      "resistances": { "Water": 10 },
-      "specialEffects": ["Charm on unequip"],
+      "statBonuses": {
+        "hp": 15
+      },
+      "resistances": {
+        "Water": 10
+      },
+      "specialEffects": [
+        "Charm on unequip"
+      ],
       "rarity": 3
     },
     {
+      "id": "armor:unarmored:priest-robe",
       "name": "Priest Robe",
       "armor": 0,
       "magicArmor": 6,
       "evade": 8,
       "weight": 2,
       "details": "+4 WIL +20 FP Clothing worn by priests.",
-      "statBonuses": { "wil": 4, "fp": 20 },
+      "statBonuses": {
+        "wil": 4,
+        "fp": 20
+      },
       "rarity": 4
     },
     {
+      "id": "armor:unarmored:animal-pelt",
       "name": "Animal Pelt",
       "armor": 4,
       "magicArmor": 2,
       "evade": 6,
       "weight": 1,
       "details": "Material: Furcloth +10 HP +3 Power to Nature Spells Beast synergies.",
-      "statBonuses": { "hp": 10 },
-      "specialEffects": ["+3 Nature Spell Power", "Evade Up on battle start", "+5 Evade per Beast ally"],
+      "statBonuses": {
+        "hp": 10
+      },
+      "specialEffects": [
+        "+3 Nature Spell Power",
+        "Evade Up on battle start",
+        "+5 Evade per Beast ally"
+      ],
       "rarity": 5
     },
     {
+      "id": "armor:unarmored:battle-maid-dress",
       "name": "Battle Maid Dress",
       "armor": 1,
       "magicArmor": 3,
       "evade": 6,
       "weight": 5,
       "details": "+10 FP Elemental resistances and Servant Training synergy.",
-      "statBonuses": { "fp": 10 },
-      "resistances": { "Fire": 5, "Earth": 5, "Water": 5 },
-      "specialEffects": ["Evade Up with Servant Training"],
+      "statBonuses": {
+        "fp": 10
+      },
+      "resistances": {
+        "Fire": 5,
+        "Earth": 5,
+        "Water": 5
+      },
+      "specialEffects": [
+        "Evade Up with Servant Training"
+      ],
       "rarity": 5
     },
     {
+      "id": "armor:unarmored:ninja-armor",
       "name": "Ninja Armor",
       "armor": 0,
       "magicArmor": 0,
       "evade": 9,
       "weight": 1,
       "details": "On Battle Start: Gain Ninja Strike LV 10 for dagger critical damage.",
-      "specialEffects": ["Ninja Strike LV10 on battle start"],
+      "specialEffects": [
+        "Ninja Strike LV10 on battle start"
+      ],
       "rarity": 5
     },
     {
+      "id": "armor:unarmored:cloak-of-many-colors",
       "name": "Cloak of Many Colors",
       "armor": 0,
       "magicArmor": 0,
       "evade": 5,
       "weight": 5,
       "details": "8-15% Fire, Ice, Lightning and Wind Resistance.",
-      "resistances": { "Fire": 12, "Ice": 12, "Lightning": 12, "Wind": 12 },
+      "resistances": {
+        "Fire": 12,
+        "Ice": 12,
+        "Lightning": 12,
+        "Wind": 12
+      },
       "rarity": 6
     },
     {
+      "id": "armor:unarmored:padded-vest-cloak",
       "name": "Padded Vest-Cloak",
       "armor": 1,
       "magicArmor": 4,
       "evade": 6,
       "weight": 3,
       "details": "8% Blunt Resistance Reduces critical hit damage by 10%.",
-      "resistances": { "Blunt": 8 },
-      "specialEffects": ["10% critical damage reduction"],
+      "resistances": {
+        "Blunt": 8
+      },
+      "specialEffects": [
+        "10% critical damage reduction"
+      ],
       "rarity": 6
     },
     {
+      "id": "armor:unarmored:sarashi-gi",
       "name": "Sarashi Gi",
       "armor": 2,
       "magicArmor": 2,
@@ -533,6 +751,7 @@
       "rarity": 6
     },
     {
+      "id": "armor:unarmored:boltstruck-gi",
       "name": "Boltstruck Gi",
       "armor": 1,
       "magicArmor": 6,
@@ -548,6 +767,7 @@
       "rarity": 9
     },
     {
+      "id": "armor:unarmored:elementalist-s-gi",
       "name": "Elementalist's Gi",
       "armor": 1,
       "magicArmor": 6,
@@ -575,6 +795,7 @@
       "rarity": 9
     },
     {
+      "id": "armor:unarmored:embroidered-boltstruck-gi",
       "name": "Embroidered Boltstruck Gi",
       "armor": 2,
       "magicArmor": 7,
@@ -590,6 +811,7 @@
       "rarity": 9
     },
     {
+      "id": "armor:unarmored:embroidered-flamedance-gi",
       "name": "Embroidered Flamedance Gi",
       "armor": 2,
       "magicArmor": 7,
@@ -605,6 +827,7 @@
       "rarity": 9
     },
     {
+      "id": "armor:unarmored:embroidered-frosttouch-gi",
       "name": "Embroidered Frosttouch Gi",
       "armor": 2,
       "magicArmor": 7,
@@ -620,6 +843,7 @@
       "rarity": 9
     },
     {
+      "id": "armor:unarmored:embroidered-windswept-gi",
       "name": "Embroidered Windswept Gi",
       "armor": 2,
       "magicArmor": 7,
@@ -635,6 +859,7 @@
       "rarity": 9
     },
     {
+      "id": "armor:unarmored:flamedance-gi",
       "name": "Flamedance Gi",
       "armor": 1,
       "magicArmor": 6,
@@ -650,6 +875,7 @@
       "rarity": 9
     },
     {
+      "id": "armor:unarmored:frosttouch-gi",
       "name": "Frosttouch Gi",
       "armor": 1,
       "magicArmor": 6,
@@ -665,6 +891,7 @@
       "rarity": 9
     },
     {
+      "id": "armor:unarmored:windswept-gi",
       "name": "Windswept Gi",
       "armor": 1,
       "magicArmor": 6,
@@ -680,16 +907,21 @@
       "rarity": 9
     },
     {
+      "id": "armor:unarmored:armor-of-eyes",
       "name": "Armor of Eyes",
       "armor": 1,
       "magicArmor": 3,
       "evade": 5,
       "weight": 4,
       "details": "Material: Metal Increases Hit by UL/2, UL% chance to reduce critical damage.",
-      "specialEffects": ["Hit bonus", "Critical damage reduction"],
+      "specialEffects": [
+        "Hit bonus",
+        "Critical damage reduction"
+      ],
       "rarity": 10
     },
     {
+      "id": "armor:unarmored:embroidered-elementalist-s-gi",
       "name": "Embroidered Elementalist's Gi",
       "armor": 1,
       "magicArmor": 6,
@@ -717,23 +949,29 @@
       "rarity": 10
     },
     {
+      "id": "armor:unarmored:haunted-poncho",
       "name": "Haunted Poncho",
       "armor": 4,
       "magicArmor": 4,
       "evade": 0,
       "weight": 2,
       "details": "On Battle Start: Gain Phantom Cloak LV UL*2 for 5 rounds.",
-      "specialEffects": ["Phantom Cloak on battle start"],
+      "specialEffects": [
+        "Phantom Cloak on battle start"
+      ],
       "rarity": 10
     },
     {
+      "id": "armor:unarmored:jarmor",
       "name": "Jarmor",
       "armor": 0,
       "magicArmor": 0,
       "evade": 7,
       "weight": 1,
       "details": "Material: Metal Jam shield for 50 rounds with LV 10+(UL*3).",
-      "specialEffects": ["Jam damage shield on battle start"],
+      "specialEffects": [
+        "Jam damage shield on battle start"
+      ],
       "rarity": 10
     }
   ]

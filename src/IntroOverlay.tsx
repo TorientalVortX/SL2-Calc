@@ -1,5 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
+import { Button } from './design';
 
 interface IntroOverlayProps {
   onFinish: () => void;
@@ -17,7 +18,7 @@ const LOADING_STEPS = [
   'Applying soft caps…',
   'Creating cookies… please don’t eat them',
   'Sharpening swords… don’t eat these either',
-  'Feeding Bear… he’s beary apprceciative',
+  'Feeding Bear… he’s beary appreciative',
   'Summoning dagger buffs… hold onto your GUI',
 ];
 
@@ -26,7 +27,6 @@ export default function IntroOverlay({ onFinish, enableSounds = true }: IntroOve
   const [progress, setProgress] = useState(0);
   const [doneTyping, setDoneTyping] = useState(false);
   const [stepIndex, setStepIndex] = useState(0);
-  const [rememberNext, setRememberNext] = useState(false);
   const typingIntervalRef = useRef<number | null>(null);
   const progressIntervalRef = useRef<number | null>(null);
   const stepIntervalRef = useRef<number | null>(null);
@@ -94,7 +94,6 @@ export default function IntroOverlay({ onFinish, enableSounds = true }: IntroOve
 
   const finish = () => {
     try {
-      if (rememberNext) localStorage.setItem('sl2_skip_intro', '1');
     } catch {}
     onFinish();
   };
@@ -114,37 +113,36 @@ export default function IntroOverlay({ onFinish, enableSounds = true }: IntroOve
       className="fixed inset-0 z-50 flex items-center justify-center"
     >
       <div className="absolute inset-0 glass-effect" />
-      <div className="absolute inset-0 crt-overlay" />
       <div className="relative z-10 w-full max-w-2xl mx-auto px-6 py-10 text-center">
         <motion.h1
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="glitch font-retro text-lg sm:text-xl md:text-2xl mb-2"
-          data-text={TITLE_TEXT}
+          className="mb-2 text-17 font-bold tracking-tight text-content sm:text-20 md:text-26"
         >
           {TITLE_TEXT}
         </motion.h1>
 
-        <div className="text-sm sm:text-base text-gray-300 mb-4">
+        <div className="text-sm sm:text-base text-content-secondary mb-4">
           {text}
         </div>
 
-        <div className="text-xs text-gray-400 mb-6">
+        <div className="text-xs text-content-muted mb-6">
           {LOADING_STEPS[stepIndex]}
         </div>
 
-        <div className="w-full h-2 bg-dark-700 rounded overflow-hidden mb-3 glow-border">
+        <div className="w-full h-2 bg-surface-elevated rounded overflow-hidden mb-3 border border-edge">
           <div
-            className="h-full bg-gradient-to-r from-blue-500 via-cyan-400 to-purple-500"
+            className="h-full bg-gradient-to-r from-info-ring via-highlight to-magic-ring"
             style={{ width: `${progress}%` }}
           />
         </div>
-        <div className="text-xs uppercase tracking-wider text-gray-400 mb-6">
+        <div className="text-xs uppercase tracking-wider text-content-muted mb-6">
           {progress}% COMPLETE
         </div>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-          <div className="text-xs text-gray-500">Press Enter to skip</div>
+          <Button variant="outline" tone="highlight" size="md" onClick={finish} className="text-xs">Skip Intro</Button>
+          <div className="text-xs text-content-faint">or press Enter</div>
         </div>
       </div>
     </motion.div>
