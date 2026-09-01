@@ -64,9 +64,9 @@ export function Backdrop() {
     let running = true;
 
     const resize = () => {
-      // Capped so a 4K display does not pay four times the fill cost for an
-      // effect that is soft by design.
-      const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
+      // The effect is deliberately soft, so a 2K display does not need a
+      // 4K-class canvas behind the sheet.
+      const ratio = Math.min(window.devicePixelRatio || 1, 1);
       width = window.innerWidth;
       height = window.innerHeight;
       canvas.width = Math.floor(width * ratio);
