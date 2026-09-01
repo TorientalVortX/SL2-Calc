@@ -203,10 +203,10 @@ describe('the talent budget', () => {
   });
 
   it('counts ranks rather than the SP those ranks cost', () => {
-    // Chivalry bills 2 SP a rank and Capacity 1, so an allocation of the same
-    // size costs different SP, which is exactly why SP cannot be the budget.
+    // Chivalry bills 2 SP a rank and Capacity 1, so the same 5 ranks cost
+    // different SP depending on which talent they are spent in.
     const cheap = talentSpending({ 'capacity/depth': 5 });
-    const dear = talentSpending({ 'chivalry/smite': 5 });
+    const dear = talentSpending({ 'chivalry/honor': 5, 'chivalry/smite': 5 });
     expect(cheap.totalRanks).toBe(dear.totalRanks);
     expect(cheap.totalSp).toBe(5);
     expect(dear.totalSp).toBe(10);
@@ -215,15 +215,17 @@ describe('the talent budget', () => {
   it('reports an overspend and a talent past its rank cap separately', () => {
     const build = createDefaultBuild();
     expect(talentViolations({ ...build, talents: { 'capacity/depth': 5 } })).toEqual([]);
+    // Capacity's subtalents can hold 13 points between them at 1 SP a rank,
+    // past the 10 ranks the talent itself caps out at.
     const over = talentViolations({
       ...build,
       talents: {
-        'blade-expertise/balance': 5,
-        'blade-expertise/reliability': 5,
-        'blade-expertise/adaptation': 5,
+        'capacity/depth': 5,
+        'capacity/absorption': 3,
+        'capacity/recycle': 5,
       },
     });
-    expect(over).toEqual(['Blade Expertise holds 15 ranks against its cap of 10.']);
+    expect(over).toEqual(['Capacity holds 13 ranks against its cap of 10.']);
   });
 
   it('flags a build past 65 ranks in ranks, not SP', () => {
@@ -240,7 +242,7 @@ describe('the talent budget', () => {
       if (ranks > TALENT_POINT_BUDGET) break;
       const first = talent.subtalents[0];
       allocation[first.id] = first.maxSr;
-      ranks += first.maxSr;
+      ranks += Math.ceil(first.maxSr / talent.spPerRank);
     }
     const problems = talentViolations({ ...build, talents: allocation });
     expect(ranks).toBeGreaterThan(TALENT_POINT_BUDGET);

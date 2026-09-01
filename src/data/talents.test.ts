@@ -122,10 +122,11 @@ describe('talent spending', () => {
     const { perTalent, totalRanks, totalSp } = talentSpending({
       'blade-expertise/reliability': 5,
       'blade-expertise/balance': 5,
+      'blade-expertise/adaptation': 5,
       'capacity/depth': 5,
     });
-    // Fifteen ranks against the point budget; 10 blade subpoints at 1.5 SP and
-    // 5 Capacity subpoints at 1 SP against the bill. The two units differ.
+    // Blade Expertise's 15 subpoints at 1.5 SP a rank buy 10 ranks; Capacity's
+    // 5 subpoints at 1 SP a rank buy 5. The two units differ.
     expect(totalRanks).toBe(15);
     expect(totalSp).toBe(20);
     expect(perTalent.find(entry => entry.talent.id === 'blade-expertise')).toMatchObject({ ranks: 10, sp: 15, overAllocated: false });
@@ -133,12 +134,14 @@ describe('talent spending', () => {
   });
 
   it('flags a talent pushed past its rank cap instead of trimming it', () => {
+    // Capacity's subtalents can hold 13 points between them at 1 SP a rank,
+    // past the 10 ranks the talent itself caps out at.
     const { perTalent } = talentSpending({
-      'blade-expertise/reliability': 5,
-      'blade-expertise/balance': 5,
-      'blade-expertise/adaptation': 5,
+      'capacity/depth': 5,
+      'capacity/absorption': 3,
+      'capacity/recycle': 5,
     });
-    expect(perTalent[0]).toMatchObject({ ranks: 15, overAllocated: true });
+    expect(perTalent[0]).toMatchObject({ ranks: 13, overAllocated: true });
   });
 
   it('ignores ids the catalog does not know', () => {

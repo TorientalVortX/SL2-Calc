@@ -3,10 +3,14 @@ import talentData from './content/talents.json';
 /**
  * The talent catalog, scraped from the wiki's `Talents` page.
  *
- * A talent holds ranks; each rank spends `spPerRank` and grants one subpoint,
- * and subpoints are spent on that talent's subtalents. A subtalent's numbers are
- * written against `SR` (its own current rank), so everything structured here is
- * per-rank and has to be multiplied by the invested rank to mean anything.
+ * A talent holds ranks, bought one whole rank at a time, and each rank makes
+ * `floor(rank * spPerRank)` SP available to spend on that talent's own
+ * subtalents, one subtalent rank per SP. So a subtalent rank is not a talent
+ * rank: the talent's rank count is whatever its subtalents have spent rounded
+ * *up* to the cheapest rank that could afford it, since a rank is bought whole
+ * or not at all. A subtalent's numbers are written against `SR` (its own
+ * current rank), so everything structured here is per-rank and has to be
+ * multiplied by the invested rank to mean anything.
  */
 export interface TalentModifier {
   /** The calculator stat this changes; see `TalentStat`. */
@@ -108,12 +112,12 @@ function effectiveRank(id: string, allocation: TalentAllocation): number {
 /**
  * Subpoints spent per talent, in both units.
  *
- * A talent's ranks equal the subpoints spent inside it. Two figures come out of
- * that and they are not interchangeable: the **rank** count, which is what the
- * character's talent points are spent on, and the **SP** bill, which is those
- * ranks times a rate that differs per talent, 1 for Capacity, 2 for Chivalry.
- * Anything over the talent's `maxRanks` is over-allocated and reported rather
- * than silently trimmed.
+ * A subtalent rank costs one SP, so the SP a talent's subtalents have consumed
+ * is just their ranks summed. The talent's own rank count is not that sum: a
+ * rank is bought whole, and a rank buys `spPerRank` SP of subtalent spending,
+ * so the rank count is the fewest whole ranks that could afford the SP spent,
+ * `ceil(sp / spPerRank)`. Anything over the talent's `maxRanks` is
+ * over-allocated and reported rather than silently trimmed.
  */
 export function talentSpending(allocation: TalentAllocation): {
   perTalent: Array<{ talent: TalentRecord; ranks: number; sp: number; overAllocated: boolean }>;
@@ -122,16 +126,17 @@ export function talentSpending(allocation: TalentAllocation): {
   /** What those ranks cost in SP. Per-talent, so it is not one rate. */
   totalSp: number;
 } {
-  const ranksByTalent = new Map<string, number>();
+  const spByTalent = new Map<string, number>();
   for (const id of Object.keys(allocation)) {
     const entry = SUBTALENT_BY_ID.get(id);
     if (!entry) continue;
     const rank = effectiveRank(id, allocation);
-    if (rank > 0) ranksByTalent.set(entry.talent.id, (ranksByTalent.get(entry.talent.id) ?? 0) + rank);
+    if (rank > 0) spByTalent.set(entry.talent.id, (spByTalent.get(entry.talent.id) ?? 0) + rank);
   }
-  const perTalent = [...ranksByTalent].map(([talentId, ranks]) => {
+  const perTalent = [...spByTalent].map(([talentId, sp]) => {
     const talent = TALENT_BY_ID.get(talentId)!;
-    return { talent, ranks, sp: ranks * talent.spPerRank, overAllocated: ranks > talent.maxRanks };
+    const ranks = talent.spPerRank > 0 ? Math.ceil(sp / talent.spPerRank) : sp;
+    return { talent, ranks, sp, overAllocated: ranks > talent.maxRanks };
   });
   return {
     perTalent,

@@ -12,11 +12,13 @@ import type { Builder } from '../state/useBuilder';
 /**
  * The talent sheet.
  *
- * A talent is bought in ranks and each rank hands down one subpoint, so the only
- * thing actually edited here is a subtalent's rank: the talent's own rank is the
- * sum of them, which is why the rank track sits on the subtalent row and the
- * talent header only reports. Spending is shown in SP, because that is the
- * currency the wiki costs a rank in, against the point budget the level gives.
+ * A talent is bought in whole ranks, each making `spPerRank` SP available, and
+ * that SP is what its subtalents spend one rank at a time. So the only thing
+ * actually edited here is a subtalent's rank, and the talent's own rank is the
+ * fewest whole ranks that could afford its subtalents' SP, which is why the
+ * rank track sits on the subtalent row and the talent header only reports.
+ * Spending is shown in SP, because that is the currency the wiki costs a rank
+ * in, against the point budget the level gives.
  *
  * Two things are marked rather than hidden:
  *
