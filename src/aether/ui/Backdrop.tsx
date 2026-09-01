@@ -42,6 +42,8 @@ const POOLS: Pool[] = [
   { hue: 'rgba(58, 126, 148,', radius: 0.44, cx: 0.52, cy: 0.9, ax: 0.12, ay: 0.05, rate: 0.023, offset: 4.4 },
 ];
 
+const FRAME_INTERVAL = 1000 / 30;
+
 export function Backdrop() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -108,6 +110,10 @@ export function Backdrop() {
     let last = performance.now();
     const render = (now: number) => {
       if (!running) return;
+      if (!reduced && now - last < FRAME_INTERVAL) {
+        frame = requestAnimationFrame(render);
+        return;
+      }
       const delta = Math.min(0.05, (now - last) / 1000);
       last = now;
       const time = now / 1000;
