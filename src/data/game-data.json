@@ -1,11 +1,19 @@
 {
   "schemaVersion": 1,
-  "dataVersion": "2026.07.19",
-  "updatedAt": "2026-07-19",
+  "dataVersion": "2026.08.14",
+  "updatedAt": "2026-08-14",
   "changes": [
-    "Moved calculator records into validated, structured data files.",
-    "Added versioned build saves, recovery drafts, and share links.",
-    "Added offline installation and Cloudflare Pages delivery safeguards.",
-    "Added community-informed optimizer reference profiles and primary-class locking."
+    "Added all six equipment slots: hands, shields, legs and both accessory slots, with 224 new items.",
+    "Slot 3 now holds either a hands piece or an off-hand weapon, and the same accessory cannot be worn twice.",
+    "Merged the Weapon and Armor tabs into one Equipment workspace with a six-slot loadout.",
+    "Added search to every equipment list, matching name, effect text, material and weapon scaling.",
+    "Added equipment set bonuses: 13 sets, showing which thresholds a loadout has reached and what the next one grants.",
+    "Hands, legs and accessories now take materials and enchantments, resolved per slot rather than borrowing the torso's values.",
+    "Added Blunt, Pierce and Slash resistance, from armour, materials, enchantments, items and Installed Youkai.",
+    "Items now contribute elemental resistance and maximum HP/FP that they previously only described in text.",
+    "Dragon King and Dragon Queen are counted from the pieces you have equipped instead of a number typed into Advanced.",
+    "Fixed ranged item bonuses such as \"+2-4 CEL\", which were applied as penalties; they are now adjustable to the roll your item has.",
+    "Fixed bonus Aptitude from equipment counting toward the every-6-Aptitude stat bonus.",
+    "Fixed Brightray Plate's Darkness resistance, which never applied."
   ]
 }

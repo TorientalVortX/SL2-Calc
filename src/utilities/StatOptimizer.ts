@@ -22,7 +22,17 @@ const metricScale: Record<OptimizationMetric, number> = {
   maxHP: 900, fp: 450, physicalDefense: 50, magicalDefense: 50, evade: 130, criticalEvade: 100,
   armor: 10, magicArmor: 10, equipmentLoad: 50, battleWeightRemaining: 50,
   statusInfliction: 170, statusResistance: 170, initiative: 60, youkaiCap: 12, flanking: 40,
-  skillPool: 40, battleWeight: 70, encumbrance: 130, weaponPower: 100, weaponHit: 200,
+  luckStatusPercent: 30,
+  skillPool: 40, battleWeight: 70, encumbrance: 130, weaponHit: 200,
+  /*
+   * Power and SWA are scaled apart because they are different magnitudes now.
+   * Measured on a level-60 build: base Power tops out at 30 in the data and ~42
+   * with upgrades and a power quality, while SWA reaches ~96 on a plain weapon at
+   * full scaling investment and ~120 on the strongest. One shared scale of 100 was
+   * calibrated for the old conflated field, and left Power saturating near zero
+   * while SWA could never score above a third.
+   */
+  weaponPower: 50, weaponSwa: 120,
   weaponCritical: 120, weaponCriticalDamage: 220,
   fireAttack: 100, iceAttack: 100, windAttack: 100, earthAttack: 100, darkAttack: 100,
   waterAttack: 100, lightAttack: 100, lightningAttack: 100, acidAttack: 100, soundAttack: 100,
@@ -33,7 +43,7 @@ const compatibilityFor = (id: string) => BUILD_TYPES[id]?.classCompatibility ?? 
 export const OPTIMIZATION_PRESETS: Record<string, OptimizationPreset> = {
   hybrid: {
     id: 'hybrid', name: 'Balanced Hybrid', description: 'Balanced weapon reliability, durability, and utility.',
-    metricWeights: { weaponPower: 6, weaponHit: 5, maxHP: 5, fp: 3, physicalDefense: 4, magicalDefense: 4, armor: 2, magicArmor: 2, evade: 3, skillPool: 2 },
+    metricWeights: { weaponSwa: 6, weaponHit: 5, maxHP: 5, fp: 3, physicalDefense: 4, magicalDefense: 4, armor: 2, magicArmor: 2, evade: 3, skillPool: 2 },
     classCompatibility: compatibilityFor('hybrid'),
   },
   tank: {
@@ -43,12 +53,12 @@ export const OPTIMIZATION_PRESETS: Record<string, OptimizationPreset> = {
   },
   evade: {
     id: 'evade', name: 'Evade', description: 'Prioritizes Evade, initiative, Hit, and reliable offense.',
-    metricWeights: { evade: 10, initiative: 5, weaponHit: 7, weaponPower: 5, weaponCritical: 5, maxHP: 3 },
+    metricWeights: { evade: 10, initiative: 5, weaponHit: 7, weaponSwa: 5, weaponCritical: 5, maxHP: 3 },
     classCompatibility: compatibilityFor('evade'),
   },
   glass_cannon: {
     id: 'glass_cannon', name: 'Glass Cannon', description: 'Maximizes weapon output, Hit, and critical pressure.',
-    metricWeights: { weaponPower: 10, weaponHit: 8, weaponCritical: 8, weaponCriticalDamage: 6, statusInfliction: 3, fp: 3 },
+    metricWeights: { weaponSwa: 10, weaponHit: 8, weaponCritical: 8, weaponCriticalDamage: 6, statusInfliction: 3, fp: 3 },
     classCompatibility: compatibilityFor('glass_cannon'),
   },
   support: {
@@ -58,8 +68,20 @@ export const OPTIMIZATION_PRESETS: Record<string, OptimizationPreset> = {
   },
   critical: {
     id: 'critical', name: 'Critical Focus', description: 'Prioritizes critical chance, critical damage, Hit, and weapon power.',
-    metricWeights: { weaponCritical: 10, weaponCriticalDamage: 9, weaponHit: 7, weaponPower: 7, evade: 3 },
+    metricWeights: { weaponCritical: 10, weaponCriticalDamage: 9, weaponHit: 7, weaponSwa: 7, evade: 3 },
     classCompatibility: compatibilityFor('critical'),
+  },
+  /*
+   * The one preset whose score is not content-agnostic: choosing it turns on
+   * the opponent gauntlet in V2, so candidates are additionally ranked on their
+   * margins into the community reference builds read as opponents. The weights
+   * here still matter (they steer the legacy engine and the preset-utility
+   * term), but the gauntlet is what makes this goal mean "against players".
+   */
+  pvp: {
+    id: 'pvp', name: 'PvP Gauntlet', description: 'Practical duel performance, scored against the community reference builds as opponents.',
+    metricWeights: { weaponHit: 8, evade: 6, weaponSwa: 6, statusResistance: 6, maxHP: 5, physicalDefense: 4, magicalDefense: 4, criticalEvade: 4, fp: 3 },
+    classCompatibility: compatibilityFor('pvp'),
   },
 };
 
@@ -256,8 +278,10 @@ function candidateFrom(request: OptimizationRequest, item: { build: BuildState; 
   const warnings: string[] = [];
   const profile = referenceProfileFor(request);
   if (scored.deficitCount) warnings.push(`${scored.deficitCount} minimum constraint${scored.deficitCount === 1 ? '' : 's'} could not be met.`);
-  if (weaponCategory && !CLASSES[build.mainClass]?.validWeapons?.includes(weaponCategory) && !CLASSES[build.subClass]?.validWeapons?.includes(weaponCategory)) {
-    warnings.push(`The equipped ${weaponCategory} category is not listed for either candidate class.`);
+  // Main class only: a subclass's weapon list grants no proficiency, so a
+  // category present there alone is still one this build cannot hold for free.
+  if (weaponCategory && !CLASSES[build.mainClass]?.validWeapons?.includes(weaponCategory)) {
+    warnings.push(`The equipped ${weaponCategory} category is not listed for ${build.mainClass}, and only the main class grants weapons.`);
   }
   if (profile && (request.build.race !== profile.race || request.build.subrace !== profile.subrace)) {
     warnings.push(`Reference profile used ${profile.race} / ${profile.subrace}; this result keeps the current ${request.build.race} / ${request.build.subrace}.`);

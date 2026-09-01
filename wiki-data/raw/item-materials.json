@@ -1,0 +1,1497 @@
+[
+  {
+    "id": "material:cloth:breezecloth",
+    "materialClass": "Cloth",
+    "name": "Breezecloth",
+    "rarity": 1,
+    "page": "Cloth",
+    "flavour": "A very light type of cloth that breathes nicely.",
+    "raw": "'''Armor:''' -2 Weight, +5 Evade, +5% Wind Resistance<br>'''Other:''' +5% Wind Resistance <br><br><i>A very light type of cloth that breathes nicely.</i>",
+    "armor": "-2 Weight, +5 Evade, +5% Wind Resistance",
+    "other": "+5% Wind Resistance",
+    "location": [
+      "Random Drops"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:cloth:canvas-square",
+    "materialClass": "Cloth",
+    "name": "Canvas Square",
+    "rarity": 1,
+    "page": "Cloth",
+    "flavour": "A strong, cross-woven cloth.",
+    "raw": "'''Armor:''' +1 Armor, +5% Pierce Resistance<br>'''Other:''' +5% Pierce Resistance <br><br><i>A strong, cross-woven cloth.</i>",
+    "armor": "+1 Armor, +5% Pierce Resistance",
+    "other": "+5% Pierce Resistance",
+    "location": [
+      "Random Drops"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:cloth:chainmail-section",
+    "materialClass": "Cloth",
+    "name": "Chainmail Section",
+    "rarity": 1,
+    "page": "Cloth",
+    "flavour": "A metalic cloth-like mesh of chains.",
+    "raw": "'''Armor:''' +1 Armor, +5% Slash Resistance<br>'''Other:''' +5% Slash Resistance <br><br><i>A metalic cloth-like mesh of chains.</i>",
+    "armor": "+1 Armor, +5% Slash Resistance",
+    "other": "+5% Slash Resistance",
+    "location": [
+      "Random Drops"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:cloth:cotton",
+    "materialClass": "Cloth",
+    "name": "Cotton",
+    "rarity": 1,
+    "page": "Cloth",
+    "flavour": "A basic type of clothing material.",
+    "raw": "'''Armor:''' No effect.<br>'''Other:''' No effect. <br><br><i>A basic type of clothing material.</i>",
+    "armor": "No effect.",
+    "other": "No effect.",
+    "location": [
+      "Random Drops",
+      "Tailoring"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:cloth:demonsilk",
+    "materialClass": "Cloth",
+    "name": "Demonsilk",
+    "rarity": 1,
+    "page": "Cloth",
+    "flavour": "Said to be weaved from the webs of demonic spiders.",
+    "raw": "'''Armor:''' +1 Armor, +5% Dark Resistance<br>'''Other:''' +5% Dark Resistance <br><br><i>Said to be weaved from the webs of demonic spiders.</i>",
+    "armor": "+1 Armor, +5% Dark Resistance",
+    "other": "+5% Dark Resistance",
+    "location": [
+      "Random Drops"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:cloth:furcloth",
+    "materialClass": "Cloth",
+    "name": "Furcloth",
+    "rarity": 1,
+    "page": "Cloth",
+    "flavour": "Cloth made from the fine fur of a powerful beast.",
+    "raw": "'''Armor:''' +1 Armor, +1 Magic Armor, +3 Evade, +5 Weight, +5% Ice Resistance. <br> +3 to parameters when attacked by Beast enemies.<br>'''Other:''' +5% Ice Resistance <br><br><i>Cloth made from the fine fur of a powerful beast.</i>",
+    "armor": "+1 Armor, +1 Magic Armor, +3 Evade, +5 Weight, +5% Ice Resistance. +3 to parameters when attacked by Beast enemies.",
+    "other": "+5% Ice Resistance",
+    "location": [
+      "Random Drops"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:cloth:leather-square",
+    "materialClass": "Cloth",
+    "name": "Leather Square",
+    "rarity": 1,
+    "page": "Cloth",
+    "flavour": "An animal pelt cured and hardened for use in clothing.",
+    "raw": "'''Armor:''' +1 Armor, +5% Blunt Resistance<br>'''Other:''' +5% Blunt Resistance <br><br><i>An animal pelt cured and hardened for use in clothing.</i>",
+    "armor": "+1 Armor, +5% Blunt Resistance",
+    "other": "+5% Blunt Resistance",
+    "location": [
+      "Random Drops"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:cloth:orichalcloth",
+    "materialClass": "Cloth",
+    "name": "Orichalcloth",
+    "rarity": 1,
+    "page": "Cloth",
+    "flavour": "Cloth infused with the power of star metal.",
+    "raw": "'''Armor:''' -1 Armor, +2 Weight, +5% Light Resistance <br> Increases all parameters when attacked by higher level foes (up to +10)<br>'''Other:''' +5% Light Resistance <br><br><i>Cloth infused with the power of star metal.</i>",
+    "armor": "-1 Armor, +2 Weight, +5% Light Resistance Increases all parameters when attacked by higher level foes (up to +10)",
+    "other": "+5% Light Resistance",
+    "location": [
+      "Random Drops"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:cloth:pureprint",
+    "materialClass": "Cloth",
+    "name": "Pureprint",
+    "rarity": 1,
+    "page": "Cloth",
+    "flavour": "A very light type of cloth that breathes nicely.",
+    "raw": "'''Armor:''' +1 Magic Armor, +5% Light Resistance<br>'''Other:''' +5% Light Resistance <br><br><i>A very light type of cloth that breathes nicely.</i>",
+    "armor": "+1 Magic Armor, +5% Light Resistance",
+    "other": "+5% Light Resistance",
+    "location": [
+      "Random Drops"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:cloth:rainbowthread",
+    "materialClass": "Cloth",
+    "name": "Rainbowthread",
+    "rarity": 1,
+    "page": "Cloth",
+    "flavour": "A corrupted cloth of every color.",
+    "raw": "'''Armor:''' +6 Evade, -3 Critical Evade<br>'''Other:''' +1% Fire, Ice, Wind, Lightning and Earth Resistance<br><br><i>A corrupted cloth of every color.</i>",
+    "armor": "+6 Evade, -3 Critical Evade",
+    "other": "+1% Fire, Ice, Wind, Lightning and Earth Resistance",
+    "location": [
+      "Forging"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:cloth:redthread",
+    "materialClass": "Cloth",
+    "name": "Redthread",
+    "rarity": 1,
+    "page": "Cloth",
+    "flavour": "A string in a fateful color.",
+    "raw": "'''Armor:''' +3 Weight. '''On Battle Start:''' Gain Good Fate LV X (X = number of Fated weapons equipped) permanently (until you are defeated). This item gains +3 Armor, Magic Armor and Evade per Good Fate LV.<br>'''Other:''' +5 FP<br><br><i>A string in a fateful color.</i>",
+    "armor": "+3 Weight. On Battle Start: Gain Good Fate LV X (X = number of Fated weapons equipped) permanently (until you are defeated). This item gains +3 Armor, Magic Armor and Evade per Good Fate LV.",
+    "other": "+5 FP",
+    "location": [
+      "Forging"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:cloth:rubber",
+    "materialClass": "Cloth",
+    "name": "Rubber",
+    "rarity": 1,
+    "page": "Cloth",
+    "flavour": "An insulated material that can act as a type of cloth if prepared properly.",
+    "raw": "'''Armor:''' +2 Evade, +5% Lightning Resistance<br>'''Other:''' +5% Lightning Resistance <br><br><i>An insulated material that can act as a type of cloth if prepared properly.</i>",
+    "armor": "+2 Evade, +5% Lightning Resistance",
+    "other": "+5% Lightning Resistance",
+    "location": [
+      "Random Drops"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:cloth:sandcloth",
+    "materialClass": "Cloth",
+    "name": "Sandcloth",
+    "rarity": 1,
+    "page": "Cloth",
+    "flavour": "Cloth infused with a sandy texture.",
+    "raw": "'''Armor:''' +1 Armor, +3 Evade, +1 Weight, +5% Earth Resistance<br>'''Other:''' +5% Earth Resistance <br><br><i>Cloth infused with a sandy texture.</i>",
+    "armor": "+1 Armor, +3 Evade, +1 Weight, +5% Earth Resistance",
+    "other": "+5% Earth Resistance",
+    "location": [
+      "Random Drops"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:cloth:shiverthread",
+    "materialClass": "Cloth",
+    "name": "Shiverthread",
+    "rarity": 1,
+    "page": "Cloth",
+    "flavour": "Infused with Arctic Gold, this elemental thread is heavier than normal, but holds the power of ice.",
+    "raw": "'''Armor:''' +10 FP, +1 Magic Armor, +3 Weight, +5% Ice Resistance<br>'''Other:''' +5% Ice Resistance <br><br><i>Infused with Arctic Gold, this elemental thread is heavier than normal, but holds the power of ice.</i>",
+    "armor": "+10 FP, +1 Magic Armor, +3 Weight, +5% Ice Resistance",
+    "other": "+5% Ice Resistance",
+    "location": [
+      "Forging"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:cloth:silk",
+    "materialClass": "Cloth",
+    "name": "Silk",
+    "rarity": 1,
+    "page": "Cloth",
+    "flavour": "Plain, simple, expensive.",
+    "raw": "'''Armor:''' -3 Armor, -3 Magic Armor, +6 Weight<br>'''All:''' '''On Battle Start:''' Grants Fanciness based on item rarity. Item sells for a little more at shops. <br><br><i>Plain, simple, expensive.</i>",
+    "armor": "-3 Armor, -3 Magic Armor, +6 Weight",
+    "all": "On Battle Start: Grants Fanciness based on item rarity. Item sells for a little more at shops.",
+    "location": [
+      "Forging"
+    ],
+    "appliesToAll": true
+  },
+  {
+    "id": "material:cloth:singethread",
+    "materialClass": "Cloth",
+    "name": "Singethread",
+    "rarity": 1,
+    "page": "Cloth",
+    "flavour": "Infused with Nerif's Blood, this elemental thread is heavier than normal, but holds the power of fire.",
+    "raw": "'''Armor:''' +10 HP, +1 Armor, +3 Weight, +5% Fire Resistance<br>'''Other:''' +5% Fire Resistance <br><br><i>Infused with Nerif's Blood, this elemental thread is heavier than normal, but holds the power of fire.</i>",
+    "armor": "+10 HP, +1 Armor, +3 Weight, +5% Fire Resistance",
+    "other": "+5% Fire Resistance",
+    "location": [
+      "Forging"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:cloth:snakescale",
+    "materialClass": "Cloth",
+    "name": "Snakescale",
+    "rarity": 1,
+    "page": "Cloth",
+    "flavour": "A type of healthy scale that can applied to cloth.",
+    "raw": "'''Armor:''' +3 HP, +5% Poison Resistance<br>'''Other:''' +3 HP, +5% Poison Resistance <br><br><i>A type of healthy scale that can applied to cloth.</i>",
+    "armor": "+3 HP, +5% Poison Resistance",
+    "other": "+3 HP, +5% Poison Resistance",
+    "location": [
+      "Random Drops",
+      "Snakemen"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:cloth:spidersilk",
+    "materialClass": "Cloth",
+    "name": "Spidersilk",
+    "rarity": 1,
+    "page": "Cloth",
+    "flavour": "Extremely fine silk made from spider webs or other bits of insect.",
+    "raw": "'''Armor:''' +3 Magic Armor, +3 Evade, +3 Weight, +5% Acid Resistance<br>'''Other:''' +5% Acid Resistance <br><br><i>Extremely fine silk made from spider webs or other bits of insect.</i>",
+    "armor": "+3 Magic Armor, +3 Evade, +3 Weight, +5% Acid Resistance",
+    "other": "+5% Acid Resistance",
+    "location": [
+      "Random Drops"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:cloth:sunderthread",
+    "materialClass": "Cloth",
+    "name": "Sunderthread",
+    "rarity": 1,
+    "page": "Cloth",
+    "flavour": "Infused with Conduiz, this elemental thread is heavier than normal, but holds the power of lightning.",
+    "raw": "'''Armor:''' +5 HP, +5 FP, +3 Lightning ATK, +5% Lightning Resistance<br>'''Other:''' +5% Lightning Resistance <br><br><i>Infused with Conduiz, this elemental thread is heavier than normal, but holds the power of lightning.</i>",
+    "armor": "+5 HP, +5 FP, +3 Lightning ATK, +5% Lightning Resistance",
+    "other": "+5% Lightning Resistance",
+    "location": [
+      "Forging"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:cloth:swiftthread",
+    "materialClass": "Cloth",
+    "name": "Swiftthread",
+    "rarity": 1,
+    "page": "Cloth",
+    "flavour": "Infused with Sylpheed's Curse, this elemental thread is heavier than normal, but holds the power of wind.",
+    "raw": "'''Armor:''' +5 HP, +5 FP, +3 Evade, +3 Weight, +5% Wind Resistance<br>'''Other:''' +5% Wind Resistance <br><br><i>Infused with Sylpheed's Curse, this elemental thread is heavier than normal, but holds the power of wind.</i>",
+    "armor": "+5 HP, +5 FP, +3 Evade, +3 Weight, +5% Wind Resistance",
+    "other": "+5% Wind Resistance",
+    "location": [
+      "Forging"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:cloth:thick-padding",
+    "materialClass": "Cloth",
+    "name": "Thick Padding",
+    "rarity": 1,
+    "page": "Cloth",
+    "flavour": "As the name implies, this is extremely thick padding, good at dulling blows and protecting from the cold.",
+    "raw": "'''Armor:''' +8 Armor, -5 Evade, +3 Weight<br>'''All:''' +5% Sound Resistance <br><br><i>As the name implies, this is extremely thick padding, good at dulling blows and protecting from the cold.</i>",
+    "armor": "+8 Armor, -5 Evade, +3 Weight",
+    "all": "+5% Sound Resistance",
+    "location": [
+      "Random Drops"
+    ],
+    "appliesToAll": true
+  },
+  {
+    "id": "material:cloth:toadscloth",
+    "materialClass": "Cloth",
+    "name": "Toadscloth",
+    "rarity": 1,
+    "page": "Cloth",
+    "flavour": "Cloth created with a compound of moisture-hungry toadstools. Vaguely feels like a frog's skin.",
+    "raw": "'''Armor:''' +1 Magic Armor, +3 Evade, +1 Weight, +5% Water Resistance<br>'''Other:''' +5% Water Resistance <br><br><i>Cloth created with a compound of moisture-hungry toadstools. Vaguely feels like a frog's skin.</i>",
+    "armor": "+1 Magic Armor, +3 Evade, +1 Weight, +5% Water Resistance",
+    "other": "+5% Water Resistance",
+    "location": [
+      "Random Drops"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:cloth:webbing",
+    "materialClass": "Cloth",
+    "name": "Webbing",
+    "rarity": 1,
+    "page": "Cloth",
+    "flavour": "A spindle of webbing from some sort of arachnid.",
+    "raw": "'''Armor:''' +5 Evade, -2 Weight, +3% Status Infliction & Grapple Success<br>'''All:''' +3 Acid ATK <br><br><i>A spindle of webbing from some sort of arachnid.</i>",
+    "armor": "+5 Evade, -2 Weight, +3% Status Infliction & Grapple Success",
+    "all": "+3 Acid ATK",
+    "location": [
+      "Random Drops"
+    ],
+    "appliesToAll": true
+  },
+  {
+    "id": "material:hard:accursed-remains",
+    "materialClass": "Hard",
+    "name": "Accursed Remains",
+    "rarity": 1,
+    "page": "Hard",
+    "flavour": "The heavy remains of an accursed being.",
+    "raw": "'''Weapon:''' +6 Critical, +8 Weight<br>'''Armor:''' +2 Armor, +1 Magic Armor, +6 Evade, +8 Weight<br>'''Other:''' No effect.<br>'''Macabre:''' Dark <br><br><i>The heavy remains of an accursed being.</i>",
+    "weapon": "+6 Critical, +8 Weight",
+    "armor": "+2 Armor, +1 Magic Armor, +6 Evade, +8 Weight",
+    "other": "No effect.",
+    "macabre": "Dark",
+    "location": [
+      "Random Drops",
+      "Harvest (Undead Monsters)"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:hard:arctic-gold",
+    "materialClass": "Hard",
+    "name": "Arctic Gold",
+    "rarity": 1,
+    "page": "Hard",
+    "flavour": "Arctic Gold is usually only found in cold areas, hence the name. It is used as a crafting material.",
+    "raw": "'''Weapon:''' +5 Critical, -5 Accuracy, +3 Ice ATK<br>'''Armor:''' +1 Armor, +1 Weight, +5% Ice Resistance<br>'''Other:''' +5% Ice Resistance<br><br><i>Arctic Gold is usually only found in cold areas, hence the name. It is used as a crafting material.</i>",
+    "weapon": "+5 Critical, -5 Accuracy, +3 Ice ATK",
+    "armor": "+1 Armor, +1 Weight, +5% Ice Resistance",
+    "other": "+5% Ice Resistance",
+    "location": [
+      "Random Drops",
+      "Ice Palace"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:hard:aureate",
+    "materialClass": "Hard",
+    "name": "Aureate",
+    "rarity": 1,
+    "page": "Hard",
+    "flavour": "An impure form of the ever desired gold ore.",
+    "raw": "'''Weapon:''' -2 Power, -5 Critical, +6 Weight<br>'''Armor:''' -3 Armor, -3 Magic Armor, +6 Weight<br>'''All:''' '''On Battle Start:''' Grants [[Fanciness]] based on item rarity.<br>Item sells for a little more at shops.<br><br><i>An impure form of the ever desired gold ore.</i>",
+    "weapon": "-2 Power, -5 Critical, +6 Weight",
+    "armor": "-3 Armor, -3 Magic Armor, +6 Weight",
+    "all": "On Battle Start: Grants Fanciness based on item rarity. Item sells for a little more at shops.",
+    "location": [
+      "Random Drops",
+      "Sanctuary of Lost Minds"
+    ],
+    "appliesToAll": true
+  },
+  {
+    "id": "material:hard:boulder",
+    "materialClass": "Hard",
+    "name": "Boulder",
+    "rarity": 1,
+    "page": "Hard",
+    "flavour": "It's a boulder. It's solid, but very heavy. Use as crafting material at your own risk.",
+    "raw": "'''Weapon:''' +10 Power, +10 Critical, -5 Accuracy, +25 Weight<br>'''Armor:''' +7 Armor, +7 Magic Armor, -10 Evade, +25 Weight<br>'''Other:''' No effect.<br><br><i>It's a boulder. It's solid, but very heavy. Use as crafting material at your own risk.</i>",
+    "weapon": "+10 Power, +10 Critical, -5 Accuracy, +25 Weight",
+    "armor": "+7 Armor, +7 Magic Armor, -10 Evade, +25 Weight",
+    "other": "No effect.",
+    "location": [
+      "Minotaur Labyrinth"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:hard:carapace",
+    "materialClass": "Hard",
+    "name": "Carapace",
+    "rarity": 1,
+    "page": "Hard",
+    "flavour": "Carapace, from some sort of insect or similar being. It is mostly used as a crafting material.",
+    "raw": "'''Weapon:''' +2 Power, +5 Weight, +3 Dark ATK<br>'''Armor:''' +4 Armor, +8 Weight, +5% Dark Resistance<br>'''Other:''' +5% Dark Resistance<br><br><i>Carapace, from some sort of insect or similar being. It is mostly used as a crafting material.</i>",
+    "weapon": "+2 Power, +5 Weight, +3 Dark ATK",
+    "armor": "+4 Armor, +8 Weight, +5% Dark Resistance",
+    "other": "+5% Dark Resistance",
+    "location": [
+      "Random Drops"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:hard:clawice",
+    "materialClass": "Hard",
+    "name": "Clawice",
+    "rarity": 1,
+    "page": "Hard",
+    "flavour": "Icey rock that has been marked by the claws of beasts.",
+    "raw": "'''Weapon:''' +1 Power, +3 Critical, +3 Accuracy, +5 Weight, +3 Sound ATK<br>Weapon can be used as a casting tool for Aquarian spells.<br>'''Armor:''' +1 Armor, +1 Magic Armor, +3 Evade, +5 Weight, +5% Ice Resistance.<br>+3 to parameters when attacked by Beast enemies.<br>'''Other:''' +5% Ice Resistance<br><br><i>Icey rock that has been marked by the claws of beasts.</i>",
+    "weapon": "+1 Power, +3 Critical, +3 Accuracy, +5 Weight, +3 Sound ATK Weapon can be used as a casting tool for Aquarian spells.",
+    "armor": "+1 Armor, +1 Magic Armor, +3 Evade, +5 Weight, +5% Ice Resistance. +3 to parameters when attacked by Beast enemies.",
+    "other": "+5% Ice Resistance",
+    "location": [
+      "Random Drops",
+      "Frozen Beast Cavern"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:hard:conduiz",
+    "materialClass": "Hard",
+    "name": "Conduiz",
+    "rarity": 1,
+    "page": "Hard",
+    "flavour": "A metal especially capable of passing current through it. It is often used a crafting material for spellblades.",
+    "raw": "'''Weapon:''' +3 Critical, -5 Durability<br>Weapon can be used as a casting tool for Nature spells.<br>'''Armor:''' +1 Armor, +1 Magic Armor, +5% Lightning Resistance<br>'''Other:''' +5% Lightning Resistance<br><br><i>A metal especially capable of passing current through it. It is often used a crafting material for spellblades.</i>",
+    "weapon": "+3 Critical, -5 Durability Weapon can be used as a casting tool for Nature spells.",
+    "armor": "+1 Armor, +1 Magic Armor, +5% Lightning Resistance",
+    "other": "+5% Lightning Resistance",
+    "location": [
+      "Random Drops",
+      "Long Cavern (Meiaquar Outskirts)"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:hard:coral",
+    "materialClass": "Hard",
+    "name": "Coral",
+    "rarity": 1,
+    "page": "Hard",
+    "flavour": "Coral is (or was) once a living underwater creature, but in this form it's more useful as a material for crafting.",
+    "raw": "'''Weapon:''' +1 Power, +3 Critical, +3 Accuracy, +1 Weight, +3 Water ATK<br>'''Armor:''' +2 Magic Armor, +3 Weight, +5% Water Resistance<br>'''Other:''' +5% Water Resistance<br><br><i>Coral is (or was) once a living underwater creature, but in this form it's more useful as a material for crafting.</i>",
+    "weapon": "+1 Power, +3 Critical, +3 Accuracy, +1 Weight, +3 Water ATK",
+    "armor": "+2 Magic Armor, +3 Weight, +5% Water Resistance",
+    "other": "+5% Water Resistance",
+    "location": [
+      "Random Drops",
+      "Beach Caverns",
+      "Lost Beach"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:hard:dragon-remains",
+    "materialClass": "Hard",
+    "name": "Dragon Remains",
+    "rarity": 1,
+    "page": "Hard",
+    "flavour": "The heavy remains of a dragon.",
+    "raw": "'''Weapon:''' +3 Power, +5 Critical, +5 Accuracy, +8 Weight<br>'''Armor:''' +2 Armor, +2 Magic Armor, +8 Weight<br>'''Other:''' No effect.<br>'''Macabre:''' Fire <br><br><i>The heavy remains of a dragon.</i>",
+    "weapon": "+3 Power, +5 Critical, +5 Accuracy, +8 Weight",
+    "armor": "+2 Armor, +2 Magic Armor, +8 Weight",
+    "other": "No effect.",
+    "macabre": "Fire",
+    "location": [
+      "Random Drops"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:hard:etherium",
+    "materialClass": "Hard",
+    "name": "Etherium",
+    "rarity": 1,
+    "page": "Hard",
+    "flavour": "Ether is a mysterious and often important metal. It is very fragile, but upon shattering, it turns into mist and reforms to its chosen shape. This makes it very useful as a crafting material.",
+    "raw": "'''Weapon:''' -75% Max Durability, Repairs self after every battle.<br>'''Armor:''' -4 Weight, +3 FP<br>'''Other:''' +3 FP<br><br><i>Ether is a mysterious and often important metal. It is very fragile, but upon shattering, it turns into mist and reforms to its chosen shape. This makes it very useful as a crafting material.</i>",
+    "weapon": "-75% Max Durability, Repairs self after every battle.",
+    "armor": "-4 Weight, +3 FP",
+    "other": "+3 FP",
+    "location": [
+      "Random Drops",
+      "Azure Meteorite"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:hard:fireblood-remains",
+    "materialClass": "Hard",
+    "name": "Fireblood Remains",
+    "rarity": 1,
+    "page": "Hard",
+    "flavour": "The heavy remains of a fireblood creature.",
+    "raw": "'''Weapon:''' +8 Power, +8 Weight<br>'''Armor:''' +4 Armor, +8 Weight<br>'''Other:''' No effect.<br>'''Macabre:''' Earth <br><br><i>The heavy remains of a fireblood creature.</i>",
+    "weapon": "+8 Power, +8 Weight",
+    "armor": "+4 Armor, +8 Weight",
+    "other": "No effect.",
+    "macabre": "Earth",
+    "location": [
+      "Random Drops",
+      "Harvest (Fireblood Monsters)"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:hard:fish-remains",
+    "materialClass": "Hard",
+    "name": "Fish Remains",
+    "rarity": 1,
+    "page": "Hard",
+    "flavour": "The heavy remains of a fish.",
+    "raw": "'''Weapon:''' +3 Power, +3 Accuracy, +8 Weight<br>'''Armor:''' +2 Magic Armor, +4 Evade, +8 Weight<br>'''Other:''' No effect.<br>'''Macabre:''' Ice<br><br><i>The heavy remains of a fish.</i>",
+    "weapon": "+3 Power, +3 Accuracy, +8 Weight",
+    "armor": "+2 Magic Armor, +4 Evade, +8 Weight",
+    "other": "No effect.",
+    "macabre": "Ice",
+    "location": [
+      "Random Drops",
+      "Harvest (Fish Monsters)"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:hard:folded-steel",
+    "materialClass": "Hard",
+    "name": "Folded Steel",
+    "rarity": 1,
+    "page": "Hard",
+    "flavour": "Folded over a thousand times, this material can carry a very deadly edge and can even penetrate other metals via hand, albeit at the risk of breaking it.",
+    "raw": "'''Weapon:''' +2 Power, +5 Critical, -5 Durability<br>+15 damage when used as part of a Quickdraw.<br>Weapon damage ignores 3 Armor of enemy.<br>'''Armor:''' +2 Armor, +2 Magic Armor<br>'''Other:''' No effect.<br><br><i>Folded over a thousand times, this material can carry a very deadly edge and can even penetrate other metals via hand, albeit at the risk of breaking it.</i>",
+    "weapon": "+2 Power, +5 Critical, -5 Durability +15 damage when used as part of a Quickdraw. Weapon damage ignores 3 Armor of enemy.",
+    "armor": "+2 Armor, +2 Magic Armor",
+    "other": "No effect.",
+    "location": [
+      "Forging"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:hard:fossil",
+    "materialClass": "Hard",
+    "name": "Fossil",
+    "rarity": 1,
+    "page": "Hard",
+    "flavour": "Molten stone refined over thousands of years. Besides archeological purposes, it can be used as a crafting material.",
+    "raw": "'''Weapon:''' +5 Power, -5 Critical, +6 Weight<br>Weapon can be used as a casting tool for Nerifian spells.<br>'''Armor:''' +3 Armor, +2 Magic Armor, +6 Weight, 5% Fire Resistance<br>'''Other:''' +5% Fire Resistance<br><br><i>Molten stone refined over thousands of years. Besides archeological purposes, it can be used as a crafting material.</i>",
+    "weapon": "+5 Power, -5 Critical, +6 Weight Weapon can be used as a casting tool for Nerifian spells.",
+    "armor": "+3 Armor, +2 Magic Armor, +6 Weight, 5% Fire Resistance",
+    "other": "+5% Fire Resistance",
+    "location": [
+      "Random Drops",
+      "Lava Lake"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:hard:gasprock",
+    "materialClass": "Hard",
+    "name": "Gasprock",
+    "rarity": 1,
+    "page": "Hard",
+    "flavour": "A volatile ore that reacts to blood by creating powerful gusts of wind.",
+    "raw": "'''Weapon:''' +2 Power, +3 Accuracy, +5 Weight, -5 Durability<br>Weapon can be used as a casting tool for Sylphid spells.<br>'''On Hit:''' If the target has blood, creates an Air Shaft at their location for 2 rounds. (2 round CD.)<br>'''Armor:''' -3 Armor, +3 Magic Armor, +5 Evade, +5 Weight, +5% Wind Resistance<br>'''Other:''' +5% Wind Resistance<br><br><i>A volatile ore that reacts to blood by creating powerful gusts of wind.</i>",
+    "weapon": "+2 Power, +3 Accuracy, +5 Weight, -5 Durability Weapon can be used as a casting tool for Sylphid spells. On Hit: If the target has blood, creates an Air Shaft at their location for 2 rounds. (2 round CD.)",
+    "armor": "-3 Armor, +3 Magic Armor, +5 Evade, +5 Weight, +5% Wind Resistance",
+    "other": "+5% Wind Resistance",
+    "location": [
+      "Random Drops",
+      "Sunken Forest"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:hard:gorgon-remains",
+    "materialClass": "Hard",
+    "name": "Gorgon Remains",
+    "rarity": 1,
+    "page": "Hard",
+    "flavour": "The heavy remains of a gorgon.",
+    "raw": "'''Weapon:''' +8 Accuracy, +8 Weight<br>'''Armor:''' +4 Magic Armor, +8 Weight<br>'''Other:''' No effect.<br>'''Macabre:''' Wind <br><br><i>The heavy remains of a gorgon.</i>",
+    "weapon": "+8 Accuracy, +8 Weight",
+    "armor": "+4 Magic Armor, +8 Weight",
+    "other": "No effect.",
+    "macabre": "Wind",
+    "location": [
+      "Random Drops",
+      "Harvest (Red Gorgon)"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:hard:gravestone",
+    "materialClass": "Hard",
+    "name": "Gravestone",
+    "rarity": 1,
+    "page": "Hard",
+    "flavour": "Stone marinated in a putrid pond for centuries.",
+    "raw": "'''Weapon:''' +2 Power, -5 Critical, +3 Weight<br>Weapon can be used as a casting tool for Huggessoan spells.<br>'''Armor:''' +5 Magic Armor, -5 Evade, +3 Weight, +5% Dark Resistance<br>'''Other:''' +5% Dark Resistance<br><br><i>Stone marinated in a putrid pond for centuries.</i>",
+    "weapon": "+2 Power, -5 Critical, +3 Weight Weapon can be used as a casting tool for Huggessoan spells.",
+    "armor": "+5 Magic Armor, -5 Evade, +3 Weight, +5% Dark Resistance",
+    "other": "+5% Dark Resistance",
+    "location": [
+      "Random Drops"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:hard:iceblood-remains",
+    "materialClass": "Hard",
+    "name": "Iceblood Remains",
+    "rarity": 1,
+    "page": "Hard",
+    "flavour": "The heavy remains of an iceblood creature.",
+    "raw": "'''Weapon:''' +8 Critical, +8 Weight<br>'''Armor:''' +4 Magic Armor, +8 Weight<br>'''Other:''' No effect.<br>'''Macabre:''' Ice <br><br><i>The heavy remains of an iceblood creature.</i>",
+    "weapon": "+8 Critical, +8 Weight",
+    "armor": "+4 Magic Armor, +8 Weight",
+    "other": "No effect.",
+    "macabre": "Ice",
+    "location": [
+      "Random Drops",
+      "Harvest (Iceblood Monsters)"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:hard:insect-remains",
+    "materialClass": "Hard",
+    "name": "Insect Remains",
+    "rarity": 1,
+    "page": "Hard",
+    "flavour": "The heavy remains of an insect.",
+    "raw": "'''Weapon:''' +3 Critical, +3 Accuracy, +8 Weight<br>'''Armor:''' +8 Evade, +8 Weight<br>'''Other:''' No effect.<br>'''Macabre:''' Lightning <br><br><i>The heavy remains of an insect.</i>",
+    "weapon": "+3 Critical, +3 Accuracy, +8 Weight",
+    "armor": "+8 Evade, +8 Weight",
+    "other": "No effect.",
+    "macabre": "Lightning",
+    "location": [
+      "Random Drops",
+      "Harvest (Insect Monsters)"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:hard:iron-ore",
+    "materialClass": "Hard",
+    "name": "Iron Ore",
+    "rarity": 1,
+    "page": "Hard",
+    "flavour": "As far as crafting materials go, iron is nothing special, but it is reliable for that very reason.",
+    "raw": "'''Weapon:''' No effect.<br>'''Armor:''' No effect.<br>'''Other:''' No effect.<br><br><i>As far as crafting materials go, iron is nothing special, but it is reliable for that very reason.</i>",
+    "weapon": "No effect.",
+    "armor": "No effect.",
+    "other": "No effect.",
+    "location": [
+      "Random Drops",
+      "Caves and Dungeons"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:hard:kraboid-remains",
+    "materialClass": "Hard",
+    "name": "Kraboid Remains",
+    "rarity": 1,
+    "page": "Hard",
+    "flavour": "The heavy remains of a kraboid.",
+    "raw": "'''Weapon:''' +6 Accuracy, +8 Weight<br>'''Armor:''' +1 Armor, +1 Magic Armor, +6 Evade, +8 Weight<br>'''Other:''' No effect.<br>'''Macabre:''' Sound <br><br><i>The heavy remains of a kraboid.</i>",
+    "weapon": "+6 Accuracy, +8 Weight",
+    "armor": "+1 Armor, +1 Magic Armor, +6 Evade, +8 Weight",
+    "other": "No effect.",
+    "macabre": "Sound",
+    "location": [
+      "Random Drops",
+      "Harvest (Kraboid Monsters)"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:hard:meteorite",
+    "materialClass": "Hard",
+    "name": "Meteorite",
+    "rarity": 1,
+    "page": "Hard",
+    "flavour": "Metal from the stars encased in debris.",
+    "raw": "'''Weapon:''' +5 Power, +10 Durability, +8 Weight<br>+3 to all parameters when attacking Spatial enemies.<br>'''Armor:''' +3 Armor, +5 Evade, +8 Weight, +5% Sound Resistance<br>+3 to parameters when attacked by Spatial enemies.<br>'''Other:''' +5% Sound Resistance<br><br><i>Metal from the stars encased in debris.</i>",
+    "weapon": "+5 Power, +10 Durability, +8 Weight +3 to all parameters when attacking Spatial enemies.",
+    "armor": "+3 Armor, +5 Evade, +8 Weight, +5% Sound Resistance +3 to parameters when attacked by Spatial enemies.",
+    "other": "+5% Sound Resistance",
+    "location": [
+      "Random Drops"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:hard:nerif-s-blood",
+    "materialClass": "Hard",
+    "name": "Nerif's Blood",
+    "rarity": 1,
+    "page": "Hard",
+    "flavour": "Nerif's Blood is a type of ore that is always warm to the touch, with a red, magmic glow to it. These properties make it desireable as a crafting material.",
+    "raw": "'''Weapon:''' +2 Power, -5 Critical, +3 Fire ATK<br>'''Armor:''' +1 Armor, +1 Weight, +5% Fire Resistance<br>'''Other:''' +5% Fire Resistance<br><br><i>Nerif's Blood is a type of ore that is always warm to the touch, with a red, magmic glow to it. These properties make it desireable as a crafting material.</i>",
+    "weapon": "+2 Power, -5 Critical, +3 Fire ATK",
+    "armor": "+1 Armor, +1 Weight, +5% Fire Resistance",
+    "other": "+5% Fire Resistance",
+    "location": [
+      "Random Drops",
+      "Terra Flama"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:hard:orichalum",
+    "materialClass": "Hard",
+    "name": "Orichalum",
+    "rarity": 1,
+    "page": "Hard",
+    "flavour": "Orichalum is a reactive metal that is relatively soft until presented with a material that is stronger than it, where it mysteriously becomes more and more powerful depending on the differences in ability between the two. It is used as a crafting material.",
+    "raw": "'''Weapon:''' -1 Power, -1 Critical, -1 Accuracy, +2 Weight<br>Increases all parameters when attacking higher level foes (up to +10)<br>'''Armor:''' -1 Armor, +2 Weight, +5% Light Resistance<br>Increases all parameters when attacked by higher level foes (up to +10)<br>'''Other:''' +5% Light Resistance<br><br><i>Orichalum is a reactive metal that is relatively soft until presented with a material that is stronger than it, where it mysteriously becomes more and more powerful depending on the differences in ability between the two. It is used as a crafting material.</i>",
+    "weapon": "-1 Power, -1 Critical, -1 Accuracy, +2 Weight Increases all parameters when attacking higher level foes (up to +10)",
+    "armor": "-1 Armor, +2 Weight, +5% Light Resistance Increases all parameters when attacked by higher level foes (up to +10)",
+    "other": "+5% Light Resistance",
+    "location": [
+      "Random Drops",
+      "Azure Meteorite"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:hard:planetarium",
+    "materialClass": "Hard",
+    "name": "Planetarium",
+    "rarity": 1,
+    "page": "Hard",
+    "flavour": "A glassy sort of ore that seems very 'light'. All of the stars in its sky are waiting for you.",
+    "raw": "'''Weapon:''' +1 Power, +2 Critical, +2 Accuracy, -2 Weight, +3 Light ATK<br>'''Armor:''' -2 Weight, +5% Sound Resistance<br>'''Other:''' +5% Sound Resistance<br><br><i>A glassy sort of ore that seems very 'light'. All of the stars in its sky are waiting for you.</i>",
+    "weapon": "+1 Power, +2 Critical, +2 Accuracy, -2 Weight, +3 Light ATK",
+    "armor": "-2 Weight, +5% Sound Resistance",
+    "other": "+5% Sound Resistance",
+    "location": [
+      "Random Drops",
+      "Black Doors"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:hard:rockdirt",
+    "materialClass": "Hard",
+    "name": "Rockdirt",
+    "rarity": 1,
+    "page": "Hard",
+    "flavour": "Rockdirt is a type of dirt that is as hard as a rock. It is believed to have very fine bits of ore mixed into it, and it is used as a crafting material.",
+    "raw": "'''Weapon:''' +1 Power, +4 Critical, +2 Accuracy, +4 Weight, +3 Earth ATK<br>'''Armor:''' +2 Armor, +2 Weight, +5% Earth Resistance<br>'''Other:''' +5% Earth Resistance<br><br><i>Rockdirt is a type of dirt that is as hard as a rock. It is believed to have very fine bits of ore mixed into it, and it is used as a crafting material.</i>",
+    "weapon": "+1 Power, +4 Critical, +2 Accuracy, +4 Weight, +3 Earth ATK",
+    "armor": "+2 Armor, +2 Weight, +5% Earth Resistance",
+    "other": "+5% Earth Resistance",
+    "location": [
+      "Random Drops",
+      "Abyss Cave"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:hard:sandstone",
+    "materialClass": "Hard",
+    "name": "Sandstone",
+    "rarity": 1,
+    "page": "Hard",
+    "flavour": "A rough sand-based rock that could be used as a crafting material.",
+    "raw": "'''Weapon:''' -2 Power, +5 Critical, +3 Weight<br>Weapon can be used as a casting tool for Isesipian spells.<br>'''Armor:''' +1 Armor, +1 Magic Armor, +4 Evade, +3 Weight, +5% Light Resistance<br>'''Other:''' 5% Light Resistance<br><br><i>A rough sand-based rock that could be used as a crafting material.</i>",
+    "weapon": "-2 Power, +5 Critical, +3 Weight Weapon can be used as a casting tool for Isesipian spells.",
+    "armor": "+1 Armor, +1 Magic Armor, +4 Evade, +3 Weight, +5% Light Resistance",
+    "other": "5% Light Resistance",
+    "location": [
+      "Random Drops",
+      "Ancient Temple"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:hard:shark-remains",
+    "materialClass": "Hard",
+    "name": "Shark Remains",
+    "rarity": 1,
+    "page": "Hard",
+    "flavour": "The heavy remains of a shark.",
+    "raw": "'''Weapon:''' +6 Power, +8 Weight<br>'''Armor:''' +1 Armor, +3 Magic Armor, +3 Evade, +8 Weight<br>'''Other:''' No effect.<br>'''Macabre:''' Water <br><br><i>The heavy remains of a shark.</i>",
+    "weapon": "+6 Power, +8 Weight",
+    "armor": "+1 Armor, +3 Magic Armor, +3 Evade, +8 Weight",
+    "other": "No effect.",
+    "macabre": "Water",
+    "location": [
+      "Random Drops",
+      "Harvest (Shark Monsters)"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:hard:slipheed-s-curse",
+    "materialClass": "Hard",
+    "name": "Slipheed's Curse",
+    "rarity": 1,
+    "page": "Hard",
+    "flavour": "Silpheed's Curse earned its name for its unique properties, causing powerful gusts of wind when struck. This lead to more than its fair share of deadly accidents in mines. Still, it is a useful crafting material.",
+    "raw": "'''Weapon:''' -2 Power, +5 Accuracy, -5 Weight, +3 Wind ATK<br>'''Armor:''' -2 Armor, -2 Weight, +5% Wind Resistance<br>'''Other:''' +5% Wind Resistance<br><br><i>Silpheed's Curse earned its name for its unique properties, causing powerful gusts of wind when struck. This lead to more than its fair share of deadly accidents in mines. Still, it is a useful crafting material.</i>",
+    "weapon": "-2 Power, +5 Accuracy, -5 Weight, +3 Wind ATK",
+    "armor": "-2 Armor, -2 Weight, +5% Wind Resistance",
+    "other": "+5% Wind Resistance",
+    "location": [
+      "Random Drops",
+      "Sea of Clouds"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:hard:snakeman-remains",
+    "materialClass": "Hard",
+    "name": "Snakeman Remains",
+    "rarity": 1,
+    "page": "Hard",
+    "flavour": "The heavy remains of a snakeman.",
+    "raw": "'''Weapon:''' +8 Critical, +8 Weight<br>'''Armor:''' +3 Armor, +1 Magic Armor, +8 Weight<br>'''Other:''' No effect.<br>'''Macabre:''' Acid <br><br><i>The heavy remains of a snakeman.</i>",
+    "weapon": "+8 Critical, +8 Weight",
+    "armor": "+3 Armor, +1 Magic Armor, +8 Weight",
+    "other": "No effect.",
+    "macabre": "Acid",
+    "location": [
+      "Random Drops",
+      "Harvest (Snakeman Monsters)"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:hard:spatial-remains",
+    "materialClass": "Hard",
+    "name": "Spatial Remains",
+    "rarity": 1,
+    "page": "Hard",
+    "flavour": "The heavy remains of a spatial creature.",
+    "raw": "'''Weapon:''' +3 Power, +3 Critical, +8 Weight<br>'''Armor:''' +2 Armor, +2 Magic Armor, +8 Weight<br>'''Other:''' No effect.<br>'''Macabre:''' Light<br><br><i>The heavy remains of a spatial creature.</i>",
+    "weapon": "+3 Power, +3 Critical, +8 Weight",
+    "armor": "+2 Armor, +2 Magic Armor, +8 Weight",
+    "other": "No effect.",
+    "macabre": "Light",
+    "location": [
+      "Random Drops",
+      "Harvest (Spatial Monsters)"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:hard:thinsteel",
+    "materialClass": "Hard",
+    "name": "Thinsteel",
+    "rarity": 1,
+    "page": "Hard",
+    "flavour": "Alloy forged thin enough to bend but not break, it has very limited practical use.",
+    "raw": "'''Weapon:'''-3 Power, +5 Hit, +3 Critical, -2 Weight<br>If weapon's base Farshot Range is 1, +2 Farshot Range<br>'''Armor:''' -3 Armor, +1 Magic Armor, +5 Evade, -2 Weight<br>'''Other:''' No effect.<br><br><i>Alloy forged thin enough to bend but not break, it has very limited practical use.</i>",
+    "weapon": "-3 Power, +5 Hit, +3 Critical, -2 Weight If weapon's base Farshot Range is 1, +2 Farshot Range",
+    "armor": "-3 Armor, +1 Magic Armor, +5 Evade, -2 Weight",
+    "other": "No effect.",
+    "location": [
+      "Forging"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:chapters:aquarian-page",
+    "materialClass": "Chapters",
+    "name": "Aquarian Page",
+    "rarity": 1,
+    "page": "Pages",
+    "flavour": "A page made with the elemental power of ice.",
+    "raw": "'''Weapon:''' +3 Power, +3 Hit, +2 Weight<br>Reduces the cost of Aquarian domain spells by 2<br>'''Other:''' No effect.<br><br><i>A page made with the elemental power of ice.</i>",
+    "weapon": "+3 Power, +3 Hit, +2 Weight Reduces the cost of Aquarian domain spells by 2",
+    "other": "No effect.",
+    "location": [
+      "Random Drops",
+      "Alchemy (Lv1)"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:chapters:ashen-page",
+    "materialClass": "Chapters",
+    "name": "Ashen Page",
+    "rarity": 1,
+    "page": "Pages",
+    "flavour": "A page made with ashed powder.",
+    "raw": "'''Weapon:''' +2 Power, +3 Hit, +6 Weight, +3 Fire ATK<br>'''Other:''' No effect.<br><br><i>A page made with ashed powder.</i>",
+    "weapon": "+2 Power, +3 Hit, +6 Weight, +3 Fire ATK",
+    "other": "No effect.",
+    "location": [
+      "Random Drops"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:chapters:beast-page",
+    "materialClass": "Chapters",
+    "name": "Beast Page",
+    "rarity": 1,
+    "page": "Pages",
+    "flavour": "A page made with beast-marked materials.",
+    "raw": "'''Weapon:''' +3 Power, +3 Hit, +3 Critical, +8 Weight<br>+3 to parameters when attacking Beast enemies.<br>-2 cost for Nature and Aquarian domains.<br>'''Other:''' No effect.<br><br><i>A page made with beast-marked materials.</i>",
+    "weapon": "+3 Power, +3 Hit, +3 Critical, +8 Weight +3 to parameters when attacking Beast enemies. -2 cost for Nature and Aquarian domains.",
+    "other": "No effect.",
+    "location": [
+      "Random Drops"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:chapters:fine-art",
+    "materialClass": "Chapters",
+    "name": "Fine Art",
+    "rarity": 1,
+    "page": "Pages",
+    "flavour": "An expensive artwork from a (relatively) famous artist.",
+    "raw": "'''Weapon:''' -2 Power, -5 Critical, +6 Weight<br>'''All:''' '''On Battle Start:''' Grants [[Fanciness]] based on item rarity.<br>Item sells for a little more at shops.<br><br><i>An expensive artwork from a (relatively) famous artist.</i>",
+    "weapon": "-2 Power, -5 Critical, +6 Weight",
+    "all": "On Battle Start: Grants Fanciness based on item rarity. Item sells for a little more at shops.",
+    "location": [
+      "Random Drops"
+    ],
+    "appliesToAll": true
+  },
+  {
+    "id": "material:chapters:foamy-page",
+    "materialClass": "Chapters",
+    "name": "Foamy Page",
+    "rarity": 1,
+    "page": "Pages",
+    "flavour": "A page that won't be damaged by sea foam.",
+    "raw": "'''Weapon:''' +1 Power, +5 Hit, +6 Weight, +3 Water ATK<br>'''Other:''' No effect.<br><br><i>A page that won't be damaged by sea foam.</i>",
+    "weapon": "+1 Power, +5 Hit, +6 Weight, +3 Water ATK",
+    "other": "No effect.",
+    "location": [
+      "Random Drops"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:chapters:heretic-page",
+    "materialClass": "Chapters",
+    "name": "Heretic Page",
+    "rarity": 1,
+    "page": "Pages",
+    "flavour": "A page made with the elemental power of darkness.",
+    "raw": "'''Weapon:''' +5 Power, +5 Weight<br>Reduces the cost of the Huggessoan domain spells by 2<br>'''Other:''' No effect.<br><br><i>A page made with the elemental power of darkness.</i>",
+    "weapon": "+5 Power, +5 Weight Reduces the cost of the Huggessoan domain spells by 2",
+    "other": "No effect.",
+    "location": [
+      "Random Drops",
+      "Alchemy (Lv1)"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:chapters:isesip-page",
+    "materialClass": "Chapters",
+    "name": "Isesip Page",
+    "rarity": 1,
+    "page": "Pages",
+    "flavour": "A page made with the elemental power of earth.",
+    "raw": "'''Weapon:''' +2 Power, +2 Critical, +2 Hit, +2 Weight<br>Reduces the cost of Isespia domain spells by 2<br>'''Other:''' No effect.<br><br><i>A page made with the elemental power of earth.</i>",
+    "weapon": "+2 Power, +2 Critical, +2 Hit, +2 Weight Reduces the cost of Isespia domain spells by 2",
+    "other": "No effect.",
+    "location": [
+      "Random Drops",
+      "Alchemy (Lv1)"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:chapters:mercalan-page",
+    "materialClass": "Chapters",
+    "name": "Mercalan Page",
+    "rarity": 1,
+    "page": "Pages",
+    "flavour": "A page made with the elemental power of light.",
+    "raw": "'''Weapon:''' +5 Hit, +5 Weight<br>Reduces the cost of Mercalan domain spells by 2<br>'''Other:''' No effect.<br><br><i>A page made with the elemental power of light.</i>",
+    "weapon": "+5 Hit, +5 Weight Reduces the cost of Mercalan domain spells by 2",
+    "other": "No effect.",
+    "location": [
+      "Random Drops",
+      "Alchemy (Lv1)"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:chapters:moldy-page",
+    "materialClass": "Chapters",
+    "name": "Moldy Page",
+    "rarity": 1,
+    "page": "Pages",
+    "flavour": "A page made with mushroom spores.",
+    "raw": "'''Weapon:''' +2 Power, +3 Weight, +3 Acid ATK<br>Fungus grows on the item at the start of battle.<br>'''Other:''' Fungus grows on the item at the start of battle.<br><br><i>A page made with mushroom spores.</i>",
+    "weapon": "+2 Power, +3 Weight, +3 Acid ATK Fungus grows on the item at the start of battle.",
+    "other": "Fungus grows on the item at the start of battle.",
+    "location": [
+      "Random Drops"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:chapters:nerifian-page",
+    "materialClass": "Chapters",
+    "name": "Nerifian Page",
+    "rarity": 1,
+    "page": "Pages",
+    "flavour": "A page made with the elemental power of fire.",
+    "raw": "'''Weapon:''' +3 Power, +3 Critical, +2 Weight<br>Reduces the cost of Nerifian domain spells by 2<br>'''Other:''' No effect.<br><br><i>A page made with the elemental power of fire.</i>",
+    "weapon": "+3 Power, +3 Critical, +2 Weight Reduces the cost of Nerifian domain spells by 2",
+    "other": "No effect.",
+    "location": [
+      "Random Drops",
+      "Alchemy (Lv1)"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:chapters:orichal-page",
+    "materialClass": "Chapters",
+    "name": "Orichal Page",
+    "rarity": 1,
+    "page": "Pages",
+    "flavour": "A page made with the elemental power of star metal.",
+    "raw": "'''Weapon:''' -1 Power, -1 Critical, -1 Hit, +2 Weight<br>Increases all parameters when attacking higher level foes (up to +10)<br>'''Other:''' No effect.<br><br><i>A page made with the elemental power of star metal.</i>",
+    "weapon": "-1 Power, -1 Critical, -1 Hit, +2 Weight Increases all parameters when attacking higher level foes (up to +10)",
+    "other": "No effect.",
+    "location": [
+      "Random Drops",
+      "Alchemy (Lv1)"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:chapters:paper",
+    "materialClass": "Chapters",
+    "name": "Paper",
+    "rarity": 1,
+    "page": "Pages",
+    "flavour": "A basic page made of paper.",
+    "raw": "'''Weapon:''' No effect.<br>'''Other:''' No effect.<br><br><i>A basic page made of paper.</i>",
+    "weapon": "No effect.",
+    "other": "No effect.",
+    "location": [
+      "Random Drops",
+      "Alchemy (Lv1)"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:chapters:sandy-page",
+    "materialClass": "Chapters",
+    "name": "Sandy Page",
+    "rarity": 1,
+    "page": "Pages",
+    "flavour": "A page made with a sandy compound.",
+    "raw": "'''Weapon:''' +2 Power, +3 Hit, +6 Weight, +3 Earth ATK<br>'''Other:''' No effect.<br><br><i>A page made with a sandy compound.</i>",
+    "weapon": "+2 Power, +3 Hit, +6 Weight, +3 Earth ATK",
+    "other": "No effect.",
+    "location": [
+      "Random Drops"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:chapters:sheet-music",
+    "materialClass": "Chapters",
+    "name": "Sheet Music",
+    "rarity": 1,
+    "page": "Pages",
+    "flavour": "A page covered in a symphony of musical notes.",
+    "raw": "'''Weapon:''' +1 Power, +2 Critical, +3 Hit, +4 Weight, +3 Sound ATK<br>If a weapon, can be used as an Instrument if no others are available, but doubles durability consumption when it is.<br>'''Other:''' No effect.<br><br><i>A page covered in a symphony of musical notes.</i>",
+    "weapon": "+1 Power, +2 Critical, +3 Hit, +4 Weight, +3 Sound ATK If a weapon, can be used as an Instrument if no others are available, but doubles durability consumption when it is.",
+    "other": "No effect.",
+    "location": [
+      "Random Drops",
+      "Alchemy (Lv3)"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:chapters:star-page",
+    "materialClass": "Chapters",
+    "name": "Star Page",
+    "rarity": 1,
+    "page": "Pages",
+    "flavour": "A page that seems to resemble a portion of the night sky.",
+    "raw": "'''Weapon:''' +1 Power, +5 Critical, +6 Weight, +3 Light ATK<br>'''Other:''' No effect.<br><br><i>A page that seems to resemble a portion of the night sky.</i>",
+    "weapon": "+1 Power, +5 Critical, +6 Weight, +3 Light ATK",
+    "other": "No effect.",
+    "location": [
+      "Random Drops"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:chapters:storm-page",
+    "materialClass": "Chapters",
+    "name": "Storm Page",
+    "rarity": 1,
+    "page": "Pages",
+    "flavour": "A page made with the elemental power of the storm.",
+    "raw": "'''Weapon:''' +5 Critical, +5 Weight<br><br>Reduces the cost of Nature domain spells by 2<br>'''Other:''' No effect.<br><br><i>A page made with the elemental power of the storm.</i>",
+    "weapon": "+5 Critical, +5 Weight Reduces the cost of Nature domain spells by 2",
+    "other": "No effect.",
+    "location": [
+      "Random Drops",
+      "Alchemy (Lv1)"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:chapters:sylphid-page",
+    "materialClass": "Chapters",
+    "name": "Sylphid Page",
+    "rarity": 1,
+    "page": "Pages",
+    "flavour": "A page made with the elemental power of wind.",
+    "raw": "'''Weapon:''' +3 Critical, +3 Hit, +2 Weight<br>Reduces the cost of sylphid domain spells by 2<br>'''Other:''' No effect.<br><br><i>A page made with the elemental power of wind.</i>",
+    "weapon": "+3 Critical, +3 Hit, +2 Weight Reduces the cost of sylphid domain spells by 2",
+    "other": "No effect.",
+    "location": [
+      "Random Drops",
+      "Alchemy (Lv1)"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:chapters:thin-page",
+    "materialClass": "Chapters",
+    "name": "Thin Page",
+    "rarity": 1,
+    "page": "Pages",
+    "flavour": "A page as thin as rice paper.",
+    "raw": "'''Weapon:''' -2 Power, +3 Critical, -6 Weight, +3 Wind ATK<br>'''Other:''' No effect.<br><br><i>A page as thin as rice paper.</i>",
+    "weapon": "-2 Power, +3 Critical, -6 Weight, +3 Wind ATK",
+    "other": "No effect.",
+    "location": [
+      "Random Drops"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:woods:ash-wood",
+    "materialClass": "Woods",
+    "name": "Ash Wood",
+    "rarity": 1,
+    "page": "Wood",
+    "flavour": "A common type of wood.",
+    "raw": "'''Weapon:''' No effect.<br>'''Armor:''' No effect.<br>'''Other:''' No effect.<br><br><i>A common type of wood.</i>",
+    "weapon": "No effect.",
+    "armor": "No effect.",
+    "other": "No effect.",
+    "location": [
+      "Random Drops",
+      "Woodcutting",
+      "Old Campfires"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:woods:coldbark",
+    "materialClass": "Woods",
+    "name": "Coldbark",
+    "rarity": 1,
+    "page": "Wood",
+    "flavour": "A type of wood cold to the touch.",
+    "raw": "'''Weapon:''' +5 Critical, -5 Accuracy, +3 Ice ATK<br>'''Armor:''' +1 Armor, +1 Weight, +5% Ice Resistance<br>'''Other:''' +5% Ice Resistance<br><br><i>A type of wood cold to the touch.</i>",
+    "weapon": "+5 Critical, -5 Accuracy, +3 Ice ATK",
+    "armor": "+1 Armor, +1 Weight, +5% Ice Resistance",
+    "other": "+5% Ice Resistance",
+    "location": [
+      "Random Drops",
+      "Lost Beach",
+      "Ice Palace"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:woods:devilbark",
+    "materialClass": "Woods",
+    "name": "Devilbark",
+    "rarity": 1,
+    "page": "Wood",
+    "flavour": "A type of tree bark that is said to be corrupted.",
+    "raw": "'''Weapon:''' +2 Power, +5 Weight, +3 Dark ATK<br>'''Armor:''' +4 Armor, +8 Weight, +5% Dark Resistance<br>'''Other:''' +5% Dark Resistance<br><br><i>A type of tree bark that is said to be corrupted.</i>",
+    "weapon": "+2 Power, +5 Weight, +3 Dark ATK",
+    "armor": "+4 Armor, +8 Weight, +5% Dark Resistance",
+    "other": "+5% Dark Resistance",
+    "location": [
+      "Random Drops"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:woods:etherbark",
+    "materialClass": "Woods",
+    "name": "Etherbark",
+    "rarity": 1,
+    "page": "Wood",
+    "flavour": "Bark that seems to repair any major damage made to it.",
+    "raw": "'''Weapon:''' -75% Max Durability, Repairs self after every battle. <br>'''Armor:''' -4 Weight, +3 FP<br>'''Other:''' +3 FP<br><br><i>Bark that seems to repair any major damage made to it.</i>",
+    "weapon": "-75% Max Durability, Repairs self after every battle.",
+    "armor": "-4 Weight, +3 FP",
+    "other": "+3 FP",
+    "location": [
+      "Random Drops",
+      "Azure Meteorite"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:woods:firebark",
+    "materialClass": "Woods",
+    "name": "Firebark",
+    "rarity": 1,
+    "page": "Wood",
+    "flavour": "A type of wood warm to the touch.",
+    "raw": "'''Weapon:''' +2 Power, -5 Critical, +3 Fire ATK<br>'''Armor:''' +1 Armor, +1 Weight, +5% Fire Resistance<br>'''Other:''' +5% Fire Resistance<br><br><i>A type of wood warm to the touch.</i>",
+    "weapon": "+2 Power, -5 Critical, +3 Fire ATK",
+    "armor": "+1 Armor, +1 Weight, +5% Fire Resistance",
+    "other": "+5% Fire Resistance",
+    "location": [
+      "Random Drops",
+      "Terra Flama"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:woods:fungusbark",
+    "materialClass": "Woods",
+    "name": "Fungusbark",
+    "rarity": 1,
+    "page": "Wood",
+    "flavour": "Covered with countless spores, this wood is a magnet for fungus. Therein lies its value.",
+    "raw": "'''Weapon:''' +2 Power, +2 Weight, -5 Durability, +3 Acid ATK<br>Fungus grows on the item at the start of battle.<br>'''Armor:''' -1 Armor, -1 Magic Armor, +5 Evade, +2 Weight, +5% Acid Resistance<br>Fungus grows on the item at the start of battle.<br>'''Other:''' +5% Acid Resistance<br>Fungus grows on the item at the start of battle.<br><br><i>Covered with countless spores, this wood is a magnet for fungus. Therein lies its value.\n\n</i>",
+    "weapon": "+2 Power, +2 Weight, -5 Durability, +3 Acid ATK Fungus grows on the item at the start of battle.",
+    "armor": "-1 Armor, -1 Magic Armor, +5 Evade, +2 Weight, +5% Acid Resistance Fungus grows on the item at the start of battle.",
+    "other": "+5% Acid Resistance Fungus grows on the item at the start of battle.",
+    "location": [
+      "Random Drops",
+      "Sunken Forest"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:woods:hollow-log",
+    "materialClass": "Woods",
+    "name": "Hollow Log",
+    "rarity": 1,
+    "page": "Wood",
+    "flavour": "It's really just part of a fallen tree or something. Why would this be useful?",
+    "raw": "'''Weapon:''' +10 Power, +10 Critical, -5 Accuracy, +25 Weight<br>'''Armor:''' +7 Armor, +7 Magic Armor, -10 Evade, +25 Weight<br>'''Other:''' No effect.<br><br><i>It's really just part of a fallen tree or something. Why would this be useful?\n\n</i>",
+    "weapon": "+10 Power, +10 Critical, -5 Accuracy, +25 Weight",
+    "armor": "+7 Armor, +7 Magic Armor, -10 Evade, +25 Weight",
+    "other": "No effect.",
+    "location": [
+      "Random Drops"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:woods:ivorybark",
+    "materialClass": "Woods",
+    "name": "Ivorybark",
+    "rarity": 1,
+    "page": "Wood",
+    "flavour": "Wood valued highly for its fragrant bark.",
+    "raw": "'''Weapon:''' -2 Power, -5 Critical, +6 Weight<br>'''Armor:''' -3 Armor, -3 Magic Armor, +6 Weight<br>'''All:''' '''On Battle Start:''' Grants [[Fanciness]] based on item rarity.<br>Item sells for a little more at shops.<br><br><i>Wood valued highly for its fragrant bark.\n\n</i>",
+    "weapon": "-2 Power, -5 Critical, +6 Weight",
+    "armor": "-3 Armor, -3 Magic Armor, +6 Weight",
+    "all": "On Battle Start: Grants Fanciness based on item rarity. Item sells for a little more at shops.",
+    "location": [
+      "Random Drops"
+    ],
+    "appliesToAll": true
+  },
+  {
+    "id": "material:woods:loyrwell-rotwood",
+    "materialClass": "Woods",
+    "name": "Loyrwell Rotwood",
+    "rarity": 1,
+    "page": "Wood",
+    "flavour": "Tainted by dark magic.",
+    "raw": "'''Weapon:''' +3 Hit, -5 Durability<br>Weapon can be used as a casting tool for Huggessoan spells<br>'''Armor:''' +3 Evade, +1 Magic Armor, +5% Dark Resistance<br>'''Other:''' +5% Dark Resistance<br><br><i>Tainted by dark magic.</i>",
+    "weapon": "+3 Hit, -5 Durability Weapon can be used as a casting tool for Huggessoan spells",
+    "armor": "+3 Evade, +1 Magic Armor, +5% Dark Resistance",
+    "other": "+5% Dark Resistance",
+    "location": [
+      "Random Drops",
+      "Loyrwell"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:woods:markedbark",
+    "materialClass": "Woods",
+    "name": "Markedbark",
+    "rarity": 1,
+    "page": "Wood",
+    "flavour": "A moss-covered log that has animal damage on it in the form of chew marks and claw tears.",
+    "raw": "'''Weapon:''' +4 Critical, +4 Hit, +4 Weight, -10 Durability<br>Weapon can be used as casting tool for Nature spells.<br>'''Armor:''' -2 Armor, +3 Magic Armor, +4 Evade, +4 Weight, +5% Lightning Resistance<br>'''Other:''' +5% Lightning Resistance<br><br><i>A moss-covered log that has animal damage on it in the form of chew marks and claw tears.</i>",
+    "weapon": "+4 Critical, +4 Hit, +4 Weight, -10 Durability Weapon can be used as casting tool for Nature spells.",
+    "armor": "-2 Armor, +3 Magic Armor, +4 Evade, +4 Weight, +5% Lightning Resistance",
+    "other": "+5% Lightning Resistance",
+    "location": [
+      "Random Drops",
+      "Frozen Beast Cavern"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:woods:mossybark",
+    "materialClass": "Woods",
+    "name": "Mossybark",
+    "rarity": 1,
+    "page": "Wood",
+    "flavour": "A moist wood with some moist moss growing upon it.",
+    "raw": "'''Weapon:''' +3 Power, +3 Hit, -3 Critical, +3 Weight<br>Weapon can be used as a casting tool for Aquarian spells.<br>At the start of Round 3, Fungus grows on the item.<br>'''Armor:''' -2 Armor, +5 Magic Armor, +3 Weight, +5% Water Resistance<br>At the start of Round 3, Fungus grows on the item.<br>'''Other:''' +5% Water Resistance<br><br><i>A moist wood with some moist moss growing upon it.</i>",
+    "weapon": "+3 Power, +3 Hit, -3 Critical, +3 Weight Weapon can be used as a casting tool for Aquarian spells. At the start of Round 3, Fungus grows on the item.",
+    "armor": "-2 Armor, +5 Magic Armor, +3 Weight, +5% Water Resistance At the start of Round 3, Fungus grows on the item.",
+    "other": "+5% Water Resistance",
+    "location": [
+      "Random Drops"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:woods:nightflower",
+    "materialClass": "Woods",
+    "name": "Nightflower",
+    "rarity": 1,
+    "page": "Wood",
+    "flavour": "Don't stop and smell this rose.",
+    "raw": "'''Weapon:''' -5 Accuracy<br>Inflicts Spelldaze for 2 rounds on hit, if Spelldaze is not active. (Puts a random spell the target has on a 2 round cooldown.)<br>'''Armor:''' No effect.<br>'''Other:''' No effect.<br><br><i>Don't stop and smell this rose.</i>",
+    "weapon": "-5 Accuracy Inflicts Spelldaze for 2 rounds on hit, if Spelldaze is not active. (Puts a random spell the target has on a 2 round cooldown.)",
+    "armor": "No effect.",
+    "other": "No effect.",
+    "location": [
+      "Random Drops",
+      "Abyss Cave"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:woods:oribark",
+    "materialClass": "Woods",
+    "name": "Oribark",
+    "rarity": 1,
+    "page": "Wood",
+    "flavour": "Radiates with a strange power.",
+    "raw": "'''Weapon:''' -1 Power, -1 Critical, -1 Accuracy, +2 Weight<br>Increases all parameters when attacking higher level foes (up to +10)<br>'''Armor:''' -1 Armor, +2 Weight, +5% Light Resistance<br>Increases all parameters when attacked by higher level foes (up to +10)<br>'''Other:''' +5% Light Resistance<br><br><i>Radiates with a strange power.</i>",
+    "weapon": "-1 Power, -1 Critical, -1 Accuracy, +2 Weight Increases all parameters when attacking higher level foes (up to +10)",
+    "armor": "-1 Armor, +2 Weight, +5% Light Resistance Increases all parameters when attacked by higher level foes (up to +10)",
+    "other": "+5% Light Resistance",
+    "location": [
+      "Random Drops",
+      "Azure Meteorite"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:woods:petrified-wood",
+    "materialClass": "Woods",
+    "name": "Petrified Wood",
+    "rarity": 1,
+    "page": "Wood",
+    "flavour": "A hard wood that has been completely calcified.",
+    "raw": "'''Weapon:''' +5 Power, +6 Weight<br>Weapon can be used as a casting tool for Isesipian spells.<br>'''Armor:''' +4 Armor, +6 Weight, +5% Earth Resistance<br>'''Other:''' +5% Earth Resistance<br><br><i>A hard wood that has been completely calcified.</i>",
+    "weapon": "+5 Power, +6 Weight Weapon can be used as a casting tool for Isesipian spells.",
+    "armor": "+4 Armor, +6 Weight, +5% Earth Resistance",
+    "other": "+5% Earth Resistance",
+    "location": [
+      "Random Drops",
+      "Minotaur Labyrinth"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:woods:rainbowbark",
+    "materialClass": "Woods",
+    "name": "Rainbowbark",
+    "rarity": 1,
+    "page": "Wood",
+    "flavour": "A corrupted bark of every color.",
+    "raw": "'''Weapon:''' +3 Power, +3 Hit, +3 Critical<br>'''Armor:''' +5 Evade<br>'''All:''' +15 HP, +15 FP, +1 Fire, Ice, Wind, Earth and Lightning ATK<br>10% chance per Rainbowbark item to gain a random compulsion every 3rd round. (LV = higher of 30 and character level)<br><br><i>A corrupted bark of every color.</i>",
+    "weapon": "+3 Power, +3 Hit, +3 Critical",
+    "armor": "+5 Evade",
+    "all": "+15 HP, +15 FP, +1 Fire, Ice, Wind, Earth and Lightning ATK 10% chance per Rainbowbark item to gain a random compulsion every 3rd round. (LV = higher of 30 and character level)",
+    "location": [
+      "Random Drops"
+    ],
+    "appliesToAll": true
+  },
+  {
+    "id": "material:woods:scorched-wood",
+    "materialClass": "Woods",
+    "name": "Scorched Wood",
+    "rarity": 1,
+    "page": "Wood",
+    "flavour": "Enflamed by intense radiant heat, yet it doesn't burn.",
+    "raw": "'''Weapon:''' +2 Power, +3 Critical, +3 Accuracy, +6 Weight<br>Weapon can be used as casting tool for Nerifian spells<br>'''Armor:''' +2 Armor, +2 Magic Armor, +3 Evade, +6 Weight, +5% Fire Resistance<br>'''Other:''' +5% Fire Resistance<br><br><i>Enflamed by intense radiant heat, yet it doesn't burn.</i>",
+    "weapon": "+2 Power, +3 Critical, +3 Accuracy, +6 Weight Weapon can be used as casting tool for Nerifian spells",
+    "armor": "+2 Armor, +2 Magic Armor, +3 Evade, +6 Weight, +5% Fire Resistance",
+    "other": "+5% Fire Resistance",
+    "location": [
+      "Random Drops",
+      "Lava Lake"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:woods:seedbark",
+    "materialClass": "Woods",
+    "name": "Seedbark",
+    "rarity": 1,
+    "page": "Wood",
+    "flavour": "Unremarkable wood with remarkable seeds in the bark.",
+    "raw": "'''Weapon:''' +4 Power, +2 Hit, -3 Critical, +4 Weight<br>+10% FP Efficiency for Plant skills (stacks with other Seedbarks only)<br>'''On Battle Start:''' Get 2 seeds that can be planted to grow quickly. If weapon is Evolving, all flowers in 3 Range grow larger when it evolves.<br>'''Armor:''' -1 Armor, +4 Magic Armor, +3 Evade, +4 Weight<br>+10% FP Efficiency for Plant skills (stacks with other Seedbarks only)<br>'''On Battle Start:''' Get 2 seeds that can be planted to grow quickly. If armor is Aquaheart or Geoheart, flower seeds grow larger when planted.<br>'''Other:''' +3% FP Efficiency for Plant skills (stacks with other Seedbarks only)<br>'''On Battle Start:''' Get 1 seed that can be planted to grow quickly.<br><br><i>Unremarkable wood with remarkable seeds in the bark.</i>",
+    "weapon": "+4 Power, +2 Hit, -3 Critical, +4 Weight +10% FP Efficiency for Plant skills (stacks with other Seedbarks only) On Battle Start: Get 2 seeds that can be planted to grow quickly. If weapon is Evolving, all flowers in 3 Range grow larger when it evolves.",
+    "armor": "-1 Armor, +4 Magic Armor, +3 Evade, +4 Weight +10% FP Efficiency for Plant skills (stacks with other Seedbarks only) On Battle Start: Get 2 seeds that can be planted to grow quickly. If armor is Aquaheart or Geoheart, flower seeds grow larger when planted.",
+    "other": "+3% FP Efficiency for Plant skills (stacks with other Seedbarks only) On Battle Start: Get 1 seed that can be planted to grow quickly.",
+    "location": [
+      "Random Drops"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:woods:smoothbark",
+    "materialClass": "Woods",
+    "name": "Smoothbark",
+    "rarity": 1,
+    "page": "Wood",
+    "flavour": "Wood smoothed out from natural sources of sand friction. It is extremely smooth.",
+    "raw": "'''Weapon:''' +3 Power, +3 Critical, +2 Weight<br>Weapon can be used as a casting tool for Sylphid spells<br>'''Armor:''' +5 Evade, +2 Weight, +5% Wind Resistance<br>'''Other:''' +5% Wind Resistance<br><br><i>Wood smoothed out from natural sources of sand friction. It is extremely smooth.</i>",
+    "weapon": "+3 Power, +3 Critical, +2 Weight Weapon can be used as a casting tool for Sylphid spells",
+    "armor": "+5 Evade, +2 Weight, +5% Wind Resistance",
+    "other": "+5% Wind Resistance",
+    "location": [
+      "Random Drops",
+      "Ancient Temple"
+    ],
+    "appliesToAll": false
+  },
+  {
+    "id": "material:woods:windbark",
+    "materialClass": "Woods",
+    "name": "Windbark",
+    "rarity": 1,
+    "page": "Wood",
+    "flavour": "A very light piece of wood.",
+    "raw": "'''Weapon:''' -2 Power, +5 Accuracy, -2 Weight, +3 Wind ATK<br>'''Armor:''' -2 Armor, -2 Weight, +5% Wind Resistance<br>'''Other:''' +5% Wind Resistance<br><br><i>A very light piece of wood.</i>",
+    "weapon": "-2 Power, +5 Accuracy, -2 Weight, +3 Wind ATK",
+    "armor": "-2 Armor, -2 Weight, +5% Wind Resistance",
+    "other": "+5% Wind Resistance",
+    "location": [
+      "Random Drops",
+      "Sea of Clouds"
+    ],
+    "appliesToAll": false
+  }
+]

@@ -19,7 +19,7 @@
     ],
     "description": "A common bow.",
     "location": [
-      "Random drops",
+      "Random Drops",
       "Woodworking"
     ]
   },
@@ -43,9 +43,16 @@
         "ski": 30
       }
     ],
+    "specials": [
+      {
+        "name": "Passive",
+        "type": "Passive",
+        "description": "Sub Type: Shortbow"
+      }
+    ],
     "description": "This bow has been modified with a guide, making it easier to use and more accurate.",
     "location": [
-      "Random drops",
+      "Random Drops",
       "Woodworking"
     ]
   },
@@ -98,9 +105,16 @@
         "ski": 100
       }
     ],
+    "specials": [
+      {
+        "name": "Passive",
+        "type": "Passive",
+        "description": "Sub Type: Crossbow"
+      }
+    ],
     "description": "A heavy but effective alternative to bows, the crossbow is simple enough that almost anyone can use it.",
     "location": [
-      "Random drops",
+      "Random Drops",
       "Purchased from Blacksmiths"
     ]
   },
@@ -135,7 +149,7 @@
     ],
     "description": "A strong bow for driving arrows into the vital points of the target. Often used for hunting animals.",
     "location": [
-      "Random drops"
+      "Random Drops"
     ]
   },
   {
@@ -170,7 +184,7 @@
     ],
     "description": "A magical bow originally created by a famous bowsmith, any arrow it fires will be ignited.",
     "location": [
-      "Random drops"
+      "Random Drops"
     ]
   },
   {
@@ -207,7 +221,7 @@
     ],
     "description": "An odd but interesting bow made in the shape of a harp. It is functional as both a weapon and an instrument.",
     "location": [
-      "Random drops"
+      "Random Drops"
     ]
   },
   {
@@ -242,7 +256,7 @@
     ],
     "description": "Pierces full plate as if it were tree bark.",
     "location": [
-      "Random drops",
+      "Random Drops",
       "Woodworking"
     ]
   },
@@ -266,7 +280,7 @@
     ],
     "description": "Tannis, a fishing village located high in the mountains, uses these high-quality bows in their militia.",
     "location": [
-      "Random drops"
+      "Random Drops"
     ]
   },
   {
@@ -297,7 +311,7 @@
     ],
     "description": "A bow of darkness that no one can hide from.",
     "location": [
-      "Random drops"
+      "Random Drops"
     ]
   },
   {
@@ -328,7 +342,7 @@
     ],
     "description": "Makes the blood of your enemies fly.",
     "location": [
-      "Random drops",
+      "Random Drops",
       "Woodworking"
     ]
   },
@@ -366,7 +380,7 @@
     ],
     "description": "This basic bow is enchanted with a potent charge that electrifies arrows it shoots.",
     "location": [
-      "Random drops"
+      "Random Drops"
     ]
   },
   {
@@ -402,7 +416,7 @@
     ],
     "description": "Made from the wood of a tree deep in a noxious forest.",
     "location": [
-      "Random drops",
+      "Random Drops",
       "Woodworking"
     ]
   },
@@ -440,7 +454,7 @@
     ],
     "description": "The daikyu is a longbow with an irregular draw, positioned below the center of the bow. This makes the bow well-suited for use on horseback, as the bow is less likely to catch on the horse. However, the stress on the wood requires greater levels of maintenance, and its draw form is different from standard bows. Someone using a daikyu without the proper training will not have a functional one for long.",
     "location": [
-      "Random drops"
+      "Random Drops"
     ]
   },
   {
@@ -471,7 +485,7 @@
     ],
     "description": "A bow that leads arrows with spiritual guidance.",
     "location": [
-      "Random drops",
+      "Random Drops",
       "Woodworking"
     ]
   },
@@ -503,7 +517,7 @@
     ],
     "description": "This bow absorbs Focus from the wounds that it makes.",
     "location": [
-      "Random drops"
+      "Random Drops"
     ]
   },
   {
@@ -541,7 +555,7 @@
     ],
     "description": "The hankyu is a more compact version of the daikyu bow, with an irregular, uneven draw slightly below the center of the bow. While its power at long distances is less impressive than its sister bow, its smaller body allows it to be used for low profile shooting, such as when ducking.",
     "location": [
-      "Random drops"
+      "Random Drops"
     ]
   },
   {
@@ -563,7 +577,6 @@
         "res": 40
       }
     ],
-    "enchantment": "Tainted (Cursed)",
     "specials": [
       {
         "name": "Marked Target Bonus",
@@ -578,7 +591,7 @@
     ],
     "description": "This bow glowers with a fatal curse, and its arrows are painfully accurate, even when fired from hell.",
     "location": [
-      "Random drops"
+      "Random Drops"
     ]
   },
   {
@@ -614,7 +627,7 @@
     ],
     "description": "It kind of hurts to hold it, but the thorns it fires as quite painful too.",
     "location": [
-      "Random drops",
+      "Random Drops",
       "Mad Vines"
     ]
   },
@@ -657,7 +670,7 @@
     ],
     "description": "A magical bow that will ensure you get some lucky shots in.",
     "location": [
-      "Random drops"
+      "Random Drops"
     ]
   },
   {
@@ -688,7 +701,7 @@
     ],
     "description": "Leave streaks of stardust across the sky. Will not help you transform, however.",
     "location": [
-      "Random drops",
+      "Random Drops",
       "Woodworking"
     ]
   },
@@ -710,7 +723,6 @@
         "str": 100
       }
     ],
-    "material": "Coral",
     "specials": [
       {
         "name": "Material Bonus",
@@ -748,7 +760,6 @@
         "san": 20
       }
     ],
-    "enchantment": "Divine Weapon",
     "specials": [
       {
         "name": "Divine Weapon",
@@ -758,7 +769,7 @@
     ],
     "description": "A replica of the bow used by Mercala. It possesses extremely high power.",
     "location": [
-      "Random drops"
+      "Random Drops"
     ]
   },
   {
@@ -797,7 +808,7 @@
     ],
     "description": "A bow with an odd shape that creates wounds in the shape of lightning bolts.",
     "location": [
-      "Random drops"
+      "Random Drops"
     ]
   },
   {
@@ -829,7 +840,7 @@
     ],
     "description": "A magical bow that seems to be in rough shape. It seeks out summoners and their ilk with worrying enthusiasm. As to where it came from and why it exists, that much is unclear.",
     "location": [
-      "Random drops"
+      "Random Drops"
     ]
   },
   {
@@ -867,7 +878,7 @@
     ],
     "description": "This bow was blessed in long forgotten forests by the whimsical fae, and it only grows stronger near them.",
     "location": [
-      "Random drops"
+      "Random Drops"
     ]
   },
   {
@@ -904,7 +915,7 @@
     ],
     "description": "A somewhat large and very heavy crossbow. The edges of its front half are razor sharp. Be careful not to chop your hand off when reloading.",
     "location": [
-      "Random drops"
+      "Random Drops"
     ]
   },
   {
@@ -1004,7 +1015,6 @@
         "ski": 40
       }
     ],
-    "material": "Coldbark",
     "specials": [
       {
         "name": "Material Bonus",
@@ -1045,7 +1055,6 @@
         "str": 100
       }
     ],
-    "material": "Firebark",
     "specials": [
       {
         "name": "Material Bonus",
@@ -1102,6 +1111,52 @@
     "description": "A bow of light that produces stars around it. These stars will fly towards your enemies and help them see stars in a different sense of the phrase.",
     "location": [
       "Level 56+ Spatial Terror"
+    ]
+  },
+  {
+    "id": "weapon:bow:sunken-silk-bow",
+    "name": "Sunken Silk Bow",
+    "rarity": 10,
+    "weaponType": "Bow",
+    "range": 3,
+    "power": 7,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 11,
+    "damageType": "Pierce",
+    "scaling": [
+      {
+        "type": "Cunning",
+        "str": 70,
+        "gui": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Passive",
+        "type": "Passive",
+        "description": "Always enchanted with Evolving (+10% EXP Received (Doesn't stack). Once per battle, after losing 5 durability on this weapon: restores 5 durability, and gives +5 Power, Hit, and Critical to this weapon for the rest of the battle.)"
+      },
+      {
+        "name": "Passive",
+        "type": "Passive",
+        "description": "Increases Acid ATK by UL/2. (Doesn't stack.)"
+      },
+      {
+        "name": "Passive",
+        "type": "Passive",
+        "description": "An enemy affected by your String Attached has -X CEL (X = its LV x 2). When this weapon evolves, gain Silk Armor LV X (X = half of your level, 5 rounds)."
+      },
+      {
+        "name": "Passive",
+        "type": "Passive",
+        "description": "+1 Attack Range if weapon made of Thinsteel. On Hit: Apply or power up String Attached (LV 1, max 4, 3 rounds). Only 1 string can attached per action (even if you have multiple Puppet Strings equipped, or attack with it multiple times)."
+      }
+    ],
+    "description": "A bow covered with acidic silk that seems to augment its capabilities.",
+    "location": [
+      "Level 56+ Crawler"
     ]
   }
 ]

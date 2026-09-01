@@ -27,7 +27,7 @@
         "description": "+3 GUI"
       }
     ],
-    "description": "",
+    "description": "(No description)",
     "location": [
       "Enchanting (Lv1)"
     ]
@@ -53,10 +53,35 @@
         "ski": 40
       }
     ],
-    "description": "",
+    "description": "(No description)",
     "location": [
-      "Random drops",
-      "Shops"
+      "Random drops Shops"
+    ]
+  },
+  {
+    "id": "weapon:gun:autopistol",
+    "name": "Autopistol",
+    "rarity": 4,
+    "weaponType": "Gun",
+    "subtype": "Handgun",
+    "range": 3,
+    "power": 6,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 8,
+    "damageType": "Pierce",
+    "rounds": 3,
+    "scaling": [
+      {
+        "type": "Firearms",
+        "gui": 60,
+        "ski": 40
+      }
+    ],
+    "description": "(No description)",
+    "location": [
+      "Random drops"
     ]
   },
   {
@@ -87,104 +112,7 @@
         "description": "Knockbacks 1 tile."
       }
     ],
-    "description": "",
-    "location": [
-      "Random drops"
-    ]
-  },
-  {
-    "id": "weapon:gun:autopistol",
-    "name": "Autopistol",
-    "rarity": 4,
-    "weaponType": "Gun",
-    "subtype": "Handgun",
-    "range": 3,
-    "power": 6,
-    "accuracy": 80,
-    "critical": 0,
-    "criticalDamage": 110,
-    "weight": 8,
-    "damageType": "Pierce",
-    "rounds": 3,
-    "scaling": [
-      {
-        "type": "Firearms",
-        "gui": 60,
-        "ski": 40
-      }
-    ],
-    "description": "",
-    "location": [
-      "Random drops"
-    ]
-  },
-  {
-    "id": "weapon:gun:hold-upper",
-    "name": "Hold Upper",
-    "rarity": 5,
-    "weaponType": "Gun",
-    "subtype": "Handgun",
-    "range": 3,
-    "power": 6,
-    "accuracy": 80,
-    "critical": 5,
-    "criticalDamage": 110,
-    "weight": 10,
-    "damageType": "Pierce",
-    "rounds": 3,
-    "scaling": [
-      {
-        "type": "Firearms",
-        "gui": 60,
-        "ski": 40
-      }
-    ],
-    "specials": [
-      {
-        "name": "Steal Success Bonus",
-        "type": "Passive",
-        "description": "Increases Steal's success rate by 15%."
-      },
-      {
-        "name": "Pilfer",
-        "type": "PotentialSkill",
-        "description": "Targets one enemy within 1 Range. Messes with the target's inventory, preventing them from using items for 2 rounds."
-      }
-    ],
-    "description": "",
-    "location": [
-      "Random drops"
-    ]
-  },
-  {
-    "id": "weapon:gun:spirit-hunter",
-    "name": "Spirit Hunter",
-    "rarity": 5,
-    "weaponType": "Gun",
-    "subtype": "Rifle",
-    "range": 5,
-    "power": 8,
-    "accuracy": 80,
-    "critical": 0,
-    "criticalDamage": 110,
-    "weight": 15,
-    "damageType": "Pierce",
-    "rounds": 4,
-    "scaling": [
-      {
-        "type": "Spiritual",
-        "gui": 70,
-        "san": 40
-      }
-    ],
-    "specials": [
-      {
-        "name": "Anti-Youkai Damage",
-        "type": "Passive",
-        "description": "Damage dealt by this weapon's attack is increased by 15% if the target is a Youkai or installed with one."
-      }
-    ],
-    "description": "A special rifle made for taking down supernatural things.",
+    "description": "(No description)",
     "location": [
       "Random drops"
     ]
@@ -230,6 +158,77 @@
     ]
   },
   {
+    "id": "weapon:gun:hold-upper",
+    "name": "Hold Upper",
+    "rarity": 5,
+    "weaponType": "Gun",
+    "subtype": "Handgun",
+    "range": 3,
+    "power": 6,
+    "accuracy": 80,
+    "critical": 5,
+    "criticalDamage": 110,
+    "weight": 10,
+    "damageType": "Pierce",
+    "rounds": 3,
+    "scaling": [
+      {
+        "type": "Firearms",
+        "gui": 60,
+        "ski": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Steal Success Bonus",
+        "type": "Passive",
+        "description": "Increases Steal's success rate by 15%."
+      },
+      {
+        "name": "Pilfer",
+        "type": "PotentialSkill",
+        "description": "Targets one enemy within 1 Range. Messes with the target's inventory, preventing them from using items for 2 rounds."
+      }
+    ],
+    "description": "(No description)",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:gun:spirit-hunter",
+    "name": "Spirit Hunter",
+    "rarity": 5,
+    "weaponType": "Gun",
+    "subtype": "Rifle",
+    "range": 5,
+    "power": 8,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 15,
+    "damageType": "Pierce",
+    "rounds": 4,
+    "scaling": [
+      {
+        "type": "Spiritual",
+        "gui": 70,
+        "san": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Anti-Youkai Damage",
+        "type": "Passive",
+        "description": "Damage dealt by this weapon's attack is increased by 15% if the target is a Youkai or installed with one."
+      }
+    ],
+    "description": "A special rifle made for taking down supernatural things.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
     "id": "weapon:gun:excel-sniper",
     "name": "Excel Sniper",
     "rarity": 6,
@@ -269,43 +268,7 @@
         "description": "Shared Potential Skill. Charge Weapon FP cost is increased to 8 FP. Attacks do not use up all of your charges, instead the LV is reduced by 1, and the damage bonus is 35% (does not increase with charge amount like normal Excel attacks)."
       }
     ],
-    "description": "The Excel line of weapons were developed in Chaturanga, where the ability to be defensive while increasing offensive capabilities was highly valued. By charging up the weapon, it can explosively spend the focus energy when it strikes an enemy, greatly increasing damage. However, the engine module makes it heavier than other weapons.",
-    "location": [
-      "Random drops"
-    ]
-  },
-  {
-    "id": "weapon:gun:ryeser",
-    "name": "Ryeser",
-    "rarity": 6,
-    "weaponType": "Gun",
-    "subtype": "Handgun",
-    "range": 3,
-    "power": 6,
-    "accuracy": 80,
-    "critical": 0,
-    "criticalDamage": 110,
-    "weight": 3,
-    "damageType": "Lightning",
-    "rounds": 2,
-    "scaling": [
-      {
-        "type": "Electrical",
-        "luc": 40
-      },
-      {
-        "type": "Tool",
-        "gui": 40
-      }
-    ],
-    "specials": [
-      {
-        "name": "Clumsy on Critical",
-        "type": "OnCrit",
-        "description": "Inflict the target with Clumsy until your next turn. (Clumsy prevents the use of movement skills that aren't basic movement.) When this effect is applied to a unit, that unit cannot be affected by Ryeser again for 3 rounds."
-      }
-    ],
-    "description": "This type of weapon was developed as a non-life-threatening alternative to restrain individuals, but it is unpopular due to its unreliability.",
+    "description": "3 Momentum, 5 FP The Excel line of weapons were developed in Chaturanga, where the ability to be defensive while increasing offensive capabilities was highly valued. By charging up the weapon, it can explosively spend the focus energy when it strikes an enemy, greatly increasing damage. However, the engine module makes it heavier than other weapons.",
     "location": [
       "Random drops"
     ]
@@ -349,51 +312,151 @@
     ]
   },
   {
-    "id": "weapon:gun:yin",
-    "name": "Yin",
-    "rarity": 7,
+    "id": "weapon:gun:ryeser",
+    "name": "Ryeser",
+    "rarity": 6,
     "weaponType": "Gun",
     "subtype": "Handgun",
     "range": 3,
-    "power": 8,
-    "accuracy": 85,
-    "critical": 10,
+    "power": 6,
+    "accuracy": 80,
+    "critical": 0,
     "criticalDamage": 110,
-    "weight": 8,
-    "damageType": "Pierce",
+    "weight": 3,
+    "damageType": "Lightning",
     "rounds": 2,
     "scaling": [
       {
-        "type": "Darkness",
-        "gui": 70,
-        "res": 40
+        "type": "Electrical",
+        "luc": 40
+      },
+      {
+        "type": "Tool",
+        "gui": 40
       }
     ],
     "specials": [
       {
-        "name": "Damage Type Change",
-        "type": "Passive",
-        "description": "Damage type changes to Dark if Yang is also equipped."
-      },
-      {
-        "name": "Muddle",
-        "type": "PotentialSkill",
-        "description": "Item properties that would change the damage type of your basic attacks are ignored."
-      },
-      {
-        "name": "Gunsmoke Spiritual Set",
-        "type": "Passive",
-        "description": "Set: Gunsmoke Spiritual - 2+: Grants access to the Double Dao skill. 3+: Darkness and Light damage you deal ignores up to 10% of elemental resistance."
-      },
-      {
-        "name": "Double Dao",
-        "type": "GrantsSkill",
-        "description": "Fire both Yin and Yang at a target enemy within 3 Range, alternating between Light and Darkness damage, over 4 shots. The total damage dealt is equal to 100% Darkness ATK + 100% Light ATK + 50% of the total Scaled Weapon ATK of both weapons. In addition, both guns gain 2 additional attack rounds for 2 rounds.",
-        "momentumCost": 3,
-        "fpCost": 30
+        "name": "Clumsy on Critical",
+        "type": "OnCrit",
+        "description": "Inflict the target with Clumsy until your next turn. (Clumsy prevents the use of movement skills that aren't basic movement.) When this effect is applied to a unit, that unit cannot be affected by Ryeser again for 3 rounds."
       }
     ],
-    "description": "A pitch black handgun, and sister to the Yang handgun.",
+    "description": "This type of weapon was developed as a non-life-threatening alternative to restrain individuals, but it is unpopular due to its unreliability.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:gun:magical-nova",
+    "name": "Magical Nova",
+    "rarity": 7,
+    "weaponType": "Gun",
+    "subtype": "Shotgun",
+    "range": 3,
+    "power": 8,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 9,
+    "damageType": "Pierce",
+    "rounds": 1,
+    "scaling": [
+      {
+        "type": "Magical",
+        "gui": 70,
+        "wil": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Spelledge",
+        "type": "Passive",
+        "description": "This weapon can be used as a casting tool for spells."
+      },
+      {
+        "name": "Nova Eraser",
+        "type": "PotentialSkill",
+        "description": "This skill requires a Rank D Invocation (see the Invocation talent for more details). Fires a large beam of light at a target enemy, dealing Light magic damage that ignores evasion equal to 300% of Magical Nova's SWA. If the target is defeated by this attack, they are inflicted with Certain Defeat."
+      }
+    ],
+    "description": "Burn out the night... Leave craters in your enemy. Will not help you transform, however.",
+    "location": [
+      "Random drops Metalwork (Lv5)"
+    ]
+  },
+  {
+    "id": "weapon:gun:sea-hunter-gun",
+    "name": "Sea Hunter Gun",
+    "rarity": 7,
+    "weaponType": "Gun",
+    "subtype": "Handgun",
+    "range": 3,
+    "power": 7,
+    "accuracy": 80,
+    "critical": 7,
+    "criticalDamage": 110,
+    "weight": 12,
+    "damageType": "Pierce",
+    "rounds": 3,
+    "scaling": [
+      {
+        "type": "Aquatic",
+        "gui": 70,
+        "vit": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Coral Material",
+        "type": "Passive",
+        "description": "+1 Power, +3 Critical, +3 Accuracy, +1 Weight, +3 Water ATK"
+      },
+      {
+        "name": "Hunted vs Sea Monsters",
+        "type": "OnHit",
+        "description": "Inflicts Hunted LV14 for 3 rounds if the target is a seafaring monster."
+      }
+    ],
+    "description": "This gun was born from the sea, and as anyone who lives there knows, anything that lives in the sea is out to get everything else... that lives in the sea.",
+    "location": [
+      "Fishing Contest Chest"
+    ]
+  },
+  {
+    "id": "weapon:gun:the-kiss-farewell",
+    "name": "The Kiss Farewell",
+    "rarity": 7,
+    "weaponType": "Gun",
+    "subtype": "Handgun",
+    "range": 3,
+    "power": 10,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 120,
+    "weight": 10,
+    "damageType": "Pierce",
+    "rounds": 1,
+    "scaling": [
+      {
+        "type": "Firearms",
+        "gui": 60,
+        "ski": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Passive",
+        "type": "Passive",
+        "description": "On Hit: Consumes Weapon Charges, dealing 50% more damage per Charge Level."
+      },
+      {
+        "name": "Sparking Kiss",
+        "type": "PotentialSkill",
+        "description": "Defeating an enemy grants Auto Charge for 3 rounds. (Auto Charge automatically activates Weapon Autocharge at the start of every round.)"
+      }
+    ],
+    "description": "A handgun with an elongated barrel.",
     "location": [
       "Random drops"
     ]
@@ -443,86 +506,640 @@
         "fpCost": 30
       }
     ],
-    "description": "A shining silver handgun, and sister to the Yin handgun.",
+    "description": "3 Momentum, 30 FP A shining silver handgun, and sister to the Yin handgun.",
     "location": [
       "Random drops"
     ]
   },
   {
-    "id": "weapon:gun:magical-nova",
-    "name": "Magical Nova",
+    "id": "weapon:gun:yin",
+    "name": "Yin",
     "rarity": 7,
     "weaponType": "Gun",
-    "subtype": "Shotgun",
+    "subtype": "Handgun",
     "range": 3,
     "power": 8,
-    "accuracy": 80,
-    "critical": 0,
+    "accuracy": 85,
+    "critical": 10,
     "criticalDamage": 110,
-    "weight": 9,
+    "weight": 8,
     "damageType": "Pierce",
-    "rounds": 1,
+    "rounds": 2,
     "scaling": [
       {
-        "type": "Magical",
+        "type": "Darkness",
         "gui": 70,
-        "wil": 40
+        "res": 40
       }
     ],
     "specials": [
       {
-        "name": "Spelledge",
+        "name": "Damage Type Change",
         "type": "Passive",
-        "description": "This weapon can be used as a casting tool for spells."
+        "description": "Damage type changes to Dark if Yang is also equipped."
       },
       {
-        "name": "Nova Eraser",
+        "name": "Muddle",
         "type": "PotentialSkill",
-        "description": "This skill requires a Rank D Invocation (see the Invocation talent for more details). Fires a large beam of light at a target enemy, dealing Light magic damage that ignores evasion equal to 300% of Magical Nova's SWA. If the target is defeated by this attack, they are inflicted with Certain Defeat."
+        "description": "Item properties that would change the damage type of your basic attacks are ignored."
+      },
+      {
+        "name": "Gunsmoke Spiritual Set",
+        "type": "Passive",
+        "description": "Set: Gunsmoke Spiritual - 2+: Grants access to the Double Dao skill. 3+: Darkness and Light damage you deal ignores up to 10% of elemental resistance."
+      },
+      {
+        "name": "Double Dao",
+        "type": "GrantsSkill",
+        "description": "Fire both Yin and Yang at a target enemy within 3 Range, alternating between Light and Darkness damage, over 4 shots. The total damage dealt is equal to 100% Darkness ATK + 100% Light ATK + 50% of the total Scaled Weapon ATK of both weapons. In addition, both guns gain 2 additional attack rounds for 2 rounds.",
+        "momentumCost": 3,
+        "fpCost": 30
       }
     ],
-    "description": "Leave craters in your enemy. Will not help you transform, however.",
+    "description": "3 Momentum, 30 FP A pitch black handgun, and sister to the Yang handgun.",
     "location": [
-      "Random drops",
-      "Metalwork (Lv5)"
+      "Random drops"
     ]
   },
   {
-    "id": "weapon:gun:sea-hunter-gun",
-    "name": "Sea Hunter Gun",
-    "rarity": 7,
+    "id": "weapon:gun:blaster-trumpet",
+    "name": "Blaster Trumpet",
+    "rarity": 8,
     "weaponType": "Gun",
-    "range": 3,
-    "power": 7,
+    "subtype": "Instrument",
+    "range": 5,
+    "power": 12,
     "accuracy": 80,
-    "critical": 7,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 12,
+    "damageType": "Sound",
+    "rounds": 1,
+    "scaling": [
+      {
+        "type": "Dextria-Sound",
+        "gui": 80,
+        "san": 30
+      }
+    ],
+    "specials": [
+      {
+        "name": "Passive",
+        "type": "Passive",
+        "description": "+5 Fire ATK"
+      },
+      {
+        "name": "Passive",
+        "type": "Passive",
+        "description": "When played (via a Song skill): Creates a blast of sound that knocks back all within 3 Range tiles 2 away from you."
+      }
+    ],
+    "description": "A trumpet so finely tuned that its notes are more like bullets.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:gun:holy-word",
+    "name": "Holy Word",
+    "rarity": 8,
+    "weaponType": "Gun",
+    "subtype": "Launcher",
+    "range": 3,
+    "power": 30,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 0,
+    "damageType": "Light",
+    "rounds": 1,
+    "scaling": [
+      {
+        "type": "Flamelit",
+        "fai": 70,
+        "str": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Passive",
+        "type": "Passive",
+        "description": "While equipped, you cannot use movement skills, except basic skills, Mercalan domain spells, or skills with the 'Holy' tag."
+      },
+      {
+        "name": "Crusader Charge",
+        "type": "GrantsSkill",
+        "description": "(Crusader Charge: 3M / 10 FP. Wield the Holy Word and charge forward in a resizeable Line (2-3, +1 max per 20 STR, capped at 6). The first enemy you encounter is pushed along with you, until you or they encounter an impassable tile or another enemy. Afterwards, if an enemy was hit, they take Pierce damage equal to 100% of Holy Word's Scaled Weapon Attack. If the movement was stopped by another enemy, that enemy takes Blunt damage equal to half that.)",
+        "momentumCost": 3,
+        "fpCost": 10
+      },
+      {
+        "name": "Divine Bunker",
+        "type": "GrantsSkill",
+        "description": "(Divine Bunker: 3M / 15 FP. 3 Rounds CD. Unleash the Holy Word's full force. Can only be used after having used Crusader Charge in the same round. Fire the pilebunker, dealing Pierce damage with Great Accuracy equal to 100% of Holy Word's Scaled Weapon Attack to the enemy in the tile you are facing, which knocks them airborne and away 5 tiles. Afterwards, if the Holy Word is Jeweled, and an Offensive Mercalan spell scroll (excluding invocations) is in its Scroll weapon part slot, you cast it at the target's location for free. If there is no valid spell scroll, they are struck by divine lightning instead, taking Lightning magic damage equal to your FAI x 2, which ignores evasion, protection, reflect, absorb, and immune.)",
+        "momentumCost": 3,
+        "fpCost": 15
+      }
+    ],
+    "description": "A massive launcher equipped with a heavy sharpened spike, it holds within it some sort of scripture.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:gun:tarnell",
+    "name": "Tarnell",
+    "rarity": 8,
+    "weaponType": "Gun",
+    "subtype": "Rifle",
+    "range": 6,
+    "power": 11,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 6,
+    "damageType": "Pierce",
+    "rounds": 1,
+    "scaling": [
+      {
+        "type": "Flamelit",
+        "gui": 70,
+        "str": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Passive",
+        "type": "Passive",
+        "description": "On Hit: Replaces your Earth ATK with the target's for 2 rounds."
+      },
+      {
+        "name": "Lockdown",
+        "type": "PotentialSkill",
+        "description": "1 Momentum, 10 FP Requires Substitute Earth ATK to be active. Consumes the status caused by the weapon, deals 20 armor-ignoring Earth Kickback damage to you, inflict you with Immobilize and Unmoving until your next turn, and grants you Lockdown (LV = higher of 50% Substituted Earth ATK or Tarnell's UL, 3 rounds). (Lockdown - Increases Tarnell's Power by LV when you cannot use movement skills.) 3 round CD.",
+        "momentumCost": 1,
+        "fpCost": 10
+      }
+    ],
+    "description": "A sniper rifle that feels oddly organic, as if it were made of some kind of plant.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:gun:black-zepia",
+    "name": "Black Zepia",
+    "rarity": 9,
+    "weaponType": "Gun",
+    "subtype": "Handgun",
+    "range": 3,
+    "power": 11,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 16,
+    "damageType": "Pierce",
+    "rounds": 1,
+    "scaling": [
+      {
+        "type": "Firearms",
+        "gui": 40,
+        "ski": 40,
+        "vit": 30
+      }
+    ],
+    "specials": [
+      {
+        "name": "- Ether Lasso",
+        "type": "PotentialSkill",
+        "description": "1M / 0 FP. 3 Rounds CD. Targets 1 enemy within 3 Range and deal armor-ignoring damage equal to Black Zepia's Power (and of its damage type) to the target. If it hits, the target is pulled 2 tiles towards you; if they are immune to pull effects, you quickly move to an empty tile nearby them (if any). Airborne and Flying enemies cannot be targetted by this skill. Also qualifies as a Whip weapon.",
+        "momentumCost": 1,
+        "fpCost": 0
+      }
+    ],
+    "description": "A handgun with a thin crystal-like wire. Its true power is a mystery, but you can shoot it and swing it, so that has to count for something.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:gun:crazy-coyote",
+    "name": "Crazy Coyote",
+    "rarity": 9,
+    "weaponType": "Gun",
+    "subtype": "Shotgun",
+    "range": 3,
+    "power": 15,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 120,
+    "weight": 12,
+    "damageType": "Pierce",
+    "rounds": 1,
+    "scaling": [
+      {
+        "type": "Firearms",
+        "gui": 60,
+        "ski": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Passive",
+        "type": "Passive",
+        "description": "On Hit: Knockbacks 1 tile."
+      }
+    ],
+    "description": "3 Momentum, 10 FP 3 Momentum, 15 FP (No description)",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:gun:jackhammer",
+    "name": "Jackhammer",
+    "rarity": 9,
+    "weaponType": "Gun",
+    "subtype": "Launcher",
+    "range": 4,
+    "power": 22,
+    "accuracy": 60,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 20,
+    "damageType": "Pierce",
+    "rounds": 1,
+    "scaling": [
+      {
+        "type": "Firearms",
+        "gui": 60,
+        "ski": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Passive",
+        "type": "Passive",
+        "description": "Attacks in a radius 4 circle."
+      },
+      {
+        "name": "Steady Shot",
+        "type": "PotentialSkill",
+        "description": "An aimed shot that increases the Hit of Jackhammer by 55, but costs 4 Momentum, 10 FP, and has a slightly smaller radius.",
+        "momentumCost": 4,
+        "fpCost": 10
+      }
+    ],
+    "description": "A heavy launcher that fires premade rockets. Its attacks can hit multiple enemies in a 4 Range Circle. Just watch where you're aiming, okay?",
+    "location": [
+      "Random drops Metalwork (Lv4)"
+    ]
+  },
+  {
+    "id": "weapon:gun:shotgun-tonfa",
+    "name": "Shotgun Tonfa",
+    "rarity": 9,
+    "weaponType": "Gun",
+    "subtype": "Tonfa",
+    "range": 3,
+    "power": 11,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 0,
+    "damageType": "Blunt",
+    "rounds": 1,
+    "scaling": [
+      {
+        "type": "Flamelit",
+        "gui": 70,
+        "str": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "- Tonfa Parry",
+        "type": "PotentialSkill",
+        "description": "Parry skill. Grants a chance to parry non-spell, non-ranged weapon damage for 25% reduction. Activate Rate: 15% + 50% of Scaled DEF, +10% if the owner of this skill has the Roar status active. Also qualifies as a Fist weapon. Also qualifies as a Shotgun weapon. After performing an attack with this weapon, gain Tonfa Afterblast (LV 1, 1 round), which allows you to use the skill of the same name. (Tonfa Afterblast: 1M / 5 FP. Discharge your Shotgun Tonfa at a target enemy within 3 Range, dealing armor-ignoring Pierce damage equal to the Shotgun Tonfa's Power x 2, which can critically hit. If it does, it can ricochet to another enemy in 3 Range of the first target, dealing the same damage (but cannot critically hit). Tonfa Block - Increases the LV of Guard statuses applied to you by 5 if you are two-handing this weapon.",
+        "momentumCost": 1,
+        "fpCost": 5
+      }
+    ],
+    "description": "A pair of tonfa which have been hollowed out to make room for a crude shotgun barrel on each. Discharging them requires swinging the tonfa, but that's not much of a problem.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:gun:toyatori",
+    "name": "Toyatori",
+    "rarity": 9,
+    "weaponType": "Gun",
+    "subtype": "Handgun",
+    "range": 3,
+    "power": 9,
+    "accuracy": 85,
+    "critical": 10,
     "criticalDamage": 110,
     "weight": 12,
     "damageType": "Pierce",
     "rounds": 3,
     "scaling": [
       {
-        "type": "Aquatic",
+        "type": "Cold",
         "gui": 70,
-        "vit": 40
+        "ski": 40
       }
     ],
-    "material": "Coral",
     "specials": [
       {
-        "name": "Coral Material",
+        "name": "Passive",
         "type": "Passive",
-        "description": "+1 Power, +3 Critical, +3 Accuracy, +1 Weight, +3 Water ATK"
-      },
-      {
-        "name": "Hunted vs Sea Monsters",
-        "type": "OnHit",
-        "description": "Inflicts Hunted LV14 for 3 rounds if the target is a seafaring monster."
+        "description": "On Attack: Creates 3 Ice Sheets (3 rounds) at a random tile within 2 Range of the target that doesn't have any special effect tiles."
       }
     ],
-    "description": "This gun was born from the sea, and as anyone who lives there knows, anything that lives in the sea is out to get everything else... that lives in the sea.",
+    "description": "3 Momentum, 15 FP Ice wings with sharp feathers.",
     "location": [
-      "Fishing Contest"
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:gun:yang-gilded",
+    "name": "Yang (Gilded)",
+    "rarity": 9,
+    "weaponType": "Gun",
+    "subtype": "Handgun",
+    "range": 3,
+    "power": 8,
+    "accuracy": 85,
+    "critical": 10,
+    "criticalDamage": 110,
+    "weight": 8,
+    "damageType": "Pierce",
+    "rounds": 2,
+    "scaling": [
+      {
+        "type": "Darkness",
+        "gui": 40,
+        "res": 40,
+        "fai": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Passive",
+        "type": "Passive",
+        "description": "Damage type changes to Light if Yin is also equipped."
+      },
+      {
+        "name": "Muddle",
+        "type": "PotentialSkill",
+        "description": "Item properties that would change the damage type of your basic attacks are ignored. (Use this skillfully with Limit Potential to avoid hitting elemental resists!)"
+      },
+      {
+        "name": "Gunsmoke Spiritual Set",
+        "type": "SetBonus",
+        "description": "2+: Grants access to the Double Dao skill. 3+: Darkness and Light damage you deal ignores up to 10% of elemental resistance."
+      }
+    ],
+    "description": "3 Momentum, 30 FP A shining silver handgun, and sister to the Yin handgun.",
+    "location": [
+      "Metalwork (Lv4)"
+    ]
+  },
+  {
+    "id": "weapon:gun:yin-gilded",
+    "name": "Yin (Gilded)",
+    "rarity": 9,
+    "weaponType": "Gun",
+    "subtype": "Handgun",
+    "range": 3,
+    "power": 8,
+    "accuracy": 85,
+    "critical": 10,
+    "criticalDamage": 110,
+    "weight": 8,
+    "damageType": "Pierce",
+    "rounds": 2,
+    "scaling": [
+      {
+        "type": "Darkness",
+        "gui": 40,
+        "res": 40,
+        "fai": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Passive",
+        "type": "Passive",
+        "description": "Damage type changes to Dark if Yang is also equipped."
+      },
+      {
+        "name": "Muddle",
+        "type": "PotentialSkill",
+        "description": "Item properties that would change the damage type of your basic attacks are ignored. (Use this skillfully with Limit Potential to avoid hitting elemental resists!)"
+      },
+      {
+        "name": "Gunsmoke Spiritual Set",
+        "type": "SetBonus",
+        "description": "2+: Grants access to the Double Dao skill. 3+: Darkness and Light damage you deal ignores up to 10% of elemental resistance."
+      }
+    ],
+    "description": "3 Momentum, 30 FP A pitch black handgun, and sister to the Yang handgun.",
+    "location": [
+      "Metalwork (Lv4)"
+    ]
+  },
+  {
+    "id": "weapon:gun:bell-of-no-rest",
+    "name": "Bell of No Rest",
+    "rarity": 10,
+    "weaponType": "Gun",
+    "subtype": "Instrument",
+    "range": 3,
+    "power": 10,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 5,
+    "damageType": "Sound",
+    "rounds": 1,
+    "scaling": [
+      {
+        "type": "Spiritual",
+        "gui": 70,
+        "san": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Passive",
+        "type": "Passive",
+        "description": "Increases Sound ATK by UL/2. (Doesn't stack.)"
+      },
+      {
+        "name": "Passive",
+        "type": "Passive",
+        "description": "On Defeat Enemy: The first unsummoned Youkai in your contracts with 0 HP is restored to UL*2% maximum HP."
+      }
+    ],
+    "description": "A single shake of this bell will pierce the ears of enemies like a bullet, and keep them awake at night, if they're lucky to walk away.",
+    "location": [
+      "Level 56+ Bellringers"
+    ]
+  },
+  {
+    "id": "weapon:gun:corvus-cannon",
+    "name": "Corvus Cannon",
+    "rarity": 10,
+    "weaponType": "Gun",
+    "subtype": "Shotgun",
+    "range": 3,
+    "power": 11,
+    "accuracy": 80,
+    "critical": 15,
+    "criticalDamage": 110,
+    "weight": 14,
+    "damageType": "Pierce",
+    "rounds": 1,
+    "scaling": [
+      {
+        "type": "Firearms",
+        "gui": 30,
+        "ski": 40,
+        "res": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Passive",
+        "type": "Passive",
+        "description": "On Hit: Covers the enemy in black feathers for 3 rounds. While covered in the feathers, Wind damage they take will force them Airborne."
+      },
+      {
+        "name": "Passive",
+        "type": "Passive",
+        "description": "On Hit: Deals 1+(UL*2) unresistable Wind damage if the target is Airborne."
+      }
+    ],
+    "description": "Fires feathers as painful as bullets, this is a shotgun of seemingly demonic origins that sounds like pages flapping in the wind when moved around.",
+    "location": [
+      "Shadow Guardian (Lv56+)"
+    ]
+  },
+  {
+    "id": "weapon:gun:moonlight-mercy",
+    "name": "Moonlight Mercy",
+    "rarity": 10,
+    "weaponType": "Gun",
+    "subtype": "Rifle",
+    "range": 7,
+    "power": 17,
+    "accuracy": 85,
+    "critical": 10,
+    "criticalDamage": 110,
+    "weight": 20,
+    "damageType": "Pierce",
+    "rounds": 1,
+    "scaling": [
+      {
+        "type": "Faithful",
+        "gui": 70,
+        "fai": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Passive",
+        "type": "Passive",
+        "description": "+UL Critical Damage (flat damage) (for this weapon only)"
+      },
+      {
+        "name": "Passive",
+        "type": "Passive",
+        "description": "On Critical Hit: If a Feared, non-Boss monster, there is a UL% chance of instant death. (Does not apply to enemies 10 or more levels above yours.)"
+      }
+    ],
+    "description": "The moonlight's mercy is a shining light before the darkness settles in.",
+    "location": [
+      "Spectre Knight (Lv56+)"
+    ]
+  },
+  {
+    "id": "weapon:gun:quickdraw",
+    "name": "Quickdraw",
+    "rarity": 10,
+    "weaponType": "Gun",
+    "subtype": "Handgun",
+    "range": 3,
+    "power": 5,
+    "accuracy": 80,
+    "critical": 5,
+    "criticalDamage": 110,
+    "weight": 10,
+    "damageType": "Pierce",
+    "rounds": 2,
+    "scaling": [
+      {
+        "type": "Sylphid",
+        "gui": 70,
+        "cel": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Passive",
+        "type": "Passive",
+        "description": "CEL is treated as UL/2 higher for the purposes of determining turn order."
+      },
+      {
+        "name": "Passive",
+        "type": "Passive",
+        "description": "This weapon's basic attacks against enemies with 6 or more Momentum gain an additional Round per 6 UL."
+      }
+    ],
+    "description": "In Law's End, the only law is to be faster than those that want to kill you. The penalty for breaking that law is often death, so make sure you follow it, ya hear?",
+    "location": [
+      "Bandit Gunner (Lv56+)"
+    ]
+  },
+  {
+    "id": "weapon:gun:seed-sniper",
+    "name": "Seed Sniper",
+    "rarity": 10,
+    "weaponType": "Gun",
+    "subtype": "Rifle",
+    "range": 7,
+    "power": 4,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 110,
+    "weight": 5,
+    "damageType": "Earth",
+    "rounds": 1,
+    "scaling": [
+      {
+        "type": "Earthen",
+        "gui": 70,
+        "def": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Passive",
+        "type": "Passive",
+        "description": "On Hit: The enemy is seeded until their next turn. If they take Water damage while seeded, the seed erupts into vines, inflicting Immobilize on them until your next turn."
+      },
+      {
+        "name": "Passive",
+        "type": "Passive",
+        "description": "When you attack an enemy: Leaves behind seeds at the location they are at. At the start of a new round, they will erupt, creating vines that lower the Evade of anyone who stands in them by UL."
+      }
+    ],
+    "description": "2 Momentum An earthy sniper rifle that produces seeds, which it uses as bullets, in a sense.",
+    "location": [
+      "Pumpkin (Lv56+)"
     ]
   }
 ]

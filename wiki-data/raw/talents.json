@@ -1,0 +1,1506 @@
+{
+  "source": "https://sl2.miraheze.org/wiki/Talents",
+  "scraped": "2026-08-31",
+  "intro": "Talents are perks and bonuses that characters can choose to invest their Talent points into. Players get a talent points every level, up to a maximum equal to 60, plus 5 through Legend Extension. Talents can have a certain amount of Subtalents in them, placing a Talent Point in a talent will allow you a amount of Subpoints to place within the many Subtalents of the chosen talent, a maximum of 10 points can be placed in a talent. Extra Subpoints in a talent cannot be refunded or used in another talent of similar category unless you reset and redistribute all available Talent Points. Talents Points may be reset and redistributed by using a Fruit of Talentlessness. Talents are character progression options divided into six categories. Purchasing a talent rank grants a subpoint that can be spent on one of that talent's subtalents. The cost is presented in-game as SP per Rank. In the effect descriptions, SR means the current subtalent rank. A talent can hold at most 10 ranks (or fewer when its subtalents have fewer than 10 total ranks). Maximum SP is SP per Rank multiplied by that maximum. __TOC__",
+  "wikitext": "Talents are perks and bonuses that characters can choose to invest their Talent points into. Players get a talent points every level, up to a maximum equal to 60, plus 5 through [[Legend Extension]].\n\nTalents can have a certain amount of Subtalents in them, placing a Talent Point in a talent will allow you a amount of Subpoints to place within the many Subtalents of the chosen talent, a maximum of 10 points can be placed in a talent. Extra Subpoints in a talent cannot be refunded or used in another talent of similar category unless you reset and redistribute all available Talent Points.\n\nTalents Points may be reset and redistributed by using a Fruit of Talentlessness.\n\n'''Talents''' are character progression options divided into six categories. Purchasing a talent rank grants a subpoint that can be spent on one of that talent's subtalents.\n\nThe cost is presented in-game as '''SP per Rank'''. In the effect descriptions, '''SR''' means the current subtalent rank.\nA talent can hold at most 10 ranks (or fewer when its subtalents have fewer than 10 total ranks). '''Maximum SP''' is SP per Rank multiplied by that maximum.\n\n__TOC__\n\n== Weaponry Talents ==\n\n{| class=\"wikitable sortable\"\n! Talent\n! SP per Rank\n! Maximum Ranks\n! Maximum SP\n|-\n| Blade Expertise\n| style=\"text-align: center;\" data-sort-value=\"1.5\" | 1.5\n| style=\"text-align: center;\" | 10\n| style=\"text-align: center;\" | 15\n|-\n| Axe Expertise\n| style=\"text-align: center;\" data-sort-value=\"1.5\" | 1.5\n| style=\"text-align: center;\" | 10\n| style=\"text-align: center;\" | 15\n|-\n| Polearm Expertise\n| style=\"text-align: center;\" data-sort-value=\"1.5\" | 1.5\n| style=\"text-align: center;\" | 10\n| style=\"text-align: center;\" | 15\n|-\n| Archery\n| style=\"text-align: center;\" data-sort-value=\"1.5\" | 1.5\n| style=\"text-align: center;\" | 10\n| style=\"text-align: center;\" | 15\n|-\n| Unarmed Combat\n| style=\"text-align: center;\" data-sort-value=\"1.5\" | 1.5\n| style=\"text-align: center;\" | 10\n| style=\"text-align: center;\" | 15\n|-\n| Marksmanship\n| style=\"text-align: center;\" data-sort-value=\"1.5\" | 1.5\n| style=\"text-align: center;\" | 10\n| style=\"text-align: center;\" | 15\n|-\n| Maintenance\n| style=\"text-align: center;\" data-sort-value=\"2\" | 2\n| style=\"text-align: center;\" | 10\n| style=\"text-align: center;\" | 20\n|-\n| Ninjutsu\n| style=\"text-align: center;\" data-sort-value=\"1.5\" | 1.5\n| style=\"text-align: center;\" | 10\n| style=\"text-align: center;\" | 15\n|}\n\n=== Blade Expertise ===\n'''Cost:''' 1.5 SP per Rank · '''Maximum Ranks:''' 10 · '''Maximum SP:''' 15\n\n{| class=\"wikitable\" style=\"width: 100%;\"\n! Subtalent\n! style=\"width: 6em;\" | Max SR\n! Effect\n|-\n| '''Balance'''\n| style=\"text-align: center;\" | 5\n| Reduces the Battle Weight of Sword and Dagger weapons by up to SR * 1.5.\n|-\n| '''Adaptation'''\n| style=\"text-align: center;\" | 5\n| Allows you to equip any Sword weapon with a Rarity equal to or less than SR * 2.\n|-\n| '''Reliability'''\n| style=\"text-align: center;\" | 5\n| For Sword and Dagger weapons: increases Hit by SR * 1.5 and reduces Durability consumption by SR * 5%.\n|}\n\n=== Axe Expertise ===\n'''Cost:''' 1.5 SP per Rank · '''Maximum Ranks:''' 10 · '''Maximum SP:''' 15\n\n{| class=\"wikitable\" style=\"width: 100%;\"\n! Subtalent\n! style=\"width: 6em;\" | Max SR\n! Effect\n|-\n| '''Balance'''\n| style=\"text-align: center;\" | 5\n| Reduces the Battle Weight of Axe weapons by up to SR * 1.5.\n|-\n| '''Adaptation'''\n| style=\"text-align: center;\" | 5\n| Allows you to equip any Axe weapon with a Rarity equal to or less than SR * 2.\n|-\n| '''Deadliness'''\n| style=\"text-align: center;\" | 5\n| For Axe weapons: increases Critical by SR * 1.5 and Critical Damage by SR * 0.5%.\n|}\n\n=== Polearm Expertise ===\n'''Cost:''' 1.5 SP per Rank · '''Maximum Ranks:''' 10 · '''Maximum SP:''' 15\n\n{| class=\"wikitable\" style=\"width: 100%;\"\n! Subtalent\n! style=\"width: 6em;\" | Max SR\n! Effect\n|-\n| '''Balance'''\n| style=\"text-align: center;\" | 5\n| Reduces the Battle Weight of Polearm weapons by up to SR * 1.5.\n|-\n| '''Adaptation'''\n| style=\"text-align: center;\" | 5\n| Allows you to equip any Polearm weapon with a Rarity equal to or less than SR * 2.\n|-\n| '''Thin Tip'''\n| style=\"text-align: center;\" | 5\n| For Polearm weapons: increases Power by SR * 1.5 when attacking an enemy in melee range who is facing you.\n|}\n\n=== Archery ===\n'''Cost:''' 1.5 SP per Rank · '''Maximum Ranks:''' 10 · '''Maximum SP:''' 15\n\n{| class=\"wikitable\" style=\"width: 100%;\"\n! Subtalent\n! style=\"width: 6em;\" | Max SR\n! Effect\n|-\n| '''Balance'''\n| style=\"text-align: center;\" | 5\n| Reduces the Battle Weight of Bow weapons by up to SR * 1.5.\n|-\n| '''Adaptation'''\n| style=\"text-align: center;\" | 5\n| Allows you to equip any Bow weapon with a Rarity equal to or less than SR * 2.\n|-\n| '''Close Shot'''\n| style=\"text-align: center;\" | 5\n| For Bow weapons: decreases the close-range Hit penalty by SR * 5%. Doubled for Shortbows.\n|}\n\n=== Unarmed Combat ===\n'''Cost:''' 1.5 SP per Rank · '''Maximum Ranks:''' 10 · '''Maximum SP:''' 15\n\n{| class=\"wikitable\" style=\"width: 100%;\"\n! Subtalent\n! style=\"width: 6em;\" | Max SR\n! Effect\n|-\n| '''Balance'''\n| style=\"text-align: center;\" | 5\n| Reduces the Battle Weight of Fist weapons by up to SR * 1.5.\n|-\n| '''Adaptation'''\n| style=\"text-align: center;\" | 5\n| Allows you to equip any Fist weapon with a Rarity equal to or less than SR * 2.\n|-\n| '''Dizzy'''\n| style=\"text-align: center;\" | 5\n| For Fist weapons: attacks that hit reduce the target's FP by SR * 1. 50% effective versus Light Armor and 25% effective against Heavy Armor.\n|}\n\n=== Marksmanship ===\n'''Cost:''' 1.5 SP per Rank · '''Maximum Ranks:''' 10 · '''Maximum SP:''' 15\n\n{| class=\"wikitable\" style=\"width: 100%;\"\n! Subtalent\n! style=\"width: 6em;\" | Max SR\n! Effect\n|-\n| '''Balance'''\n| style=\"text-align: center;\" | 5\n| Reduces the Battle Weight of Gun weapons by up to SR * 1.5.\n|-\n| '''Volley'''\n| style=\"text-align: center;\" | 2\n| For Bow and Gun weapons: increases attack range by SR * 1.\n|-\n| '''Wind Read'''\n| style=\"text-align: center;\" | 3\n| Increases maximum range before Farshot Penalty is applied by SR * 1.\n|-\n| '''Adaptation'''\n| style=\"text-align: center;\" | 5\n| Allows you to equip any Gun weapon with a Rarity equal to or less than SR * 2.\n|}\n\n=== Maintenance ===\n'''Cost:''' 2 SP per Rank · '''Maximum Ranks:''' 10 · '''Maximum SP:''' 20\n\n{| class=\"wikitable\" style=\"width: 100%;\"\n! Subtalent\n! style=\"width: 6em;\" | Max SR\n! Effect\n|-\n| '''Self-Service'''\n| style=\"text-align: center;\" | 5\n| After every battle, restores equipped weapon Durability by SR * 1, up to 75% maximum. If two weapons are equipped, half the effect applies to both if the secondary weapon has Durability damage.\n|-\n| '''Squad-Service'''\n| style=\"text-align: center;\" | 5\n| All other party members receive your Self-Service at SR * 20% of its usual effectiveness. Only the highest Squad-Service in the party applies.\n|-\n| '''Mastery'''\n| style=\"text-align: center;\" | 5\n| Increases the maximum Durability that Maintenance effects can repair to by SR * 3% (90% at SR 5).\n|-\n| '''Emergency Service'''\n| style=\"text-align: center;\" | 5\n| Grants a battle skill targeting someone with broken weapons. It consumes 2 Murai and restores each broken weapon's Durability to SR * 1; 5-round cooldown.\n|}\n\n=== Ninjutsu ===\n'''Cost:''' 1.5 SP per Rank · '''Maximum Ranks:''' 10 · '''Maximum SP:''' 15\n\n{| class=\"wikitable\" style=\"width: 100%;\"\n! Subtalent\n! style=\"width: 6em;\" | Max SR\n! Effect\n|-\n| '''Hayasa'''\n| style=\"text-align: center;\" | 1\n| Using Swap Weapon to equip a Shuriken refunds up to 3 Momentum, but puts Swap Weapon on a 1-round cooldown.\n|-\n| '''Endan'''\n| style=\"text-align: center;\" | 5\n| Bomb items also explode into Smokescreen tiles with LV SR * 5 that last for 2 + SR rounds.\n|-\n| '''Kagero'''\n| style=\"text-align: center;\" | 1\n| You and your allies ignore the effects of your Smokescreen tiles.\n|-\n| '''Yobai'''\n| style=\"text-align: center;\" | 3\n| While Airborne, the attack range of your Shuriken weapons increases by SR * 1.\n|-\n| '''Danmaku'''\n| style=\"text-align: center;\" | 5\n| Once per round, with a Shuriken equipped, dodging an attack or triggering Evasion hits all enemies within 3 Range with weak versions, dealing protection-ignoring damage equal to the weapon's Power + SR * 3.\n|}\n\n== War Talents ==\n\n{| class=\"wikitable sortable\"\n! Talent\n! SP per Rank\n! Maximum Ranks\n! Maximum SP\n|-\n| March\n| style=\"text-align: center;\" data-sort-value=\"2\" | 2\n| style=\"text-align: center;\" | 10\n| style=\"text-align: center;\" | 20\n|-\n| Combat Drilling\n| style=\"text-align: center;\" data-sort-value=\"1.5\" | 1.5\n| style=\"text-align: center;\" | 10\n| style=\"text-align: center;\" | 15\n|-\n| Bravery\n| style=\"text-align: center;\" data-sort-value=\"1\" | 1\n| style=\"text-align: center;\" | 9\n| style=\"text-align: center;\" | 9\n|-\n| Detainment\n| style=\"text-align: center;\" data-sort-value=\"1.5\" | 1.5\n| style=\"text-align: center;\" | 10\n| style=\"text-align: center;\" | 15\n|-\n| First Aid\n| style=\"text-align: center;\" data-sort-value=\"1\" | 1\n| style=\"text-align: center;\" | 10\n| style=\"text-align: center;\" | 10\n|-\n| Two-Hand\n| style=\"text-align: center;\" data-sort-value=\"1\" | 1\n| style=\"text-align: center;\" | 10\n| style=\"text-align: center;\" | 10\n|-\n| Chivalry\n| style=\"text-align: center;\" data-sort-value=\"2\" | 2\n| style=\"text-align: center;\" | 10\n| style=\"text-align: center;\" | 20\n|}\n\n=== March ===\n'''Cost:''' 2 SP per Rank · '''Maximum Ranks:''' 10 · '''Maximum SP:''' 20\n\n{| class=\"wikitable\" style=\"width: 100%;\"\n! Subtalent\n! style=\"width: 6em;\" | Max SR\n! Effect\n|-\n| '''Health'''\n| style=\"text-align: center;\" | 5\n| Every 15 out-of-combat steps, if below 75% maximum HP, restore SR * 1 HP.\n|-\n| '''Stamina'''\n| style=\"text-align: center;\" | 5\n| Increases Physical Stamina recovered every hour by SR * 1.\n|-\n| '''Jump'''\n| style=\"text-align: center;\" | 1\n| Reduces the Stamina cost of using upward Jump Spots by 1.\n|}\n\n=== Combat Drilling ===\n'''Cost:''' 1.5 SP per Rank · '''Maximum Ranks:''' 10 · '''Maximum SP:''' 15\n\n{| class=\"wikitable\" style=\"width: 100%;\"\n! Subtalent\n! style=\"width: 6em;\" | Max SR\n! Effect\n|-\n| '''Experience'''\n| style=\"text-align: center;\" | 5\n| Increases battle EXP gained for the entire party by SR * 2%. Only the highest Experience in the party applies.\n|-\n| '''Training'''\n| style=\"text-align: center;\" | 5\n| Lets you train certain NPCs and other characters. EXP gained increases with SR by 2.5% of EXP required to level per SR.\n|-\n| '''Tools'''\n| style=\"text-align: center;\" | 5\n| Lets you set up Training Tools at certain locations; higher SR improves EXP gained by 2% of EXP required to level per SR.\n|}\n\n=== Bravery ===\n'''Cost:''' 1 SP per Rank · '''Maximum Ranks:''' 9 · '''Maximum SP:''' 9\n\n{| class=\"wikitable\" style=\"width: 100%;\"\n! Subtalent\n! style=\"width: 6em;\" | Max SR\n! Effect\n|-\n| '''Will'''\n| style=\"text-align: center;\" | 3\n| Grants resistance to Fear by SR * 16% (minimum 0-1 Hit) and reduces Fear of Death duration by SR * 1.\n|-\n| '''Determination'''\n| style=\"text-align: center;\" | 3\n| Grants resistance to Hesitation equal to SR * 15%.\n|-\n| '''Heat of Battle'''\n| style=\"text-align: center;\" | 3\n| Away from the battlefield edge, Power increases by SR * 1 and Physical and Magical Defense versus monsters increase by SR * 1%. Bonuses are doubled if the enemy is at the battlefield edge.\n|}\n\n=== Detainment ===\n'''Cost:''' 1.5 SP per Rank · '''Maximum Ranks:''' 10 · '''Maximum SP:''' 15\n\n{| class=\"wikitable\" style=\"width: 100%;\"\n! Subtalent\n! style=\"width: 6em;\" | Max SR\n! Effect\n|-\n| '''Take Prisoner'''\n| style=\"text-align: center;\" | 5\n| Grants Capture: a 1-Range attack with Hit and damage penalties that captures an enemy if it reduces them to 0 HP. Maximum prisoners: SR * 1.\n|-\n| '''Restrain'''\n| style=\"text-align: center;\" | 5\n| Grants Grapple, inflicting Immobilize on you and a target within 1 Range on success. Success is SR * 17% plus 2% per character level you exceed the target by.\n|-\n| '''Convert'''\n| style=\"text-align: center;\" | 5\n| Lets you convert captured monsters into mercenaries for a Murai fee. Success is SR * 20%; failure requires waiting 3 in-game hours.\n|-\n| '''Seize'''\n| style=\"text-align: center;\" | 5\n| If prisoner space is available, gives an SR * 1% chance to capture defeated non-NPCs after battle when their level is no more than 1.25 times yours; rolled for each potential prisoner.\n|}\n\n=== First Aid ===\n'''Cost:''' 1 SP per Rank · '''Maximum Ranks:''' 10 · '''Maximum SP:''' 10\n\n{| class=\"wikitable\" style=\"width: 100%;\"\n! Subtalent\n! style=\"width: 6em;\" | Max SR\n! Effect\n|-\n| '''Healing'''\n| style=\"text-align: center;\" | 5\n| At battle end, heals all party members for SR * 2 HP, up to 90% HP.\n|-\n| '''Treatment'''\n| style=\"text-align: center;\" | 3\n| At battle end, automatically treats party afflictions up to a severity based on SR: 1 = Minor, 2 = Moderate, 3 = Major.\n|-\n| '''Prevention'''\n| style=\"text-align: center;\" | 5\n| Reduces the party's chance of suffering battle afflictions by SR * 10% of the normal chance. Only the highest Prevention applies.\n|}\n\n=== Two-Hand ===\n'''Cost:''' 1 SP per Rank · '''Maximum Ranks:''' 10 · '''Maximum SP:''' 10\n\n{| class=\"wikitable\" style=\"width: 100%;\"\n! Subtalent\n! style=\"width: 6em;\" | Max SR\n! Effect\n|-\n| '''Full Swing'''\n| style=\"text-align: center;\" | 5\n| Without a Shield or Sub-Weapon equipped, increases Scaled Weapon ATK of Swords, Axes, and Spears by SR * 2; doubled for weapons with 20 Weight or more.\n|-\n| '''Steady'''\n| style=\"text-align: center;\" | 5\n| Without a Shield or Sub-Weapon equipped, increases Gun Hit by SR * 2; doubled for Rifle weapons.\n|}\n\n=== Chivalry ===\n'''Cost:''' 2 SP per Rank · '''Maximum Ranks:''' 10 · '''Maximum SP:''' 20\n\n{| class=\"wikitable\" style=\"width: 100%;\"\n! Subtalent\n! style=\"width: 6em;\" | Max SR\n! Effect\n|-\n| '''Honor'''\n| style=\"text-align: center;\" | 5\n| Recover SR * 1 FP when hitting an enemy from their front. Does not apply if the target is knocked down or your party outnumbers theirs.\n|-\n| '''Smite'''\n| style=\"text-align: center;\" | 5\n| Increases Hit by SR * 3 when attacking an enemy from their front. Does not apply if the target is knocked down or your party outnumbers theirs.\n|-\n| '''Protector'''\n| style=\"text-align: center;\" | 5\n| When you trigger Protect, gain SR * 1 Armor and Magic Armor until your next turn.\n|}\n\n== Elemental Talents ==\n\n{| class=\"wikitable sortable\"\n! Talent\n! SP per Rank\n! Maximum Ranks\n! Maximum SP\n|-\n| Pyromancy\n| style=\"text-align: center;\" data-sort-value=\"2\" | 2\n| style=\"text-align: center;\" | 10\n| style=\"text-align: center;\" | 20\n|-\n| Cryomancy\n| style=\"text-align: center;\" data-sort-value=\"2\" | 2\n| style=\"text-align: center;\" | 10\n| style=\"text-align: center;\" | 20\n|-\n| Geomancy\n| style=\"text-align: center;\" data-sort-value=\"2\" | 2\n| style=\"text-align: center;\" | 10\n| style=\"text-align: center;\" | 20\n|-\n| Aeromancy\n| style=\"text-align: center;\" data-sort-value=\"2\" | 2\n| style=\"text-align: center;\" | 10\n| style=\"text-align: center;\" | 20\n|-\n| Aquamancy\n| style=\"text-align: center;\" data-sort-value=\"2\" | 2\n| style=\"text-align: center;\" | 10\n| style=\"text-align: center;\" | 20\n|-\n| Altermancy\n| style=\"text-align: center;\" data-sort-value=\"2\" | 2\n| style=\"text-align: center;\" | 10\n| style=\"text-align: center;\" | 20\n|-\n| Solmancy\n| style=\"text-align: center;\" data-sort-value=\"2\" | 2\n| style=\"text-align: center;\" | 10\n| style=\"text-align: center;\" | 20\n|-\n| Fulgurmancy\n| style=\"text-align: center;\" data-sort-value=\"2\" | 2\n| style=\"text-align: center;\" | 10\n| style=\"text-align: center;\" | 20\n|}\n\n=== Pyromancy ===\n'''Cost:''' 2 SP per Rank · '''Maximum Ranks:''' 10 · '''Maximum SP:''' 20\n\n{| class=\"wikitable\" style=\"width: 100%;\"\n! Subtalent\n! style=\"width: 6em;\" | Max SR\n! Effect\n|-\n| '''Potency'''\n| style=\"text-align: center;\" | 5\n| Increases Fire ATK by SR * 1.\n|-\n| '''Efficiency'''\n| style=\"text-align: center;\" | 5\n| Reduces Nerifian-domain spell FP costs by SR * 3%; only the highest applicable Efficiency applies.\n|-\n| '''Scorch'''\n| style=\"text-align: center;\" | 5\n| Increases the duration of Cinder tiles you create by SR * 1 rounds.\n|-\n| '''Ignis'''\n| style=\"text-align: center;\" | 5\n| Increases success when applying Burn by SR * 3%.\n|}\n\n=== Cryomancy ===\n'''Cost:''' 2 SP per Rank · '''Maximum Ranks:''' 10 · '''Maximum SP:''' 20\n\n{| class=\"wikitable\" style=\"width: 100%;\"\n! Subtalent\n! style=\"width: 6em;\" | Max SR\n! Effect\n|-\n| '''Potency'''\n| style=\"text-align: center;\" | 5\n| Increases Ice ATK by SR * 1.\n|-\n| '''Efficiency'''\n| style=\"text-align: center;\" | 5\n| Reduces Aquarian-domain spell FP costs by SR * 3%; only the highest applicable Efficiency applies.\n|-\n| '''Freeze'''\n| style=\"text-align: center;\" | 5\n| Increases the duration of Ice Sheet tiles you create by SR * 1 rounds.\n|}\n\n=== Geomancy ===\n'''Cost:''' 2 SP per Rank · '''Maximum Ranks:''' 10 · '''Maximum SP:''' 20\n\n{| class=\"wikitable\" style=\"width: 100%;\"\n! Subtalent\n! style=\"width: 6em;\" | Max SR\n! Effect\n|-\n| '''Potency'''\n| style=\"text-align: center;\" | 5\n| Increases Earth ATK by SR * 1.\n|-\n| '''Efficiency'''\n| style=\"text-align: center;\" | 5\n| Reduces Isespian-domain spell FP costs by SR * 3%; only the highest applicable Efficiency applies.\n|-\n| '''Magnet'''\n| style=\"text-align: center;\" | 5\n| Increases the duration of Magnetize statuses you apply by SR * 1 rounds.\n|}\n\n=== Aeromancy ===\n'''Cost:''' 2 SP per Rank · '''Maximum Ranks:''' 10 · '''Maximum SP:''' 20\n\n{| class=\"wikitable\" style=\"width: 100%;\"\n! Subtalent\n! style=\"width: 6em;\" | Max SR\n! Effect\n|-\n| '''Potency'''\n| style=\"text-align: center;\" | 5\n| Increases Wind ATK by SR * 1.\n|-\n| '''Efficiency'''\n| style=\"text-align: center;\" | 5\n| Reduces Sylphid-domain spell FP costs by SR * 3%; only the highest applicable Efficiency applies.\n|-\n| '''Air Shaft'''\n| style=\"text-align: center;\" | 5\n| Increases the duration of Air Shaft tiles you create by SR * 1 rounds.\n|}\n\n=== Aquamancy ===\n'''Cost:''' 2 SP per Rank · '''Maximum Ranks:''' 10 · '''Maximum SP:''' 20\n\n{| class=\"wikitable\" style=\"width: 100%;\"\n! Subtalent\n! style=\"width: 6em;\" | Max SR\n! Effect\n|-\n| '''Potency'''\n| style=\"text-align: center;\" | 5\n| Increases Water ATK by SR * 1.\n|-\n| '''Efficiency'''\n| style=\"text-align: center;\" | 5\n| Reduces Aquarian-domain spell FP costs by SR * 3%; only the highest applicable Efficiency applies.\n|-\n| '''Flood'''\n| style=\"text-align: center;\" | 3\n| Increases the duration of Flooded Water tiles you create by SR * 1 rounds.\n|}\n\n=== Altermancy ===\n'''Cost:''' 2 SP per Rank · '''Maximum Ranks:''' 10 · '''Maximum SP:''' 20\n\n{| class=\"wikitable\" style=\"width: 100%;\"\n! Subtalent\n! style=\"width: 6em;\" | Max SR\n! Effect\n|-\n| '''Potency'''\n| style=\"text-align: center;\" | 5\n| Increases Darkness ATK by SR * 1.\n|-\n| '''Efficiency'''\n| style=\"text-align: center;\" | 5\n| Reduces Huggessoan-domain spell FP costs by SR * 3%; only the highest applicable Efficiency applies.\n|-\n| '''Black Sea'''\n| style=\"text-align: center;\" | 5\n| Increases the duration of Dark Water tiles you create by SR * 1 rounds.\n|-\n| '''Dimness'''\n| style=\"text-align: center;\" | 5\n| Increases the duration of Darkness tiles you create by SR * 1 rounds.\n|}\n\n=== Solmancy ===\n'''Cost:''' 2 SP per Rank · '''Maximum Ranks:''' 10 · '''Maximum SP:''' 20\n\n{| class=\"wikitable\" style=\"width: 100%;\"\n! Subtalent\n! style=\"width: 6em;\" | Max SR\n! Effect\n|-\n| '''Potency'''\n| style=\"text-align: center;\" | 5\n| Increases Light ATK by SR * 1.\n|-\n| '''Efficiency'''\n| style=\"text-align: center;\" | 5\n| Reduces Mercalan-domain spell FP costs by SR * 3%; only the highest applicable Efficiency applies.\n|-\n| '''Eternity'''\n| style=\"text-align: center;\" | 5\n| Increases the duration of Light Shaft tiles you create by SR * 1 rounds.\n|}\n\n=== Fulgurmancy ===\n'''Cost:''' 2 SP per Rank · '''Maximum Ranks:''' 10 · '''Maximum SP:''' 20\n\n{| class=\"wikitable\" style=\"width: 100%;\"\n! Subtalent\n! style=\"width: 6em;\" | Max SR\n! Effect\n|-\n| '''Potency'''\n| style=\"text-align: center;\" | 5\n| Increases Lightning ATK by SR * 1.\n|-\n| '''Efficiency'''\n| style=\"text-align: center;\" | 5\n| Reduces Nature-domain spell FP costs by SR * 3%; only the highest applicable Efficiency applies.\n|-\n| '''Lowrath'''\n| style=\"text-align: center;\" | 5\n| Increases the chance of Lightning criticals by SR * 2%.\n|-\n| '''Ampage'''\n| style=\"text-align: center;\" | 5\n| Increases success when applying Interference by SR * 3%.\n|}\n\n== Arcane Talents ==\n\n{| class=\"wikitable sortable\"\n! Talent\n! SP per Rank\n! Maximum Ranks\n! Maximum SP\n|-\n| Capacity\n| style=\"text-align: center;\" data-sort-value=\"1\" | 1\n| style=\"text-align: center;\" | 10\n| style=\"text-align: center;\" | 10\n|-\n| Enchantment\n| style=\"text-align: center;\" data-sort-value=\"1.5\" | 1.5\n| style=\"text-align: center;\" | 10\n| style=\"text-align: center;\" | 15\n|-\n| Fluency\n| style=\"text-align: center;\" data-sort-value=\"2\" | 2\n| style=\"text-align: center;\" | 10\n| style=\"text-align: center;\" | 20\n|-\n| Invocation\n| style=\"text-align: center;\" data-sort-value=\"1.5\" | 1.5\n| style=\"text-align: center;\" | 10\n| style=\"text-align: center;\" | 15\n|-\n| Summoning\n| style=\"text-align: center;\" data-sort-value=\"2\" | 2\n| style=\"text-align: center;\" | 10\n| style=\"text-align: center;\" | 20\n|}\n\n=== Capacity ===\n'''Cost:''' 1 SP per Rank · '''Maximum Ranks:''' 10 · '''Maximum SP:''' 10\n\n{| class=\"wikitable\" style=\"width: 100%;\"\n! Subtalent\n! style=\"width: 6em;\" | Max SR\n! Effect\n|-\n| '''Depth'''\n| style=\"text-align: center;\" | 5\n| Increases maximum FP by SR * 5.\n|-\n| '''Absorption'''\n| style=\"text-align: center;\" | 3\n| Increases FP Regeneration by SR * 1.\n|-\n| '''Recycle'''\n| style=\"text-align: center;\" | 5\n| In battle, spells cast by others restore SR * 4% of their FP cost or 3 FP, whichever is higher.\n|}\n\n=== Enchantment ===\n'''Cost:''' 1.5 SP per Rank · '''Maximum Ranks:''' 10 · '''Maximum SP:''' 15\n\n{| class=\"wikitable\" style=\"width: 100%;\"\n! Subtalent\n! style=\"width: 6em;\" | Max SR\n! Effect\n|-\n| '''Whimsy'''\n| style=\"text-align: center;\" | 5\n| Increases Status Infliction by SR * 2%.\n|-\n| '''Efficiency'''\n| style=\"text-align: center;\" | 5\n| Reduces Enchant-class spell FP costs by SR * 3%; only the highest applicable Efficiency applies.\n|-\n| '''Prolong'''\n| style=\"text-align: center;\" | 5\n| Increases Enchant-class spell status duration by SR * 1 rounds; half effective on enemies.\n|}\n\n=== Fluency ===\n'''Cost:''' 2 SP per Rank · '''Maximum Ranks:''' 10 · '''Maximum SP:''' 20\n\n{| class=\"wikitable\" style=\"width: 100%;\"\n! Subtalent\n! style=\"width: 6em;\" | Max SR\n! Effect\n|-\n| '''Basics'''\n| style=\"text-align: center;\" | 1\n| Allows you to read and write where appropriate, such as papers and signs.\n|-\n| '''Stamina'''\n| style=\"text-align: center;\" | 5\n| Increases Mental Stamina recovered every hour by SR * 1.\n|-\n| '''Spellbook'''\n| style=\"text-align: center;\" | 5\n| With a Tome equipped, increases maximum Skill Pool size by SR * 1.\n|-\n| '''Balance'''\n| style=\"text-align: center;\" | 5\n| Reduces Tome Battle Weight by up to SR * 1.5.\n|-\n| '''Adaptation'''\n| style=\"text-align: center;\" | 5\n| Allows you to equip any Tome with Rarity equal to or less than SR * 2.\n|}\n\n=== Invocation ===\n'''Cost:''' 1.5 SP per Rank · '''Maximum Ranks:''' 10 · '''Maximum SP:''' 15\n\n{| class=\"wikitable\" style=\"width: 100%;\"\n! Subtalent\n! style=\"width: 6em;\" | Max SR\n! Effect\n|-\n| '''Words of Power'''\n| style=\"text-align: center;\" | 10\n| Reduces the chance that damage breaks an Invocation by SR * 10%; at SR 10, damage can never break one.\n|-\n| '''Minor Glyph'''\n| style=\"text-align: center;\" | 5\n| While invoking, a magical barrier increases Armor and Magic Armor by SR * 1.\n|}\n\n=== Summoning ===\n'''Cost:''' 2 SP per Rank · '''Maximum Ranks:''' 10 · '''Maximum SP:''' 20\n\n{| class=\"wikitable\" style=\"width: 100%;\"\n! Subtalent\n! style=\"width: 6em;\" | Max SR\n! Effect\n|-\n| '''Tutor'''\n| style=\"text-align: center;\" | 5\n| Increases Youkai EXP by SR * 3%; doubled when the Youkai is lower level than you.\n|-\n| '''Friendship'''\n| style=\"text-align: center;\" | 5\n| Increases starting Youkai friendship by SR * 2 and friendship from gifts by SR * 1.\n|}\n\n== Occult Talents ==\n\n{| class=\"wikitable sortable\"\n! Talent\n! SP per Rank\n! Maximum Ranks\n! Maximum SP\n|-\n| Astrology\n| style=\"text-align: center;\" data-sort-value=\"2\" | 2\n| style=\"text-align: center;\" | 10\n| style=\"text-align: center;\" | 20\n|-\n| Devotion\n| style=\"text-align: center;\" data-sort-value=\"1.5\" | 1.5\n| style=\"text-align: center;\" | 10\n| style=\"text-align: center;\" | 15\n|-\n| Alchemy\n| style=\"text-align: center;\" data-sort-value=\"1.5\" | 1.5\n| style=\"text-align: center;\" | 10\n| style=\"text-align: center;\" | 15\n|-\n| Spiritualism\n| style=\"text-align: center;\" data-sort-value=\"1.5\" | 1.5\n| style=\"text-align: center;\" | 10\n| style=\"text-align: center;\" | 15\n|-\n| Galdr\n| style=\"text-align: center;\" data-sort-value=\"2\" | 2\n| style=\"text-align: center;\" | 10\n| style=\"text-align: center;\" | 20\n|}\n\n=== Astrology ===\n'''Cost:''' 2 SP per Rank · '''Maximum Ranks:''' 10 · '''Maximum SP:''' 20\n\n{| class=\"wikitable\" style=\"width: 100%;\"\n! Subtalent\n! style=\"width: 6em;\" | Max SR\n! Effect\n|-\n| '''Starsign'''\n| style=\"text-align: center;\" | 1\n| Adds a selectable Starsign that grants a small statistic and elemental ATK bonus, stronger during its governing months; selection cannot be changed without respeccing.\n|-\n| '''Guidance'''\n| style=\"text-align: center;\" | 5\n| In Space dungeons, increases trap-detection range by SR * 1 tiles; also boosts Hit for 3 rounds by SR after a Star Graph skill.\n|-\n| '''Stargazer'''\n| style=\"text-align: center;\" | 5\n| At night, increases campfire HP/FP recovery by SR * 3% and also increases night vision range.\n|-\n| '''Commune'''\n| style=\"text-align: center;\" | 5\n| At night while outside, allows Commune With Stars.\n|-\n| '''Tactics'''\n| style=\"text-align: center;\" | 5\n| Increases Scaled Weapon ATK by SR and reduces damage from space-originating monsters, such as Spatials, by SR%.\n|}\n\n=== Devotion ===\n'''Cost:''' 1.5 SP per Rank · '''Maximum Ranks:''' 10 · '''Maximum SP:''' 15\n\n{| class=\"wikitable\" style=\"width: 100%;\"\n! Subtalent\n! style=\"width: 6em;\" | Max SR\n! Effect\n|-\n| '''Divine Sign'''\n| style=\"text-align: center;\" | 5\n| Blessed and Exorcism weapon basic attacks deal SR * 3 Light damage on hit against enemies they affect.\n|-\n| '''Prayer'''\n| style=\"text-align: center;\" | 5\n| Praying at an altar or religious symbol grants Prayer for SR * 5 rounds across battles and costs Mental Stamina.\n|-\n| '''Intervention'''\n| style=\"text-align: center;\" | 5\n| While Prayer is active, grants an SR * 1% chance that damage taken is reduced by Scaled Faith.\n|}\n\n=== Alchemy ===\n'''Cost:''' 1.5 SP per Rank · '''Maximum Ranks:''' 10 · '''Maximum SP:''' 15\n\n{| class=\"wikitable\" style=\"width: 100%;\"\n! Subtalent\n! style=\"width: 6em;\" | Max SR\n! Effect\n|-\n| '''Delivery'''\n| style=\"text-align: center;\" | 3\n| Increases the range of most Item skills by SR * 1.\n|-\n| '''Perfect'''\n| style=\"text-align: center;\" | 5\n| Increases effectiveness and/or grants bonus effects to some Item skills based on SR.\n|-\n| '''Gatherer'''\n| style=\"text-align: center;\" | 5\n| Increases the chance of collecting alchemy ingredients from plants by SR * 20%.\n|-\n| '''Special Stone'''\n| style=\"text-align: center;\" | 2\n| Magic Stone battle items have an SR * 15% chance not to be consumed; they remain limited to once per battle.\n|}\n\n=== Spiritualism ===\n'''Cost:''' 1.5 SP per Rank · '''Maximum Ranks:''' 10 · '''Maximum SP:''' 15\n\n{| class=\"wikitable\" style=\"width: 100%;\"\n! Subtalent\n! style=\"width: 6em;\" | Max SR\n! Effect\n|-\n| '''Perception'''\n| style=\"text-align: center;\" | 5\n| Allows sensing spirits in an SR-based area; paging shows whether they are malicious.\n|-\n| '''Release'''\n| style=\"text-align: center;\" | 5\n| Allows releasing perceived spirits using Mental Stamina. Success is based on SR and the spirit's page and grants roleplaying EXP; failure can cause negative effects for black spirits.\n|-\n| '''Possession'''\n| style=\"text-align: center;\" | 5\n| Allows a spirit to possess you temporarily up to SR; its page determines the effect. You count as Possessed, and the spirit escapes if you reach 0 HP.\n|}\n\n=== Galdr ===\n'''Cost:''' 2 SP per Rank · '''Maximum Ranks:''' 10 · '''Maximum SP:''' 20\n\n{| class=\"wikitable\" style=\"width: 100%;\"\n! Subtalent\n! style=\"width: 6em;\" | Max SR\n! Effect\n|-\n| '''Performance'''\n| style=\"text-align: center;\" | 1\n| Allows Performance Tools; listeners can receive up to one beneficial effect that lasts longer the more they listen.\n|-\n| '''Potency'''\n| style=\"text-align: center;\" | 5\n| Increases Sound ATK by SR * 1.\n|-\n| '''Vocal Training'''\n| style=\"text-align: center;\" | 5\n| Reduces Song skill FP costs by SR * 3%; only the highest applicable Efficiency applies.\n|-\n| '''Plant Song'''\n| style=\"text-align: center;\" | 5\n| Once per day per plant, a full performance with a Free instrument near farm plants accelerates growth by SR * 2 hours.\n|}\n\n== Survival Talents ==\n\n{| class=\"wikitable sortable\"\n! Talent\n! SP per Rank\n! Maximum Ranks\n! Maximum SP\n|-\n| Preparation\n| style=\"text-align: center;\" data-sort-value=\"1.5\" | 1.5\n| style=\"text-align: center;\" | 10\n| style=\"text-align: center;\" | 15\n|-\n| Packrat\n| style=\"text-align: center;\" data-sort-value=\"1.5\" | 1.5\n| style=\"text-align: center;\" | 10\n| style=\"text-align: center;\" | 15\n|-\n| Scout\n| style=\"text-align: center;\" data-sort-value=\"1.5\" | 1.5\n| style=\"text-align: center;\" | 10\n| style=\"text-align: center;\" | 15\n|-\n| Security\n| style=\"text-align: center;\" data-sort-value=\"2\" | 2\n| style=\"text-align: center;\" | 10\n| style=\"text-align: center;\" | 20\n|-\n| Harvest\n| style=\"text-align: center;\" data-sort-value=\"2\" | 2\n| style=\"text-align: center;\" | 10\n| style=\"text-align: center;\" | 20\n|-\n| Cooking\n| style=\"text-align: center;\" data-sort-value=\"2\" | 2\n| style=\"text-align: center;\" | 10\n| style=\"text-align: center;\" | 20\n|-\n| Concealment\n| style=\"text-align: center;\" data-sort-value=\"2\" | 2\n| style=\"text-align: center;\" | 10\n| style=\"text-align: center;\" | 20\n|}\n\n=== Preparation ===\n'''Cost:''' 1.5 SP per Rank · '''Maximum Ranks:''' 10 · '''Maximum SP:''' 15\n\n{| class=\"wikitable\" style=\"width: 100%;\"\n! Subtalent\n! style=\"width: 6em;\" | Max SR\n! Effect\n|-\n| '''First Move'''\n| style=\"text-align: center;\" | 5\n| At battle start except back attacks, gain Initiative LV SR * 0.5 for round one, increasing Move by LV; LV and duration are doubled on a back attack.\n|-\n| '''Food Supply'''\n| style=\"text-align: center;\" | 5\n| If hungry at battle end, automatically eats one stocked emergency food. Stock SR * 1; refills at an inn. It gives no roleplaying EXP but restores HP/FP Regeneration like food.\n|-\n| '''Just In Case'''\n| style=\"text-align: center;\" | 3\n| Increases Item Belt size by SR * 1.\n|}\n\n=== Packrat ===\n'''Cost:''' 1.5 SP per Rank · '''Maximum Ranks:''' 10 · '''Maximum SP:''' 15\n\n{| class=\"wikitable\" style=\"width: 100%;\"\n! Subtalent\n! style=\"width: 6em;\" | Max SR\n! Effect\n|-\n| '''Hoarder'''\n| style=\"text-align: center;\" | 5\n| Increases maximum carrying capacity by SR * 5.\n|-\n| '''Hauler'''\n| style=\"text-align: center;\" | 5\n| Increases maximum Battle Weight by SR * 2.\n|-\n| '''Hider'''\n| style=\"text-align: center;\" | 5\n| Reduces the total number of items dropped on defeat by SR * 15%.\n|}\n\n=== Scout ===\n'''Cost:''' 1.5 SP per Rank · '''Maximum Ranks:''' 10 · '''Maximum SP:''' 15\n\n{| class=\"wikitable\" style=\"width: 100%;\"\n! Subtalent\n! style=\"width: 6em;\" | Max SR\n! Effect\n|-\n| '''Keen Eye'''\n| style=\"text-align: center;\" | 5\n| Increases the range and skill for detecting ground traps, doors, and chests based on SR.\n|-\n| '''Solver'''\n| style=\"text-align: center;\" | 2\n| Decreases Mental Stamina required to recover traps, including your own, by SR * 1, minimum 1.\n|-\n| '''Trenchman'''\n| style=\"text-align: center;\" | 5\n| Decreases hole-digging time by SR * 7% of the shovel's base speed.\n|-\n| '''Landmarker'''\n| style=\"text-align: center;\" | 5\n| After closing a treasure map, marks the treasure spot for you with an X for SR * 5 seconds.\n|}\n\n=== Security ===\n'''Cost:''' 2 SP per Rank · '''Maximum Ranks:''' 10 · '''Maximum SP:''' 20\n\n{| class=\"wikitable\" style=\"width: 100%;\"\n! Subtalent\n! style=\"width: 6em;\" | Max SR\n! Effect\n|-\n| '''Knowledge'''\n| style=\"text-align: center;\" | 10\n| Sets base lock-opening success to SR * 10%, modified by lockpick quality and lock strength.\n|-\n| '''Dexterity'''\n| style=\"text-align: center;\" | 5\n| Decreases time needed for a lockpick attempt by SR * 0.5 seconds.\n|-\n| '''Disarm'''\n| style=\"text-align: center;\" | 5\n| Allows trap disarming and increases success by SR * 20%.\n|-\n| '''Failsafe'''\n| style=\"text-align: center;\" | 5\n| Reduces the chance a failed disarm triggers the trap by SR * 20%; at SR 5, it never triggers accidentally.\n|}\n\n=== Harvest ===\n'''Cost:''' 2 SP per Rank · '''Maximum Ranks:''' 10 · '''Maximum SP:''' 20\n\n{| class=\"wikitable\" style=\"width: 100%;\"\n! Subtalent\n! style=\"width: 6em;\" | Max SR\n! Effect\n|-\n| '''Miner'''\n| style=\"text-align: center;\" | 5\n| Boosts item-finding success while mining ore veins by SR * 20%.\n|-\n| '''Scavenger'''\n| style=\"text-align: center;\" | 5\n| Boosts the chance of finding wood and food at old campfires by SR * 20%.\n|-\n| '''Fieldworker'''\n| style=\"text-align: center;\" | 5\n| Decreases time to hoe dirt into farm soil by SR * 7% of the hoe's base speed.\n|-\n| '''Lumberjack'''\n| style=\"text-align: center;\" | 5\n| Decreases tree-cutting time by SR * 7% of the axe's base speed.\n|-\n| '''Experienced'''\n| style=\"text-align: center;\" | 5\n| Decreases minor-injury chance while mining, scavenging, hoeing, or woodcutting by SR * 17%.\n|}\n\n=== Cooking ===\n'''Cost:''' 2 SP per Rank · '''Maximum Ranks:''' 10 · '''Maximum SP:''' 20\n\n{| class=\"wikitable\" style=\"width: 100%;\"\n! Subtalent\n! style=\"width: 6em;\" | Max SR\n! Effect\n|-\n| '''Feast'''\n| style=\"text-align: center;\" | 5\n| Allows Feast Tables using 10 of one food. Food is SR * 10% better and SR * 1 more filling, with 10 + SR * 2 servings; the table is immobile.\n|-\n| '''Camp Meal'''\n| style=\"text-align: center;\" | 5\n| Allows Camp Meals at campfires. Serves 1 + SR * 1 meals, improves quality by SR * 3%, and increases filling duration by SR * 1.\n|-\n| '''Butcher'''\n| style=\"text-align: center;\" | 5\n| Boosts item-finding success while harvesting enemy remains by SR * 20%.\n|}\n\n=== Concealment ===\n'''Cost:''' 2 SP per Rank · '''Maximum Ranks:''' 10 · '''Maximum SP:''' 20\n\n{| class=\"wikitable\" style=\"width: 100%;\"\n! Subtalent\n! style=\"width: 6em;\" | Max SR\n! Effect\n|-\n| '''Sneak'''\n| style=\"text-align: center;\" | 3\n| When engaging unalerted map monsters, you and your party gain Sneak for SR * 1 rounds; only the highest Sneak applies.\n|-\n| '''Plain'''\n| style=\"text-align: center;\" | 5\n| Hides equipment appearance and names from other players up to SR: 1 Accessories, 2 Legs, 3 Hands/Shields, 4 Torso, 5 Weapons.\n|-\n| '''Moneyboot'''\n| style=\"text-align: center;\" | 2\n| Reduces Murai dropped on defeat by SR * 15%; still somewhat effective for Nagas.\n|}\n\n{{CombatmechsLL}}\n[[Category:Talents]]",
+  "categories": [
+    {
+      "title": "Weaponry Talents",
+      "intro": "",
+      "summary": [
+        {
+          "talent": "Blade Expertise",
+          "spPerRank": 1.5,
+          "maxRanks": 10,
+          "maxSp": 15
+        },
+        {
+          "talent": "Axe Expertise",
+          "spPerRank": 1.5,
+          "maxRanks": 10,
+          "maxSp": 15
+        },
+        {
+          "talent": "Polearm Expertise",
+          "spPerRank": 1.5,
+          "maxRanks": 10,
+          "maxSp": 15
+        },
+        {
+          "talent": "Archery",
+          "spPerRank": 1.5,
+          "maxRanks": 10,
+          "maxSp": 15
+        },
+        {
+          "talent": "Unarmed Combat",
+          "spPerRank": 1.5,
+          "maxRanks": 10,
+          "maxSp": 15
+        },
+        {
+          "talent": "Marksmanship",
+          "spPerRank": 1.5,
+          "maxRanks": 10,
+          "maxSp": 15
+        },
+        {
+          "talent": "Maintenance",
+          "spPerRank": 2,
+          "maxRanks": 10,
+          "maxSp": 20
+        },
+        {
+          "talent": "Ninjutsu",
+          "spPerRank": 1.5,
+          "maxRanks": 10,
+          "maxSp": 15
+        }
+      ],
+      "talents": [
+        {
+          "name": "Blade Expertise",
+          "category": "Weaponry Talents",
+          "spPerRank": 1.5,
+          "maxRanks": 10,
+          "maxSp": 15,
+          "subtalents": [
+            {
+              "name": "Balance",
+              "maxSr": 5,
+              "effect": "Reduces the Battle Weight of Sword and Dagger weapons by up to SR * 1.5.",
+              "links": []
+            },
+            {
+              "name": "Adaptation",
+              "maxSr": 5,
+              "effect": "Allows you to equip any Sword weapon with a Rarity equal to or less than SR * 2.",
+              "links": []
+            },
+            {
+              "name": "Reliability",
+              "maxSr": 5,
+              "effect": "For Sword and Dagger weapons: increases Hit by SR * 1.5 and reduces Durability consumption by SR * 5%.",
+              "links": []
+            }
+          ],
+          "intro": ""
+        },
+        {
+          "name": "Axe Expertise",
+          "category": "Weaponry Talents",
+          "spPerRank": 1.5,
+          "maxRanks": 10,
+          "maxSp": 15,
+          "subtalents": [
+            {
+              "name": "Balance",
+              "maxSr": 5,
+              "effect": "Reduces the Battle Weight of Axe weapons by up to SR * 1.5.",
+              "links": []
+            },
+            {
+              "name": "Adaptation",
+              "maxSr": 5,
+              "effect": "Allows you to equip any Axe weapon with a Rarity equal to or less than SR * 2.",
+              "links": []
+            },
+            {
+              "name": "Deadliness",
+              "maxSr": 5,
+              "effect": "For Axe weapons: increases Critical by SR * 1.5 and Critical Damage by SR * 0.5%.",
+              "links": []
+            }
+          ],
+          "intro": ""
+        },
+        {
+          "name": "Polearm Expertise",
+          "category": "Weaponry Talents",
+          "spPerRank": 1.5,
+          "maxRanks": 10,
+          "maxSp": 15,
+          "subtalents": [
+            {
+              "name": "Balance",
+              "maxSr": 5,
+              "effect": "Reduces the Battle Weight of Polearm weapons by up to SR * 1.5.",
+              "links": []
+            },
+            {
+              "name": "Adaptation",
+              "maxSr": 5,
+              "effect": "Allows you to equip any Polearm weapon with a Rarity equal to or less than SR * 2.",
+              "links": []
+            },
+            {
+              "name": "Thin Tip",
+              "maxSr": 5,
+              "effect": "For Polearm weapons: increases Power by SR * 1.5 when attacking an enemy in melee range who is facing you.",
+              "links": []
+            }
+          ],
+          "intro": ""
+        },
+        {
+          "name": "Archery",
+          "category": "Weaponry Talents",
+          "spPerRank": 1.5,
+          "maxRanks": 10,
+          "maxSp": 15,
+          "subtalents": [
+            {
+              "name": "Balance",
+              "maxSr": 5,
+              "effect": "Reduces the Battle Weight of Bow weapons by up to SR * 1.5.",
+              "links": []
+            },
+            {
+              "name": "Adaptation",
+              "maxSr": 5,
+              "effect": "Allows you to equip any Bow weapon with a Rarity equal to or less than SR * 2.",
+              "links": []
+            },
+            {
+              "name": "Close Shot",
+              "maxSr": 5,
+              "effect": "For Bow weapons: decreases the close-range Hit penalty by SR * 5%. Doubled for Shortbows.",
+              "links": []
+            }
+          ],
+          "intro": ""
+        },
+        {
+          "name": "Unarmed Combat",
+          "category": "Weaponry Talents",
+          "spPerRank": 1.5,
+          "maxRanks": 10,
+          "maxSp": 15,
+          "subtalents": [
+            {
+              "name": "Balance",
+              "maxSr": 5,
+              "effect": "Reduces the Battle Weight of Fist weapons by up to SR * 1.5.",
+              "links": []
+            },
+            {
+              "name": "Adaptation",
+              "maxSr": 5,
+              "effect": "Allows you to equip any Fist weapon with a Rarity equal to or less than SR * 2.",
+              "links": []
+            },
+            {
+              "name": "Dizzy",
+              "maxSr": 5,
+              "effect": "For Fist weapons: attacks that hit reduce the target's FP by SR * 1. 50% effective versus Light Armor and 25% effective against Heavy Armor.",
+              "links": []
+            }
+          ],
+          "intro": ""
+        },
+        {
+          "name": "Marksmanship",
+          "category": "Weaponry Talents",
+          "spPerRank": 1.5,
+          "maxRanks": 10,
+          "maxSp": 15,
+          "subtalents": [
+            {
+              "name": "Balance",
+              "maxSr": 5,
+              "effect": "Reduces the Battle Weight of Gun weapons by up to SR * 1.5.",
+              "links": []
+            },
+            {
+              "name": "Volley",
+              "maxSr": 2,
+              "effect": "For Bow and Gun weapons: increases attack range by SR * 1.",
+              "links": []
+            },
+            {
+              "name": "Wind Read",
+              "maxSr": 3,
+              "effect": "Increases maximum range before Farshot Penalty is applied by SR * 1.",
+              "links": []
+            },
+            {
+              "name": "Adaptation",
+              "maxSr": 5,
+              "effect": "Allows you to equip any Gun weapon with a Rarity equal to or less than SR * 2.",
+              "links": []
+            }
+          ],
+          "intro": ""
+        },
+        {
+          "name": "Maintenance",
+          "category": "Weaponry Talents",
+          "spPerRank": 2,
+          "maxRanks": 10,
+          "maxSp": 20,
+          "subtalents": [
+            {
+              "name": "Self-Service",
+              "maxSr": 5,
+              "effect": "After every battle, restores equipped weapon Durability by SR * 1, up to 75% maximum. If two weapons are equipped, half the effect applies to both if the secondary weapon has Durability damage.",
+              "links": []
+            },
+            {
+              "name": "Squad-Service",
+              "maxSr": 5,
+              "effect": "All other party members receive your Self-Service at SR * 20% of its usual effectiveness. Only the highest Squad-Service in the party applies.",
+              "links": []
+            },
+            {
+              "name": "Mastery",
+              "maxSr": 5,
+              "effect": "Increases the maximum Durability that Maintenance effects can repair to by SR * 3% (90% at SR 5).",
+              "links": []
+            },
+            {
+              "name": "Emergency Service",
+              "maxSr": 5,
+              "effect": "Grants a battle skill targeting someone with broken weapons. It consumes 2 Murai and restores each broken weapon's Durability to SR * 1; 5-round cooldown.",
+              "links": []
+            }
+          ],
+          "intro": ""
+        },
+        {
+          "name": "Ninjutsu",
+          "category": "Weaponry Talents",
+          "spPerRank": 1.5,
+          "maxRanks": 10,
+          "maxSp": 15,
+          "subtalents": [
+            {
+              "name": "Hayasa",
+              "maxSr": 1,
+              "effect": "Using Swap Weapon to equip a Shuriken refunds up to 3 Momentum, but puts Swap Weapon on a 1-round cooldown.",
+              "links": []
+            },
+            {
+              "name": "Endan",
+              "maxSr": 5,
+              "effect": "Bomb items also explode into Smokescreen tiles with LV SR * 5 that last for 2 + SR rounds.",
+              "links": []
+            },
+            {
+              "name": "Kagero",
+              "maxSr": 1,
+              "effect": "You and your allies ignore the effects of your Smokescreen tiles.",
+              "links": []
+            },
+            {
+              "name": "Yobai",
+              "maxSr": 3,
+              "effect": "While Airborne, the attack range of your Shuriken weapons increases by SR * 1.",
+              "links": []
+            },
+            {
+              "name": "Danmaku",
+              "maxSr": 5,
+              "effect": "Once per round, with a Shuriken equipped, dodging an attack or triggering Evasion hits all enemies within 3 Range with weak versions, dealing protection-ignoring damage equal to the weapon's Power + SR * 3.",
+              "links": []
+            }
+          ],
+          "intro": ""
+        }
+      ]
+    },
+    {
+      "title": "War Talents",
+      "intro": "",
+      "summary": [
+        {
+          "talent": "March",
+          "spPerRank": 2,
+          "maxRanks": 10,
+          "maxSp": 20
+        },
+        {
+          "talent": "Combat Drilling",
+          "spPerRank": 1.5,
+          "maxRanks": 10,
+          "maxSp": 15
+        },
+        {
+          "talent": "Bravery",
+          "spPerRank": 1,
+          "maxRanks": 9,
+          "maxSp": 9
+        },
+        {
+          "talent": "Detainment",
+          "spPerRank": 1.5,
+          "maxRanks": 10,
+          "maxSp": 15
+        },
+        {
+          "talent": "First Aid",
+          "spPerRank": 1,
+          "maxRanks": 10,
+          "maxSp": 10
+        },
+        {
+          "talent": "Two-Hand",
+          "spPerRank": 1,
+          "maxRanks": 10,
+          "maxSp": 10
+        },
+        {
+          "talent": "Chivalry",
+          "spPerRank": 2,
+          "maxRanks": 10,
+          "maxSp": 20
+        }
+      ],
+      "talents": [
+        {
+          "name": "March",
+          "category": "War Talents",
+          "spPerRank": 2,
+          "maxRanks": 10,
+          "maxSp": 20,
+          "subtalents": [
+            {
+              "name": "Health",
+              "maxSr": 5,
+              "effect": "Every 15 out-of-combat steps, if below 75% maximum HP, restore SR * 1 HP.",
+              "links": []
+            },
+            {
+              "name": "Stamina",
+              "maxSr": 5,
+              "effect": "Increases Physical Stamina recovered every hour by SR * 1.",
+              "links": []
+            },
+            {
+              "name": "Jump",
+              "maxSr": 1,
+              "effect": "Reduces the Stamina cost of using upward Jump Spots by 1.",
+              "links": []
+            }
+          ],
+          "intro": ""
+        },
+        {
+          "name": "Combat Drilling",
+          "category": "War Talents",
+          "spPerRank": 1.5,
+          "maxRanks": 10,
+          "maxSp": 15,
+          "subtalents": [
+            {
+              "name": "Experience",
+              "maxSr": 5,
+              "effect": "Increases battle EXP gained for the entire party by SR * 2%. Only the highest Experience in the party applies.",
+              "links": []
+            },
+            {
+              "name": "Training",
+              "maxSr": 5,
+              "effect": "Lets you train certain NPCs and other characters. EXP gained increases with SR by 2.5% of EXP required to level per SR.",
+              "links": []
+            },
+            {
+              "name": "Tools",
+              "maxSr": 5,
+              "effect": "Lets you set up Training Tools at certain locations; higher SR improves EXP gained by 2% of EXP required to level per SR.",
+              "links": []
+            }
+          ],
+          "intro": ""
+        },
+        {
+          "name": "Bravery",
+          "category": "War Talents",
+          "spPerRank": 1,
+          "maxRanks": 9,
+          "maxSp": 9,
+          "subtalents": [
+            {
+              "name": "Will",
+              "maxSr": 3,
+              "effect": "Grants resistance to Fear by SR * 16% (minimum 0-1 Hit) and reduces Fear of Death duration by SR * 1.",
+              "links": []
+            },
+            {
+              "name": "Determination",
+              "maxSr": 3,
+              "effect": "Grants resistance to Hesitation equal to SR * 15%.",
+              "links": []
+            },
+            {
+              "name": "Heat of Battle",
+              "maxSr": 3,
+              "effect": "Away from the battlefield edge, Power increases by SR * 1 and Physical and Magical Defense versus monsters increase by SR * 1%. Bonuses are doubled if the enemy is at the battlefield edge.",
+              "links": []
+            }
+          ],
+          "intro": ""
+        },
+        {
+          "name": "Detainment",
+          "category": "War Talents",
+          "spPerRank": 1.5,
+          "maxRanks": 10,
+          "maxSp": 15,
+          "subtalents": [
+            {
+              "name": "Take Prisoner",
+              "maxSr": 5,
+              "effect": "Grants Capture: a 1-Range attack with Hit and damage penalties that captures an enemy if it reduces them to 0 HP. Maximum prisoners: SR * 1.",
+              "links": []
+            },
+            {
+              "name": "Restrain",
+              "maxSr": 5,
+              "effect": "Grants Grapple, inflicting Immobilize on you and a target within 1 Range on success. Success is SR * 17% plus 2% per character level you exceed the target by.",
+              "links": []
+            },
+            {
+              "name": "Convert",
+              "maxSr": 5,
+              "effect": "Lets you convert captured monsters into mercenaries for a Murai fee. Success is SR * 20%; failure requires waiting 3 in-game hours.",
+              "links": []
+            },
+            {
+              "name": "Seize",
+              "maxSr": 5,
+              "effect": "If prisoner space is available, gives an SR * 1% chance to capture defeated non-NPCs after battle when their level is no more than 1.25 times yours; rolled for each potential prisoner.",
+              "links": []
+            }
+          ],
+          "intro": ""
+        },
+        {
+          "name": "First Aid",
+          "category": "War Talents",
+          "spPerRank": 1,
+          "maxRanks": 10,
+          "maxSp": 10,
+          "subtalents": [
+            {
+              "name": "Healing",
+              "maxSr": 5,
+              "effect": "At battle end, heals all party members for SR * 2 HP, up to 90% HP.",
+              "links": []
+            },
+            {
+              "name": "Treatment",
+              "maxSr": 3,
+              "effect": "At battle end, automatically treats party afflictions up to a severity based on SR: 1 = Minor, 2 = Moderate, 3 = Major.",
+              "links": []
+            },
+            {
+              "name": "Prevention",
+              "maxSr": 5,
+              "effect": "Reduces the party's chance of suffering battle afflictions by SR * 10% of the normal chance. Only the highest Prevention applies.",
+              "links": []
+            }
+          ],
+          "intro": ""
+        },
+        {
+          "name": "Two-Hand",
+          "category": "War Talents",
+          "spPerRank": 1,
+          "maxRanks": 10,
+          "maxSp": 10,
+          "subtalents": [
+            {
+              "name": "Full Swing",
+              "maxSr": 5,
+              "effect": "Without a Shield or Sub-Weapon equipped, increases Scaled Weapon ATK of Swords, Axes, and Spears by SR * 2; doubled for weapons with 20 Weight or more.",
+              "links": []
+            },
+            {
+              "name": "Steady",
+              "maxSr": 5,
+              "effect": "Without a Shield or Sub-Weapon equipped, increases Gun Hit by SR * 2; doubled for Rifle weapons.",
+              "links": []
+            }
+          ],
+          "intro": ""
+        },
+        {
+          "name": "Chivalry",
+          "category": "War Talents",
+          "spPerRank": 2,
+          "maxRanks": 10,
+          "maxSp": 20,
+          "subtalents": [
+            {
+              "name": "Honor",
+              "maxSr": 5,
+              "effect": "Recover SR * 1 FP when hitting an enemy from their front. Does not apply if the target is knocked down or your party outnumbers theirs.",
+              "links": []
+            },
+            {
+              "name": "Smite",
+              "maxSr": 5,
+              "effect": "Increases Hit by SR * 3 when attacking an enemy from their front. Does not apply if the target is knocked down or your party outnumbers theirs.",
+              "links": []
+            },
+            {
+              "name": "Protector",
+              "maxSr": 5,
+              "effect": "When you trigger Protect, gain SR * 1 Armor and Magic Armor until your next turn.",
+              "links": []
+            }
+          ],
+          "intro": ""
+        }
+      ]
+    },
+    {
+      "title": "Elemental Talents",
+      "intro": "",
+      "summary": [
+        {
+          "talent": "Pyromancy",
+          "spPerRank": 2,
+          "maxRanks": 10,
+          "maxSp": 20
+        },
+        {
+          "talent": "Cryomancy",
+          "spPerRank": 2,
+          "maxRanks": 10,
+          "maxSp": 20
+        },
+        {
+          "talent": "Geomancy",
+          "spPerRank": 2,
+          "maxRanks": 10,
+          "maxSp": 20
+        },
+        {
+          "talent": "Aeromancy",
+          "spPerRank": 2,
+          "maxRanks": 10,
+          "maxSp": 20
+        },
+        {
+          "talent": "Aquamancy",
+          "spPerRank": 2,
+          "maxRanks": 10,
+          "maxSp": 20
+        },
+        {
+          "talent": "Altermancy",
+          "spPerRank": 2,
+          "maxRanks": 10,
+          "maxSp": 20
+        },
+        {
+          "talent": "Solmancy",
+          "spPerRank": 2,
+          "maxRanks": 10,
+          "maxSp": 20
+        },
+        {
+          "talent": "Fulgurmancy",
+          "spPerRank": 2,
+          "maxRanks": 10,
+          "maxSp": 20
+        }
+      ],
+      "talents": [
+        {
+          "name": "Pyromancy",
+          "category": "Elemental Talents",
+          "spPerRank": 2,
+          "maxRanks": 10,
+          "maxSp": 20,
+          "subtalents": [
+            {
+              "name": "Potency",
+              "maxSr": 5,
+              "effect": "Increases Fire ATK by SR * 1.",
+              "links": []
+            },
+            {
+              "name": "Efficiency",
+              "maxSr": 5,
+              "effect": "Reduces Nerifian-domain spell FP costs by SR * 3%; only the highest applicable Efficiency applies.",
+              "links": []
+            },
+            {
+              "name": "Scorch",
+              "maxSr": 5,
+              "effect": "Increases the duration of Cinder tiles you create by SR * 1 rounds.",
+              "links": []
+            },
+            {
+              "name": "Ignis",
+              "maxSr": 5,
+              "effect": "Increases success when applying Burn by SR * 3%.",
+              "links": []
+            }
+          ],
+          "intro": ""
+        },
+        {
+          "name": "Cryomancy",
+          "category": "Elemental Talents",
+          "spPerRank": 2,
+          "maxRanks": 10,
+          "maxSp": 20,
+          "subtalents": [
+            {
+              "name": "Potency",
+              "maxSr": 5,
+              "effect": "Increases Ice ATK by SR * 1.",
+              "links": []
+            },
+            {
+              "name": "Efficiency",
+              "maxSr": 5,
+              "effect": "Reduces Aquarian-domain spell FP costs by SR * 3%; only the highest applicable Efficiency applies.",
+              "links": []
+            },
+            {
+              "name": "Freeze",
+              "maxSr": 5,
+              "effect": "Increases the duration of Ice Sheet tiles you create by SR * 1 rounds.",
+              "links": []
+            }
+          ],
+          "intro": ""
+        },
+        {
+          "name": "Geomancy",
+          "category": "Elemental Talents",
+          "spPerRank": 2,
+          "maxRanks": 10,
+          "maxSp": 20,
+          "subtalents": [
+            {
+              "name": "Potency",
+              "maxSr": 5,
+              "effect": "Increases Earth ATK by SR * 1.",
+              "links": []
+            },
+            {
+              "name": "Efficiency",
+              "maxSr": 5,
+              "effect": "Reduces Isespian-domain spell FP costs by SR * 3%; only the highest applicable Efficiency applies.",
+              "links": []
+            },
+            {
+              "name": "Magnet",
+              "maxSr": 5,
+              "effect": "Increases the duration of Magnetize statuses you apply by SR * 1 rounds.",
+              "links": []
+            }
+          ],
+          "intro": ""
+        },
+        {
+          "name": "Aeromancy",
+          "category": "Elemental Talents",
+          "spPerRank": 2,
+          "maxRanks": 10,
+          "maxSp": 20,
+          "subtalents": [
+            {
+              "name": "Potency",
+              "maxSr": 5,
+              "effect": "Increases Wind ATK by SR * 1.",
+              "links": []
+            },
+            {
+              "name": "Efficiency",
+              "maxSr": 5,
+              "effect": "Reduces Sylphid-domain spell FP costs by SR * 3%; only the highest applicable Efficiency applies.",
+              "links": []
+            },
+            {
+              "name": "Air Shaft",
+              "maxSr": 5,
+              "effect": "Increases the duration of Air Shaft tiles you create by SR * 1 rounds.",
+              "links": []
+            }
+          ],
+          "intro": ""
+        },
+        {
+          "name": "Aquamancy",
+          "category": "Elemental Talents",
+          "spPerRank": 2,
+          "maxRanks": 10,
+          "maxSp": 20,
+          "subtalents": [
+            {
+              "name": "Potency",
+              "maxSr": 5,
+              "effect": "Increases Water ATK by SR * 1.",
+              "links": []
+            },
+            {
+              "name": "Efficiency",
+              "maxSr": 5,
+              "effect": "Reduces Aquarian-domain spell FP costs by SR * 3%; only the highest applicable Efficiency applies.",
+              "links": []
+            },
+            {
+              "name": "Flood",
+              "maxSr": 3,
+              "effect": "Increases the duration of Flooded Water tiles you create by SR * 1 rounds.",
+              "links": []
+            }
+          ],
+          "intro": ""
+        },
+        {
+          "name": "Altermancy",
+          "category": "Elemental Talents",
+          "spPerRank": 2,
+          "maxRanks": 10,
+          "maxSp": 20,
+          "subtalents": [
+            {
+              "name": "Potency",
+              "maxSr": 5,
+              "effect": "Increases Darkness ATK by SR * 1.",
+              "links": []
+            },
+            {
+              "name": "Efficiency",
+              "maxSr": 5,
+              "effect": "Reduces Huggessoan-domain spell FP costs by SR * 3%; only the highest applicable Efficiency applies.",
+              "links": []
+            },
+            {
+              "name": "Black Sea",
+              "maxSr": 5,
+              "effect": "Increases the duration of Dark Water tiles you create by SR * 1 rounds.",
+              "links": []
+            },
+            {
+              "name": "Dimness",
+              "maxSr": 5,
+              "effect": "Increases the duration of Darkness tiles you create by SR * 1 rounds.",
+              "links": []
+            }
+          ],
+          "intro": ""
+        },
+        {
+          "name": "Solmancy",
+          "category": "Elemental Talents",
+          "spPerRank": 2,
+          "maxRanks": 10,
+          "maxSp": 20,
+          "subtalents": [
+            {
+              "name": "Potency",
+              "maxSr": 5,
+              "effect": "Increases Light ATK by SR * 1.",
+              "links": []
+            },
+            {
+              "name": "Efficiency",
+              "maxSr": 5,
+              "effect": "Reduces Mercalan-domain spell FP costs by SR * 3%; only the highest applicable Efficiency applies.",
+              "links": []
+            },
+            {
+              "name": "Eternity",
+              "maxSr": 5,
+              "effect": "Increases the duration of Light Shaft tiles you create by SR * 1 rounds.",
+              "links": []
+            }
+          ],
+          "intro": ""
+        },
+        {
+          "name": "Fulgurmancy",
+          "category": "Elemental Talents",
+          "spPerRank": 2,
+          "maxRanks": 10,
+          "maxSp": 20,
+          "subtalents": [
+            {
+              "name": "Potency",
+              "maxSr": 5,
+              "effect": "Increases Lightning ATK by SR * 1.",
+              "links": []
+            },
+            {
+              "name": "Efficiency",
+              "maxSr": 5,
+              "effect": "Reduces Nature-domain spell FP costs by SR * 3%; only the highest applicable Efficiency applies.",
+              "links": []
+            },
+            {
+              "name": "Lowrath",
+              "maxSr": 5,
+              "effect": "Increases the chance of Lightning criticals by SR * 2%.",
+              "links": []
+            },
+            {
+              "name": "Ampage",
+              "maxSr": 5,
+              "effect": "Increases success when applying Interference by SR * 3%.",
+              "links": []
+            }
+          ],
+          "intro": ""
+        }
+      ]
+    },
+    {
+      "title": "Arcane Talents",
+      "intro": "",
+      "summary": [
+        {
+          "talent": "Capacity",
+          "spPerRank": 1,
+          "maxRanks": 10,
+          "maxSp": 10
+        },
+        {
+          "talent": "Enchantment",
+          "spPerRank": 1.5,
+          "maxRanks": 10,
+          "maxSp": 15
+        },
+        {
+          "talent": "Fluency",
+          "spPerRank": 2,
+          "maxRanks": 10,
+          "maxSp": 20
+        },
+        {
+          "talent": "Invocation",
+          "spPerRank": 1.5,
+          "maxRanks": 10,
+          "maxSp": 15
+        },
+        {
+          "talent": "Summoning",
+          "spPerRank": 2,
+          "maxRanks": 10,
+          "maxSp": 20
+        }
+      ],
+      "talents": [
+        {
+          "name": "Capacity",
+          "category": "Arcane Talents",
+          "spPerRank": 1,
+          "maxRanks": 10,
+          "maxSp": 10,
+          "subtalents": [
+            {
+              "name": "Depth",
+              "maxSr": 5,
+              "effect": "Increases maximum FP by SR * 5.",
+              "links": []
+            },
+            {
+              "name": "Absorption",
+              "maxSr": 3,
+              "effect": "Increases FP Regeneration by SR * 1.",
+              "links": []
+            },
+            {
+              "name": "Recycle",
+              "maxSr": 5,
+              "effect": "In battle, spells cast by others restore SR * 4% of their FP cost or 3 FP, whichever is higher.",
+              "links": []
+            }
+          ],
+          "intro": ""
+        },
+        {
+          "name": "Enchantment",
+          "category": "Arcane Talents",
+          "spPerRank": 1.5,
+          "maxRanks": 10,
+          "maxSp": 15,
+          "subtalents": [
+            {
+              "name": "Whimsy",
+              "maxSr": 5,
+              "effect": "Increases Status Infliction by SR * 2%.",
+              "links": []
+            },
+            {
+              "name": "Efficiency",
+              "maxSr": 5,
+              "effect": "Reduces Enchant-class spell FP costs by SR * 3%; only the highest applicable Efficiency applies.",
+              "links": []
+            },
+            {
+              "name": "Prolong",
+              "maxSr": 5,
+              "effect": "Increases Enchant-class spell status duration by SR * 1 rounds; half effective on enemies.",
+              "links": []
+            }
+          ],
+          "intro": ""
+        },
+        {
+          "name": "Fluency",
+          "category": "Arcane Talents",
+          "spPerRank": 2,
+          "maxRanks": 10,
+          "maxSp": 20,
+          "subtalents": [
+            {
+              "name": "Basics",
+              "maxSr": 1,
+              "effect": "Allows you to read and write where appropriate, such as papers and signs.",
+              "links": []
+            },
+            {
+              "name": "Stamina",
+              "maxSr": 5,
+              "effect": "Increases Mental Stamina recovered every hour by SR * 1.",
+              "links": []
+            },
+            {
+              "name": "Spellbook",
+              "maxSr": 5,
+              "effect": "With a Tome equipped, increases maximum Skill Pool size by SR * 1.",
+              "links": []
+            },
+            {
+              "name": "Balance",
+              "maxSr": 5,
+              "effect": "Reduces Tome Battle Weight by up to SR * 1.5.",
+              "links": []
+            },
+            {
+              "name": "Adaptation",
+              "maxSr": 5,
+              "effect": "Allows you to equip any Tome with Rarity equal to or less than SR * 2.",
+              "links": []
+            }
+          ],
+          "intro": ""
+        },
+        {
+          "name": "Invocation",
+          "category": "Arcane Talents",
+          "spPerRank": 1.5,
+          "maxRanks": 10,
+          "maxSp": 15,
+          "subtalents": [
+            {
+              "name": "Words of Power",
+              "maxSr": 10,
+              "effect": "Reduces the chance that damage breaks an Invocation by SR * 10%; at SR 10, damage can never break one.",
+              "links": []
+            },
+            {
+              "name": "Minor Glyph",
+              "maxSr": 5,
+              "effect": "While invoking, a magical barrier increases Armor and Magic Armor by SR * 1.",
+              "links": []
+            }
+          ],
+          "intro": ""
+        },
+        {
+          "name": "Summoning",
+          "category": "Arcane Talents",
+          "spPerRank": 2,
+          "maxRanks": 10,
+          "maxSp": 20,
+          "subtalents": [
+            {
+              "name": "Tutor",
+              "maxSr": 5,
+              "effect": "Increases Youkai EXP by SR * 3%; doubled when the Youkai is lower level than you.",
+              "links": []
+            },
+            {
+              "name": "Friendship",
+              "maxSr": 5,
+              "effect": "Increases starting Youkai friendship by SR * 2 and friendship from gifts by SR * 1.",
+              "links": []
+            }
+          ],
+          "intro": ""
+        }
+      ]
+    },
+    {
+      "title": "Occult Talents",
+      "intro": "",
+      "summary": [
+        {
+          "talent": "Astrology",
+          "spPerRank": 2,
+          "maxRanks": 10,
+          "maxSp": 20
+        },
+        {
+          "talent": "Devotion",
+          "spPerRank": 1.5,
+          "maxRanks": 10,
+          "maxSp": 15
+        },
+        {
+          "talent": "Alchemy",
+          "spPerRank": 1.5,
+          "maxRanks": 10,
+          "maxSp": 15
+        },
+        {
+          "talent": "Spiritualism",
+          "spPerRank": 1.5,
+          "maxRanks": 10,
+          "maxSp": 15
+        },
+        {
+          "talent": "Galdr",
+          "spPerRank": 2,
+          "maxRanks": 10,
+          "maxSp": 20
+        }
+      ],
+      "talents": [
+        {
+          "name": "Astrology",
+          "category": "Occult Talents",
+          "spPerRank": 2,
+          "maxRanks": 10,
+          "maxSp": 20,
+          "subtalents": [
+            {
+              "name": "Starsign",
+              "maxSr": 1,
+              "effect": "Adds a selectable Starsign that grants a small statistic and elemental ATK bonus, stronger during its governing months; selection cannot be changed without respeccing.",
+              "links": []
+            },
+            {
+              "name": "Guidance",
+              "maxSr": 5,
+              "effect": "In Space dungeons, increases trap-detection range by SR * 1 tiles; also boosts Hit for 3 rounds by SR after a Star Graph skill.",
+              "links": []
+            },
+            {
+              "name": "Stargazer",
+              "maxSr": 5,
+              "effect": "At night, increases campfire HP/FP recovery by SR * 3% and also increases night vision range.",
+              "links": []
+            },
+            {
+              "name": "Commune",
+              "maxSr": 5,
+              "effect": "At night while outside, allows Commune With Stars.",
+              "links": []
+            },
+            {
+              "name": "Tactics",
+              "maxSr": 5,
+              "effect": "Increases Scaled Weapon ATK by SR and reduces damage from space-originating monsters, such as Spatials, by SR%.",
+              "links": []
+            }
+          ],
+          "intro": ""
+        },
+        {
+          "name": "Devotion",
+          "category": "Occult Talents",
+          "spPerRank": 1.5,
+          "maxRanks": 10,
+          "maxSp": 15,
+          "subtalents": [
+            {
+              "name": "Divine Sign",
+              "maxSr": 5,
+              "effect": "Blessed and Exorcism weapon basic attacks deal SR * 3 Light damage on hit against enemies they affect.",
+              "links": []
+            },
+            {
+              "name": "Prayer",
+              "maxSr": 5,
+              "effect": "Praying at an altar or religious symbol grants Prayer for SR * 5 rounds across battles and costs Mental Stamina.",
+              "links": []
+            },
+            {
+              "name": "Intervention",
+              "maxSr": 5,
+              "effect": "While Prayer is active, grants an SR * 1% chance that damage taken is reduced by Scaled Faith.",
+              "links": []
+            }
+          ],
+          "intro": ""
+        },
+        {
+          "name": "Alchemy",
+          "category": "Occult Talents",
+          "spPerRank": 1.5,
+          "maxRanks": 10,
+          "maxSp": 15,
+          "subtalents": [
+            {
+              "name": "Delivery",
+              "maxSr": 3,
+              "effect": "Increases the range of most Item skills by SR * 1.",
+              "links": []
+            },
+            {
+              "name": "Perfect",
+              "maxSr": 5,
+              "effect": "Increases effectiveness and/or grants bonus effects to some Item skills based on SR.",
+              "links": []
+            },
+            {
+              "name": "Gatherer",
+              "maxSr": 5,
+              "effect": "Increases the chance of collecting alchemy ingredients from plants by SR * 20%.",
+              "links": []
+            },
+            {
+              "name": "Special Stone",
+              "maxSr": 2,
+              "effect": "Magic Stone battle items have an SR * 15% chance not to be consumed; they remain limited to once per battle.",
+              "links": []
+            }
+          ],
+          "intro": ""
+        },
+        {
+          "name": "Spiritualism",
+          "category": "Occult Talents",
+          "spPerRank": 1.5,
+          "maxRanks": 10,
+          "maxSp": 15,
+          "subtalents": [
+            {
+              "name": "Perception",
+              "maxSr": 5,
+              "effect": "Allows sensing spirits in an SR-based area; paging shows whether they are malicious.",
+              "links": []
+            },
+            {
+              "name": "Release",
+              "maxSr": 5,
+              "effect": "Allows releasing perceived spirits using Mental Stamina. Success is based on SR and the spirit's page and grants roleplaying EXP; failure can cause negative effects for black spirits.",
+              "links": []
+            },
+            {
+              "name": "Possession",
+              "maxSr": 5,
+              "effect": "Allows a spirit to possess you temporarily up to SR; its page determines the effect. You count as Possessed, and the spirit escapes if you reach 0 HP.",
+              "links": []
+            }
+          ],
+          "intro": ""
+        },
+        {
+          "name": "Galdr",
+          "category": "Occult Talents",
+          "spPerRank": 2,
+          "maxRanks": 10,
+          "maxSp": 20,
+          "subtalents": [
+            {
+              "name": "Performance",
+              "maxSr": 1,
+              "effect": "Allows Performance Tools; listeners can receive up to one beneficial effect that lasts longer the more they listen.",
+              "links": []
+            },
+            {
+              "name": "Potency",
+              "maxSr": 5,
+              "effect": "Increases Sound ATK by SR * 1.",
+              "links": []
+            },
+            {
+              "name": "Vocal Training",
+              "maxSr": 5,
+              "effect": "Reduces Song skill FP costs by SR * 3%; only the highest applicable Efficiency applies.",
+              "links": []
+            },
+            {
+              "name": "Plant Song",
+              "maxSr": 5,
+              "effect": "Once per day per plant, a full performance with a Free instrument near farm plants accelerates growth by SR * 2 hours.",
+              "links": []
+            }
+          ],
+          "intro": ""
+        }
+      ]
+    },
+    {
+      "title": "Survival Talents",
+      "intro": "",
+      "summary": [
+        {
+          "talent": "Preparation",
+          "spPerRank": 1.5,
+          "maxRanks": 10,
+          "maxSp": 15
+        },
+        {
+          "talent": "Packrat",
+          "spPerRank": 1.5,
+          "maxRanks": 10,
+          "maxSp": 15
+        },
+        {
+          "talent": "Scout",
+          "spPerRank": 1.5,
+          "maxRanks": 10,
+          "maxSp": 15
+        },
+        {
+          "talent": "Security",
+          "spPerRank": 2,
+          "maxRanks": 10,
+          "maxSp": 20
+        },
+        {
+          "talent": "Harvest",
+          "spPerRank": 2,
+          "maxRanks": 10,
+          "maxSp": 20
+        },
+        {
+          "talent": "Cooking",
+          "spPerRank": 2,
+          "maxRanks": 10,
+          "maxSp": 20
+        },
+        {
+          "talent": "Concealment",
+          "spPerRank": 2,
+          "maxRanks": 10,
+          "maxSp": 20
+        }
+      ],
+      "talents": [
+        {
+          "name": "Preparation",
+          "category": "Survival Talents",
+          "spPerRank": 1.5,
+          "maxRanks": 10,
+          "maxSp": 15,
+          "subtalents": [
+            {
+              "name": "First Move",
+              "maxSr": 5,
+              "effect": "At battle start except back attacks, gain Initiative LV SR * 0.5 for round one, increasing Move by LV; LV and duration are doubled on a back attack.",
+              "links": []
+            },
+            {
+              "name": "Food Supply",
+              "maxSr": 5,
+              "effect": "If hungry at battle end, automatically eats one stocked emergency food. Stock SR * 1; refills at an inn. It gives no roleplaying EXP but restores HP/FP Regeneration like food.",
+              "links": []
+            },
+            {
+              "name": "Just In Case",
+              "maxSr": 3,
+              "effect": "Increases Item Belt size by SR * 1.",
+              "links": []
+            }
+          ],
+          "intro": ""
+        },
+        {
+          "name": "Packrat",
+          "category": "Survival Talents",
+          "spPerRank": 1.5,
+          "maxRanks": 10,
+          "maxSp": 15,
+          "subtalents": [
+            {
+              "name": "Hoarder",
+              "maxSr": 5,
+              "effect": "Increases maximum carrying capacity by SR * 5.",
+              "links": []
+            },
+            {
+              "name": "Hauler",
+              "maxSr": 5,
+              "effect": "Increases maximum Battle Weight by SR * 2.",
+              "links": []
+            },
+            {
+              "name": "Hider",
+              "maxSr": 5,
+              "effect": "Reduces the total number of items dropped on defeat by SR * 15%.",
+              "links": []
+            }
+          ],
+          "intro": ""
+        },
+        {
+          "name": "Scout",
+          "category": "Survival Talents",
+          "spPerRank": 1.5,
+          "maxRanks": 10,
+          "maxSp": 15,
+          "subtalents": [
+            {
+              "name": "Keen Eye",
+              "maxSr": 5,
+              "effect": "Increases the range and skill for detecting ground traps, doors, and chests based on SR.",
+              "links": []
+            },
+            {
+              "name": "Solver",
+              "maxSr": 2,
+              "effect": "Decreases Mental Stamina required to recover traps, including your own, by SR * 1, minimum 1.",
+              "links": []
+            },
+            {
+              "name": "Trenchman",
+              "maxSr": 5,
+              "effect": "Decreases hole-digging time by SR * 7% of the shovel's base speed.",
+              "links": []
+            },
+            {
+              "name": "Landmarker",
+              "maxSr": 5,
+              "effect": "After closing a treasure map, marks the treasure spot for you with an X for SR * 5 seconds.",
+              "links": []
+            }
+          ],
+          "intro": ""
+        },
+        {
+          "name": "Security",
+          "category": "Survival Talents",
+          "spPerRank": 2,
+          "maxRanks": 10,
+          "maxSp": 20,
+          "subtalents": [
+            {
+              "name": "Knowledge",
+              "maxSr": 10,
+              "effect": "Sets base lock-opening success to SR * 10%, modified by lockpick quality and lock strength.",
+              "links": []
+            },
+            {
+              "name": "Dexterity",
+              "maxSr": 5,
+              "effect": "Decreases time needed for a lockpick attempt by SR * 0.5 seconds.",
+              "links": []
+            },
+            {
+              "name": "Disarm",
+              "maxSr": 5,
+              "effect": "Allows trap disarming and increases success by SR * 20%.",
+              "links": []
+            },
+            {
+              "name": "Failsafe",
+              "maxSr": 5,
+              "effect": "Reduces the chance a failed disarm triggers the trap by SR * 20%; at SR 5, it never triggers accidentally.",
+              "links": []
+            }
+          ],
+          "intro": ""
+        },
+        {
+          "name": "Harvest",
+          "category": "Survival Talents",
+          "spPerRank": 2,
+          "maxRanks": 10,
+          "maxSp": 20,
+          "subtalents": [
+            {
+              "name": "Miner",
+              "maxSr": 5,
+              "effect": "Boosts item-finding success while mining ore veins by SR * 20%.",
+              "links": []
+            },
+            {
+              "name": "Scavenger",
+              "maxSr": 5,
+              "effect": "Boosts the chance of finding wood and food at old campfires by SR * 20%.",
+              "links": []
+            },
+            {
+              "name": "Fieldworker",
+              "maxSr": 5,
+              "effect": "Decreases time to hoe dirt into farm soil by SR * 7% of the hoe's base speed.",
+              "links": []
+            },
+            {
+              "name": "Lumberjack",
+              "maxSr": 5,
+              "effect": "Decreases tree-cutting time by SR * 7% of the axe's base speed.",
+              "links": []
+            },
+            {
+              "name": "Experienced",
+              "maxSr": 5,
+              "effect": "Decreases minor-injury chance while mining, scavenging, hoeing, or woodcutting by SR * 17%.",
+              "links": []
+            }
+          ],
+          "intro": ""
+        },
+        {
+          "name": "Cooking",
+          "category": "Survival Talents",
+          "spPerRank": 2,
+          "maxRanks": 10,
+          "maxSp": 20,
+          "subtalents": [
+            {
+              "name": "Feast",
+              "maxSr": 5,
+              "effect": "Allows Feast Tables using 10 of one food. Food is SR * 10% better and SR * 1 more filling, with 10 + SR * 2 servings; the table is immobile.",
+              "links": []
+            },
+            {
+              "name": "Camp Meal",
+              "maxSr": 5,
+              "effect": "Allows Camp Meals at campfires. Serves 1 + SR * 1 meals, improves quality by SR * 3%, and increases filling duration by SR * 1.",
+              "links": []
+            },
+            {
+              "name": "Butcher",
+              "maxSr": 5,
+              "effect": "Boosts item-finding success while harvesting enemy remains by SR * 20%.",
+              "links": []
+            }
+          ],
+          "intro": ""
+        },
+        {
+          "name": "Concealment",
+          "category": "Survival Talents",
+          "spPerRank": 2,
+          "maxRanks": 10,
+          "maxSp": 20,
+          "subtalents": [
+            {
+              "name": "Sneak",
+              "maxSr": 3,
+              "effect": "When engaging unalerted map monsters, you and your party gain Sneak for SR * 1 rounds; only the highest Sneak applies.",
+              "links": []
+            },
+            {
+              "name": "Plain",
+              "maxSr": 5,
+              "effect": "Hides equipment appearance and names from other players up to SR: 1 Accessories, 2 Legs, 3 Hands/Shields, 4 Torso, 5 Weapons.",
+              "links": []
+            },
+            {
+              "name": "Moneyboot",
+              "maxSr": 2,
+              "effect": "Reduces Murai dropped on defeat by SR * 15%; still somewhat effective for Nagas.",
+              "links": []
+            }
+          ],
+          "intro": ""
+        }
+      ]
+    }
+  ]
+}

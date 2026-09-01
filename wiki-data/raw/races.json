@@ -1,0 +1,1055 @@
+[
+  {
+    "name": "Imperialist",
+    "stats": {
+      "str": 4,
+      "wil": 4,
+      "ski": 4,
+      "cel": 4,
+      "def": 4,
+      "res": 4,
+      "vit": 4,
+      "fai": 0,
+      "luc": 4,
+      "gui": 4,
+      "san": 0,
+      "apt": 4
+    },
+    "description": "The Imperialists are the name given to those who settle in or near Cellsvich, the capital of the Sigrogana Empire. Due to their location, they are often exposed to many different people, professions, and activities, making them the least professionally-biased region.",
+    "sections": [
+      "Stats"
+    ]
+  },
+  {
+    "name": "Chataran",
+    "stats": {
+      "str": 6,
+      "wil": 2,
+      "ski": 4,
+      "cel": 1,
+      "def": 8,
+      "res": 5,
+      "vit": 5,
+      "fai": 0,
+      "luc": 1,
+      "gui": 4,
+      "san": 0,
+      "apt": 4
+    },
+    "description": "Chatarans are often exposed to an elite form of education, including basic protection in combat, making them less vulnerable to a physical strike.",
+    "sections": [
+      "Stats"
+    ]
+  },
+  {
+    "name": "Karatynn",
+    "stats": {
+      "str": 2,
+      "wil": 7,
+      "ski": 5,
+      "cel": 5,
+      "def": 1,
+      "res": 5,
+      "vit": 3,
+      "fai": 0,
+      "luc": 4,
+      "gui": 4,
+      "san": 0,
+      "apt": 4
+    },
+    "description": "Coming from the arcane central that is Karaten, a Karatynn has been exposed to magic for all their lives, making them better suited to it.",
+    "sections": [
+      "Stats"
+    ]
+  },
+  {
+    "name": "Onigan",
+    "stats": {
+      "str": 5,
+      "wil": 1,
+      "ski": 7,
+      "cel": 6,
+      "def": 3,
+      "res": 1,
+      "vit": 4,
+      "fai": 0,
+      "luc": 5,
+      "gui": 4,
+      "san": 0,
+      "apt": 4
+    },
+    "description": "Having to deal with the heavy sands of Gold, the Onigan people are a bit swifter than those from other regions.",
+    "sections": [
+      "Stats"
+    ]
+  },
+  {
+    "name": "Tannite",
+    "stats": {
+      "str": 5,
+      "wil": 3,
+      "ski": 6,
+      "cel": 4,
+      "def": 3,
+      "res": 3,
+      "vit": 4,
+      "fai": 0,
+      "luc": 2,
+      "gui": 4,
+      "san": 0,
+      "apt": 4
+    },
+    "description": "A Tannite comes from Tannis, the town in the high mountains that is famous for its militia, or more specifically, their archers.",
+    "sections": [
+      "Stats"
+    ]
+  },
+  {
+    "name": "Lispoolian",
+    "stats": {
+      "str": 3,
+      "wil": 4,
+      "ski": 4,
+      "cel": 3,
+      "def": 2,
+      "res": 6,
+      "vit": 4,
+      "fai": 4,
+      "luc": 1,
+      "gui": 1,
+      "san": 4,
+      "apt": 4
+    },
+    "description": "Lispoolians come from Lispool, which is where the location of the Mercalan Faith makes its headquarters. They are more protected from occult influences than others.",
+    "sections": [
+      "Stats"
+    ]
+  },
+  {
+    "name": "Hyoyan",
+    "stats": {
+      "str": 5,
+      "wil": 5,
+      "ski": 6,
+      "cel": 5,
+      "def": 2,
+      "res": 2,
+      "vit": 6,
+      "fai": 1,
+      "luc": 2,
+      "gui": 2,
+      "san": 0,
+      "apt": 4
+    },
+    "description": "Hyoyans hail from the frozen land of Hyoya, the sister city of Lispool. Those in Hyoya are often spiritually inclined and influenced by the monastery there.",
+    "sections": [
+      "Stats"
+    ]
+  },
+  {
+    "name": "Alstalsian",
+    "stats": {
+      "str": 2,
+      "wil": 4,
+      "ski": 5,
+      "cel": 5,
+      "def": 3,
+      "res": 3,
+      "vit": 4,
+      "fai": 0,
+      "luc": 2,
+      "gui": 8,
+      "san": 0,
+      "apt": 4
+    },
+    "description": "While Alstalsia is primarily a Zeran-filled country, there are humans who live or are born there for a variety of reasons, despite the dangerous climate.",
+    "sections": [
+      "Stats"
+    ]
+  },
+  {
+    "name": "Dormehan",
+    "stats": {
+      "str": 5,
+      "wil": 2,
+      "ski": 5,
+      "cel": 1,
+      "def": 4,
+      "res": 4,
+      "vit": 8,
+      "fai": 0,
+      "luc": 3,
+      "gui": 4,
+      "san": 0,
+      "apt": 4
+    },
+    "description": "Those from Dormeho are often employed in a job involving the sea, such as fishing or sailing, as appropriate of the coastal city.",
+    "sections": [
+      "Stats"
+    ]
+  },
+  {
+    "name": "Telegradian",
+    "stats": {
+      "str": 7,
+      "wil": 2,
+      "ski": 6,
+      "cel": 4,
+      "def": 1,
+      "res": 4,
+      "vit": 4,
+      "fai": 2,
+      "luc": 4,
+      "gui": 2,
+      "san": 0,
+      "apt": 4
+    },
+    "description": "Korvara-based people tend to belong to one of the four major powers. In this case, Telegrad, a federation of farmlands and villages.",
+    "sections": [
+      "Stats"
+    ]
+  },
+  {
+    "name": "Geladynian",
+    "stats": {
+      "str": 4,
+      "wil": 7,
+      "ski": 4,
+      "cel": 1,
+      "def": 6,
+      "res": 4,
+      "vit": 4,
+      "fai": 0,
+      "luc": 1,
+      "gui": 5,
+      "san": 0,
+      "apt": 4
+    },
+    "description": "Korvara-based people tend to belong to one of the four major powers. In this case, Geladyne, a stronghold based on merit and ability.",
+    "sections": [
+      "Stats"
+    ]
+  },
+  {
+    "name": "Meiaquarise",
+    "stats": {
+      "str": 3,
+      "wil": 4,
+      "ski": 4,
+      "cel": 7,
+      "def": 4,
+      "res": 1,
+      "vit": 3,
+      "fai": 0,
+      "luc": 4,
+      "gui": 6,
+      "san": 0,
+      "apt": 4
+    },
+    "description": "Korvara-based people tend to belong to one of the four major powers. In this case, Meiaquar, a free-state based on sailing and 'extra-legal' activity.",
+    "sections": [
+      "Stats"
+    ]
+  },
+  {
+    "name": "Duyuein",
+    "stats": {
+      "str": 4,
+      "wil": 4,
+      "ski": 4,
+      "cel": 1,
+      "def": 4,
+      "res": 6,
+      "vit": 7,
+      "fai": 3,
+      "luc": 2,
+      "gui": 1,
+      "san": 0,
+      "apt": 4
+    },
+    "description": "Korvara-based people tend to belong to one of the four major powers. In this case, Duyuei, a forest-city of hunters and fighters who help guard from monsters lurking in The Wastes.",
+    "sections": [
+      "Stats"
+    ]
+  },
+  {
+    "name": "Umbral",
+    "stats": {
+      "str": 5,
+      "wil": 6,
+      "ski": 4,
+      "cel": 6,
+      "def": 2,
+      "res": 4,
+      "vit": 6,
+      "fai": 0,
+      "luc": 4,
+      "gui": 3,
+      "san": 0,
+      "apt": 0
+    },
+    "description": "Umbral are creatures that were affected by the Black Eclipse, an event where the sun passed behind The Hanging Star. Those at a certain location during this event, people and monsters included, were permanently altered as such. New generations seem to share and lose the curse at random. During night, Umbrals can become very difficult to see. Physical features of the umbral include pale skin, slightly pointed ears, and a black marking of differing design somewhere on the face. Umbral seem naturally drawn to caves and other dark areas.",
+    "sections": [
+      "Stats"
+    ]
+  },
+  {
+    "name": "Shaitan",
+    "stats": {
+      "str": 8,
+      "wil": 1,
+      "ski": 4,
+      "cel": 4,
+      "def": 8,
+      "res": 3,
+      "vit": 8,
+      "fai": 0,
+      "luc": 2,
+      "gui": 2,
+      "san": 0,
+      "apt": 0
+    },
+    "description": "The Shaitan are a race surrounded by rumors and fear. One says that those who enter The Dark Zones (places on the world which have yet to be explored, often due to terrifying conditions surrounding them) have two fates; one is to die. The other, those who return, return as Shaitans. They are so exceedingly uncommon in every day life that the Imperial Nation often states that they do not exist, and take reports of them as pranks or something other than what they are.",
+    "sections": [
+      "Further Information",
+      "Stats"
+    ]
+  },
+  {
+    "name": "Oracle",
+    "stats": {
+      "str": 3,
+      "wil": 7,
+      "ski": 4,
+      "cel": 4,
+      "def": 3,
+      "res": 5,
+      "vit": 5,
+      "fai": 4,
+      "luc": 1,
+      "gui": 4,
+      "san": 0,
+      "apt": 0
+    },
+    "description": "Oracles are types of corrupted that possess blank, grey eyes. They have difficulty seeing across long distances, but for that price, they are given a great gift; visions of future events. Unlike other types of Corrupted, Oracles are highly valued as consultants, and many kingdoms have a designated Oracle that serve their interests.",
+    "sections": [
+      "Further Information",
+      "Stats"
+    ]
+  },
+  {
+    "name": "Papilion",
+    "stats": {
+      "str": 2,
+      "wil": 8,
+      "ski": 8,
+      "cel": 5,
+      "def": 3,
+      "res": 3,
+      "vit": 3,
+      "fai": 0,
+      "luc": 4,
+      "gui": 4,
+      "san": 0,
+      "apt": 0
+    },
+    "description": "Papilion are a Corrupted race that comes from the Mechana Forest, also known as the Living Forest, full of living plants and trees (more often dangerous than not), and it was the center of the breakthrough that lead to Mechanations. However, you should not stray too far into that Forest; if you find yourself surrounded by butterflies, you have entered the Deepwood, and may never come out.",
+    "sections": [
+      "Further Information",
+      "Stats"
+    ]
+  },
+  {
+    "name": "Theno",
+    "stats": {
+      "str": 3,
+      "wil": 6,
+      "ski": 6,
+      "cel": 6,
+      "def": 1,
+      "res": 1,
+      "vit": 6,
+      "fai": 0,
+      "luc": 4,
+      "gui": 4,
+      "san": 0,
+      "apt": 3
+    },
+    "description": "Native to the seas south of even Egwyn, the Theno are an aquatic race of humanoids with smooth skin and fin-like protrusions near their ears which aid in swimming. They spend most of their lives in the sea and on small islands, often spending the night resting on rocks and singing songs. Those sailing the southern shores of Egwyn can attest to hearing them as they pass through, and some have been foolish enough to crash their ships into the rocks looking for the source... though some believe the songs themselves are magical and drive men to do so unwillingly.",
+    "sections": [
+      "Further Information",
+      "Stats"
+    ]
+  },
+  {
+    "name": "Glykin",
+    "stats": {
+      "str": 4,
+      "wil": 4,
+      "ski": 5,
+      "cel": 4,
+      "def": 3,
+      "res": 3,
+      "vit": 7,
+      "fai": 5,
+      "luc": 0,
+      "gui": 2,
+      "san": 3,
+      "apt": 0
+    },
+    "description": "Glykin, as in 'Kin of Glycon', are a race of people resembling humans with several differences. Their eyes are slitted in a rift or diamondy shape, much like a serpent's. In addition, their skin is flecked with scales (to a different amount of severity per person), usually along the arms, legs, and back; it is also not uncommon for some to appear on the face. These scales are usually lightly faded and can be colored anywhere from green to deep amber yellow.",
+    "sections": [
+      "Stats"
+    ]
+  },
+  {
+    "name": "Hyattr",
+    "stats": {
+      "str": 7,
+      "wil": 7,
+      "ski": 3,
+      "cel": 2,
+      "def": 5,
+      "res": 1,
+      "vit": 8,
+      "fai": 0,
+      "luc": 1,
+      "gui": 1,
+      "san": 5,
+      "apt": 4
+    },
+    "description": "The Hyattr are a dragon-winged race known for their potent fire breathing capabilities, as well as their patron's destructive legacy. Hyatt was a red dragon, with bright crimson scales and a massive wingspan, which he abused by flying over the land and setting it ablaze with his fire breath, destroying many human settlements. A pointless show of power, but one that allowed him to subjugate many followers who would become Hyattr, lest their villages and towns be next in his path.",
+    "sections": [
+      "Further Information",
+      "Stats"
+    ]
+  },
+  {
+    "name": "Naga",
+    "stats": {
+      "str": 3,
+      "wil": 8,
+      "ski": 4,
+      "cel": 8,
+      "def": 2,
+      "res": 4,
+      "vit": 4,
+      "fai": 0,
+      "luc": 0,
+      "gui": 5,
+      "san": 1,
+      "apt": 1
+    },
+    "description": "The Naga are a half-human/half-snake hybrid race, with the upper body of a human, and the lower body of a serpent. They originated from a dark ritual by the snakemen followers of Argentyle, who would kidnap women from the surface world. The details of the ritual are unknown, but these poor souls were kept prisoner in the Argentyle Caverns.",
+    "sections": [
+      "Further Information",
+      "Stats"
+    ]
+  },
+  {
+    "name": "Salamandra",
+    "stats": {
+      "str": 8,
+      "wil": 6,
+      "ski": 4,
+      "cel": 4,
+      "def": 2,
+      "res": 4,
+      "vit": 5,
+      "fai": 0,
+      "luc": 2,
+      "gui": 5,
+      "san": 0,
+      "apt": 0
+    },
+    "description": "A type of homunculus, artifically created life, made by infusing a shell with divine energy of Nairyf's blood and wyvern blood. Given the overwhelming danger of even approaching Nairyf's blood, they are risky to create, but one only needs a small amount.",
+    "sections": []
+  },
+  {
+    "name": "Amalgama",
+    "stats": {
+      "str": 5,
+      "wil": 6,
+      "ski": 5,
+      "cel": 3,
+      "def": 2,
+      "res": 3,
+      "vit": 5,
+      "fai": 0,
+      "luc": 2,
+      "gui": 7,
+      "san": 0,
+      "apt": 2
+    },
+    "description": "Amalgama were originally created as an ill-fated attempt to bring back the dead back to life by binding souls to a homunculus. The instability of the subject created a glorified zombie that killed its creator. However, later attempts saw the fusion and binding of several souls rather than just a single one, creating a stable, intelligent homunculus.",
+    "sections": [
+      "Stats"
+    ]
+  },
+  {
+    "name": "Chimera",
+    "stats": {
+      "str": 3,
+      "wil": 3,
+      "ski": 6,
+      "cel": 6,
+      "def": 2,
+      "res": 4,
+      "vit": 5,
+      "fai": 0,
+      "luc": 2,
+      "gui": 5,
+      "san": 0,
+      "apt": 4
+    },
+    "description": "Chimeras are types of magical beasts that combine the aspects of several races. The Homunculus version is a humanoid which is capable of gaining these various racial aspects as additional or modified appendages by consuming the remains of monsters. The physiology of the Chimera reacts and adapts by absorbing the remains into the body and gaining their power.",
+    "sections": [
+      "Stats"
+    ]
+  },
+  {
+    "name": "Corbie",
+    "stats": {
+      "str": 4,
+      "wil": 3,
+      "ski": 4,
+      "cel": 6,
+      "def": 1,
+      "res": 4,
+      "vit": 4,
+      "fai": 0,
+      "luc": 5,
+      "gui": 6,
+      "san": 3,
+      "apt": 1
+    },
+    "description": "The winged Corbie are an elegant human-like race of bird Kaelensia that live high in the tall trees of Egwyn's forests. While their light bodies make them poor in close combat, they also possess a grace and speed that many races cannot match, that makes them capable of avoiding danger.",
+    "sections": [
+      "Stats"
+    ]
+  },
+  {
+    "name": "Phenex",
+    "stats": {
+      "str": 4,
+      "wil": 4,
+      "ski": 4,
+      "cel": 3,
+      "def": 2,
+      "res": 4,
+      "vit": 6,
+      "fai": 5,
+      "luc": 2,
+      "gui": 2,
+      "san": 3,
+      "apt": 1
+    },
+    "description": "The bird Kaelensia of the Phenex are a human-like race with features similar to Corbies; they possess very vibrant red or gold wings. Unlike most Kaelensia, they do not make Egwyn their home typically, instead coming from the high mountains of Kysei, where their patron, the great phoenix Helondis, originally roosted.",
+    "sections": []
+  },
+  {
+    "name": "Felidae",
+    "stats": {
+      "str": 7,
+      "wil": 1,
+      "ski": 6,
+      "cel": 8,
+      "def": 1,
+      "res": 1,
+      "vit": 4,
+      "fai": 0,
+      "luc": 4,
+      "gui": 4,
+      "san": 3,
+      "apt": 1
+    },
+    "description": "Felidae are a human-like beast Kaelensia that possess cat-like features in the form of feline ears and a thin tail. Like the Lupine, they are known for their strength, even if it is second to the Lupine's. They are also extremely quick, capable of clearing great distances, but are fairly fragile for these two strengths.",
+    "sections": [
+      "Stats"
+    ]
+  },
+  {
+    "name": "Grimalkin",
+    "stats": {
+      "str": 4,
+      "wil": 8,
+      "ski": 4,
+      "cel": 7,
+      "def": 1,
+      "res": 5,
+      "vit": 3,
+      "fai": 0,
+      "luc": 1,
+      "gui": 4,
+      "san": 2,
+      "apt": 1
+    },
+    "description": "The Grimalkin are a type of Felidae that typically possess gray or white hair and fur. They lack the physical strength and swiftness that their race is famous for, but they are one of the few types of Kaelensia which are actually suited to the arcane arts.",
+    "sections": [
+      "Stats"
+    ]
+  },
+  {
+    "name": "Leporidae",
+    "stats": {
+      "str": 6,
+      "wil": 2,
+      "ski": 5,
+      "cel": 5,
+      "def": 3,
+      "res": 2,
+      "vit": 3,
+      "fai": 0,
+      "luc": 7,
+      "gui": 3,
+      "san": 3,
+      "apt": 1
+    },
+    "description": "Leporidae are a family of the human-like Kaelensia with hare-like features, including long, rabbit-like ears and strong legs. Hailing from Egwyn, they utilize their animal features to avoid danger, capable of hearing it coming from a mile away, and using their powerful legwork to either kick the threat into submission or bounce away faster than it can catch up.",
+    "sections": [
+      "Stats"
+    ]
+  },
+  {
+    "name": "Heron",
+    "stats": {
+      "str": 4,
+      "wil": 6,
+      "ski": 4,
+      "cel": 4,
+      "def": 2,
+      "res": 2,
+      "vit": 5,
+      "fai": 3,
+      "luc": 1,
+      "gui": 1,
+      "san": 8,
+      "apt": 0
+    },
+    "description": "A type of avian Kaelensia, and perhaps the most famous, despite their rarity. Known as songbirds, they are well known for the angelic appearance, with lovely white wings and soft features, and more importantly, the charming voices they have. Hearons have a natural affinity with magic; more specifically, with Galdr; magical attunement with sound and song.",
+    "sections": [
+      "Stats"
+    ]
+  },
+  {
+    "name": "Muridae",
+    "stats": {
+      "str": 3,
+      "wil": 5,
+      "ski": 5,
+      "cel": 8,
+      "def": 2,
+      "res": 2,
+      "vit": 3,
+      "fai": 0,
+      "luc": 4,
+      "gui": 5,
+      "san": 0,
+      "apt": 2
+    },
+    "description": "Muridae, like all other Kaelensia, would appear human at first glance, if not for the pair of round and fuzzy mouse-like ears that they sport.",
+    "sections": [
+      "Stats"
+    ]
+  },
+  {
+    "name": "Vampire",
+    "stats": {
+      "str": 3,
+      "wil": 6,
+      "ski": 4,
+      "cel": 4,
+      "def": 3,
+      "res": 3,
+      "vit": 6,
+      "fai": 1,
+      "luc": 2,
+      "gui": 5,
+      "san": 3,
+      "apt": 0
+    },
+    "description": "Vampires are the chosen of Huggessoa, and have existed since days before days, when the world was hardly anything at all. Even so, they are a race of very little involvement. This has to do with their nature and goals; vampires are not the kind to draw attention to themselves. They are not the type to be put into leading positions, or to rock the boat. Instead, they operate from just off stage, giving all of the actors their cues. Which is just as well, since vampires have as much fear surrounding them as you might expect.",
+    "sections": [
+      "Stats"
+    ]
+  },
+  {
+    "name": "Elf",
+    "stats": {
+      "str": 3,
+      "wil": 6,
+      "ski": 4,
+      "cel": 4,
+      "def": 3,
+      "res": 3,
+      "vit": 7,
+      "fai": 2,
+      "luc": 1,
+      "gui": 2,
+      "san": 5,
+      "apt": 0
+    },
+    "description": "Hidden far in the sea, protected by weather and mirages is the elven paradise known as Mersales. There, its people; the Elves, have lived in their domain for a time worth the world's weight in sand. Outsiders and adventurers remain unable to find it, and they say if you leave it, you will not be able to find your way back. And if you see an elf anywhere else on Sigrogana, chances are that is the case.",
+    "sections": [
+      "Further Information",
+      "Stats"
+    ]
+  },
+  {
+    "name": "Lich",
+    "stats": {
+      "str": 1,
+      "wil": 10,
+      "ski": 8,
+      "cel": 4,
+      "def": 2,
+      "res": 6,
+      "vit": 3,
+      "fai": 0,
+      "luc": 0,
+      "gui": 6,
+      "san": 0,
+      "apt": 0
+    },
+    "description": "Liches are not necessarily a race in the classic sense. Rather, they are those who have destroyed their mortal body in order to become a being of pure arcane energy. As such, liches are created, rather than born. That creation begins with an extremely difficult arcane pact, where a very specific number of materials are laid out in a very specific way in a very specific location. If these conditions are even a fraction off, the ritual will fail. Which, in turn, means that the success rate for becoming a Lich is depressingly low, which is why no sane mage attempts it.",
+    "sections": [
+      "Stats"
+    ]
+  },
+  {
+    "name": "Reaper",
+    "stats": {
+      "str": 4,
+      "wil": 6,
+      "ski": 4,
+      "cel": 1,
+      "def": 3,
+      "res": 5,
+      "vit": 7,
+      "fai": 0,
+      "luc": 2,
+      "gui": 3,
+      "san": 5,
+      "apt": 0
+    },
+    "description": "Reapers are a race of humanoids that come from near Lazarus, the maze of the spirits. Specifically, they reside in Darkside, a city carved into the walls outside of Lazarus. They resemble humans in many ways; however, they have a pair of white, bone-like horns extending from the sides of their head, a trait that has made them be confused for Zerans more than once. Reaper society is very unlike that of the outside world, with little in the way of politics and ambition, focusing more on maintaining the border between the living world and the underworld.",
+    "sections": [
+      "Stats"
+    ]
+  },
+  {
+    "name": "Apertaurus",
+    "stats": {
+      "str": 9,
+      "wil": 1,
+      "ski": 4,
+      "cel": 6,
+      "def": 1,
+      "res": 2,
+      "vit": 7,
+      "fai": 1,
+      "luc": 2,
+      "gui": 1,
+      "san": 6,
+      "apt": 0
+    },
+    "description": "Apertaurus are a sub-race of Reapers, and are very similar to Reapers in nearly all respects but in some areas physically; instead of the normal, human-like feet that Reapers have, they instead have legs that end in furry, horse-like hooves. Since Lazarus is a large labyrinth, some speculate that Apertaurus are also excellent at navigating them, just like minotaurs. While this presents certain challenges when trying to use footwear, there are plenty of adaptive devices that make it possible, and some Apertaurus like to wear shoes in this manner to hide the sound of their footsteps, or just to appear normal.",
+    "sections": [
+      "Stats"
+    ]
+  },
+  {
+    "name": "Mechanation",
+    "stats": {
+      "str": 6,
+      "wil": 2,
+      "ski": 4,
+      "cel": 5,
+      "def": 6,
+      "res": 3,
+      "vit": 8,
+      "fai": 0,
+      "luc": 2,
+      "gui": 2,
+      "san": 0,
+      "apt": 2
+    },
+    "description": "Mechanations are, simply put, artificial humans. They walk and talk like humans, and some even possess human emotions, but they lack the natural blood, bones, and such that humans have. The miracle of Karaten's long history of magical science, Mechanations were perfected near the end of the Onigan Rebellion, in the year 290.",
+    "sections": [
+      "Stats",
+      "M.TYPE - STANDARD",
+      "M.TYPE - CABAL",
+      "M.TYPE - AGILE",
+      "M.TYPE - RAID"
+    ]
+  },
+  {
+    "name": "Redtail",
+    "stats": {
+      "str": 3,
+      "wil": 4,
+      "ski": 5,
+      "cel": 4,
+      "def": 3,
+      "res": 3,
+      "vit": 4,
+      "fai": 0,
+      "luc": 9,
+      "gui": 4,
+      "san": 1,
+      "apt": 0
+    },
+    "description": "A scarce race sporting a pair of fox ears as well as a bushy tail, the Redtails as they are called have a certain allure to them, drawing the curiosity of other races. While they are often mistaken for Kaelensia, due to their ears and tail, those in the know recognize that Redtails do not always have golden eyes, nor do they hail from Egwyn. Redtails, indeed, come from all over, although are more commonly found in Oniga.",
+    "sections": [
+      "Additional Info",
+      "Stats"
+    ]
+  },
+  {
+    "name": "Doriad",
+    "stats": {
+      "str": 3,
+      "wil": 5,
+      "ski": 5,
+      "cel": 4,
+      "def": 2,
+      "res": 7,
+      "vit": 6,
+      "fai": 0,
+      "luc": 0,
+      "gui": 2,
+      "san": 5,
+      "apt": 1
+    },
+    "description": "Doriad are, in essence, spirits of nature which take on the form of humans. Many forests in the world of Sigrogana are irradiated with magical energy, due to the influence of Gods, but mortals as well. Doriads magically manifest themselves from their home forest for some purpose; possessing knowledge of the world due to the influence and words of those who have passed through or lived inside of it.",
+    "sections": [
+      "Further Information",
+      "Stats"
+    ]
+  },
+  {
+    "name": "Dullahan",
+    "stats": {
+      "str": 9,
+      "wil": 1,
+      "ski": 5,
+      "cel": 1,
+      "def": 9,
+      "res": 4,
+      "vit": 5,
+      "fai": 0,
+      "luc": 2,
+      "gui": 3,
+      "san": 0,
+      "apt": 1
+    },
+    "description": "Ghost stories of haunted armors and headless horsemen are common tales shared around campfires, but these urban legends also have their truths to them. Enter the Dullahan, which is little more than living armor, created by unknown circumstances.",
+    "sections": [
+      "Further Information",
+      "Stats"
+    ]
+  },
+  {
+    "name": "Omina",
+    "stats": {
+      "str": 4,
+      "wil": 4,
+      "ski": 5,
+      "cel": 7,
+      "def": 2,
+      "res": 2,
+      "vit": 4,
+      "fai": 2,
+      "luc": 4,
+      "gui": 2,
+      "san": 4,
+      "apt": 0
+    },
+    "description": "Sometimes, you have a bad day. It could be something as harmless as spilling your drink, or losing your keys somewhere. Or it could be as serious as crossing paths with a starving wild animal, or your weapon slipping from your grasp in the heat of battle. Was it just bad luck? A punishment from a higher power for something you'd done wrong? Or is it the work of something more tangible and close?",
+    "sections": [
+      "Stats"
+    ]
+  },
+  {
+    "name": "Race",
+    "stats": null,
+    "description": "Sigrogana is a host to a large number of fantasy races, but this page will focus on those that can be used by player characters. The playable races are broken down into six categories that will be described below. Generally speaking, all of the races listed are capable of integrating with society as they are intelligent and can communicate. Races that cannot are typically referred to as the monster races.",
+    "sections": [
+      "Humans",
+      "Kaelensia",
+      "The Corrupted",
+      "Ancients",
+      "Serpentkind",
+      "Other",
+      "Homunculi"
+    ]
+  },
+  {
+    "name": "Human",
+    "stats": null,
+    "description": "A very prosperous race, they are much like what you'd expect. They are the most common race to find on Sigrogana and Gold, those being the most powerful human empires, but they pop up everywhere. Humans are mostly independent, following their own ambitions and sense of justice to wherever it leads them.",
+    "sections": [
+      "Sigrogana",
+      "Korvara"
+    ]
+  },
+  {
+    "name": "Corrupted",
+    "stats": null,
+    "description": "A group of ex-humans who have been altered in some way by certain forces. Humans, not possessing a Patron Deity, are more vulnerable to Dark Zones and entities that can, for lack of a better word, corrupt them. Their status in society differs, but it is anything but equal to 'normal' folk. The average Corrupted can expect a lifespan of around 104 years.",
+    "sections": []
+  },
+  {
+    "name": "Serpentkind",
+    "stats": null,
+    "description": "Humanoids which possess some blood of the divine serpents, hence the name, Serpentkind. Dragons, Wyverns, etc. are all very respected as highly intelligent and powerful beings, usually in a negative fashion (some see them as schemers and deceivers). Despite having some reptilian traits, Serpentkind races are not coldblooded.",
+    "sections": []
+  },
+  {
+    "name": "Kaelensia",
+    "stats": null,
+    "description": "A family known as the beast races, the Kaelensia resemble humans with some exceptions, typically carrying some animalistic physical traits, such as ears, tails, or wings. Named after an old word for 'golden', they possess striking golden eyes, originate from the southern continent of Egwyn, and are famously strong. The average Kaelensia can expect a lifespan of around 120 years.",
+    "sections": []
+  },
+  {
+    "name": "Ancients",
+    "stats": null,
+    "description": "Ancients are races which predate human history. They were already established before humans made their empires, perhaps far longer. They do not have many similarities between them aside from this fact.",
+    "sections": []
+  },
+  {
+    "name": "Other Races",
+    "stats": null,
+    "description": "* Mechanation - Artificial humans created by Karaten, they are living dolls with much untapped potential. They generally exist to fulfill some purpose, such as serving someone, or to take care of dangerous situations that one might consider 'too risky' for a normal person. Mechanations will not die of old age as long as they are properly maintained.",
+    "sections": []
+  },
+  {
+    "name": "Oni",
+    "stats": {
+      "str": 8,
+      "wil": 3,
+      "ski": 3,
+      "cel": 2,
+      "def": 5,
+      "res": 4,
+      "vit": 9,
+      "fai": 0,
+      "luc": 2,
+      "gui": 0,
+      "san": 4,
+      "apt": 0
+    },
+    "description": "Oni are a horned race that have been known to dwell in places high within the mountains, typically the Oskard-Sothis mountain region in Korvara. The skin of an Oni is sometimes an unusual shade of red or blue, but this is not always the case - some have more common skin tones. Oni are a feared existence, known for having short tempers, an enjoyment of violence, and a hunger for flesh and blood.",
+    "sections": [
+      "Stats"
+    ]
+  },
+  {
+    "name": "Karakuri",
+    "stats": {
+      "str": 4,
+      "wil": 4,
+      "ski": 4,
+      "cel": 4,
+      "def": 4,
+      "res": 4,
+      "vit": 4,
+      "fai": 4,
+      "luc": 4,
+      "gui": 4,
+      "san": 4,
+      "apt": 4
+    },
+    "description": "Karakuri are artificial mortals created through a mixture of ritual and construction, originating from Yokoshura. They are somewhat similar to Mechanations or Homunculi, in the way that they are created by another with purpose. The creator of Karakuri are called Makers (or Tsukirimono).",
+    "sections": [
+      "Stats"
+    ]
+  },
+  {
+    "name": "Wyverntouched",
+    "stats": {
+      "str": 6,
+      "wil": 6,
+      "ski": 5,
+      "cel": 1,
+      "def": 4,
+      "res": 2,
+      "vit": 9,
+      "fai": 0,
+      "luc": 0,
+      "gui": 3,
+      "san": 3,
+      "apt": 1
+    },
+    "description": "Wyverntouched are the children of wyverns, to put it simply. There are many stories of wyverns having the ability to masquerade or even become humans for extended periods of time. Wyverntouched are a sort of antithesis to other Serpent kin in that they are considered signs of good fortune, and are generally accepted by all sorts; even the Imperials. While they possess some similarities to other serpent-like races, they also do not possess many, leading them to be identified much easier.",
+    "sections": [
+      "Additional Information",
+      "Stats"
+    ]
+  },
+  {
+    "name": "Wild Elf",
+    "stats": {
+      "str": 6,
+      "wil": 3,
+      "ski": 4,
+      "cel": 4,
+      "def": 3,
+      "res": 3,
+      "vit": 5,
+      "fai": 0,
+      "luc": 2,
+      "gui": 6,
+      "san": 4,
+      "apt": 0
+    },
+    "description": "Wild Elves (Also known as Kaelensian Elves) are a name given to the elves that are born outside of Mersales on the continent of Egwyn. A large majority of them have slightly discolored, darker flecks of skin that resemble spots, all over their body. The most common place to find them is occupying the southwest edges of Egwyn's jungles, known as the Ashen Wetlands. Composed of swampy rivers thick with ash, theorized to be from Hyattr's destruction long ago, several tribes of Wild Elves make their home there, among the many insects, serpents and reptiles. This area of Egwyn is avoided by many Kaelensia because of the lack of resources, such as fresh water, the hot climate, the disease that is spread by the swamp-favoring insects, and so on. These factors do not seem to bother the Wild Elves, who are said to possess magic that purifies the water and heals the body of such ailments.",
+    "sections": [
+      "'''Tribes'''",
+      "Further Information",
+      "Stats"
+    ]
+  },
+  {
+    "name": "Zeran",
+    "stats": {
+      "str": 4,
+      "wil": 4,
+      "ski": 6,
+      "cel": 4,
+      "def": 3,
+      "res": 3,
+      "vit": 4,
+      "fai": 5,
+      "luc": 0,
+      "gui": 4,
+      "san": 3,
+      "apt": 0
+    },
+    "description": "Zerans are a race of humanoids, resembling Humans, with the exception of the two horns protruding from their head. The horns, which they call the",
+    "sections": [
+      "Stats"
+    ]
+  },
+  {
+    "name": "Lupine",
+    "stats": {
+      "str": 8,
+      "wil": 1,
+      "ski": 4,
+      "cel": 2,
+      "def": 6,
+      "res": 3,
+      "vit": 7,
+      "fai": 0,
+      "luc": 3,
+      "gui": 2,
+      "san": 3,
+      "apt": 1
+    },
+    "description": "The Lupine Kaelensia are a human-like race that possess wolf-like ears and a tail. They are famously strong, like most beast Kaelensia, and just as resilient, absolutely refusing to go down without a lot of effort. They generally distrust the forces of magic, which is just fine, as they are ill-suited to it. Like all Kaelensia, they are from Egwyn most of the time.",
+    "sections": [
+      "Stats"
+    ]
+  }
+]

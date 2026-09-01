@@ -1,0 +1,435 @@
+{
+  "findings": [
+    {
+      "view": "01-masthead-top",
+      "kind": "text",
+      "detail": "div.eyebrow 9px x1"
+    },
+    {
+      "view": "01-masthead-top",
+      "kind": "text",
+      "detail": "span.dim 9px x1"
+    },
+    {
+      "view": "01-masthead-top",
+      "kind": "text",
+      "detail": "sup 9px x4"
+    },
+    {
+      "view": "01-masthead-top",
+      "kind": "text",
+      "detail": "span.keycap 9.5px x1"
+    },
+    {
+      "view": "01-masthead-top",
+      "kind": "text",
+      "detail": "sup 9.58333px x1"
+    },
+    {
+      "view": "02-scroll-1",
+      "kind": "text",
+      "detail": "div.eyebrow 9px x1"
+    },
+    {
+      "view": "02-scroll-1",
+      "kind": "text",
+      "detail": "span.dim 9px x1"
+    },
+    {
+      "view": "02-scroll-1",
+      "kind": "text",
+      "detail": "sup 9px x4"
+    },
+    {
+      "view": "02-scroll-1",
+      "kind": "text",
+      "detail": "span.keycap 9.5px x1"
+    },
+    {
+      "view": "02-scroll-1",
+      "kind": "text",
+      "detail": "sup 9.58333px x1"
+    },
+    {
+      "view": "02-scroll-2",
+      "kind": "text",
+      "detail": "div.eyebrow 9px x1"
+    },
+    {
+      "view": "02-scroll-2",
+      "kind": "text",
+      "detail": "span.dim 9px x1"
+    },
+    {
+      "view": "02-scroll-2",
+      "kind": "text",
+      "detail": "sup 9px x4"
+    },
+    {
+      "view": "02-scroll-2",
+      "kind": "text",
+      "detail": "span.keycap 9.5px x1"
+    },
+    {
+      "view": "02-scroll-2",
+      "kind": "text",
+      "detail": "sup 9.58333px x1"
+    },
+    {
+      "view": "02-scroll-3",
+      "kind": "text",
+      "detail": "div.eyebrow 9px x1"
+    },
+    {
+      "view": "02-scroll-3",
+      "kind": "text",
+      "detail": "span.dim 9px x1"
+    },
+    {
+      "view": "02-scroll-3",
+      "kind": "text",
+      "detail": "sup 9px x4"
+    },
+    {
+      "view": "02-scroll-3",
+      "kind": "text",
+      "detail": "span.keycap 9.5px x1"
+    },
+    {
+      "view": "02-scroll-3",
+      "kind": "text",
+      "detail": "sup 9.58333px x1"
+    },
+    {
+      "view": "02-scroll-4",
+      "kind": "text",
+      "detail": "div.eyebrow 9px x1"
+    },
+    {
+      "view": "02-scroll-4",
+      "kind": "text",
+      "detail": "span.dim 9px x1"
+    },
+    {
+      "view": "02-scroll-4",
+      "kind": "text",
+      "detail": "sup 9px x4"
+    },
+    {
+      "view": "02-scroll-4",
+      "kind": "text",
+      "detail": "span.keycap 9.5px x1"
+    },
+    {
+      "view": "02-scroll-4",
+      "kind": "text",
+      "detail": "sup 9.58333px x1"
+    },
+    {
+      "view": "03-loadout-gear",
+      "kind": "text",
+      "detail": "div.eyebrow 9px x1"
+    },
+    {
+      "view": "03-loadout-gear",
+      "kind": "text",
+      "detail": "span.dim 9px x1"
+    },
+    {
+      "view": "03-loadout-gear",
+      "kind": "text",
+      "detail": "sup 9px x4"
+    },
+    {
+      "view": "03-loadout-gear",
+      "kind": "text",
+      "detail": "span.keycap 9.5px x1"
+    },
+    {
+      "view": "03-loadout-gear",
+      "kind": "text",
+      "detail": "sup 9.58333px x1"
+    },
+    {
+      "view": "03-loadout-skills",
+      "kind": "text",
+      "detail": "div.eyebrow 9px x6"
+    },
+    {
+      "view": "03-loadout-skills",
+      "kind": "text",
+      "detail": "span.dim 9px x1"
+    },
+    {
+      "view": "03-loadout-skills",
+      "kind": "text",
+      "detail": "sup 9px x4"
+    },
+    {
+      "view": "03-loadout-skills",
+      "kind": "text",
+      "detail": "span.keycap 9.5px x1"
+    },
+    {
+      "view": "03-loadout-skills",
+      "kind": "text",
+      "detail": "sup 9.58333px x1"
+    },
+    {
+      "view": "03-loadout-traits",
+      "kind": "text",
+      "detail": "div.eyebrow 9px x1"
+    },
+    {
+      "view": "03-loadout-traits",
+      "kind": "text",
+      "detail": "span.dim 9px x1"
+    },
+    {
+      "view": "03-loadout-traits",
+      "kind": "text",
+      "detail": "sup 9px x4"
+    },
+    {
+      "view": "03-loadout-traits",
+      "kind": "text",
+      "detail": "span.keycap 9.5px x1"
+    },
+    {
+      "view": "03-loadout-traits",
+      "kind": "text",
+      "detail": "sup 9.58333px x1"
+    },
+    {
+      "view": "03-loadout-racials",
+      "kind": "text",
+      "detail": "div.eyebrow 9px x1"
+    },
+    {
+      "view": "03-loadout-racials",
+      "kind": "text",
+      "detail": "span.dim 9px x1"
+    },
+    {
+      "view": "03-loadout-racials",
+      "kind": "text",
+      "detail": "sup 9px x4"
+    },
+    {
+      "view": "03-loadout-racials",
+      "kind": "text",
+      "detail": "span.keycap 9.5px x1"
+    },
+    {
+      "view": "03-loadout-racials",
+      "kind": "text",
+      "detail": "sup 9.58333px x1"
+    },
+    {
+      "view": "03-loadout-youkai",
+      "kind": "text",
+      "detail": "div.eyebrow 9px x8"
+    },
+    {
+      "view": "03-loadout-youkai",
+      "kind": "text",
+      "detail": "span.dim 9px x8"
+    },
+    {
+      "view": "03-loadout-youkai",
+      "kind": "text",
+      "detail": "sup 9px x4"
+    },
+    {
+      "view": "03-loadout-youkai",
+      "kind": "text",
+      "detail": "span.keycap 9.5px x1"
+    },
+    {
+      "view": "03-loadout-youkai",
+      "kind": "text",
+      "detail": "sup 9.58333px x1"
+    },
+    {
+      "view": "04-armory",
+      "kind": "text",
+      "detail": "div.eyebrow 9px x9"
+    },
+    {
+      "view": "04-armory",
+      "kind": "text",
+      "detail": "span.dim 9px x9"
+    },
+    {
+      "view": "04-armory",
+      "kind": "text",
+      "detail": "sup 9px x4"
+    },
+    {
+      "view": "04-armory",
+      "kind": "text",
+      "detail": "span.keycap 9.5px x2"
+    },
+    {
+      "view": "04-armory",
+      "kind": "text",
+      "detail": "sup 9.58333px x1"
+    },
+    {
+      "view": "05-dialog-templates",
+      "kind": "text",
+      "detail": "div.eyebrow 9px x1"
+    },
+    {
+      "view": "05-dialog-templates",
+      "kind": "text",
+      "detail": "span.dim 9px x1"
+    },
+    {
+      "view": "05-dialog-templates",
+      "kind": "text",
+      "detail": "sup 9px x4"
+    },
+    {
+      "view": "05-dialog-templates",
+      "kind": "text",
+      "detail": "span.keycap 9.5px x2"
+    },
+    {
+      "view": "05-dialog-templates",
+      "kind": "text",
+      "detail": "sup 9.58333px x1"
+    },
+    {
+      "view": "05-dialog-saves",
+      "kind": "text",
+      "detail": "div.eyebrow 9px x1"
+    },
+    {
+      "view": "05-dialog-saves",
+      "kind": "text",
+      "detail": "span.dim 9px x1"
+    },
+    {
+      "view": "05-dialog-saves",
+      "kind": "text",
+      "detail": "sup 9px x4"
+    },
+    {
+      "view": "05-dialog-saves",
+      "kind": "text",
+      "detail": "span.keycap 9.5px x2"
+    },
+    {
+      "view": "05-dialog-saves",
+      "kind": "text",
+      "detail": "sup 9.58333px x1"
+    },
+    {
+      "view": "05-dialog-advanced",
+      "kind": "text",
+      "detail": "div.eyebrow 9px x1"
+    },
+    {
+      "view": "05-dialog-advanced",
+      "kind": "text",
+      "detail": "span.dim 9px x1"
+    },
+    {
+      "view": "05-dialog-advanced",
+      "kind": "text",
+      "detail": "sup 9px x4"
+    },
+    {
+      "view": "05-dialog-advanced",
+      "kind": "text",
+      "detail": "span.keycap 9.5px x2"
+    },
+    {
+      "view": "05-dialog-advanced",
+      "kind": "text",
+      "detail": "sup 9.58333px x1"
+    },
+    {
+      "view": "05-dialog-transfer",
+      "kind": "text",
+      "detail": "div.eyebrow 9px x1"
+    },
+    {
+      "view": "05-dialog-transfer",
+      "kind": "text",
+      "detail": "span.dim 9px x1"
+    },
+    {
+      "view": "05-dialog-transfer",
+      "kind": "text",
+      "detail": "sup 9px x4"
+    },
+    {
+      "view": "05-dialog-transfer",
+      "kind": "text",
+      "detail": "span.keycap 9.5px x2"
+    },
+    {
+      "view": "05-dialog-transfer",
+      "kind": "text",
+      "detail": "sup 9.58333px x1"
+    },
+    {
+      "view": "06-card-stat",
+      "kind": "tap",
+      "detail": "button.step 30x26 x4"
+    },
+    {
+      "view": "06-card-stat",
+      "kind": "text",
+      "detail": "div.eyebrow 9px x1"
+    },
+    {
+      "view": "06-card-stat",
+      "kind": "text",
+      "detail": "span.dim 9px x1"
+    },
+    {
+      "view": "06-card-stat",
+      "kind": "text",
+      "detail": "sup 9px x4"
+    },
+    {
+      "view": "06-card-stat",
+      "kind": "text",
+      "detail": "span.keycap 9.5px x2"
+    },
+    {
+      "view": "06-card-stat",
+      "kind": "text",
+      "detail": "sup 9.58333px x1"
+    },
+    {
+      "view": "07-card-readout",
+      "kind": "text",
+      "detail": "div.eyebrow 9px x1"
+    },
+    {
+      "view": "07-card-readout",
+      "kind": "text",
+      "detail": "span.dim 9px x1"
+    },
+    {
+      "view": "07-card-readout",
+      "kind": "text",
+      "detail": "sup 9px x4"
+    },
+    {
+      "view": "07-card-readout",
+      "kind": "text",
+      "detail": "span.keycap 9.5px x2"
+    },
+    {
+      "view": "07-card-readout",
+      "kind": "text",
+      "detail": "sup 9.58333px x1"
+    }
+  ],
+  "consoleErrors": []
+}

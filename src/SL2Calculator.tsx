@@ -1,1449 +1,199 @@
-/**
- * SL2 Calculator - Extended Version
- * Added features: Class Passives, Rising Game, Instinct, Subrace support
- */
+/** The classic calculator shell. Superseded by `src/aether`, kept for /classic.html. */
 
-import { lazy, useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import IntroOverlay from './IntroOverlay';
-import SparkleBackground from './SparkleBackground';
 import FoxRain from './FoxRain';
-import { Plus, Minus, RotateCcw, Settings, Utensils, BookOpen, Download, Upload, Copy, StarIcon, Camera } from 'lucide-react';
 import PwaUpdatePrompt from './PwaUpdatePrompt';
-import ClassFamilyPicker from './ClassFamilyPicker';
-import OptimizerPanel from './OptimizerPanel';
-import type {
-  StatKey,
-  StampKey,
-  ElementKey,
-  StatRecord,
-  StampRecord,
-  ElementalRecord,
-  ClassPassive,
-  BuildState,
-  SaveSlotV1,
-  SharePayloadV1,
-  OptimizationCandidate,
-  Armor,
-  WeaponConfig
-} from './types';
+import OptimizerGoals from './OptimizerGoals';
+import OptimizerControls from './OptimizerControls';
+import OptimizerResults from './OptimizerResults';
+import { useOptimizer } from './useOptimizer';
+import type { StampKey } from './types';
 
-const WeaponCalculator = lazy(() => import('./WeaponCalculator'));
-const ArmorCalculator = lazy(() => import('./ArmorCalculator'));
 
 // Import data constants
-import { STAT_COLORS, ELEMENT_COLORS } from './data/colors';
-import { RACES, SUBRACES, RACE_RESISTANCES} from './data/races';
-import { CLASSES, CLASS_PASSIVES, CLASS_HIERARCHY  } from './data/classes';
-import { FOODS, HISTORY, LEGEND_EXTEND, ASTROLOGY_PLANETS, PLANET_ELEMENTS } from './data/bonuses';
-import { STAT_INFO } from './data/stats';
-import { MAX_POINTS, TEMPLATE_BUILDS } from './data/constants';
-import { ARMORS } from './data/armors';
-import { soundManager } from './utilities/SoundManager';
-import { calculateArmorConditionals } from './domain/derivedCalculations';
-import { evaluateBuild } from './domain/buildEvaluation';
+import ScreenshotView from './ScreenshotView';
+import TalentsDialog from './TalentsDialog';
+import SkillsDialog from './SkillsDialog';
+import YoukaiDialog from './YoukaiDialog';
+import RacialsDialog from './RacialsDialog';
+import TraitsDialog from './TraitsDialog';
+import { traitPointBudget, traitPointsSpent } from './domain/traits';
+import { hasRacialSkills, racialSkillsFor } from './domain/racialSkills';
+import { mergeSkillRanks } from './domain/skillDamage';
+import AdvancedDialog from './AdvancedDialog';
+import HitChanceDialog from './HitChanceDialog';
+import { AstrologyDialog, ElementalDialog, LegendExtendDialog } from './BuildDialogs';
+import ImportExportDialog from './ImportExportDialog';
+import AppHeader from './AppHeader';
+import TabNav from './TabNav';
+import CommandDeck, { Disclosure } from './CommandDeck';
+import MobileDeck, { type MobileTab } from './MobileDeck';
+import { MOBILE_QUERY, useMediaQuery } from './useMediaQuery';
+import BuildRail from './BuildRail';
+import ClassFamilyPicker from './ClassFamilyPicker';
+import ResultRail from './ResultRail';
+import WeaponDeck, { WeaponResultRail } from './WeaponDeck';
+import { ArmorClassRail, ArmorTable, ArmorDetailRail } from './ArmorDeck';
+import GearDeck, { asDeckSlot, asStoredSlot, type GearSlotKey } from './GearDeck';
+import LoadoutRail, { type LoadoutSlot } from './LoadoutRail';
+import ShareCard, { ShareFormatRail } from './ScreenshotDeck';
+import AllocationPanel from './AllocationPanel';
+import { FOODS, HISTORY } from './data/bonuses';
+import { SUBRACES } from './data/races';
 import {
+  APP_RELEASE,
   APP_VERSION,
   GAME_DATA_MANIFEST,
-  createBuildFile,
-  decodeSharePayload,
-  discardRecoveryDraft,
-  encodeSharePayload,
-  loadRecoveryDraft,
-  loadPreferences,
-  loadSaveSlots,
-  parseBuildFile,
-  persistSaveSlots,
-  saveRecoveryDraft,
-  savePreferences,
 } from './domain/buildPersistence';
 
+import type { WeaponConfig } from './types';
+import { cx } from './design';
+import { useCalculatorState } from './useCalculatorState';
+
+/**
+ * Composition only: pulls everything from useCalculatorState and lays it out.
+ */
 export default function SL2Calculator() {
-  const initialPreferences = useRef(loadPreferences()).current;
-  const [showIntroOnStartup, setShowIntroOnStartup] = useState(initialPreferences.showIntro);
-  const [showIntro, setShowIntro] = useState(initialPreferences.showIntro);
-  const [uiSounds, setUiSounds] = useState(initialPreferences.uiSounds);
-  const [retroMode, setRetroMode] = useState(initialPreferences.retroMode);
+  const {
+    ELEMENT_EMOJI_LABELS, acceptSharedBuild, activeSaveId, activeTab,
+    addStat, addedStats, adjustElementalATK, adjustElementalRES,
+    applyOptimizationCandidate, armorBonus, armorConditionalBonuses, astroBonus,
+    astrology, baseEvade, bonusEvade, buildEvaluation,
+    buildName, calculateElementalATK, calculateElementalRES, calculateHP,
+    calculateMP, calculateMaxHP, characterLevel, clearShareLink,
+    commitStatValue, conditionalArmorBonus, conditionalCriticalBonus, conditionalEvadeBonus,
+    copyBuildToClipboard, copyShareLink, createSaveSlot, currentBuild,
+    customBaseStats, customFP, customHP, customStats, statBuffs, setStatBuffs, world, setWorld,
+    armorQuality, setArmorQuality,
+    deleteSave, discardDraft, displayStats, downloadBuild,
+    draftTimestamp, duplicateSave,
+    elementalATKAdjustments, elementalRESAdjustments, elements,
+    equippedArmor, exportBuild, felidaeInstinct, food,
+    foodBonus, getAvailableSubraces, getRaceResistances,
+    getWeaponStatBonus, giantGene,
+    handleCustomBaseStatChange, handleHistoryChange, handleLegendExtendToggle, handleRaceChange,
+    handleSubraceChange, history, historyBonus, hpPercent,
+    importBuild, inputRefs, isOnline,
+    konamiActive, leBonus, legendExtend, loadNamedSave,
+    loadTemplate, luminaryElement, lupineInstinct, mainClass,
+    monoclassModifier, notice, optimizerUndo,
+    pendingSharedBuild, persistenceOfNormalcy, powerOfNormalcy,
+    race, redtailDiceColor, redtailFortuneLevel,
+    removeStat, resetStats, restoreDraft, sanguineCrest, saveSlots, screenshotRef,
+    selectedMainBaseClass, selectedSubBaseClass, setActiveTab,
+    setArmorConditionalBonuses, setAstrology, setBaseEvade, setBonusEvade,
+    setBuildName, setCharacterLevel, setCustomBaseStats, setCustomFP,
+    setCustomHP, setCustomStats,
+    setEquippedArmor, setFelidaeInstinct, setFood,
+    setGiantGene, setHpPercent,
+    setLuminaryElement, setLupineInstinct, setMainClass,
+    setNotice, setPersistenceOfNormalcy, setPowerOfNormalcy,
+    setRedtailDiceColor, setRedtailFortuneLevel,
+    setSanguineCrest, setSelectedMainBaseClass, setSelectedSubBaseClass,
+    setShowChanges, setShowFood, setShowImportExport,
+    setShowIntro, setShowIntroOnStartup, setShowRawStats,
+    setShowSettings, setShowStamps,
+    setShowTalents, setStamps, setSubClass, karakuriYoukai, setKarakuriYoukai,
+    setUiSounds, setWarwalk, setWeaponConfig, shareBuild,
+    showChanges, showFood, showImportExport,
+    showIntro, showIntroOnStartup, showRawStats,
+    showSettings, showStamps,
+    showTalents, skillRanks, setSkillRanks, skillConditionals, setSkillConditionals,
+    destiny, setDestiny, traits, setTraits,
+    youkai, setYoukai, youkaiCap,
+    stamps, stats, subClass,
+    subrace, takeScreenshot, totalPoints,
+    uiSounds, undoOptimization, updateActiveSave, warwalk,
+    weaponConfig,
+    armorUpgradePoints, setArmorUpgradePoints, armorMaterial, setArmorMaterial,
+    armorEnchantment, setArmorEnchantment,
+    armorClassFilter, setArmorClassFilter,
+    gearLoadout, setGearLoadout, slot3Mode, setSlot3Mode,
+    buildEvaluationWithoutArmor,
+    shareFormat, setShareFormat, buildCode,
+    showMainClassDropdown, setShowMainClassDropdown, showSubClassDropdown, setShowSubClassDropdown,
+    getBaseClass,
+  } = useCalculatorState();
+  /** Which of the six slots the Gear tab is showing. */
+  const [gearSlot, setGearSlot] = useState<LoadoutSlot>('hands');
 
-  useEffect(() => {
-    try { savePreferences({ showIntro: showIntroOnStartup, uiSounds, retroMode }); } catch {}
-  }, [showIntroOnStartup, uiSounds, retroMode]);
-  const [showSettings, setShowSettings] = useState(false);
-  // Konami easter egg state (retro-only)
-  const [konamiActive, setKonamiActive] = useState(false);
-  const konamiIndexRef = useRef(0);
-  
-  // Listen for Konami code when in retro mode and not showing intro
-  useEffect(() => {
-    if (!retroMode || showIntro) return;
-    const sequence = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a','Enter'];
-    const handler = (e: KeyboardEvent) => {
-      if (e.ctrlKey || e.altKey || e.metaKey || e.shiftKey) {
-        konamiIndexRef.current = 0;
-        return;
-      }
-      const key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
-      const expected = sequence[konamiIndexRef.current];
-      if (key === expected) {
-        konamiIndexRef.current++;
-        if (konamiIndexRef.current === sequence.length) {
-          konamiIndexRef.current = 0;
-          setKonamiActive(prev => !prev);
-          try {
-            if (uiSounds) {
-              soundManager.play('click');
-              setTimeout(() => soundManager.play('click'), 120);
-              setTimeout(() => soundManager.play('click'), 240);
-            }
-          } catch {}
-        }
-      } else {
-        konamiIndexRef.current = 0;
-      }
-    };
-    document.addEventListener('keydown', handler);
-    return () => document.removeEventListener('keydown', handler);
-  }, [retroMode, showIntro, uiSounds]);
-  // Get first race and first subrace on initial load
-  const firstRace = Object.keys(RACES)[0];
-  const firstSubrace = Object.keys(SUBRACES).find(subraceKey => {
-    const subrace = SUBRACES[subraceKey];
-    if (!subrace.allowedRaces) return true; 
-    return subrace.allowedRaces.includes(firstRace);
-  }) || firstRace;
-  const firstClass = Object.keys(CLASSES)[0];
-
-  const [race, setRace] = useState(firstRace);
-  const [subrace, setSubrace] = useState(firstSubrace);
-  const [mainClass, setMainClass] = useState(firstClass);
-  const [subClass, setSubClass] = useState(firstClass);
-  
-  // POE-style class selection states
-  const [selectedMainBaseClass, setSelectedMainBaseClass] = useState('Soldier');
-  const [selectedSubBaseClass, setSelectedSubBaseClass] = useState('Soldier');
-  const [showMainClassDropdown, setShowMainClassDropdown] = useState(false);
-  const [showSubClassDropdown, setShowSubClassDropdown] = useState(false);
-  
-  const [characterLevel, setCharacterLevel] = useState(60);
-  const [food, setFood] = useState('None');
-  const [history, setHistory] = useState('None');
-  
-  const [addedStats, setAddedStats] = useState<StatRecord>({
-    str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0,
-    vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0
-  });
-  const pointsSpent = Object.values(addedStats).reduce((sum, value) => sum + value, 0);
-  const totalPoints = Math.max(0, characterLevel * 4 - pointsSpent);
-
-  const [customStats, setCustomStats] = useState<StatRecord>({
-    str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0,
-    vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0
-  });
-
-  const [customBaseStats, setCustomBaseStats] = useState<StatRecord>({
-    str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0,
-    vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0
-  });
-
-  const [stamps, setStamps] = useState<StampRecord>({
-    str: 0, wil: 0, ski: 0, cel: 0, vit: 0, fai: 0
-  });
-
-  const [legendExtend, setLegendExtend] = useState<Record<string, boolean>>({});
-  const [astrology, setAstrology] = useState<string>(''); // Now stores the selected planet name or empty string
-  const [customHP, setCustomHP] = useState(0);
-  const [customFP, setCustomFP] = useState(0);
-  const [baseEvade, setBaseEvade] = useState(0);
-  const [bonusEvade, setBonusEvade] = useState(0);
-  const [giantGene, setGiantGene] = useState(false);
-  const [dragonKing, setDragonKing] = useState(0);
-  const [dragonQueen, setDragonQueen] = useState(0);
-  const [hpPercent, setHpPercent] = useState(100);
-  const [sanguineCrest, setSanguineCrest] = useState(false);
-  const [felidaeInstinct, setFelidaeInstinct] = useState(false);
-  const [lupineInstinct, setLupineInstinct] = useState(false);
-  const [risingGame, setRisingGame] = useState(0);
-  const [redtailFortuneLevel, setRedtailFortuneLevel] = useState(1);
-  const [redtailDiceColor, setRedtailDiceColor] = useState<'red' | 'green' | 'yellow'>('red');
-  const [karakuriYoukai, setKarakuriYoukai] = useState<string>('None');
-  const [fortitude, setFortitude] = useState(false);
-  const [painTolerance, setPainTolerance] = useState(0);
-  const [warwalk, setWarwalk] = useState(false);
-  const [endurance, setEndurance] = useState(false);
-  const [luminaryElement, setLuminaryElement] = useState(false);
-  const [persistenceOfNormalcy, setPersistenceOfNormalcy] = useState(false);
-  const [powerOfNormalcy, setPowerOfNormalcy] = useState(false);
-  
-  // Class passive ranks
-  const [mainClassPassive, setMainClassPassive] = useState(0);
-  const [subClassPassive, setSubClassPassive] = useState(0);
-  
-  // Elemental adjustments
-  const [elementalATKAdjustments, setElementalATKAdjustments] = useState<ElementalRecord>({
-    Fire: 0, Ice: 0, Wind: 0, Earth: 0, Dark: 0, Water: 0, Light: 0, Lightning: 0, Acid: 0, Sound: 0
-  });
-  
-  const [elementalRESAdjustments, setElementalRESAdjustments] = useState<ElementalRecord>({
-    Fire: 0, Ice: 0, Wind: 0, Earth: 0, Dark: 0, Water: 0, Light: 0, Lightning: 0, Acid: 0, Sound: 0
-  });
-  
-  // Equipment state
-  const [equippedArmor, setEquippedArmor] = useState<Armor | null>(null);
-  const [armorConditionalBonuses, setArmorConditionalBonuses] = useState<Record<string, boolean>>({});
-  // Persisted weapon configuration for screenshot mode
-  const [weaponConfig, setWeaponConfig] = useState<WeaponConfig | undefined>(undefined);
-
-  const [showAdvanced, setShowAdvanced] = useState(false);
-  const [showFood, setShowFood] = useState(false);
-  const [showStamps, setShowStamps] = useState(false);
-  const [showCustomStats, setShowCustomStats] = useState(false);
-  const [showTalents, setShowTalents] = useState(false);
-  const [showRawStats, setShowRawStats] = useState(false);
-
-  // Import/Export state
-  const [showImportExport, setShowImportExport] = useState(false);
-  const [buildName, setBuildName] = useState('My Build');
-  const [importText, setImportText] = useState('');
-  const [notice, setNotice] = useState<{ type: 'success' | 'error' | 'info'; message: string } | null>(null);
-  const [saveSlots, setSaveSlots] = useState<SaveSlotV1[]>(() => {
-    try { return loadSaveSlots(); } catch { return []; }
-  });
-  const [activeSaveId, setActiveSaveId] = useState<string | null>(null);
-  const [draftTimestamp, setDraftTimestamp] = useState<string | null>(() => {
-    try { return loadRecoveryDraft()?.exportedAt ?? null; } catch { return null; }
-  });
-  const [pendingSharedBuild, setPendingSharedBuild] = useState<SharePayloadV1 | null>(null);
-  const [showChanges, setShowChanges] = useState(false);
-  const [isOnline, setIsOnline] = useState(() => navigator.onLine);
-
-  useEffect(() => {
-    const updateOnlineState = () => setIsOnline(navigator.onLine);
-    window.addEventListener('online', updateOnlineState);
-    window.addEventListener('offline', updateOnlineState);
-    return () => {
-      window.removeEventListener('online', updateOnlineState);
-      window.removeEventListener('offline', updateOnlineState);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!showSettings && !showImportExport && !showChanges && !pendingSharedBuild) return;
-    const closeTopDialog = (event: KeyboardEvent) => {
-      if (event.key !== 'Escape') return;
-      if (pendingSharedBuild) clearShareLink();
-      else if (showChanges) setShowChanges(false);
-      else if (showImportExport) setShowImportExport(false);
-      else setShowSettings(false);
-    };
-    document.addEventListener('keydown', closeTopDialog);
-    return () => document.removeEventListener('keydown', closeTopDialog);
-  }, [showSettings, showImportExport, showChanges, pendingSharedBuild]);
-  
-  // Active tab state
-  const [activeTab, setActiveTab] = useState<'stats' | 'weapon' | 'armor' | 'screenshot'>('stats');
-  
-  // Screenshot ref
-  const screenshotRef = useRef<HTMLDivElement>(null);
-
-  const [optimizerUndo, setOptimizerUndo] = useState<Pick<BuildState, 'mainClass' | 'subClass' | 'selectedMainBaseClass' | 'selectedSubBaseClass' | 'mainClassPassive' | 'subClassPassive' | 'addedStats' | 'equipment'> | null>(null);
-
-  // Stat info modal state
-  const [showStatInfo, setShowStatInfo] = useState(false);
-  const [selectedStat, setSelectedStat] = useState<string>('');
-
-  const monoclassModifier = mainClass === subClass ? 2 : 1;
-
-  const getCurrentBuildState = (): BuildState => ({
-    race, subrace, mainClass, subClass, selectedMainBaseClass, selectedSubBaseClass,
-    characterLevel, food, history, addedStats, customStats, customBaseStats, stamps,
-    legendExtend, astrology, customHP, customFP, baseEvade, bonusEvade, giantGene,
-    dragonKing, dragonQueen, hpPercent, sanguineCrest, felidaeInstinct, lupineInstinct,
-    risingGame, redtailFortuneLevel, redtailDiceColor, karakuriYoukai, fortitude,
-    painTolerance, warwalk, endurance, luminaryElement, persistenceOfNormalcy,
-    powerOfNormalcy, mainClassPassive, subClassPassive, elementalATKAdjustments,
+  /*
+   * The rail's chips are separate destinations, so each opens its own dialog
+   * rather than one "Advanced Options" modal scrolled to a section: a dialog
+   * titled "Advanced Options" is a poor answer to a button marked "Astrology".
+   */
+  type BuildDialog = 'character' | 'custom' | 'legend' | 'astrology' | 'elemental' | 'hitChance';
+  const [buildDialog, setBuildDialog] = useState<BuildDialog | null>(null);
+  const [showSkills, setShowSkills] = useState(false);
+  const [showYoukai, setShowYoukai] = useState(false);
+  const [showRacials, setShowRacials] = useState(false);
+  const [showTraits, setShowTraits] = useState(false);
+  const racialValues = { felidaeInstinct, lupineInstinct, sanguineCrest, redtailFortuneLevel, redtailDiceColor, karakuriYoukai };
+  const racialSetters = {
+    felidaeInstinct: setFelidaeInstinct,
+    lupineInstinct: setLupineInstinct,
+    sanguineCrest: setSanguineCrest,
+    redtailFortuneLevel: setRedtailFortuneLevel,
+    redtailDiceColor: setRedtailDiceColor,
+    karakuriYoukai: setKarakuriYoukai,
+  };
+  // Youkai belong to Summoner and its promotions, so the entry point only shows
+  // when a class slot actually descends from Summoner.
+  const isSummoner = getBaseClass(mainClass) === 'Summoner' || getBaseClass(subClass) === 'Summoner';
+  /*
+   * Base stat totals for trait requirements: the racial line plus what has been
+   * invested. Deliberately not `rawStats`, which folds in equipment: the wiki
+   * warns that APT and item bonuses do not count toward trait requirements.
+   */
+  const traitBaseStats = Object.fromEntries(
+    (Object.keys(addedStats) as Array<keyof typeof addedStats>).map(stat => [
+      stat,
+      (SUBRACES[subrace]?.[stat] ?? 0) + addedStats[stat] + customBaseStats[stat],
+    ]),
+  );
+  const mergedRanks = mergeSkillRanks(skillRanks);
+  const elementalProps = {
+    elements,
+    subrace,
+    elementalATKAdjustments,
     elementalRESAdjustments,
-    equipment: {
-      armorName: equippedArmor?.name ?? null,
-      armorConditionalBonuses,
-      primaryWeapon: weaponConfig,
-    },
+    raceResistances: getRaceResistances(),
+    characterLevel,
+    stats,
+    calculateElementalATK,
+    calculateElementalRES,
+    adjustElementalATK,
+    adjustElementalRES,
+  };
+
+  /*
+   * Below 1024px the deck's three columns cannot hold, so variant 1c renders
+   * instead. Exclusive, not CSS-hidden: both shells carry tabs and form controls,
+   * and two copies in the DOM would duplicate every id and role.
+   */
+  const isMobile = useMediaQuery(MOBILE_QUERY);
+
+  // One optimizer instance shared by the goal rail and the results pane.
+  const optimizer = useOptimizer({
+    build: currentBuild,
+    currentEvaluation: buildEvaluation,
+    onApply: applyOptimizationCandidate,
+    canUndo: optimizerUndo !== null,
+    onUndo: undoOptimization,
   });
-
-  const applyBuildState = (build: BuildState): void => {
-    setRace(build.race);
-    setSubrace(build.subrace);
-    setMainClass(build.mainClass);
-    setSubClass(build.subClass);
-    setSelectedMainBaseClass(build.selectedMainBaseClass ?? 'Soldier');
-    setSelectedSubBaseClass(build.selectedSubBaseClass ?? 'Soldier');
-    setCharacterLevel(build.characterLevel);
-    setFood(build.food);
-    setHistory(build.history);
-    setAddedStats(build.addedStats);
-    setCustomStats(build.customStats);
-    setCustomBaseStats(build.customBaseStats);
-    setStamps(build.stamps);
-    setLegendExtend(build.legendExtend);
-    setAstrology(build.astrology);
-    setCustomHP(build.customHP);
-    setCustomFP(build.customFP);
-    setBaseEvade(build.baseEvade);
-    setBonusEvade(build.bonusEvade);
-    setGiantGene(build.giantGene);
-    setDragonKing(build.dragonKing);
-    setDragonQueen(build.dragonQueen);
-    setHpPercent(build.hpPercent);
-    setSanguineCrest(build.sanguineCrest);
-    setFelidaeInstinct(build.felidaeInstinct);
-    setLupineInstinct(build.lupineInstinct);
-    setRisingGame(build.risingGame);
-    setRedtailFortuneLevel(build.redtailFortuneLevel);
-    setRedtailDiceColor(build.redtailDiceColor);
-    setKarakuriYoukai(build.karakuriYoukai);
-    setFortitude(build.fortitude);
-    setPainTolerance(build.painTolerance);
-    setWarwalk(build.warwalk);
-    setEndurance(build.endurance);
-    setLuminaryElement(build.luminaryElement);
-    setPersistenceOfNormalcy(build.persistenceOfNormalcy);
-    setPowerOfNormalcy(build.powerOfNormalcy);
-    setMainClassPassive(build.mainClassPassive);
-    setSubClassPassive(build.subClassPassive);
-    setElementalATKAdjustments(build.elementalATKAdjustments);
-    setElementalRESAdjustments(build.elementalRESAdjustments);
-    setEquippedArmor(build.equipment.armorName ? ARMORS[build.equipment.armorName] ?? null : null);
-    setArmorConditionalBonuses(build.equipment.armorConditionalBonuses);
-    setWeaponConfig(build.equipment.primaryWeapon);
-  };
-
-  const downloadBuild = (name: string, build: BuildState): void => {
-    const jsonString = JSON.stringify(createBuildFile(name, build), null, 2);
-    const blob = new Blob([jsonString], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `${name.replace(/[^a-zA-Z0-9]/g, '_') || 'SL2'}_build.json`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-    setNotice({ type: 'success', message: 'Build JSON downloaded.' });
-  };
-
-  const exportBuild = (name: string = 'My Build'): void => downloadBuild(name, getCurrentBuildState());
-
-  const importBuild = (jsonString: string): boolean => {
-    try {
-      const file = parseBuildFile(jsonString);
-      applyBuildState(file.build);
-      setBuildName(file.buildName);
-      setActiveSaveId(null);
-      setNotice({ type: 'success', message: `Imported ${file.buildName}.` });
-      return true;
-    } catch (error) {
-      console.error('Failed to import build:', error);
-      setNotice({ type: 'error', message: error instanceof Error ? error.message : 'Build import failed.' });
-      return false;
-    }
-  };
-
-  const serializedDraft = JSON.stringify(getCurrentBuildState());
-  const initialDraftSnapshot = useRef(serializedDraft);
-  const [draftWriteEnabled, setDraftWriteEnabled] = useState(() => !draftTimestamp);
-  useEffect(() => {
-    if (!draftWriteEnabled) {
-      if (serializedDraft !== initialDraftSnapshot.current) setDraftWriteEnabled(true);
-      return;
-    }
-    const timer = window.setTimeout(() => {
-      try {
-        saveRecoveryDraft(buildName, JSON.parse(serializedDraft) as BuildState);
-        setDraftTimestamp(new Date().toISOString());
-      } catch (error) {
-        setNotice({ type: 'error', message: error instanceof Error ? `Draft could not be saved: ${error.message}` : 'Draft could not be saved.' });
-      }
-    }, 600);
-    return () => window.clearTimeout(timer);
-  }, [serializedDraft, buildName, draftWriteEnabled]);
-
-  useEffect(() => {
-    const encoded = new URLSearchParams(window.location.hash.slice(1)).get('build');
-    if (!encoded) return;
-    try { setPendingSharedBuild(decodeSharePayload(encoded)); }
-    catch (error) { setNotice({ type: 'error', message: error instanceof Error ? error.message : 'Shared build link is invalid.' }); }
-  }, []);
-
-  const loadTemplate = (templateKey: string): void => {
-    const template = TEMPLATE_BUILDS[templateKey as keyof typeof TEMPLATE_BUILDS];
-    if (!template) {
-      console.error('Template not found:', templateKey);
-      return;
-    }
-
-    setRace(template.race);
-    setSubrace(template.subrace);
-    setMainClass(template.mainClass);
-    setSubClass(template.subClass);
-    
-    setSelectedMainBaseClass((template as any).selectedMainBaseClass || template.mainClass);
-    setSelectedSubBaseClass((template as any).selectedSubBaseClass || template.subClass);
-    
-    setCharacterLevel(60);
-    setFood('None');
-    setHistory(template.history || 'None');
-    
-    setAddedStats(template.stats);
-    
-    setCustomStats({
-      str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0,
-      vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0
-    });
-    setCustomBaseStats({
-      str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0,
-      vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0
-    });
-    setStamps({ str: 0, wil: 0, ski: 0, cel: 0, vit: 0, fai: 0 });
-    setLegendExtend({});
-    setAstrology('');
-    
-    setCustomHP(0);
-    setCustomFP(0);
-    setBaseEvade(0);
-    setBonusEvade(0);
-    setGiantGene(false);
-    setDragonKing(0);
-    setDragonQueen(0);
-    setHpPercent(100);
-    setSanguineCrest(false);
-    setFelidaeInstinct(false);
-    setLupineInstinct(false);
-    setRisingGame(0);
-    setRedtailFortuneLevel(1);
-    setRedtailDiceColor('red');
-    setKarakuriYoukai('None');
-    setFortitude(false);
-    setPainTolerance(0);
-    setWarwalk(false);
-    setEndurance(false);
-    setLuminaryElement(false);
-    setPersistenceOfNormalcy(false);
-    setPowerOfNormalcy(false);
-    setMainClassPassive(0);
-    setSubClassPassive(0);
-    
-    setElementalATKAdjustments({
-      Fire: 0, Ice: 0, Wind: 0, Earth: 0, Dark: 0, Water: 0, Light: 0, Lightning: 0, Acid: 0, Sound: 0
-    });
-    setElementalRESAdjustments({
-      Fire: 0, Ice: 0, Wind: 0, Earth: 0, Dark: 0, Water: 0, Light: 0, Lightning: 0, Acid: 0, Sound: 0
-    });
-
-  };
-
-  const copyBuildToClipboard = async (name: string = 'My Build'): Promise<boolean> => {
-    try {
-      await navigator.clipboard.writeText(JSON.stringify(createBuildFile(name, getCurrentBuildState()), null, 2));
-      setNotice({ type: 'success', message: 'Build JSON copied to the clipboard.' });
-      return true;
-    } catch (error) {
-      console.error('Failed to copy to clipboard:', error);
-      setNotice({ type: 'error', message: 'Clipboard access failed. Download the JSON instead.' });
-      return false;
-    }
-  };
-
-  const copyShareLink = async (): Promise<void> => {
-    try {
-      const encoded = encodeSharePayload(buildName, getCurrentBuildState());
-      const url = new URL(window.location.href);
-      url.hash = new URLSearchParams({ build: encoded }).toString();
-      await navigator.clipboard.writeText(url.toString());
-      setNotice({ type: 'success', message: 'Private build link copied. No build data was uploaded.' });
-    } catch (error) {
-      setNotice({ type: 'error', message: error instanceof Error ? error.message : 'Could not create a share link.' });
-    }
-  };
-
-  const shareBuild = async (): Promise<void> => {
-    try {
-      const url = new URL(window.location.href);
-      url.hash = new URLSearchParams({ build: encodeSharePayload(buildName, getCurrentBuildState()) }).toString();
-      const canShare = 'share' in navigator && typeof navigator.share === 'function';
-      if (canShare) await navigator.share({ title: `${buildName} - SL2 Calculator`, url: url.toString() });
-      else await navigator.clipboard.writeText(url.toString());
-      setNotice({ type: 'success', message: canShare ? 'Build shared.' : 'Build link copied.' });
-    } catch (error) {
-      if (error instanceof DOMException && error.name === 'AbortError') return;
-      setNotice({ type: 'error', message: 'Could not share this build.' });
-    }
-  };
-
-  const clearShareLink = (): void => {
-    window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
-    setPendingSharedBuild(null);
-  };
-
-  const acceptSharedBuild = (): void => {
-    if (!pendingSharedBuild) return;
-    applyBuildState(pendingSharedBuild.build);
-    setBuildName(pendingSharedBuild.buildName);
-    setActiveSaveId(null);
-    clearShareLink();
-    setNotice({ type: 'success', message: `Loaded shared build ${pendingSharedBuild.buildName}.` });
-  };
-
-  const commitSaveSlots = (next: SaveSlotV1[]): void => {
-    try {
-      persistSaveSlots(next);
-      setSaveSlots(next);
-    } catch (error) {
-      setNotice({ type: 'error', message: error instanceof Error ? `Saves could not be stored: ${error.message}` : 'Saves could not be stored.' });
-    }
-  };
-
-  const createSaveSlot = (): void => {
-    const now = new Date().toISOString();
-    const slot: SaveSlotV1 = {
-      id: crypto.randomUUID?.() ?? `${Date.now()}-${Math.random().toString(16).slice(2)}`,
-      name: buildName.trim() || 'Untitled Build',
-      createdAt: now,
-      updatedAt: now,
-      build: getCurrentBuildState(),
-    };
-    commitSaveSlots([slot, ...saveSlots]);
-    setActiveSaveId(slot.id);
-    setNotice({ type: 'success', message: `Saved ${slot.name}.` });
-  };
-
-  const updateActiveSave = (): void => {
-    if (!activeSaveId) return setNotice({ type: 'info', message: 'Load or create a named save first.' });
-    const now = new Date().toISOString();
-    commitSaveSlots(saveSlots.map((slot) => slot.id === activeSaveId ? { ...slot, name: buildName.trim() || slot.name, updatedAt: now, build: getCurrentBuildState() } : slot));
-    setNotice({ type: 'success', message: 'Named save updated explicitly.' });
-  };
-
-  const loadNamedSave = (slot: SaveSlotV1): void => {
-    applyBuildState(slot.build);
-    setBuildName(slot.name);
-    setActiveSaveId(slot.id);
-    setNotice({ type: 'success', message: `Loaded ${slot.name}. Edits remain in the recovery draft until Update Save.` });
-  };
-
-  const duplicateSave = (slot: SaveSlotV1): void => {
-    const now = new Date().toISOString();
-    const copy = { ...slot, id: crypto.randomUUID?.() ?? `${Date.now()}-${Math.random().toString(16).slice(2)}`, name: `${slot.name} Copy`, createdAt: now, updatedAt: now };
-    commitSaveSlots([copy, ...saveSlots]);
-    setNotice({ type: 'success', message: `Duplicated ${slot.name}.` });
-  };
-
-  const deleteSave = (slot: SaveSlotV1): void => {
-    if (!window.confirm(`Delete the named save "${slot.name}"?`)) return;
-    commitSaveSlots(saveSlots.filter((candidate) => candidate.id !== slot.id));
-    if (activeSaveId === slot.id) setActiveSaveId(null);
-    setNotice({ type: 'success', message: `Deleted ${slot.name}.` });
-  };
-
-  const restoreDraft = (): void => {
-    try {
-      const draft = loadRecoveryDraft();
-      if (!draft) return setNotice({ type: 'info', message: 'No recovery draft is available.' });
-      applyBuildState(draft.build);
-      setBuildName(draft.buildName);
-      setDraftWriteEnabled(true);
-      setActiveSaveId(null);
-      setNotice({ type: 'success', message: `Recovery draft restored from ${new Date(draft.exportedAt).toLocaleString()}.` });
-    } catch (error) {
-      setNotice({ type: 'error', message: error instanceof Error ? error.message : 'Recovery draft could not be restored.' });
-    }
-  };
-
-  const discardDraft = (): void => {
-    discardRecoveryDraft();
-    setDraftTimestamp(null);
-    setDraftWriteEnabled(true);
-    setNotice({ type: 'success', message: 'Recovery draft discarded. Current values were not changed.' });
-  };
-
-  const getAvailableSubraces = (): string[] => {
-    return Object.keys(SUBRACES).filter(subraceKey => {
-      const subrace = SUBRACES[subraceKey];
-      if (!subrace.allowedRaces) return true;
-      return subrace.allowedRaces.includes(race);
-    });
-  };
-
-  /**
-   * Handle race change - auto-select the base race subrace and reset if not available, then validate stat caps
-   */
-  const handleRaceChange = (newRace: string): void => {
-    setRace(newRace);
-    
-    let finalSubrace = subrace;
-    
-    // Auto-select the base race as subrace if it exists
-    if (SUBRACES[newRace]) {
-      setSubrace(newRace);
-      finalSubrace = newRace;
-    } else {
-      // Find available subraces for this race
-      const availableSubraces = Object.keys(SUBRACES).filter(subraceKey => {
-        const subrace = SUBRACES[subraceKey];
-        if (!subrace.allowedRaces) return true;
-        return subrace.allowedRaces.includes(newRace);
-      });
-      
-      // If current subrace is not available for the new race, reset to first available
-      if (!availableSubraces.includes(subrace)) {
-        const newSubrace = availableSubraces[0] || newRace;
-        setSubrace(newSubrace);
-        finalSubrace = newSubrace;
-      }
-    }
-
-    const adjustedStats = validateStatCaps(finalSubrace, customBaseStats, legendExtend, addedStats, history);
-    setAddedStats(adjustedStats);
-  };
-
-  const handleSubraceChange = (newSubrace: string): void => {
-    setSubrace(newSubrace);
-    
-    if (newSubrace !== 'Oni' && newSubrace !== 'Vampire') {
-      setSanguineCrest(false);
-    }
-    
-    if (newSubrace !== 'Karakuri') {
-      setKarakuriYoukai('None');
-    }
-
-    const adjustedStats = validateStatCaps(newSubrace, customBaseStats, legendExtend, addedStats, history);
-    setAddedStats(adjustedStats);
-  };
-
-  /**
-   * Validate and adjust stats to ensure they don't exceed hard caps (80 total)
-   * Returns adjusted addedStats that respect the hard cap: race base + custom base + manual points + LE bonus + history bonus ≤ 80
-   */
-  const validateStatCaps = (
-    newSubrace: string = subrace,
-    newCustomBaseStats: StatRecord = customBaseStats,
-    newLegendExtend: Record<string, boolean> = legendExtend,
-    currentAddedStats: StatRecord = addedStats,
-    newHistory: string = history
-  ): StatRecord => {
-    const adjustedStats = { ...currentAddedStats };
-
-    const newLeBonus: Partial<StatRecord> = {};
-    Object.entries(newLegendExtend).forEach(([key, enabled]) => {
-      if (enabled) {
-        const statKey = key.toLowerCase() as StatKey;
-        if (statKey in adjustedStats) {
-          newLeBonus[statKey] = (newLeBonus[statKey] || 0) + 1;
-        }
-      }
-    });
-
-    const newHistoryBonus = HISTORY[newHistory];
-
-    Object.keys(adjustedStats).forEach(statKey => {
-      const stat = statKey as StatKey;
-      const subraceData = SUBRACES[newSubrace];
-      const raceBase = subraceData?.[stat] || 0;
-      const customBase = newCustomBaseStats[stat] || 0;
-      const legendExtendBonus = newLeBonus[stat] || 0;
-      const historyBonus = newHistoryBonus?.stats[stat] || 0;
-      const manualPoints = adjustedStats[stat];
-
-      const total = raceBase + customBase + manualPoints + legendExtendBonus + historyBonus;
-      
-      if (total > 80) {
-        const excess = total - 80;
-        const newManualPoints = Math.max(0, manualPoints - excess);
-        const pointsRemoved = manualPoints - newManualPoints;
-        
-        adjustedStats[stat] = newManualPoints;
-
-        const inputElement = inputRefs.current[stat];
-        if (inputElement) {
-          inputElement.value = newManualPoints.toString();
-        }
-
-        console.log(`Stat ${stat.toUpperCase()} capped: ${manualPoints} → ${newManualPoints} (${pointsRemoved} points freed)`);
-      }
-    });
-
-    return adjustedStats;
-  };
-
-  const handleCustomBaseStatChange = (stat: StatKey, value: number): void => {
-    const newCustomBaseStats = { ...customBaseStats, [stat]: value };
-    setCustomBaseStats(newCustomBaseStats);
-
-    const adjustedStats = validateStatCaps(subrace, newCustomBaseStats, legendExtend, addedStats, history);
-    setAddedStats(adjustedStats);
-  };
-
-  /**
-   * Handle Legend Extend toggle with validation
-   */
-  const handleLegendExtendToggle = (key: string): void => {
-    const newLegendExtend = { ...legendExtend, [key]: !legendExtend[key] };
-    setLegendExtend(newLegendExtend);
-
-    // Validate and adjust manual stats to ensure they don't exceed hard caps
-    const adjustedStats = validateStatCaps(subrace, customBaseStats, newLegendExtend, addedStats, history);
-    setAddedStats(adjustedStats);
-  };
-
-  /**
-   * Handle history changes and validate stat caps
-   */
-  const handleHistoryChange = (newHistory: string): void => {
-    setHistory(newHistory);
-
-    // Validate and adjust manual stats to ensure they don't exceed hard caps
-    const adjustedStats = validateStatCaps(subrace, customBaseStats, legendExtend, addedStats, newHistory);
-    setAddedStats(adjustedStats);
-  };
-
-  const getLEBonus = (): Partial<StatRecord> => {
-    const bonuses: Partial<StatRecord> = {};
-    Object.keys(LEGEND_EXTEND).forEach(key => {
-      const stat = LEGEND_EXTEND[key].stat;
-      bonuses[stat] = legendExtend[key] ? 1 : 0;
-    });
-    return bonuses;
-  };
-
-  const getAstrologyBonus = (): Partial<StatRecord> => {
-    const bonuses: Partial<StatRecord> = {};
-    if (astrology && ASTROLOGY_PLANETS[astrology]) {
-      const stat = ASTROLOGY_PLANETS[astrology];
-      bonuses[stat] = 1; // Planet signs give +1 to the associated stat
-    }
-    return bonuses;
-  };
-
-  // Helper function to get the base class for any given class
-  const getBaseClass = (className: string): string => {
-    // Check if the class is already a base class
-    if (CLASS_HIERARCHY[className]?.baseClass) {
-      return className;
-    }
-    
-    // Find which base class this promotion class belongs to
-    for (const [baseClassName, classData] of Object.entries(CLASS_HIERARCHY)) {
-      if (classData.baseClass && classData.subClasses.includes(className)) {
-        return baseClassName;
-      }
-    }
-    
-    // If not found in hierarchy, assume it's the class itself
-    return className;
-  };
-
-  // Helper function to check if a class has access to a passive (either its own or inherited)
-  const hasClassPassive = (className: string): boolean => {
-    // Check if class has its own passive
-    if (CLASS_PASSIVES[className]) return true;
-    
-    // Check if class can inherit a passive from its base class
-    const baseClass = getBaseClass(className);
-    return baseClass !== className && CLASS_PASSIVES[baseClass] !== undefined;
-  };
-
-  // Get the passive for a class (either its own or inherited from base class)
-  const getClassPassiveData = (className: string): ClassPassive | undefined => {
-    // Check for class's own passive first
-    if (CLASS_PASSIVES[className]) return CLASS_PASSIVES[className];
-    
-    // Check for base class passive
-    const baseClass = getBaseClass(className);
-    if (baseClass !== className && CLASS_PASSIVES[baseClass]) {
-      return CLASS_PASSIVES[baseClass];
-    }
-    
-    return undefined;
-  };
-
-  const leBonus = getLEBonus();
-  const astroBonus = getAstrologyBonus();
-  const foodBonus = FOODS[food];
-  const historyBonus = HISTORY[history];
-
-  // Calculate armor bonuses
-  const armorBonus: Partial<StatRecord> = {};
-  if (equippedArmor?.statBonuses) {
-    Object.entries(equippedArmor.statBonuses).forEach(([stat, value]) => {
-      if (value && stat in {str: 1, wil: 1, ski: 1, cel: 1, def: 1, res: 1, vit: 1, fai: 1, luc: 1, gui: 1, san: 1, apt: 1}) {
-        armorBonus[stat as StatKey] = value;
-      }
-    });
-  }
-
-  const conditionalArmor = calculateArmorConditionals(equippedArmor, armorConditionalBonuses);
-  const conditionalArmorBonus = conditionalArmor.stats;
-  const conditionalEvadeBonus = conditionalArmor.evade;
-  const conditionalCriticalBonus = conditionalArmor.critical;
-
-  // Weapon enchantment-derived stat bonuses (equipment influencing stats)
-  const getWeaponStatBonus = (): Partial<StatRecord> => {
-    const bonus: Partial<StatRecord> = {};
-    const ench = weaponConfig?.enchantment;
-    switch (ench) {
-      case 'Jeweled':
-        bonus.fai = (bonus.fai || 0) + 2;
-        break;
-      case 'Exorcism':
-        bonus.fai = (bonus.fai || 0) + 2;
-        bonus.san = (bonus.san || 0) + 2;
-        break;
-      case 'Demonic':
-      case 'Tainted':
-        bonus.str = (bonus.str || 0) + 3;
-        break;
-      default:
-        break;
-    }
-    return bonus;
-  };
-
-  const currentBuild = getCurrentBuildState();
-  const buildEvaluation = evaluateBuild(currentBuild);
-  const stats: StatRecord = buildEvaluation.scaledStats;
-  const rawStats: StatRecord = buildEvaluation.rawStats;
-
-  // Choose which stats to display
-  const displayStats = showRawStats ? rawStats : stats;
-
-  const calculateMaxHP = (): number => buildEvaluation.derived.maxHP;
-
-  const calculateHP = (): number => {
-    return buildEvaluation.derived.currentHP;
-  };
-
-  const calculateMP = (): number => buildEvaluation.derived.fp;
-
-  const calculateElementalATK = (element: string): number => buildEvaluation.elementalAttack[element as ElementKey];
-
-  const calculateElementalRES = (element: string): number => buildEvaluation.elementalResistance[element as ElementKey];
-
-  // Get race-based elemental resistances for the current subrace
-  const getRaceResistances = (): ElementalRecord => {
-    // Default resistances from the basic table
-    const baseResistances = RACE_RESISTANCES[subrace] || {
-      Fire: 0, Ice: 0, Wind: 0, Earth: 0, Dark: 0, Water: 0, 
-      Light: 0, Lightning: 0, Acid: 0, Sound: 0
-    };
-
-    // Handle special races with SAN-scaled resistances
-    if (subrace === 'Umbral') {
-      const sanReduction = stats.san;
-      return {
-        Fire: 0, Ice: 0, Wind: 0, Earth: 0, Water: 0, Lightning: 0, Acid: 0, Sound: 0,
-        Dark: Math.floor(Math.max(0, 25 - sanReduction)),    // 25% Dark resistance, reduced by SAN
-        Light: Math.floor(Math.min(0, -25 + sanReduction))   // 25% Light weakness, reduced by SAN (less negative)
-      };
-    }
-
-    if (subrace === 'Papilion') {
-      const sanReduction = stats.san;
-      return {
-        Fire: 0, Ice: 0, Water: 0, Lightning: 0, Acid: 0, Sound: 0, Dark: 0, Light: 0,
-        Wind: Math.floor(Math.max(0, 30 - sanReduction)),    // 30% Wind resistance, reduced by SAN
-        Earth: Math.floor(Math.min(0, -30 + sanReduction))   // 30% Earth weakness, reduced by SAN (less negative)
-      };
-    }
-
-    // Handle Vampire with Sanguine Crest conditional resistances
-    if (subrace === 'Vampire') {
-      if (sanguineCrest) {
-        return {
-          Fire: 0, Ice: 0, Wind: 0, Earth: 0, Water: 0, Lightning: 0, Acid: 0, Sound: 0,
-          Dark: 25,    // 25% Dark resistance when Sanguine Crest is active
-          Light: -25   // 25% Light weakness when Sanguine Crest is active
-        };
-      } else {
-        return {
-          Fire: 0, Ice: 0, Wind: 0, Earth: 0, Dark: 0, Water: 0, 
-          Light: 0, Lightning: 0, Acid: 0, Sound: 0
-        };
-      }
-    }
-
-    // Handle Karakuri youkai resistances
-    if (subrace === 'Karakuri') {
-      const base = { Fire: 0, Ice: 0, Wind: 0, Earth: 0, Dark: 0, Water: 0, Light: 0, Lightning: 0, Acid: 0, Sound: 0 };
-      
-      switch (karakuriYoukai) {
-        case 'Avian':
-          return { ...base, Wind: 15, Lightning: -15 };
-        case 'Beast':
-          return { ...base, Lightning: 15, Fire: -15 };
-        case 'Dragon':
-          return { ...base, Fire: 15, Wind: -15 };
-        case 'Fairy':
-          return { ...base, Light: 15, Dark: -15 };
-        case 'Mystic':
-          return { ...base, Ice: 15, Earth: -15 };
-        case 'Night':
-          return { ...base, Dark: 15, Light: -15 };
-        case 'Plant':
-          return { ...base, Earth: 15, Ice: -15 };
-        default:
-          return base;
-      }
-    }
-
-    // Handle Wyverntouched - poison resistance displayed separately
-    if (subrace === 'Wyverntouched') {
-      // No modifications to elemental resistances needed
-      // Poison resistance is handled in separate UI section
-      return baseResistances;
-    }
-
-    // Handle Naga - poison resistance displayed separately  
-    if (subrace === 'Naga') {
-      // No modifications to elemental resistances needed
-      // Poison resistance is handled in separate UI section
-      return baseResistances;
-    }
-
-    // Return the base resistances for other races
-    return baseResistances;
-  };
-
-  const youkaiCap = buildEvaluation.derived.youkaiCap;
-
-  const addStat = (statName: StatKey): void => {
-    // Comprehensive validation before adding
-    const currentValue = addedStats[statName];
-    const availablePoints = totalPoints;
-    
-    // Calculate hard cap: race base + custom base + manual points + LE bonus + history bonus ≤ 80
-    // Class stats do NOT count toward the hard cap
-    const subraceData = SUBRACES[subrace];
-    const raceBase = subraceData?.[statName] || 0;
-    const customBase = customBaseStats[statName];
-    const legendExtendBonus = leBonus[statName] || 0;
-    const currentHistoryBonus = historyBonus.stats[statName] || 0;
-    
-    const totalBase = raceBase + customBase;
-    const currentTotal = totalBase + currentValue + legendExtendBonus + currentHistoryBonus;
-    const wouldExceedHardCap = currentTotal >= 80;
-    
-    // Only add if we have points available, current value is valid, and we haven't hit hard cap
-    if (availablePoints > 0 && currentValue >= 0 && currentValue < MAX_POINTS && !wouldExceedHardCap) {
-      setAddedStats(prev => ({ ...prev, [statName]: prev[statName] + 1 }));
-      
-      // Update any input field that might be showing this stat
-      const inputElement = inputRefs.current[statName];
-      if (inputElement) {
-        inputElement.value = (currentValue + 1).toString();
-      }
-    }
-  };
-
-  const removeStat = (statName: StatKey): void => {
-    // Comprehensive validation before removing
-    const currentValue = addedStats[statName];
-    const currentTotal = totalPoints;
-    
-    // Only remove if current value is positive and total won't exceed max
-    if (currentValue > 0 && currentTotal < MAX_POINTS) {
-      setAddedStats(prev => ({ ...prev, [statName]: Math.max(0, prev[statName] - 1) }));
-      
-      // Update any input field that might be showing this stat
-      const inputElement = inputRefs.current[statName];
-      if (inputElement) {
-        inputElement.value = Math.max(0, currentValue - 1).toString();
-      }
-    }
-  };
-
-  const resetStats = (): void => {
-    setAddedStats({
-      str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0,
-      vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0
-    });
-    setCustomStats({
-      str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0,
-      vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0
-    });
-    setCustomBaseStats({
-      str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0,
-      vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0
-    });
-    setLegendExtend({});
-    setAstrology('');
-    setCustomHP(0);
-    setCustomFP(0);
-    setBaseEvade(0);
-    setBonusEvade(0);
-    setGiantGene(false);
-    setDragonKing(0);
-    setDragonQueen(0);
-    setFood('None');
-    setHistory('None');
-    setSubrace('Human'); // Reset to base Human race
-    setStamps({ str: 0, wil: 0, ski: 0, cel: 0, vit: 0, fai: 0 });
-    setSanguineCrest(false);
-    setFelidaeInstinct(false);
-    setLupineInstinct(false);
-    setRisingGame(0);
-    setRedtailFortuneLevel(1);
-    setRedtailDiceColor('red');
-    setFortitude(false);
-    setPainTolerance(0);
-    setWarwalk(false);
-    setEndurance(false);
-    setPersistenceOfNormalcy(false);
-    setPowerOfNormalcy(false);
-    setMainClassPassive(0);
-    setSubClassPassive(0);
-    
-    // Reset elemental adjustments
-    setElementalATKAdjustments({
-      Fire: 0, Ice: 0, Wind: 0, Earth: 0, Dark: 0, Water: 0, Light: 0, Lightning: 0, Acid: 0, Sound: 0
-    });
-    setElementalRESAdjustments({
-      Fire: 0, Ice: 0, Wind: 0, Earth: 0, Dark: 0, Water: 0, Light: 0, Lightning: 0, Acid: 0, Sound: 0
-    });
-  };
-
-  // Elemental adjustment functions
-  const adjustElementalATK = (element: ElementKey, change: number): void => {
-    setElementalATKAdjustments(prev => ({
-      ...prev,
-      [element]: Math.max(-99, Math.min(99, prev[element] + change))
-    }));
-  };
-
-  const adjustElementalRES = (element: ElementKey, change: number): void => {
-    setElementalRESAdjustments(prev => ({
-      ...prev,
-      [element]: Math.max(-99, Math.min(99, prev[element] + change))
-    }));
-  };
-
-  // Uncontrolled input approach - no React state management for input values
-  const inputRefs = useRef<Record<string, HTMLInputElement>>({});
-
-  const commitStatValue = (statKey: StatKey, inputElement: HTMLInputElement) => {
-    const value = inputElement.value;
-    let targetPoints = parseInt(value) || 0;
-    
-    // Calculate hard cap: race base + custom base + manual points + LE bonus + history bonus + astrology bonus ≤ 80
-    // Class stats do NOT count toward the hard cap
-    const subraceData = SUBRACES[subrace];
-    const raceBase = subraceData?.[statKey] || 0;
-    const customBase = customBaseStats[statKey];
-    const legendExtendBonus = leBonus[statKey] || 0;
-    const currentHistoryBonus = historyBonus.stats[statKey] || 0;
-    const currentAstrologyBonus = astroBonus[statKey] || 0;
-    
-    const totalBase = raceBase + customBase;
-    const maxAllowedManualPoints = 80 - totalBase - legendExtendBonus - currentHistoryBonus - currentAstrologyBonus;
-    
-    // Aggressive validation - clamp to valid range immediately, including dynamic hard cap
-    targetPoints = Math.max(0, Math.min(MAX_POINTS, Math.min(maxAllowedManualPoints, targetPoints)));
-    
-    const currentPoints = addedStats[statKey];
-    
-    // Additional safety check - ensure we're not in an invalid state
-    const totalUsedPoints = Object.values(addedStats).reduce((sum, val) => sum + val, 0) - currentPoints;
-    const maxAllowableForThisStat = MAX_POINTS - totalUsedPoints;
-    targetPoints = Math.min(targetPoints, maxAllowableForThisStat);
-    
-    // Calculate final difference after all validations
-    const actualDifference = targetPoints - currentPoints;
-    
-    if (actualDifference !== 0) {
-      if (actualDifference > 0) {
-        // Adding points - strictly validate available points
-        const availablePoints = totalPoints;
-        const pointsToAdd = Math.min(actualDifference, availablePoints);
-        
-        // Only proceed if we can actually add points
-        if (pointsToAdd > 0) {
-          const actualNewValue = currentPoints + pointsToAdd;
-          setAddedStats(prev => ({ ...prev, [statKey]: actualNewValue }));
-          inputElement.value = actualNewValue.toString();
-        } else {
-          // Can't add any points, revert input to current value
-          inputElement.value = currentPoints.toString();
-        }
-      } else {
-        // Removing points - validate we don't go below 0
-        const actualTarget = Math.max(0, targetPoints);
-        const pointsToRemove = currentPoints - actualTarget;
-        
-        if (pointsToRemove > 0) {
-          setAddedStats(prev => ({ ...prev, [statKey]: actualTarget }));
-          inputElement.value = actualTarget.toString();
-        }
-      }
-    } else {
-      // No change needed, but ensure input shows the correct value
-      inputElement.value = currentPoints.toString();
-    }
-    
-    // Remove any visual indicators and reset to normal styling
-    inputElement.style.backgroundColor = '';
-    inputElement.style.borderColor = '';
-    inputElement.style.color = '';
-  };
-
-  // Check if class has fortitude access
-  const hasFortitude = ['Soldier', 'Black Knight', 'Tactician', 'Demon Hunter', 'Solblader'].includes(mainClass) 
-    || ['Soldier', 'Black Knight', 'Tactician', 'Demon Hunter', 'Solblader'].includes(subClass);
-
-  // Check if class has endurance access
-  const hasEndurance = mainClass === 'Hexer' || subClass === 'Hexer';
-
-  // Check if class/race has Rising Game/Pain Tolerance
-  const hasGhost = mainClass === 'Ghost' || subClass === 'Ghost';
-
-  const StatRow = ({ label, statKey }: { label: string; statKey: StatKey }) => {
-    const subraceData = SUBRACES[subrace];
-    const classData = CLASSES[mainClass];
-    
-    const subraceBase = subraceData?.[statKey] || 0;
-    const customBase = customBaseStats[statKey];
-    const classBase = classData?.[statKey] || 0;
-    
-    const totalBase = subraceBase + customBase;
-    const pointsAdded = addedStats[statKey];
-    const legendExtendBonus = leBonus[statKey] || 0;
-    const historyInvested = historyBonus.stats[statKey] || 0;
-    const astrologyBonus = astroBonus[statKey] || 0;
-    const totalInvested = pointsAdded + legendExtendBonus + historyInvested + astrologyBonus; // Include LE, History, and Astrology in invested display
-    const customFlat = customStats[statKey];
-    
-    // Get the color for this stat
-    let statColor = STAT_COLORS[statKey];
-    let isRainbow = statColor === 'rainbow';
-    
-    // Special case: WIL with Luminary Element changes to element color
-    if (statKey === 'wil' && luminaryElement && astrology && PLANET_ELEMENTS[astrology]) {
-      const elementColor = ELEMENT_COLORS[PLANET_ELEMENTS[astrology]];
-      if (elementColor) {
-        statColor = elementColor;
-        isRainbow = false; // Override rainbow if it was set
-      }
-    }
-    
-    // Build detailed tooltip showing all sources
-    const tooltipParts = [
-      `Subrace (${subrace}): ${subraceBase}`, 
-      customBase !== 0 ? `Custom Base: ${customBase}` : null,
-      `Class (${mainClass}): ${classBase}${monoclassModifier === 2 ? ' x2 (monoclass)' : ''}`,
-      pointsAdded > 0 ? `Points Added: ${pointsAdded}` : null,
-      customFlat !== 0 ? `Custom Flat Bonus: ${customFlat}` : null,
-      astroBonus[statKey] ? `Astrology: ${astroBonus[statKey]}` : null,
-      leBonus[statKey] ? `Legend Extend: +${leBonus[statKey]}` : null,
-      foodBonus.stats[statKey] ? `Food: ${foodBonus.stats[statKey]}` : null,
-      historyBonus.stats[statKey] ? `History: ${historyBonus.stats[statKey]}` : null,
-      showRawStats ? `Raw Total: ${displayStats[statKey].toFixed(1)}` : `Final (after DR): ${displayStats[statKey].toFixed(1)}`
-    ].filter(Boolean).join('\n');
-
-    return (
-      <div className="flex min-w-0 max-w-full flex-col items-start gap-2 overflow-hidden border-b border-gray-700 py-2 sm:flex-row sm:items-center">
-        <button 
-          className={`w-full sm:w-24 font-semibold text-left hover:underline cursor-pointer text-sm sm:text-base ${retroMode ? 'font-retro' : ''}`} 
-          style={isRainbow ? {
-            background: 'linear-gradient(45deg, #ff0000, #ff8000, #ffff00, #80ff00, #00ff00, #00ff80, #00ffff, #0080ff, #0000ff, #8000ff, #ff00ff, #ff0080)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text'
-          } : { color: statColor }} 
-          title="Click for detailed info"
-          onClick={() => {
-            setSelectedStat(statKey);
-            setShowStatInfo(true);
-          }}
-        >
-          {retroMode ? statKey.toUpperCase() : label}
-        </button>
-        <div className="flex min-w-0 w-full items-center gap-2 sm:w-auto sm:flex-1">
-          <button
-            onClick={() => removeStat(statKey)}
-            disabled={addedStats[statKey] === 0}
-            className={`p-1 bg-red-600 hover:bg-red-700 disabled:bg-gray-700 disabled:cursor-not-allowed rounded tap-target flex-shrink-0 flex items-center justify-center sound-click sound-hover ${retroMode ? 'glow-border' : ''}`}
-            title="Remove 1 point"
-          >
-            <Minus size={14} className="sm:w-4 sm:h-4" />
-          </button>
-          <button
-            onClick={() => addStat(statKey)}
-            disabled={(() => {
-              if (totalPoints === 0) return true;
-              
-              // Calculate current bonuses for this stat using same logic as addStat
-              // Class stats do NOT count toward the hard cap
-              const subraceData = SUBRACES[subrace];
-              const raceBase = subraceData?.[statKey] || 0;
-              const customBase = customBaseStats[statKey];
-              const legendExtendBonus = leBonus[statKey] || 0;
-              const currentHistoryBonus = historyBonus.stats[statKey] || 0;
-              
-              const totalBase = raceBase + customBase;
-              const maxAllowedManualPoints = 80 - totalBase - legendExtendBonus - currentHistoryBonus;
-              
-              return addedStats[statKey] >= maxAllowedManualPoints;
-            })()}
-            className={`p-1 bg-green-600 hover:bg-green-700 disabled:bg-gray-700 disabled:cursor-not-allowed rounded tap-target flex-shrink-0 flex items-center justify-center sound-click sound-hover ${retroMode ? 'glow-border' : ''}`}
-            title={(() => {
-              const subraceData = SUBRACES[subrace];
-              const raceBase = subraceData?.[statKey] || 0;
-              const customBase = customBaseStats[statKey];
-              const legendExtendBonus = leBonus[statKey] || 0;
-              const currentHistoryBonus = historyBonus.stats[statKey] || 0;
-              
-              const totalBase = raceBase + customBase;
-              const maxAllowedManualPoints = 80 - totalBase - legendExtendBonus - currentHistoryBonus;
-              
-              return addedStats[statKey] >= maxAllowedManualPoints ? 
-                `Hard cap reached (max ${maxAllowedManualPoints} manual points with race+custom base ${totalBase} + LE ${legendExtendBonus} + History ${currentHistoryBonus})` : 
-                "Add 1 point";
-            })()}
-          >
-            <Plus size={14} className="sm:w-4 sm:h-4" />
-          </button>
-          <input
-            ref={(el) => { if (el) inputRefs.current[statKey] = el; }}
-            type="number"
-            min="0"
-            max={(() => {
-              // Class stats do NOT count toward the hard cap
-              const subraceData = SUBRACES[subrace];
-              const raceBase = subraceData?.[statKey] || 0;
-              const customBase = customBaseStats[statKey];
-              const legendExtendBonus = leBonus[statKey] || 0;
-              const currentHistoryBonus = historyBonus.stats[statKey] || 0;
-              
-              const totalBase = raceBase + customBase;
-              return 80 - totalBase - legendExtendBonus - currentHistoryBonus;
-            })()}
-            defaultValue={pointsAdded}
-            key={`${statKey}-${pointsAdded}`} // Force reset when points change via +/- buttons
-            onInput={(e) => {
-              // Visual feedback while typing
-              const input = e.currentTarget;
-              const value = parseInt(input.value) || 0;
-              
-              // Calculate dynamic hard cap
-              // Class stats do NOT count toward the hard cap
-              const subraceData = SUBRACES[subrace];
-              const raceBase = subraceData?.[statKey] || 0;
-              const customBase = customBaseStats[statKey];
-              const legendExtendBonus = leBonus[statKey] || 0;
-              const currentHistoryBonus = historyBonus.stats[statKey] || 0;
-              
-              const totalBase = raceBase + customBase;
-              const maxAllowedManualPoints = 80 - totalBase - legendExtendBonus - currentHistoryBonus;
-              
-              // Basic range validation during typing (dynamic hard cap)
-              if (value < 0) {
-                input.value = '0';
-              } else if (value > maxAllowedManualPoints) {
-                input.value = maxAllowedManualPoints.toString();
-              }
-              
-              // Visual feedback
-              input.style.backgroundColor = '#92400e'; // Yellow-900
-              input.style.borderColor = '#d97706'; // Yellow-600
-              input.style.color = '#fef3c7'; // Yellow-200
-            }}
-            onBlur={(e) => {
-              commitStatValue(statKey, e.currentTarget);
-            }}
-            onKeyPress={(e) => {
-              if (e.key === 'Enter') {
-                commitStatValue(statKey, e.currentTarget);
-                e.currentTarget.blur();
-              }
-            }}
-            className="w-12 sm:w-16 border rounded px-1 sm:px-2 py-1 text-center bg-gray-700 border-gray-600 text-sm tap-target"
-            title="Type number and press Enter or click away to apply"
-          />
-          <div className={`ml-auto min-w-[3rem] max-w-[6rem] flex-none text-right ${retroMode ? 'font-retro' : ''}`}>
-            <span 
-              className="text-lg sm:text-xl md:text-2xl font-bold" 
-              style={isRainbow ? {
-                background: 'linear-gradient(45deg, #ff0000, #ff8000, #ffff00, #80ff00, #00ff00, #00ff80, #00ffff, #0080ff, #0000ff, #8000ff, #ff00ff, #ff0080)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text'
-              } : { color: statColor }} 
-              title={tooltipParts}
-            >
-              {Math.floor(displayStats[statKey])}
-            </span>
-            <span className="text-xs sm:text-sm text-gray-400 ml-1 sm:ml-2 hidden xs:inline" title={`Base: ${subraceBase} (from ${subrace}) + ${customBase > 0 ? customBase + ' (custom) + ' : ''}${totalInvested} (invested points + Legend Extend + History)`}>
-              ({totalBase} + {totalInvested})
-            </span>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  const applyOptimizationCandidate = (candidate: OptimizationCandidate): void => {
-    setOptimizerUndo({
-      mainClass, subClass, selectedMainBaseClass, selectedSubBaseClass, mainClassPassive, subClassPassive,
-      addedStats: { ...addedStats },
-      equipment: {
-        armorName: equippedArmor?.name ?? null,
-        armorConditionalBonuses: { ...armorConditionalBonuses },
-        primaryWeapon: weaponConfig ? { ...weaponConfig, customScaling: { ...weaponConfig.customScaling } } : undefined,
-      },
-    });
-    setMainClass(candidate.patch.mainClass);
-    setSubClass(candidate.patch.subClass);
-    setSelectedMainBaseClass(candidate.patch.selectedMainBaseClass);
-    setSelectedSubBaseClass(candidate.patch.selectedSubBaseClass);
-    setMainClassPassive(candidate.patch.mainClassPassive);
-    setSubClassPassive(candidate.patch.subClassPassive);
-    setAddedStats({ ...candidate.patch.addedStats });
-    if (candidate.patch.equipment) {
-      setEquippedArmor(candidate.patch.equipment.armorName ? ARMORS[candidate.patch.equipment.armorName] ?? null : null);
-      setArmorConditionalBonuses({ ...candidate.patch.equipment.armorConditionalBonuses });
-      setWeaponConfig(candidate.patch.equipment.primaryWeapon
-        ? { ...candidate.patch.equipment.primaryWeapon, customScaling: { ...candidate.patch.equipment.primaryWeapon.customScaling } }
-        : undefined);
-    }
-  };
-
-  const undoOptimization = (): void => {
-    if (!optimizerUndo) return;
-    setMainClass(optimizerUndo.mainClass);
-    setSubClass(optimizerUndo.subClass);
-    setSelectedMainBaseClass(optimizerUndo.selectedMainBaseClass ?? getBaseClass(optimizerUndo.mainClass));
-    setSelectedSubBaseClass(optimizerUndo.selectedSubBaseClass ?? getBaseClass(optimizerUndo.subClass));
-    setMainClassPassive(optimizerUndo.mainClassPassive);
-    setSubClassPassive(optimizerUndo.subClassPassive);
-    setAddedStats({ ...optimizerUndo.addedStats });
-    setEquippedArmor(optimizerUndo.equipment.armorName ? ARMORS[optimizerUndo.equipment.armorName] ?? null : null);
-    setArmorConditionalBonuses({ ...optimizerUndo.equipment.armorConditionalBonuses });
-    setWeaponConfig(optimizerUndo.equipment.primaryWeapon
-      ? { ...optimizerUndo.equipment.primaryWeapon, customScaling: { ...optimizerUndo.equipment.primaryWeapon.customScaling } }
-      : undefined);
-    setOptimizerUndo(null);
-  };
-
-  /**
-   * Take a screenshot of the current build
-   */
-  const takeScreenshot = async (): Promise<void> => {
-    if (!screenshotRef.current) return;
-
-    try {
-      // Dynamically import html2canvas
-      const html2canvas = (await import('html2canvas')).default;
-      
-      // Store original width
-      const originalWidth = screenshotRef.current.style.width;
-      const originalMaxWidth = screenshotRef.current.style.maxWidth;
-      const originallyHadCaptureClass = screenshotRef.current.classList.contains('screenshot-capture');
-      
-      // Set to XL desktop resolution width (1280px)
-      screenshotRef.current.style.width = '1280px';
-      screenshotRef.current.style.maxWidth = '1280px';
-      // Add capture class to stabilize layout/animations
-      screenshotRef.current.classList.add('screenshot-capture');
-      
-      // Ensure web fonts are loaded before rendering (prevents glyph clipping)
-      if ((document as any).fonts && typeof (document as any).fonts.ready?.then === 'function') {
-        try { await (document as any).fonts.ready; } catch {}
-      }
-      
-      // Wait for layout to settle
-      await new Promise(resolve => setTimeout(resolve, 100));
-      
-      const canvas = await html2canvas(screenshotRef.current, {
-        backgroundColor: '#1a202c',
-        scale: 2,
-        logging: false,
-        useCORS: true,
-        width: 1280,
-      });
-
-      // Restore original width
-      screenshotRef.current.style.width = originalWidth;
-      screenshotRef.current.style.maxWidth = originalMaxWidth;
-      if (!originallyHadCaptureClass) {
-        screenshotRef.current.classList.remove('screenshot-capture');
-      }
-
-      // Convert to blob and download
-      canvas.toBlob((blob: Blob | null) => {
-        if (!blob) return;
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.download = `SL2-Build-${buildName || 'Screenshot'}-${new Date().toISOString().split('T')[0]}.png`;
-        link.href = url;
-        link.click();
-        URL.revokeObjectURL(url);
-      });
-    } catch (error) {
-      console.error('Failed to take screenshot:', error);
-      alert('Failed to capture screenshot. Please try again.');
-    }
-  };
-
-  const elements = ['Fire', 'Ice', 'Wind', 'Earth', 'Dark', 'Water', 'Light', 'Lightning', 'Acid', 'Sound'];
-  // Compact labels for screenshot mode to avoid clipping long names
-  const ELEMENT_EMOJI_LABELS: Record<string, string> = {
-    Fire: '🔥',
-    Ice: '❄️',
-    Wind: '🌬️',
-    Earth: '⛰️',
-    Dark: '🌑',
-    Water: '💧',
-    Light: '✨',
-    Lightning: '⚡',
-    Acid: '🧪',
-    Sound: '🎵',
-  };
-
-  useEffect(() => {
-    soundManager.init(uiSounds);
-    soundManager.setEnabled(uiSounds);
-  }, [uiSounds]);
-
-  useEffect(() => {
-    const clickHandler = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (target && target.closest('.sound-click')) {
-        soundManager.play('click');
-      }
-    };
-    const hoverHandler = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (target && target.closest('.sound-hover')) {
-        soundManager.play('hover');
-      }
-    };
-    document.addEventListener('click', clickHandler);
-    document.addEventListener('mouseover', hoverHandler);
-    return () => {
-      document.removeEventListener('click', clickHandler);
-      document.removeEventListener('mouseover', hoverHandler);
-    };
-  }, []);
 
   return (
-    <div className="min-h-screen p-2 sm:p-4 md:p-6 lg:p-8 relative">
-      <SparkleBackground />
+    <div className={cx('relative', isMobile ? 'h-[100dvh] overflow-hidden' : 'min-h-screen p-2 sm:p-4 md:p-6 lg:p-8')}>
       <PwaUpdatePrompt />
-      {retroMode && !showIntro && (
-        <div className="crt-overlay" style={{ zIndex: 50 }} />
-      )}
-      {retroMode && konamiActive && !showIntro && (
+      {/* The Konami easter egg used to be gated behind retro mode. It is its own
+          feature, so it survives retro's removal, just without the CRT dressing. */}
+      {konamiActive && !showIntro && (
         <>
           <div className="fixed top-4 left-0 right-0 z-50 flex justify-center">
-            <div className={`px-3 py-2 rounded bg-black bg-opacity-70 text-green-300 ${retroMode ? 'font-retro glow-border' : ''}`}>
-              <span className="glitch" data-text="Konami Mode: 30 Lives!">Konami Mode: 30 Lives!</span>
+            <div className="rounded-full border border-positive/50 bg-surface-base/95 px-4 py-2 text-12 font-semibold text-positive shadow-xl">
+              Konami Mode: 30 Lives!
             </div>
           </div>
           <FoxRain active={true} />
@@ -1451,12 +201,12 @@ export default function SL2Calculator() {
       )}
       {showIntro && <IntroOverlay onFinish={() => setShowIntro(false)} enableSounds={uiSounds} />}
       {!isOnline && (
-        <div className="fixed top-2 left-1/2 -translate-x-1/2 z-[80] rounded-full border border-amber-400/50 bg-amber-950/95 px-4 py-2 text-xs text-amber-200 shadow-xl" role="status">
-          Offline mode — calculations and local saves remain available
+        <div className="fixed top-2 left-1/2 -translate-x-1/2 z-[80] rounded-full border border-caution-ring/50 bg-caution-bg/95 px-4 py-2 text-xs text-caution-strong shadow-xl" role="status">
+          Offline mode. Calculations and local saves still work.
         </div>
       )}
       {notice && (
-        <div className={`fixed bottom-4 left-4 right-4 sm:left-auto sm:max-w-md z-[90] rounded-lg border px-4 py-3 shadow-2xl ${notice.type === 'error' ? 'bg-red-950 border-red-500 text-red-100' : notice.type === 'success' ? 'bg-emerald-950 border-emerald-500 text-emerald-100' : 'bg-slate-900 border-blue-400 text-blue-100'}`} role={notice.type === 'error' ? 'alert' : 'status'}>
+        <div className={`fixed bottom-4 left-4 right-4 sm:left-auto sm:max-w-md z-[90] rounded-lg border px-4 py-3 shadow-2xl ${notice.type === 'error' ? 'bg-negative-bg border-negative-ring text-negative-strong' : notice.type === 'success' ? 'bg-positive-bg border-positive-ring text-positive-strong' : 'bg-surface-base border-info-ring text-info-strong'}`} role={notice.type === 'error' ? 'alert' : 'status'}>
           <div className="flex items-start justify-between gap-4">
             <span className="text-sm">{notice.message}</span>
             <button onClick={() => setNotice(null)} aria-label="Dismiss notification" className="shrink-0 text-lg leading-none">×</button>
@@ -1465,1856 +215,710 @@ export default function SL2Calculator() {
       )}
       {pendingSharedBuild && (
         <div className="fixed inset-0 z-[85] flex items-center justify-center bg-black/80 p-4" role="dialog" aria-modal="true" aria-labelledby="shared-build-title" onClick={clearShareLink}>
-          <div className={`w-full max-w-lg rounded-xl border border-cyan-500/40 bg-slate-950 p-5 shadow-2xl ${retroMode ? 'font-retro glow-border' : ''}`} onClick={(event) => event.stopPropagation()}>
-            <h2 id="shared-build-title" className="text-xl font-bold text-cyan-300">Shared Build Found</h2>
-            <p className="mt-3 text-sm text-slate-300">Loading this link will replace the current recovery draft, but it will not overwrite a named save.</p>
-            <dl className="mt-4 grid grid-cols-2 gap-3 rounded-lg bg-slate-900 p-4 text-sm">
-              <div><dt className="text-slate-400">Name</dt><dd>{pendingSharedBuild.buildName}</dd></div>
-              <div><dt className="text-slate-400">Data</dt><dd>{pendingSharedBuild.dataVersion}</dd></div>
-              <div><dt className="text-slate-400">Race</dt><dd>{pendingSharedBuild.build.subrace}</dd></div>
-              <div><dt className="text-slate-400">Classes</dt><dd>{pendingSharedBuild.build.mainClass} / {pendingSharedBuild.build.subClass}</dd></div>
+          <div className={`w-full max-w-lg rounded-xl border border-highlight-ring/40 bg-surface-sunken p-5 shadow-2xl `} onClick={(event) => event.stopPropagation()}>
+            <h2 id="shared-build-title" className="text-xl font-bold text-highlight-soft">Shared Build Found</h2>
+            <p className="mt-3 text-sm text-content-secondary">Loading this link will replace the current recovery draft, but it will not overwrite a named save.</p>
+            <dl className="mt-4 grid grid-cols-2 gap-3 rounded-lg bg-surface-base p-4 text-sm">
+              <div><dt className="text-content-muted">Name</dt><dd>{pendingSharedBuild.buildName}</dd></div>
+              <div><dt className="text-content-muted">Data</dt><dd>{pendingSharedBuild.dataVersion}</dd></div>
+              <div><dt className="text-content-muted">Race</dt><dd>{pendingSharedBuild.build.subrace}</dd></div>
+              <div><dt className="text-content-muted">Classes</dt><dd>{pendingSharedBuild.build.mainClass} / {pendingSharedBuild.build.subClass}</dd></div>
             </dl>
             <div className="mt-5 flex flex-wrap justify-end gap-2">
-              <button autoFocus onClick={clearShareLink} className="rounded border border-slate-600 px-4 py-2">Cancel & Clean URL</button>
-              <button onClick={acceptSharedBuild} className="rounded bg-cyan-600 px-4 py-2 font-semibold text-white">Load Shared Build</button>
+              <button autoFocus onClick={clearShareLink} className="rounded border border-edge px-4 py-2">Cancel & Clean URL</button>
+              <button onClick={acceptSharedBuild} className="rounded bg-highlight-hover px-4 py-2 font-semibold text-white">Load Shared Build</button>
             </div>
           </div>
         </div>
       )}
       {showChanges && (
         <div className="fixed inset-0 z-[85] flex items-center justify-center bg-black/80 p-4" role="dialog" aria-modal="true" aria-labelledby="changes-title" onClick={() => setShowChanges(false)}>
-          <div className={`w-full max-w-xl rounded-xl border border-violet-500/40 bg-slate-950 p-5 shadow-2xl ${retroMode ? 'font-retro glow-border' : ''}`} onClick={(event) => event.stopPropagation()}>
-            <div className="flex items-center justify-between gap-3"><h2 id="changes-title" className="text-xl font-bold text-violet-300">What Changed?</h2><button onClick={() => setShowChanges(false)} aria-label="Close changes" className="text-2xl">×</button></div>
-            <p className="mt-2 text-sm text-slate-400">Game data {GAME_DATA_MANIFEST.dataVersion} · Updated {GAME_DATA_MANIFEST.updatedAt}</p>
-            <ul className="mt-4 list-disc space-y-2 pl-5 text-sm text-slate-200">{GAME_DATA_MANIFEST.changes.map((change) => <li key={change}>{change}</li>)}</ul>
+          <div className={`w-full max-w-xl rounded-xl border border-ai-ring/40 bg-surface-sunken p-5 shadow-2xl `} onClick={(event) => event.stopPropagation()}>
+            <div className="flex items-center justify-between gap-3"><h2 id="changes-title" className="text-xl font-bold text-ai-soft">What's New</h2><button onClick={() => setShowChanges(false)} aria-label="Close changes" className="text-2xl">×</button></div>
+            <div className="mt-4 max-h-[70vh] overflow-y-auto pr-1">
+              <p className="text-xs font-semibold uppercase tracking-widest text-content-muted">Version {APP_VERSION}</p>
+              <p className="mt-1 text-sm text-content-muted">{APP_RELEASE.headline}</p>
+              <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-content-bright">{APP_RELEASE.notes.map((note) => <li key={note}>{note}</li>)}</ul>
+              <p className="mt-5 text-xs font-semibold uppercase tracking-widest text-content-muted">Game data {GAME_DATA_MANIFEST.dataVersion}</p>
+              <p className="mt-1 text-sm text-content-muted">Updated {GAME_DATA_MANIFEST.updatedAt}</p>
+              <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-content-bright">{GAME_DATA_MANIFEST.changes.map((change) => <li key={change}>{change}</li>)}</ul>
+            </div>
           </div>
         </div>
       )}
-      <div className={`max-w-full lg:max-w-[95%] xl:max-w-[90%] 2xl:max-w-[85%] mx-auto relative z-10 ${showIntro ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="glass-effect rounded-lg shadow-xl p-3 sm:p-4 md:p-6 mb-4 md:mb-6"
-        >
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 md:mb-6 gap-2">
-            <motion.h1 
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.2, duration: 0.5 }}
-              className={`text-xl sm:text-2xl md:text-3xl font-display font-bold text-gradient ${retroMode ? 'font-retro' : ''}`}
+      <div className={cx('relative z-10', isMobile ? 'h-full' : 'mx-auto w-full max-w-[1340px]', showIntro ? 'opacity-0 pointer-events-none' : 'opacity-100')}>
+          {/* Stat Calculator Tab: "command deck" layout (design variant 1a) */}
+          {/* One shell for every tab: the header and tab bar must not unmount
+              when the workspace changes. Only the columns vary. */}
+          {isMobile ? (
+            <MobileDeck
+              activeTab={activeTab as MobileTab}
+              onTabChange={setActiveTab}
+              buildName={buildName}
+              onBuildNameChange={setBuildName}
+              race={race}
+              subrace={subrace}
+              availableSubraces={getAvailableSubraces()}
+              onRaceChange={handleRaceChange}
+              onSubraceChange={handleSubraceChange}
+              mainClass={mainClass}
+              subClass={subClass}
+              onMainClassChange={setMainClass}
+              onSubClassChange={setSubClass}
+              food={food}
+              onFoodChange={setFood}
+              history={history}
+              onHistoryChange={handleHistoryChange}
+              saveSlots={saveSlots}
+              onCreateSave={createSaveSlot}
+              onLoadSave={loadNamedSave}
+              onDeleteSave={deleteSave}
+              onOpenSettings={() => setShowImportExport(true)}
+              onOpenTalents={() => setShowTalents(true)}
+              onOpenSkills={() => setShowSkills(true)}
+              onOpenYoukai={() => setShowYoukai(true)}
+              onOpenRacials={() => setShowRacials(true)}
+              racials={hasRacialSkills(subrace)}
+              summoner={isSummoner}
+              onOpenDialog={setBuildDialog}
+              characterLevel={characterLevel}
+              totalPoints={characterLevel * 4}
+              pointsSpent={characterLevel * 4 - totalPoints}
+              addedStats={addedStats}
+              displayStats={displayStats}
+              showRawStats={showRawStats}
+              buildEvaluation={buildEvaluation}
+              onAddStat={addStat}
+              onRemoveStat={removeStat}
             >
-              {retroMode ? (
-                <span className="glitch" data-text="SL2 Calculator Suite">SL2 Calculator Suite</span>
-              ) : (
-                'SL2 Calculator Suite'
+              {/*
+                * Mobile stacks what the desktop puts in three columns: the slot
+                * picker first, then the deck for whichever slot is selected.
+                */}
+              {activeTab === 'equipment' && (
+                <>
+                  <LoadoutRail
+                    active={gearSlot}
+                    onSelect={setGearSlot}
+                    gear={gearLoadout}
+                    onGearChange={setGearLoadout}
+                    slot3Mode={slot3Mode}
+                    onSlot3ModeChange={setSlot3Mode}
+                    weapon={weaponConfig}
+                    armorName={equippedArmor?.name ?? null}
+                    evaluation={buildEvaluation}
+                  />
+                  {gearSlot === 'weapon' ? (
+                    <WeaponDeck
+                      config={weaponConfig}
+                      onChange={setWeaponConfig}
+                      stats={stats}
+                      extraCritChance={conditionalCriticalBonus}
+                      title="Slot 1 · Primary weapon"
+                      traitIds={traits}
+                      world={world}
+                    />
+                  ) : gearSlot === 'armor' ? (
+                    <>
+                      <ArmorClassRail selectedType={armorClassFilter} onSelectType={setArmorClassFilter} />
+                      <ArmorTable
+                        layout="cards"
+                        selectedType={armorClassFilter}
+                        equippedArmor={equippedArmor}
+                        onEquip={(armor) => { setEquippedArmor(armor); setArmorConditionalBonuses({}); }}
+                      />
+                      <ArmorDetailRail
+                        armor={equippedArmor}
+                        points={armorUpgradePoints}
+                        onPointsChange={setArmorUpgradePoints}
+                        conditionalStates={armorConditionalBonuses}
+                        onConditionalChange={(key, enabled) =>
+                          setArmorConditionalBonuses(prev => ({ ...prev, [key]: enabled }))}
+                        material={armorMaterial}
+                        onMaterialChange={setArmorMaterial}
+                        enchantment={armorEnchantment}
+                        onEnchantmentChange={setArmorEnchantment}
+                        quality={armorQuality}
+                        onQualityChange={setArmorQuality}
+                        world={world}
+                        before={buildEvaluationWithoutArmor}
+                        after={buildEvaluation}
+                      />
+                    </>
+                  ) : gearSlot === 'hands' && slot3Mode === 'offHandWeapon' ? (
+                    <WeaponDeck
+                      config={gearLoadout.offHandWeapon as WeaponConfig | undefined}
+                      onChange={next => setGearLoadout({ ...gearLoadout, offHandWeapon: next, hands: undefined })}
+                      stats={stats}
+                      extraCritChance={conditionalCriticalBonus}
+                      allowComparison={false}
+                      title="Slot 3 · Off-hand weapon"
+                      traitIds={traits}
+                      world={world}
+                    />
+                  ) : (
+                    <GearDeck
+                      slot={gearSlot as GearSlotKey}
+                      value={asDeckSlot(gearLoadout[gearSlot as GearSlotKey])}
+                      onChange={next => setGearLoadout({ ...gearLoadout, [gearSlot]: asStoredSlot(next) })}
+                      rolls={gearLoadout.itemRolls ?? {}}
+                      onRollsChange={next => setGearLoadout({ ...gearLoadout, itemRolls: next })}
+                      conditionals={armorConditionalBonuses}
+                      onConditionalChange={(key, enabled) =>
+                        setArmorConditionalBonuses(prev => ({ ...prev, [key]: enabled }))}
+                      unavailableName={
+                        gearSlot === 'accessory1' ? gearLoadout.accessory2?.itemName
+                          : gearSlot === 'accessory2' ? gearLoadout.accessory1?.itemName
+                            : null
+                      }
+                    />
+                  )}
+                </>
               )}
-            </motion.h1>
-            <motion.div 
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.3, duration: 0.5 }}
-              className="flex items-center gap-2"
-            >
-              <button onClick={() => setShowChanges(true)} className="text-xs sm:text-sm text-gray-300 px-3 py-1 rounded-full bg-dark-800 border border-gray-700 hover:border-violet-400" title="View data changes">v{APP_VERSION} · Data {GAME_DATA_MANIFEST.dataVersion}</button>
-              <button
-                onClick={() => setShowSettings(v => !v)}
-                className={`px-3 py-1 rounded glow-border sound-click sound-hover ${retroMode ? 'font-retro' : ''}`}
-                title="Settings"
-              >
-                Settings
-              </button>
-            </motion.div>
-            {showSettings && (
-              <>
-                {/* Backdrop overlay to close settings when clicking outside */}
-                <div
-                  className="fixed inset-0 bg-black/50 z-10"
-                  onClick={() => setShowSettings(false)}
-                />
-                <div className="absolute right-4 top-4 bg-dark-800 border border-gray-700 rounded-lg p-3 shadow-xl w-64 z-20" role="dialog" aria-modal="true" aria-labelledby="settings-title">
-                  <div className="flex items-center justify-between mb-2">
-                    <div id="settings-title" className="text-sm font-semibold">Settings</div>
+              {activeTab === 'optimizer' && (
+                <>
+                  <OptimizerGoals o={optimizer} />
+                  <OptimizerResults
+                    o={optimizer}
+                    build={currentBuild}
+                    currentEvaluation={buildEvaluation}
+                    onApply={applyOptimizationCandidate}
+                    canUndo={optimizerUndo !== null}
+                    onUndo={undoOptimization}
+                  />
+                  <OptimizerControls o={optimizer} build={currentBuild} />
+                </>
+              )}
+              {activeTab === 'screenshot' && (
+                <>
+                  <ShareFormatRail
+                    format={shareFormat}
+                    onFormatChange={setShareFormat}
+                    onDownload={takeScreenshot}
+                    onCopyCode={() => { void navigator.clipboard?.writeText(buildCode); }}
+                  />
+                  <ShareCard
+                    cardRef={screenshotRef}
+                    format={shareFormat}
+                    buildName={buildName}
+                    race={race}
+                    subrace={subrace}
+                    mainClass={mainClass}
+                    subClass={subClass}
+                    characterLevel={characterLevel}
+                    stats={stats}
+                    addedStats={addedStats}
+                    buildEvaluation={buildEvaluation}
+                    equippedArmor={equippedArmor}
+                    weaponConfig={weaponConfig}
+                    buildCode={buildCode}
+                  />
+                </>
+              )}
+            </MobileDeck>
+          ) : (
+            <CommandDeck
+              /* The equipment rail carries six named slots, not a class filter;
+                 168px truncated every one of them to 'Emp'. */
+              leftWidth='wide'
+              rightWidth={activeTab === 'screenshot' ? 'narrow' : 'wide'}
+              brand={
+                    <>
+                      <span className="shrink-0 font-sans text-15 font-bold tracking-tight text-content">
+                        SL2 <span className="text-info">Calculator</span>
+                      </span>
+                      <TabNav activeTab={activeTab} onTabChange={setActiveTab} />
+                    </>
+              }
+              actions={
+                  <>
+                    {/* The mockup puts Import / Export in the header bar; without it
+                        the saves dialog has no route now the left rail is rebuilt. */}
                     <button
-                      autoFocus
-                      aria-label="Close settings"
-                      className="px-2 py-1 rounded glow-border sound-click sound-hover"
-                      onClick={() => setShowSettings(false)}
+                      type="button"
+                      onClick={() => setShowImportExport(true)}
+                      className="rounded-7 border border-edge px-3 py-1.5 text-12 font-medium text-content-muted transition-colors hover:border-edge-emphasis hover:text-content-secondary"
                     >
-                      ✕
+                      Import / Export
                     </button>
-                  </div>
-                  <div className="flex items-center justify-between mb-2">
-                  <div className="text-sm">Show Intro on Startup</div>
-                  <input
-                    type="checkbox"
-                    checked={showIntroOnStartup}
-                    onChange={(e) => setShowIntroOnStartup(e.target.checked)}
+                    {/* The way to the Aether Codex, which is the front door at
+                        `/`. One build file and one share link format serve both,
+                        so this shell links forward even though the Codex does not
+                        link back. */}
+                    <a
+                      href="/"
+                      title="Aether Codex: the character sheet, with the same builds"
+                      className="rounded-7 border border-edge px-3 py-1.5 text-12 font-medium text-content-muted transition-colors hover:border-edge-emphasis hover:text-content-secondary"
+                    >
+                      Aether ↗
+                    </a>
+                    <AppHeader
+                      showTitle={false}
+                      showSettings={showSettings}
+                      setShowSettings={setShowSettings}
+                      uiSounds={uiSounds}
+                      setUiSounds={setUiSounds}
+                      showIntroOnStartup={showIntroOnStartup}
+                      setShowIntroOnStartup={setShowIntroOnStartup}
+                      setShowChanges={setShowChanges}
+                    />
+                  </>
+              }
+              left={activeTab === 'equipment' ? (
+                <>
+                {gearSlot === 'armor' && (
+                  <ArmorClassRail
+                    selectedType={armorClassFilter}
+                    onSelectType={setArmorClassFilter}
                   />
-                  </div>
-                  <div className="flex items-center justify-between mb-2">
-                  <div className="text-sm">Enable UI Sounds</div>
-                  <input
-                    type="checkbox"
-                    checked={uiSounds}
-                    onChange={(e) => setUiSounds(e.target.checked)}
+                )}
+                <LoadoutRail
+                  active={gearSlot}
+                  onSelect={setGearSlot}
+                  gear={gearLoadout}
+                  onGearChange={setGearLoadout}
+                  slot3Mode={slot3Mode}
+                  onSlot3ModeChange={setSlot3Mode}
+                  weapon={weaponConfig}
+                  armorName={equippedArmor?.name ?? null}
+                  evaluation={buildEvaluation}
+                  equipment={currentBuild.equipment}
+                />
+                </>
+              ) : activeTab === 'stats' ? (
+                <BuildRail
+                  browseMain={
+                    <ClassFamilyPicker
+                      label="Main Class"
+                      selectedClass={mainClass}
+                      open={showMainClassDropdown}
+                      onOpenChange={setShowMainClassDropdown}
+                      onSelect={(name) => { setMainClass(name); setSelectedMainBaseClass(getBaseClass(name)); }}
+                    />
+                  }
+                  browseSub={
+                    <ClassFamilyPicker
+                      label="Sub Class"
+                      selectedClass={subClass}
+                      open={showSubClassDropdown}
+                      onOpenChange={setShowSubClassDropdown}
+                      onSelect={(name) => { setSubClass(name); setSelectedSubBaseClass(getBaseClass(name)); }}
+                    />
+                  }
+                  buildName={buildName}
+                  onBuildNameChange={setBuildName}
+                  race={race}
+                  subrace={subrace}
+                  availableSubraces={getAvailableSubraces()}
+                  onRaceChange={handleRaceChange}
+                  onSubraceChange={handleSubraceChange}
+                  selectedMainBaseClass={selectedMainBaseClass}
+                  selectedSubBaseClass={selectedSubBaseClass}
+                  mainClass={mainClass}
+                  subClass={subClass}
+                  onMainBaseChange={(base: string) => { setSelectedMainBaseClass(base); setMainClass(base); }}
+                  onSubBaseChange={(base: string) => { setSelectedSubBaseClass(base); setSubClass(base); }}
+                  onMainClassChange={setMainClass}
+                  onSubClassChange={setSubClass}
+                  food={food}
+                  onFoodChange={setFood}
+                  onOpenTalents={() => setShowTalents(true)}
+                onOpenSkills={() => setShowSkills(true)}
+                  onOpenYoukai={() => setShowYoukai(true)}
+                  onOpenRacials={() => setShowRacials(true)}
+                  onOpenTraits={() => setShowTraits(true)}
+                  traitsSpent={traitPointsSpent(traits, race)}
+                  traitsBudget={traitPointBudget(characterLevel)}
+                  racials={hasRacialSkills(subrace)}
+                  racialCount={racialSkillsFor(subrace).length}
+                  summoner={isSummoner}
+                  youkaiContracted={youkai.contracted.length}
+                  youkaiCap={youkaiCap}
+                  onOpenAdvanced={setBuildDialog}
+                  onOpenSaves={() => setShowImportExport(true)}
+                  saveSlots={saveSlots}
+                  onCreateSave={createSaveSlot}
+                  onLoadSave={loadNamedSave}
+                  onDeleteSave={deleteSave}
+                  onLoadTemplate={loadTemplate}
+                  onResetPoints={resetStats}
+                />
+
+              ) : activeTab === 'optimizer' ? (
+                <>
+                  <OptimizerGoals o={optimizer} />
+                  <OptimizerControls o={optimizer} build={currentBuild} />
+                </>
+              ) : undefined}
+              center={
+                <>
+                  {activeTab === 'stats' && (
+                    <>
+                    <>
+                      <AllocationPanel
+                        b={{
+                          race, subrace, mainClass, monoclassModifier,
+                          addedStats, customStats, customBaseStats, stats, displayStats,
+                          totalPoints, showRawStats, luminaryElement, astrology,
+                          leBonus, astroBonus, foodBonus, historyBonus,
+                        }}
+                        on={{
+                          addStat,
+                          removeStat,
+                          commitStatValue,
+                        }}
+                        inputRefs={inputRefs}
+                        characterLevel={characterLevel}
+                        setCharacterLevel={setCharacterLevel}
+                        showRawStats={showRawStats}
+                        setShowRawStats={setShowRawStats}
+                      />
+
+                    </>
+                    </>
+                  )}
+                                    {activeTab === 'equipment' && (
+              <motion.div
+                key={gearSlot}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+              >
+                {/*
+                  * One workspace, six slots. Each tile routes to the deck that
+                  * already knows how to edit that kind of thing, so the weapon
+                  * and armour screens are reused rather than reimplemented.
+                  */}
+                {gearSlot === 'weapon' ? (
+                  <WeaponDeck
+                    config={weaponConfig}
+                    onChange={setWeaponConfig}
+                    stats={stats}
+                    extraCritChance={conditionalCriticalBonus}
+                    title="Slot 1 · Primary weapon"
                   />
-                  </div>
-                  <div className="flex items-center justify-between mb-2">
-                  <div className="text-sm">Enable Retro Mode</div>
-                  <input
-                    type="checkbox"
-                    checked={retroMode}
-                    onChange={(e) => setRetroMode(e.target.checked)}
+                ) : gearSlot === 'armor' ? (
+                  <ArmorTable
+                    selectedType={armorClassFilter}
+                    equippedArmor={equippedArmor}
+                    onEquip={(armor) => {
+                      setEquippedArmor(armor);
+                      // Conditional bonuses belong to the previous piece.
+                      setArmorConditionalBonuses({});
+                    }}
                   />
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                  <button className="px-2 py-1 rounded glow-border sound-click" onClick={() => soundManager.play('click')}>Test Click</button>
-                  <button className="px-2 py-1 rounded glow-border sound-click" onClick={() => soundManager.play('hover')}>Test Hover</button>
-                  </div>
+                ) : gearSlot === 'hands' && slot3Mode === 'offHandWeapon' ? (
+                  /*
+                   * The off-hand runs through the same deck as the primary, minus
+                   * the comparison: comparing is a what-if about the weapon the
+                   * build is designed around, and two comparison panels would read
+                   * as two more equipped weapons.
+                   */
+                  <WeaponDeck
+                    config={gearLoadout.offHandWeapon as WeaponConfig | undefined}
+                    onChange={next => setGearLoadout({ ...gearLoadout, offHandWeapon: next, hands: undefined })}
+                    stats={stats}
+                    extraCritChance={conditionalCriticalBonus}
+                    allowComparison={false}
+                    title="Slot 3 · Off-hand weapon"
+                  />
+                ) : (
+                  <GearDeck
+                    slot={gearSlot as GearSlotKey}
+                    value={asDeckSlot(gearLoadout[gearSlot as GearSlotKey])}
+                    onChange={next => setGearLoadout({ ...gearLoadout, [gearSlot]: asStoredSlot(next) })}
+                    rolls={gearLoadout.itemRolls ?? {}}
+                    onRollsChange={next => setGearLoadout({ ...gearLoadout, itemRolls: next })}
+                    conditionals={armorConditionalBonuses}
+                    onConditionalChange={(key, enabled) =>
+                      setArmorConditionalBonuses(prev => ({ ...prev, [key]: enabled }))}
+                    unavailableName={
+                      gearSlot === 'accessory1' ? gearLoadout.accessory2?.itemName
+                        : gearSlot === 'accessory2' ? gearLoadout.accessory1?.itemName
+                          : null
+                    }
+                  />
+                )}
+              </motion.div>
+            )}
+            {activeTab === 'screenshot' && (
+              <>
+                <ShareCard
+                  cardRef={screenshotRef}
+                  format={shareFormat}
+                  buildName={buildName}
+                  race={race}
+                  subrace={subrace}
+                  mainClass={mainClass}
+                  subClass={subClass}
+                  characterLevel={characterLevel}
+                  stats={stats}
+                  addedStats={addedStats}
+                  buildEvaluation={buildEvaluation}
+                  equippedArmor={equippedArmor}
+                  weaponConfig={weaponConfig}
+                  buildCode={buildCode}
+                />
+                <div className="mt-4">
+                  <Disclosure summary="Legacy screenshot sheet with the full stat and element breakdown">
+              <ScreenshotView
+                screenshotRef={screenshotRef}
+                takeScreenshot={takeScreenshot}
+                buildName={buildName}
+                characterLevel={characterLevel}
+                subrace={subrace}
+                mainClass={mainClass}
+                subClass={subClass}
+                stats={stats}
+                addedStats={addedStats}
+                elements={elements}
+                buildEvaluation={buildEvaluation}
+                equippedArmor={equippedArmor}
+                weaponConfig={weaponConfig}
+                armorBonus={armorBonus}
+                armorConditionalBonuses={armorConditionalBonuses}
+                conditionalArmorBonus={conditionalArmorBonus}
+                conditionalCriticalBonus={conditionalCriticalBonus}
+                conditionalEvadeBonus={conditionalEvadeBonus}
+                food={food}
+                history={history}
+                activeTab={activeTab}
+                elementEmojiLabels={ELEMENT_EMOJI_LABELS}
+                getWeaponStatBonus={getWeaponStatBonus}
+                calculateMaxHP={calculateMaxHP}
+                calculateHP={calculateHP}
+                calculateMP={calculateMP}
+                calculateElementalATK={calculateElementalATK}
+                calculateElementalRES={calculateElementalRES}
+              />
+                  </Disclosure>
                 </div>
               </>
             )}
-          </div>
-
-          {/* Tab Navigation */}
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4, duration: 0.5 }}
-            className="flex gap-0.5 sm:gap-1 md:gap-2 mb-4 md:mb-6 border-b border-gray-700 overflow-x-auto scrollbar-hide -mx-2 px-2 sm:mx-0 sm:px-0"
-            role="tablist"
-            aria-label="Calculator workspaces"
-          >
-            <motion.button
-              role="tab"
-              aria-selected={activeTab === 'stats'}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setActiveTab('stats')}
-              className={`sound-click sound-hover flex-1 min-w-[80px] sm:min-w-0 px-2 sm:px-3 md:px-6 py-2 md:py-3 font-semibold transition-all whitespace-nowrap text-xs sm:text-sm md:text-base tap-target rounded-t-lg ${retroMode ? 'font-retro glow-border' : ''} ${
-                activeTab === 'stats'
-                  ? 'border-b-2 border-accent-blue text-accent-blue bg-dark-800 shadow-lg'
-                  : 'text-gray-400 hover:text-gray-200 hover:bg-dark-800'
-              }`}
-            >
-              <span className="hidden sm:inline">Stat Calculator</span>
-              <span className="inline sm:hidden">Stats</span>
-            </motion.button>
-            <motion.button
-              role="tab"
-              aria-selected={activeTab === 'weapon'}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setActiveTab('weapon')}
-              className={`sound-click sound-hover flex-1 min-w-[80px] sm:min-w-0 px-2 sm:px-3 md:px-6 py-2 md:py-3 font-semibold transition-all whitespace-nowrap text-xs sm:text-sm md:text-base tap-target rounded-t-lg ${retroMode ? 'font-retro glow-border' : ''} ${
-                activeTab === 'weapon'
-                  ? 'border-b-2 border-yellow-500 text-yellow-400 bg-dark-800 shadow-lg'
-                  : 'text-gray-400 hover:text-gray-200 hover:bg-dark-800'
-              }`}
-            >
-              <span className="hidden sm:inline">Weapon Calculator</span>
-              <span className="inline sm:hidden">Weapon</span>
-            </motion.button>
-            <motion.button
-              role="tab"
-              aria-selected={activeTab === 'armor'}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setActiveTab('armor')}
-              className={`sound-click sound-hover flex-1 min-w-[80px] sm:min-w-0 px-2 sm:px-3 md:px-6 py-2 md:py-3 font-semibold transition-all whitespace-nowrap text-xs sm:text-sm md:text-base tap-target rounded-t-lg ${retroMode ? 'font-retro glow-border' : ''} ${
-                activeTab === 'armor'
-                  ? 'border-b-2 border-orange-500 text-orange-400 bg-dark-800 shadow-lg'
-                  : 'text-gray-400 hover:text-gray-200 hover:bg-dark-800'
-              }`}
-            >
-              <span className="hidden sm:inline">Armor Calculator</span>
-              <span className="inline sm:hidden">Armor</span>
-            </motion.button>
-            <motion.button
-              role="tab"
-              aria-selected={activeTab === 'screenshot'}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setActiveTab('screenshot')}
-              className={`sound-click sound-hover flex-1 min-w-[80px] sm:min-w-0 px-2 sm:px-3 md:px-6 py-2 md:py-3 font-semibold transition-all whitespace-nowrap text-xs sm:text-sm md:text-base tap-target rounded-t-lg ${retroMode ? 'font-retro glow-border' : ''} ${
-                activeTab === 'screenshot'
-                  ? 'border-b-2 border-accent-purple text-accent-purple bg-dark-800 shadow-lg'
-                  : 'text-gray-400 hover:text-gray-200 hover:bg-dark-800'
-              }`}
-            >
-              <span className="hidden md:inline">Screenshot Mode</span>
-              <span className="hidden sm:inline md:hidden">Screenshot</span>
-              <span className="inline sm:hidden">Screen</span>
-            </motion.button>
-          </motion.div>
-
-          {/* Stat Calculator Tab */}
-          {activeTab === 'stats' && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-            >
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-3 md:gap-4 mb-4 md:mb-6">
-            <div>
-              <label className="block text-sm font-medium mb-2 text-gray-300">Race Category</label>
-              <select
-                value={race}
-                onChange={(e) => handleRaceChange(e.target.value)}
-                className={`w-full bg-dark-700 border border-gray-600 rounded-lg px-3 py-2 text-sm md:text-base tap-target focus:ring-2 focus:ring-accent-blue transition-all ${retroMode ? 'font-retro glow-border sound-hover' : ''}`}
-              >
-                {Object.keys(RACES).map(r => (
-                  <option key={r} value={r}>{r}</option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-2">Race/Subrace (Stats)</label>
-              <select
-                value={subrace}
-                onChange={(e) => handleSubraceChange(e.target.value)}
-                className={`w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-sm md:text-base tap-target ${retroMode ? 'font-retro glow-border sound-hover' : ''}`}
-              >
-                {getAvailableSubraces().map(sr => (
-                  <option key={sr} value={sr}>{sr}</option>
-                ))}
-              </select>
-              
-              {/* Karakuri Youkai Selection */}
-              {subrace === 'Karakuri' && (
-                <div className="mt-2">
-                  <label className="block text-xs sm:text-sm font-medium mb-1 text-purple-400">Youkai Binding</label>
-                  <select
-                    value={karakuriYoukai}
-                    onChange={(e) => setKarakuriYoukai(e.target.value)}
-                    className={`w-full bg-purple-900 border border-purple-600 rounded px-2 sm:px-3 py-1 text-xs sm:text-sm tap-target ${retroMode ? 'font-retro glow-border sound-hover' : ''}`}
-                  >
-                    <option value="None">None</option>
-                    <option value="Avian">Avian (+3 GUI, +2 CEL, -3 WIL, -2 DEF)</option>
-                    <option value="Beast">Beast (+3 SKI, +2 LUC, -3 RES, -2 GUI)</option>
-                    <option value="Dragon">Dragon (+3 STR, +2 DEF, -3 CEL, -2 RES)</option>
-                    <option value="Fairy">Fairy (+3 CEL, +2 LUC, -3 STR, -2 WIL)</option>
-                    <option value="Mystic">Mystic (+3 WIL, +2 SKI, -3 STR, -2 RES)</option>
-                    <option value="Night">Night (+3 RES, +2 GUI, -3 DEF, -2 FAI)</option>
-                    <option value="Plant">Plant (+3 DEF, +2 VIT, -3 GUI, -2 LUC)</option>
-                  </select>
-                </div>
-              )}
-            </div>
-            
-            <ClassFamilyPicker
-              label="Main Class"
-              selectedClass={mainClass}
-              open={showMainClassDropdown}
-              onOpenChange={setShowMainClassDropdown}
-              onSelect={(className) => {
-                // Find which base class this subclass belongs to
-                const baseClass = Object.entries(CLASS_HIERARCHY).find(([, data]) => 
-                  data.subClasses.includes(className) || data.name === className
-                )?.[0] || selectedMainBaseClass;
-                setSelectedMainBaseClass(baseClass);
-                setMainClass(className);
-                setMainClassPassive(0);
-              }}
-              retroMode={retroMode}
+                  {activeTab === 'optimizer' && (
+                    <OptimizerResults
+                      o={optimizer}
+                      build={currentBuild}
+                      currentEvaluation={buildEvaluation}
+                      onApply={applyOptimizationCandidate}
+                      canUndo={optimizerUndo !== null}
+                      onUndo={undoOptimization}
+                    />
+                  )}
+                </>
+              }
+              right={activeTab === 'screenshot' ? (
+                <ShareFormatRail
+                  format={shareFormat}
+                  onFormatChange={setShareFormat}
+                  onDownload={takeScreenshot}
+                  onCopyCode={() => { void navigator.clipboard?.writeText(buildCode); }}
+                />
+              ) : activeTab === 'equipment' ? (
+                /*
+                  * Whichever result panel the selected slot has. Slots 3-6 keep
+                  * their numbers inside the GearDeck itself, so they add nothing
+                  * here rather than showing an empty rail.
+                  */
+                gearSlot === 'weapon' || (gearSlot === 'hands' && slot3Mode === 'offHandWeapon') ? (
+                  <WeaponResultRail
+                    config={gearSlot === 'weapon' ? weaponConfig : (gearLoadout.offHandWeapon as WeaponConfig | undefined)}
+                    stats={stats}
+                    extraCritChance={conditionalCriticalBonus}
+                    traitIds={traits}
+                  />
+                ) : gearSlot === 'armor' ? (
+                  <ArmorDetailRail
+                    armor={equippedArmor}
+                    points={armorUpgradePoints}
+                    onPointsChange={setArmorUpgradePoints}
+                    conditionalStates={armorConditionalBonuses}
+                    material={armorMaterial}
+                    onMaterialChange={setArmorMaterial}
+                    enchantment={armorEnchantment}
+                    onEnchantmentChange={setArmorEnchantment}
+                    onConditionalChange={(key, enabled) =>
+                      setArmorConditionalBonuses(prev => ({ ...prev, [key]: enabled }))}
+                    quality={armorQuality}
+                    onQualityChange={setArmorQuality}
+                    world={world}
+                    before={buildEvaluationWithoutArmor}
+                    after={buildEvaluation}
+                  />
+                ) : undefined
+              ) : activeTab === 'stats' ? (
+                <ResultRail
+                  buildEvaluation={buildEvaluation}
+                  elements={elements}
+                  calculateElementalATK={calculateElementalATK}
+                  calculateElementalRES={calculateElementalRES}
+                  elementalATKAdjustments={elementalATKAdjustments}
+                  elementalRESAdjustments={elementalRESAdjustments}
+                  onAdjustElemental={() => setBuildDialog('elemental')}
+                  onOpenHitChance={() => setBuildDialog('hitChance')}
+                />
+              ) : undefined}
             />
-            
-            <ClassFamilyPicker
-              label="Sub Class"
-              selectedClass={subClass}
-              open={showSubClassDropdown}
-              onOpenChange={setShowSubClassDropdown}
-              onSelect={(className) => {
-                // Find which base class this subclass belongs to
-                const baseClass = Object.entries(CLASS_HIERARCHY).find(([, data]) => 
-                  data.subClasses.includes(className) || data.name === className
-                )?.[0] || selectedSubBaseClass;
-                setSelectedSubBaseClass(baseClass);
-                setSubClass(className);
-                setSubClassPassive(0);
-              }}
-              retroMode={retroMode}
-            />
-          </div>
-
-          {/* Class Passive Rank selectors */}
-          {(hasClassPassive(mainClass) || hasClassPassive(subClass)) && (
-  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-4 mb-4">
-    {(() => {
-      // Check if both classes share the same base class passive
-      const mainPassiveData = getClassPassiveData(mainClass);
-      const subPassiveData = getClassPassiveData(subClass);
-      const mainIsInherited = !CLASS_PASSIVES[mainClass];
-      const subIsInherited = !CLASS_PASSIVES[subClass];
-      const mainSourceClass = mainIsInherited ? getBaseClass(mainClass) : mainClass;
-      const subSourceClass = subIsInherited ? getBaseClass(subClass) : subClass;
-      
-      // Check if we're dealing with the same passive (either same class or same inherited passive)
-      const isSamePassive = mainSourceClass === subSourceClass;
-      
-      const elements = [];
-      
-      if (isSamePassive) {
-        // Show single passive control for shared passive
-        const displayName = mainSourceClass;
-        const passiveData = mainPassiveData || subPassiveData;
-        
-        elements.push(
-          <div key="shared" className="md:col-span-2">
-            <label className="block text-sm font-medium mb-2">
-              {displayName} Passive Rank ({passiveData?.description})
-            </label>
-            <input
-              type="number"
-              min="0"
-              max={passiveData?.maxRank || 0}
-              value={mainClassPassive}
-              onChange={(e) => {
-                const value = Math.max(0, Math.min(Number(e.target.value), passiveData?.maxRank || 0));
-                setMainClassPassive(value);
-                // For shared passives, keep sub passive in sync or at 0
-                if (mainClass === subClass) {
-                  setSubClassPassive(0);
-                } else {
-                  setSubClassPassive(value);
-                }
-              }}
-              className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2"
-            />
-            {mainClass === subClass && (
-              <div className="text-xs text-gray-400 mt-1">
-                Monoclass builds use the same passive for both slots
-              </div>
-            )}
-          </div>
-        );
-      } else {
-        // Show separate controls for different passives
-        
-        // Main class passive
-        if (hasClassPassive(mainClass)) {
-          const displayName = mainIsInherited ? mainSourceClass : mainClass;
-          const passiveData = mainPassiveData;
-          
-          elements.push(
-            <div key="main">
-              <label className="block text-sm font-medium mb-2">
-                {displayName} Passive Rank (Main Class) ({passiveData?.description})
-              </label>
-              <input
-                type="number"
-                min="0"
-                max={passiveData?.maxRank || 0}
-                value={mainClassPassive}
-                onChange={(e) => {
-                  const value = Math.max(0, Math.min(Number(e.target.value), passiveData?.maxRank || 0));
-                  setMainClassPassive(value);
-                }}
-                className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2"
-              />
-            </div>
-          );
-        }
-        
-        // Sub class passive (only if different from main)
-        if (hasClassPassive(subClass) && mainClass !== subClass) {
-          const displayName = subIsInherited ? subSourceClass : subClass;
-          const passiveData = subPassiveData;
-          
-          elements.push(
-            <div key="sub">
-              <label className="block text-sm font-medium mb-2">
-                {displayName} Passive Rank (Sub Class) ({passiveData?.description})
-              </label>
-              <input
-                type="number"
-                min="0"
-                max={passiveData?.maxRank || 0}
-                value={subClassPassive}
-                onChange={(e) => {
-                  const value = Math.max(0, Math.min(Number(e.target.value), passiveData?.maxRank || 0));
-                  setSubClassPassive(value);
-                }}
-                className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2"
-              />
-            </div>
-          );
-        }
-      }
-      
-      return elements;
-    })()}
-  </div>
-)}
-
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 flex-wrap gap-2">
-            <div className="text-base sm:text-lg md:text-xl font-semibold">
-              Points Remaining: <span className="text-yellow-400">{totalPoints}</span>
-              {monoclassModifier === 2 && <span className="ml-2 text-xs sm:text-sm text-purple-400">(Monoclass x2)</span>}
-            </div>
-            <div className="flex gap-1 sm:gap-2 flex-wrap w-full sm:w-auto">
-              <button
-                onClick={() => setShowFood(true)}
-                className={`flex items-center justify-center bg-green-600 hover:bg-green-700 px-2 sm:px-3 py-2 rounded text-xs sm:text-sm transition-colors tap-target ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''}`}
-              >
-                <Utensils size={16} className="sm:w-4 sm:h-4" />
-                <span className="ml-1.5">Food</span>
-              </button>
-              <button
-                onClick={() => setShowStamps(true)}
-                className={`flex items-center justify-center bg-yellow-600 hover:bg-yellow-700 px-2 sm:px-3 py-2 rounded text-xs sm:text-sm transition-colors tap-target ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''}`}
-              >
-                <BookOpen size={16} className="sm:w-4 sm:h-4" />
-                <span className="ml-1.5">History</span>
-              </button>
-              <button
-                onClick={() => setShowTalents(true)}
-                className={`flex items-center justify-center bg-orange-600 hover:bg-orange-700 px-2 sm:px-3 py-2 rounded text-xs sm:text-sm transition-colors tap-target ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''}`}
-              >
-                <StarIcon size={16} className="sm:w-4 sm:h-4" />
-                <span className="ml-1.5">Talents</span>
-              </button>
-              <button
-                onClick={() => setShowAdvanced(true)}
-                className={`flex items-center justify-center bg-purple-600 hover:bg-purple-700 px-2 sm:px-3 py-2 rounded text-xs sm:text-sm transition-colors tap-target ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''}`}
-              >
-                <Settings size={16} className="sm:w-4 sm:h-4" />
-                <span className="ml-1.5">Advanced</span>
-              </button>
-              <button
-                onClick={() => setShowImportExport(true)}
-                className={`flex items-center justify-center bg-indigo-600 hover:bg-indigo-700 px-2 sm:px-3 py-2 rounded text-xs sm:text-sm transition-colors tap-target ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''}`}
-              >
-                <Download size={16} className="sm:w-4 sm:h-4" />
-                <span className="ml-1.5">Saves</span>
-              </button>
-              <button
-                onClick={resetStats}
-                className={`flex items-center justify-center bg-blue-600 hover:bg-blue-700 px-2 sm:px-3 py-2 rounded text-xs sm:text-sm transition-colors tap-target ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''}`}
-              >
-                <RotateCcw size={16} className="sm:w-4 sm:h-4" />
-                <span className="ml-1.5">Reset</span>
-              </button>
-            </div>
-          </div>
-
-          {showTalents && (
-            <div 
-              className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-2 sm:p-4"
-              onClick={() => setShowTalents(false)}
-            >
-              <div 
-                className={`bg-gray-800 rounded-lg shadow-2xl max-w-6xl w-full max-h-[90vh] overflow-y-auto ${retroMode ? 'glow-border font-retro' : ''}`}
-                onClick={(e) => e.stopPropagation()}
-              >
-                <div className="sticky top-0 bg-gray-800 border-b border-gray-700 p-3 sm:p-4 md:p-6 flex justify-between items-center">
-                  <h2 className={`text-lg sm:text-xl md:text-2xl font-bold ${retroMode ? 'font-retro' : ''}`}>{retroMode ? (<span className="glitch" data-text="Talents & Traits">Talents & Traits</span>) : 'Talents & Traits'}</h2>
-                  <button
-                    onClick={() => setShowTalents(false)}
-                    className={`p-2 hover:bg-gray-700 rounded-full transition-colors ${retroMode ? 'glow-border sound-click sound-hover' : ''}`}
-                    title="Close"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <line x1="18" y1="6" x2="6" y2="18"></line>
-                      <line x1="6" y1="6" x2="18" y2="18"></line>
-                    </svg>
-                  </button>
-                </div>
-
-                <div className="p-3 sm:p-4 md:p-6 space-y-3">
-                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4">
-                {hasGhost && (
-                  <>
-                    <div>
-                      <label className="block text-xs sm:text-sm mb-1">Rising Game Rank (0-5)</label>
-                      <input
-                        type="number"
-                        min="0"
-                        max="5"
-                        value={risingGame}
-                        onChange={(e) => setRisingGame(Number(e.target.value))}
-                        className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm tap-target"
-                      />
-                      <span className="text-xs text-gray-400">Bonus stats when HP is low</span>
-                    </div>
-                    <div>
-                      <label className="block text-xs sm:text-sm mb-1">Pain Tolerance HP</label>
-                      <input
-                        type="number"
-                        min="0"
-                        step="10"
-                        value={painTolerance}
-                        onChange={(e) => setPainTolerance(Number(e.target.value))}
-                        className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm tap-target"
-                      />
-                      <span className="text-xs text-gray-400">+10 HP per rank</span>
-                    </div>
-                  </>
-                )}
-                
-                {hasFortitude && (
-                  <div className="flex items-center gap-2">
-                    <input
-                      type="checkbox"
-                      checked={fortitude}
-                      onChange={(e) => setFortitude(e.target.checked)}
-                      className="w-4 h-4"
-                    />
-                    <span>Fortitude (+10% HP)</span>
-                  </div>
-                )}
-                
-                {hasEndurance && (
-                  <div className="flex items-center gap-2">
-                    <input
-                      type="checkbox"
-                      checked={endurance}
-                      onChange={(e) => setEndurance(e.target.checked)}
-                      className="w-4 h-4"
-                    />
-                    <span>Endurance (+15% HP)</span>
-                  </div>
-                )}
-                
-                <div className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={giantGene}
-                    onChange={(e) => setGiantGene(e.target.checked)}
-                    className="w-4 h-4"
-                  />
-                  <span>Giant Gene (+10% HP, -10 Evade)</span>
-                </div>
-                
-                <div className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={warwalk}
-                    onChange={(e) => setWarwalk(e.target.checked)}
-                    className="w-4 h-4"
-                  />
-                  <span>Warwalk (+30 HP/FP)</span>
-                </div>
-                
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2">
-                    <input
-                      type="checkbox"
-                      checked={luminaryElement}
-                      onChange={(e) => setLuminaryElement(e.target.checked)}
-                      className="w-4 h-4"
-                    />
-                    <span>Luminary Element
-                      {luminaryElement && astrology && (
-                        <span className="ml-2 text-blue-400">
-                          ✓ WIL → {PLANET_ELEMENTS[astrology]} ATK (1:1)
-                        </span>
-                      )}
-                    </span>
-                  </div>
-                  <div className="text-xs text-gray-400 ml-6">
-                    WIL no longer increases all elements; increases your Starsign's element by 1 per 1 raw WIL (ignores diminishing returns)
-                  </div>
-                </div>
-                
-                {/* Normalcy Talents */}
-                <div className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={persistenceOfNormalcy}
-                    onChange={(e) => setPersistenceOfNormalcy(e.target.checked)}
-                    className="w-4 h-4"
-                  />
-                  <span>Persistence of Normalcy
-                    {persistenceOfNormalcy && (
-                      <span className="ml-2 text-green-400">
-                        {(() => {
-                          const mainIsBase = Object.values(CLASS_HIERARCHY).some(data => data.name === mainClass && data.baseClass);
-                          const subIsBase = Object.values(CLASS_HIERARCHY).some(data => data.name === subClass && data.baseClass);
-                          const isSame = mainClass === subClass;
-                          
-                          if (mainIsBase && subIsBase) {
-                            return isSame ? "✓ +200 HP (Same Base Classes)" : "✓ +100 HP (Both Base Classes)";
-                          }
-                          return "✗ Requires both classes to be Base Classes";
-                        })()}
-                      </span>
-                    )}
-                  </span>
-                </div>
-                
-                <div className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={powerOfNormalcy}
-                    onChange={(e) => setPowerOfNormalcy(e.target.checked)}
-                    className="w-4 h-4"
-                  />
-                  <span>Power of Normalcy
-                    {powerOfNormalcy && (
-                      <span className="ml-2 text-green-400">
-                        {(() => {
-                          const mainIsBase = Object.values(CLASS_HIERARCHY).some(data => data.name === mainClass && data.baseClass);
-                          const subIsBase = Object.values(CLASS_HIERARCHY).some(data => data.name === subClass && data.baseClass);
-                          const isSame = mainClass === subClass;
-                          
-                          if (mainIsBase && subIsBase) {
-                            return isSame ? "✓ +8 All Stats (Same Base Classes)" : "✓ +4 All Stats (Both Base Classes)";
-                          }
-                          return "✗ Requires both classes to be Base Classes";
-                        })()}
-                      </span>
-                    )}
-                  </span>
-                </div>
-                
-                {/* Kaelensia Instinct Toggles */}
-                {(subrace === 'Felidae' || subrace === 'Grimalkin') && (
-                  <div className="flex items-center gap-2">
-                    <input
-                      type="checkbox"
-                      checked={felidaeInstinct}
-                      onChange={(e) => setFelidaeInstinct(e.target.checked)}
-                      className="w-4 h-4"
-                    />
-                    <span>Felidae/Grimalkin Instinct (SKI/CEL/LUC/GUI at ≤50% HP)
-                      {felidaeInstinct && hpPercent <= 50 && (
-                        <span className="ml-2 text-green-400">
-                          ✓ Active {hpPercent <= 25 && '(x2)'}
-                        </span>
-                      )}
-                    </span>
-                  </div>
-                )}
-                
-                {subrace === 'Lupine' && (
-                  <div className="flex items-center gap-2">
-                    <input
-                      type="checkbox"
-                      checked={lupineInstinct}
-                      onChange={(e) => setLupineInstinct(e.target.checked)}
-                      className="w-4 h-4"
-                    />
-                    <span>Lupine Instinct (STR/WIL/DEF/RES at ≤50% HP)
-                      {lupineInstinct && hpPercent <= 50 && (
-                        <span className="ml-2 text-green-400">
-                          ✓ Active {hpPercent <= 25 && '(x2)'}
-                        </span>
-                      )}
-                    </span>
-                  </div>
-                )}
-                
-                {/* Sanguine Crest for Oni/Vampire */}
-                {(subrace === 'Oni' || subrace === 'Vampire') && (
-                  <div className="flex items-center gap-2">
-                    <input
-                      type="checkbox"
-                      checked={sanguineCrest}
-                      onChange={(e) => setSanguineCrest(e.target.checked)}
-                      className="w-4 h-4"
-                    />
-                    <span>Sanguine Crest (+2 STR/WIL/SKI/CEL/DEF)</span>
-                  </div>
-                )}
-                
-                {/* Redtail Fox God's Blessing */}
-                {subrace === 'Redtail' && (
-                  <div className="col-span-full border border-orange-500 rounded p-3 bg-orange-900 bg-opacity-20">
-                    <h4 className="font-bold text-orange-400 mb-2">Fox God's Blessing</h4>
-                    <p className="text-xs text-gray-300 mb-3">
-                      Every round in battle, glowing spirits appear around the Redtail (1-6), becoming your Fortune Level. 
-                      Dice color determines the effect. Bonuses scale with SAN (+1x per 10 Scaled SAN, max 5x).
-                    </p>
-                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-3">
-                      <div>
-                        <label className="block text-sm mb-1">Fortune Level (1-6)</label>
-                        <input
-                          type="number"
-                          min="1"
-                          max="6"
-                          value={redtailFortuneLevel}
-                          onChange={(e) => setRedtailFortuneLevel(Number(e.target.value))}
-                          className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm mb-1">Dice Color</label>
-                        <select
-                          value={redtailDiceColor}
-                          onChange={(e) => setRedtailDiceColor(e.target.value as 'red' | 'green' | 'yellow')}
-                          className={`w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 ${retroMode ? 'font-retro glow-border sound-hover' : ''}`}
-                        >
-                          <option value="red">Red Dice</option>
-                          <option value="green">Green Dice</option>
-                          <option value="yellow">Yellow Dice</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div className="mt-2 text-xs text-gray-300 space-y-1">
-                      {redtailDiceColor === 'red' && (
-                        <p>
-                          <span className="text-red-400 font-semibold">Red Dice:</span> 
-                          {redtailFortuneLevel === 1 
-                            ? ` -${5 + Math.min(Math.floor(stats.san / 10), 5) * 5} Hit/Critical`
-                            : ` +${redtailFortuneLevel * (1 + Math.min(Math.floor(stats.san / 10), 5))} Hit/Critical`
-                          }
-                        </p>
-                      )}
-                      {redtailDiceColor === 'green' && (
-                        <p>
-                          <span className="text-green-400 font-semibold">Green Dice:</span>
-                          {redtailFortuneLevel === 1
-                            ? ` -${5 + Math.min(Math.floor(stats.san / 10), 5) * 5}% Status Inflict/Resist chance`
-                            : ` +${redtailFortuneLevel * (1 + Math.min(Math.floor(stats.san / 10), 5))}% Status Inflict/Resist chance`
-                          }
-                        </p>
-                      )}
-                      {redtailDiceColor === 'yellow' && (
-                        <p>
-                          <span className="text-yellow-400 font-semibold">Yellow Dice:</span>
-                          {redtailFortuneLevel === 1
-                            ? ` -${5 + Math.min(Math.floor(stats.san / 10), 5) * 5} Evade/Critical Evade`
-                            : ` +${redtailFortuneLevel * (1 + Math.min(Math.floor(stats.san / 10), 5))} Evade/Critical Evade`
-                          }
-                        </p>
-                      )}
-                      <p className="text-gray-400 italic">
-                        Current SAN Multiplier: {1 + Math.min(Math.floor(stats.san / 10), 5)}x
-                      </p>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
           )}
 
-          {showAdvanced && (
-            <div 
-              className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-2 sm:p-4"
-              onClick={() => setShowAdvanced(false)}
-            >
-              <div 
-                className={`bg-gray-800 rounded-lg shadow-2xl max-w-6xl w-full max-h-[90vh] overflow-y-auto ${retroMode ? 'glow-border font-retro' : ''}`}
-                onClick={(e) => e.stopPropagation()}
-              >
-                <div className="sticky top-0 bg-gray-800 border-b border-gray-700 p-3 sm:p-4 md:p-6 flex justify-between items-center">
-                  <h2 className={`text-lg sm:text-xl md:text-2xl font-bold ${retroMode ? 'font-retro' : ''}`}>{retroMode ? (<span className="glitch" data-text="Advanced Options">Advanced Options</span>) : 'Advanced Options'}</h2>
-                  <button
-                    onClick={() => setShowAdvanced(false)}
-                    className={`p-2 hover:bg-gray-700 rounded-full transition-colors ${retroMode ? 'glow-border sound-click sound-hover' : ''}`}
-                    title="Close"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <line x1="18" y1="6" x2="6" y2="18"></line>
-                      <line x1="6" y1="6" x2="18" y2="18"></line>
-                    </svg>
-                  </button>
-                </div>
+          {/* Dialogs are app-wide: gating them on the Stats tab left the
+              header's Import / Export button opening nothing elsewhere. */}
 
-                <div className="p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4">
-                  <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-3 sm:gap-4">
-                <div>
-                  <label className="block text-xs sm:text-sm mb-1">Character Level (1-60)</label>
-                  <input
-                    type="number"
-                    min="1"
-                    max="60"
-                    value={characterLevel}
-                    onChange={(e) => {
-                      const level = Math.min(60, Math.max(1, Number(e.target.value)));
-                      setCharacterLevel(level);
-                    }}
-                    className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm tap-target"
-                  />
-                  <div className="text-xs text-gray-400 mt-1">
-                    Available Points: {characterLevel * 4}
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-xs sm:text-sm mb-1">Custom HP</label>
-                  <input
-                    type="number"
-                    value={customHP}
-                    onChange={(e) => setCustomHP(Number(e.target.value))}
-                    className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm tap-target"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs sm:text-sm mb-1">Custom FP</label>
-                  <input
-                    type="number"
-                    value={customFP}
-                    onChange={(e) => setCustomFP(Number(e.target.value))}
-                    className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm tap-target"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs sm:text-sm mb-1">Base Evade</label>
-                  <input
-                    type="number"
-                    value={baseEvade}
-                    onChange={(e) => setBaseEvade(Number(e.target.value))}
-                    className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm tap-target"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs sm:text-sm mb-1">Bonus Evade</label>
-                  <input
-                    type="number"
-                    min="0"
-                    max="50"
-                    value={bonusEvade}
-                    onChange={(e) => setBonusEvade(Math.min(Number(e.target.value), 50))}
-                    className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm tap-target"
-                  />
-                  <div className="text-xs text-gray-400 mt-1">
-                    Capped at 50
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-xs sm:text-sm mb-1">Dragon King Pieces</label>
-                  <input
-                    type="number"
-                    min="0"
-                    max="4"
-                    value={dragonKing}
-                    onChange={(e) => setDragonKing(Number(e.target.value))}
-                    className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm tap-target"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs sm:text-sm mb-1">Dragon Queen Pieces</label>
-                  <input
-                    type="number"
-                    min="0"
-                    max="4"
-                    value={dragonQueen}
-                    onChange={(e) => setDragonQueen(Number(e.target.value))}
-                    className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm tap-target"
-                  />
-                </div>
-              </div>
+          {showTalents && (
+            <TalentsDialog
+              onClose={() => setShowTalents(false)}
+              t={{ giantGene, warwalk, luminaryElement, persistenceOfNormalcy, powerOfNormalcy }}
+              set={{
+                giantGene: setGiantGene,
+                warwalk: setWarwalk,
+                luminaryElement: setLuminaryElement,
+                persistenceOfNormalcy: setPersistenceOfNormalcy,
+                powerOfNormalcy: setPowerOfNormalcy,
+              }}
+              mainClass={mainClass}
+              subClass={subClass}
+              astrology={astrology}
+            />
+          )}
 
-              <div className="flex flex-col xs:flex-row items-start xs:items-center gap-2 sm:gap-4 flex-wrap">
-                <div className="flex items-center gap-2">
-                  <label className="text-xs sm:text-sm">Current HP %</label>
-                  <input
-                    type="number"
-                    min="0"
-                    max="100"
-                    value={hpPercent}
-                    onChange={(e) => setHpPercent(Number(e.target.value))}
-                    className="w-16 sm:w-20 bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm tap-target"
-                  />
-                </div>
-                <button
-                  onClick={() => setShowCustomStats(!showCustomStats)}
-                  className={`bg-indigo-600 hover:bg-indigo-700 px-3 py-2 rounded text-xs sm:text-sm tap-target ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''}`}
-                >
-                  Custom Stats
-                </button>
-              </div>
+          {(buildDialog === 'character' || buildDialog === 'custom') && (
+            <AdvancedDialog
+              onClose={() => setBuildDialog(null)}
+              v={{
+                characterLevel, astrology, hpPercent, customHP, customFP,
+                baseEvade, bonusEvade,
+                customStats, customBaseStats, statBuffs, world, legendExtend,
+              }}
+              set={{
+                characterLevel: setCharacterLevel,
+                astrology: setAstrology,
+                hpPercent: setHpPercent,
+                customHP: setCustomHP,
+                customFP: setCustomFP,
+                baseEvade: setBaseEvade,
+                bonusEvade: setBonusEvade,
+                customStats: setCustomStats,
+                customBaseStats: setCustomBaseStats,
+                statBuffs: setStatBuffs,
+                world: setWorld,
+              }}
+              onCustomBaseStatChange={handleCustomBaseStatChange}
+              initialSection={buildDialog}
+            />
+          )}
 
-              {showCustomStats && (
-                <div>
-                  <h4 className="font-semibold mb-2 text-sm sm:text-base">Custom Stat Modifiers (Flat Bonuses)</h4>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 xl:grid-cols-12 gap-2">
-                    {(Object.keys(customStats) as StatKey[]).map(stat => (
-                      <div key={stat}>
-                        <label className="block text-xs mb-1 uppercase">{stat}</label>
-                        <input
-                          type="number"
-                          value={customStats[stat]}
-                          onChange={(e) => setCustomStats(prev => ({ ...prev, [stat]: Number(e.target.value) }))}
-                          className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm"
-                        />
-                      </div>
-                    ))}
-                  </div>
-                  <h4 className="font-semibold mb-2 mt-3">Custom Base Stats (Pre-Class)</h4>
-                  <div className="grid grid-cols-2 md:grid-cols-6 xl:grid-cols-12 gap-2">
-                    {(Object.keys(customBaseStats) as StatKey[]).map(stat => (
-                      <div key={stat}>
-                        <label className="block text-xs mb-1 uppercase">{stat}</label>
-                        <input
-                          type="number"
-                          value={customBaseStats[stat]}
-                          onChange={(e) => handleCustomBaseStatChange(stat, Number(e.target.value))}
-                          className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm"
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
+          {showSkills && (
+            <SkillsDialog
+              onClose={() => setShowSkills(false)}
+              mainClass={mainClass}
+              subClass={subClass}
+              ranks={skillRanks}
+              onRanksChange={setSkillRanks}
+              conditionals={skillConditionals}
+              onConditionalsChange={setSkillConditionals}
+              destiny={destiny}
+              onDestinyChange={setDestiny}
+            />
+          )}
 
-              <div>
-                <h4 className="font-semibold mb-2">Legend Extend (+1 before DR)</h4>
-                <div className="grid grid-cols-2 md:grid-cols-6 xl:grid-cols-12 gap-2">
-                  {Object.keys(LEGEND_EXTEND).map(key => (
-                    <button
-                      key={key}
-                      onClick={() => handleLegendExtendToggle(key)}
-                      className={`px-3 py-2 rounded text-sm transition-colors ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''} ${
-                        legendExtend[key] 
-                          ? 'bg-blue-600 hover:bg-blue-700' 
-                          : 'bg-gray-700 hover:bg-gray-600'
-                      }`}
-                      style={{ borderLeft: `4px solid ${LEGEND_EXTEND[key].color}` }}
-                    >
-                      {LEGEND_EXTEND[key].name}
-                    </button>
-                  ))}
-                </div>
-              </div>
+          {showTraits && (
+            <TraitsDialog
+              onClose={() => setShowTraits(false)}
+              taken={traits}
+              onChange={setTraits}
+              characterLevel={characterLevel}
+              history={history}
+              onHistoryChange={handleHistoryChange}
+              race={race}
+              subrace={subrace}
+              mainClass={mainClass}
+              subClass={subClass}
+              baseStats={traitBaseStats}
+            />
+          )}
 
-              <div>
-                <h4 className="font-semibold mb-2">Astrology (Planet Signs) - +1 Stat, +2 Element ATK</h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2">
-                  <label className="flex items-center space-x-2 cursor-pointer p-2 rounded hover:bg-gray-700">
-                    <input
-                      type="radio"
-                      name="astrology"
-                      checked={astrology === ''}
-                      onChange={() => setAstrology('')}
-                      className="w-4 h-4"
-                    />
-                    <span>None</span>
-                  </label>
-                  {Object.keys(ASTROLOGY_PLANETS).map(planet => {
-                    const element = PLANET_ELEMENTS[planet];
-                    const stat = ASTROLOGY_PLANETS[planet].toUpperCase();
-                    return (
-                      <label key={planet} className="flex items-center space-x-2 cursor-pointer p-2 rounded hover:bg-gray-700">
-                        <input
-                          type="radio"
-                          name="astrology"
-                          checked={astrology === planet}
-                          onChange={() => setAstrology(planet)}
-                          className="w-4 h-4"
-                        />
-                        <span className="text-sm">{planet} ({stat} / {element})</span>
-                      </label>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+          {showRacials && (
+            <RacialsDialog
+              onClose={() => setShowRacials(false)}
+              subrace={subrace}
+              values={racialValues}
+              set={racialSetters}
+              hpPercent={hpPercent}
+            />
+          )}
+
+          {showYoukai && (
+            <YoukaiDialog
+              onClose={() => setShowYoukai(false)}
+              state={youkai}
+              onChange={setYoukai}
+              ranks={mergedRanks}
+              youkaiCap={youkaiCap}
+            />
+          )}
+
+          {buildDialog === 'hitChance' && (
+            <HitChanceDialog
+              onClose={() => setBuildDialog(null)}
+              buildEvaluation={buildEvaluation}
+              armorType={equippedArmor?.type}
+            />
+          )}
+
+          {buildDialog === 'legend' && (
+            <LegendExtendDialog
+              onClose={() => setBuildDialog(null)}
+              legendExtend={legendExtend}
+              onToggle={handleLegendExtendToggle}
+            />
+          )}
+
+          {buildDialog === 'astrology' && (
+            <AstrologyDialog
+              onClose={() => setBuildDialog(null)}
+              astrology={astrology}
+              onChange={setAstrology}
+            />
+          )}
+
+          {buildDialog === 'elemental' && (
+            <ElementalDialog
+              onClose={() => setBuildDialog(null)}
+              elemental={elementalProps}
+            />
           )}
 
           {/* Import/Export Section */}
           {showImportExport && (
-            <div 
-              className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-2 sm:p-4"
-              onClick={() => setShowImportExport(false)}
-              role="dialog"
-              aria-modal="true"
-              aria-labelledby="saves-dialog-title"
-            >
-              <div 
-                className={`bg-gray-800 rounded-lg shadow-2xl max-w-6xl w-full max-h-[90vh] overflow-y-auto ${retroMode ? 'glow-border font-retro' : ''}`}
-                onClick={(e) => e.stopPropagation()}
-              >
-                <div className="sticky top-0 bg-gray-800 border-b border-gray-700 p-3 sm:p-4 md:p-6 flex justify-between items-center">
-                  <h2 id="saves-dialog-title" className={`text-lg sm:text-xl md:text-2xl font-bold ${retroMode ? 'font-retro' : ''}`}>{retroMode ? (<span className="glitch" data-text="Saves & Sharing">Saves & Sharing</span>) : 'Saves & Sharing'}</h2>
-                  <button
-                    autoFocus
-                    onClick={() => setShowImportExport(false)}
-                    className={`p-2 hover:bg-gray-700 rounded-full transition-colors ${retroMode ? 'glow-border sound-click sound-hover' : ''}`}
-                    title="Close"
-                    aria-label="Close saves and sharing"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <line x1="18" y1="6" x2="6" y2="18"></line>
-                      <line x1="6" y1="6" x2="18" y2="18"></line>
-                    </svg>
-                  </button>
-                </div>
-
-                <div className="p-3 sm:p-4 md:p-6 space-y-4">
-                  {/* Export Section */}
-                  <div className="space-y-3">
-                <h4 className="text-md font-medium text-gray-300">Export Build</h4>
-                <div className="flex flex-col sm:flex-row gap-2">
-                  <input
-                    type="text"
-                    value={buildName}
-                    onChange={(e) => setBuildName(e.target.value)}
-                    placeholder="Build name (optional)"
-                    className="flex-1 p-2 bg-gray-700 border border-gray-600 rounded text-white placeholder-gray-400"
-                  />
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => exportBuild(buildName)}
-                      className={`px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded flex items-center gap-2 transition-colors ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''}`}
-                    >
-                      <Download size={16} />
-                      Download JSON
-                    </button>
-                    <button
-                      onClick={() => copyBuildToClipboard(buildName)}
-                      className={`px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded flex items-center gap-2 transition-colors ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''}`}
-                    >
-                      <Copy size={16} />
-                      Copy to Clipboard
-                    </button>
-                    <button
-                      onClick={copyShareLink}
-                      className={`px-4 py-2 bg-cyan-700 hover:bg-cyan-600 text-white rounded flex items-center gap-2 transition-colors ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''}`}
-                    >
-                      <Copy size={16} /> Copy Share Link
-                    </button>
-                    <button
-                      onClick={shareBuild}
-                      className={`px-4 py-2 bg-violet-700 hover:bg-violet-600 text-white rounded flex items-center gap-2 transition-colors ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''}`}
-                    >
-                      Share
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-3 border-t border-gray-700 pt-4">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <div>
-                    <h4 className="text-md font-medium text-gray-300">Local Saves</h4>
-                    <p className="text-xs text-gray-400">Named saves change only when you explicitly update them.</p>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    <button onClick={createSaveSlot} className="rounded bg-emerald-700 px-3 py-2 text-sm hover:bg-emerald-600">Create Named Save</button>
-                    <button onClick={updateActiveSave} disabled={!activeSaveId} className="rounded bg-blue-700 px-3 py-2 text-sm hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50">Update Save</button>
-                  </div>
-                </div>
-                <div className="rounded-lg border border-amber-500/30 bg-amber-950/20 p-3">
-                  <div className="flex flex-wrap items-center justify-between gap-2">
-                    <div><div className="text-sm font-semibold text-amber-200">Recovery Draft</div><div className="text-xs text-gray-400">{draftTimestamp ? `Last saved ${new Date(draftTimestamp).toLocaleString()}` : 'No recovery draft available'}</div></div>
-                    <div className="flex gap-2"><button onClick={restoreDraft} disabled={!draftTimestamp} className="rounded border border-amber-500/50 px-3 py-2 text-sm disabled:opacity-40">Restore</button><button onClick={discardDraft} disabled={!draftTimestamp} className="rounded border border-red-500/50 px-3 py-2 text-sm text-red-200 disabled:opacity-40">Discard</button></div>
-                  </div>
-                </div>
-                {saveSlots.length > 0 ? (
-                  <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
-                    {saveSlots.map((slot) => (
-                      <div key={slot.id} className={`rounded-lg border p-3 ${activeSaveId === slot.id ? 'border-cyan-400 bg-cyan-950/20' : 'border-gray-600 bg-gray-700/50'}`}>
-                        <div className="flex items-start justify-between gap-2"><div><div className="font-medium text-white">{slot.name}</div><div className="text-xs text-gray-400">Updated {new Date(slot.updatedAt).toLocaleString()}</div></div>{activeSaveId === slot.id && <span className="rounded bg-cyan-900 px-2 py-1 text-xs text-cyan-200">Loaded</span>}</div>
-                        <div className="mt-3 flex flex-wrap gap-2 text-xs"><button onClick={() => loadNamedSave(slot)} className="rounded bg-blue-700 px-2 py-1">Load</button><button onClick={() => duplicateSave(slot)} className="rounded bg-gray-600 px-2 py-1">Duplicate</button><button onClick={() => downloadBuild(slot.name, slot.build)} className="rounded bg-gray-600 px-2 py-1">Export</button><button onClick={() => deleteSave(slot)} className="rounded bg-red-900 px-2 py-1 text-red-100">Delete</button></div>
-                      </div>
-                    ))}
-                  </div>
-                ) : <p className="text-sm text-gray-500">No named saves yet.</p>}
-              </div>
-
-              {/* Import Section */}
-              <div className="space-y-3">
-                <h4 className="text-md font-medium text-gray-300">Import Build</h4>
-                <div className="space-y-2">
-                  <textarea
-                    value={importText}
-                    onChange={(e) => setImportText(e.target.value)}
-                    placeholder="Paste build JSON here..."
-                    rows={4}
-                    className="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white placeholder-gray-400 font-mono text-sm"
-                  />
-                  <div className="flex flex-col sm:flex-row gap-2">
-                    <button
-                      onClick={() => importBuild(importText)}
-                      disabled={!importText.trim()}
-                      className={`px-4 py-2 bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white rounded flex items-center gap-2 ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''}`}
-                    >
-                      <Upload size={16} />
-                      Import from Text
-                    </button>
-                    <input
-                      type="file"
-                      accept=".json"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (file) {
-                          const reader = new FileReader();
-                          reader.onload = (event) => {
-                            const content = event.target?.result as string;
-                            importBuild(content);
-                          };
-                          reader.readAsText(file);
-                        }
-                      }}
-                      className="hidden"
-                      id="import-file"
-                    />
-                    <label
-                      htmlFor="import-file"
-                      className={`px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded flex items-center gap-2 cursor-pointer ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''}`}
-                    >
-                      <Upload size={16} />
-                      Import from File
-                    </label>
-                  </div>
-                </div>
-              </div>
-
-              {/* Template Builds Section */}
-              <div className="space-y-3">
-                <h4 className="text-md font-medium text-gray-300">Template Builds</h4>
-                <p className="text-sm text-gray-400">Load basic builds for simple templates!</p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-3">
-                  {Object.entries(TEMPLATE_BUILDS).map(([key, template]) => (
-                    <div key={key} className="bg-gray-700 border border-gray-600 rounded p-3" title={template.reasoning}>
-                      <div className="flex justify-between items-start mb-2">
-                        <h5 className="font-medium text-white text-sm">{template.name}</h5>
-                        <button
-                          onClick={() => loadTemplate(key)}
-                          className={`px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded text-xs ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''}`}
-                        >
-                          Load
-                        </button>
-                      </div>
-                      <p className="text-xs text-gray-300 mb-2">{template.description}</p>
-                      <div className="text-xs text-gray-400">
-                        <div className="mb-1">
-                          <span className="font-medium">Race:</span> {template.race} {template.subrace}
-                        </div>
-                        <div className="mb-1">
-                          <span className="font-medium">Classes:</span> {template.mainClass} Monotype
-                        </div>
-                        <div className="mb-1">
-                          <span className="font-medium">History:</span> {template.history || 'None'}
-                        </div>
-                        <div className="text-xs text-blue-300 mt-1">
-                          Key Stats: {Object.entries(template.stats)
-                            .filter(([, value]) => value > 0) 
-                            .sort(([, a], [, b]) => b - a)
-                            .slice(0, 3)
-                            .map(([stat, value]) => `${stat.toUpperCase()}: ${value}`)
-                            .join(', ')}
-                        </div>
-                        <div className="text-xs text-yellow-400 mt-1 italic">
-                          💡 Hover for stat reasoning
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-          )}
-
-          {/* Raw vs True Stats Toggle */}
-          <div className="flex justify-center mb-4">
-            <div className="bg-gray-700 rounded-lg p-1 flex">
-              <button
-                onClick={() => setShowRawStats(false)}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''} ${
-                  !showRawStats 
-                    ? 'bg-blue-600 text-white' 
-                    : 'text-gray-300 hover:text-white'
-                }`}
-              >
-                True Stats (DR Applied)
-              </button>
-              <button
-                onClick={() => setShowRawStats(true)}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''} ${
-                  showRawStats 
-                    ? 'bg-orange-600 text-white' 
-                    : 'text-gray-300 hover:text-white'
-                }`}
-              >
-                Raw Stats (No DR)
-              </button>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 xl:gap-6">
-            <div className="space-y-1">
-              <StatRow label="Strength" statKey="str" />
-              <StatRow label="Will" statKey="wil" />
-              <StatRow label="Skill" statKey="ski" />
-              <StatRow label="Celerity" statKey="cel" />
-            </div>
-            
-            <div className="space-y-1">
-              <StatRow label="Defense" statKey="def" />
-              <StatRow label="Resistance" statKey="res" />
-              <StatRow label="Vitality" statKey="vit" />
-              <StatRow label="Faith" statKey="fai" />
-            </div>
-
-            <div className="space-y-1">
-              <StatRow label="Luck" statKey="luc" />
-              <StatRow label="Guile" statKey="gui" />
-              <StatRow label="Sanctity" statKey="san" />
-              <StatRow label="Aptitude" statKey="apt" />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-8 gap-3 xl:gap-4 mt-6 pt-6 border-t border-gray-700">
-            <div className={`bg-gray-700 rounded p-4 ${retroMode ? 'glow-border font-retro' : ''}`}>
-              <div className="text-sm text-gray-400">HP</div>
-              <div className="text-2xl font-bold text-red-400">
-                {calculateHP()} <span className="text-base text-gray-400">/ {calculateMaxHP()}</span>
-              </div>
-            </div>
-            <div className={`bg-gray-700 rounded p-4 ${retroMode ? 'glow-border font-retro' : ''}`}>
-              <div className="text-sm text-gray-400">FP</div>
-              <div className="text-2xl font-bold text-blue-400">{calculateMP()}</div>
-            </div>
-            <div className={`bg-gray-700 rounded p-4 ${retroMode ? 'glow-border font-retro' : ''}`}>
-              <div className="text-sm text-gray-400">Phys. Def</div>
-              <div className="text-2xl font-bold text-purple-400">{buildEvaluation.derived.physicalDefense}%</div>
-            </div>
-            <div className={`bg-gray-700 rounded p-4 ${retroMode ? 'glow-border font-retro' : ''}`}>
-              <div className="text-sm text-gray-400">Mag. Def</div>
-              <div className="text-2xl font-bold text-pink-400">{buildEvaluation.derived.magicalDefense}%</div>
-            </div>
-            <div className={`bg-gray-700 rounded p-4 ${retroMode ? 'glow-border font-retro' : ''}`}>
-              <div className="text-sm text-gray-400">Evade</div>
-              <div className="text-xl font-bold text-yellow-400">
-                {buildEvaluation.derived.evade}
-              </div>
-            </div>
-            <div className={`bg-gray-700 rounded p-4 ${retroMode ? 'glow-border font-retro' : ''}`}>
-              <div className="text-sm text-gray-400">Crit Evade</div>
-              <div className="text-xl font-bold text-cyan-400">
-                {buildEvaluation.derived.criticalEvade}
-              </div>
-            </div>
-            <div className={`bg-gray-700 rounded p-4 ${retroMode ? 'glow-border font-retro' : ''}`}>
-              <div className="text-sm text-gray-400">Status Inflict</div>
-              <div className="text-xl font-bold text-green-400">
-                {buildEvaluation.derived.statusInfliction}%
-              </div>
-            </div>
-            <div className={`bg-gray-700 rounded p-4 ${retroMode ? 'glow-border font-retro' : ''}`}>
-              <div className="text-sm text-gray-400">Status Resist</div>
-              <div className="text-xl font-bold text-indigo-400">
-                {buildEvaluation.derived.statusResistance}%
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-6 pt-6 border-t border-gray-700">
-            <h3 className="font-bold text-lg mb-4">Elemental ATK & RES</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-10 gap-3">
-              {elements.map(elem => (
-                <div key={elem} className={`bg-gray-700 rounded p-3 ${retroMode ? 'glow-border font-retro' : ''}`}>
-                  <div 
-                    className="text-sm font-semibold mb-2" 
-                    style={{ color: ELEMENT_COLORS[elem] }}
-                  >
-                    {elem}
-                  </div>
-                  
-                  {/* ATK Row */}
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-red-400 text-sm">ATK:</span>
-                    <div className="flex items-center gap-1">
-                      <button
-                        onClick={() => adjustElementalATK(elem as ElementKey, -1)}
-                        className="w-5 h-5 bg-red-600 hover:bg-red-500 rounded text-xs flex items-center justify-center"
-                        title={`Decrease ${elem} ATK`}
-                      >
-                        <Minus size={10} />
-                      </button>
-                      <span className="text-red-400 text-sm font-bold min-w-[2rem] text-center">
-                        {calculateElementalATK(elem)}
-                      </span>
-                      <button
-                        onClick={() => adjustElementalATK(elem as ElementKey, 1)}
-                        className="w-5 h-5 bg-green-600 hover:bg-green-500 rounded text-xs flex items-center justify-center"
-                        title={`Increase ${elem} ATK`}
-                      >
-                        <Plus size={10} />
-                      </button>
-                    </div>
-                  </div>
-                  
-                  {/* RES Row */}
-                  <div className="flex items-center justify-between">
-                    <span className="text-blue-400 text-sm">RES:</span>
-                    <div className="flex items-center gap-1">
-                      <button
-                        onClick={() => adjustElementalRES(elem as ElementKey, -1)}
-                        className="w-5 h-5 bg-red-600 hover:bg-red-500 rounded text-xs flex items-center justify-center"
-                        title={`Decrease ${elem} RES`}
-                      >
-                        <Minus size={10} />
-                      </button>
-                      <span className="text-blue-400 text-sm font-bold min-w-[2rem] text-center">
-                        {calculateElementalRES(elem)}%
-                      </span>
-                      <button
-                        onClick={() => adjustElementalRES(elem as ElementKey, 1)}
-                        className="w-5 h-5 bg-green-600 hover:bg-green-500 rounded text-xs flex items-center justify-center"
-                        title={`Increase ${elem} RES`}
-                      >
-                        <Plus size={10} />
-                      </button>
-                    </div>
-                  </div>
-                  
-                  {/* Show manual adjustments and race resistances if any */}
-                  {(elementalATKAdjustments[elem as ElementKey] !== 0 || 
-                    elementalRESAdjustments[elem as ElementKey] !== 0 || 
-                    getRaceResistances()[elem as ElementKey] !== 0 ||
-                    (subrace === 'Umbral' && elem === 'Dark') ||
-                    (subrace === 'Theno' && elem === 'Sound')) && (
-                    <div className="mt-1 text-xs text-gray-400">
-                      {elementalATKAdjustments[elem as ElementKey] !== 0 && (
-                        <div>Manual ATK: {elementalATKAdjustments[elem as ElementKey] > 0 ? '+' : ''}{elementalATKAdjustments[elem as ElementKey]}</div>
-                      )}
-                      {elementalRESAdjustments[elem as ElementKey] !== 0 && (
-                        <div>Manual RES: {elementalRESAdjustments[elem as ElementKey] > 0 ? '+' : ''}{elementalRESAdjustments[elem as ElementKey]}</div>
-                      )}
-                      {getRaceResistances()[elem as ElementKey] !== 0 && (
-                        <div className={`${getRaceResistances()[elem as ElementKey] > 0 ? 'text-green-400' : 'text-red-400'}`}>
-                          Race RES: {getRaceResistances()[elem as ElementKey] > 0 ? '+' : ''}{getRaceResistances()[elem as ElementKey]}%
-                          {(subrace === 'Umbral' || subrace === 'Papilion') && 
-                           (elem === 'Dark' || elem === 'Light' || elem === 'Wind' || elem === 'Earth') && 
-                           <span className="text-gray-500"> (scales with SAN)</span>
-                                                   }
-                        </div>
-                      )}
-                      {subrace === 'Umbral' && elem === 'Dark' && (
-                        <div className="text-purple-400">
-                          Race ATK: +{Math.min(15, Math.floor(characterLevel / 2))} (level/2, max 15)
-                        </div>
-                      )}
-                      {subrace === 'Theno' && elem === 'Sound' && (
-                        <div className="text-blue-400">
-                          Race ATK: Base = Level {characterLevel} (ignores stat scaling)
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-              ))}
-              
-              {/* Poison Resistance Box (separate from Acid) */}
-              {(subrace === 'Wyverntouched' || subrace === 'Naga') && (
-                <div className="bg-green-900 rounded p-3 border-2 border-green-600">
-                  <div className="text-sm font-semibold mb-2 text-green-300">Poison</div>
-                  
-                  {/* No ATK for Poison */}
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-gray-500 text-sm">ATK:</span>
-                    <span className="text-gray-500 text-sm">—</span>
-                  </div>
-                  
-                  {/* Poison RES Row */}
-                  <div className="flex items-center justify-between">
-                    <span className="text-green-300 text-sm">RES:</span>
-                    <span className="text-green-300 text-sm font-bold">
-                      {subrace === 'Wyverntouched' ? stats.san * 2 : stats.san}%
-                    </span>
-                  </div>
-                  
-                  <div className="mt-1 text-xs text-green-400">
-                    <div>
-                      Race RES: {subrace === 'Wyverntouched' ? 'SAN × 2' : 'SAN × 1'} = {subrace === 'Wyverntouched' ? stats.san * 2 : stats.san}%
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6 pt-6 border-t border-gray-700">
-            <div className={`bg-gray-700 rounded p-3 ${retroMode ? 'glow-border font-retro' : ''}`}>
-              <div className="text-sm text-gray-400">Initiative</div>
-              <div className="text-lg font-bold">
-                {(SUBRACES[subrace]?.cel || 0) + addedStats.cel + customBaseStats.cel + (astroBonus.cel || 0)}
-              </div>
-            </div>
-            <div className={`bg-gray-700 rounded p-3 ${retroMode ? 'glow-border font-retro' : ''}`}>
-              <div className="text-sm text-gray-400">Youkai Cap</div>
-              <div className="text-lg font-bold text-purple-400">{youkaiCap}</div>
-            </div>
-            <div className={`bg-gray-700 rounded p-3 ${retroMode ? 'glow-border font-retro' : ''}`}>
-              <div className="text-sm text-gray-400">Flanking</div>
-              <div className="text-lg font-bold">
-                {buildEvaluation.derived.flanking}
-              </div>
-            </div>
-            <div className={`bg-gray-700 rounded p-3 ${retroMode ? 'glow-border font-retro' : ''}`}>
-              <div className="text-sm text-gray-400">Skill Pool</div>
-              <div className="text-lg font-bold">
-                {buildEvaluation.derived.skillPool}
-              </div>
-            </div>
-            <div className={`bg-gray-700 rounded p-3 ${retroMode ? 'glow-border font-retro' : ''}`}>
-              <div className="text-sm text-gray-400">Battle Weight</div>
-              <div className="text-lg font-bold">
-                0/{buildEvaluation.derived.battleWeight}
-              </div>
-            </div>
-            <div className={`bg-gray-700 rounded p-3 ${retroMode ? 'glow-border font-retro' : ''}`}>
-              <div className="text-sm text-gray-400">Encumbrance</div>
-              <div className="text-lg font-bold">
-                0/{buildEvaluation.derived.encumbrance}
-              </div>
-            </div>
-          </div>
-          <OptimizerPanel
-            build={currentBuild}
-            currentEvaluation={buildEvaluation}
-            onApply={applyOptimizationCandidate}
-            canUndo={optimizerUndo !== null}
-            onUndo={undoOptimization}
-            retroMode={retroMode}
-          />
-            </motion.div>
-          )}
-
-          {/* Weapon Calculator Tab */}
-          {activeTab === 'weapon' && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-            >
-              <WeaponCalculator stats={stats} retroMode={retroMode} config={weaponConfig} onConfigChange={setWeaponConfig} extraCritChance={conditionalCriticalBonus} />
-            </motion.div>
-          )}
-
-          {activeTab === 'armor' && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-            >
-              <ArmorCalculator 
-                equippedArmor={equippedArmor}
-                onArmorChange={(armor) => {
-                  setEquippedArmor(armor);
-                  // Reset conditional bonuses when armor changes
-                  setArmorConditionalBonuses({});
-                }}
-                conditionalBonusStates={armorConditionalBonuses}
-                onConditionalBonusChange={(bonusKey, enabled) => {
-                setArmorConditionalBonuses(prev => ({
-                  ...prev,
-                  [bonusKey]: enabled
-                }));
+            <ImportExportDialog
+              onClose={() => setShowImportExport(false)}
+              on={{
+                exportBuild,
+                downloadBuild,
+                importBuild,
+                loadTemplate,
+                copyBuildToClipboard,
+                copyShareLink,
+                shareBuild,
+                createSaveSlot,
+                updateActiveSave,
+                loadNamedSave,
+                duplicateSave,
+                deleteSave,
+                restoreDraft,
+                discardDraft,
               }}
-              retroMode={retroMode}
+              buildName={buildName}
+              onBuildNameChange={setBuildName}
+              saveSlots={saveSlots}
+              activeSaveId={activeSaveId}
+              draftTimestamp={draftTimestamp}
             />
-            </motion.div>
           )}
 
-          {/* Screenshot Mode Tab */}
-          {activeTab === 'screenshot' && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-              className="space-y-6"
-            >
-              {/* Screenshot Button */}
-              <div className="flex justify-between items-center mb-6">
-                <h2 className={`text-2xl font-bold ${retroMode ? 'glitch-title text-emerald-300' : 'text-accent-purple font-display'}`}>Screenshot Mode</h2>
-                <motion.button
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={takeScreenshot}
-                  className="sound-click sound-hover flex items-center gap-2 px-6 py-3 glow-border shine text-white rounded-lg font-semibold"
-                >
-                  <Camera size={20} />
-                  Save Screenshot
-                </motion.button>
-              </div>
 
-              {/* Screenshot Content */}
-              <div ref={screenshotRef} className={`${retroMode ? 'panel-contrast font-retro glow-border' : 'glass-effect'} rounded-lg p-8 space-y-6`}>
-                {/* Build Header */}
-                <div className={`border-b border-gray-700 pb-4 ${retroMode ? 'glow-border' : ''}`}>
-                  <h1 className={`text-3xl font-bold mb-3 ${retroMode ? 'glitch-title text-yellow-300' : 'font-display text-gradient'}`}>{buildName || 'Unnamed Build'}</h1>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
-                    <div>
-                      <span className="text-gray-400">Race: </span>
-                      <span className="font-semibold">{subrace}</span>
-                    </div>
-                    <div>
-                      <span className="text-gray-400">Main Class: </span>
-                      <span className="font-semibold">{mainClass}</span>
-                    </div>
-                    <div>
-                      <span className="text-gray-400">Sub Class: </span>
-                      <span className="font-semibold">{subClass}</span>
-                    </div>
-                    <div>
-                      <span className="text-gray-400">Level: </span>
-                      <span className="font-semibold">{characterLevel}</span>
-                    </div>
-                  </div>
-                </div>
 
-                {/* Stats Display */}
-                <div>
-                  <h3 className={`text-xl font-bold mb-4 ${retroMode ? 'glitch-title text-blue-300' : 'text-blue-400'}`}>Character Stats</h3>
-                  <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
-                    {Object.entries(stats).map(([stat, value]) => (
-                      <div key={stat} className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-700'} rounded-lg p-3`}>
-                        <div className="text-xs text-gray-400 uppercase tracking-wide mb-1">{stat}</div>
-                        <div 
-                          className="text-xl font-bold"
-                          style={{ 
-                            color: STAT_COLORS[stat as StatKey] === 'rainbow' 
-                              ? '#ffffff' 
-                              : STAT_COLORS[stat as StatKey] 
-                          }}
-                        >
-                          {value}
-                        </div>
-                        <div className="text-xs text-gray-500 mt-0.5">
-                          {SUBRACES[subrace]?.[stat as StatKey] || 0} + {addedStats[stat as StatKey]}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
 
-                {/* Derived Stats */}
-                <div>
-                  <h3 className={`text-xl font-bold mb-4 ${retroMode ? 'glitch-title text-green-300' : 'text-green-400'}`}>Combat Stats</h3>
-                  <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-3">
-                    <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-700'} rounded-lg p-3`}>
-                      <div className="text-xs text-gray-400">HP</div>
-                      <div className="text-lg font-bold text-red-400">
-                        {calculateHP()} / {calculateMaxHP()}
-                      </div>
-                    </div>
-                    <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-700'} rounded-lg p-3`}>
-                      <div className="text-xs text-gray-400">FP</div>
-                      <div className="text-lg font-bold text-blue-400">{calculateMP()}</div>
-                    </div>
-                    <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-700'} rounded-lg p-3`}>
-                      <div className="text-xs text-gray-400">Phys. Def</div>
-                      <div className="text-lg font-bold text-purple-400">{buildEvaluation.derived.physicalDefense}%</div>
-                    </div>
-                    <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-700'} rounded-lg p-3`}>
-                      <div className="text-xs text-gray-400">Mag. Def</div>
-                      <div className="text-lg font-bold text-pink-400">{buildEvaluation.derived.magicalDefense}%</div>
-                    </div>
-                    <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-700'} rounded-lg p-3`}>
-                      <div className="text-xs text-gray-400">Evade</div>
-                      <div className="text-lg font-bold text-yellow-400">
-                        {buildEvaluation.derived.evade}
-                      </div>
-                    </div>
-                    <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-700'} rounded-lg p-3`}>
-                      <div className="text-xs text-gray-400">Crit Evade</div>
-                      <div className="text-lg font-bold text-cyan-400">
-                        {buildEvaluation.derived.criticalEvade}
-                      </div>
-                    </div>
-                    <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-700'} rounded-lg p-3`}>
-                      <div className="text-xs text-gray-400">Status Inflict</div>
-                      <div className="text-lg font-bold text-green-400">
-                        {buildEvaluation.derived.statusInfliction}%
-                      </div>
-                    </div>
-                    <div className="bg-gray-700 rounded-lg p-3">
-                      <div className="text-xs text-gray-400">Status Resist</div>
-                      <div className="text-lg font-bold text-indigo-400">
-                        {buildEvaluation.derived.statusResistance}%
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Elemental Stats */}
-                <div>
-                  <h3 className={`text-xl font-bold mb-4 ${retroMode ? 'glitch-title text-orange-300' : 'text-orange-400'}`}>Elemental ATK & RES</h3>
-                  <div className="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-10 gap-3 element-grid">
-                    {elements.map(elem => {
-                      const elemKey = elem as ElementKey;
-                      return (
-                        <div key={elem} className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-700'} rounded-lg p-3`}>
-                          <div 
-                            className="text-sm font-semibold mb-2 element-label"
-                            style={{ color: ELEMENT_COLORS[elemKey] }}
-                            title={elem}
-                            aria-label={elem}
-                          >
-                            {activeTab === 'screenshot' ? (ELEMENT_EMOJI_LABELS[elem] || elem) : elem}
-                          </div>
-                          <div className="flex justify-between text-xs">
-                            <span className="text-gray-400">ATK:</span>
-                            <span className="font-semibold">{calculateElementalATK(elem)}</span>
-                          </div>
-                          <div className="flex justify-between text-xs">
-                            <span className="text-gray-400">RES:</span>
-                            <span className="font-semibold">{calculateElementalRES(elem)}%</span>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* Equipment Bonuses Applied */}
-                <div>
-                  <h3 className={`text-xl font-bold mb-4 ${retroMode ? 'glitch-title text-amber-300' : 'text-amber-400'}`}>Equipment Bonuses</h3>
-                  <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
-                    {(['str','wil','ski','cel','def','res','vit','fai','luc','gui','san','apt'] as StatKey[]).map((stat) => {
-                      const armorBase = armorBonus[stat] || 0;
-                      const armorConditional = conditionalArmorBonus[stat] || 0;
-                      const weaponBonus = getWeaponStatBonus()[stat] || 0;
-                      const total = armorBase + armorConditional + weaponBonus;
-                      if (total === 0) return null;
-                      return (
-                        <div key={stat} className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-700'} rounded-lg p-3`}>
-                          <div className="text-xs text-gray-400 uppercase tracking-wide mb-1">{stat}</div>
-                          <div className="text-lg font-bold text-amber-300">+{total}</div>
-                          <div className="text-xs text-gray-500 mt-0.5">Armor: +{armorBase}{armorConditional ? `, +${armorConditional} cond.` : ''}{weaponBonus ? `, Weapon: +${weaponBonus}` : ''}</div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* Weapon Information */}
-                <div>
-                  <h3 className={`text-xl font-bold mb-4 ${retroMode ? 'glitch-title text-yellow-300' : 'text-yellow-400'}`}>Weapon Stats</h3>
-                  {/* Selected Weapon Summary (for screenshot clarity) */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-                    <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-800'} rounded-lg p-3`}>
-                      <div className="text-xs text-gray-400">Selected Weapon</div>
-                      <div className="text-sm font-bold text-white">
-                        {weaponConfig?.selectedWeaponName || 'None selected'}
-                      </div>
-                    </div>
-                    <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-800'} rounded-lg p-3`}>
-                      <div className="text-xs text-gray-400">Type</div>
-                      <div className="text-sm font-bold text-white">
-                        {weaponConfig?.weaponType || '—'}
-                      </div>
-                    </div>
-                  </div>
-                  <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-700'} rounded-lg p-4`}>
-                    <WeaponCalculator stats={stats} readOnly={true} retroMode={retroMode} config={weaponConfig} extraCritChance={conditionalCriticalBonus} />
-                  </div>
-                </div>
-
-                {/* Conditional Bonus Sources */}
-                {(conditionalCriticalBonus > 0 || conditionalEvadeBonus > 0) && (
-                  <div>
-                    <h3 className={`text-xl font-bold mb-4 ${retroMode ? 'glitch-title text-pink-300' : 'text-pink-400'}`}>Bonus Sources</h3>
-                    <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-700'} rounded-lg p-4 space-y-3`}>
-                      {conditionalCriticalBonus > 0 && (
-                        <div>
-                          <div className="text-sm font-semibold text-yellow-300">Critical Chance: +{conditionalCriticalBonus}</div>
-                          <div className="text-xs text-gray-300 mt-1">Source{equippedArmor ? `: ${equippedArmor.name}` : ''}</div>
-                          <div className="text-xs text-gray-400 mt-1 space-y-1">
-                            {Object.entries(equippedArmor?.conditionalBonuses || {})
-                              .filter(([key, bonus]) => armorConditionalBonuses[key] && (bonus as any).critical)
-                              .map(([key, bonus]) => (
-                                <div key={`crit-${key}`}>• {(bonus as any).condition}</div>
-                              ))}
-                          </div>
-                        </div>
-                      )}
-
-                      {conditionalEvadeBonus > 0 && (
-                        <div>
-                          <div className="text-sm font-semibold text-green-300">Evade: +{conditionalEvadeBonus}</div>
-                          <div className="text-xs text-gray-300 mt-1">Source{equippedArmor ? `: ${equippedArmor.name}` : ''}</div>
-                          <div className="text-xs text-gray-400 mt-1 space-y-1">
-                            {Object.entries(equippedArmor?.conditionalBonuses || {})
-                              .filter(([key, bonus]) => armorConditionalBonuses[key] && (bonus as any).evade)
-                              .map(([key, bonus]) => (
-                                <div key={`evade-${key}`}>• {(bonus as any).condition}</div>
-                              ))}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
-
-                {/* Armor Information */}
-                <div>
-                  <h3 className={`text-xl font-bold mb-4 ${retroMode ? 'glitch-title text-orange-300' : 'text-orange-400'}`}>Armor Stats</h3>
-                  <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-700'} rounded-lg p-4`}>
-                    {equippedArmor ? (
-                      <div className="space-y-4">
-                        {/* Basic Armor Info */}
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                          <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-800'} rounded-lg p-3`}>
-                            <div className="text-xs text-gray-400">Armor Name</div>
-                            <div className="text-sm font-bold text-white">{equippedArmor.name}</div>
-                          </div>
-                          <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-800'} rounded-lg p-3`}>
-                            <div className="text-xs text-gray-400">Type</div>
-                            <div className="text-sm font-bold text-white">{equippedArmor.type}</div>
-                          </div>
-                          <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-800'} rounded-lg p-3`}>
-                            <div className="text-xs text-gray-400">Rarity</div>
-                            <div className="text-sm font-bold text-yellow-400">{'★'.repeat(equippedArmor.rarity)}</div>
-                          </div>
-                          <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-800'} rounded-lg p-3`}>
-                            <div className="text-xs text-gray-400">Weight</div>
-                            <div className="text-sm font-bold text-red-400">{equippedArmor.weight}</div>
-                          </div>
-                        </div>
-                        
-                        {/* Armor Properties */}
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                          <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-800'} rounded-lg p-3`}>
-                            <div className="text-xs text-gray-400">Physical Armor</div>
-                            <div className="text-lg font-bold text-orange-400">{equippedArmor.armor}</div>
-                          </div>
-                          <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-800'} rounded-lg p-3`}>
-                            <div className="text-xs text-gray-400">Magic Armor</div>
-                            <div className="text-lg font-bold text-blue-400">{equippedArmor.magicArmor}</div>
-                          </div>
-                          <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-800'} rounded-lg p-3`}>
-                            <div className="text-xs text-gray-400">Evade</div>
-                            <div className="text-lg font-bold text-yellow-400">{equippedArmor.evade}</div>
-                          </div>
-                        </div>
-
-                        {/* Stat Bonuses */}
-                        {equippedArmor.statBonuses && Object.keys(equippedArmor.statBonuses).length > 0 && (
-                          <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
-                            {Object.entries(equippedArmor.statBonuses).map(([stat, value]) => {
-                              if (value === undefined || value === 0) return null;
-                              const statKey = stat as StatKey;
-                              const color = STAT_COLORS[statKey] === 'rainbow' ? '#ffffff' : STAT_COLORS[statKey];
-                              return (
-                                <div key={stat} className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-800'} rounded-lg p-3`}>
-                                  <div className="text-xs text-gray-400 uppercase tracking-wide">{stat}</div>
-                                  <div className="text-sm font-bold" style={{ color }}>+{value}</div>
-                                </div>
-                              );
-                            })}
-                          </div>
-                        )}
-
-                        {/* Special Effects */}
-                        {equippedArmor.specialEffects && equippedArmor.specialEffects.length > 0 && (
-                          <div className={`${retroMode ? 'panel-soft glow-border' : 'bg-gray-800'} rounded-lg p-3`}>
-                            <div className="text-xs text-gray-400 mb-2">Special Effects</div>
-                            <div className="space-y-1">
-                              {equippedArmor.specialEffects.map((effect, index) => (
-                                <div key={index} className="text-xs text-purple-300">• {effect}</div>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    ) : (
-                      <div className={`text-center py-4 ${retroMode ? 'text-gray-300 panel-soft glow-border rounded-lg' : 'text-gray-400'}`}>
-                        <div className="text-sm">No armor equipped</div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* Build Notes */}
-                <div className="border-t border-gray-700 pt-4 text-xs text-gray-400">
-                  <div>Generated by SL2 Calculator Suite v{APP_VERSION}</div>
-                  <div>Date: {new Date().toLocaleDateString()}</div>
-                  {history !== 'None' && <div>History: {history}</div>}
-                  {food !== 'None' && <div>Food: {food}</div>}
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </motion.div>
-
-        {/* Stat Information Modal */}
-        {showStatInfo && selectedStat && STAT_INFO[selectedStat] && (
-          <div 
-            className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-2 sm:p-4"
-            onClick={() => setShowStatInfo(false)}
-          >
-            <div 
-              className={`bg-gray-800 rounded-lg shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto ${retroMode ? 'glow-border font-retro' : ''}`}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="sticky top-0 bg-gray-800 border-b border-gray-700 p-3 sm:p-4 md:p-6 flex justify-between items-center">
-                <h2 className={`text-lg sm:text-xl md:text-2xl font-bold ${retroMode ? 'font-retro' : ''}`}>{retroMode ? (<span className="glitch" data-text={STAT_INFO[selectedStat].title}>{STAT_INFO[selectedStat].title}</span>) : STAT_INFO[selectedStat].title}</h2>
-                <button
-                  onClick={() => setShowStatInfo(false)}
-                  className={`p-2 hover:bg-gray-700 rounded-full transition-colors ${retroMode ? 'glow-border sound-click sound-hover' : ''}`}
-                  title="Close"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                  </svg>
-                </button>
-              </div>
-              
-              <div className="p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4">
-                {/* Base Stats vs Scaled Stats Info Box */}
-                <div className="bg-blue-900 bg-opacity-30 border border-blue-700 rounded p-3 sm:p-4">
-                  <h4 className="font-semibold text-blue-300 mb-2 text-sm sm:text-base">Base vs Scaled Stats</h4>
-                  <div className="text-xs sm:text-sm text-gray-300 space-y-1">
-                    <p><strong>Base Stat:</strong> Your race's starting stat + invested points + bonuses from History, Starsigns, and Legend Extends. Used for trait requirements.</p>
-                    <p><strong>Scaled Stat:</strong> Base stats with diminishing returns applied after soft cap. Most effects use Scaled stats.</p>
-                    <p><strong>Hard Cap:</strong> Race base + 80 invested points maximum (including Legend Extends and History bonuses).</p>
-                    <p><strong>Soft Cap:</strong> Race base + 40 points. After this, every 3 points lose 8% effectiveness (min 10%).</p>
-                  </div>
-                </div>
-
-                <div className="text-gray-300 whitespace-pre-line leading-relaxed text-sm sm:text-base">
-                  {STAT_INFO[selectedStat].description}
-                </div>
-                
-                <div className="border-t border-gray-700 pt-3 sm:pt-4">
-                  <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3 text-green-400">Effects</h3>
-                  <ul className="space-y-2">
-                    {STAT_INFO[selectedStat].effects.map((effect, index) => (
-                      <li key={index} className="flex items-start gap-2">
-                        <span className="text-green-400 mt-1 flex-shrink-0">•</span>
-                        <span className="text-gray-300 text-sm sm:text-base">{effect}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {STAT_INFO[selectedStat].notes && (
-                  <div className="border-t border-gray-700 pt-4">
-                    <div className="bg-yellow-900 bg-opacity-30 border border-yellow-700 rounded p-4">
-                      <h4 className="font-semibold text-yellow-300 mb-2">⚠️ Important Note</h4>
-                      <p className="text-sm text-gray-300">{STAT_INFO[selectedStat].notes}</p>
-                    </div>
-                  </div>
-                )}
-                
-                <div className="border-t border-gray-700 pt-4">
-                  <div className="bg-gray-700 rounded p-4">
-                    <div className="text-sm text-gray-400 mb-2">Your Current Values:</div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <div className="text-sm text-gray-400">Raw Stat:</div>
-                        <div className="text-2xl font-bold text-orange-400">
-                          {Math.floor(rawStats[selectedStat as StatKey])}
-                        </div>
-                      </div>
-                      <div>
-                        <div className="text-sm text-gray-400">Scaled Stat:</div>
-                        <div className="text-2xl font-bold text-blue-400">
-                          {Math.floor(stats[selectedStat as StatKey])}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
 
         {/* Food Bonuses Modal */}
         {showFood && (
@@ -3323,14 +927,14 @@ export default function SL2Calculator() {
             onClick={() => setShowFood(false)}
           >
             <div 
-              className={`bg-gray-800 rounded-lg shadow-2xl max-w-5xl w-full max-h-[90vh] overflow-y-auto ${retroMode ? 'glow-border font-retro' : ''}`}
+              className={`bg-surface-raised rounded-lg shadow-2xl max-w-5xl w-full max-h-[90vh] overflow-y-auto `}
               onClick={(e) => e.stopPropagation()}
             >
-                <div className="sticky top-0 bg-gray-800 border-b border-gray-700 p-3 sm:p-4 md:p-6 flex justify-between items-center">
-                <h2 className={`text-lg sm:text-xl md:text-2xl font-bold ${retroMode ? 'font-retro' : ''}`}>{retroMode ? (<span className="glitch" data-text="Food Bonuses">Food Bonuses</span>) : 'Food Bonuses'}</h2>
+                <div className="sticky top-0 bg-surface-raised border-b border-edge-subtle p-3 sm:p-4 md:p-6 flex justify-between items-center">
+                <h2 className={`text-lg sm:text-xl md:text-2xl font-bold `}>{'Food Bonuses'}</h2>
                 <button
                   onClick={() => setShowFood(false)}
-                  className={`p-2 hover:bg-gray-700 rounded-full transition-colors ${retroMode ? 'glow-border sound-click sound-hover' : ''}`}
+                  className={`p-2 hover:bg-surface-control rounded-full transition-colors `}
                   title="Close"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -3349,13 +953,13 @@ export default function SL2Calculator() {
                         setFood(f);
                         setShowFood(false);
                       }}
-                      className={`px-3 sm:px-4 py-2 rounded text-sm sm:text-base tap-target ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''} ${
-                        food === f ? 'bg-green-600' : 'bg-gray-600 hover:bg-gray-500'
+                      className={`px-3 sm:px-4 py-2 rounded text-sm sm:text-base tap-target  ${
+                        food === f ? 'bg-positive-hover' : 'bg-surface-elevated hover:bg-surface-active'
                       }`}
                     >
                       {f}
                       {f !== 'None' && (
-                        <span className="text-xs block text-gray-300 truncate">
+                        <span className="text-xs block text-content-secondary truncate">
                           {Object.entries(FOODS[f]).filter(([_, v]) => v > 0).map(([k, v]) => `+${v} ${k.toUpperCase()}`).join(', ')}
                         </span>
                       )}
@@ -3374,14 +978,14 @@ export default function SL2Calculator() {
             onClick={() => setShowStamps(false)}
           >
             <div 
-              className={`bg-gray-800 rounded-lg shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto ${retroMode ? 'glow-border font-retro' : ''}`}
+              className={`bg-surface-raised rounded-lg shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto `}
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="sticky top-0 bg-gray-800 border-b border-gray-700 p-3 sm:p-4 md:p-6 flex justify-between items-center">
-                <h2 className={`text-lg sm:text-xl md:text-2xl font-bold ${retroMode ? 'font-retro' : ''}`}>{retroMode ? (<span className="glitch" data-text="History & Stamps">History & Stamps</span>) : 'History & Stamps'}</h2>
+              <div className="sticky top-0 bg-surface-raised border-b border-edge-subtle p-3 sm:p-4 md:p-6 flex justify-between items-center">
+                <h2 className={`text-lg sm:text-xl md:text-2xl font-bold `}>{'History & Stamps'}</h2>
                 <button
                   onClick={() => setShowStamps(false)}
-                  className={`p-2 hover:bg-gray-700 rounded-full transition-colors ${retroMode ? 'glow-border sound-click sound-hover' : ''}`}
+                  className={`p-2 hover:bg-surface-control rounded-full transition-colors `}
                   title="Close"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -3397,7 +1001,7 @@ export default function SL2Calculator() {
                   <select
                     value={history}
                     onChange={(e) => handleHistoryChange(e.target.value)}
-                    className={`w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-sm sm:text-base tap-target ${retroMode ? 'font-retro glow-border sound-hover' : ''}`}
+                    className={`w-full bg-surface-control border border-edge rounded px-3 py-2 text-sm sm:text-base tap-target `}
                   >
                     {Object.keys(HISTORY).map(h => (
                       <option key={h} value={h}>{h}</option>
@@ -3416,7 +1020,7 @@ export default function SL2Calculator() {
                           max="10"
                           value={stamps[stat]}
                           onChange={(e) => setStamps(prev => ({ ...prev, [stat]: Number(e.target.value) }))}
-                          className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm tap-target"
+                          className="w-full bg-surface-control border border-edge rounded px-2 py-1 text-sm tap-target"
                         />
                       </div>
                     ))}

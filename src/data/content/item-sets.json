@@ -1,0 +1,182 @@
+{
+  "Black-Forged Pact": {
+    "members": [
+      "Black Stone",
+      "Numa"
+    ],
+    "thresholds": [],
+    "note": "Set: Black-Forged Pact."
+  },
+  "Church Faithful": {
+    "members": [
+      "Crucifix",
+      "Halo",
+      "Sanctified Shoes"
+    ],
+    "thresholds": [
+      {
+        "count": 2,
+        "description": "+15% Healing-tag skill Power and +3 Light ATK"
+      },
+      {
+        "count": 3,
+        "description": "+15 Evade versus Vampire race, Possessed race, and Cladis Mortem Null enemies."
+      },
+      {
+        "count": 4,
+        "description": "Can't be targeted by the Banquet skill. Vampiric effects (item effects or miniboss skill) do not work against you. Pray skill's Momentum cost becomes 3."
+      }
+    ]
+  },
+  "Dragon King": {
+    "members": [
+      "Dragon King Gauntlet",
+      "Dragon King's Armor",
+      "Dragon King's Helmet"
+    ],
+    "thresholds": [],
+    "note": "Increases total Strength by 5% and soft cap for Strength by 3 for each Dragon King item equipped."
+  },
+  "Dragon Queen": {
+    "members": [
+      "Dragon Queen's Horn",
+      "Dragon Queen's Sollerets"
+    ],
+    "thresholds": [],
+    "note": "Increases total Will by 5% and soft cap for Will by 3 for each Dragon Queen item equipped."
+  },
+  "Gunsmoke Spiritual": {
+    "members": [
+      "Yang",
+      "Yin",
+      "Yinyan Charm"
+    ],
+    "thresholds": [
+      {
+        "count": 2,
+        "description": "Grants access to the Double Dao skill."
+      },
+      {
+        "count": 3,
+        "description": "Darkness and Light damage you deal ignores up to 10% of elemental resistance. Double Dao"
+      }
+    ]
+  },
+  "Hayabusa": {
+    "members": [
+      "Hikage",
+      "Tsukikage"
+    ],
+    "thresholds": [
+      {
+        "count": 2,
+        "description": "# +2 Attack Range with Daggers # Movement type becomes Teleport. If Main Weapon is Tsukikage: Moon Style. Critical hits generate Moon Crests (max 3) and grants Moon Reflection skill. If Main Weapon is Hikage: Sun Style. Critical hits generate Sun Crests (max 3) and grants Rising Sun skill. Rising Sun: 2M, 15 FP, 2 Round CD. Consumes 3 Sun Crests. Targets 1 unoccupied tile within 3 Range. Reappear at target location, when you do, become Airborne and deal 30 armor-ignoring Fire bonus damage to all enemies in 2 Range Circle. All damaged enemies are inflicted with Glowing LV 10 until your next turn."
+      }
+    ]
+  },
+  "Like a Dragon": {
+    "members": [
+      "Bands of Skill",
+      "Blue Ki Controllers"
+    ],
+    "thresholds": [
+      {
+        "count": 2,
+        "description": "Gain Cast Off Flexing Skill. When you use Cast Off Flexing; * Activate all of your Arcane Tattoo traits. * Activate Crack Knuckles skill (if equipped). * Gain Dragon Fist status permanently. (+2 Attack Range for Bare Fists. Bare Fists' Attack skill moves you to an unoccupied tile next to the target if not in 1 Range, and gains Trickery - Activate Kick skill on the target. * Kick skill Momentum cost reduced by 1 during a turn where you've used Attack."
+      }
+    ]
+  },
+  "Neverending Story": {
+    "members": [
+      "Konosekai",
+      "Mugendai"
+    ],
+    "thresholds": [
+      {
+        "count": 2,
+        "description": "# +3 WIL # +3 CEL # +15% Sound Resistance"
+      }
+    ]
+  },
+  "Precautionary Tale": {
+    "members": [
+      "Goldie Fox Jar of Dirt",
+      "Jerkin of Fortune",
+      "Life-Saving Charm"
+    ],
+    "thresholds": [
+      {
+        "count": 2,
+        "description": "Life-Saving Charm's HP and FP recovery increases by (25 x total number of this set's items equipped), and when it is activated, grants Debuff Immunity LV2 for 3 rounds, and if Jerkin of Fortune is equipped, reactivates its On Battle Start effect."
+      },
+      {
+        "count": 3,
+        "description": "After Life-Saving Charm activates, you gain Death-Defying Fortune LV (25 + your scaled CEL) for 2 rounds."
+      }
+    ]
+  },
+  "The Wolf's Claws": {
+    "members": [
+      "Beo",
+      "Bluebeo",
+      "Whulf"
+    ],
+    "thresholds": [
+      {
+        "count": 2,
+        "description": "# Grants access to the Shooting Star skill. # Increases the range of the Kick skill by 5. # Kick skill causes you to fly towards your target."
+      }
+    ]
+  },
+  "Unassuming Adventurer": {
+    "members": [
+      "Green Gloves",
+      "Green Soles",
+      "Ring of Focus",
+      "Ring of Life",
+      "Roughspun Tunic"
+    ],
+    "thresholds": [
+      {
+        "count": 2,
+        "description": "Flee success rate is (normal success rate+50)%."
+      },
+      {
+        "count": 3,
+        "description": "+(10 x total number of this set's item equipped) HP and FP."
+      },
+      {
+        "count": 5,
+        "description": "+15% damage dealt."
+      }
+    ]
+  },
+  "Weapon Singer": {
+    "members": [
+      "Cypelle Amulet",
+      "Weaponmaster's Glove"
+    ],
+    "thresholds": [
+      {
+        "count": 2,
+        "description": "Decreases the cooldown of Special Strikes by 1 round. (Min. 1 round)"
+      }
+    ]
+  },
+  "Youkai Shaman": {
+    "members": [
+      "Spirit Beast Gauntlet",
+      "Spirit Hawk Veil"
+    ],
+    "thresholds": [
+      {
+        "count": 2,
+        "description": "Item effects of Youkai Shaman items that apply to Youkai when summoned will also apply to you."
+      },
+      {
+        "count": 3,
+        "description": "+1 duration to Youkai Shaman item effects. When a Youkai is summoned and receives a Youkai Shaman item effect, it performs an attack on a random enemy in 1 Range (50% damage)."
+      }
+    ]
+  }
+}

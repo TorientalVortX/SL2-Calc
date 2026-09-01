@@ -1,7 +1,14 @@
 import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 
-export const MAX_PERSONAL_NOTES_CHARACTERS = 60_000;
+/*
+ * Truncation here is not just lost prose: the citation whitelist is derived
+ * from the delivered `## file.md` headings, so a file that falls past this cap
+ * silently becomes uncitable and the corpus's own source register is the last
+ * thing alphabetically. Keep comfortable headroom over the corpus (~69k chars
+ * since the generated status catalog landed) rather than sizing to fit.
+ */
+export const MAX_PERSONAL_NOTES_CHARACTERS = 120_000;
 
 async function collectMarkdown(current: string, relative = ''): Promise<string[]> {
   const entries = (await readdir(current, { withFileTypes: true })).sort((a, b) => a.name.localeCompare(b.name));

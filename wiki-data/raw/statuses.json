@@ -1,0 +1,413 @@
+{
+  "source": "https://sl2.miraheze.org/wiki/Status_Effects",
+  "scraped": "2026-08-15",
+  "wikitext": "This is a list of the most commonly-seen status effects in the game, along with a brief description of what each one does. \n\nUnderstanding these effects is crucial for strategizing in combat and maximizing your character's effectiveness.\n\n== Damaging Status Effects ==\nThese effects focus purely on dealing damage and nothing else:\n{| class=\"wikitable sortable\"\n! Status Effect !! Description !! Note(s)\n|-\n| Poison || Deals 10% maximum HP damage every round, to a maximum of 3*LV damage. || [[Menov's Fang]] amplifies this effect. [[Glykin]], [[Dullahan]] and '''Snakemen''' are immune to Poison infliction.\n|-\n| Lingering Damage || Take damage that ignores protection every round equal to LV based on element. || Multiple Lingering Damages can exist at once, if their element type is different from each other.\n|-\n|}\n\n== Hybrid Status Effects ==\nThese effects do more than one thing, combining damage (or damage-affecting effects) with other impacts.\n\n{| class=\"wikitable sortable\"\n! Status Effect !! Description !! Note(s)\n|-\n| Burn || Deals protection-ignoring Fire damage every round equal to LV. Negates Bonus DEF. || [[Salamandra]] and Drowned Woman are immune to '''Burn''' infliction.\n|-\n| Frozen || Reduces Evade to 0 and prevents movement skills while active. Damage reduces LV; 0 ends status. Can struggle to reduce the LV. || Grants 2 rounds of immunity after recovery.\n|-\n| Soaked || +15% Fire Res, -10% Lightning Res. When taking Lightning damage, Soaked allies within 1 Range also take the damage. Ice and Earth damage replaces with a different effect. || The replaced effects are: '''Immobilized''' (Ice), '''Muddy''' (Earth).\n|-\n| Charm || Reduces damage dealt to the target by LV%. May take damage for the causer if near them. || If the causer deals any direct damage, it reduces the duration of Charm on their target (you). [[Shaitan]] are immune to Charm infliction.\n|-\n| [[Flatfoot]] || You are flat on your feet. -5 Evade and -1 Move until your next turn. ||\n|-\n| [[Strangling Etacof]] || Hex. Prevents '''Silence''' from being cured and causes it to deal 5% HP and FP damage every round. || Max. 50 Darkness damage, and 25 FP reduction.\n|-\n| [[Llunel's Decay]] || Hex. Prevents '''Interference''' from being cured and causes it to instead reverse regeneration into damage. || Regeneration status effects also become reversed, such as [[Refreshing Flow]].\n|-\n| [[Hellflame Uorate]] || Hex. Prevents '''Burn''' from being cured and causes it to nullify bonus RES the target has. ||\n|-\n| [[Menov's Fang]] || Hex. Prevents '''Poison''' from being cured and causes it to deal 1.5x damage. ||\n|-\n| [[Imagin's Despair]] || Hex. Prevents '''Fear''' from being cured and increases all damage taken by 10%. || This affects Damage over Time effects.\n|-\n|}\n\n== Momentum-Impairing ==\nEffects that interact with momentum and action economy:\n\n{| class=\"wikitable sortable\"\n! Status Effect !! Description !! Note(s)\n|-\n| Stun || Turn is skipped, but damage taken is reduced by 50%. Ends afterwards. Taking resisted damage might end the status early and let you act with 3M. || Bosses cannot be stunned. Grants 2 rounds of immunity after recovery. \n|-\n| Knocked Down || Must spend 3M getting up during your next turn. || [[Kip-Up]], [[Roc's Rise]] and [[Quick Rise]] mitigate the momentum needed. Grants 2 rounds of immunity after recovery. \n|-\n| Badly Beaten || Obtained after reviving. Reduces your base Momentum recovery at round start by LV. || The status worsens if you are revived multiple times while under its effect.\n|-\n|}\n\n== Movement-Impairing ==\nEffects that lock or reduce your movement capabilities.\n{| class=\"wikitable sortable\"\n! Status Effect !! Description !! Note(s)\n|-\n| Immobilize || Cannot use Move or Movement Skills. || Grants 2 rounds of immunity after recovery. \n|-\n| Grappled || Treated as immobilized until the causer's next turn. || If the causer or victim are moved, the effect ends.\n|-\n| Slow || -LV Move. || This only affects basic movement.\n|-\n| Clumsy || Movement skills, aside from basic movement, are disabled. || Grants 2 rounds of immunity after recovery.\n|-\n| Muddy || 15% chance to be slip and be knocked down after using Movement. Chance increases by 15% for every tile moved beyond class base Movement speed. || This will also interrupt your Move attempt right where you've been knocked down.\n|}\n\n== Conditional ==\nStatus effects that don't do much on their own and require an extra trigger to be effective. Can also be ones that set up for other effects.\n{| class=\"wikitable sortable\"\n! Status Effect !! Description !! Note(s)\n|-\n| Frostbite || Inflicts protection-ignoring Ice damage every time you walk on an Ice Sheet. || The Ice Sheet must break for this to happen. LV = Damage. \n|-\n| Thorn Wrap || Inflicts protection-ignoring Pierce damage to the target when they use a Movement skill. || This also works on basic Movement. LV = Damage.\n|-\n| Attract Objects || Pulls enemy traps and bombs LV tiles towards yourself at the start of a new round. || \n|-\n| Guard Break || The character's guard has been broken. They temporarily take 15% more damage, cannot Guard, and Parry skills will automatically fail. || Requires the opponent to be Guarding. This effect ends on their next turn.\n|-\n| Certain Defeat || At the start of a new round, this unit's HP becomes 0. || If you are revived, you can still act before round is over.\n|-\n| Airborne || In the air, dude. || A myriad of skills interact with this status effect, but it does nothing by itself.\n|-\n| Claret Call || Increases physical damage caused by the causer. || Only increases the damage of Basic Attacks and Ghost skills.\n|-\n| Needle || Upon taking Light damage from any source but Needle, explodes, taking Light damage equal to LV and heals allies of the causer that are within 2 Range for the same amount. ||\n|-\n| Solar Lance || That can't be good. || Upon taking any Fire or Light damage, it explodes next turn, dealing 100% of the causer's Fire ATK as protection-ignoring Fire damage.\n|-\n|}\n\n== Crowd-Control Status Effects ==\nNotable effects that significantly impair or control the flow of battle.\n{| class=\"wikitable sortable\"\n! Status Effect !! Description !! Note(s)\n|-\n| [[Analyze Weakness]] || Increases all damage suffered by LV%. || Affects Damage Over Time effects too.\n|-\n| Hunted || Increases damage taken from the causer by LV%. || Affects Damage Over Time effects too.\n|-\n| Hesitation || LV% chance to hesitate when attacking. || This only affects Basic Attack or skills that use Basic Attacks. [[Shaitan]] are immune to Hesitation infliction.\n|-\n| Sneezed On || You were sneezed on... ew. -10% Status Resistance. || You gain this effect if you're a [[Kaelensia]] and someone with '''Animal Allergy''' is nearby during combat.\n|-\n| Fear || -15 Hit VS Causer. || [[Shaitan]] are immune to Fear infliction.\n|-\n| Goose Bite || Reduces all stats by LV. || \n|-\n| Drain || Reduces all stats by LV. || This will also increase the causer's status by LV.\n|-\n| [[Blotch]] || Decreases Hit by LV. || \n|-\n| Wear Down || Reduces Armor by LV. || \n|-\n| Rampage || Decreases DEF by LV. || \n|-\n| Cursed Wound || Lowers maximum HP by LV. || \n|-\n| [[Soul Chains]] || Prevents FP recovery as if it were Interfered. Treated as being Installed uniquely. || Interference reduction effects apply to this.\n|-\n| Acidity || Reduces Phys. Defense and Mag. Defense by LV%. ||\n|-\n| [[Black Drain]] || Power drained by an enemy. Lowers Scaled Weapon Attack equal to LV. || This also applies from non-damaging skills from Soldier.\n|-\n| Glowing || Evade is reduced by LV. ||\n|-\n| Magnetize || Increases the causer's Hit when attacking you by LV (max 50). ||\n|-\n| Pacify || Cannot use basic attacks or Offensive skills. Taking non-status, non-bonus damage will reduce its duration by 1 round. || This will only be seen used on Monsters, usually.\n|-\n| Spelldaze || Once acquired, puts a random spell you have equipped on a 2 round cooldown. Cannot be reapplied while active. || Cooldown timer cannot be reduced below the original cooldown duration.\n|-\n|}\n\n== Hard Crowd-Control Status Effects ==\nExtremely crippling effects that can turn a whole fight upside-down and force your enemy to either adapt, or lose.\n{| class=\"wikitable sortable\"\n! Status Effect !! Description !! Note(s)\n|-\n| [[Enemy Evaluation]] || Decreases Hit, Critical, Evade, and damage dealt by LV%. ||\n|-\n| Confusion || Cannot differentiate between friend and foe. || This prevents you from targeting allies with supporting or healing skills.\n|-\n| Blind || Final hit chance is capped at 50%. || '''Kaminah Robes''' turn this effect into Beyond Sight, which has a lesser impact on your hit chance.\n|-\n| Interference || Prevents recovery of HP and FP. || This also prevents revive effects.\n|-\n| Silence || This character is silenced and cannot cast spells. || Grants 2 rounds of immunity after recovery.\n|-\n| Removed From Battle || Removed from the battle while this status is active. || \n|-",
+  "sections": [
+    {
+      "title": "Introduction",
+      "intro": "This is a list of the most commonly-seen status effects in the game, along with a brief description of what each one does. Understanding these effects is crucial for strategizing in combat and maximizing your character's effectiveness.",
+      "rows": []
+    },
+    {
+      "title": "Damaging Status Effects",
+      "intro": "These effects focus purely on dealing damage and nothing else:",
+      "rows": [
+        {
+          "name": "Poison",
+          "description": "Deals 10% maximum HP damage every round, to a maximum of 3*LV damage.",
+          "notes": "Menov's Fang amplifies this effect. Glykin, Dullahan and Snakemen are immune to Poison infliction.",
+          "links": [
+            "Menov's Fang",
+            "Glykin",
+            "Dullahan"
+          ]
+        },
+        {
+          "name": "Lingering Damage",
+          "description": "Take damage that ignores protection every round equal to LV based on element.",
+          "notes": "Multiple Lingering Damages can exist at once, if their element type is different from each other.",
+          "links": []
+        }
+      ]
+    },
+    {
+      "title": "Hybrid Status Effects",
+      "intro": "These effects do more than one thing, combining damage (or damage-affecting effects) with other impacts.",
+      "rows": [
+        {
+          "name": "Burn",
+          "description": "Deals protection-ignoring Fire damage every round equal to LV. Negates Bonus DEF.",
+          "notes": "Salamandra and Drowned Woman are immune to Burn infliction.",
+          "links": [
+            "Salamandra"
+          ]
+        },
+        {
+          "name": "Frozen",
+          "description": "Reduces Evade to 0 and prevents movement skills while active. Damage reduces LV; 0 ends status. Can struggle to reduce the LV.",
+          "notes": "Grants 2 rounds of immunity after recovery.",
+          "links": []
+        },
+        {
+          "name": "Soaked",
+          "description": "+15% Fire Res, -10% Lightning Res. When taking Lightning damage, Soaked allies within 1 Range also take the damage. Ice and Earth damage replaces with a different effect.",
+          "notes": "The replaced effects are: Immobilized (Ice), Muddy (Earth).",
+          "links": []
+        },
+        {
+          "name": "Charm",
+          "description": "Reduces damage dealt to the target by LV%. May take damage for the causer if near them.",
+          "notes": "If the causer deals any direct damage, it reduces the duration of Charm on their target (you). Shaitan are immune to Charm infliction.",
+          "links": [
+            "Shaitan"
+          ]
+        },
+        {
+          "name": "Flatfoot",
+          "description": "You are flat on your feet. -5 Evade and -1 Move until your next turn.",
+          "notes": "",
+          "links": [
+            "Flatfoot"
+          ]
+        },
+        {
+          "name": "Strangling Etacof",
+          "description": "Hex. Prevents Silence from being cured and causes it to deal 5% HP and FP damage every round.",
+          "notes": "Max. 50 Darkness damage, and 25 FP reduction.",
+          "links": [
+            "Strangling Etacof"
+          ]
+        },
+        {
+          "name": "Llunel's Decay",
+          "description": "Hex. Prevents Interference from being cured and causes it to instead reverse regeneration into damage.",
+          "notes": "Regeneration status effects also become reversed, such as Refreshing Flow.",
+          "links": [
+            "Llunel's Decay",
+            "Refreshing Flow"
+          ]
+        },
+        {
+          "name": "Hellflame Uorate",
+          "description": "Hex. Prevents Burn from being cured and causes it to nullify bonus RES the target has.",
+          "notes": "",
+          "links": [
+            "Hellflame Uorate"
+          ]
+        },
+        {
+          "name": "Menov's Fang",
+          "description": "Hex. Prevents Poison from being cured and causes it to deal 1.5x damage.",
+          "notes": "",
+          "links": [
+            "Menov's Fang"
+          ]
+        },
+        {
+          "name": "Imagin's Despair",
+          "description": "Hex. Prevents Fear from being cured and increases all damage taken by 10%.",
+          "notes": "This affects Damage over Time effects.",
+          "links": [
+            "Imagin's Despair"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Momentum-Impairing",
+      "intro": "Effects that interact with momentum and action economy:",
+      "rows": [
+        {
+          "name": "Stun",
+          "description": "Turn is skipped, but damage taken is reduced by 50%. Ends afterwards. Taking resisted damage might end the status early and let you act with 3M.",
+          "notes": "Bosses cannot be stunned. Grants 2 rounds of immunity after recovery.",
+          "links": []
+        },
+        {
+          "name": "Knocked Down",
+          "description": "Must spend 3M getting up during your next turn.",
+          "notes": "Kip-Up, Roc's Rise and Quick Rise mitigate the momentum needed. Grants 2 rounds of immunity after recovery.",
+          "links": [
+            "Kip-Up",
+            "Roc's Rise",
+            "Quick Rise"
+          ]
+        },
+        {
+          "name": "Badly Beaten",
+          "description": "Obtained after reviving. Reduces your base Momentum recovery at round start by LV.",
+          "notes": "The status worsens if you are revived multiple times while under its effect.",
+          "links": []
+        }
+      ]
+    },
+    {
+      "title": "Movement-Impairing",
+      "intro": "Effects that lock or reduce your movement capabilities.",
+      "rows": [
+        {
+          "name": "Immobilize",
+          "description": "Cannot use Move or Movement Skills.",
+          "notes": "Grants 2 rounds of immunity after recovery.",
+          "links": []
+        },
+        {
+          "name": "Grappled",
+          "description": "Treated as immobilized until the causer's next turn.",
+          "notes": "If the causer or victim are moved, the effect ends.",
+          "links": []
+        },
+        {
+          "name": "Slow",
+          "description": "-LV Move.",
+          "notes": "This only affects basic movement.",
+          "links": []
+        },
+        {
+          "name": "Clumsy",
+          "description": "Movement skills, aside from basic movement, are disabled.",
+          "notes": "Grants 2 rounds of immunity after recovery.",
+          "links": []
+        },
+        {
+          "name": "Muddy",
+          "description": "15% chance to be slip and be knocked down after using Movement. Chance increases by 15% for every tile moved beyond class base Movement speed.",
+          "notes": "This will also interrupt your Move attempt right where you've been knocked down.",
+          "links": []
+        }
+      ]
+    },
+    {
+      "title": "Conditional",
+      "intro": "Status effects that don't do much on their own and require an extra trigger to be effective. Can also be ones that set up for other effects.",
+      "rows": [
+        {
+          "name": "Frostbite",
+          "description": "Inflicts protection-ignoring Ice damage every time you walk on an Ice Sheet.",
+          "notes": "The Ice Sheet must break for this to happen. LV = Damage.",
+          "links": []
+        },
+        {
+          "name": "Thorn Wrap",
+          "description": "Inflicts protection-ignoring Pierce damage to the target when they use a Movement skill.",
+          "notes": "This also works on basic Movement. LV = Damage.",
+          "links": []
+        },
+        {
+          "name": "Attract Objects",
+          "description": "Pulls enemy traps and bombs LV tiles towards yourself at the start of a new round.",
+          "notes": "",
+          "links": []
+        },
+        {
+          "name": "Guard Break",
+          "description": "The character's guard has been broken. They temporarily take 15% more damage, cannot Guard, and Parry skills will automatically fail.",
+          "notes": "Requires the opponent to be Guarding. This effect ends on their next turn.",
+          "links": []
+        },
+        {
+          "name": "Certain Defeat",
+          "description": "At the start of a new round, this unit's HP becomes 0.",
+          "notes": "If you are revived, you can still act before round is over.",
+          "links": []
+        },
+        {
+          "name": "Airborne",
+          "description": "In the air, dude.",
+          "notes": "A myriad of skills interact with this status effect, but it does nothing by itself.",
+          "links": []
+        },
+        {
+          "name": "Claret Call",
+          "description": "Increases physical damage caused by the causer.",
+          "notes": "Only increases the damage of Basic Attacks and Ghost skills.",
+          "links": []
+        },
+        {
+          "name": "Needle",
+          "description": "Upon taking Light damage from any source but Needle, explodes, taking Light damage equal to LV and heals allies of the causer that are within 2 Range for the same amount.",
+          "notes": "",
+          "links": []
+        },
+        {
+          "name": "Solar Lance",
+          "description": "That can't be good.",
+          "notes": "Upon taking any Fire or Light damage, it explodes next turn, dealing 100% of the causer's Fire ATK as protection-ignoring Fire damage.",
+          "links": []
+        }
+      ]
+    },
+    {
+      "title": "Crowd-Control Status Effects",
+      "intro": "Notable effects that significantly impair or control the flow of battle.",
+      "rows": [
+        {
+          "name": "Analyze Weakness",
+          "description": "Increases all damage suffered by LV%.",
+          "notes": "Affects Damage Over Time effects too.",
+          "links": [
+            "Analyze Weakness"
+          ]
+        },
+        {
+          "name": "Hunted",
+          "description": "Increases damage taken from the causer by LV%.",
+          "notes": "Affects Damage Over Time effects too.",
+          "links": []
+        },
+        {
+          "name": "Hesitation",
+          "description": "LV% chance to hesitate when attacking.",
+          "notes": "This only affects Basic Attack or skills that use Basic Attacks. Shaitan are immune to Hesitation infliction.",
+          "links": [
+            "Shaitan"
+          ]
+        },
+        {
+          "name": "Sneezed On",
+          "description": "You were sneezed on... ew. -10% Status Resistance.",
+          "notes": "You gain this effect if you're a Kaelensia and someone with Animal Allergy is nearby during combat.",
+          "links": [
+            "Kaelensia"
+          ]
+        },
+        {
+          "name": "Fear",
+          "description": "-15 Hit VS Causer.",
+          "notes": "Shaitan are immune to Fear infliction.",
+          "links": [
+            "Shaitan"
+          ]
+        },
+        {
+          "name": "Goose Bite",
+          "description": "Reduces all stats by LV.",
+          "notes": "",
+          "links": []
+        },
+        {
+          "name": "Drain",
+          "description": "Reduces all stats by LV.",
+          "notes": "This will also increase the causer's status by LV.",
+          "links": []
+        },
+        {
+          "name": "Blotch",
+          "description": "Decreases Hit by LV.",
+          "notes": "",
+          "links": [
+            "Blotch"
+          ]
+        },
+        {
+          "name": "Wear Down",
+          "description": "Reduces Armor by LV.",
+          "notes": "",
+          "links": []
+        },
+        {
+          "name": "Rampage",
+          "description": "Decreases DEF by LV.",
+          "notes": "",
+          "links": []
+        },
+        {
+          "name": "Cursed Wound",
+          "description": "Lowers maximum HP by LV.",
+          "notes": "",
+          "links": []
+        },
+        {
+          "name": "Soul Chains",
+          "description": "Prevents FP recovery as if it were Interfered. Treated as being Installed uniquely.",
+          "notes": "Interference reduction effects apply to this.",
+          "links": [
+            "Soul Chains"
+          ]
+        },
+        {
+          "name": "Acidity",
+          "description": "Reduces Phys. Defense and Mag. Defense by LV%.",
+          "notes": "",
+          "links": []
+        },
+        {
+          "name": "Black Drain",
+          "description": "Power drained by an enemy. Lowers Scaled Weapon Attack equal to LV.",
+          "notes": "This also applies from non-damaging skills from Soldier.",
+          "links": [
+            "Black Drain"
+          ]
+        },
+        {
+          "name": "Glowing",
+          "description": "Evade is reduced by LV.",
+          "notes": "",
+          "links": []
+        },
+        {
+          "name": "Magnetize",
+          "description": "Increases the causer's Hit when attacking you by LV (max 50).",
+          "notes": "",
+          "links": []
+        },
+        {
+          "name": "Pacify",
+          "description": "Cannot use basic attacks or Offensive skills. Taking non-status, non-bonus damage will reduce its duration by 1 round.",
+          "notes": "This will only be seen used on Monsters, usually.",
+          "links": []
+        },
+        {
+          "name": "Spelldaze",
+          "description": "Once acquired, puts a random spell you have equipped on a 2 round cooldown. Cannot be reapplied while active.",
+          "notes": "Cooldown timer cannot be reduced below the original cooldown duration.",
+          "links": []
+        }
+      ]
+    },
+    {
+      "title": "Hard Crowd-Control Status Effects",
+      "intro": "Extremely crippling effects that can turn a whole fight upside-down and force your enemy to either adapt, or lose.",
+      "rows": [
+        {
+          "name": "Enemy Evaluation",
+          "description": "Decreases Hit, Critical, Evade, and damage dealt by LV%.",
+          "notes": "",
+          "links": [
+            "Enemy Evaluation"
+          ]
+        },
+        {
+          "name": "Confusion",
+          "description": "Cannot differentiate between friend and foe.",
+          "notes": "This prevents you from targeting allies with supporting or healing skills.",
+          "links": []
+        },
+        {
+          "name": "Blind",
+          "description": "Final hit chance is capped at 50%.",
+          "notes": "Kaminah Robes turn this effect into Beyond Sight, which has a lesser impact on your hit chance.",
+          "links": []
+        },
+        {
+          "name": "Interference",
+          "description": "Prevents recovery of HP and FP.",
+          "notes": "This also prevents revive effects.",
+          "links": []
+        },
+        {
+          "name": "Silence",
+          "description": "This character is silenced and cannot cast spells.",
+          "notes": "Grants 2 rounds of immunity after recovery.",
+          "links": []
+        },
+        {
+          "name": "Removed From Battle",
+          "description": "Removed from the battle while this status is active.",
+          "notes": "",
+          "links": []
+        }
+      ]
+    }
+  ]
+}

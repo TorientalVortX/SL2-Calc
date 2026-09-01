@@ -1,0 +1,1347 @@
+[
+  {
+    "name": "Apus",
+    "statsLv1": {
+      "STR": 6,
+      "WIL": 3,
+      "SKI": 9,
+      "CEL": 7,
+      "DEF": 4,
+      "RES": 4,
+      "VIT": 5,
+      "FAI": 0,
+      "LUC": 4,
+      "GUI": 0,
+      "SAN": 0
+    },
+    "statsLv60": {
+      "STR": 26,
+      "WIL": 13,
+      "SKI": 49,
+      "CEL": 37,
+      "DEF": 19,
+      "RES": 14,
+      "VIT": 35,
+      "FAI": 40,
+      "LUC": 14,
+      "GUI": 0,
+      "SAN": 5
+    },
+    "skills": [
+      {
+        "name": "Apodis",
+        "meta": "Cost: 5 - 29 FP / 3M, Target: Enemy Only, Domain: Mercalan, Area: Single, Range: 5",
+        "description": "Creates lines of light that attack the target, dealing Light magic damage to the target. During the night, the damage is increased by 25%."
+      },
+      {
+        "name": "Fortune Feather",
+        "meta": "Passive",
+        "description": "When taking Fire, Ice, Lightning or Wind damage, there is a LUC+Apus's level% chance that you will gain 10% resistance for that damage instance only."
+      },
+      {
+        "name": "Floating",
+        "meta": "Passive",
+        "description": "Maintaining an aerial positioning, increasing Earth resistance by 25%, but also increasing Wind weakness by 25%."
+      }
+    ],
+    "type": "Avian Youkai"
+  },
+  {
+    "name": "Hippogriph",
+    "statsLv1": {
+      "STR": 6,
+      "WIL": 3,
+      "SKI": 9,
+      "CEL": 7,
+      "DEF": 4,
+      "RES": 4,
+      "VIT": 5,
+      "FAI": 0,
+      "LUC": 4,
+      "GUI": 0,
+      "SAN": 0
+    },
+    "statsLv60": {
+      "STR": 46,
+      "WIL": 13,
+      "SKI": 39,
+      "CEL": 47,
+      "DEF": 24,
+      "RES": 24,
+      "VIT": 35,
+      "FAI": 0,
+      "LUC": 4,
+      "GUI": 20,
+      "SAN": 0
+    },
+    "skills": [
+      {
+        "name": "Mare Wing",
+        "meta": "Cost: 8-32 FP / 3M, Target: Enemy Only, Area: Circle, Range: 3",
+        "description": "Creates a buffet of wind, dealing Wind magic damage to all within 3 Range. It also creates an Air Shaft at the user's location for 3 rounds."
+      },
+      {
+        "name": "Talon Claw",
+        "meta": "Passive",
+        "description": "Deadly, razor-sharp talons that tear apart anything. Grants +5 Power to attacks with Fist weapons and skills that require a Fist weapon."
+      },
+      {
+        "name": "Gryphon Hoof",
+        "meta": "Passive",
+        "description": "A floating state that nullifies attacks by the ground (literally). While Airborne, you become immune to Earth damage."
+      }
+    ],
+    "type": "Avian Youkai"
+  },
+  {
+    "name": "Snow Crow",
+    "statsLv1": {
+      "STR": 6,
+      "WIL": 3,
+      "SKI": 9,
+      "CEL": 7,
+      "DEF": 4,
+      "RES": 4,
+      "VIT": 5,
+      "FAI": 0,
+      "LUC": 4,
+      "GUI": 0,
+      "SAN": 0
+    },
+    "statsLv60": {
+      "STR": 31,
+      "WIL": 33,
+      "SKI": 49,
+      "CEL": 37,
+      "DEF": 19,
+      "RES": 14,
+      "VIT": 35,
+      "FAI": 0,
+      "LUC": 14,
+      "GUI": 15,
+      "SAN": 5
+    },
+    "skills": [
+      {
+        "name": "Cresyr",
+        "meta": "Cost: 8-32 FP / 3M, Target: Enemy Only, Area: Single, Range: 4",
+        "description": "A loud, chilling screech, dealing Ice magic damage to the target. If the target is Weak to Ice, the caster also gains Crowcall LV2 for 3 rounds. (Crowcall increases STR and CEL by its LV. The LV is doubled if Snow Crow is the one using this skill.)"
+      },
+      {
+        "name": "Snowfall",
+        "meta": "Passive",
+        "description": "Tiles the owner of this skill walks on are covered in ice sheets, which end movement prematurely if stepped on by enemies. The ice sheets created by this skill last for 2 rounds."
+      },
+      {
+        "name": "Ice Armor",
+        "meta": "Cost: 15 FP / 3M, Target: Enemy Only, Area: Single",
+        "description": "Creates a protective layer of ice around the body of the caster, increasing their DEF by 2 (+1 per 5 Snow Crow levels) for 3 rounds (+1 per 10 Snow Crow levels). It also grants 25% Resistance to Ice, but also a 25% Weakness to Fire."
+      }
+    ],
+    "type": "Avian Youkai"
+  },
+  {
+    "name": "Suzaku",
+    "statsLv1": {
+      "STR": 6,
+      "WIL": 5,
+      "SKI": 9,
+      "CEL": 7,
+      "DEF": 4,
+      "RES": 4,
+      "VIT": 5,
+      "FAI": 0,
+      "LUC": 4,
+      "GUI": 0,
+      "SAN": 0
+    },
+    "statsLv60": {
+      "STR": 46,
+      "WIL": 15,
+      "SKI": 49,
+      "CEL": 27,
+      "DEF": 24,
+      "RES": 24,
+      "VIT": 35,
+      "FAI": 0,
+      "LUC": 4,
+      "GUI": 30,
+      "SAN": 0
+    },
+    "skills": [
+      {
+        "name": "Lord's Flame",
+        "meta": "Cost: 9-33 FP / 3M, Target: Enemy Only, Area: Single, Range: 5",
+        "description": "Invoke a burst of fire, dealing Fire magic damage that ignores evasion to a target within 5 Range. If the user is Suzaku, the target is also inflicted with Soul Shot for 2 rounds."
+      },
+      {
+        "name": "Seal of the South",
+        "meta": "Passive",
+        "description": "Crest of the ruler of the South. They gain +2 WIL."
+      },
+      {
+        "name": "Burning Strikes",
+        "meta": "Passive",
+        "description": "Blessing of the ruler of flame. Basic attacks deal bonus armor-ignoring Fire magic damage equal to half of character level."
+      }
+    ],
+    "type": "Avian Youkai"
+  },
+  {
+    "name": "Suzaku (Ascended)",
+    "statsLv1": {
+      "STR": 6,
+      "WIL": 5,
+      "SKI": 9,
+      "CEL": 7,
+      "DEF": 4,
+      "RES": 4,
+      "VIT": 5,
+      "FAI": 0,
+      "LUC": 4,
+      "GUI": 0,
+      "SAN": 0
+    },
+    "statsLv60": {
+      "STR": 56,
+      "WIL": 25,
+      "SKI": 59,
+      "CEL": 27,
+      "DEF": 24,
+      "RES": 24,
+      "VIT": 40,
+      "FAI": 0,
+      "LUC": 4,
+      "GUI": 35,
+      "SAN": 0
+    },
+    "skills": [
+      {
+        "name": "Lord's Flame",
+        "meta": "Cost: 9-33 FP / 3M, Target: Enemy Only, Area: Single, Range: 5",
+        "description": "Invoke a burst of fire, dealing Fire magic damage that ignores evasion to a target within 5 Range. If the user is Suzaku, the target is also inflicted with Soul Shot for 2 rounds."
+      },
+      {
+        "name": "Seal of the South+",
+        "meta": "Passive If the owner of this skill is summoned to a tile on the South side of the battlefield, they gain Flame Flow LV X (X = Youkai level) for 3 rounds. While this is active, they gain Hit equal to LV, and the base damage dealt by the unit's Burning Strikes is doubled.",
+        "description": "Crest of the ruler of the South. They gain +2 WIL."
+      },
+      {
+        "name": "Burning Strikes",
+        "meta": "Passive",
+        "description": "Blessing of the ruler of flame. Basic attacks deal bonus armor-ignoring Fire magic damage equal to half of character level."
+      }
+    ],
+    "type": "Avian Youkai"
+  },
+  {
+    "name": "Kilkenny",
+    "statsLv1": {
+      "STR": 9,
+      "WIL": 4,
+      "SKI": 6,
+      "CEL": 6,
+      "DEF": 4,
+      "RES": 4,
+      "VIT": 6,
+      "FAI": 0,
+      "LUC": 3,
+      "GUI": 0,
+      "SAN": 0
+    },
+    "statsLv60": {
+      "STR": 59,
+      "WIL": 14,
+      "SKI": 41,
+      "CEL": 41,
+      "DEF": 14,
+      "RES": 14,
+      "VIT": 36,
+      "FAI": 0,
+      "LUC": 28,
+      "GUI": 5,
+      "SAN": 0
+    },
+    "skills": [
+      {
+        "name": "Cat's Claw",
+        "meta": "Cost: 6-30 FP / 3M, Target: Enemy Only, Area: Single, Range: 4",
+        "description": "A magical slash from what feels like a lion's claws. Deals Slash magic damage equal to Kilkenny's level, and reduces the target's FP by half of Kilkenny's level.."
+      },
+      {
+        "name": "Anti-Beast",
+        "meta": "Passive",
+        "description": "A hatred towards beast-kind, dealing 10% more damage against Beast, Lupine, Felidae, and Grimalkin races."
+      },
+      {
+        "name": "Tough Fur",
+        "meta": "Passive",
+        "description": "Hard to cut, but easy to soak. Increases Slash resistance by 25%, but increases Water weakness by 25%."
+      }
+    ],
+    "type": "Beast Youkai"
+  },
+  {
+    "name": "Byakko",
+    "statsLv1": {
+      "STR": 11,
+      "WIL": 4,
+      "SKI": 6,
+      "CEL": 6,
+      "DEF": 4,
+      "RES": 4,
+      "VIT": 6,
+      "FAI": 0,
+      "LUC": 3,
+      "GUI": 0,
+      "SAN": 0
+    },
+    "statsLv60": {
+      "STR": 56,
+      "WIL": 14,
+      "SKI": 41,
+      "CEL": 36,
+      "DEF": 14,
+      "RES": 14,
+      "VIT": 36,
+      "FAI": 0,
+      "LUC": 43,
+      "GUI": 0,
+      "SAN": 0
+    },
+    "skills": [
+      {
+        "name": "Thunder Claw",
+        "meta": "Cost: 4-28 FP / 3M, Target: Enemy Only, Area: Single, Range: 2",
+        "description": "A lightning-flash swipe of a tiger's claw. Deals Lightning physical damage based on Lighting ATK."
+      },
+      {
+        "name": "Seal of the West",
+        "meta": "Passive",
+        "description": "Crest of the ruler of the West. They gain +2 STR."
+      },
+      {
+        "name": "Roar",
+        "meta": "Cost: 15 FP / 3M, Target: Enemy Only, Area: Circle(2), Range: 2",
+        "description": "Unleash a mighty roar. Increases the user's STR by 2 (+1 per 5 Byakko levels) for 3 rounds (+1 round per 10 Byakko levels). Enemies in range may also be Feared for 2 rounds."
+      }
+    ],
+    "type": "Beast Youkai"
+  },
+  {
+    "name": "Byakko (Ascended)",
+    "statsLv1": {
+      "STR": 11,
+      "WIL": 4,
+      "SKI": 6,
+      "CEL": 6,
+      "DEF": 4,
+      "RES": 4,
+      "VIT": 6,
+      "FAI": 0,
+      "LUC": 3,
+      "GUI": 0,
+      "SAN": 0
+    },
+    "statsLv60": {
+      "STR": 66,
+      "WIL": 14,
+      "SKI": 51,
+      "CEL": 36,
+      "DEF": 19,
+      "RES": 19,
+      "VIT": 46,
+      "FAI": 0,
+      "LUC": 43,
+      "GUI": 0,
+      "SAN": 0
+    },
+    "skills": [
+      {
+        "name": "Thunder Claw",
+        "meta": "Cost: 4-28 FP / 3M, Target: Enemy Only, Area: Single, Range: 2",
+        "description": "A lightning-flash swipe of a tiger's claw. Deals Lightning physical damage based on Lighting ATK."
+      },
+      {
+        "name": "Seal of the West",
+        "meta": "Passive If the owner of this skill is summoned to a tile on the West side of the battlefield, they gain Lightning Judgment LV X (X = Youkai level) for 3 rounds. While this is active, Lightning Claw's range increases by 5 and teleports the user next to the target when used, and Roar will also deal Lightning magic damage that ignores Armor to all enemies in the battle equal to LV.",
+        "description": "Crest of the ruler of the West. They gain +2 STR."
+      },
+      {
+        "name": "Roar",
+        "meta": "Cost: 15 FP / 3M, Target: Enemy Only, Area: Circle(2), Range: 2",
+        "description": "Unleash a mighty roar. Increases the user's STR by 2 (+1 per 5 Byakko levels) for 3 rounds (+1 round per 10 Byakko levels). Enemies in range may also be Feared for 2 rounds."
+      }
+    ],
+    "type": "Beast Youkai"
+  },
+  {
+    "name": "Firefox",
+    "statsLv1": {
+      "STR": 9,
+      "WIL": 4,
+      "SKI": 6,
+      "CEL": 6,
+      "DEF": 4,
+      "RES": 4,
+      "VIT": 6,
+      "FAI": 0,
+      "LUC": 3,
+      "GUI": 0,
+      "SAN": 0
+    },
+    "statsLv60": {
+      "STR": 59,
+      "WIL": 24,
+      "SKI": 36,
+      "CEL": 46,
+      "DEF": 9,
+      "RES": 9,
+      "VIT": 31,
+      "FAI": 0,
+      "LUC": 8,
+      "GUI": 30,
+      "SAN": 0
+    },
+    "skills": [
+      {
+        "name": "Seeker Flame",
+        "meta": "Cost: 20 FP / 3M, Target: Enemy Only, Area: Single",
+        "description": "Creates a Seeker Flame at a random unoccupied location around you. The Seeker Flame will seek out an enemy, and if it can stand next to them, will detonate, dealing Fire magic damage that ignores armor to all enemies within 1 Range around it equal to its LV. The LV of the Seeker Flame is equal to the user's level, and only one can be active at a time."
+      },
+      {
+        "name": "Firefall",
+        "meta": "Passive",
+        "description": "Tiles the owner of this skill walks on are covered in cinders, which deal damage to enemies who walk on them (LV = 10+10% of Fire ATK). The cinders created by this skill last for 2 rounds."
+      },
+      {
+        "name": "Firebody",
+        "meta": "Passive",
+        "description": "A body of living fire, which causes this unit's Fire damage to pierce up to 10% of Fire Resistance."
+      }
+    ],
+    "type": "Beast Youkai"
+  },
+  {
+    "name": "Kerberos",
+    "statsLv1": {
+      "STR": 9,
+      "WIL": 4,
+      "SKI": 6,
+      "CEL": 6,
+      "DEF": 4,
+      "RES": 4,
+      "VIT": 6,
+      "FAI": 0,
+      "LUC": 3,
+      "GUI": 0,
+      "SAN": 0
+    },
+    "statsLv60": {
+      "STR": 54,
+      "WIL": 24,
+      "SKI": 51,
+      "CEL": 16,
+      "DEF": 29,
+      "RES": 29,
+      "VIT": 46,
+      "FAI": 0,
+      "LUC": 8,
+      "GUI": 5,
+      "SAN": 0
+    },
+    "skills": [
+      {
+        "name": "Underworld Drain",
+        "meta": "Cost: 6-33 FP / 3M, Target: Enemy Only, Area: Circle (3), Cooldown: 3 Rounds If the user is Kerberos, +2 Size and +100% heal amount.",
+        "description": "The user claws at the dirt and unleashes a swarm of insects that attack all enemies in a 3 Size Circle around them, dealing Dark magic damage. These insects them return to the user and restore their HP based on how many enemies were hit. (25% of level per enemy hit.)"
+      },
+      {
+        "name": "Stalwart Guardian",
+        "meta": "Passive",
+        "description": "Reduces redirected and reflected damage by 15%. If the owner of this skill is Kerberos, the reduction is increased to 40%."
+      },
+      {
+        "name": "Guard Dog",
+        "meta": "Passive",
+        "description": "Grants a LV X% (X = Kerberos' level) chance to redirect basic attacks and skill damage from another allied unit within 2 Range to this unit."
+      }
+    ],
+    "type": "Beast Youkai"
+  },
+  {
+    "name": "Seiryuu",
+    "statsLv1": {
+      "STR": 8,
+      "WIL": 6,
+      "SKI": 7,
+      "CEL": 6,
+      "DEF": 8,
+      "RES": 6,
+      "VIT": 7,
+      "FAI": 0,
+      "LUC": 2,
+      "GUI": 0,
+      "SAN": 0
+    },
+    "statsLv60": {},
+    "skills": [
+      {
+        "name": "Hunter Wind",
+        "meta": "Cost: 8 FP / 3M, Target: Enemy Only, Domain: Sylphid, Area: Single, Range: 3, Tags: Youkai Evoke, Cooldown: 2 Round(s)",
+        "description": "Wraps the target in sharp winds, dealing Wind magic damage. It also inflicts Hunted on the target for 2 rounds with a LV equal to half of Seiryuu's level (min. 5, max. 15). (Hunted increases damage dealt to the victim by the causer by LV%.)"
+      },
+      {
+        "name": "Seal of the East",
+        "meta": "Passive",
+        "description": "Crest of the ruler of the East. They gain +2 CEL."
+      },
+      {
+        "name": "Dragonscale",
+        "meta": "Passive",
+        "description": "Covered in scales of a divine dragon, increasing DEF by 5 and Critical Evade by 10."
+      }
+    ],
+    "type": "Dragon Youkai"
+  },
+  {
+    "name": "Seiryuu (Ascended)",
+    "statsLv1": {
+      "STR": 8,
+      "WIL": 6,
+      "SKI": 7,
+      "CEL": 6,
+      "DEF": 8,
+      "RES": 6,
+      "VIT": 7,
+      "FAI": 0,
+      "LUC": 2,
+      "GUI": 0,
+      "SAN": 0
+    },
+    "statsLv60": {},
+    "skills": [
+      {
+        "name": "Hunter Wind",
+        "meta": "Cost: 8 FP / 3M, Target: Enemy Only, Domain: Sylphid, Area: Single, Range: 3, Tags: Youkai Evoke, Cooldown: 2 Round(s)",
+        "description": "Wraps the target in sharp winds, dealing Wind magic damage. It also inflicts Hunted on the target for 2 rounds with a LV equal to half of Seiryuu's level (min. 5, max. 15). (Hunted increases damage dealt to the victim by the causer by LV%.)"
+      },
+      {
+        "name": "Seal of the East+",
+        "meta": "Passive If the owner of this skill is summoned to a tile on the East side of the battlefield, they gain Punishing Winds LV X (X = Youkai level) for 3 rounds. While this is active, at the start of a new round, all enemies within 5 Range take Wind magic damage that ignores Armor equal to its LV; Hunter Wind's Range increases by 3 and it will pull the target up to 5 tiles towards the user.",
+        "description": "Superior crest of the ruler of the East. They gain +2 CEL."
+      },
+      {
+        "name": "Dragonscale",
+        "meta": "Passive",
+        "description": "Covered in scales of a divine dragon, increasing DEF by 5 and Critical Evade by 10."
+      }
+    ],
+    "type": "Dragon Youkai"
+  },
+  {
+    "name": "Chun",
+    "statsLv1": {
+      "STR": 8,
+      "WIL": 6,
+      "SKI": 7,
+      "CEL": 4,
+      "DEF": 3,
+      "RES": 6,
+      "VIT": 7,
+      "FAI": 0,
+      "LUC": 2,
+      "GUI": 0,
+      "SAN": 0
+    },
+    "statsLv60": {},
+    "skills": [
+      {
+        "name": "Fire Jet",
+        "meta": "Cost: 9 FP / 3M, Target: Enemy Only, Area: Line (5), Tags: Youkai Evoke",
+        "description": "Releases a super fast jet of fire in a line, dealing Fire magic damage to all enemies within that line. All tiles in the line are also covered in Cinders for 2 rounds that deal damage equal to 50% of the user's Fire ATK."
+      },
+      {
+        "name": "Daisangen",
+        "meta": "Passive",
+        "description": "A powerful combination of three dragons. If the Summoner has contracted all three of Chun, Haku, and Hatsu, all Dragon-race Youkai the Summoner summons gain +2 to all stats except VIT. This also applies to the Summoner if the Summoner installs a Dragon-race Youkai. (Multiple instances of this skill do not stack.)"
+      },
+      {
+        "name": "Fire Scale",
+        "meta": "Passive",
+        "description": "Scales born in fire. Immunity to Fire damage, but has a 25% weakness to Ice damage."
+      }
+    ],
+    "type": "Dragon Youkai"
+  },
+  {
+    "name": "Jhunn",
+    "statsLv1": {
+      "STR": 8,
+      "WIL": 6,
+      "SKI": 7,
+      "CEL": 4,
+      "DEF": 3,
+      "RES": 6,
+      "VIT": 7,
+      "FAI": 0,
+      "LUC": 2,
+      "GUI": 0,
+      "SAN": 0
+    },
+    "statsLv60": {},
+    "skills": [
+      {
+        "name": "Flame Jetwing",
+        "meta": "Cost: 9 FP / 3M, Target: Enemy Only, Area: Line (5-7), Tags: Youkai Evoke",
+        "description": "Launches the user like a jet in a 5-7 Range line, dealing Fire magic damage to all enemies within that line, which must end in an unoccupied spot. All tiles in the line are also covered in Cinders for 2 rounds that deal damage equal to 25% of the user's Fire ATK."
+      },
+      {
+        "name": "Lightweight Body",
+        "meta": "Passive",
+        "description": "Reduces Battle Weight by 3. Jhunn receives +10 Evade instead."
+      },
+      {
+        "name": "Fire Scale",
+        "meta": "Passive",
+        "description": "Scales born in fire. Immunity to Fire damage, but has a 25% weakness to Ice damage."
+      }
+    ],
+    "type": "Dragon Youkai"
+  },
+  {
+    "name": "Haku",
+    "statsLv1": {
+      "STR": 8,
+      "WIL": 6,
+      "SKI": 7,
+      "CEL": 4,
+      "DEF": 3,
+      "RES": 6,
+      "VIT": 7,
+      "FAI": 0,
+      "LUC": 2,
+      "GUI": 0,
+      "SAN": 0
+    },
+    "statsLv60": {},
+    "skills": [
+      {
+        "name": "Ice Jet",
+        "meta": "Cost: 9 FP / 3M, Target: Enemy Only, Area: Line (5), Tags: Youkai Evoke",
+        "description": "Releases a super fast jet of cold air in a line, dealing Ice magic damage to all enemies within that line. All tiles in the line are also covered in Ice Sheets for 2 rounds."
+      },
+      {
+        "name": "Daisangen",
+        "meta": "Passive",
+        "description": "A powerful combination of three dragons. If the Summoner has contracted all three of Chun, Haku, and Hatsu, all Dragon-race Youkai the Summoner summons gain +2 to all stats except VIT. This also applies to the Summoner if the Summoner installs a Dragon-race Youkai. (Multiple instances of this skill do not stack.)"
+      },
+      {
+        "name": "Ice Scale",
+        "meta": "Passive",
+        "description": "Scales born in ice. Immunity to Ice damage, but has a 25% weakness to Fire damage."
+      }
+    ],
+    "type": "Dragon Youkai"
+  },
+  {
+    "name": "Hatsu",
+    "statsLv1": {
+      "STR": 8,
+      "WIL": 6,
+      "SKI": 7,
+      "CEL": 4,
+      "DEF": 3,
+      "RES": 6,
+      "VIT": 7,
+      "FAI": 0,
+      "LUC": 2,
+      "GUI": 0,
+      "SAN": 0
+    },
+    "statsLv60": {},
+    "skills": [
+      {
+        "name": "Acid Jet",
+        "meta": "Cost: 9 FP / 3M, Target: Enemy Only, Area: Line (5), Tags: Youkai Evoke",
+        "description": "Releases a super fast jet of acid in a line, dealing Acid magic damage to all enemies within that line. Enemies damaged also have their DEF and RES reduced by 2 for 3 rounds."
+      },
+      {
+        "name": "Daisangen",
+        "meta": "Passive",
+        "description": "A powerful combination of three dragons. If the Summoner has contracted all three of Chun, Haku, and Hatsu, all Dragon-race Youkai the Summoner summons gain +2 to all stats except VIT. This also applies to the Summoner if the Summoner installs a Dragon-race Youkai. (Multiple instances of this skill do not stack.)"
+      },
+      {
+        "name": "Acid Scale",
+        "meta": "Passive",
+        "description": "Scales born in acid. Immunity to Acid damage, but has a 25% weakness to Water damage."
+      }
+    ],
+    "type": "Dragon Youkai"
+  },
+  {
+    "name": "Genbu",
+    "statsLv1": {
+      "STR": 8,
+      "WIL": 6,
+      "SKI": 7,
+      "CEL": 4,
+      "DEF": 5,
+      "RES": 6,
+      "VIT": 7,
+      "FAI": 0,
+      "LUC": 2,
+      "GUI": 0,
+      "SAN": 0
+    },
+    "statsLv60": {},
+    "skills": [
+      {
+        "name": "Sea Sweep",
+        "meta": "Cost: 6 FP / 3M, Target: Enemy Only, Domain: Aquarian, Area: Diamond (4), Tags: Youkai Evoke, Cooldown: 1 Round(s)",
+        "description": "Just like the ebb and flow of the northern shores. Deals damage split between Water and Ice to all enemies within 3 Range around the user, which knocks them back 2 tiles. If this skill is used by this unit again within 5 rounds, it will pull enemies in instead of knock them back."
+      },
+      {
+        "name": "Seal of the North",
+        "meta": "Passive",
+        "description": "Crest of the ruler of the North. They gain +2 DEF."
+      },
+      {
+        "name": "Great Tortoise",
+        "meta": "Passive Unit can use the Guard skill. Critical damage taken reduced by 15% (doubled for Genbu). Unit ignores Movement penalty of Flooded Water tiles. Genbu also ignores Ice Sheets.",
+        "description": "An ancient tortoise of great size and experience, protected by a powerful shell. Provides the following benefits:"
+      }
+    ],
+    "type": "Dragon Youkai"
+  },
+  {
+    "name": "Genbu (Ascended)",
+    "statsLv1": {
+      "STR": 8,
+      "WIL": 6,
+      "SKI": 7,
+      "CEL": 4,
+      "DEF": 5,
+      "RES": 6,
+      "VIT": 7,
+      "FAI": 0,
+      "LUC": 2,
+      "GUI": 0,
+      "SAN": 0
+    },
+    "statsLv60": {},
+    "skills": [
+      {
+        "name": "Sea Sweep",
+        "meta": "Cost: 6 FP / 3M, Target: Enemy Only, Domain: Aquarian, Area: Diamond (4), Tags: Youkai Evoke, Cooldown: 1 Round(s)",
+        "description": "Just like the ebb and flow of the northern shores. Deals damage split between Water and Ice to all enemies within 3 Range around the user, which knocks them back 2 tiles. If this skill is used by this unit again within 5 rounds, it will pull enemies in instead of knock them back."
+      },
+      {
+        "name": "Seal of the North+",
+        "meta": "Passive If the owner of this skill is summoned to a tile on the north side of the battlefield, they gain Snake Tail LV X (X = Genbu's level, 3 rounds). While active, the tail will bite enemies the owner hits with basic attacks, enemies pulled within 1 Range by Sea Sweep, and a random enemy in 1 Range at the start of a new round. When it does, it deals Acid damage equal to LV and has a chance to inflict Frostbite and Poison (LV = 25% of Snake Tail LV, 3 rounds).",
+        "description": "Crest of the ruler of the North. They gain +2 DEF."
+      },
+      {
+        "name": "Great Tortoise",
+        "meta": "Passive Unit can use the Guard skill. Critical damage taken reduced by 15% (doubled for Genbu). Unit ignores Movement penalty of Flooded Water tiles. Genbu also ignores Ice Sheets.",
+        "description": "An ancient tortoise of great size and experience, protected by a powerful shell. Provides the following benefits:"
+      }
+    ],
+    "type": "Dragon Youkai"
+  },
+  {
+    "name": "Asrai",
+    "statsLv1": {
+      "STR": 3,
+      "WIL": 6,
+      "SKI": 6,
+      "CEL": 9,
+      "DEF": 3,
+      "RES": 4,
+      "VIT": 6,
+      "FAI": 0,
+      "LUC": 5,
+      "GUI": 0,
+      "SAN": 0
+    },
+    "statsLv60": {},
+    "skills": [
+      {
+        "name": "Paraeta",
+        "meta": "Cost: 6 FP / 3M, Target: Enemy Only, Domain: Aquarian, Area: Single, Range: 4, Tags: Youkai Evoke",
+        "description": "Summons the spirit of Asrai, who creates a mass of bubbles between you and the target enemy. Deals magic Water damage to the target. If the user is Asrai, they recover HP equal to 50% of the damage dealt. Otherwise, the user recovers 25% of the damage dealt."
+      },
+      {
+        "name": "Fairy Ring",
+        "meta": "Passive",
+        "description": "A protective charm that leads away from danger. Grants +10% Resistance to luck-based status effects. If you have multiple Fairy Ring skills equipped, the effects will stack."
+      },
+      {
+        "name": "Aquae Crista",
+        "meta": "Passive",
+        "description": "Seal of the kingdom of water. Increases Water resistance by 50%, but increases vulnerability to Fire by 25%."
+      }
+    ],
+    "type": "Fairy Youkai"
+  },
+  {
+    "name": "Wawa",
+    "statsLv1": {
+      "STR": 3,
+      "WIL": 6,
+      "SKI": 6,
+      "CEL": 9,
+      "DEF": 3,
+      "RES": 4,
+      "VIT": 6,
+      "FAI": 0,
+      "LUC": 5,
+      "GUI": 0,
+      "SAN": 0
+    },
+    "statsLv60": {},
+    "skills": [
+      {
+        "name": "Black Rose",
+        "meta": "Cost: 6 FP / 3M, Target: Enemy Only, Domain: Huggessoan, Area: Single, Range: 2, Tags: Youkai Evoke",
+        "description": "Hands the target a black rose, dealing Dark magic damage to them. There is also a chance it will inflict Charm LV X (X = half of Wawa's level) or Blind to that target for 2 rounds (but only one per cast)."
+      },
+      {
+        "name": "Fairy Ring",
+        "meta": "Passive",
+        "description": "A protective charm that leads away from danger. Grants +10% Resistance to luck-based status effects. If you have multiple Fairy Ring skills equipped, the effects will stack."
+      },
+      {
+        "name": "Bad Juju",
+        "meta": "Passive",
+        "description": "At a chance equal to (LUC+Wawa's level)%, the owner of this skill may steal FP equal to half of Wawa's level from an enemy in 2 Range at the start of a new round."
+      }
+    ],
+    "type": "Fairy Youkai"
+  },
+  {
+    "name": "Izabe",
+    "statsLv1": {
+      "STR": 3,
+      "WIL": 6,
+      "SKI": 6,
+      "CEL": 9,
+      "DEF": 3,
+      "RES": 4,
+      "VIT": 6,
+      "FAI": 0,
+      "LUC": 5,
+      "GUI": 0,
+      "SAN": 0
+    },
+    "statsLv60": {},
+    "skills": [
+      {
+        "name": "Fairy Lance",
+        "meta": "Cost: 4 FP / 3M, Target: Enemy Only, Domain: Mercalan, Area: Line (5), Tags: Youkai Evoke",
+        "description": "Creates a lance made of focus at your current location and fires it in a line in the direction you are facing, which deals Light magic damage to the first enemy hit. The maximum range of this skill increases by 1 per 10 Izabe levels."
+      },
+      {
+        "name": "Fairy Ring",
+        "meta": "Passive",
+        "description": "A protective charm that leads away from danger. Grants +10% Resistance to luck-based status effects. If you have multiple Fairy Ring skills equipped, the effects will stack."
+      },
+      {
+        "name": "Radiant Roa",
+        "meta": "Passive, Target: Ally Only, Range: 2",
+        "description": "An aura of belief and protection granted by the sun. Increases FAI and RES for all allies in 2 Range by 2. The Range increases by 1 per 10 Izabe levels. If Izabe is installed, the stat bonus increases by 1 per 15 Izabe levels."
+      }
+    ],
+    "type": "Fairy Youkai"
+  },
+  {
+    "name": "Kasa-Obake",
+    "statsLv1": {
+      "STR": 3,
+      "WIL": 6,
+      "SKI": 6,
+      "CEL": 9,
+      "DEF": 3,
+      "RES": 4,
+      "VIT": 6,
+      "FAI": 0,
+      "LUC": 5,
+      "GUI": 0,
+      "SAN": 0
+    },
+    "statsLv60": {},
+    "skills": [
+      {
+        "name": "Umbrella Flap",
+        "meta": "Cost: 6 FP / 3M, Target: Enemy Only, Domain: Aquarian, Area: Circle (1), Tags: Youkai Evoke, Cooldown: 1 Round(s) Afterwards, if the user is Kasa-Obake, they gain Umbrella Up (until their next turn).",
+        "description": "A sudden opening of an umbrella, which deals Wind magic damage to all enemies in a 1 Size Circle around the user, and applies Aero Shift (2) to field tiles. If the owner is Kasa-Obake and they are Soaked, +2 Size, and they create a burst of water as moisture is flung from it, dealing an extra hit equal to 100% of Water ATK, and curing them of Soaked."
+      },
+      {
+        "name": "Disturbing Presence",
+        "meta": "Passive, Target: Ally Only, Range: 2 At the start of a new round, if Kasa-Obake is standing on a water tile, they jump in it, inflicting themself and all enemies in 3 Range with Soaked (2 rounds).",
+        "description": "Enemies within 1 Range of this unit are distracted by it, taking a -5 Hit, Evade, and Critical penalty when attacking a unit (except this one). If the owner of this skill is Kasa-Obake, +2 Range and additional -5 penalty."
+      },
+      {
+        "name": "Mysterious Rainhat",
+        "meta": "Passive",
+        "description": "+15% Water Resistance, +30% damage reduction VS rain-based attacks and field effects. If the owner of this skill is Kasa-Obake, they instead are immune to Water damage and rain-based attacks and field effects, and if they have Umbrella Up active, damage to all allies in 2 Range of those types is redirected to Kasa-Obake."
+      }
+    ],
+    "type": "Fairy Youkai"
+  },
+  {
+    "name": "Carbuncle",
+    "statsLv1": {
+      "STR": 3,
+      "WIL": 7,
+      "SKI": 6,
+      "CEL": 6,
+      "DEF": 4,
+      "RES": 3,
+      "VIT": 6,
+      "FAI": 0,
+      "LUC": 9,
+      "GUI": 0,
+      "SAN": 0
+    },
+    "statsLv60": {},
+    "skills": [
+      {
+        "name": "Ruby Beam",
+        "meta": "Cost: 6 FP / 3M, Target: Enemy Only, Domain: Isespian, Area: Single, Range: 5, Tags: Youkai Evoke",
+        "description": "Fires a beam from the Carbuncle's gem, dealing Earth magic damage. It may also inflict Blindness on the target for 2 turns."
+      },
+      {
+        "name": "Positive Thinker",
+        "meta": "Passive",
+        "description": "Due to maintaining a sunny outlook, Dark resistance is increased by 10%."
+      },
+      {
+        "name": "777",
+        "meta": "Passive",
+        "description": "A unique lucky charm that the Carbuncle possesses. If the Master (or you, if Installed) possesses exactly 7 Youkai contracts, the owner of this skill gains a +7 Luck bonus to all statistics except VIT, SAN, and APT. However, the bonus is only +3 if the target it would apply to is a non-Youkai."
+      }
+    ],
+    "type": "Mystic Youkai"
+  },
+  {
+    "name": "Sazae-Oni",
+    "statsLv1": {
+      "STR": 3,
+      "WIL": 7,
+      "SKI": 7,
+      "CEL": 6,
+      "DEF": 4,
+      "RES": 3,
+      "VIT": 6,
+      "FAI": 0,
+      "LUC": 9,
+      "GUI": 0,
+      "SAN": 0
+    },
+    "statsLv60": {},
+    "skills": [
+      {
+        "name": "Whirlpool",
+        "meta": "Cost: 8 FP / 3M, Target: Enemy Only, Domain: Aquarian, Area: Circle (3), Tags: Youkai Evoke",
+        "description": "Creates a whirlpool around the user, dealing Water magic damage with Great Accuracy to all within 3 Range. Damaged enemies are also pulled toward the user by 1 square."
+      },
+      {
+        "name": "Painful Accuracy",
+        "meta": "Passive",
+        "description": "The owner of this skill possess attacks that hit in... tender places. Grants the owner of the skill +2 SKI, and causes their Kicks to deal +6 damage."
+      },
+      {
+        "name": "Seafarer",
+        "meta": "Passive",
+        "description": "A being that lives and travels in the sea. Grants immunity to Water damage."
+      }
+    ],
+    "type": "Mystic Youkai"
+  },
+  {
+    "name": "Terrasque",
+    "statsLv1": {
+      "STR": 3,
+      "WIL": 7,
+      "SKI": 6,
+      "CEL": 6,
+      "DEF": 6,
+      "RES": 3,
+      "VIT": 6,
+      "FAI": 0,
+      "LUC": 9,
+      "GUI": 0,
+      "SAN": 0
+    },
+    "statsLv60": {},
+    "skills": [
+      {
+        "name": "Shatter Beam",
+        "meta": "Cost: 9 FP / 3M, Target: Enemy Only, Domain: Isespian, Area: Single, Range: 5, Tags: Youkai Evoke",
+        "description": "Fires a beam from the Terrasque's chest, dealing Earth physical damage. In addition, it reduces the target's DEF and RES by 1+(Terrasque Level/12) for 3 rounds."
+      },
+      {
+        "name": "Skitterscale",
+        "meta": "Passive",
+        "description": "Possesses a body that is both protective and flexible. Increases Evade by 5 and Defense by 2. Terrasque gets +10 Evade instead."
+      },
+      {
+        "name": "Regrowth",
+        "meta": "Passive",
+        "description": "A rapid regeneration of the body, which restores 2 HP every round."
+      }
+    ],
+    "type": "Mystic Youkai"
+  },
+  {
+    "name": "Phase Python",
+    "statsLv1": {
+      "STR": 3,
+      "WIL": 7,
+      "SKI": 6,
+      "CEL": 6,
+      "DEF": 4,
+      "RES": 3,
+      "VIT": 6,
+      "FAI": 0,
+      "LUC": 9,
+      "GUI": 0,
+      "SAN": 0
+    },
+    "statsLv60": {},
+    "skills": [
+      {
+        "name": "Phase Fang",
+        "meta": "Cost: 5 FP / 3M, Target: Enemy Only, Area: Single, Range: 1, Tags: Youkai Evoke",
+        "description": "Performs a basic attack on an enemy within 1 Range that deals bonus damage equal to Phase Python's level/3. If it hits, it may inflict Poison LV X (X = Level/2, min. 3), and if you're in the tile the enemy is facing, you teleport back to the tile you began the round on. If you are on any other tile, if any other enemies are in the battle, you are teleported behind a random one."
+      },
+      {
+        "name": "Vile Mastery",
+        "meta": "Passive",
+        "description": "Grants Poison Resistance equal to Level/2%. Phase Python itself receives 40+Level% instead."
+      },
+      {
+        "name": "Slither Mastery",
+        "meta": "Cost: 15 FP / 3M, Target: Enemy Only, Area: Single, Tags: Youkai Evoke",
+        "description": "Has both passive and active components. Passively, Movement becomes teleport, and total movement speed penalties are reduced by 15+Level% (Phase Python receives 100% immunity). When activated, any Immobilize effect on the user is instantly ended."
+      }
+    ],
+    "type": "Mystic Youkai"
+  },
+  {
+    "name": "Wind Elemental",
+    "statsLv1": {
+      "STR": 3,
+      "WIL": 7,
+      "SKI": 6,
+      "CEL": 6,
+      "DEF": 4,
+      "RES": 3,
+      "VIT": 6,
+      "FAI": 0,
+      "LUC": 9,
+      "GUI": 0,
+      "SAN": 0
+    },
+    "statsLv60": {},
+    "skills": [
+      {
+        "name": "Burst of Wind",
+        "meta": "Cost: 5 FP / 3M, Target: Enemy Only, Domain: Sylphid, Area: Single, Range: 5, Tags: Youkai Evoke, Cooldown: 2 Round(s)",
+        "description": "Targets 1 enemy within 5 Range, then wrap yourself with the power of the wind elemental Talvyd (if no elemental is active) until your next turn, and then deal Wind magic damage to the target. If the user of the skill is Wind Elemental, the elemental effect is permanent, and the Range is increased by 2. (LV = Wind Elemental's LV/10, min. 2 max. 5)"
+      },
+      {
+        "name": "Barrier of Wind",
+        "meta": "Passive",
+        "description": "+5 Evade versus ranged weapons. If the owner of this skill is Wind Elemental, they gain +20 Evade instead."
+      },
+      {
+        "name": "Elemental of Wind",
+        "meta": "Passive",
+        "description": "+15% Wind Resistance, Talvyd provides +10 Evade. If the owner of this skill is Wind Elemental, they reflect Wind damage, and gain immunity to Burn, Poison, and Immobilize."
+      }
+    ],
+    "type": "Mystic Youkai"
+  },
+  {
+    "name": "Fire Elemental",
+    "statsLv1": {
+      "STR": 3,
+      "WIL": 7,
+      "SKI": 6,
+      "CEL": 6,
+      "DEF": 4,
+      "RES": 3,
+      "VIT": 6,
+      "FAI": 0,
+      "LUC": 9,
+      "GUI": 0,
+      "SAN": 0
+    },
+    "statsLv60": {},
+    "skills": [
+      {
+        "name": "Burst of Fire",
+        "meta": "Cost: 5 FP / 3M, Target: Enemy Only, Domain: Nerifian, Area: Single, Range: 5, Tags: Youkai Evoke, Cooldown: 2 Round(s)",
+        "description": "Targets 1 enemy within 5 Range, then wrap yourself with the power of the fire elemental Nerhaven (if no elemental is active) until your next turn, and then deal Fire magic damage to the target. If the user of the skill is Fire Elemental, the elemental effect is permanent, and the Range is increased by 2. (LV = Fire Elemental's LV/10, min. 2 max. 5)"
+      },
+      {
+        "name": "Barrier of Fire",
+        "meta": "Passive",
+        "description": "+3 Armor versus weapons made of Wood. If the owner of this skill is Fire Elemental, they gain +15 Armor instead."
+      },
+      {
+        "name": "Elemental of Fire",
+        "meta": "Passive",
+        "description": "+15% Fire Resistance, Nerhaven provides +10 Scaled Weapon Attack. If the owner of this skill is Fire Elemental, they reflect Fire damage, and gain immunity to Burn, Poison, and Immobilize."
+      }
+    ],
+    "type": "Mystic Youkai"
+  },
+  {
+    "name": "Lilu",
+    "statsLv1": {
+      "STR": 6,
+      "WIL": 9,
+      "SKI": 4,
+      "CEL": 6,
+      "DEF": 6,
+      "RES": 6,
+      "VIT": 6,
+      "FAI": 0,
+      "LUC": 6,
+      "GUI": 0,
+      "SAN": 0
+    },
+    "statsLv60": {},
+    "skills": [
+      {
+        "name": "Wink",
+        "meta": "Cost: 10 FP / 3M, Target: Enemy Only, Domain: Huggessoan, Area: Single, Range: 4, Tags: Youkai Evoke",
+        "description": "A low-grade enchantment that is triggered by a wink. May inflict Charm LV X (X = half of Lilu's level) on the target for 3 turns."
+      },
+      {
+        "name": "Nightshade",
+        "meta": "Passive",
+        "description": "A protective charm that is powered by the night. They gain +2 DEF and +2 RES."
+      },
+      {
+        "name": "Embrace",
+        "meta": "Cost: 10 FP / 3M, Target: Enemy Only, Area: Single, Range: 1, Tags: Youkai Evoke",
+        "description": "Attempts to pull the target close, applying the Grapple skill to them. If the target is Charmed by the user, the Grapple is always successful. If used by Lilu, the Range increases to 8, and they will teleport to an empty tile next to the target."
+      }
+    ],
+    "type": "Night Youkai"
+  },
+  {
+    "name": "Yukionna",
+    "statsLv1": {
+      "STR": 6,
+      "WIL": 9,
+      "SKI": 4,
+      "CEL": 6,
+      "DEF": 3,
+      "RES": 4,
+      "VIT": 6,
+      "FAI": 0,
+      "LUC": 6,
+      "GUI": 0,
+      "SAN": 0
+    },
+    "statsLv60": {},
+    "skills": [
+      {
+        "name": "Frostbite",
+        "meta": "Cost: 8 FP / 3M, Target: Enemy Only, Domain: Aquarian, Area: Single, Range: 4, Tags: Youkai Evoke",
+        "description": "Fangs of ice appear around the target and bite down, dealing Ice physical damage. It also inflicts Frostbite LVX (Yuki-onna's LV/2, min. 2) for 2 rounds. (Frostbite causes unresistible LV Ice damage every time the afflicted unit walks on an Ice Sheet.)"
+      },
+      {
+        "name": "Snowshoes",
+        "meta": "Passive",
+        "description": "Being prepared to walk on unstable footing, the owner of this skill does not suffer reduced movement nor break Ice Sheets during Move."
+      },
+      {
+        "name": "Snow Crest",
+        "meta": "Passive",
+        "description": "Possessed by beings born of the snow. Reflects Ice damage, but suffers a 50% Vulnerability to Fire damage."
+      }
+    ],
+    "type": "Night Youkai"
+  },
+  {
+    "name": "Drowned Woman",
+    "statsLv1": {
+      "STR": 6,
+      "WIL": 9,
+      "SKI": 4,
+      "CEL": 6,
+      "DEF": 3,
+      "RES": 4,
+      "VIT": 6,
+      "FAI": 0,
+      "LUC": 6,
+      "GUI": 0,
+      "SAN": 0
+    },
+    "statsLv60": {},
+    "skills": [
+      {
+        "name": "Drown",
+        "meta": "Cost: 9 FP / 3M, Target: Enemy Only, Domain: Aquarian, Area: Single, Range: 4, Tags: Youkai Evoke",
+        "description": "Create a ball of water around the target's head (or whatever counts as it), dealing Water magic damage. If the user is Drowned Woman, there is also a chance that it will Silence the target for 3 rounds."
+      },
+      {
+        "name": "Ghost Sea",
+        "meta": "Passive",
+        "description": "Property belonging to those who have died at sea. Grants immunity to Burn status. User is treated as Ghost-race in addition to all other racial types."
+      },
+      {
+        "name": "Ammendum, Sin, and Purpose",
+        "meta": "Passive",
+        "description": "An irregularity that results in an incorporeal body. Grants 50% Slash, Blunt, and Pierce resistance, but also grants a 25% weakness to Dark damage. (Only 25% for non-Drowned Woman units)."
+      }
+    ],
+    "type": "Night Youkai"
+  },
+  {
+    "name": "Nacht",
+    "statsLv1": {
+      "STR": 6,
+      "WIL": 9,
+      "SKI": 4,
+      "CEL": 6,
+      "DEF": 3,
+      "RES": 4,
+      "VIT": 6,
+      "FAI": 0,
+      "LUC": 6,
+      "GUI": 0,
+      "SAN": 0
+    },
+    "statsLv60": {},
+    "skills": [
+      {
+        "name": "Ichor Veil",
+        "meta": "Cost: 5 FP / 3M, Target: Ally Only, Domain: Huggessoan, Area: Single, Range: 5, Tags: Youkai Evoke, Cooldown: 3 Round(s)",
+        "description": "Costs 10% of max HP. Targets 1 other allied unit within 5 Range, granting them Ichor Veil LV X (X = 10% of max HP, 3 rounds). If the user of this skill is Nacht, they can target themself to create a burst of blood, dealing Water + Dark magic damage to all enemies within a 3 Size Circle (damage increased by HP consumed). If the summoner has the Claret Call skill active, damaged enemies have it applied to them. Additionally, when used by Nacht, this skill's CD is reduced by 1 round."
+      },
+      {
+        "name": "Bloodstained Night",
+        "meta": "Passive",
+        "description": "When this unit is defeated, the battlefield is covered in a Bloodstained Night effect (LV = Nacht's level, 5 rounds). If the owner of this skill is Nacht, after 3 rounds (or when the battle ends), they recover to full HP (in an unsummoned state)."
+      },
+      {
+        "name": "Midnight Ruler",
+        "meta": "Cost: 15 FP / 2M, Target: Ally Only, Domain: Huggessoan, Area: Single, Tags: Youkai Evoke, Cooldown: 3 Round(s) Midnight Ruler also stores HP skill costs and damage taken by Bloodstained Night as a sublevel. You can use this skill to end Midnight Ruler and recover HP equal to its sublevel. Otherwise, when Midnight Ruler's duration ends, you will automatically recover HP equal to 25% of its sublevel.",
+        "description": "On New Round: If it is night, or the owner of this skill is standing in a Darkness tile, they gain Midnight Ruler LV X (X = higher of 25% of Nacht's level or 5, 3 rounds) if they do not already have it. If the owner of this skill is Nacht, this effect also applies when summoned and is permanent when it does."
+      }
+    ],
+    "type": "Night Youkai"
+  },
+  {
+    "name": "Jack o' Lantern",
+    "statsLv1": {
+      "STR": 6,
+      "WIL": 6,
+      "SKI": 6,
+      "CEL": 4,
+      "DEF": 6,
+      "RES": 4,
+      "VIT": 9,
+      "FAI": 0,
+      "LUC": 4,
+      "GUI": 0,
+      "SAN": 0
+    },
+    "statsLv60": {},
+    "skills": [
+      {
+        "name": "Fire Wall",
+        "meta": "Cost: 6 FP / 3M, Target: Enemy Only, Domain: Nerifian, Area: Single, Range: 4, Tags: Youkai Evoke",
+        "description": "A shriek that sends flames shooting at the target. Deals Fire magic damage to a target enemy within 4 Range and has a chance to inflict Fear for 2 rounds. If unit is Stoked, Range increases by 3, targets a 3 Size Circle, damage by 25%, gains Great Accuracy, and has a chance to inflict Burn LV 15 for 2 rounds, but it consumes the Stoked effect."
+      },
+      {
+        "name": "Sinister Regrowth",
+        "meta": "Passive",
+        "description": "+5 HP Regeneration. If the owner of this skill is Jack o' Lantern, then at the start of a new round: If within 1 Range of a Hardiness 1 plant field tile, consumes and destroys 1 of those tiles to restore HP equal to level x 2, and this unit becomes Stoked and cures any Burn they possess. (Stoked causes basic attacks to deal Fire magic bonus damage equal to 30% of Fire ATK on hit, grants immunity to Burn, and grants +25 Evade.) This effect has a 3 round cooldown."
+      },
+      {
+        "name": "Autumn Animation",
+        "meta": "Passive",
+        "description": "A plant said to come alive when covered in dead leaves. Grants +15% Earth Resistance and +15% Water Resistance, but also gives a 15% Fire Weakness. If the owner of this skill is Jack o' Lantern, instead grants +50% Earth Resistance, absorbs Water damage, and has a 25% Fire Weakness."
+      }
+    ],
+    "type": "Plant Youkai"
+  },
+  {
+    "name": "Orbello",
+    "statsLv1": {
+      "STR": 6,
+      "WIL": 6,
+      "SKI": 6,
+      "CEL": 4,
+      "DEF": 7,
+      "RES": 6,
+      "VIT": 9,
+      "FAI": 0,
+      "LUC": 4,
+      "GUI": 0,
+      "SAN": 0
+    },
+    "statsLv60": {},
+    "skills": [
+      {
+        "name": "Deathtouch",
+        "meta": "Cost: 9 FP / 3M, Target: Enemy Only, Domain: Huggessoan, Area: Single, Range: 2, Tags: Youkai Evoke",
+        "description": "Touches a target within 2 Range with a cold, arcane hand, dealing magic damage split between Ice and Darkness damage."
+      },
+      {
+        "name": "Nightshade",
+        "meta": "Passive",
+        "description": "A protective charm that is powered by the night. They gain +2 DEF and +2 RES."
+      },
+      {
+        "name": "Chain Cast",
+        "meta": "Passive",
+        "description": "After casting a spell while Orbello is Installed, you gain a status that increases your Spell Power by 1 and reduces Spell Costs by 10% for 2 rounds. Additional spell casts increase the effect and duration by 1 (as well as the cost reduction by 10%), to a maximum of 3+(Orbello's Level/10), and a maximum duration of 2 rounds."
+      }
+    ],
+    "type": "Plant Youkai"
+  },
+  {
+    "name": "Vampiric Legume",
+    "statsLv1": {
+      "STR": 6,
+      "WIL": 6,
+      "SKI": 6,
+      "CEL": 4,
+      "DEF": 6,
+      "RES": 4,
+      "VIT": 9,
+      "FAI": 0,
+      "LUC": 4,
+      "GUI": 0,
+      "SAN": 0
+    },
+    "statsLv60": {},
+    "skills": [
+      {
+        "name": "Ingrain",
+        "meta": "Cost: 10 FP / 3M, Target: Enemy Only, Area: Single, Tags: Youkai Evoke",
+        "description": "Dig your roots into the ground, gaining Immobilize for 3 rounds. If you use this skill while already Immobilized, if it was caused by yourself, the status is removed."
+      },
+      {
+        "name": "Synthesis",
+        "meta": "Passive",
+        "description": "At the start of a new round, if the owner of this skill is Immobilized, all enemies within 3 Range are drained for half of the owner's LV in HP. The owner of this skill is then healed for that total amount in HP."
+      },
+      {
+        "name": "Demon Plant",
+        "meta": "Passive",
+        "description": "A plant capable of growing in the soil of Hell itself. Grants 25% Dark Resistance, but also gives a 25% Light Weakness. In addition, 10% of the damage dealt by the owner of this skill is returned to them as HP."
+      }
+    ],
+    "type": "Plant Youkai"
+  }
+]

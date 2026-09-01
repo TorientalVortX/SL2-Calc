@@ -13,5 +13,7 @@
     "types": ["node"]
   },
   "include": ["server/**/*.ts", "scripts/eval-ai.ts", "src/**/*.ts"],
-  "exclude": ["src/**/*.tsx", "src/**/*.test.ts"]
+  // src/design is browser-only React UI. Its barrel files re-export .tsx, so the
+  // blanket "*.tsx" exclude below cannot keep it out — it needs excluding by folder.
+  "exclude": ["src/**/*.tsx", "src/**/*.test.ts", "src/design/**"]
 }

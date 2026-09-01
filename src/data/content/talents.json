@@ -1,0 +1,2328 @@
+{
+  "schemaVersion": 1,
+  "source": "https://sl2.miraheze.org/wiki/Talents",
+  "scraped": "2026-08-31",
+  "confidence": "community",
+  "budget": {
+    "pointsFromLevels": 60,
+    "legendExtensionPoints": 5,
+    "maxRanksPerTalent": 10
+  },
+  "categories": [
+    {
+      "id": "weaponry-talents",
+      "name": "Weaponry Talents"
+    },
+    {
+      "id": "war-talents",
+      "name": "War Talents"
+    },
+    {
+      "id": "elemental-talents",
+      "name": "Elemental Talents"
+    },
+    {
+      "id": "arcane-talents",
+      "name": "Arcane Talents"
+    },
+    {
+      "id": "occult-talents",
+      "name": "Occult Talents"
+    },
+    {
+      "id": "survival-talents",
+      "name": "Survival Talents"
+    }
+  ],
+  "talents": [
+    {
+      "id": "blade-expertise",
+      "name": "Blade Expertise",
+      "category": "Weaponry Talents",
+      "categoryId": "weaponry-talents",
+      "spPerRank": 1.5,
+      "maxRanks": 10,
+      "maxSp": 15,
+      "subtalents": [
+        {
+          "id": "blade-expertise/balance",
+          "name": "Balance",
+          "maxSr": 5,
+          "effect": "Reduces the Battle Weight of Sword and Dagger weapons by up to SR * 1.5.",
+          "weapons": [
+            "Dagger",
+            "Sword"
+          ],
+          "modifiers": [
+            {
+              "stat": "battleWeight",
+              "direction": "reduce",
+              "perRank": 1.5,
+              "unit": "flat",
+              "subject": "Battle Weight of Sword and Dagger weapons",
+              "appliesTo": "self",
+              "weapons": [
+                "Dagger",
+                "Sword"
+              ],
+              "conditional": false
+            }
+          ],
+          "links": []
+        },
+        {
+          "id": "blade-expertise/adaptation",
+          "name": "Adaptation",
+          "maxSr": 5,
+          "effect": "Allows you to equip any Sword weapon with a Rarity equal to or less than SR * 2.",
+          "weaponAccess": {
+            "weaponType": "Sword",
+            "rarityPerRank": 2
+          },
+          "weapons": [
+            "Sword"
+          ],
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "blade-expertise/reliability",
+          "name": "Reliability",
+          "maxSr": 5,
+          "effect": "For Sword and Dagger weapons: increases Hit by SR * 1.5 and reduces Durability consumption by SR * 5%.",
+          "weapons": [
+            "Dagger",
+            "Sword"
+          ],
+          "modifiers": [
+            {
+              "stat": "hit",
+              "direction": "increase",
+              "perRank": 1.5,
+              "unit": "flat",
+              "subject": "Hit",
+              "appliesTo": "self",
+              "weapons": [
+                "Dagger",
+                "Sword"
+              ],
+              "conditional": false
+            },
+            {
+              "stat": "durabilityConsumption",
+              "direction": "reduce",
+              "perRank": 5,
+              "unit": "percent",
+              "subject": "Durability consumption",
+              "appliesTo": "self",
+              "weapons": [
+                "Dagger",
+                "Sword"
+              ],
+              "conditional": false
+            }
+          ],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "axe-expertise",
+      "name": "Axe Expertise",
+      "category": "Weaponry Talents",
+      "categoryId": "weaponry-talents",
+      "spPerRank": 1.5,
+      "maxRanks": 10,
+      "maxSp": 15,
+      "subtalents": [
+        {
+          "id": "axe-expertise/balance",
+          "name": "Balance",
+          "maxSr": 5,
+          "effect": "Reduces the Battle Weight of Axe weapons by up to SR * 1.5.",
+          "weapons": [
+            "Axe"
+          ],
+          "modifiers": [
+            {
+              "stat": "battleWeight",
+              "direction": "reduce",
+              "perRank": 1.5,
+              "unit": "flat",
+              "subject": "Battle Weight of Axe weapons",
+              "appliesTo": "self",
+              "weapons": [
+                "Axe"
+              ],
+              "conditional": false
+            }
+          ],
+          "links": []
+        },
+        {
+          "id": "axe-expertise/adaptation",
+          "name": "Adaptation",
+          "maxSr": 5,
+          "effect": "Allows you to equip any Axe weapon with a Rarity equal to or less than SR * 2.",
+          "weaponAccess": {
+            "weaponType": "Axe",
+            "rarityPerRank": 2
+          },
+          "weapons": [
+            "Axe"
+          ],
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "axe-expertise/deadliness",
+          "name": "Deadliness",
+          "maxSr": 5,
+          "effect": "For Axe weapons: increases Critical by SR * 1.5 and Critical Damage by SR * 0.5%.",
+          "weapons": [
+            "Axe"
+          ],
+          "modifiers": [
+            {
+              "stat": "critical",
+              "direction": "increase",
+              "perRank": 1.5,
+              "unit": "flat",
+              "subject": "Critical",
+              "appliesTo": "self",
+              "weapons": [
+                "Axe"
+              ],
+              "conditional": false
+            },
+            {
+              "stat": "criticalDamage",
+              "direction": "increase",
+              "perRank": 0.5,
+              "unit": "percent",
+              "subject": "Critical Damage",
+              "appliesTo": "self",
+              "weapons": [
+                "Axe"
+              ],
+              "conditional": false
+            }
+          ],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "polearm-expertise",
+      "name": "Polearm Expertise",
+      "category": "Weaponry Talents",
+      "categoryId": "weaponry-talents",
+      "spPerRank": 1.5,
+      "maxRanks": 10,
+      "maxSp": 15,
+      "subtalents": [
+        {
+          "id": "polearm-expertise/balance",
+          "name": "Balance",
+          "maxSr": 5,
+          "effect": "Reduces the Battle Weight of Polearm weapons by up to SR * 1.5.",
+          "weapons": [
+            "Polearm"
+          ],
+          "modifiers": [
+            {
+              "stat": "battleWeight",
+              "direction": "reduce",
+              "perRank": 1.5,
+              "unit": "flat",
+              "subject": "Battle Weight of Polearm weapons",
+              "appliesTo": "self",
+              "weapons": [
+                "Polearm"
+              ],
+              "conditional": false
+            }
+          ],
+          "links": []
+        },
+        {
+          "id": "polearm-expertise/adaptation",
+          "name": "Adaptation",
+          "maxSr": 5,
+          "effect": "Allows you to equip any Polearm weapon with a Rarity equal to or less than SR * 2.",
+          "weaponAccess": {
+            "weaponType": "Polearm",
+            "rarityPerRank": 2
+          },
+          "weapons": [
+            "Polearm"
+          ],
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "polearm-expertise/thin-tip",
+          "name": "Thin Tip",
+          "maxSr": 5,
+          "effect": "For Polearm weapons: increases Power by SR * 1.5 when attacking an enemy in melee range who is facing you.",
+          "weapons": [
+            "Polearm"
+          ],
+          "modifiers": [
+            {
+              "stat": "power",
+              "direction": "increase",
+              "perRank": 1.5,
+              "unit": "flat",
+              "subject": "Power",
+              "appliesTo": "self",
+              "weapons": [
+                "Polearm"
+              ],
+              "conditional": true
+            }
+          ],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "archery",
+      "name": "Archery",
+      "category": "Weaponry Talents",
+      "categoryId": "weaponry-talents",
+      "spPerRank": 1.5,
+      "maxRanks": 10,
+      "maxSp": 15,
+      "subtalents": [
+        {
+          "id": "archery/balance",
+          "name": "Balance",
+          "maxSr": 5,
+          "effect": "Reduces the Battle Weight of Bow weapons by up to SR * 1.5.",
+          "weapons": [
+            "Bow"
+          ],
+          "modifiers": [
+            {
+              "stat": "battleWeight",
+              "direction": "reduce",
+              "perRank": 1.5,
+              "unit": "flat",
+              "subject": "Battle Weight of Bow weapons",
+              "appliesTo": "self",
+              "weapons": [
+                "Bow"
+              ],
+              "conditional": false
+            }
+          ],
+          "links": []
+        },
+        {
+          "id": "archery/adaptation",
+          "name": "Adaptation",
+          "maxSr": 5,
+          "effect": "Allows you to equip any Bow weapon with a Rarity equal to or less than SR * 2.",
+          "weaponAccess": {
+            "weaponType": "Bow",
+            "rarityPerRank": 2
+          },
+          "weapons": [
+            "Bow"
+          ],
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "archery/close-shot",
+          "name": "Close Shot",
+          "maxSr": 5,
+          "effect": "For Bow weapons: decreases the close-range Hit penalty by SR * 5%. Doubled for Shortbows.",
+          "weapons": [
+            "Bow"
+          ],
+          "weaponSubtypes": [
+            "Shortbow"
+          ],
+          "modifiers": [
+            {
+              "stat": "closeRangeHitPenalty",
+              "direction": "reduce",
+              "perRank": 5,
+              "unit": "percent",
+              "subject": "close-range Hit penalty",
+              "appliesTo": "self",
+              "weapons": [
+                "Bow"
+              ],
+              "weaponSubtypes": [
+                "Shortbow"
+              ],
+              "conditional": true
+            }
+          ],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "unarmed-combat",
+      "name": "Unarmed Combat",
+      "category": "Weaponry Talents",
+      "categoryId": "weaponry-talents",
+      "spPerRank": 1.5,
+      "maxRanks": 10,
+      "maxSp": 15,
+      "subtalents": [
+        {
+          "id": "unarmed-combat/balance",
+          "name": "Balance",
+          "maxSr": 5,
+          "effect": "Reduces the Battle Weight of Fist weapons by up to SR * 1.5.",
+          "weapons": [
+            "Fist"
+          ],
+          "modifiers": [
+            {
+              "stat": "battleWeight",
+              "direction": "reduce",
+              "perRank": 1.5,
+              "unit": "flat",
+              "subject": "Battle Weight of Fist weapons",
+              "appliesTo": "self",
+              "weapons": [
+                "Fist"
+              ],
+              "conditional": false
+            }
+          ],
+          "links": []
+        },
+        {
+          "id": "unarmed-combat/adaptation",
+          "name": "Adaptation",
+          "maxSr": 5,
+          "effect": "Allows you to equip any Fist weapon with a Rarity equal to or less than SR * 2.",
+          "weaponAccess": {
+            "weaponType": "Fist",
+            "rarityPerRank": 2
+          },
+          "weapons": [
+            "Fist"
+          ],
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "unarmed-combat/dizzy",
+          "name": "Dizzy",
+          "maxSr": 5,
+          "effect": "For Fist weapons: attacks that hit reduce the target's FP by SR * 1. 50% effective versus Light Armor and 25% effective against Heavy Armor.",
+          "weapons": [
+            "Fist"
+          ],
+          "modifiers": [
+            {
+              "stat": "fp",
+              "direction": "reduce",
+              "perRank": 1,
+              "unit": "flat",
+              "subject": "target's FP",
+              "appliesTo": "enemy",
+              "weapons": [
+                "Fist"
+              ],
+              "conditional": true
+            }
+          ],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "marksmanship",
+      "name": "Marksmanship",
+      "category": "Weaponry Talents",
+      "categoryId": "weaponry-talents",
+      "spPerRank": 1.5,
+      "maxRanks": 10,
+      "maxSp": 15,
+      "subtalents": [
+        {
+          "id": "marksmanship/balance",
+          "name": "Balance",
+          "maxSr": 5,
+          "effect": "Reduces the Battle Weight of Gun weapons by up to SR * 1.5.",
+          "weapons": [
+            "Gun"
+          ],
+          "modifiers": [
+            {
+              "stat": "battleWeight",
+              "direction": "reduce",
+              "perRank": 1.5,
+              "unit": "flat",
+              "subject": "Battle Weight of Gun weapons",
+              "appliesTo": "self",
+              "weapons": [
+                "Gun"
+              ],
+              "conditional": false
+            }
+          ],
+          "links": []
+        },
+        {
+          "id": "marksmanship/volley",
+          "name": "Volley",
+          "maxSr": 2,
+          "effect": "For Bow and Gun weapons: increases attack range by SR * 1.",
+          "weapons": [
+            "Bow",
+            "Gun"
+          ],
+          "modifiers": [
+            {
+              "stat": "attackRange",
+              "direction": "increase",
+              "perRank": 1,
+              "unit": "flat",
+              "subject": "attack range",
+              "appliesTo": "self",
+              "weapons": [
+                "Bow",
+                "Gun"
+              ],
+              "conditional": false
+            }
+          ],
+          "links": []
+        },
+        {
+          "id": "marksmanship/wind-read",
+          "name": "Wind Read",
+          "maxSr": 3,
+          "effect": "Increases maximum range before Farshot Penalty is applied by SR * 1.",
+          "modifiers": [
+            {
+              "stat": "farshotRange",
+              "direction": "increase",
+              "perRank": 1,
+              "unit": "flat",
+              "subject": "maximum range before Farshot Penalty is applied",
+              "appliesTo": "self",
+              "conditional": false
+            }
+          ],
+          "links": []
+        },
+        {
+          "id": "marksmanship/adaptation",
+          "name": "Adaptation",
+          "maxSr": 5,
+          "effect": "Allows you to equip any Gun weapon with a Rarity equal to or less than SR * 2.",
+          "weaponAccess": {
+            "weaponType": "Gun",
+            "rarityPerRank": 2
+          },
+          "weapons": [
+            "Gun"
+          ],
+          "modifiers": [],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "maintenance",
+      "name": "Maintenance",
+      "category": "Weaponry Talents",
+      "categoryId": "weaponry-talents",
+      "spPerRank": 2,
+      "maxRanks": 10,
+      "maxSp": 20,
+      "subtalents": [
+        {
+          "id": "maintenance/self-service",
+          "name": "Self-Service",
+          "maxSr": 5,
+          "effect": "After every battle, restores equipped weapon Durability by SR * 1, up to 75% maximum. If two weapons are equipped, half the effect applies to both if the secondary weapon has Durability damage.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "maintenance/squad-service",
+          "name": "Squad-Service",
+          "maxSr": 5,
+          "effect": "All other party members receive your Self-Service at SR * 20% of its usual effectiveness. Only the highest Squad-Service in the party applies.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "maintenance/mastery",
+          "name": "Mastery",
+          "maxSr": 5,
+          "effect": "Increases the maximum Durability that Maintenance effects can repair to by SR * 3% (90% at SR 5).",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "maintenance/emergency-service",
+          "name": "Emergency Service",
+          "maxSr": 5,
+          "effect": "Grants a battle skill targeting someone with broken weapons. It consumes 2 Murai and restores each broken weapon's Durability to SR * 1; 5-round cooldown.",
+          "modifiers": [],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "ninjutsu",
+      "name": "Ninjutsu",
+      "category": "Weaponry Talents",
+      "categoryId": "weaponry-talents",
+      "spPerRank": 1.5,
+      "maxRanks": 10,
+      "maxSp": 15,
+      "subtalents": [
+        {
+          "id": "ninjutsu/hayasa",
+          "name": "Hayasa",
+          "maxSr": 1,
+          "effect": "Using Swap Weapon to equip a Shuriken refunds up to 3 Momentum, but puts Swap Weapon on a 1-round cooldown.",
+          "weapons": [
+            "Dagger"
+          ],
+          "weaponSubtypes": [
+            "Shuriken"
+          ],
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "ninjutsu/endan",
+          "name": "Endan",
+          "maxSr": 5,
+          "effect": "Bomb items also explode into Smokescreen tiles with LV SR * 5 that last for 2 + SR rounds.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "ninjutsu/kagero",
+          "name": "Kagero",
+          "maxSr": 1,
+          "effect": "You and your allies ignore the effects of your Smokescreen tiles.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "ninjutsu/yobai",
+          "name": "Yobai",
+          "maxSr": 3,
+          "effect": "While Airborne, the attack range of your Shuriken weapons increases by SR * 1.",
+          "weapons": [
+            "Dagger"
+          ],
+          "weaponSubtypes": [
+            "Shuriken"
+          ],
+          "modifiers": [
+            {
+              "stat": "attackRange",
+              "direction": "increase",
+              "perRank": 1,
+              "unit": "flat",
+              "subject": "attack range of your Shuriken weapons",
+              "appliesTo": "self",
+              "weapons": [
+                "Dagger"
+              ],
+              "weaponSubtypes": [
+                "Shuriken"
+              ],
+              "conditional": true
+            }
+          ],
+          "links": []
+        },
+        {
+          "id": "ninjutsu/danmaku",
+          "name": "Danmaku",
+          "maxSr": 5,
+          "effect": "Once per round, with a Shuriken equipped, dodging an attack or triggering Evasion hits all enemies within 3 Range with weak versions, dealing protection-ignoring damage equal to the weapon's Power + SR * 3.",
+          "weapons": [
+            "Dagger"
+          ],
+          "weaponSubtypes": [
+            "Shuriken"
+          ],
+          "modifiers": [],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "march",
+      "name": "March",
+      "category": "War Talents",
+      "categoryId": "war-talents",
+      "spPerRank": 2,
+      "maxRanks": 10,
+      "maxSp": 20,
+      "subtalents": [
+        {
+          "id": "march/health",
+          "name": "Health",
+          "maxSr": 5,
+          "effect": "Every 15 out-of-combat steps, if below 75% maximum HP, restore SR * 1 HP.",
+          "modifiers": [
+            {
+              "stat": "hp",
+              "direction": "increase",
+              "perRank": 1,
+              "unit": "flat",
+              "subject": "HP",
+              "appliesTo": "self",
+              "conditional": true
+            }
+          ],
+          "links": []
+        },
+        {
+          "id": "march/stamina",
+          "name": "Stamina",
+          "maxSr": 5,
+          "effect": "Increases Physical Stamina recovered every hour by SR * 1.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "march/jump",
+          "name": "Jump",
+          "maxSr": 1,
+          "effect": "Reduces the Stamina cost of using upward Jump Spots by 1.",
+          "modifiers": [],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "combat-drilling",
+      "name": "Combat Drilling",
+      "category": "War Talents",
+      "categoryId": "war-talents",
+      "spPerRank": 1.5,
+      "maxRanks": 10,
+      "maxSp": 15,
+      "subtalents": [
+        {
+          "id": "combat-drilling/experience",
+          "name": "Experience",
+          "maxSr": 5,
+          "effect": "Increases battle EXP gained for the entire party by SR * 2%. Only the highest Experience in the party applies.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "combat-drilling/training",
+          "name": "Training",
+          "maxSr": 5,
+          "effect": "Lets you train certain NPCs and other characters. EXP gained increases with SR by 2.5% of EXP required to level per SR.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "combat-drilling/tools",
+          "name": "Tools",
+          "maxSr": 5,
+          "effect": "Lets you set up Training Tools at certain locations; higher SR improves EXP gained by 2% of EXP required to level per SR.",
+          "modifiers": [],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "bravery",
+      "name": "Bravery",
+      "category": "War Talents",
+      "categoryId": "war-talents",
+      "spPerRank": 1,
+      "maxRanks": 9,
+      "maxSp": 9,
+      "subtalents": [
+        {
+          "id": "bravery/will",
+          "name": "Will",
+          "maxSr": 3,
+          "effect": "Grants resistance to Fear by SR * 16% (minimum 0-1 Hit) and reduces Fear of Death duration by SR * 1.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "bravery/determination",
+          "name": "Determination",
+          "maxSr": 3,
+          "effect": "Grants resistance to Hesitation equal to SR * 15%.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "bravery/heat-of-battle",
+          "name": "Heat of Battle",
+          "maxSr": 3,
+          "effect": "Away from the battlefield edge, Power increases by SR * 1 and Physical and Magical Defense versus monsters increase by SR * 1%. Bonuses are doubled if the enemy is at the battlefield edge.",
+          "modifiers": [
+            {
+              "stat": "power",
+              "direction": "increase",
+              "perRank": 1,
+              "unit": "flat",
+              "subject": "Power",
+              "appliesTo": "self",
+              "conditional": true
+            }
+          ],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "detainment",
+      "name": "Detainment",
+      "category": "War Talents",
+      "categoryId": "war-talents",
+      "spPerRank": 1.5,
+      "maxRanks": 10,
+      "maxSp": 15,
+      "subtalents": [
+        {
+          "id": "detainment/take-prisoner",
+          "name": "Take Prisoner",
+          "maxSr": 5,
+          "effect": "Grants Capture: a 1-Range attack with Hit and damage penalties that captures an enemy if it reduces them to 0 HP. Maximum prisoners: SR * 1.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "detainment/restrain",
+          "name": "Restrain",
+          "maxSr": 5,
+          "effect": "Grants Grapple, inflicting Immobilize on you and a target within 1 Range on success. Success is SR * 17% plus 2% per character level you exceed the target by.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "detainment/convert",
+          "name": "Convert",
+          "maxSr": 5,
+          "effect": "Lets you convert captured monsters into mercenaries for a Murai fee. Success is SR * 20%; failure requires waiting 3 in-game hours.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "detainment/seize",
+          "name": "Seize",
+          "maxSr": 5,
+          "effect": "If prisoner space is available, gives an SR * 1% chance to capture defeated non-NPCs after battle when their level is no more than 1.25 times yours; rolled for each potential prisoner.",
+          "modifiers": [],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "first-aid",
+      "name": "First Aid",
+      "category": "War Talents",
+      "categoryId": "war-talents",
+      "spPerRank": 1,
+      "maxRanks": 10,
+      "maxSp": 10,
+      "subtalents": [
+        {
+          "id": "first-aid/healing",
+          "name": "Healing",
+          "maxSr": 5,
+          "effect": "At battle end, heals all party members for SR * 2 HP, up to 90% HP.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "first-aid/treatment",
+          "name": "Treatment",
+          "maxSr": 3,
+          "effect": "At battle end, automatically treats party afflictions up to a severity based on SR: 1 = Minor, 2 = Moderate, 3 = Major.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "first-aid/prevention",
+          "name": "Prevention",
+          "maxSr": 5,
+          "effect": "Reduces the party's chance of suffering battle afflictions by SR * 10% of the normal chance. Only the highest Prevention applies.",
+          "modifiers": [],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "two-hand",
+      "name": "Two-Hand",
+      "category": "War Talents",
+      "categoryId": "war-talents",
+      "spPerRank": 1,
+      "maxRanks": 10,
+      "maxSp": 10,
+      "subtalents": [
+        {
+          "id": "two-hand/full-swing",
+          "name": "Full Swing",
+          "maxSr": 5,
+          "effect": "Without a Shield or Sub-Weapon equipped, increases Scaled Weapon ATK of Swords, Axes, and Spears by SR * 2; doubled for weapons with 20 Weight or more.",
+          "weapons": [
+            "Axe",
+            "Polearm",
+            "Sword"
+          ],
+          "weaponSubtypes": [
+            "Spear"
+          ],
+          "modifiers": [
+            {
+              "stat": "scaledWeaponAtk",
+              "direction": "increase",
+              "perRank": 2,
+              "unit": "flat",
+              "subject": "Scaled Weapon ATK of Swords, Axes, and Spears",
+              "appliesTo": "self",
+              "weapons": [
+                "Axe",
+                "Polearm",
+                "Sword"
+              ],
+              "weaponSubtypes": [
+                "Spear"
+              ],
+              "conditional": true
+            }
+          ],
+          "links": []
+        },
+        {
+          "id": "two-hand/steady",
+          "name": "Steady",
+          "maxSr": 5,
+          "effect": "Without a Shield or Sub-Weapon equipped, increases Gun Hit by SR * 2; doubled for Rifle weapons.",
+          "weapons": [
+            "Gun"
+          ],
+          "weaponSubtypes": [
+            "Rifle"
+          ],
+          "modifiers": [
+            {
+              "stat": "hit",
+              "direction": "increase",
+              "perRank": 2,
+              "unit": "flat",
+              "subject": "Gun Hit",
+              "appliesTo": "self",
+              "weapons": [
+                "Gun"
+              ],
+              "weaponSubtypes": [
+                "Rifle"
+              ],
+              "conditional": true
+            }
+          ],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "chivalry",
+      "name": "Chivalry",
+      "category": "War Talents",
+      "categoryId": "war-talents",
+      "spPerRank": 2,
+      "maxRanks": 10,
+      "maxSp": 20,
+      "subtalents": [
+        {
+          "id": "chivalry/honor",
+          "name": "Honor",
+          "maxSr": 5,
+          "effect": "Recover SR * 1 FP when hitting an enemy from their front. Does not apply if the target is knocked down or your party outnumbers theirs.",
+          "modifiers": [
+            {
+              "stat": "fp",
+              "direction": "increase",
+              "perRank": 1,
+              "unit": "flat",
+              "subject": "FP",
+              "appliesTo": "self",
+              "conditional": true
+            }
+          ],
+          "links": []
+        },
+        {
+          "id": "chivalry/smite",
+          "name": "Smite",
+          "maxSr": 5,
+          "effect": "Increases Hit by SR * 3 when attacking an enemy from their front. Does not apply if the target is knocked down or your party outnumbers theirs.",
+          "modifiers": [
+            {
+              "stat": "hit",
+              "direction": "increase",
+              "perRank": 3,
+              "unit": "flat",
+              "subject": "Hit",
+              "appliesTo": "self",
+              "conditional": true
+            }
+          ],
+          "links": []
+        },
+        {
+          "id": "chivalry/protector",
+          "name": "Protector",
+          "maxSr": 5,
+          "effect": "When you trigger Protect, gain SR * 1 Armor and Magic Armor until your next turn.",
+          "modifiers": [
+            {
+              "stat": "armor",
+              "direction": "increase",
+              "perRank": 1,
+              "unit": "flat",
+              "subject": "Armor and Magic Armor",
+              "appliesTo": "self",
+              "conditional": true
+            },
+            {
+              "stat": "magicArmor",
+              "direction": "increase",
+              "perRank": 1,
+              "unit": "flat",
+              "subject": "Armor and Magic Armor",
+              "appliesTo": "self",
+              "conditional": true
+            }
+          ],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "pyromancy",
+      "name": "Pyromancy",
+      "category": "Elemental Talents",
+      "categoryId": "elemental-talents",
+      "spPerRank": 2,
+      "maxRanks": 10,
+      "maxSp": 20,
+      "subtalents": [
+        {
+          "id": "pyromancy/potency",
+          "name": "Potency",
+          "maxSr": 5,
+          "effect": "Increases Fire ATK by SR * 1.",
+          "modifiers": [
+            {
+              "stat": "elementAtk",
+              "element": "Fire",
+              "direction": "increase",
+              "perRank": 1,
+              "unit": "flat",
+              "subject": "Fire ATK",
+              "appliesTo": "self",
+              "conditional": false
+            }
+          ],
+          "links": []
+        },
+        {
+          "id": "pyromancy/efficiency",
+          "name": "Efficiency",
+          "maxSr": 5,
+          "effect": "Reduces Nerifian-domain spell FP costs by SR * 3%; only the highest applicable Efficiency applies.",
+          "modifiers": [
+            {
+              "stat": "fpCost",
+              "direction": "reduce",
+              "perRank": 3,
+              "unit": "percent",
+              "subject": "Nerifian-domain spell FP costs",
+              "appliesTo": "self",
+              "conditional": false
+            }
+          ],
+          "links": []
+        },
+        {
+          "id": "pyromancy/scorch",
+          "name": "Scorch",
+          "maxSr": 5,
+          "effect": "Increases the duration of Cinder tiles you create by SR * 1 rounds.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "pyromancy/ignis",
+          "name": "Ignis",
+          "maxSr": 5,
+          "effect": "Increases success when applying Burn by SR * 3%.",
+          "modifiers": [],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "cryomancy",
+      "name": "Cryomancy",
+      "category": "Elemental Talents",
+      "categoryId": "elemental-talents",
+      "spPerRank": 2,
+      "maxRanks": 10,
+      "maxSp": 20,
+      "subtalents": [
+        {
+          "id": "cryomancy/potency",
+          "name": "Potency",
+          "maxSr": 5,
+          "effect": "Increases Ice ATK by SR * 1.",
+          "modifiers": [
+            {
+              "stat": "elementAtk",
+              "element": "Ice",
+              "direction": "increase",
+              "perRank": 1,
+              "unit": "flat",
+              "subject": "Ice ATK",
+              "appliesTo": "self",
+              "conditional": false
+            }
+          ],
+          "links": []
+        },
+        {
+          "id": "cryomancy/efficiency",
+          "name": "Efficiency",
+          "maxSr": 5,
+          "effect": "Reduces Aquarian-domain spell FP costs by SR * 3%; only the highest applicable Efficiency applies.",
+          "modifiers": [
+            {
+              "stat": "fpCost",
+              "direction": "reduce",
+              "perRank": 3,
+              "unit": "percent",
+              "subject": "Aquarian-domain spell FP costs",
+              "appliesTo": "self",
+              "conditional": false
+            }
+          ],
+          "links": []
+        },
+        {
+          "id": "cryomancy/freeze",
+          "name": "Freeze",
+          "maxSr": 5,
+          "effect": "Increases the duration of Ice Sheet tiles you create by SR * 1 rounds.",
+          "modifiers": [],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "geomancy",
+      "name": "Geomancy",
+      "category": "Elemental Talents",
+      "categoryId": "elemental-talents",
+      "spPerRank": 2,
+      "maxRanks": 10,
+      "maxSp": 20,
+      "subtalents": [
+        {
+          "id": "geomancy/potency",
+          "name": "Potency",
+          "maxSr": 5,
+          "effect": "Increases Earth ATK by SR * 1.",
+          "modifiers": [
+            {
+              "stat": "elementAtk",
+              "element": "Earth",
+              "direction": "increase",
+              "perRank": 1,
+              "unit": "flat",
+              "subject": "Earth ATK",
+              "appliesTo": "self",
+              "conditional": false
+            }
+          ],
+          "links": []
+        },
+        {
+          "id": "geomancy/efficiency",
+          "name": "Efficiency",
+          "maxSr": 5,
+          "effect": "Reduces Isespian-domain spell FP costs by SR * 3%; only the highest applicable Efficiency applies.",
+          "modifiers": [
+            {
+              "stat": "fpCost",
+              "direction": "reduce",
+              "perRank": 3,
+              "unit": "percent",
+              "subject": "Isespian-domain spell FP costs",
+              "appliesTo": "self",
+              "conditional": false
+            }
+          ],
+          "links": []
+        },
+        {
+          "id": "geomancy/magnet",
+          "name": "Magnet",
+          "maxSr": 5,
+          "effect": "Increases the duration of Magnetize statuses you apply by SR * 1 rounds.",
+          "modifiers": [],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "aeromancy",
+      "name": "Aeromancy",
+      "category": "Elemental Talents",
+      "categoryId": "elemental-talents",
+      "spPerRank": 2,
+      "maxRanks": 10,
+      "maxSp": 20,
+      "subtalents": [
+        {
+          "id": "aeromancy/potency",
+          "name": "Potency",
+          "maxSr": 5,
+          "effect": "Increases Wind ATK by SR * 1.",
+          "modifiers": [
+            {
+              "stat": "elementAtk",
+              "element": "Wind",
+              "direction": "increase",
+              "perRank": 1,
+              "unit": "flat",
+              "subject": "Wind ATK",
+              "appliesTo": "self",
+              "conditional": false
+            }
+          ],
+          "links": []
+        },
+        {
+          "id": "aeromancy/efficiency",
+          "name": "Efficiency",
+          "maxSr": 5,
+          "effect": "Reduces Sylphid-domain spell FP costs by SR * 3%; only the highest applicable Efficiency applies.",
+          "modifiers": [
+            {
+              "stat": "fpCost",
+              "direction": "reduce",
+              "perRank": 3,
+              "unit": "percent",
+              "subject": "Sylphid-domain spell FP costs",
+              "appliesTo": "self",
+              "conditional": false
+            }
+          ],
+          "links": []
+        },
+        {
+          "id": "aeromancy/air-shaft",
+          "name": "Air Shaft",
+          "maxSr": 5,
+          "effect": "Increases the duration of Air Shaft tiles you create by SR * 1 rounds.",
+          "modifiers": [],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "aquamancy",
+      "name": "Aquamancy",
+      "category": "Elemental Talents",
+      "categoryId": "elemental-talents",
+      "spPerRank": 2,
+      "maxRanks": 10,
+      "maxSp": 20,
+      "subtalents": [
+        {
+          "id": "aquamancy/potency",
+          "name": "Potency",
+          "maxSr": 5,
+          "effect": "Increases Water ATK by SR * 1.",
+          "modifiers": [
+            {
+              "stat": "elementAtk",
+              "element": "Water",
+              "direction": "increase",
+              "perRank": 1,
+              "unit": "flat",
+              "subject": "Water ATK",
+              "appliesTo": "self",
+              "conditional": false
+            }
+          ],
+          "links": []
+        },
+        {
+          "id": "aquamancy/efficiency",
+          "name": "Efficiency",
+          "maxSr": 5,
+          "effect": "Reduces Aquarian-domain spell FP costs by SR * 3%; only the highest applicable Efficiency applies.",
+          "modifiers": [
+            {
+              "stat": "fpCost",
+              "direction": "reduce",
+              "perRank": 3,
+              "unit": "percent",
+              "subject": "Aquarian-domain spell FP costs",
+              "appliesTo": "self",
+              "conditional": false
+            }
+          ],
+          "links": []
+        },
+        {
+          "id": "aquamancy/flood",
+          "name": "Flood",
+          "maxSr": 3,
+          "effect": "Increases the duration of Flooded Water tiles you create by SR * 1 rounds.",
+          "modifiers": [],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "altermancy",
+      "name": "Altermancy",
+      "category": "Elemental Talents",
+      "categoryId": "elemental-talents",
+      "spPerRank": 2,
+      "maxRanks": 10,
+      "maxSp": 20,
+      "subtalents": [
+        {
+          "id": "altermancy/potency",
+          "name": "Potency",
+          "maxSr": 5,
+          "effect": "Increases Darkness ATK by SR * 1.",
+          "modifiers": [
+            {
+              "stat": "elementAtk",
+              "element": "Darkness",
+              "direction": "increase",
+              "perRank": 1,
+              "unit": "flat",
+              "subject": "Darkness ATK",
+              "appliesTo": "self",
+              "conditional": false
+            }
+          ],
+          "links": []
+        },
+        {
+          "id": "altermancy/efficiency",
+          "name": "Efficiency",
+          "maxSr": 5,
+          "effect": "Reduces Huggessoan-domain spell FP costs by SR * 3%; only the highest applicable Efficiency applies.",
+          "modifiers": [
+            {
+              "stat": "fpCost",
+              "direction": "reduce",
+              "perRank": 3,
+              "unit": "percent",
+              "subject": "Huggessoan-domain spell FP costs",
+              "appliesTo": "self",
+              "conditional": false
+            }
+          ],
+          "links": []
+        },
+        {
+          "id": "altermancy/black-sea",
+          "name": "Black Sea",
+          "maxSr": 5,
+          "effect": "Increases the duration of Dark Water tiles you create by SR * 1 rounds.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "altermancy/dimness",
+          "name": "Dimness",
+          "maxSr": 5,
+          "effect": "Increases the duration of Darkness tiles you create by SR * 1 rounds.",
+          "modifiers": [],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "solmancy",
+      "name": "Solmancy",
+      "category": "Elemental Talents",
+      "categoryId": "elemental-talents",
+      "spPerRank": 2,
+      "maxRanks": 10,
+      "maxSp": 20,
+      "subtalents": [
+        {
+          "id": "solmancy/potency",
+          "name": "Potency",
+          "maxSr": 5,
+          "effect": "Increases Light ATK by SR * 1.",
+          "modifiers": [
+            {
+              "stat": "elementAtk",
+              "element": "Light",
+              "direction": "increase",
+              "perRank": 1,
+              "unit": "flat",
+              "subject": "Light ATK",
+              "appliesTo": "self",
+              "conditional": false
+            }
+          ],
+          "links": []
+        },
+        {
+          "id": "solmancy/efficiency",
+          "name": "Efficiency",
+          "maxSr": 5,
+          "effect": "Reduces Mercalan-domain spell FP costs by SR * 3%; only the highest applicable Efficiency applies.",
+          "modifiers": [
+            {
+              "stat": "fpCost",
+              "direction": "reduce",
+              "perRank": 3,
+              "unit": "percent",
+              "subject": "Mercalan-domain spell FP costs",
+              "appliesTo": "self",
+              "conditional": false
+            }
+          ],
+          "links": []
+        },
+        {
+          "id": "solmancy/eternity",
+          "name": "Eternity",
+          "maxSr": 5,
+          "effect": "Increases the duration of Light Shaft tiles you create by SR * 1 rounds.",
+          "modifiers": [],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "fulgurmancy",
+      "name": "Fulgurmancy",
+      "category": "Elemental Talents",
+      "categoryId": "elemental-talents",
+      "spPerRank": 2,
+      "maxRanks": 10,
+      "maxSp": 20,
+      "subtalents": [
+        {
+          "id": "fulgurmancy/potency",
+          "name": "Potency",
+          "maxSr": 5,
+          "effect": "Increases Lightning ATK by SR * 1.",
+          "modifiers": [
+            {
+              "stat": "elementAtk",
+              "element": "Lightning",
+              "direction": "increase",
+              "perRank": 1,
+              "unit": "flat",
+              "subject": "Lightning ATK",
+              "appliesTo": "self",
+              "conditional": false
+            }
+          ],
+          "links": []
+        },
+        {
+          "id": "fulgurmancy/efficiency",
+          "name": "Efficiency",
+          "maxSr": 5,
+          "effect": "Reduces Nature-domain spell FP costs by SR * 3%; only the highest applicable Efficiency applies.",
+          "modifiers": [
+            {
+              "stat": "fpCost",
+              "direction": "reduce",
+              "perRank": 3,
+              "unit": "percent",
+              "subject": "Nature-domain spell FP costs",
+              "appliesTo": "self",
+              "conditional": false
+            }
+          ],
+          "links": []
+        },
+        {
+          "id": "fulgurmancy/lowrath",
+          "name": "Lowrath",
+          "maxSr": 5,
+          "effect": "Increases the chance of Lightning criticals by SR * 2%.",
+          "modifiers": [
+            {
+              "stat": "criticalChance",
+              "direction": "increase",
+              "perRank": 2,
+              "unit": "percent",
+              "subject": "chance of Lightning criticals",
+              "appliesTo": "self",
+              "conditional": false
+            }
+          ],
+          "links": []
+        },
+        {
+          "id": "fulgurmancy/ampage",
+          "name": "Ampage",
+          "maxSr": 5,
+          "effect": "Increases success when applying Interference by SR * 3%.",
+          "modifiers": [],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "capacity",
+      "name": "Capacity",
+      "category": "Arcane Talents",
+      "categoryId": "arcane-talents",
+      "spPerRank": 1,
+      "maxRanks": 10,
+      "maxSp": 10,
+      "subtalents": [
+        {
+          "id": "capacity/depth",
+          "name": "Depth",
+          "maxSr": 5,
+          "effect": "Increases maximum FP by SR * 5.",
+          "modifiers": [
+            {
+              "stat": "maxFp",
+              "direction": "increase",
+              "perRank": 5,
+              "unit": "flat",
+              "subject": "maximum FP",
+              "appliesTo": "self",
+              "conditional": false
+            }
+          ],
+          "links": []
+        },
+        {
+          "id": "capacity/absorption",
+          "name": "Absorption",
+          "maxSr": 3,
+          "effect": "Increases FP Regeneration by SR * 1.",
+          "modifiers": [
+            {
+              "stat": "fpRegen",
+              "direction": "increase",
+              "perRank": 1,
+              "unit": "flat",
+              "subject": "FP Regeneration",
+              "appliesTo": "self",
+              "conditional": false
+            }
+          ],
+          "links": []
+        },
+        {
+          "id": "capacity/recycle",
+          "name": "Recycle",
+          "maxSr": 5,
+          "effect": "In battle, spells cast by others restore SR * 4% of their FP cost or 3 FP, whichever is higher.",
+          "modifiers": [],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "enchantment",
+      "name": "Enchantment",
+      "category": "Arcane Talents",
+      "categoryId": "arcane-talents",
+      "spPerRank": 1.5,
+      "maxRanks": 10,
+      "maxSp": 15,
+      "subtalents": [
+        {
+          "id": "enchantment/whimsy",
+          "name": "Whimsy",
+          "maxSr": 5,
+          "effect": "Increases Status Infliction by SR * 2%.",
+          "modifiers": [
+            {
+              "stat": "statusInfliction",
+              "direction": "increase",
+              "perRank": 2,
+              "unit": "percent",
+              "subject": "Status Infliction",
+              "appliesTo": "self",
+              "conditional": false
+            }
+          ],
+          "links": []
+        },
+        {
+          "id": "enchantment/efficiency",
+          "name": "Efficiency",
+          "maxSr": 5,
+          "effect": "Reduces Enchant-class spell FP costs by SR * 3%; only the highest applicable Efficiency applies.",
+          "modifiers": [
+            {
+              "stat": "fpCost",
+              "direction": "reduce",
+              "perRank": 3,
+              "unit": "percent",
+              "subject": "Enchant-class spell FP costs",
+              "appliesTo": "self",
+              "conditional": false
+            }
+          ],
+          "links": []
+        },
+        {
+          "id": "enchantment/prolong",
+          "name": "Prolong",
+          "maxSr": 5,
+          "effect": "Increases Enchant-class spell status duration by SR * 1 rounds; half effective on enemies.",
+          "modifiers": [],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "fluency",
+      "name": "Fluency",
+      "category": "Arcane Talents",
+      "categoryId": "arcane-talents",
+      "spPerRank": 2,
+      "maxRanks": 10,
+      "maxSp": 20,
+      "subtalents": [
+        {
+          "id": "fluency/basics",
+          "name": "Basics",
+          "maxSr": 1,
+          "effect": "Allows you to read and write where appropriate, such as papers and signs.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "fluency/stamina",
+          "name": "Stamina",
+          "maxSr": 5,
+          "effect": "Increases Mental Stamina recovered every hour by SR * 1.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "fluency/spellbook",
+          "name": "Spellbook",
+          "maxSr": 5,
+          "effect": "With a Tome equipped, increases maximum Skill Pool size by SR * 1.",
+          "weapons": [
+            "Tome"
+          ],
+          "modifiers": [
+            {
+              "stat": "skillPool",
+              "direction": "increase",
+              "perRank": 1,
+              "unit": "flat",
+              "subject": "maximum Skill Pool size",
+              "appliesTo": "self",
+              "weapons": [
+                "Tome"
+              ],
+              "conditional": true
+            }
+          ],
+          "links": []
+        },
+        {
+          "id": "fluency/balance",
+          "name": "Balance",
+          "maxSr": 5,
+          "effect": "Reduces Tome Battle Weight by up to SR * 1.5.",
+          "weapons": [
+            "Tome"
+          ],
+          "modifiers": [
+            {
+              "stat": "battleWeight",
+              "direction": "reduce",
+              "perRank": 1.5,
+              "unit": "flat",
+              "subject": "Tome Battle Weight",
+              "appliesTo": "self",
+              "weapons": [
+                "Tome"
+              ],
+              "conditional": false
+            }
+          ],
+          "links": []
+        },
+        {
+          "id": "fluency/adaptation",
+          "name": "Adaptation",
+          "maxSr": 5,
+          "effect": "Allows you to equip any Tome with Rarity equal to or less than SR * 2.",
+          "weaponAccess": {
+            "weaponType": "Tome",
+            "rarityPerRank": 2
+          },
+          "weapons": [
+            "Tome"
+          ],
+          "modifiers": [],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "invocation",
+      "name": "Invocation",
+      "category": "Arcane Talents",
+      "categoryId": "arcane-talents",
+      "spPerRank": 1.5,
+      "maxRanks": 10,
+      "maxSp": 15,
+      "subtalents": [
+        {
+          "id": "invocation/words-of-power",
+          "name": "Words of Power",
+          "maxSr": 10,
+          "effect": "Reduces the chance that damage breaks an Invocation by SR * 10%; at SR 10, damage can never break one.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "invocation/minor-glyph",
+          "name": "Minor Glyph",
+          "maxSr": 5,
+          "effect": "While invoking, a magical barrier increases Armor and Magic Armor by SR * 1.",
+          "modifiers": [
+            {
+              "stat": "armor",
+              "direction": "increase",
+              "perRank": 1,
+              "unit": "flat",
+              "subject": "Armor and Magic Armor",
+              "appliesTo": "self",
+              "conditional": true
+            },
+            {
+              "stat": "magicArmor",
+              "direction": "increase",
+              "perRank": 1,
+              "unit": "flat",
+              "subject": "Armor and Magic Armor",
+              "appliesTo": "self",
+              "conditional": true
+            }
+          ],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "summoning",
+      "name": "Summoning",
+      "category": "Arcane Talents",
+      "categoryId": "arcane-talents",
+      "spPerRank": 2,
+      "maxRanks": 10,
+      "maxSp": 20,
+      "subtalents": [
+        {
+          "id": "summoning/tutor",
+          "name": "Tutor",
+          "maxSr": 5,
+          "effect": "Increases Youkai EXP by SR * 3%; doubled when the Youkai is lower level than you.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "summoning/friendship",
+          "name": "Friendship",
+          "maxSr": 5,
+          "effect": "Increases starting Youkai friendship by SR * 2 and friendship from gifts by SR * 1.",
+          "modifiers": [],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "astrology",
+      "name": "Astrology",
+      "category": "Occult Talents",
+      "categoryId": "occult-talents",
+      "spPerRank": 2,
+      "maxRanks": 10,
+      "maxSp": 20,
+      "subtalents": [
+        {
+          "id": "astrology/starsign",
+          "name": "Starsign",
+          "maxSr": 1,
+          "effect": "Adds a selectable Starsign that grants a small statistic and elemental ATK bonus, stronger during its governing months; selection cannot be changed without respeccing.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "astrology/guidance",
+          "name": "Guidance",
+          "maxSr": 5,
+          "effect": "In Space dungeons, increases trap-detection range by SR * 1 tiles; also boosts Hit for 3 rounds by SR after a Star Graph skill.",
+          "modifiers": [
+            {
+              "stat": "hit",
+              "direction": "increase",
+              "perRank": 1,
+              "unit": "flat",
+              "subject": "Hit for 3 rounds",
+              "appliesTo": "self",
+              "conditional": true
+            }
+          ],
+          "links": []
+        },
+        {
+          "id": "astrology/stargazer",
+          "name": "Stargazer",
+          "maxSr": 5,
+          "effect": "At night, increases campfire HP/FP recovery by SR * 3% and also increases night vision range.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "astrology/commune",
+          "name": "Commune",
+          "maxSr": 5,
+          "effect": "At night while outside, allows Commune With Stars.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "astrology/tactics",
+          "name": "Tactics",
+          "maxSr": 5,
+          "effect": "Increases Scaled Weapon ATK by SR and reduces damage from space-originating monsters, such as Spatials, by SR%.",
+          "modifiers": [
+            {
+              "stat": "scaledWeaponAtk",
+              "direction": "increase",
+              "perRank": 1,
+              "unit": "flat",
+              "subject": "Scaled Weapon ATK",
+              "appliesTo": "self",
+              "conditional": false
+            }
+          ],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "devotion",
+      "name": "Devotion",
+      "category": "Occult Talents",
+      "categoryId": "occult-talents",
+      "spPerRank": 1.5,
+      "maxRanks": 10,
+      "maxSp": 15,
+      "subtalents": [
+        {
+          "id": "devotion/divine-sign",
+          "name": "Divine Sign",
+          "maxSr": 5,
+          "effect": "Blessed and Exorcism weapon basic attacks deal SR * 3 Light damage on hit against enemies they affect.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "devotion/prayer",
+          "name": "Prayer",
+          "maxSr": 5,
+          "effect": "Praying at an altar or religious symbol grants Prayer for SR * 5 rounds across battles and costs Mental Stamina.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "devotion/intervention",
+          "name": "Intervention",
+          "maxSr": 5,
+          "effect": "While Prayer is active, grants an SR * 1% chance that damage taken is reduced by Scaled Faith.",
+          "modifiers": [],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "alchemy",
+      "name": "Alchemy",
+      "category": "Occult Talents",
+      "categoryId": "occult-talents",
+      "spPerRank": 1.5,
+      "maxRanks": 10,
+      "maxSp": 15,
+      "subtalents": [
+        {
+          "id": "alchemy/delivery",
+          "name": "Delivery",
+          "maxSr": 3,
+          "effect": "Increases the range of most Item skills by SR * 1.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "alchemy/perfect",
+          "name": "Perfect",
+          "maxSr": 5,
+          "effect": "Increases effectiveness and/or grants bonus effects to some Item skills based on SR.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "alchemy/gatherer",
+          "name": "Gatherer",
+          "maxSr": 5,
+          "effect": "Increases the chance of collecting alchemy ingredients from plants by SR * 20%.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "alchemy/special-stone",
+          "name": "Special Stone",
+          "maxSr": 2,
+          "effect": "Magic Stone battle items have an SR * 15% chance not to be consumed; they remain limited to once per battle.",
+          "modifiers": [],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "spiritualism",
+      "name": "Spiritualism",
+      "category": "Occult Talents",
+      "categoryId": "occult-talents",
+      "spPerRank": 1.5,
+      "maxRanks": 10,
+      "maxSp": 15,
+      "subtalents": [
+        {
+          "id": "spiritualism/perception",
+          "name": "Perception",
+          "maxSr": 5,
+          "effect": "Allows sensing spirits in an SR-based area; paging shows whether they are malicious.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "spiritualism/release",
+          "name": "Release",
+          "maxSr": 5,
+          "effect": "Allows releasing perceived spirits using Mental Stamina. Success is based on SR and the spirit's page and grants roleplaying EXP; failure can cause negative effects for black spirits.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "spiritualism/possession",
+          "name": "Possession",
+          "maxSr": 5,
+          "effect": "Allows a spirit to possess you temporarily up to SR; its page determines the effect. You count as Possessed, and the spirit escapes if you reach 0 HP.",
+          "modifiers": [],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "galdr",
+      "name": "Galdr",
+      "category": "Occult Talents",
+      "categoryId": "occult-talents",
+      "spPerRank": 2,
+      "maxRanks": 10,
+      "maxSp": 20,
+      "subtalents": [
+        {
+          "id": "galdr/performance",
+          "name": "Performance",
+          "maxSr": 1,
+          "effect": "Allows Performance Tools; listeners can receive up to one beneficial effect that lasts longer the more they listen.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "galdr/potency",
+          "name": "Potency",
+          "maxSr": 5,
+          "effect": "Increases Sound ATK by SR * 1.",
+          "modifiers": [
+            {
+              "stat": "elementAtk",
+              "element": "Sound",
+              "direction": "increase",
+              "perRank": 1,
+              "unit": "flat",
+              "subject": "Sound ATK",
+              "appliesTo": "self",
+              "conditional": false
+            }
+          ],
+          "links": []
+        },
+        {
+          "id": "galdr/vocal-training",
+          "name": "Vocal Training",
+          "maxSr": 5,
+          "effect": "Reduces Song skill FP costs by SR * 3%; only the highest applicable Efficiency applies.",
+          "modifiers": [
+            {
+              "stat": "fpCost",
+              "direction": "reduce",
+              "perRank": 3,
+              "unit": "percent",
+              "subject": "Song skill FP costs",
+              "appliesTo": "self",
+              "conditional": false
+            }
+          ],
+          "links": []
+        },
+        {
+          "id": "galdr/plant-song",
+          "name": "Plant Song",
+          "maxSr": 5,
+          "effect": "Once per day per plant, a full performance with a Free instrument near farm plants accelerates growth by SR * 2 hours.",
+          "modifiers": [],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "preparation",
+      "name": "Preparation",
+      "category": "Survival Talents",
+      "categoryId": "survival-talents",
+      "spPerRank": 1.5,
+      "maxRanks": 10,
+      "maxSp": 15,
+      "subtalents": [
+        {
+          "id": "preparation/first-move",
+          "name": "First Move",
+          "maxSr": 5,
+          "effect": "At battle start except back attacks, gain Initiative LV SR * 0.5 for round one, increasing Move by LV; LV and duration are doubled on a back attack.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "preparation/food-supply",
+          "name": "Food Supply",
+          "maxSr": 5,
+          "effect": "If hungry at battle end, automatically eats one stocked emergency food. Stock SR * 1; refills at an inn. It gives no roleplaying EXP but restores HP/FP Regeneration like food.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "preparation/just-in-case",
+          "name": "Just In Case",
+          "maxSr": 3,
+          "effect": "Increases Item Belt size by SR * 1.",
+          "modifiers": [
+            {
+              "stat": "itemBelt",
+              "direction": "increase",
+              "perRank": 1,
+              "unit": "flat",
+              "subject": "Item Belt size",
+              "appliesTo": "self",
+              "conditional": false
+            }
+          ],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "packrat",
+      "name": "Packrat",
+      "category": "Survival Talents",
+      "categoryId": "survival-talents",
+      "spPerRank": 1.5,
+      "maxRanks": 10,
+      "maxSp": 15,
+      "subtalents": [
+        {
+          "id": "packrat/hoarder",
+          "name": "Hoarder",
+          "maxSr": 5,
+          "effect": "Increases maximum carrying capacity by SR * 5.",
+          "modifiers": [
+            {
+              "stat": "carryingCapacity",
+              "direction": "increase",
+              "perRank": 5,
+              "unit": "flat",
+              "subject": "maximum carrying capacity",
+              "appliesTo": "self",
+              "conditional": false
+            }
+          ],
+          "links": []
+        },
+        {
+          "id": "packrat/hauler",
+          "name": "Hauler",
+          "maxSr": 5,
+          "effect": "Increases maximum Battle Weight by SR * 2.",
+          "modifiers": [
+            {
+              "stat": "maxBattleWeight",
+              "direction": "increase",
+              "perRank": 2,
+              "unit": "flat",
+              "subject": "maximum Battle Weight",
+              "appliesTo": "self",
+              "conditional": false
+            }
+          ],
+          "links": []
+        },
+        {
+          "id": "packrat/hider",
+          "name": "Hider",
+          "maxSr": 5,
+          "effect": "Reduces the total number of items dropped on defeat by SR * 15%.",
+          "modifiers": [],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "scout",
+      "name": "Scout",
+      "category": "Survival Talents",
+      "categoryId": "survival-talents",
+      "spPerRank": 1.5,
+      "maxRanks": 10,
+      "maxSp": 15,
+      "subtalents": [
+        {
+          "id": "scout/keen-eye",
+          "name": "Keen Eye",
+          "maxSr": 5,
+          "effect": "Increases the range and skill for detecting ground traps, doors, and chests based on SR.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "scout/solver",
+          "name": "Solver",
+          "maxSr": 2,
+          "effect": "Decreases Mental Stamina required to recover traps, including your own, by SR * 1, minimum 1.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "scout/trenchman",
+          "name": "Trenchman",
+          "maxSr": 5,
+          "effect": "Decreases hole-digging time by SR * 7% of the shovel's base speed.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "scout/landmarker",
+          "name": "Landmarker",
+          "maxSr": 5,
+          "effect": "After closing a treasure map, marks the treasure spot for you with an X for SR * 5 seconds.",
+          "modifiers": [],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "security",
+      "name": "Security",
+      "category": "Survival Talents",
+      "categoryId": "survival-talents",
+      "spPerRank": 2,
+      "maxRanks": 10,
+      "maxSp": 20,
+      "subtalents": [
+        {
+          "id": "security/knowledge",
+          "name": "Knowledge",
+          "maxSr": 10,
+          "effect": "Sets base lock-opening success to SR * 10%, modified by lockpick quality and lock strength.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "security/dexterity",
+          "name": "Dexterity",
+          "maxSr": 5,
+          "effect": "Decreases time needed for a lockpick attempt by SR * 0.5 seconds.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "security/disarm",
+          "name": "Disarm",
+          "maxSr": 5,
+          "effect": "Allows trap disarming and increases success by SR * 20%.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "security/failsafe",
+          "name": "Failsafe",
+          "maxSr": 5,
+          "effect": "Reduces the chance a failed disarm triggers the trap by SR * 20%; at SR 5, it never triggers accidentally.",
+          "modifiers": [],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "harvest",
+      "name": "Harvest",
+      "category": "Survival Talents",
+      "categoryId": "survival-talents",
+      "spPerRank": 2,
+      "maxRanks": 10,
+      "maxSp": 20,
+      "subtalents": [
+        {
+          "id": "harvest/miner",
+          "name": "Miner",
+          "maxSr": 5,
+          "effect": "Boosts item-finding success while mining ore veins by SR * 20%.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "harvest/scavenger",
+          "name": "Scavenger",
+          "maxSr": 5,
+          "effect": "Boosts the chance of finding wood and food at old campfires by SR * 20%.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "harvest/fieldworker",
+          "name": "Fieldworker",
+          "maxSr": 5,
+          "effect": "Decreases time to hoe dirt into farm soil by SR * 7% of the hoe's base speed.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "harvest/lumberjack",
+          "name": "Lumberjack",
+          "maxSr": 5,
+          "effect": "Decreases tree-cutting time by SR * 7% of the axe's base speed.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "harvest/experienced",
+          "name": "Experienced",
+          "maxSr": 5,
+          "effect": "Decreases minor-injury chance while mining, scavenging, hoeing, or woodcutting by SR * 17%.",
+          "modifiers": [],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "cooking",
+      "name": "Cooking",
+      "category": "Survival Talents",
+      "categoryId": "survival-talents",
+      "spPerRank": 2,
+      "maxRanks": 10,
+      "maxSp": 20,
+      "subtalents": [
+        {
+          "id": "cooking/feast",
+          "name": "Feast",
+          "maxSr": 5,
+          "effect": "Allows Feast Tables using 10 of one food. Food is SR * 10% better and SR * 1 more filling, with 10 + SR * 2 servings; the table is immobile.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "cooking/camp-meal",
+          "name": "Camp Meal",
+          "maxSr": 5,
+          "effect": "Allows Camp Meals at campfires. Serves 1 + SR * 1 meals, improves quality by SR * 3%, and increases filling duration by SR * 1.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "cooking/butcher",
+          "name": "Butcher",
+          "maxSr": 5,
+          "effect": "Boosts item-finding success while harvesting enemy remains by SR * 20%.",
+          "modifiers": [],
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "concealment",
+      "name": "Concealment",
+      "category": "Survival Talents",
+      "categoryId": "survival-talents",
+      "spPerRank": 2,
+      "maxRanks": 10,
+      "maxSp": 20,
+      "subtalents": [
+        {
+          "id": "concealment/sneak",
+          "name": "Sneak",
+          "maxSr": 3,
+          "effect": "When engaging unalerted map monsters, you and your party gain Sneak for SR * 1 rounds; only the highest Sneak applies.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "concealment/plain",
+          "name": "Plain",
+          "maxSr": 5,
+          "effect": "Hides equipment appearance and names from other players up to SR: 1 Accessories, 2 Legs, 3 Hands/Shields, 4 Torso, 5 Weapons.",
+          "modifiers": [],
+          "links": []
+        },
+        {
+          "id": "concealment/moneyboot",
+          "name": "Moneyboot",
+          "maxSr": 2,
+          "effect": "Reduces Murai dropped on defeat by SR * 15%; still somewhat effective for Nagas.",
+          "modifiers": [],
+          "links": []
+        }
+      ]
+    }
+  ]
+}

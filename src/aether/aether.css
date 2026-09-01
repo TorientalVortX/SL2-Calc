@@ -1,0 +1,2856 @@
+/* ============================================================================
+   Aether Codex: a Final Fantasy XIV inspired character sheet for SL2.
+
+   Self-contained: this stylesheet does not depend on the calculator's Tailwind
+   build, so the two front ends cannot drift into each other. Everything is
+   drawn with gradients, borders and shadows, with no image assets.
+
+   Layer order, outermost first:
+     backdrop  → ambient light and drifting motes, behind everything
+     shell     → the fixed application frame (header + three columns)
+     panel     → a framed section of the sheet, with its own scroll region
+     row       → one selectable line inside a panel
+   ========================================================================= */
+
+/* ------------------------------------------------------------------ tokens */
+
+:root {
+  /* Ground. Cool near-black, warmed very slightly toward the centre. */
+  --void: #04060a;
+  --ink-900: #070a10;
+  --ink-800: #0b0f17;
+  --ink-700: #10151f;
+  --ink-600: #161c28;
+  --ink-500: #1e2532;
+
+  /* Gold / bronze. The accent language of the whole interface. */
+  --gold-100: #f6ecd2;
+  --gold-200: #e9d8ab;
+  --gold-300: #d8c088;
+  --gold-400: #c0a262;
+  --gold-500: #9d824a;
+  --bronze: #6f5a31;
+
+  /* Selection glows. */
+  --aether: #86dced;
+  --aether-dim: rgba(134, 220, 237, 0.32);
+  --glow-gold: rgba(216, 192, 136, 0.28);
+
+  /* Semantic. */
+  --alert: #e3705d;
+  --alert-dim: rgba(227, 112, 93, 0.16);
+  --affirm: #8fd6a0;
+
+  /* Type. */
+  --text: #e6e9f0;
+  --text-2: #a6b0c2;
+  --text-3: #707a8d;
+  --text-4: #4b5468;
+
+  /* Structure. */
+  --edge: rgba(200, 170, 106, 0.22);
+  --edge-soft: rgba(200, 170, 106, 0.12);
+  --edge-hard: rgba(200, 170, 106, 0.4);
+  --hairline: rgba(255, 255, 255, 0.055);
+
+  --font-display: 'Barlow Condensed', 'Barlow', system-ui, sans-serif;
+  --font-body: 'Barlow', system-ui, -apple-system, sans-serif;
+  --font-num: 'JetBrains Mono', ui-monospace, monospace;
+
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* The stacked layout's section strip, and the offset every panel header sticks
+     at. One number, because the two touching bands must not disagree. */
+  --nav-h: 37px;
+
+  --shadow-panel:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    inset 0 0 48px rgba(0, 0, 0, 0.55),
+    0 18px 48px -22px rgba(0, 0, 0, 0.95);
+
+  color-scheme: dark;
+}
+
+/* -------------------------------------------------------------------- base */
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--void);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  /* The shell sizes itself to the viewport when it can; when the panels need
+     more room than that, the page scrolls rather than clipping them. */
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button { cursor: pointer; }
+
+::selection {
+  background: rgba(216, 192, 136, 0.3);
+  color: var(--gold-100);
+}
+
+/* Scrollbars, kept thin and metallic rather than default grey. */
+.scroll {
+  overflow-y: auto;
+  /* Deliberately not `contain`: when a pinned sidebar reaches its end the wheel
+     should carry on scrolling the page rather than stopping dead. */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(157, 130, 74, 0.5) transparent;
+}
+.scroll::-webkit-scrollbar { width: 9px; }
+.scroll::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.3); }
+.scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--gold-500), var(--bronze));
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  border-radius: 6px;
+}
+.scroll::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--gold-400), var(--gold-500));
+  background-clip: padding-box;
+}
+
+/* Focus is always visible; the sheet is fully keyboard navigable. */
+:focus-visible {
+  outline: 1px solid var(--aether);
+  outline-offset: 1px;
+}
+
+/* --------------------------------------------------------------- backdrop */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.backdrop__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.85;
+}
+
+/* Depth wash, present even when the canvas cannot run. */
+.backdrop__wash {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 80% at 50% -10%, rgba(58, 78, 112, 0.28), transparent 60%),
+    radial-gradient(90% 70% at 12% 100%, rgba(96, 72, 34, 0.16), transparent 62%),
+    radial-gradient(70% 60% at 88% 88%, rgba(40, 84, 104, 0.14), transparent 60%),
+    linear-gradient(180deg, #070a11 0%, #04060a 45%, #05070c 100%);
+}
+
+/* A very fine diagonal weave; the fabric texture under FFXIV's window art. */
+.backdrop__weave {
+  position: absolute;
+  inset: 0;
+  opacity: 0.5;
+  background-image:
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.014) 0 1px, transparent 1px 6px),
+    repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.01) 0 1px, transparent 1px 6px);
+}
+
+.backdrop__vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(105% 90% at 50% 45%, transparent 45%, rgba(0, 0, 0, 0.72) 100%);
+}
+
+/* ------------------------------------------------------------------- shell */
+
+/*
+ * The page is the scroll surface.
+ *
+ * This started as a fixed frame with every panel scrolling inside itself, which
+ * looked right and read badly: the wheel did something different depending on
+ * which of three regions the pointer happened to be over, and nothing at all
+ * over the gaps between them. Now there is one scroll (the document), and the
+ * side columns are pinned so the class browser and the derived rail stay put
+ * while the sheet in the middle moves.
+ */
+.shell {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  /* Masthead, the narrow-viewport section nav, then the body. The nav row
+     collapses to nothing when the nav itself is display:none. */
+  grid-template-rows: auto auto auto;
+  /* One column that is allowed to be narrower than its content. Sizing a grid by
+     `fr` gives it a min-content width of the widest column times the track count
+     (1319px at a 900px viewport) and an `auto` track here would have adopted it
+     and taken the whole page into a horizontal scroll. */
+  grid-template-columns: minmax(0, 1fr);
+  min-height: 100%;
+  padding: 10px 14px 14px;
+  gap: 10px;
+}
+
+.shell__body {
+  display: grid;
+  grid-template-columns: minmax(272px, 320px) minmax(0, 1fr) minmax(300px, 372px);
+  gap: 10px;
+  min-height: 0;
+  /* The other half of the rule above: a grid item keeps `min-width: auto`, so
+     without this the body refuses to shrink below that same inflated min-content
+     and overflows the column that was just told it may be narrower. */
+  min-width: 0;
+  /* Columns size to their own content instead of stretching to the tallest, so a
+     long loadout sheet does not drag the sidebars down with it. */
+  align-items: start;
+}
+
+.column {
+  display: grid;
+  gap: 10px;
+  min-height: 0;
+  min-width: 0;
+}
+
+/*
+ * Pinned sidebars, capped to the viewport. Each one's last panel is the flexible
+ * row, so it scrolls inside itself only when the sidebar genuinely overflows.
+ */
+.column--left,
+.column--right {
+  position: sticky;
+  top: 10px;
+  max-height: calc(100vh - 24px);
+}
+
+.column--left { grid-template-rows: auto minmax(0, 1fr); }
+.column--right { grid-template-rows: minmax(0, 1fr); }
+
+/* The centre is the part that scrolls with the page, so both of its panels are
+   sized by their content and neither scrolls on its own. */
+.column--center { grid-template-rows: auto auto; }
+
+/* ------------------------------------------------------------------ header */
+
+.masthead {
+  position: relative;
+  display: flex;
+  align-items: center;
+  /*
+   * Wraps at any width, not only below the stacking breakpoint. Seven action
+   * buttons and a build name are content, and content ran past a 900px window
+   * long before the layout was told to stack: taking the page into a horizontal
+   * scroll rather than using the second line that was free all along. It still
+   * never wraps at the widths the bar was drawn for.
+   */
+  flex-wrap: wrap;
+  gap: 18px;
+  padding: 0 16px;
+  min-height: 58px;
+  background:
+    linear-gradient(180deg, rgba(28, 34, 46, 0.94), rgba(9, 12, 18, 0.96)),
+    var(--ink-900);
+  border: 1px solid var(--edge);
+  border-radius: 2px;
+  box-shadow: var(--shadow-panel);
+}
+
+/* The gold underline that reads as "this is the title bar". */
+.masthead::after {
+  content: '';
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: -1px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-400) 18%, var(--gold-200) 50%, var(--gold-400) 82%, transparent);
+  opacity: 0.65;
+}
+
+.masthead__mark {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  color: var(--gold-300);
+  flex: none;
+  transition: filter 0.25s var(--ease), border-color 0.2s var(--ease), transform 0.3s var(--ease-out);
+}
+.masthead__mark:hover {
+  border-color: var(--edge-soft);
+  filter: drop-shadow(0 0 10px rgba(216, 192, 136, 0.65));
+  transform: rotate(90deg);
+}
+
+.masthead__titles {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.masthead__title {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold-100);
+  text-shadow: 0 0 18px rgba(216, 192, 136, 0.25);
+  white-space: nowrap;
+}
+
+.masthead__subtitle {
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  white-space: nowrap;
+}
+
+/* The subtitle doubles as the changelog route, so it must look pressable without
+   becoming a button in the visual hierarchy of a masthead that already has six. */
+.masthead__subtitle--link {
+  padding: 0;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.18s var(--ease), text-shadow 0.24s var(--ease);
+}
+.masthead__subtitle--link:hover {
+  color: var(--gold-200);
+  text-shadow: 0 0 14px rgba(216, 192, 136, 0.3);
+}
+
+.masthead__name {
+  /* Basis at the floor rather than at the content width, so a tight bar narrows
+     the name field before the row wraps: line breaking reads the basis and would
+     otherwise take a second line while 200px of slack sat in this one. It still
+     grows back to its 300px cap wherever the room exists. */
+  flex: 1 1 90px;
+  min-width: 90px;
+  max-width: 300px;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid var(--edge-soft);
+  border-radius: 2px;
+  padding: 6px 10px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  letter-spacing: 0.09em;
+  color: var(--gold-100);
+  transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+.masthead__name:hover { border-color: var(--edge); }
+.masthead__name:focus {
+  outline: none;
+  border-color: var(--gold-400);
+  box-shadow: 0 0 0 1px rgba(216, 192, 136, 0.2), 0 0 18px -4px var(--glow-gold);
+}
+
+.masthead__actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
+  margin-left: auto;
+  flex: none;
+}
+
+/* Class, subclass and the point balance. A class rather than an inline style so
+   the stacked layouts can give the row a line of its own. */
+.masthead__chips { flex: none; }
+
+.masthead__divider {
+  width: 1px;
+  height: 26px;
+  background: linear-gradient(180deg, transparent, var(--edge-hard), transparent);
+  margin: 0 4px;
+  flex: none;
+}
+
+/* ------------------------------------------------------------------ panels */
+
+.panel {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  /* `minmax(0, 1fr)` rather than the implicit `auto`: an auto track cannot be
+     sized below its items' min-content, so one nowrap row inside a sheet made the
+     whole panel wider than the column holding it. `min-width: 0` on the panel
+     stops that reaching the page; this stops it reaching the panel's own frame. */
+  grid-template-columns: minmax(0, 1fr);
+  min-height: 0;
+  min-width: 0;
+  /* A backstop so nothing inside a panel paints over the column beside it.
+     `clip` rather than `hidden` on purpose: `hidden` would make the panel a
+     scroll container, and the sticky header below would then stick to the panel
+     instead of to the viewport. */
+  overflow: clip;
+  /* Lets the header adapt to the panel's own width rather than the viewport's.
+     The same panel is 292px in a sidebar and 890px in the centre column. */
+  container-type: inline-size;
+  background:
+    linear-gradient(180deg, rgba(17, 22, 32, 0.9) 0%, rgba(8, 11, 17, 0.94) 100%),
+    var(--ink-900);
+  border: 1px solid var(--edge-soft);
+  border-radius: 2px;
+  box-shadow: var(--shadow-panel);
+}
+
+/* Outer hairline, offset a few pixels: the double-frame of an FFXIV window. */
+.panel::before {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  border-radius: 1px;
+  pointer-events: none;
+}
+
+/*
+ * Sticky, so the loadout's tab strip stays reachable while the page scrolls
+ * through a nine-hundred-skill list. It sticks only for as long as its own panel
+ * is on screen, which is what makes it read as part of the panel rather than as
+ * a second toolbar.
+ */
+.panel__head {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  /* Grid and flex children default to `min-width: auto`, which lets a long class
+     name in the tab strip push the header, and with it the whole panel, past
+     the width of its column. */
+  min-width: 0;
+  padding: 9px 13px 8px;
+  /* Opaque: content scrolls underneath it. */
+  background:
+    linear-gradient(180deg, rgba(32, 39, 52, 0.95), rgba(16, 21, 31, 0.98)),
+    var(--ink-900);
+  border-bottom: 1px solid var(--edge-soft);
+}
+
+.panel__head::after {
+  content: '';
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: -1px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-500) 20%, var(--gold-300) 50%, var(--gold-500) 80%, transparent);
+  opacity: 0.5;
+}
+
+/* Never shrinks: the panel's name is the last thing that should be sacrificed to
+   fit a tab strip. The meta beside it gives way instead. */
+.panel__title {
+  flex: 0 0 auto;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold-200);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.panel__meta {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  font-family: var(--font-num);
+  font-size: 11px;
+  color: var(--text-3);
+  letter-spacing: 0.04em;
+}
+
+.panel__body {
+  min-height: 0;
+  padding: 10px 11px 12px;
+}
+
+/* Corner brackets. Four absolutely-placed L shapes, drawn with borders. */
+.corner {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border-color: var(--gold-400);
+  opacity: 0.45;
+  pointer-events: none;
+  transition: opacity 0.4s var(--ease);
+}
+.corner--tl { top: 2px; left: 2px; border-top: 1px solid; border-left: 1px solid; }
+.corner--tr { top: 2px; right: 2px; border-top: 1px solid; border-right: 1px solid; }
+.corner--bl { bottom: 2px; left: 2px; border-bottom: 1px solid; border-left: 1px solid; }
+.corner--br { bottom: 2px; right: 2px; border-bottom: 1px solid; border-right: 1px solid; }
+.panel:hover .corner { opacity: 0.7; }
+
+/* -------------------------------------------------------------- typography */
+
+.eyebrow {
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.section {
+  display: grid;
+  gap: 6px;
+}
+.section + .section { margin-top: 14px; }
+
+/* A heading with rules running out to both sides. */
+.section__head {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 2px;
+}
+.section__head::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--edge), transparent);
+}
+
+.num {
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+.muted { color: var(--text-3); }
+.dim { color: var(--text-4); }
+
+/* ------------------------------------------------------------------- rows */
+
+.row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 6px 9px 6px 12px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  color: var(--text-2);
+  text-align: left;
+  transition:
+    background-color 0.18s var(--ease),
+    color 0.18s var(--ease),
+    border-color 0.18s var(--ease),
+    box-shadow 0.24s var(--ease);
+}
+
+/* The cursor diamond, revealed on selection. */
+.row::before {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 50%;
+  width: 4px;
+  height: 4px;
+  background: var(--gold-200);
+  transform: translateY(-50%) rotate(45deg) scale(0);
+  opacity: 0;
+  transition: transform 0.24s var(--ease-out), opacity 0.2s var(--ease);
+  box-shadow: 0 0 6px var(--gold-300);
+}
+
+/* A sheen that sweeps across on hover. */
+.row::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.06), transparent);
+  transform: translateX(-100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.row:hover {
+  background: rgba(255, 255, 255, 0.035);
+  color: var(--text);
+  border-color: var(--hairline);
+}
+.row:hover::after {
+  animation: sheen 0.7s var(--ease-out);
+}
+
+.row.is-selected {
+  background: linear-gradient(90deg, rgba(216, 192, 136, 0.17), rgba(216, 192, 136, 0.03) 62%, transparent);
+  border-color: rgba(216, 192, 136, 0.28);
+  color: var(--gold-100);
+  box-shadow: inset 2px 0 0 var(--gold-300), 0 0 22px -12px var(--glow-gold);
+}
+.row.is-selected::before {
+  transform: translateY(-50%) rotate(45deg) scale(1);
+  opacity: 1;
+}
+
+.row.is-disabled {
+  color: var(--text-4);
+  cursor: not-allowed;
+}
+.row.is-disabled:hover {
+  background: transparent;
+  border-color: transparent;
+  color: var(--text-4);
+}
+.row.is-disabled:hover::after { animation: none; }
+
+.row__label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.row__note {
+  font-size: 11px;
+  color: var(--text-4);
+  white-space: nowrap;
+}
+
+.row__value {
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  font-size: 12px;
+  color: var(--text-2);
+}
+
+.list {
+  display: grid;
+  gap: 1px;
+}
+
+/* --------------------------------------------------------------- controls */
+
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: linear-gradient(180deg, rgba(38, 46, 60, 0.85), rgba(14, 18, 26, 0.9));
+  border: 1px solid var(--edge-soft);
+  border-radius: 2px;
+  font-family: var(--font-display);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-2);
+  white-space: nowrap;
+  /* The cross-app route is an anchor wearing this class, and a link's underline
+     would be the only one in the masthead. */
+  text-decoration: none;
+  transition:
+    color 0.18s var(--ease),
+    border-color 0.18s var(--ease),
+    box-shadow 0.24s var(--ease),
+    transform 0.14s var(--ease);
+}
+
+.btn:hover {
+  color: var(--gold-100);
+  border-color: var(--edge-hard);
+  box-shadow: 0 0 20px -8px var(--glow-gold), inset 0 0 16px -8px var(--glow-gold);
+}
+.btn:active { transform: translateY(1px); }
+
+.btn--ghost {
+  background: rgba(0, 0, 0, 0.28);
+  border-color: transparent;
+}
+.btn--ghost:hover { border-color: var(--edge-soft); }
+
+.btn--primary {
+  background: linear-gradient(180deg, rgba(157, 130, 74, 0.5), rgba(80, 64, 34, 0.4));
+  border-color: var(--edge-hard);
+  color: var(--gold-100);
+}
+.btn--primary:hover {
+  background: linear-gradient(180deg, rgba(192, 162, 98, 0.6), rgba(100, 80, 42, 0.5));
+  box-shadow: 0 0 26px -8px rgba(216, 192, 136, 0.5);
+}
+
+.btn--danger:hover {
+  color: var(--alert);
+  border-color: rgba(227, 112, 93, 0.4);
+  box-shadow: 0 0 20px -8px rgba(227, 112, 93, 0.5);
+}
+
+.btn.is-active {
+  color: var(--gold-100);
+  border-color: var(--edge-hard);
+  background: linear-gradient(180deg, rgba(157, 130, 74, 0.35), rgba(60, 48, 26, 0.3));
+}
+
+.btn--icon {
+  padding: 6px 8px;
+  letter-spacing: 0;
+}
+
+/* Small square stepper used by stat and rank controls. */
+.step {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  flex: none;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--hairline);
+  border-radius: 2px;
+  color: var(--text-3);
+  font-family: var(--font-num);
+  font-size: 13px;
+  line-height: 1;
+  transition: all 0.16s var(--ease);
+}
+.step:hover:not(:disabled) {
+  background: rgba(216, 192, 136, 0.16);
+  border-color: var(--edge-hard);
+  color: var(--gold-100);
+}
+.step:disabled { opacity: 0.28; cursor: not-allowed; }
+
+.field {
+  display: grid;
+  gap: 3px;
+}
+
+.field__label {
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.select,
+.input {
+  width: 100%;
+  padding: 6px 9px;
+  background: rgba(0, 0, 0, 0.42);
+  border: 1px solid var(--edge-soft);
+  border-radius: 2px;
+  color: var(--text);
+  font-size: 13px;
+  transition: border-color 0.18s var(--ease), box-shadow 0.24s var(--ease);
+}
+.select:hover,
+.input:hover { border-color: var(--edge); }
+.select:focus,
+.input:focus {
+  outline: none;
+  border-color: var(--gold-400);
+  box-shadow: 0 0 0 1px rgba(216, 192, 136, 0.18), 0 0 20px -6px var(--glow-gold);
+}
+.select option { background: var(--ink-700); color: var(--text); }
+
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 6px 9px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid transparent;
+  border-radius: 2px;
+  color: var(--text-2);
+  font-size: 12.5px;
+  text-align: left;
+  transition: all 0.18s var(--ease);
+}
+.toggle:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--hairline);
+  color: var(--text);
+}
+.toggle.is-on {
+  color: var(--gold-100);
+  border-color: rgba(216, 192, 136, 0.24);
+  background: linear-gradient(90deg, rgba(216, 192, 136, 0.13), transparent);
+}
+
+/* The mark itself: an empty diamond that fills when on. */
+.toggle__mark {
+  position: relative;
+  width: 13px;
+  height: 13px;
+  flex: none;
+  border: 1px solid var(--edge-hard);
+  transform: rotate(45deg);
+  transition: all 0.22s var(--ease-out);
+}
+.toggle__mark::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  background: var(--gold-200);
+  transform: scale(0);
+  opacity: 0;
+  transition: transform 0.22s var(--ease-out), opacity 0.18s var(--ease);
+}
+.toggle.is-on .toggle__mark {
+  border-color: var(--gold-200);
+  box-shadow: 0 0 10px -1px var(--glow-gold);
+}
+.toggle.is-on .toggle__mark::after { transform: scale(1); opacity: 1; }
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 7px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--hairline);
+  border-radius: 2px;
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  white-space: nowrap;
+}
+.chip--gold { color: var(--gold-200); border-color: var(--edge); background: rgba(216, 192, 136, 0.09); }
+.chip--alert { color: var(--alert); border-color: rgba(227, 112, 93, 0.35); background: var(--alert-dim); }
+.chip--good { color: var(--affirm); border-color: rgba(143, 214, 160, 0.3); background: rgba(143, 214, 160, 0.08); }
+
+/*
+ * What a chosen material, part or enchantment does, under the select that chose
+ * it. A row per choice: its name, then its effects as chips, then the wiki's own
+ * wording where the mechanic is prose rather than a number.
+ */
+.modifier-parts {
+  display: grid;
+  grid-template-columns: minmax(84px, auto) minmax(0, 1fr);
+  align-items: baseline;
+  gap: 4px 10px;
+  padding: 5px 2px 0;
+}
+.modifier-parts__title {
+  font-family: var(--font-display);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  white-space: nowrap;
+}
+.modifier-parts__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.modifier-parts__prose {
+  grid-column: 2;
+  padding: 0;
+  line-height: 1.45;
+}
+
+/* --------------------------------------------------------------- tab strip */
+
+.tabs {
+  display: flex;
+  gap: 2px;
+  align-items: stretch;
+  min-width: 0;
+}
+
+.tab {
+  position: relative;
+  min-width: 0;
+  padding: 5px 10px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid transparent;
+  font-family: var(--font-display);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  white-space: nowrap;
+  transition: color 0.18s var(--ease), border-color 0.2s var(--ease);
+}
+.tab:hover { color: var(--text); }
+
+/* Two words in a header that already carries a counter and a button. */
+.tabs--mini .tab {
+  padding: 3px 7px;
+  font-size: 10px;
+  letter-spacing: 0.13em;
+}
+.tab.is-active {
+  color: var(--gold-100);
+  border-bottom-color: var(--gold-300);
+  text-shadow: 0 0 14px rgba(216, 192, 136, 0.4);
+}
+/* Holds a class name, which can be "Shapeshifter" or "Aquamancer". Capped and
+   ellipsised so the tab strip can never widen the panel past its column. */
+.tab__count {
+  display: inline-block;
+  max-width: 96px;
+  margin-left: 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: bottom;
+  font-family: var(--font-num);
+  font-size: 10px;
+  color: var(--text-4);
+}
+
+/*
+ * In a narrow panel the two class names cannot both fit beside the title, and
+ * truncating them to "Shapeshif…" twice tells the reader nothing. They are
+ * dropped instead: the masthead names the class pair, and the sheet below shows
+ * the selection.
+ */
+/* Measured, not guessed: two class names at 320px need about 370px of header,
+   so the sidebar's panel drops them. The masthead names the pair regardless. */
+@container (max-width: 380px) {
+  .tab__count { display: none; }
+  .tab { padding: 5px 12px; }
+}
+.tab.is-active .tab__count { color: var(--gold-400); }
+
+/* ------------------------------------------------------------ stat allocation */
+
+.stat-grid {
+  display: grid;
+  gap: 2px;
+}
+
+.stat-head-row { display: grid; }
+/* Two class selectors so this beats `.stat-head { display: grid }`, which is
+   declared further down the file. */
+.stat-head.stat-head--second { display: none; }
+
+/*
+ * Two columns of six once the centre column is wide enough.
+ *
+ * This halves the attribute panel's height, which is the whole point: the panel
+ * is content-sized, so every row it saves goes straight to the loadout sheet
+ * below it rather than to empty space.
+ */
+@media (min-width: 1400px) {
+  .stat-grid,
+  .stat-head-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 18px;
+  }
+  .stat-head.stat-head--second { display: grid; }
+}
+
+.stat {
+  position: relative;
+  display: grid;
+  grid-template-columns: 13px minmax(58px, 76px) auto minmax(90px, 1fr) 46px;
+  align-items: center;
+  gap: 9px;
+  padding: 3px 10px 3px 9px;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  transition: background-color 0.18s var(--ease), border-color 0.18s var(--ease), box-shadow 0.24s var(--ease);
+}
+
+/* Column captions, so each row does not have to repeat them. */
+.stat-head {
+  display: grid;
+  grid-template-columns: 13px minmax(58px, 76px) auto minmax(90px, 1fr) 46px;
+  gap: 9px;
+  padding: 0 10px 4px 9px;
+  font-family: var(--font-display);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-4);
+}
+.stat-head span:nth-child(3) { text-align: center; }
+.stat-head span:nth-child(5) { text-align: right; }
+
+.stat:hover {
+  background: rgba(255, 255, 255, 0.035);
+  border-color: var(--hairline);
+}
+
+.stat.is-focused,
+.stat:focus-within {
+  background: linear-gradient(90deg, rgba(216, 192, 136, 0.12), rgba(216, 192, 136, 0.02) 70%, transparent);
+  border-color: rgba(216, 192, 136, 0.26);
+  box-shadow: inset 2px 0 0 var(--gold-300);
+}
+
+/* The row itself is the tab stop, so its ring would double the highlight. */
+.stat:focus { outline: none; }
+
+/* Element-coloured gem; its colour is set per stat from the game palette. */
+.stat__gem {
+  width: 9px;
+  height: 9px;
+  transform: rotate(45deg);
+  background: currentColor;
+  box-shadow: 0 0 9px -1px currentColor;
+  opacity: 0.9;
+}
+
+/* The button that opens the stat card. Styled as the label it replaced, with the
+   underline the only thing announcing it is more than a label. */
+.stat__name {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0;
+  min-width: 0;
+  /* Stretched to the row rather than sized to the two words in it: on a phone the
+     abbreviation alone is a 30px-wide target, and this is the only way to the
+     card there. */
+  align-self: stretch;
+  min-height: 27px;
+  padding: 0;
+  background: none;
+  border: none;
+  text-align: left;
+}
+.stat__name:hover .stat__abbr,
+.stat__name:focus-visible .stat__abbr {
+  color: var(--gold-100);
+  text-decoration: underline;
+  text-decoration-color: var(--gold-500);
+  text-underline-offset: 2px;
+}
+.stat__name:focus-visible { outline: none; }
+.stat__abbr {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text);
+  line-height: 1.1;
+}
+.stat__full {
+  font-size: 9px;
+  color: var(--text-4);
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stat__stepper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.stat__input {
+  width: 42px;
+  padding: 2px 4px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--hairline);
+  border-radius: 2px;
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  font-size: 13px;
+  text-align: center;
+  color: var(--text);
+  transition: all 0.18s var(--ease);
+  -moz-appearance: textfield;
+}
+.stat__input::-webkit-outer-spin-button,
+.stat__input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.stat__input:hover { border-color: var(--edge); }
+.stat__input:focus {
+  outline: none;
+  border-color: var(--gold-400);
+  color: var(--gold-100);
+  box-shadow: 0 0 16px -6px var(--glow-gold);
+}
+.stat__input.is-capped { color: var(--gold-200); }
+
+/* Track. Doubles as a drag surface for allocating points.
+   The ticks are every 20 of the 80-point hard cap, so a bar can be read as a
+   value and not only as a proportion. */
+.stat__track {
+  position: relative;
+  height: 9px;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 calc(25% - 1px), rgba(255, 255, 255, 0.11) calc(25% - 1px) 25%),
+    rgba(0, 0, 0, 0.55);
+  border: 1px solid var(--hairline);
+  border-radius: 1px;
+  cursor: ew-resize;
+  overflow: hidden;
+  touch-action: none;
+  transition: border-color 0.18s var(--ease);
+}
+.stat:hover .stat__track,
+.stat:focus-within .stat__track { border-color: var(--edge); }
+
+.stat__fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.35), currentColor);
+  box-shadow: 0 0 12px -2px currentColor;
+  transition: width 0.28s var(--ease-out), left 0.28s var(--ease-out);
+}
+
+/* Where the racial floor sits, under the invested points. */
+.stat__base {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background: repeating-linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0.22) 0 1px,
+    rgba(255, 255, 255, 0.05) 1px 4px
+  );
+  transition: width 0.28s var(--ease-out);
+}
+
+.stat__scaled {
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  font-size: 14px;
+  text-align: right;
+  color: var(--gold-100);
+  letter-spacing: -0.02em;
+}
+/* Raw is the plainer figure and reads as one, so a column of them cannot be
+   mistaken for the scaled column at a glance. */
+.stat__scaled.is-raw { color: var(--text-2); }
+
+/* The card's track is a control in its own right, so it is worth touching. */
+.stat__track--lg {
+  height: 22px;
+  margin: 2px 0 9px;
+  border-radius: 2px;
+}
+.stat__track--lg:focus-visible {
+  outline: none;
+  border-color: var(--gold-400);
+  box-shadow: 0 0 18px -6px var(--glow-gold);
+}
+
+/* The remaining-points readout above the grid. */
+.pool {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 12px;
+  margin-bottom: 7px;
+  background: linear-gradient(180deg, rgba(28, 35, 47, 0.6), rgba(8, 11, 17, 0.5));
+  border: 1px solid var(--edge-soft);
+  border-radius: 2px;
+  transition: border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+.pool.is-over {
+  border-color: rgba(227, 112, 93, 0.45);
+  box-shadow: inset 0 0 30px -12px rgba(227, 112, 93, 0.6);
+  animation: alert-pulse 2.4s ease-in-out infinite;
+}
+.pool.is-spent {
+  border-color: rgba(143, 214, 160, 0.3);
+}
+
+.pool__value {
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  font-size: 27px;
+  line-height: 1;
+  font-weight: 500;
+  color: var(--gold-100);
+  text-shadow: 0 0 24px rgba(216, 192, 136, 0.35);
+  transition: color 0.3s var(--ease);
+}
+.pool.is-over .pool__value {
+  color: var(--alert);
+  text-shadow: 0 0 24px rgba(227, 112, 93, 0.45);
+}
+
+.pool__meter {
+  position: relative;
+  flex: 1;
+  height: 5px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid var(--hairline);
+  border-radius: 1px;
+  overflow: hidden;
+}
+.pool__meter i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: linear-gradient(90deg, var(--gold-500), var(--gold-200));
+  box-shadow: 0 0 14px -2px var(--glow-gold);
+  transition: width 0.4s var(--ease-out), background 0.3s var(--ease);
+}
+.pool.is-over .pool__meter i {
+  background: linear-gradient(90deg, #9c4436, var(--alert));
+  box-shadow: 0 0 14px -2px rgba(227, 112, 93, 0.7);
+}
+
+/* ------------------------------------------------------------ derived rail */
+
+.readout {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  gap: 8px;
+  padding: 2px 8px 2px 9px;
+  border-radius: 2px;
+  border-left: 1px solid transparent;
+  transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+/* A rail line as a button: the same line of type, with the whole row as the
+   target and only the hover state and the pointer announcing it is one. Twenty
+   visible buttons stacked in a column would read as a menu rather than a
+   readout, which is why nothing here draws a border or a background by default. */
+.readout--open {
+  width: 100%;
+  background: none;
+  /* Not `border: none`: the base row keeps a transparent left border, and dropping
+     it moves every figure in the rail a pixel. */
+  border: 0;
+  border-left: 1px solid transparent;
+  border-radius: 2px;
+  font: inherit;
+  text-align: left;
+  color: inherit;
+}
+.readout--open:focus-visible {
+  outline: none;
+  background: rgba(216, 192, 136, 0.1);
+  box-shadow: inset 2px 0 0 var(--gold-300);
+}
+.readout--open:hover .readout__label { color: var(--text-2); }
+
+.element--open {
+  width: 100%;
+  background: none;
+  /* Focus is drawn with a shadow rather than a border for the same reason: the
+     element rows are laid out on a 10px gem column and 46px figures. */
+  border: 0;
+  border-radius: 2px;
+  font: inherit;
+  text-align: left;
+}
+.element--open:focus-visible {
+  outline: none;
+  background: rgba(216, 192, 136, 0.08);
+  box-shadow: inset 2px 0 0 var(--gold-300);
+}
+
+.readout:hover {
+  background: rgba(255, 255, 255, 0.035);
+  border-left-color: var(--gold-400);
+}
+
+.readout__label {
+  font-size: 12.5px;
+  color: var(--text-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.readout__label sup {
+  color: var(--gold-500);
+  font-size: 9px;
+  margin-left: 2px;
+}
+
+.readout__value {
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  font-size: 14px;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+
+/* A brief warm flash when a value changes, so updates are felt. */
+.readout__value .is-changed,
+.readout__value.is-changed {
+  animation: value-flash 0.75s var(--ease-out);
+}
+
+.readout__value.is-warn,
+.readout__value.is-warn .is-changed { color: var(--alert); }
+
+/* The denominator of a ratio row sits quieter than its numerator. */
+.readout__of {
+  color: var(--text-4);
+  font-size: 12px;
+}
+
+.elements {
+  display: grid;
+  gap: 1px;
+}
+
+.element {
+  display: grid;
+  grid-template-columns: 10px 1fr 46px 46px;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 8px;
+  border-radius: 2px;
+  transition: background-color 0.2s var(--ease);
+}
+.element:hover { background: rgba(255, 255, 255, 0.035); }
+
+.element__gem {
+  width: 8px;
+  height: 8px;
+  transform: rotate(45deg);
+  background: currentColor;
+  box-shadow: 0 0 8px -1px currentColor;
+}
+
+.element__name {
+  font-size: 12.5px;
+  color: var(--text-2);
+}
+
+.element__num {
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  font-size: 13px;
+  text-align: right;
+  color: var(--text);
+}
+.element__num.is-zero { color: var(--text-4); }
+.element__num.is-negative { color: var(--alert); }
+
+.element-head {
+  display: grid;
+  grid-template-columns: 10px 1fr 46px 46px;
+  gap: 8px;
+  padding: 0 8px 3px;
+  font-family: var(--font-display);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-4);
+}
+.element-head span:nth-child(n + 3) { text-align: right; }
+
+/* ------------------------------------------------------------------- cards */
+
+/* Class and template cards: a denser tile than a row. */
+.card {
+  position: relative;
+  display: grid;
+  gap: 2px;
+  padding: 8px 10px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.028), transparent);
+  border: 1px solid var(--hairline);
+  border-radius: 2px;
+  text-align: left;
+  color: var(--text-2);
+  transition: all 0.2s var(--ease);
+  overflow: hidden;
+}
+
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.07), transparent);
+  transform: translateX(-100%);
+  opacity: 0;
+  pointer-events: none;
+}
+.card:hover::after { animation: sheen 0.75s var(--ease-out); }
+
+.card:hover {
+  border-color: var(--edge);
+  color: var(--text);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px -18px rgba(0, 0, 0, 1);
+}
+
+.card.is-selected {
+  border-color: rgba(216, 192, 136, 0.45);
+  background: linear-gradient(180deg, rgba(216, 192, 136, 0.15), rgba(216, 192, 136, 0.02));
+  color: var(--gold-100);
+  box-shadow: 0 0 26px -12px var(--glow-gold), inset 0 0 22px -14px var(--glow-gold);
+}
+
+.card.is-disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+.card.is-disabled:hover { transform: none; border-color: var(--hairline); box-shadow: none; }
+
+/* Name and tier badge on one line, the name yielding space to the badge. */
+.card__head {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+.card__head .chip { flex: none; }
+
+.card__name {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font-display);
+  font-size: 13.5px;
+  font-weight: 600;
+  /* Tight tracking so "Grand Summoner" and "Lantern Bearer" stay on one line in
+     a half-width card; they were being squeezed at 0.1em. */
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+/* The base class runs full width above its promotions, which is most of what
+   tells the two apart before the badge is read. */
+.card--base {
+  border-color: rgba(216, 192, 136, 0.28);
+  background: linear-gradient(180deg, rgba(216, 192, 136, 0.07), transparent);
+}
+.card--base .card__name { font-size: 14.5px; letter-spacing: 0.08em; }
+
+.card--promoted {
+  /* A hanging indent bar, reading as a branch off the base above. */
+  border-left: 2px solid rgba(216, 192, 136, 0.22);
+}
+
+.card__meta {
+  font-family: var(--font-num);
+  font-size: 10px;
+  color: var(--text-4);
+  letter-spacing: 0.02em;
+  overflow-wrap: anywhere;
+}
+
+.card__desc {
+  font-size: 11.5px;
+  color: var(--text-3);
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
+
+/* ------------------------------------------------------------- skill sheet */
+
+/* Used on both a div (the skill and trait sheets) and a button (the armory list),
+   so the UA button styling has to be neutralised here rather than at each site. */
+.entry {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 6px 9px 6px 11px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  transition: all 0.18s var(--ease);
+}
+.entry:hover { background: rgba(255, 255, 255, 0.035); border-color: var(--hairline); }
+.entry.is-taken {
+  background: linear-gradient(90deg, rgba(216, 192, 136, 0.12), transparent 70%);
+  border-color: rgba(216, 192, 136, 0.22);
+  box-shadow: inset 2px 0 0 var(--gold-400);
+}
+.entry.is-blocked { opacity: 0.45; }
+
+/* ----------------------------------------------------------- talent sheet */
+
+/*
+ * A talent is a header with its subtalents nested underneath, which is one level
+ * deeper than every other sheet goes. The group is not itself selectable (only
+ * the subtalent rows are), so it drops the hover and the two-column grid, and the
+ * rows inside get an indent and a rule to sit against instead of a border each.
+ */
+.entry--group { display: block; padding-bottom: 2px; }
+.entry--group:hover { background: transparent; border-color: transparent; }
+.entry--group > .entry__main > .entry--sub {
+  margin-top: 4px;
+  margin-left: 10px;
+  padding-left: 9px;
+  border-left: 1px solid var(--hairline);
+  border-radius: 0 2px 2px 0;
+}
+/* Its effect text is the whole reason the row exists, so it is not clamped the
+   way a skill's flavour line is. */
+.entry--sub .entry__sub { -webkit-line-clamp: 3; }
+/* Scoped to a weapon this build is not holding: real, bought, and contributing
+   nothing right now. Dimmer than a blocked row, which is a rule violation. */
+.entry.is-muted .entry__name,
+.entry.is-muted .entry__sub { color: var(--text-4); }
+.entry.is-muted:not(.is-taken) { opacity: 0.62; }
+
+.entry__main { min-width: 0; }
+
+.entry__name {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Most skills are reference-only, so their marker must not compete with the
+   name it sits beside. */
+.entry__name .chip {
+  font-size: 8.5px;
+  padding: 1px 5px;
+  color: var(--text-4);
+  border-color: transparent;
+  background: rgba(255, 255, 255, 0.04);
+}
+.entry__name .chip--gold {
+  color: var(--gold-300);
+  background: rgba(216, 192, 136, 0.09);
+}
+.entry.is-blocked .entry__name { color: var(--text-3); }
+
+.entry__sub {
+  font-size: 11px;
+  color: var(--text-4);
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.entry__rank {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex: none;
+}
+
+.rank-pips {
+  display: flex;
+  gap: 2px;
+}
+.rank-pip {
+  width: 4px;
+  height: 11px;
+  background: rgba(255, 255, 255, 0.09);
+  border-radius: 1px;
+  transition: all 0.24s var(--ease-out);
+}
+.rank-pip.is-on {
+  background: var(--gold-300);
+  box-shadow: 0 0 7px -1px var(--gold-300);
+}
+
+.rank-value {
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  font-size: 12px;
+  color: var(--text-3);
+  min-width: 32px;
+  text-align: right;
+}
+.entry.is-taken .rank-value { color: var(--gold-200); }
+
+/* ---------------------------------------------------------- equipment slots */
+
+.slot {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  gap: 4px;
+}
+
+.slot__open {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 26px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 10px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  text-align: left;
+  transition: all 0.18s var(--ease);
+}
+.slot__open:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--hairline);
+}
+
+.slot.is-filled .slot__open {
+  background: linear-gradient(90deg, rgba(216, 192, 136, 0.1), transparent 72%);
+  border-color: rgba(216, 192, 136, 0.2);
+  box-shadow: inset 2px 0 0 var(--gold-400);
+}
+
+/* The slot's own mark: a bevelled plate, empty until something fills it. */
+.slot__glyph {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(0, 0, 0, 0.4));
+  border: 1px solid var(--hairline);
+  border-radius: 2px;
+  font-size: 13px;
+  color: var(--text-4);
+  transition: all 0.24s var(--ease);
+}
+.slot.is-filled .slot__glyph {
+  color: var(--gold-200);
+  border-color: var(--edge);
+  box-shadow: 0 0 14px -5px var(--glow-gold), inset 0 0 12px -6px var(--glow-gold);
+}
+
+.slot__text {
+  display: grid;
+  gap: 0;
+  min-width: 0;
+}
+
+.slot__label {
+  font-family: var(--font-display);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-4);
+  line-height: 1.25;
+}
+
+.slot__item {
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.slot:not(.is-filled) .slot__item { color: var(--text-4); font-style: italic; }
+.slot.is-filled .slot__item { color: var(--gold-100); }
+
+.slot__detail {
+  font-size: 10.5px;
+  color: var(--text-4);
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.slot__marks {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: none;
+}
+
+.slot__clear {
+  align-self: center;
+  flex: none;
+}
+
+/* ------------------------------------------------------------------ armory */
+
+/* The `.modal--wide` and flush-body rules live with the modal itself, further
+   down; declared here they would lose to `.modal` on source order. */
+
+.armory {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  min-height: 0;
+  height: 100%;
+}
+
+.armory__browse {
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr);
+  min-height: 0;
+  padding: 12px 12px 12px 14px;
+  border-right: 1px solid var(--edge-soft);
+}
+
+.armory__list { min-height: 0; padding-top: 6px; }
+
+.armory__tune {
+  min-height: 0;
+  padding: 12px 14px 16px;
+}
+.armory__tune .section:first-child { margin-top: 0; }
+
+.tracks {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px 10px;
+}
+
+.track {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: space-between;
+  padding: 2px 0;
+}
+
+.track__label {
+  font-size: 12px;
+  color: var(--text-2);
+  white-space: nowrap;
+}
+
+/* The channel's ceiling, shown only where one is recorded. */
+.track__cap {
+  margin-left: 5px;
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  font-size: 11.5px;
+  color: var(--text-3);
+  white-space: nowrap;
+}
+
+.scaling {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+}
+
+.scaling__cell {
+  display: grid;
+  gap: 2px;
+  justify-items: center;
+  font-family: var(--font-display);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+.scaling__cell .stat__input { width: 100%; }
+
+.effect {
+  display: grid;
+  gap: 4px;
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.035);
+}
+.effect:last-child { border-bottom: none; }
+
+.effect__static {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  padding: 3px 9px;
+  font-size: 12px;
+  color: var(--text-2);
+  line-height: 1.4;
+}
+.effect__static .chip { flex: none; margin-top: 1px; }
+
+.roll {
+  display: grid;
+  grid-template-columns: auto 1fr 30px;
+  align-items: center;
+  gap: 9px;
+  padding: 2px 9px 2px 30px;
+}
+
+.roll__label {
+  font-size: 11px;
+  color: var(--text-3);
+  white-space: nowrap;
+}
+
+.roll__value {
+  font-size: 12px;
+  color: var(--gold-200);
+  text-align: right;
+}
+
+/* A slim gold track, matching the allocation bars rather than the OS default. */
+.roll__range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid var(--hairline);
+  border-radius: 2px;
+  outline: none;
+}
+.roll__range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 11px;
+  height: 11px;
+  background: var(--gold-200);
+  border-radius: 1px;
+  transform: rotate(45deg);
+  cursor: ew-resize;
+  box-shadow: 0 0 8px -1px var(--glow-gold);
+}
+.roll__range::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  background: var(--gold-200);
+  border: none;
+  border-radius: 1px;
+  cursor: ew-resize;
+}
+
+@media (max-width: 900px) {
+  .armory { grid-template-columns: minmax(0, 1fr); }
+  .armory__browse { border-right: none; border-bottom: 1px solid var(--edge-soft); }
+  .armory__list { max-height: 260px; }
+}
+
+/* The Install preview: the stat line actually substituted, called out because it
+   is the race's line and not the summon's own. */
+.install {
+  margin-top: 8px;
+  padding: 8px 10px;
+  background: linear-gradient(90deg, rgba(216, 192, 136, 0.09), transparent);
+  border: 1px solid rgba(216, 192, 136, 0.22);
+  border-radius: 2px;
+}
+
+/* -------------------------------------------------------------- filter bar */
+
+.filters {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-bottom: 9px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.search {
+  flex: 1;
+  min-width: 0;
+  padding: 5px 9px;
+  background: rgba(0, 0, 0, 0.42);
+  border: 1px solid var(--edge-soft);
+  border-radius: 2px;
+  font-size: 12.5px;
+  color: var(--text);
+}
+.search::placeholder { color: var(--text-4); }
+.search:focus {
+  outline: none;
+  border-color: var(--gold-400);
+  box-shadow: 0 0 18px -6px var(--glow-gold);
+}
+
+/* ------------------------------------------------------------------ modals */
+
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(2, 4, 7, 0.72);
+  backdrop-filter: blur(7px);
+  animation: fade-in 0.24s var(--ease);
+}
+
+.modal {
+  position: relative;
+  width: min(760px, 100%);
+  /*
+   * The scrim centres this rather than stretching it, so the modal keeps a grid
+   * item's `min-width: auto` and cannot be squeezed below its own min-content,
+   * which the footer's nowrap button row puts at about 435px. On a phone that
+   * sized the scrim's track past the viewport and carried Close and Import off
+   * the right edge, where nothing but Esc could reach them.
+   */
+  min-width: 0;
+  max-width: 100%;
+  max-height: min(84vh, 760px);
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  background:
+    linear-gradient(180deg, rgba(20, 26, 37, 0.98), rgba(7, 10, 16, 0.99)),
+    var(--ink-900);
+  border: 1px solid var(--edge);
+  border-radius: 2px;
+  box-shadow: 0 40px 90px -30px rgba(0, 0, 0, 1), var(--shadow-panel);
+  animation: modal-in 0.34s var(--ease-out);
+}
+
+.modal__head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 16px 11px;
+  border-bottom: 1px solid var(--edge-soft);
+}
+.modal__head::after {
+  content: '';
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: -1px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-300), transparent);
+  opacity: 0.55;
+}
+
+.modal__title {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--gold-100);
+}
+
+/* Two-column dialogs need more than the reading-width default. */
+.modal--wide { width: min(1120px, 100%); }
+
+.modal__body { padding: 15px 16px; min-height: 0; }
+
+/* For content that manages its own scroll panes, such as the armory. */
+.modal__body--flush { padding: 0; min-height: 0; }
+
+.modal__foot {
+  display: flex;
+  align-items: center;
+  /* Wraps rather than overflows: five buttons and a spacer do not fit a phone on
+     one line, and a clipped footer is a dialog you cannot finish. Never wraps at
+     the widths the dialog was drawn for. */
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--edge-soft);
+}
+
+.code {
+  width: 100%;
+  min-height: 260px;
+  padding: 11px;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid var(--edge-soft);
+  border-radius: 2px;
+  font-family: var(--font-num);
+  font-size: 11.5px;
+  line-height: 1.55;
+  color: var(--text-2);
+  resize: vertical;
+  white-space: pre;
+}
+.code:focus { outline: none; border-color: var(--gold-400); }
+
+/* ------------------------------------------------------------------ notice */
+
+.notice {
+  position: fixed;
+  left: 50%;
+  bottom: 26px;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 18px;
+  background: linear-gradient(180deg, rgba(26, 33, 45, 0.97), rgba(9, 12, 18, 0.97));
+  border: 1px solid var(--edge);
+  border-radius: 2px;
+  box-shadow: 0 22px 50px -22px rgba(0, 0, 0, 1), 0 0 40px -20px var(--glow-gold);
+  font-family: var(--font-display);
+  font-size: 12.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold-100);
+  animation: notice-in 0.4s var(--ease-out);
+  transform: translateX(-50%);
+}
+.notice--bad { border-color: rgba(227, 112, 93, 0.5); color: var(--alert); }
+.notice--good { border-color: rgba(143, 214, 160, 0.45); color: var(--affirm); }
+
+/* ------------------------------------------------------------- misc pieces */
+
+.hint {
+  font-size: 11.5px;
+  color: var(--text-4);
+  line-height: 1.45;
+}
+
+.warnings {
+  display: grid;
+  gap: 3px;
+  padding: 8px 10px;
+  margin-bottom: 9px;
+  background: var(--alert-dim);
+  border: 1px solid rgba(227, 112, 93, 0.3);
+  border-radius: 2px;
+  font-size: 11.5px;
+  color: #f0a99b;
+}
+
+.empty {
+  display: grid;
+  place-items: center;
+  gap: 5px;
+  padding: 34px 16px;
+  text-align: center;
+  color: var(--text-4);
+  font-size: 12.5px;
+}
+
+.stack { display: grid; gap: 7px; }
+.stack--tight { display: grid; gap: 4px; }
+.inline { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+.spacer { flex: 1; }
+
+.divider {
+  height: 1px;
+  margin: 9px 0;
+  background: linear-gradient(90deg, transparent, var(--edge), transparent);
+}
+
+.keycap {
+  display: inline-grid;
+  place-items: center;
+  min-width: 17px;
+  padding: 0 4px;
+  height: 16px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--hairline);
+  border-radius: 2px;
+  font-family: var(--font-num);
+  font-size: 9.5px;
+  color: var(--text-3);
+}
+
+/* ------------------------------------------------------------- animations */
+
+@keyframes sheen {
+  from { transform: translateX(-100%); opacity: 1; }
+  to { transform: translateX(100%); opacity: 0; }
+}
+
+@keyframes value-flash {
+  0% { color: var(--gold-100); text-shadow: 0 0 16px rgba(216, 192, 136, 0.9); }
+  100% { color: var(--text); text-shadow: none; }
+}
+
+@keyframes alert-pulse {
+  0%, 100% { box-shadow: inset 0 0 30px -12px rgba(227, 112, 93, 0.5); }
+  50% { box-shadow: inset 0 0 34px -8px rgba(227, 112, 93, 0.8); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modal-in {
+  from { opacity: 0; transform: translateY(10px) scale(0.985); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes notice-in {
+  from { opacity: 0; transform: translate(-50%, 14px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+@keyframes panel-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+.enter { animation: panel-in 0.34s var(--ease-out) both; }
+
+/* A cap or unit note under a field, for the override dialog's number inputs. */
+.field__hint {
+  font-size: 10px;
+  line-height: 1.35;
+  color: var(--text-4);
+}
+
+/* A responsive grid of small fields: twelve base-stat overrides, six stamps. */
+.grid-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+  gap: 8px;
+}
+
+/* Legend Extend: forty-odd toggles, each carrying its stat's colour as a rule. */
+.le-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 5px;
+}
+
+.le {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 9px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid transparent;
+  border-radius: 2px;
+  color: var(--text-3);
+  font-size: 12px;
+  text-align: left;
+  transition: all 0.18s var(--ease);
+}
+.le:hover { background: rgba(255, 255, 255, 0.045); border-color: var(--hairline); }
+.le.is-on {
+  color: var(--text);
+  background: linear-gradient(90deg, rgba(216, 192, 136, 0.1), transparent 75%);
+  border-color: rgba(216, 192, 136, 0.24);
+}
+
+.le__bar {
+  flex: none;
+  width: 3px;
+  height: 14px;
+  border-radius: 1px;
+  opacity: 0.45;
+  transition: opacity 0.18s var(--ease);
+}
+.le.is-on .le__bar { opacity: 1; }
+
+/* One element's ATK and RES adjusters, ten to a dialog. */
+.eladjust {
+  display: grid;
+  grid-template-columns: 12px minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 9px;
+  padding: 4px 9px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+.eladjust:last-child { border-bottom: none; }
+
+.eladjust__name {
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.eladjust__group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.eladjust__tag {
+  font-family: var(--font-num);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: var(--text-4);
+}
+
+@media (max-width: 520px) {
+  .eladjust {
+    grid-template-columns: 12px minmax(0, 1fr);
+    row-gap: 4px;
+  }
+  .eladjust__group { grid-column: 2; }
+}
+
+/* Marks an element whose figure includes a manual adjustment. */
+.element__flag {
+  margin-left: 5px;
+  font-family: var(--font-num);
+  font-size: 9px;
+  color: var(--gold-300);
+}
+
+/* Situational skill bonuses, hanging off the ranked skill they belong to. */
+.situational {
+  display: grid;
+  gap: 2px;
+  margin: 0 0 4px 22px;
+  padding-left: 9px;
+  border-left: 1px solid var(--edge-soft);
+}
+
+.situational .toggle { padding: 4px 7px; font-size: 11.5px; }
+
+.situational__label { color: var(--text-4); }
+.situational .toggle.is-on .situational__label { color: var(--text-3); }
+
+/* A legality problem, which is also the route to the sheet that owns it. */
+.warnings__jump {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  width: 100%;
+  padding: 2px 0;
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.warnings__jump:hover { color: var(--text); }
+
+.warnings__to {
+  margin-left: auto;
+  flex: none;
+  font-family: var(--font-num);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.65;
+}
+.warnings__jump:hover .warnings__to { opacity: 1; }
+
+/* --------------------------------------------------------------- section nav */
+
+/*
+ * Off entirely on a viewport wide enough to pin the sidebars: there is nothing to
+ * navigate while every panel is already reachable. Turned on by the stacking
+ * breakpoints below.
+ */
+.sectionnav { display: none; }
+
+.sectionnav__item {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 8px 6px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  color: var(--text-4);
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.18s var(--ease), border-color 0.18s var(--ease);
+}
+
+.sectionnav__item:hover { color: var(--text-2); }
+
+.sectionnav__item.is-active {
+  color: var(--gold-200);
+  border-bottom-color: var(--gold-400);
+}
+
+/* ------------------------------------------------------- shortcuts, changes */
+
+.keyrow {
+  display: grid;
+  grid-template-columns: 118px minmax(0, 1fr);
+  align-items: baseline;
+  gap: 10px;
+  padding: 4px 9px;
+}
+
+.keyrow__keys {
+  display: flex;
+  gap: 3px;
+  justify-content: flex-end;
+}
+
+.keyrow__what {
+  font-size: 11.5px;
+  line-height: 1.4;
+  color: var(--text-3);
+}
+
+.changes {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 6px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--text-2);
+}
+.changes li::marker { color: var(--gold-500); }
+
+/* ----------------------------------------------------------- youkai skills */
+
+/*
+ * A Youkai skill card. Wider text measure than an equipment effect line because
+ * these carry full rules text, and a left rule rather than a fill so a list of
+ * six reads as a list rather than as six competing panels.
+ */
+.yskill {
+  display: grid;
+  gap: 4px;
+  padding: 7px 9px 8px 11px;
+  border: 1px solid var(--hairline);
+  border-left: 2px solid var(--edge-soft);
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.012);
+}
+
+.yskill.is-held {
+  border-left-color: var(--gold-400);
+  background: linear-gradient(90deg, rgba(216, 192, 136, 0.08), transparent 70%);
+}
+
+.yskill__head {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+}
+
+.yskill__name {
+  font-size: 13px;
+  color: var(--text);
+}
+
+.yskill__head .chip { flex: none; }
+
+.yskill__source {
+  flex: none;
+  font-family: var(--font-num);
+  font-size: 9.5px;
+  letter-spacing: 0.06em;
+  color: var(--text-4);
+}
+
+.yskill.is-held .yskill__source { color: var(--gold-300); }
+
+.yskill__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 10px;
+  font-family: var(--font-num);
+  font-size: 10px;
+  color: var(--text-4);
+}
+
+.yskill__text {
+  margin: 0;
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: var(--text-3);
+}
+
+/* The twelve-stat line on a Youkai card: four columns, so it stays two rows in a
+   reading-width dialog. */
+.ystats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 2px 14px;
+  padding: 4px 9px 2px;
+}
+
+.ystats__cell {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+  font-family: var(--font-num);
+  font-size: 11px;
+}
+
+@media (max-width: 520px) {
+  .ystats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+  /* On a phone the dialog *is* the interface for as long as it is open; 24px of
+     scrim on each side is a tenth of the screen spent on framing it. */
+  .scrim { padding: 9px; }
+  .modal { max-height: 94vh; }
+  .modal__head { padding: 11px 12px 9px; }
+  .modal__body { padding: 12px; }
+  .modal__foot { padding: 10px 12px; }
+  .figure__value { font-size: 23px; }
+}
+
+/* --------------------------------------------------------------- stat card */
+
+/* The two headline figures. Each is also the switch for the grid behind, so they
+   are buttons, and the inactive one has to stay readable, since being able to
+   read both at once is half of why the card exists. */
+.figures {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.figure {
+  display: grid;
+  gap: 1px;
+  padding: 9px 11px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--hairline);
+  border-radius: 2px;
+  text-align: left;
+  transition: border-color 0.18s var(--ease), background-color 0.18s var(--ease);
+}
+.figure:hover { border-color: var(--edge-soft); background: rgba(255, 255, 255, 0.03); }
+.figure.is-active {
+  background: linear-gradient(180deg, rgba(216, 192, 136, 0.11), rgba(216, 192, 136, 0.02));
+  border-color: rgba(216, 192, 136, 0.34);
+  box-shadow: inset 0 0 22px -12px var(--glow-gold);
+}
+.figure:focus-visible {
+  outline: none;
+  border-color: var(--gold-400);
+}
+
+.figure__value {
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  font-size: 27px;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--text-2);
+}
+.figure.is-active .figure__value { color: var(--gold-100); }
+
+.figure__note {
+  font-size: 10px;
+  color: var(--text-4);
+  letter-spacing: 0.03em;
+}
+
+/* One figure rather than a pair, since most derived values have only the one. */
+.figures--one { grid-template-columns: minmax(0, 1fr); }
+
+/* A figure that reports rather than switches. Neutralises the button hover it
+   inherits, so nothing invites a click that does nothing. */
+.figure--static { cursor: default; }
+.figure--static:hover {
+  border-color: var(--hairline);
+  background: rgba(0, 0, 0, 0.35);
+}
+.figure--static.is-active:hover {
+  background: linear-gradient(180deg, rgba(216, 192, 136, 0.11), rgba(216, 192, 136, 0.02));
+  border-color: rgba(216, 192, 136, 0.34);
+}
+
+/* The attributes a derived figure reads, each a route to that attribute's card. */
+.sources { display: grid; gap: 2px; }
+
+.source {
+  display: grid;
+  grid-template-columns: 9px 30px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 9px;
+  padding: 5px 9px;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  text-align: left;
+  transition: background-color 0.18s var(--ease), border-color 0.18s var(--ease);
+}
+.source:hover {
+  background: rgba(255, 255, 255, 0.035);
+  border-color: var(--hairline);
+}
+.source:focus-visible {
+  outline: none;
+  border-color: rgba(216, 192, 136, 0.34);
+  background: rgba(216, 192, 136, 0.08);
+}
+
+.source__abbr {
+  font-family: var(--font-display);
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+.source__name { font-size: 12px; color: var(--text-3); }
+
+/*
+ * A named contribution to Hit or Evade. Two columns rather than the four a
+ * `.source` row uses: these name a piece of equipment or an effect, not an
+ * attribute, so there is no gem and no abbreviation to carry.
+ */
+.provenance { display: grid; gap: 1px; }
+.provenance__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 9px;
+  padding: 4px 9px;
+}
+.provenance__row--total {
+  margin-top: 3px;
+  border-top: 1px solid var(--hairline);
+  padding-top: 6px;
+}
+.provenance__label { font-size: 12px; color: var(--text-3); }
+.provenance__row--total .provenance__label { color: var(--text-2); }
+.provenance__value {
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  font-size: 13px;
+  color: var(--gold-100);
+}
+.provenance__value--negative { color: var(--alert); }
+.provenance__row--total .provenance__value { font-size: 14px; font-weight: 600; }
+.provenance__capped {
+  margin-top: 7px;
+  padding: 6px 9px;
+  background: var(--alert-dim);
+  border-radius: 2px;
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--alert);
+}
+.source__value {
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  font-size: 14px;
+  color: var(--gold-100);
+}
+
+.statcard__returns { margin: 7px 2px 0; }
+/* The formula line reads as a caption on the figures above it, so the section
+   under it needs the same air a section following a section gets. */
+.statcard__returns + .section { margin-top: 13px; }
+.statcard__returns strong { color: var(--gold-200); font-weight: 600; }
+
+/* The stat's element gem, inside its abbreviation chip. */
+.statcard__gem {
+  width: 7px;
+  height: 7px;
+  transform: rotate(45deg);
+  background: currentColor;
+  box-shadow: 0 0 8px -1px currentColor;
+}
+
+.statcard__alloc {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+/* Wide enough to be hit with a thumb, which the grid's own steppers are not. */
+.statcard__alloc .step { min-width: 30px; height: 26px; }
+.statcard__alloc .stat__input { width: 54px; font-size: 14px; }
+
+/* The raw total and the scaled figure are conclusions, not contributions. */
+.readout--strong { border-top: 1px solid var(--edge-soft); }
+.readout--strong .readout__label { color: var(--text-2); }
+.readout--strong .readout__value { color: var(--gold-100); }
+
+.statcard__effects {
+  display: grid;
+  gap: 3px;
+  margin: 0;
+  padding: 2px 0 0 16px;
+  font-size: 12.5px;
+  color: var(--text-2);
+}
+.statcard__effects li::marker { color: var(--gold-500); }
+
+.statcard__prose {
+  display: grid;
+  gap: 7px;
+  font-size: 12.5px;
+  color: var(--text-3);
+}
+.statcard__prose p { margin: 0; }
+
+/* ------------------------------------------------------------- responsive */
+
+@media (max-width: 1500px) {
+  .shell__body { grid-template-columns: minmax(250px, 292px) minmax(0, 1fr) minmax(280px, 336px); }
+}
+
+/*
+ * A short viewport cannot usefully pin a sidebar (there is no room left to
+ * scroll the middle against), so they are released and everything scrolls
+ * together as one page.
+ */
+@media (max-height: 620px) {
+  .column--left,
+  .column--right {
+    position: static;
+    max-height: none;
+  }
+  .column--left,
+  .column--right { grid-template-rows: auto auto; }
+}
+
+/* Two columns, and nothing pinned: at this width a sidebar would take a third of
+   the screen to stay still. Nothing being pinned is also what makes the readout
+   scrollable off screen, so this is where the section nav earns its place. */
+@media (max-width: 1240px) {
+  .sectionnav {
+    display: flex;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    /*
+     * Fixed, because the panel headers stick directly below it and the two offsets
+     * have to agree to the pixel. Left to content height it measured 35px against
+     * the 39px the headers assumed, and a 4px band of the sheet scrolled through
+     * the seam.
+     */
+    height: var(--nav-h);
+    gap: 2px;
+    /* Opaque: the panels scroll underneath it. */
+    background:
+      linear-gradient(180deg, rgba(20, 25, 34, 0.98), rgba(9, 12, 18, 0.98)),
+      var(--ink-900);
+    border: 1px solid var(--edge-soft);
+    border-radius: 2px;
+    box-shadow: 0 6px 18px -12px rgba(0, 0, 0, 0.9);
+  }
+
+  /* The panel headers stick too, and two sticky bands stacking would hide the
+     first row of whichever sheet is open. */
+  .panel__head { top: var(--nav-h); }
+
+  .shell__body {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: auto;
+  }
+  .column--left,
+  .column--center,
+  .column--right {
+    position: static;
+    max-height: none;
+    grid-template-rows: none;
+  }
+  .column--right { grid-column: span 2; }
+}
+
+@media (max-width: 860px) {
+  .shell { padding: 8px; }
+  .shell__body { grid-template-columns: minmax(0, 1fr); }
+  .column--right { grid-column: auto; }
+  .masthead {
+    height: auto;
+    flex-wrap: wrap;
+    padding: 10px 12px;
+    gap: 10px;
+  }
+  .masthead__name { max-width: none; order: 3; flex-basis: 100%; }
+  /*
+   * The action row is a flex container of its own, so wrapping the masthead does
+   * nothing for it: seven buttons stayed on one line and pushed the whole shell
+   * wider than the viewport, taking the page into a horizontal scroll.
+   */
+  .masthead__actions {
+    order: 2;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    margin-left: 0;
+    flex: 1 1 100%;
+  }
+  .masthead__divider { display: none; }
+  /* Both title lines are nowrap by default, which is the other overflow source
+     once the subtitle carries the dataset version too. */
+  .masthead__titles { flex: 1 1 140px; }
+  .masthead__subtitle { white-space: normal; letter-spacing: 0.14em; }
+  .stat { grid-template-columns: 13px 62px auto 1fr 46px; gap: 6px; }
+  .stat__full { display: none; }
+  /* Each rail line is a tap target of its own here, so it is given the height to
+     be one. Denser than a button wants, but this is a table of figures and it has
+     to stay readable as one. */
+  .readout--open { padding-top: 5px; padding-bottom: 5px; }
+  .element--open { padding-top: 4px; padding-bottom: 4px; }
+
+  /*
+   * A tab strip is the only way into five of the six loadout sheets, and they run
+   * well past a 360px panel: enough to clip `youkai` at the edge with no way to
+   * reach the rest. It scrolls instead, without a bar: the strip is already a row
+   * of legible words, so the cut-off word is its own affordance. Adding `talents`
+   * made the overflow wider, not different in kind.
+   */
+  .tabs {
+    overflow-x: auto;
+    scrollbar-width: none;
+    scroll-snap-type: x proximity;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { scroll-snap-align: end; }
+}
+
+/*
+ * Phones. A 360px screen is 100px narrower than the narrowest column this sheet
+ * was drawn for, and the things that break are all of one kind: a five-column
+ * table, a thumb, and a masthead that spent a third of the screen before the
+ * first figure. Type sizes, colour and rule weights are untouched, only the
+ * geometry moves.
+ */
+@media (max-width: 430px) {
+  .shell { padding: 6px; }
+
+  /* The masthead cost 229px of 780, 29% of the screen on arrival, all of it
+     chrome. The subtitle is the recoverable part: it wrapped to two lines of
+     tracked capitals, and it is a route to the changelog rather than something
+     anyone reads. */
+  .masthead {
+    padding: 8px 10px;
+    gap: 7px;
+  }
+  /*
+   * Four bands instead of five: crest and title share the first line, and the
+   * chips take the second rather than squeezing the title into 67px beside them.
+   * Together with the one-line subtitle this returns 58px: a quarter of what the
+   * masthead was costing before the first figure on the sheet.
+   */
+  .masthead__titles { flex: 1 1 0; min-width: 0; }
+  .masthead__chips { flex: 1 1 100%; }
+  .masthead__subtitle {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* Tracked down until the dataset date fits: the line is a route to the
+       changelog, and a date cut mid-digit is worse than a tighter one. */
+    letter-spacing: 0.06em;
+  }
+  .masthead__name { padding: 5px 9px; }
+  .masthead__actions { gap: 5px; }
+
+  /*
+   * The attribute row, on two lines.
+   *
+   * Five columns in 320px left the allocation track 64px wide: too narrow to read
+   * as a proportion, too narrow to hit, and (because it takes `touch-action:
+   * none` to work as a drag surface) a scroll dead zone in the middle of twelve
+   * rows. Given its own line it is the widest control on the sheet instead of the
+   * smallest, and the top line has the room to make the steppers thumb-sized.
+   */
+  .stat,
+  .stat-head {
+    grid-template-columns: 13px minmax(40px, auto) 1fr auto;
+    row-gap: 4px;
+    padding-top: 5px;
+    padding-bottom: 6px;
+  }
+  .stat__gem { grid-area: 1 / 1; }
+  .stat__name { grid-area: 1 / 2; }
+  .stat__stepper { grid-area: 1 / 3; justify-content: flex-end; }
+  .stat__scaled { grid-area: 1 / 4; }
+  .stat__track {
+    grid-area: 2 / 1 / 3 / -1;
+    height: 11px;
+    border-radius: 2px;
+  }
+  /* The caption for a column that is no longer a column. */
+  .stat-head { padding-bottom: 6px; }
+  .stat-head span:nth-child(4) { display: none; }
+  .stat-head span:nth-child(3) { text-align: right; }
+
+  .step { width: 30px; height: 30px; font-size: 15px; }
+  .stat__input { width: 48px; padding: 5px 4px; font-size: 14px; }
+  .stat__name { min-height: 30px; }
+
+  /* Scaled / Raw and the armory's tuning tabs: 22px high is a word, not a
+     control. */
+  .tabs--mini .tab { padding: 6px 8px; }
+
+  /* Five sections across 348px leaves 67px each, and `Attributes` ellipsised to
+     `Attribut…`, and a jump target you cannot read is not one. The tracking is what
+     gives, not the word. */
+  .sectionnav__item { padding: 8px 2px; letter-spacing: 0.02em; }
+
+  /* The dialog gets the screen; a 24px scrim inset is a desktop courtesy. */
+  .scrim { padding: 9px; }
+
+  /* Five of thirty-nine items is a list you scroll rather than read. The tuning
+     pane below it is empty until something is chosen, so the height is free. */
+  .armory__list { max-height: min(44vh, 320px); }
+
+  /*
+   * The bottom of the type scale, raised about a point.
+   *
+   * Only the labels that carry something a reader has to take away: which slot a
+   * row is, what a skill's marker means, what a column of figures is counting.
+   * The purely decorative small caps are left where they are, so the hierarchy
+   * between the tiers does not close up.
+   */
+  .slot__label { font-size: 11px; }
+  .entry__name .chip { font-size: 10px; }
+  .stat-head { font-size: 10px; }
+  .element-head,
+  .scaling__cell { font-size: 10.5px; }
+  .warnings__to { font-size: 10px; }
+}
+
+/*
+ * Prose that names keys, on a device that has none.
+ *
+ * Two of these sit under the panels they describe and cost about 60px between
+ * them: a fifth of a phone screen spent telling a thumb about Shift and Home.
+ * The shortcut dialog still lists them all for anyone who attaches a keyboard.
+ */
+@media (hover: none) and (pointer: coarse) {
+  .hint--keys { display: none; }
+}
+
+/* Motion is decorative throughout; honour a request to remove it. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

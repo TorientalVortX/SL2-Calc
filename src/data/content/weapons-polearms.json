@@ -1,30 +1,5 @@
 [
   {
-    "id": "weapon:polearm:spear",
-    "name": "Spear",
-    "rarity": 1,
-    "weaponType": "Polearm",
-    "range": 1,
-    "power": 4,
-    "accuracy": 85,
-    "critical": 0,
-    "criticalDamage": 115,
-    "weight": 4,
-    "damageType": "Pierce",
-    "scaling": [
-      {
-        "type": "Basic",
-        "str": 100
-      }
-    ],
-    "description": "Your standard, boring spear.",
-    "location": [
-      "Random drops",
-      "Shops",
-      "Metalwork (Lv1)"
-    ]
-  },
-  {
     "id": "weapon:polearm:quarterstaff",
     "name": "Quarterstaff",
     "rarity": 1,
@@ -45,14 +20,13 @@
     ],
     "description": "A quarterstaff made out of wood.",
     "location": [
-      "Random drops",
-      "Woodwork (Lv1)"
+      "Random drops Woodwork (Lv1)"
     ]
   },
   {
-    "id": "weapon:polearm:spear-enhanced",
-    "name": "Spear (Enhanced)",
-    "rarity": 2,
+    "id": "weapon:polearm:spear",
+    "name": "Spear",
+    "rarity": 1,
     "weaponType": "Polearm",
     "range": 1,
     "power": 4,
@@ -67,16 +41,9 @@
         "str": 100
       }
     ],
-    "specials": [
-      {
-        "name": "Enhanced Stats",
-        "type": "Passive",
-        "description": "+3 STR"
-      }
-    ],
     "description": "Your standard, boring spear.",
     "location": [
-      "Enchanting (Lv1)"
+      "Random drops Shops Metalwork (Lv1)"
     ]
   },
   {
@@ -114,8 +81,7 @@
     ],
     "description": "Stabs deep and cuts twice.",
     "location": [
-      "Random drops",
-      "Metalwork (Lv3)"
+      "Random drops Metalwork (Lv3)"
     ]
   },
   {
@@ -139,40 +105,60 @@
     ],
     "description": "A ranged variation of the spear.",
     "location": [
-      "Random drops",
-      "Metalwork (Lv2)"
+      "Random drops Metalwork (Lv2)"
     ]
   },
   {
-    "id": "weapon:polearm:impaler",
-    "name": "Impaler",
-    "rarity": 3,
+    "id": "weapon:polearm:spear-enhanced",
+    "name": "Spear (Enhanced)",
+    "rarity": 2,
     "weaponType": "Polearm",
     "range": 1,
-    "power": 6,
+    "power": 4,
     "accuracy": 85,
     "critical": 0,
     "criticalDamage": 115,
-    "weight": 6,
+    "weight": 4,
     "damageType": "Pierce",
     "scaling": [
       {
-        "type": "Vampiric",
-        "str": 80,
-        "vit": 30
+        "type": "Basic",
+        "str": 100
       }
     ],
     "specials": [
       {
-        "name": "Vampiric",
+        "name": "Enhanced Stats",
         "type": "Passive",
-        "description": "Vampiric (10%) (Basic attacks only)"
+        "description": "+3 STR"
       }
     ],
-    "description": "A vampiric spear that sucks the blood of those it stabs.",
+    "description": "Your standard, boring spear.",
     "location": [
-      "Random drops",
-      "Metalwork (Lv3)"
+      "Enchanting (Lv1)"
+    ]
+  },
+  {
+    "id": "weapon:polearm:greatspear",
+    "name": "Greatspear",
+    "rarity": 3,
+    "weaponType": "Polearm",
+    "range": 1,
+    "power": 10,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 115,
+    "weight": 16,
+    "damageType": "Pierce",
+    "scaling": [
+      {
+        "type": "Basic",
+        "str": 100
+      }
+    ],
+    "description": "A heavier spear that deals more damage. While not the trademark of a particular nation, Wyvernriders often use them in battle, as their mobility is not hindered by the weapon's weight.",
+    "location": [
+      "Random drops Metalwork (Lv3)"
     ]
   },
   {
@@ -203,8 +189,38 @@
     ],
     "description": "Divinity in the form of a spear.",
     "location": [
-      "Random drops",
-      "Metalwork (Lv3)"
+      "Random drops Metalwork (Lv3)"
+    ]
+  },
+  {
+    "id": "weapon:polearm:impaler",
+    "name": "Impaler",
+    "rarity": 3,
+    "weaponType": "Polearm",
+    "range": 1,
+    "power": 6,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 115,
+    "weight": 6,
+    "damageType": "Pierce",
+    "scaling": [
+      {
+        "type": "Vampiric",
+        "str": 80,
+        "vit": 30
+      }
+    ],
+    "specials": [
+      {
+        "name": "Vampiric",
+        "type": "Passive",
+        "description": "Vampiric (10%) (Basic attacks only)"
+      }
+    ],
+    "description": "A vampiric spear that sucks the blood of those it stabs.",
+    "location": [
+      "Random drops Metalwork (Lv3)"
     ]
   },
   {
@@ -236,32 +252,7 @@
     ],
     "description": "A deadly blow from this weapon will leave an enemy speechless.",
     "location": [
-      "Random drops",
-      "Metalwork (Lv3)"
-    ]
-  },
-  {
-    "id": "weapon:polearm:greatspear",
-    "name": "Greatspear",
-    "rarity": 3,
-    "weaponType": "Polearm",
-    "range": 1,
-    "power": 10,
-    "accuracy": 85,
-    "critical": 0,
-    "criticalDamage": 115,
-    "weight": 16,
-    "damageType": "Pierce",
-    "scaling": [
-      {
-        "type": "Basic",
-        "str": 100
-      }
-    ],
-    "description": "A heavier spear that deals more damage. While not the trademark of a particular nation, Wyvernriders often use them in battle, as their mobility is not hindered by the weapon's weight.",
-    "location": [
-      "Random drops",
-      "Metalwork (Lv3)"
+      "Random drops Metalwork (Lv3)"
     ]
   },
   {
@@ -286,8 +277,7 @@
     ],
     "description": "A heavier, more powerful version of your average quarterstaff, the war staff is often used as a momentum-based weapon.",
     "location": [
-      "Random drops",
-      "Woodwork (Lv3)"
+      "Random drops Woodwork (Lv3)"
     ]
   },
   {
@@ -323,8 +313,7 @@
     ],
     "description": "This spear draws out and absorbs Focus from enemy wounds.",
     "location": [
-      "Random drops",
-      "Metalwork (Lv4)"
+      "Random drops Metalwork (Lv4)"
     ]
   },
   {
@@ -355,8 +344,7 @@
     ],
     "description": "An essence stealing demonic spear.",
     "location": [
-      "Random drops",
-      "Metalwork (Lv4)"
+      "Random drops Metalwork (Lv4)"
     ]
   },
   {
@@ -387,80 +375,39 @@
     ],
     "description": "From another world.",
     "location": [
-      "Random drops",
-      "Metalwork (Lv4)"
+      "Random drops Metalwork (Lv4)"
     ]
   },
   {
-    "id": "weapon:polearm:monk-priest-s-staff",
-    "name": "Monk Priest's Staff",
+    "id": "weapon:polearm:bamboo-bo",
+    "name": "Bamboo-Bo",
     "rarity": 5,
     "weaponType": "Polearm",
     "subtype": "Staff",
     "range": 1,
-    "power": 10,
+    "power": 8,
     "accuracy": 85,
     "critical": 0,
     "criticalDamage": 115,
-    "weight": 9,
+    "weight": 10,
     "damageType": "Blunt",
     "scaling": [
       {
-        "type": "Faithful",
-        "str": 50
-      },
-      {
-        "type": "Dextria-Light",
-        "fai": 70
-      }
-    ],
-    "specials": [
-      {
-        "name": "Sanctify",
-        "type": "PotentialSkill",
-        "description": "Targets a 1 Range diamond around your position and removes most special effects tiles inside of it, destroying them, and creates a Sanctuary for 3 rounds with LV X (X = 1 + Power upgrade of Monk-Priest's Staff). Requires 2 durability to use and will fail if below that."
-      }
-    ],
-    "description": "A staff used by priests. When slammed into the ground, it makes a distinctive jingle.",
-    "location": [
-      "Random drops",
-      "Woodwork (Lv3)"
-    ]
-  },
-  {
-    "id": "weapon:polearm:pilfer-spear",
-    "name": "Pilfer Spear",
-    "rarity": 5,
-    "weaponType": "Polearm",
-    "range": 1,
-    "power": 9,
-    "accuracy": 85,
-    "critical": 5,
-    "criticalDamage": 115,
-    "weight": 10,
-    "damageType": "Pierce",
-    "scaling": [
-      {
-        "type": "Cunning",
+        "type": "Finesse",
         "str": 70,
-        "gui": 40
+        "ski": 30
       }
     ],
     "specials": [
       {
-        "name": "Steal Bonus",
+        "name": "Pole Slots",
         "type": "Passive",
-        "description": "Increases Steal's success rate by 15%."
-      },
-      {
-        "name": "Pilfer",
-        "type": "PotentialSkill",
-        "description": "Targets one enemy within 1 Range. Messes with the target's inventory, preventing them from using items for 2 rounds."
+        "description": "Has two pole slots."
       }
     ],
-    "description": "Poke 'em and keep what sticks.",
+    "description": "A hard, wooden bo staff. It is about as long as a spear, but has no spearhead.",
     "location": [
-      "Random drops"
+      "Random drops Woodwork (Lv4)"
     ]
   },
   {
@@ -500,36 +447,110 @@
     ]
   },
   {
-    "id": "weapon:polearm:bamboo-bo",
-    "name": "Bamboo-Bo",
+    "id": "weapon:polearm:king-fisher",
+    "name": "King Fisher",
     "rarity": 5,
     "weaponType": "Polearm",
-    "subtype": "Staff",
-    "range": 1,
-    "power": 8,
+    "range": 3,
+    "power": 4,
     "accuracy": 85,
     "critical": 0,
     "criticalDamage": 115,
-    "weight": 10,
-    "damageType": "Blunt",
+    "weight": 5,
+    "damageType": "Pierce",
     "scaling": [
       {
-        "type": "Finesse",
-        "str": 70,
-        "ski": 30
+        "type": "Vampiric",
+        "str": 80,
+        "vit": 30
       }
     ],
     "specials": [
       {
-        "name": "Pole Slots",
+        "name": "Passive",
         "type": "Passive",
-        "description": "Has two pole slots."
+        "description": "+1 Attack Range if weapon made of Thinsteel."
+      },
+      {
+        "name": "Passive",
+        "type": "Passive",
+        "description": "On Hit: Apply or power up String Attached (LV 1, max 4, 3 rounds). Only 1 string can attached per action (even if you have multiple Puppet Strings equipped, or attack with it multiple times)."
       }
     ],
-    "description": "A hard, wooden bo staff. It is about as long as a spear, but has no spearhead.",
+    "description": "1 Momentum, 0 FP, 5 range, 1 round CD With a feather-like texture, you'd think this whip would be soft, but being struck by it is anything but. In fact, the more it strikes, the wilder it gets, kicking up the winds around you.",
     "location": [
-      "Random drops",
-      "Woodwork (Lv4)"
+      "Random Drops"
+    ]
+  },
+  {
+    "id": "weapon:polearm:monk-priest-s-staff",
+    "name": "Monk Priest's Staff",
+    "rarity": 5,
+    "weaponType": "Polearm",
+    "subtype": "Staff",
+    "range": 1,
+    "power": 10,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 115,
+    "weight": 9,
+    "damageType": "Blunt",
+    "scaling": [
+      {
+        "type": "Faithful",
+        "str": 50
+      },
+      {
+        "type": "Dextria-Light",
+        "fai": 70
+      }
+    ],
+    "specials": [
+      {
+        "name": "Sanctify",
+        "type": "PotentialSkill",
+        "description": "Targets a 1 Range diamond around your position and removes most special effects tiles inside of it, destroying them, and creates a Sanctuary for 3 rounds with LV X (X = 1 + Power upgrade of Monk-Priest's Staff). Requires 2 durability to use and will fail if below that."
+      }
+    ],
+    "description": "A staff used by priests. When slammed into the ground, it makes a distinctive jingle.",
+    "location": [
+      "Random drops Woodwork (Lv3)"
+    ]
+  },
+  {
+    "id": "weapon:polearm:pilfer-spear",
+    "name": "Pilfer Spear",
+    "rarity": 5,
+    "weaponType": "Polearm",
+    "range": 1,
+    "power": 9,
+    "accuracy": 85,
+    "critical": 5,
+    "criticalDamage": 115,
+    "weight": 10,
+    "damageType": "Pierce",
+    "scaling": [
+      {
+        "type": "Cunning",
+        "str": 70,
+        "gui": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Steal Bonus",
+        "type": "Passive",
+        "description": "Increases Steal's success rate by 15%."
+      },
+      {
+        "name": "Pilfer",
+        "type": "PotentialSkill",
+        "description": "Targets one enemy within 1 Range. Messes with the target's inventory, preventing them from using items for 2 rounds."
+      }
+    ],
+    "description": "Poke 'em and keep what sticks.",
+    "location": [
+      "Random drops"
     ]
   },
   {
@@ -606,7 +627,7 @@
         "description": "Shared Potential Skill. Charge Weapon FP cost is increased to 8 FP. Attacks do not use up all of your charges, instead the LV is reduced by 1, and the damage bonus is 35% (does not increase with charge amount like normal Excel attacks)."
       }
     ],
-    "description": "The Excel line of weapons were developed in Chaturanga, where the ability to be defensive while increasing offensive capabilities was highly valued. By charging up the weapon, it can explosively spend the focus energy when it strikes an enemy, greatly increasing damage. However, the engine module makes it heavier than other weapons.",
+    "description": "3 Momentum, 5 FP The Excel line of weapons were developed in Chaturanga, where the ability to be defensive while increasing offensive capabilities was highly valued. By charging up the weapon, it can explosively spend the focus energy when it strikes an enemy, greatly increasing damage. However, the engine module makes it heavier than other weapons.",
     "location": [
       "Random drops"
     ]
@@ -719,38 +740,6 @@
     ]
   },
   {
-    "id": "weapon:polearm:magical-moon",
-    "name": "Magical Moon",
-    "rarity": 7,
-    "weaponType": "Polearm",
-    "range": 1,
-    "power": 11,
-    "accuracy": 85,
-    "critical": 0,
-    "criticalDamage": 115,
-    "weight": 10,
-    "damageType": "Pierce",
-    "scaling": [
-      {
-        "type": "Magical",
-        "str": 70,
-        "wil": 40
-      }
-    ],
-    "specials": [
-      {
-        "name": "Spelledge",
-        "type": "Passive",
-        "description": "This weapon can be used as a casting tool for spells."
-      }
-    ],
-    "description": "Suitable for dishing out punishment in the names of things. Will not help you transform, however.",
-    "location": [
-      "Random drops",
-      "Metalwork (Lv5)"
-    ]
-  },
-  {
     "id": "weapon:polearm:abberation-spear",
     "name": "Abberation Spear",
     "rarity": 7,
@@ -788,81 +777,7 @@
     ],
     "description": "Said to be made from the finely-honed body of a demonic insect, this spear's wrath can be felt by touch.",
     "location": [
-      "Random drops",
-      "Metalwork (Lv4)"
-    ]
-  },
-  {
-    "id": "weapon:polearm:deadly-smile",
-    "name": "Deadly Smile",
-    "rarity": 7,
-    "weaponType": "Polearm",
-    "range": 1,
-    "power": 10,
-    "accuracy": 85,
-    "critical": 0,
-    "criticalDamage": 115,
-    "weight": 14,
-    "damageType": "Pierce",
-    "scaling": [
-      {
-        "type": "Earthen",
-        "str": 70,
-        "def": 40
-      }
-    ],
-    "specials": [
-      {
-        "name": "Fear Knockdown",
-        "type": "OnCrit",
-        "description": "If target is Feared, they are Knocked Down."
-      },
-      {
-        "name": "Jolly Slaughter",
-        "type": "PotentialSkill",
-        "description": "Dance skill. Hop in place in a taunting manner while making snipping noises, removing Knockdown Immunity from all enemies (excluding bosses). Enemies within 4 Range of you may be inflicted with Fear for 3 rounds; if your Deadly Smile is Cursed or Doomed, you also perform a basic attack with it on an enemy Feared by you within 1 Range (50% damage)."
-      }
-    ],
-    "description": "A discarded weapon of a crazed, deformed child murderer. While not extremely deadly, it preys on the psychological weakness of its victims.",
-    "location": [
-      "Random drops"
-    ]
-  },
-  {
-    "id": "weapon:polearm:sea-hunter-spear",
-    "name": "Sea Hunter Spear",
-    "rarity": 7,
-    "weaponType": "Polearm",
-    "subtype": "Greatlance",
-    "range": 1,
-    "power": 12,
-    "accuracy": 85,
-    "critical": 7,
-    "criticalDamage": 115,
-    "weight": 11,
-    "damageType": "Pierce",
-    "scaling": [
-      {
-        "type": "Aquatic",
-        "str": 70,
-        "vit": 40
-      }
-    ],
-    "specials": [
-      {
-        "name": "Hunted",
-        "type": "OnHit",
-        "description": "Inflicts Hunted LV14 for 3 rounds if the target is a seafaring monster."
-      },
-      {
-        "name": "Coral Material",
-        "type": "Passive",
-        "description": "Always comes made of Coral. (+1 Power, +3 Accuracy, +3 Critical, +1 Weight, +3 Water ATK.)"
-      }
-    ],
-    "description": "This spear was born from the sea, and as anyone who lives there knows, anything that lives in the sea is out to get everything else... that lives in the sea.",
-    "location": [
-      "Fishing Contest Chest"
+      "Random drops Metalwork (Lv4)"
     ]
   },
   {
@@ -909,6 +824,42 @@
     ]
   },
   {
+    "id": "weapon:polearm:deadly-smile",
+    "name": "Deadly Smile",
+    "rarity": 7,
+    "weaponType": "Polearm",
+    "range": 1,
+    "power": 10,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 115,
+    "weight": 14,
+    "damageType": "Pierce",
+    "scaling": [
+      {
+        "type": "Earthen",
+        "str": 70,
+        "def": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Fear Knockdown",
+        "type": "OnCrit",
+        "description": "If target is Feared, they are Knocked Down."
+      },
+      {
+        "name": "Jolly Slaughter",
+        "type": "PotentialSkill",
+        "description": "Dance skill. Hop in place in a taunting manner while making snipping noises, removing Knockdown Immunity from all enemies (excluding bosses). Enemies within 4 Range of you may be inflicted with Fear for 3 rounds; if your Deadly Smile is Cursed or Doomed, you also perform a basic attack with it on an enemy Feared by you within 1 Range (50% damage)."
+      }
+    ],
+    "description": "A discarded weapon of a crazed, deformed child murderer. While not extremely deadly, it preys on the psychological weakness of its victims.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
     "id": "weapon:polearm:lorelei",
     "name": "Lorelei",
     "rarity": 7,
@@ -936,8 +887,75 @@
     ],
     "description": "A water-dancer's spear. As gracefully as they moved, the water was inspired to join.",
     "location": [
-      "Korvara Puzzle",
-      "Metalwork (Lv3)"
+      "Korvara Puzzle Metalwork (Lv3)"
+    ]
+  },
+  {
+    "id": "weapon:polearm:magical-moon",
+    "name": "Magical Moon",
+    "rarity": 7,
+    "weaponType": "Polearm",
+    "range": 1,
+    "power": 11,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 115,
+    "weight": 10,
+    "damageType": "Pierce",
+    "scaling": [
+      {
+        "type": "Magical",
+        "str": 70,
+        "wil": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Spelledge",
+        "type": "Passive",
+        "description": "This weapon can be used as a casting tool for spells."
+      }
+    ],
+    "description": "Suitable for dishing out punishment in the names of things. Will not help you transform, however.",
+    "location": [
+      "Random drops Metalwork (Lv5)"
+    ]
+  },
+  {
+    "id": "weapon:polearm:sea-hunter-spear",
+    "name": "Sea Hunter Spear",
+    "rarity": 7,
+    "weaponType": "Polearm",
+    "subtype": "Greatlance",
+    "range": 1,
+    "power": 12,
+    "accuracy": 85,
+    "critical": 7,
+    "criticalDamage": 115,
+    "weight": 11,
+    "damageType": "Pierce",
+    "scaling": [
+      {
+        "type": "Aquatic",
+        "str": 70,
+        "vit": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Hunted",
+        "type": "OnHit",
+        "description": "Inflicts Hunted LV14 for 3 rounds if the target is a seafaring monster."
+      },
+      {
+        "name": "Coral Material",
+        "type": "Passive",
+        "description": "Always comes made of Coral. (+1 Power, +3 Accuracy, +3 Critical, +1 Weight, +3 Water ATK.)"
+      }
+    ],
+    "description": "This spear was born from the sea, and as anyone who lives there knows, anything that lives in the sea is out to get everything else... that lives in the sea.",
+    "location": [
+      "Fishing Contest Chest"
     ]
   },
   {
@@ -1010,107 +1028,8 @@
     ]
   },
   {
-    "id": "weapon:polearm:knight-slayer",
-    "name": "Knight Slayer",
-    "rarity": 9,
-    "weaponType": "Polearm",
-    "subtype": "Greatlance",
-    "range": 1,
-    "power": 14,
-    "accuracy": 85,
-    "critical": 0,
-    "criticalDamage": 115,
-    "weight": 15,
-    "damageType": "Pierce",
-    "scaling": [
-      {
-        "type": "Basic",
-        "str": 100
-      }
-    ],
-    "specials": [
-      {
-        "name": "Heavy Armor Bonus",
-        "type": "Passive",
-        "description": "Increases Scaled Weapon ATK by 20% if the target's armor type is Heavy Armor."
-      }
-    ],
-    "description": "A spear made to pierce heavy armor and not much else.",
-    "location": [
-      "Random drops"
-    ]
-  },
-  {
-    "id": "weapon:polearm:gae-baed",
-    "name": "Gae Baed",
-    "rarity": 9,
-    "weaponType": "Polearm",
-    "range": 1,
-    "power": 13,
-    "accuracy": 85,
-    "critical": 0,
-    "criticalDamage": 115,
-    "weight": 14,
-    "damageType": "Pierce",
-    "scaling": [
-      {
-        "type": "Cunning",
-        "str": 70,
-        "gui": 40
-      }
-    ],
-    "specials": [
-      {
-        "name": "Cursed Wound",
-        "type": "OnHit",
-        "description": "Inflicts or powers up Cursed Wound by 10 LV for 3 rounds. (Cursed Wound lowers the target's maximum HP by LV.)"
-      },
-      {
-        "name": "Cursed Thrust",
-        "type": "SpecialStrike",
-        "description": "Triggers before an enemy is attacked. Increases the damage the attack deals by 15, and if it hits, applies or powers up Cursed Wound LV X (X = 75 + 25 per Curse status effect on the target) (3 rounds) to the target.",
-        "triggerRate": "10% + 8% Bonus",
-        "cooldown": 2
-      }
-    ],
-    "description": "One of a set of spears said to be made from Zera's remains, the Gae Baed inflicts wounds that never heal. Either due to being an imitation, or age, that effect is weakened on this particular spear.",
-    "location": [
-      "Random drops"
-    ]
-  },
-  {
-    "id": "weapon:polearm:red-argus",
-    "name": "Red Argus",
-    "rarity": 9,
-    "weaponType": "Polearm",
-    "range": 1,
-    "power": 9,
-    "accuracy": 85,
-    "critical": 0,
-    "criticalDamage": 115,
-    "weight": 14,
-    "damageType": "Pierce",
-    "scaling": [
-      {
-        "type": "Basic",
-        "str": 100
-      }
-    ],
-    "specials": [
-      {
-        "name": "Dual Type",
-        "type": "Passive",
-        "description": "Also qualifies as a Axe weapon."
-      }
-    ],
-    "description": "Named after a barbarian who was only limited by his conflict between stabbing and chopping his enemies.",
-    "location": [
-      "Random drops"
-    ]
-  },
-  {
-    "id": "weapon:polearm:ruby-head-staff",
-    "name": "Ruby-Head Staff",
+    "id": "weapon:polearm:aerialite-head-staff",
+    "name": "Aerialite-Head Staff",
     "rarity": 9,
     "weaponType": "Polearm",
     "subtype": "Staff",
@@ -1120,12 +1039,12 @@
     "critical": 0,
     "criticalDamage": 115,
     "weight": 6,
-    "damageType": "Fire",
+    "damageType": "Light",
     "scaling": [
       {
-        "type": "Flamelit",
+        "type": "Faithful",
         "wil": 70,
-        "str": 40
+        "fai": 40
       }
     ],
     "specials": [
@@ -1135,153 +1054,19 @@
         "description": "This weapon can be used as a casting tool for spells."
       },
       {
-        "name": "Fire ATK Bonus",
+        "name": "Light ATK Bonus",
         "type": "Passive",
-        "description": "+5 Fire ATK."
+        "description": "+5 Light ATK."
       },
       {
-        "name": "Deploy Talis (Ruby)",
-        "type": "GrantsSkill",
-        "description": "Creates (or moves, if already active) a Ruby talis at target location within 5 Range. While active, the talis becomes the center point for Nerifian spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)",
-        "momentumCost": 3,
-        "fpCost": 5
+        "name": "Magic Stone Power",
+        "type": "Passive",
+        "description": "Allows you to use the power of the magic stone in battle on a 10-round cooldown. This cooldown is halved if this weapon has the Jeweled enchantment. (This does not use up a magic stone item or require one to be equipped in your item belt.) (Aerialite (Staff): 1M. Magic stone. Forces the target to become Airborne and creates an Air Shaft at their location for 2 rounds.)"
       }
     ],
     "description": "The head of this staff shows off a shiny, magical gem. Its magical power is obvious.",
     "location": [
-      "Woodwork (Lv5)"
-    ]
-  },
-  {
-    "id": "weapon:polearm:sapphire-head-staff",
-    "name": "Sapphire-Head Staff",
-    "rarity": 9,
-    "weaponType": "Polearm",
-    "subtype": "Staff",
-    "range": 1,
-    "power": 9,
-    "accuracy": 85,
-    "critical": 0,
-    "criticalDamage": 115,
-    "weight": 6,
-    "damageType": "Ice",
-    "scaling": [
-      {
-        "type": "Cold",
-        "wil": 70,
-        "ski": 40
-      }
-    ],
-    "specials": [
-      {
-        "name": "Spelledge",
-        "type": "Passive",
-        "description": "This weapon can be used as a casting tool for spells."
-      },
-      {
-        "name": "Ice ATK Bonus",
-        "type": "Passive",
-        "description": "+5 Ice ATK."
-      },
-      {
-        "name": "Deploy Talis (Sapphire)",
-        "type": "GrantsSkill",
-        "description": "Creates (or moves, if already active) a Sapphire talis at target location within 5 Range. While active, the talis becomes the center point for Aquarian spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)",
-        "momentumCost": 3,
-        "fpCost": 5
-      }
-    ],
-    "description": "The head of this staff shows off a shiny, magical gem. Its magical power is obvious.",
-    "location": [
-      "Woodwork (Lv5)"
-    ]
-  },
-  {
-    "id": "weapon:polearm:emerald-head-staff",
-    "name": "Emerald-Head Staff",
-    "rarity": 9,
-    "weaponType": "Polearm",
-    "subtype": "Staff",
-    "range": 1,
-    "power": 9,
-    "accuracy": 85,
-    "critical": 0,
-    "criticalDamage": 115,
-    "weight": 6,
-    "damageType": "Wind",
-    "scaling": [
-      {
-        "type": "Sylphid",
-        "wil": 70,
-        "cel": 40
-      }
-    ],
-    "specials": [
-      {
-        "name": "Spelledge",
-        "type": "Passive",
-        "description": "This weapon can be used as a casting tool for spells."
-      },
-      {
-        "name": "Wind ATK Bonus",
-        "type": "Passive",
-        "description": "+5 Wind ATK."
-      },
-      {
-        "name": "Deploy Talis (Emerald)",
-        "type": "GrantsSkill",
-        "description": "Creates (or moves, if already active) a Emerald talis at target location within 5 Range. While active, the talis becomes the center point for Sylphid spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)",
-        "momentumCost": 3,
-        "fpCost": 5
-      }
-    ],
-    "description": "The head of this staff shows off a shiny, magical gem. Its magical power is obvious.",
-    "location": [
-      "Woodwork (Lv5)"
-    ]
-  },
-  {
-    "id": "weapon:polearm:topaz-head-staff",
-    "name": "Topaz-Head Staff",
-    "rarity": 9,
-    "weaponType": "Polearm",
-    "subtype": "Staff",
-    "range": 1,
-    "power": 9,
-    "accuracy": 85,
-    "critical": 0,
-    "criticalDamage": 115,
-    "weight": 6,
-    "damageType": "Lightning",
-    "scaling": [
-      {
-        "type": "Electrical",
-        "wil": 70,
-        "luc": 40
-      }
-    ],
-    "specials": [
-      {
-        "name": "Spelledge",
-        "type": "Passive",
-        "description": "This weapon can be used as a casting tool for spells."
-      },
-      {
-        "name": "Lightning ATK Bonus",
-        "type": "Passive",
-        "description": "+5 Lightning ATK."
-      },
-      {
-        "name": "Deploy Talis (Topaz)",
-        "type": "GrantsSkill",
-        "description": "Creates (or moves, if already active) a Topaz talis at target location within 5 Range. While active, the talis becomes the center point for Nature spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)",
-        "momentumCost": 3,
-        "fpCost": 5
-      }
-    ],
-    "description": "The head of this staff shows off a shiny, magical gem. Its magical power is obvious.",
-    "location": [
-      "Woodwork (Lv5)"
+      "Woodwork (Lv6)"
     ]
   },
   {
@@ -1323,95 +1108,7 @@
         "fpCost": 5
       }
     ],
-    "description": "The head of this staff shows off a shiny, magical gem. Its magical power is obvious.",
-    "location": [
-      "Woodwork (Lv5)"
-    ]
-  },
-  {
-    "id": "weapon:polearm:onyx-head-staff",
-    "name": "Onyx-Head Staff",
-    "rarity": 9,
-    "weaponType": "Polearm",
-    "subtype": "Staff",
-    "range": 1,
-    "power": 9,
-    "accuracy": 85,
-    "critical": 0,
-    "criticalDamage": 115,
-    "weight": 6,
-    "damageType": "Darkness",
-    "scaling": [
-      {
-        "type": "Darkness",
-        "wil": 70,
-        "res": 40
-      }
-    ],
-    "specials": [
-      {
-        "name": "Spelledge",
-        "type": "Passive",
-        "description": "This weapon can be used as a casting tool for spells."
-      },
-      {
-        "name": "Darkness ATK Bonus",
-        "type": "Passive",
-        "description": "+5 Darkness ATK."
-      },
-      {
-        "name": "Deploy Talis (Onyx)",
-        "type": "GrantsSkill",
-        "description": "Creates (or moves, if already active) a Onyx talis at target location within 5 Range. While active, the talis becomes the center point for Huggesoan spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)",
-        "momentumCost": 3,
-        "fpCost": 5
-      }
-    ],
-    "description": "The head of this staff shows off a shiny, magical gem. Its magical power is obvious.",
-    "location": [
-      "Woodwork (Lv5)"
-    ]
-  },
-  {
-    "id": "weapon:polearm:diamond-head-staff",
-    "name": "Diamond-Head Staff",
-    "rarity": 9,
-    "weaponType": "Polearm",
-    "subtype": "Staff",
-    "range": 1,
-    "power": 9,
-    "accuracy": 85,
-    "critical": 0,
-    "criticalDamage": 115,
-    "weight": 6,
-    "damageType": "Light",
-    "scaling": [
-      {
-        "type": "Faithful",
-        "wil": 70,
-        "fai": 40
-      }
-    ],
-    "specials": [
-      {
-        "name": "Spelledge",
-        "type": "Passive",
-        "description": "This weapon can be used as a casting tool for spells."
-      },
-      {
-        "name": "Light ATK Bonus",
-        "type": "Passive",
-        "description": "+5 Light ATK."
-      },
-      {
-        "name": "Deploy Talis (Diamond)",
-        "type": "GrantsSkill",
-        "description": "Creates (or moves, if already active) a Diamond talis at target location within 5 Range. While active, the talis becomes the center point for Mercalan spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)",
-        "momentumCost": 3,
-        "fpCost": 5
-      }
-    ],
-    "description": "The head of this staff shows off a shiny, magical gem. Its magical power is obvious.",
+    "description": "3 Momentum, 5 FP. The head of this staff shows off a shiny, magical gem. Its magical power is obvious.",
     "location": [
       "Woodwork (Lv5)"
     ]
@@ -1455,51 +1152,9 @@
         "fpCost": 5
       }
     ],
-    "description": "The head of this staff shows off a shiny, magical gem. Its magical power is obvious.",
+    "description": "3 Momentum, 5 FP. The head of this staff shows off a shiny, magical gem. Its magical power is obvious.",
     "location": [
       "Woodwork (Lv5)"
-    ]
-  },
-  {
-    "id": "weapon:polearm:aerialite-head-staff",
-    "name": "Aerialite-Head Staff",
-    "rarity": 9,
-    "weaponType": "Polearm",
-    "subtype": "Staff",
-    "range": 1,
-    "power": 9,
-    "accuracy": 85,
-    "critical": 0,
-    "criticalDamage": 115,
-    "weight": 6,
-    "damageType": "Light",
-    "scaling": [
-      {
-        "type": "Faithful",
-        "wil": 70,
-        "fai": 40
-      }
-    ],
-    "specials": [
-      {
-        "name": "Spelledge",
-        "type": "Passive",
-        "description": "This weapon can be used as a casting tool for spells."
-      },
-      {
-        "name": "Light ATK Bonus",
-        "type": "Passive",
-        "description": "+5 Light ATK."
-      },
-      {
-        "name": "Magic Stone Power",
-        "type": "Passive",
-        "description": "Allows you to use the power of the magic stone in battle on a 10-round cooldown. This cooldown is halved if this weapon has the Jeweled enchantment. (This does not use up a magic stone item or require one to be equipped in your item belt.) (Aerialite (Staff): 1M. Magic stone. Forces the target to become Airborne and creates an Air Shaft at their location for 2 rounds.)"
-      }
-    ],
-    "description": "The head of this staff shows off a shiny, magical gem. Its magical power is obvious.",
-    "location": [
-      "Woodwork (Lv6)"
     ]
   },
   {
@@ -1542,6 +1197,94 @@
     "description": "The head of this staff shows off a shiny, magical gem. Its magical power is obvious.",
     "location": [
       "Woodwork (Lv6)"
+    ]
+  },
+  {
+    "id": "weapon:polearm:diamond-head-staff",
+    "name": "Diamond-Head Staff",
+    "rarity": 9,
+    "weaponType": "Polearm",
+    "subtype": "Staff",
+    "range": 1,
+    "power": 9,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 115,
+    "weight": 6,
+    "damageType": "Light",
+    "scaling": [
+      {
+        "type": "Faithful",
+        "wil": 70,
+        "fai": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Spelledge",
+        "type": "Passive",
+        "description": "This weapon can be used as a casting tool for spells."
+      },
+      {
+        "name": "Light ATK Bonus",
+        "type": "Passive",
+        "description": "+5 Light ATK."
+      },
+      {
+        "name": "Deploy Talis (Diamond)",
+        "type": "GrantsSkill",
+        "description": "Creates (or moves, if already active) a Diamond talis at target location within 5 Range. While active, the talis becomes the center point for Mercalan spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)",
+        "momentumCost": 3,
+        "fpCost": 5
+      }
+    ],
+    "description": "3 Momentum, 5 FP. The head of this staff shows off a shiny, magical gem. Its magical power is obvious.",
+    "location": [
+      "Woodwork (Lv5)"
+    ]
+  },
+  {
+    "id": "weapon:polearm:emerald-head-staff",
+    "name": "Emerald-Head Staff",
+    "rarity": 9,
+    "weaponType": "Polearm",
+    "subtype": "Staff",
+    "range": 1,
+    "power": 9,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 115,
+    "weight": 6,
+    "damageType": "Wind",
+    "scaling": [
+      {
+        "type": "Sylphid",
+        "wil": 70,
+        "cel": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Spelledge",
+        "type": "Passive",
+        "description": "This weapon can be used as a casting tool for spells."
+      },
+      {
+        "name": "Wind ATK Bonus",
+        "type": "Passive",
+        "description": "+5 Wind ATK."
+      },
+      {
+        "name": "Deploy Talis (Emerald)",
+        "type": "GrantsSkill",
+        "description": "Creates (or moves, if already active) a Emerald talis at target location within 5 Range. While active, the talis becomes the center point for Sylphid spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)",
+        "momentumCost": 3,
+        "fpCost": 5
+      }
+    ],
+    "description": "3 Momentum, 5 FP. The head of this staff shows off a shiny, magical gem. Its magical power is obvious.",
+    "location": [
+      "Woodwork (Lv5)"
     ]
   },
   {
@@ -1629,6 +1372,75 @@
     ]
   },
   {
+    "id": "weapon:polearm:gae-baed",
+    "name": "Gae Baed",
+    "rarity": 9,
+    "weaponType": "Polearm",
+    "range": 1,
+    "power": 13,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 115,
+    "weight": 14,
+    "damageType": "Pierce",
+    "scaling": [
+      {
+        "type": "Cunning",
+        "str": 70,
+        "gui": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Cursed Wound",
+        "type": "OnHit",
+        "description": "Inflicts or powers up Cursed Wound by 10 LV for 3 rounds. (Cursed Wound lowers the target's maximum HP by LV.)"
+      },
+      {
+        "name": "Cursed Thrust",
+        "type": "SpecialStrike",
+        "description": "Triggers before an enemy is attacked. Increases the damage the attack deals by 15, and if it hits, applies or powers up Cursed Wound LV X (X = 75 + 25 per Curse status effect on the target) (3 rounds) to the target.",
+        "triggerRate": "10% + 8% Bonus",
+        "cooldown": 2
+      }
+    ],
+    "description": "One of a set of spears said to be made from Zera's remains, the Gae Baed inflicts wounds that never heal. Either due to being an imitation, or age, that effect is weakened on this particular spear.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:polearm:knight-slayer",
+    "name": "Knight Slayer",
+    "rarity": 9,
+    "weaponType": "Polearm",
+    "subtype": "Greatlance",
+    "range": 1,
+    "power": 14,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 115,
+    "weight": 15,
+    "damageType": "Pierce",
+    "scaling": [
+      {
+        "type": "Basic",
+        "str": 100
+      }
+    ],
+    "specials": [
+      {
+        "name": "Heavy Armor Bonus",
+        "type": "Passive",
+        "description": "Increases Scaled Weapon ATK by 20% if the target's armor type is Heavy Armor."
+      }
+    ],
+    "description": "A spear made to pierce heavy armor and not much else.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
     "id": "weapon:polearm:morganite-head-staff",
     "name": "Morganite-Head Staff",
     "rarity": 9,
@@ -1668,6 +1480,80 @@
     "description": "The head of this staff shows off a shiny, magical gem. Its magical power is obvious.",
     "location": [
       "Woodwork (Lv6)"
+    ]
+  },
+  {
+    "id": "weapon:polearm:onyx-head-staff",
+    "name": "Onyx-Head Staff",
+    "rarity": 9,
+    "weaponType": "Polearm",
+    "subtype": "Staff",
+    "range": 1,
+    "power": 9,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 115,
+    "weight": 6,
+    "damageType": "Darkness",
+    "scaling": [
+      {
+        "type": "Darkness",
+        "wil": 70,
+        "res": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Spelledge",
+        "type": "Passive",
+        "description": "This weapon can be used as a casting tool for spells."
+      },
+      {
+        "name": "Darkness ATK Bonus",
+        "type": "Passive",
+        "description": "+5 Darkness ATK."
+      },
+      {
+        "name": "Deploy Talis (Onyx)",
+        "type": "GrantsSkill",
+        "description": "Creates (or moves, if already active) a Onyx talis at target location within 5 Range. While active, the talis becomes the center point for Huggesoan spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)",
+        "momentumCost": 3,
+        "fpCost": 5
+      }
+    ],
+    "description": "3 Momentum, 5 FP. The head of this staff shows off a shiny, magical gem. Its magical power is obvious.",
+    "location": [
+      "Woodwork (Lv5)"
+    ]
+  },
+  {
+    "id": "weapon:polearm:red-argus",
+    "name": "Red Argus",
+    "rarity": 9,
+    "weaponType": "Polearm",
+    "range": 1,
+    "power": 9,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 115,
+    "weight": 14,
+    "damageType": "Pierce",
+    "scaling": [
+      {
+        "type": "Basic",
+        "str": 100
+      }
+    ],
+    "specials": [
+      {
+        "name": "Dual Type",
+        "type": "Passive",
+        "description": "Also qualifies as a Axe weapon."
+      }
+    ],
+    "description": "Named after a barbarian who was only limited by his conflict between stabbing and chopping his enemies.",
+    "location": [
+      "Random drops"
     ]
   },
   {
@@ -1713,6 +1599,136 @@
     ]
   },
   {
+    "id": "weapon:polearm:roaring-rose",
+    "name": "Roaring Rose",
+    "rarity": 9,
+    "weaponType": "Polearm",
+    "range": 1,
+    "power": 9,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 115,
+    "weight": 12,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Cunning",
+        "str": 70,
+        "gui": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Dual Type",
+        "type": "Passive",
+        "description": "Also qualifies as a Gun weapon."
+      },
+      {
+        "name": "Reaping Petals",
+        "type": "GrantsSkill",
+        "description": "Performs a basic attack with the Roaring Rose by firing a bullet-like wrapping of petals at a target within 5 Range. (Roaring Rose has an increased distance before it is affected by Farshot Penalty, so fire away.)",
+        "momentumCost": 3
+      },
+      {
+        "name": "Cunning Rose",
+        "type": "PotentialSkill",
+        "description": "If the Duelist skill Vent Petale is active, you gain +5 GUI."
+      }
+    ],
+    "description": "3 Momentum. This beautiful scythe reminds all those it cuts down that roses sometimes chop your head off.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:polearm:ruby-head-staff",
+    "name": "Ruby-Head Staff",
+    "rarity": 9,
+    "weaponType": "Polearm",
+    "subtype": "Staff",
+    "range": 1,
+    "power": 9,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 115,
+    "weight": 6,
+    "damageType": "Fire",
+    "scaling": [
+      {
+        "type": "Flamelit",
+        "wil": 70,
+        "str": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Spelledge",
+        "type": "Passive",
+        "description": "This weapon can be used as a casting tool for spells."
+      },
+      {
+        "name": "Fire ATK Bonus",
+        "type": "Passive",
+        "description": "+5 Fire ATK."
+      },
+      {
+        "name": "Deploy Talis (Ruby)",
+        "type": "GrantsSkill",
+        "description": "Creates (or moves, if already active) a Ruby talis at target location within 5 Range. While active, the talis becomes the center point for Nerifian spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)",
+        "momentumCost": 3,
+        "fpCost": 5
+      }
+    ],
+    "description": "3 Momentum, 5 FP. The head of this staff shows off a shiny, magical gem. Its magical power is obvious.",
+    "location": [
+      "Woodwork (Lv5)"
+    ]
+  },
+  {
+    "id": "weapon:polearm:sapphire-head-staff",
+    "name": "Sapphire-Head Staff",
+    "rarity": 9,
+    "weaponType": "Polearm",
+    "subtype": "Staff",
+    "range": 1,
+    "power": 9,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 115,
+    "weight": 6,
+    "damageType": "Ice",
+    "scaling": [
+      {
+        "type": "Cold",
+        "wil": 70,
+        "ski": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Spelledge",
+        "type": "Passive",
+        "description": "This weapon can be used as a casting tool for spells."
+      },
+      {
+        "name": "Ice ATK Bonus",
+        "type": "Passive",
+        "description": "+5 Ice ATK."
+      },
+      {
+        "name": "Deploy Talis (Sapphire)",
+        "type": "GrantsSkill",
+        "description": "Creates (or moves, if already active) a Sapphire talis at target location within 5 Range. While active, the talis becomes the center point for Aquarian spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)",
+        "momentumCost": 3,
+        "fpCost": 5
+      }
+    ],
+    "description": "3 Momentum, 5 FP. The head of this staff shows off a shiny, magical gem. Its magical power is obvious.",
+    "location": [
+      "Woodwork (Lv5)"
+    ]
+  },
+  {
     "id": "weapon:polearm:tetraite-head-staff",
     "name": "Tetraite-Head Staff",
     "rarity": 9,
@@ -1755,45 +1771,88 @@
     ]
   },
   {
-    "id": "weapon:polearm:roaring-rose",
-    "name": "Roaring Rose",
+    "id": "weapon:polearm:topaz-head-staff",
+    "name": "Topaz-Head Staff",
     "rarity": 9,
     "weaponType": "Polearm",
+    "subtype": "Staff",
     "range": 1,
     "power": 9,
     "accuracy": 85,
     "critical": 0,
     "criticalDamage": 115,
-    "weight": 12,
-    "damageType": "Slash",
+    "weight": 6,
+    "damageType": "Lightning",
     "scaling": [
       {
-        "type": "Cunning",
-        "str": 70,
-        "gui": 40
+        "type": "Electrical",
+        "wil": 70,
+        "luc": 40
       }
     ],
     "specials": [
       {
-        "name": "Dual Type",
+        "name": "Spelledge",
         "type": "Passive",
-        "description": "Also qualifies as a Gun weapon."
+        "description": "This weapon can be used as a casting tool for spells."
       },
       {
-        "name": "Reaping Petals",
+        "name": "Lightning ATK Bonus",
+        "type": "Passive",
+        "description": "+5 Lightning ATK."
+      },
+      {
+        "name": "Deploy Talis (Topaz)",
         "type": "GrantsSkill",
-        "description": "Performs a basic attack with the Roaring Rose by firing a bullet-like wrapping of petals at a target within 5 Range. (Roaring Rose has an increased distance before it is affected by Farshot Penalty, so fire away.)",
-        "momentumCost": 3
-      },
-      {
-        "name": "Cunning Rose",
-        "type": "PotentialSkill",
-        "description": "If the Duelist skill Vent Petale is active, you gain +5 GUI."
+        "description": "Creates (or moves, if already active) a Topaz talis at target location within 5 Range. While active, the talis becomes the center point for Nature spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)",
+        "momentumCost": 3,
+        "fpCost": 5
       }
     ],
-    "description": "This beautiful scythe reminds all those it cuts down that roses sometimes chop your head off.",
+    "description": "3 Momentum, 5 FP. The head of this staff shows off a shiny, magical gem. Its magical power is obvious.",
     "location": [
-      "Random drops"
+      "Woodwork (Lv5)"
+    ]
+  },
+  {
+    "id": "weapon:polearm:eternal-servitude",
+    "name": "Eternal Servitude",
+    "rarity": 10,
+    "weaponType": "Polearm",
+    "subtype": "Staff",
+    "range": 1,
+    "power": 15,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 115,
+    "weight": 11,
+    "damageType": "Darkness",
+    "scaling": [
+      {
+        "type": "Darkness",
+        "str": 40,
+        "res": 40
+      },
+      {
+        "type": "Magical",
+        "wil": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Summon Wretch",
+        "type": "OnBattleStart",
+        "description": "If UL is at least 10 and fighting monsters, a Swarming Wretch appears and joins your battle as an ally."
+      },
+      {
+        "name": "Adon Graxis",
+        "type": "GrantsSkill",
+        "description": "This skill requires a Rank D Invocation. Cannot be used before Round 2. Unleashes pure darkness on the battlefield, tainting all enemies with curses and knocking them down. (All Lv5, duration 3: Noshka's Famine, Crippling Muysig, Frailty of Credwa, Fellel's Fumble, Plisfa's Masochism)"
+      }
+    ],
+    "description": "Dreadful light, limited beings, let it all be drowned out... Once you submit, there's no way to break free.",
+    "location": [
+      "G6 Only Necromancer (Lv56+)"
     ]
   },
   {
@@ -1825,6 +1884,91 @@
     "description": "A vampiric spear that absorbs focus in blood to restore the health of its wielder; users say they hear screams in their head, at times, and that the spear is possessed.",
     "location": [
       "Vampiric Legume (Lv56+)"
+    ]
+  },
+  {
+    "id": "weapon:polearm:gryphon-wing",
+    "name": "Gryphon Wing",
+    "rarity": 10,
+    "weaponType": "Polearm",
+    "subtype": "Whip",
+    "range": 5,
+    "power": 12,
+    "accuracy": 85,
+    "critical": 10,
+    "criticalDamage": 115,
+    "weight": 16,
+    "damageType": "Wind",
+    "scaling": [
+      {
+        "type": "Sylphid",
+        "str": 70,
+        "cel": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Wind ATK Bonus",
+        "type": "Passive",
+        "description": "Increases Wind ATK by UL/2. (Doesn't stack.)"
+      },
+      {
+        "name": "Gryphon Storm",
+        "type": "OnCrit",
+        "description": "Applies or powers up Gryphon Storm LV 5 to yourself for 5 rounds. (Max LV: 5 + UL)"
+      },
+      {
+        "name": "Gryphon Tempest",
+        "type": "GrantsSkill",
+        "description": "Whildly spin your Grypon Wing whip around you, kicking up a storm in a 3 Size Circle. Deals Wind magic damage around you, which can critically hit (can activate Gryphon Wing's On Critical effect, but only once per skill use). Creates an Air Shaft at your location for 3 rounds. If you have Grypon Storm, this skill gains additional effects based on its LV: LV5+: If you have an unsummoned Hippogriph (and can summon it), summons it to a tile near you. LV10+: +1 Circle Size. Chance to inflict Lingering Wind Damage LV X (X = Gryphon Storm LV) for 2 rounds.",
+        "momentumCost": 3,
+        "fpCost": 15
+      }
+    ],
+    "description": "3 Momentum, 15 FP. With a feather-like texture, you'd think this whip would be soft, but being struck by it is anything but. In fact, the more it strikes, the wilder it gets, kicking up the winds around you.",
+    "location": [
+      "Wild Hippogryph (Lv56+)"
+    ]
+  },
+  {
+    "id": "weapon:polearm:hundred-reflection-spear",
+    "name": "Hundred-Reflection Spear",
+    "rarity": 10,
+    "weaponType": "Polearm",
+    "range": 1,
+    "power": 15,
+    "accuracy": 85,
+    "critical": 10,
+    "criticalDamage": 115,
+    "weight": 10,
+    "damageType": "Pierce",
+    "scaling": [
+      {
+        "type": "Faithful",
+        "str": 70,
+        "fai": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Light Damage",
+        "type": "OnHit",
+        "description": "Deals magic Light bonus damage equal to UL, which ignores armor."
+      },
+      {
+        "name": "Status Copy",
+        "type": "OnCrit",
+        "description": "Copies a random, non-permanent, positive status effect the target has, except with a duration of 2 rounds. (3 Round CD)"
+      },
+      {
+        "name": "Mirror Knighting",
+        "type": "PotentialSkill",
+        "description": "Requires a Rank D Invocation. After casting, you will temporarily change into a Mirror Knight for 5 rounds. While you are a Mirror Knight, you gain +5 to all stats, and access to certain new skills. (Far-Off Shine: 3M, 10FP. Summons the appearance of a random person as a Mirror Soldier who aids the Mirror Knight in battle.) (Vanity: 3M, 5FP. A true mirror's reflection copies every detail. Upon use, the user gains a copy of positive status(es) all enemies have, except permanent ones, including the LV, duration, etc. (Mirror Armor: Grants a percentage of automatic retaliation of magic damage, based on level (max: 20%). Physical damage will shatter then mirrors for the rest of the round, preventing the retaliation effect, but will reduce the LUC of the damager for the rest of the battle, as breaking mirrors is unlucky.)"
+      }
+    ],
+    "description": "A flash of brilliance in a shallow pond... A prism of pain that reflects the faces of agony that it inflicts upon your foes.",
+    "location": [
+      "Mirror Knight (Lv56+)"
     ]
   },
   {
@@ -1942,135 +2086,9 @@
         "fpCost": 10
       }
     ],
-    "description": "This spear has wings, no bulls required. They almost seem... alive, in a way, it's disturbing. But whatever magic holds it together will let you use those wings almost as if they were your own. That, and the spear is capable of flying quite far and returning, in a special type of attack.",
+    "description": "3 Momentum, 10 FP This spear has wings, no bulls required. They almost seem... alive, in a way, it's disturbing. But whatever magic holds it together will let you use those wings almost as if they were your own. That, and the spear is capable of flying quite far and returning, in a special type of attack.",
     "location": [
       "Animated Sword (Lv56+)"
-    ]
-  },
-  {
-    "id": "weapon:polearm:eternal-servitude",
-    "name": "Eternal Servitude",
-    "rarity": 10,
-    "weaponType": "Polearm",
-    "subtype": "Staff",
-    "range": 1,
-    "power": 15,
-    "accuracy": 85,
-    "critical": 0,
-    "criticalDamage": 115,
-    "weight": 11,
-    "damageType": "Darkness",
-    "scaling": [
-      {
-        "type": "Darkness",
-        "str": 40,
-        "res": 40
-      },
-      {
-        "type": "Magical",
-        "wil": 40
-      }
-    ],
-    "specials": [
-      {
-        "name": "Summon Wretch",
-        "type": "OnBattleStart",
-        "description": "If UL is at least 10 and fighting monsters, a Swarming Wretch appears and joins your battle as an ally."
-      },
-      {
-        "name": "Adon Graxis",
-        "type": "GrantsSkill",
-        "description": "This skill requires a Rank D Invocation. Cannot be used before Round 2. Unleashes pure darkness on the battlefield, tainting all enemies with curses and knocking them down. (All Lv5, duration 3: Noshka's Famine, Crippling Muysig, Frailty of Credwa, Fellel's Fumble, Plisfa's Masochism)"
-      }
-    ],
-    "description": "Dreadful light, limited beings, let it all be drowned out... Once you submit, there's no way to break free.",
-    "location": [
-      "G6 Only - Necromancer (Lv56+)"
-    ]
-  },
-  {
-    "id": "weapon:polearm:hundred-reflection-spear",
-    "name": "Hundred-Reflection Spear",
-    "rarity": 10,
-    "weaponType": "Polearm",
-    "range": 1,
-    "power": 15,
-    "accuracy": 85,
-    "critical": 10,
-    "criticalDamage": 115,
-    "weight": 10,
-    "damageType": "Pierce",
-    "scaling": [
-      {
-        "type": "Faithful",
-        "str": 70,
-        "fai": 40
-      }
-    ],
-    "specials": [
-      {
-        "name": "Light Damage",
-        "type": "OnHit",
-        "description": "Deals magic Light bonus damage equal to UL, which ignores armor."
-      },
-      {
-        "name": "Status Copy",
-        "type": "OnCrit",
-        "description": "Copies a random, non-permanent, positive status effect the target has, except with a duration of 2 rounds. (3 Round CD)"
-      },
-      {
-        "name": "Mirror Knighting",
-        "type": "PotentialSkill",
-        "description": "Requires a Rank D Invocation. After casting, you will temporarily change into a Mirror Knight for 5 rounds. While you are a Mirror Knight, you gain +5 to all stats, and access to certain new skills. (Far-Off Shine: 3M, 10FP. Summons the appearance of a random person as a Mirror Soldier who aids the Mirror Knight in battle.) (Vanity: 3M, 5FP. A true mirror's reflection copies every detail. Upon use, the user gains a copy of positive status(es) all enemies have, except permanent ones, including the LV, duration, etc. (Mirror Armor: Grants a percentage of automatic retaliation of magic damage, based on level (max: 20%). Physical damage will shatter then mirrors for the rest of the round, preventing the retaliation effect, but will reduce the LUC of the damager for the rest of the battle, as breaking mirrors is unlucky.)"
-      }
-    ],
-    "description": "A flash of brilliance in a shallow pond... A prism of pain that reflects the faces of agony that it inflicts upon your foes.",
-    "location": [
-      "Mirror Knight (Lv56+)"
-    ]
-  },
-  {
-    "id": "weapon:polearm:gryphon-wing",
-    "name": "Gryphon Wing",
-    "rarity": 10,
-    "weaponType": "Polearm",
-    "subtype": "Whip",
-    "range": 5,
-    "power": 12,
-    "accuracy": 85,
-    "critical": 10,
-    "criticalDamage": 115,
-    "weight": 16,
-    "damageType": "Wind",
-    "scaling": [
-      {
-        "type": "Sylphid",
-        "str": 70,
-        "cel": 40
-      }
-    ],
-    "specials": [
-      {
-        "name": "Wind ATK Bonus",
-        "type": "Passive",
-        "description": "Increases Wind ATK by UL/2. (Doesn't stack.)"
-      },
-      {
-        "name": "Gryphon Storm",
-        "type": "OnCrit",
-        "description": "Applies or powers up Gryphon Storm LV 5 to yourself for 5 rounds. (Max LV: 5 + UL)"
-      },
-      {
-        "name": "Gryphon Tempest",
-        "type": "GrantsSkill",
-        "description": "Whildly spin your Grypon Wing whip around you, kicking up a storm in a 3 Size Circle. Deals Wind magic damage around you, which can critically hit (can activate Gryphon Wing's On Critical effect, but only once per skill use). Creates an Air Shaft at your location for 3 rounds. If you have Grypon Storm, this skill gains additional effects based on its LV: LV5+: If you have an unsummoned Hippogriph (and can summon it), summons it to a tile near you. LV10+: +1 Circle Size. Chance to inflict Lingering Wind Damage LV X (X = Gryphon Storm LV) for 2 rounds.",
-        "momentumCost": 3,
-        "fpCost": 15
-      }
-    ],
-    "description": "With a feather-like texture, you'd think this whip would be soft, but being struck by it is anything but. In fact, the more it strikes, the wilder it gets, kicking up the winds around you.",
-    "location": [
-      "Wild Hippogryph (Lv56+)"
     ]
   }
 ]

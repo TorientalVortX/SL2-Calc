@@ -81,9 +81,40 @@ Confidence: `calculator-verified`.
 
 Source: `src/domain/weaponCalculation.ts`. Confidence: `calculator-verified`.
 
+- A weapon's stated scaling percentages are multiplied by 1.5 before they enter the
+  Power sum: a `70% STR / 40% SKI` weapon contributes `1.05×STR + 0.60×SKI`, not
+  `0.70×STR + 0.40×SKI`. Confidence: `player-reported` — sourced from play rather
+  than any wiki page, which states no multiplier. The calculator applied the listed
+  percentages verbatim until this was reported, and under-reported SWA accordingly.
+- Effects that *rewrite* a weapon's scaling tags are applied before the multiplier,
+  in `src/domain/weaponScaling.ts`. Confidence: `calculator-verified` for the
+  arithmetic; `wiki` for the effect text. Read as percentage **points** — Alterated
+  turns a Finesse weapon's 70% into 60%, not 63% — because that is the only reading
+  consistent with how the surrounding tag values behave.
+  - `Mundane` — removes every positive tag, keeping purely negative ones. A Mundane
+    weapon's SWA is its Power exactly.
+  - `Arcane`, `Envenomed`, `Enflamed` — the `Alterated` tag: main stat −10 points.
+  - `Short Body` part — repoints the primary tag onto STR rather than adding a
+    second source.
+  - `Mastery of Weapon Arts` — +15 points of STR scaling on a weapon whose main stat
+    is not STR. Evaluated last, so it reads the main stat after the other tags have
+    moved it.
+  - `Magical` (−30 main / +40 WIL) is implemented but unreachable: its only source
+    is `Arcane Tattoo (Fist)`, which enhances the *unarmed* weapon, and no unarmed
+    weapon exists in the 339-weapon dataset. It fires the moment one is added.
+  - A reduction floors at zero rather than inverting the tag. Unreachable from
+    weapon data — the lowest main scaling in the dataset is 40% — but reachable
+    through the manual scaling override, where a 5% tag under Alterated would
+    otherwise start *costing* SWA per point of the stat.
+  - Known quirk, faithful to the trait text: because Mastery is evaluated last and
+    asks whether the main stat is STR, a penalty that zeroes a weapon's STR tag can
+    leave it scaling *better* (10% STR → Alterated → 0 → Mastery → 15% STR). Also
+    unreachable from weapon data for the same reason.
+  - Short Body's repoint is reachable: `Crossbow` and `Howling Handshot` are the
+    dataset's two SKI-primary bows.
 - Hit displayed by the weapon calculator is `floor(2×SKI) + final weapon Accuracy`.
 - Critical chance is `final weapon Critical + floor(SKI/2) + floor(LUC)`, plus configured extras.
-- A weapon with primary STR scaling receives additional weapon Critical equal to `floor(0.4 × STR scaling contribution)`.
+- A weapon with primary STR scaling receives additional weapon Critical equal to `floor(0.4 × STR scaling contribution)`, reading the **listed** STR percentage rather than the 1.5-multiplied one — the multiplier is a Power rule.
 - Critical-damage modifier is base weapon Critical Damage + `floor(GUI)` + enchantment modifier.
 - The weapon calculator's present `swa` output equals its final Power field. Full live-game SWA skill/spell modeling is not yet implemented.
 
@@ -113,7 +144,8 @@ Do not invent numerical output for:
 - Full Hit/Evade/glancing probability and Great Accuracy behavior.
 - Complete incoming-damage order, resistance rounding, Evasion, parries, guards, and barriers.
 - Off-hand, hands, footwear, accessories, item belt, materials on armor, set bonuses, and most item effects.
-- Traits, talents, prayer, skill-point allocation, equipped-skill costs, and casting-tool legality beyond configured data.
+- Traits, prayer, skill-point allocation, equipped-skill costs, and casting-tool legality beyond configured data.
+- Talent effects beyond the scraped catalog (`01-core-mechanics/talents-catalog.md`): its weapon-access unlocks and per-rank stat modifiers are usable, but conditional modifiers, qualitative subtalents, and talent/skill interactions are not.
 - Initiative/turn-order ties, field objects, movement/pathing, team positioning, and opponent AI.
 - Buff/debuff uptime or conditional effects not explicitly verified for the target rotation.
 

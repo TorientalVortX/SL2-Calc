@@ -1,0 +1,660 @@
+{
+  "schemaVersion": 1,
+  "source": "https://sl2.miraheze.org/wiki/Status_Effects",
+  "scraped": "2026-08-15",
+  "confidence": "community",
+  "statuses": [
+    {
+      "id": "poison",
+      "name": "Poison",
+      "category": "Damaging Status Effects",
+      "description": "Deals 10% maximum HP damage every round, to a maximum of 3*LV damage.",
+      "notes": "Menov's Fang amplifies this effect. Glykin, Dullahan and Snakemen are immune to Poison infliction.",
+      "immuneRaces": [
+        "Glykin",
+        "Dullahan"
+      ],
+      "otherImmune": [
+        "Snakemen"
+      ],
+      "protectionIgnoring": false,
+      "perRound": true,
+      "links": [
+        "Menov's Fang",
+        "Glykin",
+        "Dullahan"
+      ]
+    },
+    {
+      "id": "lingering-damage",
+      "name": "Lingering Damage",
+      "category": "Damaging Status Effects",
+      "description": "Take damage that ignores protection every round equal to LV based on element.",
+      "notes": "Multiple Lingering Damages can exist at once, if their element type is different from each other.",
+      "immuneRaces": [],
+      "protectionIgnoring": true,
+      "perRound": true,
+      "links": []
+    },
+    {
+      "id": "burn",
+      "name": "Burn",
+      "category": "Hybrid Status Effects",
+      "description": "Deals protection-ignoring Fire damage every round equal to LV. Negates Bonus DEF.",
+      "notes": "Salamandra and Drowned Woman are immune to Burn infliction.",
+      "immuneRaces": [
+        "Salamandra"
+      ],
+      "otherImmune": [
+        "Drowned Woman"
+      ],
+      "protectionIgnoring": true,
+      "perRound": true,
+      "links": [
+        "Salamandra"
+      ]
+    },
+    {
+      "id": "frozen",
+      "name": "Frozen",
+      "category": "Hybrid Status Effects",
+      "description": "Reduces Evade to 0 and prevents movement skills while active. Damage reduces LV; 0 ends status. Can struggle to reduce the LV.",
+      "notes": "Grants 2 rounds of immunity after recovery.",
+      "immuneRaces": [],
+      "recoveryImmunityRounds": 2,
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": []
+    },
+    {
+      "id": "soaked",
+      "name": "Soaked",
+      "category": "Hybrid Status Effects",
+      "description": "+15% Fire Res, -10% Lightning Res. When taking Lightning damage, Soaked allies within 1 Range also take the damage. Ice and Earth damage replaces with a different effect.",
+      "notes": "The replaced effects are: Immobilized (Ice), Muddy (Earth).",
+      "immuneRaces": [],
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": []
+    },
+    {
+      "id": "charm",
+      "name": "Charm",
+      "category": "Hybrid Status Effects",
+      "description": "Reduces damage dealt to the target by LV%. May take damage for the causer if near them.",
+      "notes": "If the causer deals any direct damage, it reduces the duration of Charm on their target (you). Shaitan are immune to Charm infliction.",
+      "immuneRaces": [
+        "Shaitan"
+      ],
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": [
+        "Shaitan"
+      ]
+    },
+    {
+      "id": "flatfoot",
+      "name": "Flatfoot",
+      "category": "Hybrid Status Effects",
+      "description": "You are flat on your feet. -5 Evade and -1 Move until your next turn.",
+      "notes": "",
+      "immuneRaces": [],
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": [
+        "Flatfoot"
+      ]
+    },
+    {
+      "id": "strangling-etacof",
+      "name": "Strangling Etacof",
+      "category": "Hybrid Status Effects",
+      "description": "Hex. Prevents Silence from being cured and causes it to deal 5% HP and FP damage every round.",
+      "notes": "Max. 50 Darkness damage, and 25 FP reduction.",
+      "immuneRaces": [],
+      "preventsCureOf": "Silence",
+      "protectionIgnoring": false,
+      "perRound": true,
+      "links": [
+        "Strangling Etacof"
+      ]
+    },
+    {
+      "id": "llunel-s-decay",
+      "name": "Llunel's Decay",
+      "category": "Hybrid Status Effects",
+      "description": "Hex. Prevents Interference from being cured and causes it to instead reverse regeneration into damage.",
+      "notes": "Regeneration status effects also become reversed, such as Refreshing Flow.",
+      "immuneRaces": [],
+      "preventsCureOf": "Interference",
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": [
+        "Llunel's Decay",
+        "Refreshing Flow"
+      ]
+    },
+    {
+      "id": "hellflame-uorate",
+      "name": "Hellflame Uorate",
+      "category": "Hybrid Status Effects",
+      "description": "Hex. Prevents Burn from being cured and causes it to nullify bonus RES the target has.",
+      "notes": "",
+      "immuneRaces": [],
+      "preventsCureOf": "Burn",
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": [
+        "Hellflame Uorate"
+      ]
+    },
+    {
+      "id": "menov-s-fang",
+      "name": "Menov's Fang",
+      "category": "Hybrid Status Effects",
+      "description": "Hex. Prevents Poison from being cured and causes it to deal 1.5x damage.",
+      "notes": "",
+      "immuneRaces": [],
+      "preventsCureOf": "Poison",
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": [
+        "Menov's Fang"
+      ]
+    },
+    {
+      "id": "imagin-s-despair",
+      "name": "Imagin's Despair",
+      "category": "Hybrid Status Effects",
+      "description": "Hex. Prevents Fear from being cured and increases all damage taken by 10%.",
+      "notes": "This affects Damage over Time effects.",
+      "immuneRaces": [],
+      "preventsCureOf": "Fear",
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": [
+        "Imagin's Despair"
+      ]
+    },
+    {
+      "id": "stun",
+      "name": "Stun",
+      "category": "Momentum-Impairing",
+      "description": "Turn is skipped, but damage taken is reduced by 50%. Ends afterwards. Taking resisted damage might end the status early and let you act with 3M.",
+      "notes": "Bosses cannot be stunned. Grants 2 rounds of immunity after recovery.",
+      "immuneRaces": [],
+      "recoveryImmunityRounds": 2,
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": []
+    },
+    {
+      "id": "knocked-down",
+      "name": "Knocked Down",
+      "category": "Momentum-Impairing",
+      "description": "Must spend 3M getting up during your next turn.",
+      "notes": "Kip-Up, Roc's Rise and Quick Rise mitigate the momentum needed. Grants 2 rounds of immunity after recovery.",
+      "immuneRaces": [],
+      "recoveryImmunityRounds": 2,
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": [
+        "Kip-Up",
+        "Roc's Rise",
+        "Quick Rise"
+      ]
+    },
+    {
+      "id": "badly-beaten",
+      "name": "Badly Beaten",
+      "category": "Momentum-Impairing",
+      "description": "Obtained after reviving. Reduces your base Momentum recovery at round start by LV.",
+      "notes": "The status worsens if you are revived multiple times while under its effect.",
+      "immuneRaces": [],
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": []
+    },
+    {
+      "id": "immobilize",
+      "name": "Immobilize",
+      "category": "Movement-Impairing",
+      "description": "Cannot use Move or Movement Skills.",
+      "notes": "Grants 2 rounds of immunity after recovery.",
+      "immuneRaces": [],
+      "recoveryImmunityRounds": 2,
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": []
+    },
+    {
+      "id": "grappled",
+      "name": "Grappled",
+      "category": "Movement-Impairing",
+      "description": "Treated as immobilized until the causer's next turn.",
+      "notes": "If the causer or victim are moved, the effect ends.",
+      "immuneRaces": [],
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": []
+    },
+    {
+      "id": "slow",
+      "name": "Slow",
+      "category": "Movement-Impairing",
+      "description": "-LV Move.",
+      "notes": "This only affects basic movement.",
+      "immuneRaces": [],
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": []
+    },
+    {
+      "id": "clumsy",
+      "name": "Clumsy",
+      "category": "Movement-Impairing",
+      "description": "Movement skills, aside from basic movement, are disabled.",
+      "notes": "Grants 2 rounds of immunity after recovery.",
+      "immuneRaces": [],
+      "recoveryImmunityRounds": 2,
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": []
+    },
+    {
+      "id": "muddy",
+      "name": "Muddy",
+      "category": "Movement-Impairing",
+      "description": "15% chance to be slip and be knocked down after using Movement. Chance increases by 15% for every tile moved beyond class base Movement speed.",
+      "notes": "This will also interrupt your Move attempt right where you've been knocked down.",
+      "immuneRaces": [],
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": []
+    },
+    {
+      "id": "frostbite",
+      "name": "Frostbite",
+      "category": "Conditional",
+      "description": "Inflicts protection-ignoring Ice damage every time you walk on an Ice Sheet.",
+      "notes": "The Ice Sheet must break for this to happen. LV = Damage.",
+      "immuneRaces": [],
+      "protectionIgnoring": true,
+      "perRound": false,
+      "links": []
+    },
+    {
+      "id": "thorn-wrap",
+      "name": "Thorn Wrap",
+      "category": "Conditional",
+      "description": "Inflicts protection-ignoring Pierce damage to the target when they use a Movement skill.",
+      "notes": "This also works on basic Movement. LV = Damage.",
+      "immuneRaces": [],
+      "protectionIgnoring": true,
+      "perRound": false,
+      "links": []
+    },
+    {
+      "id": "attract-objects",
+      "name": "Attract Objects",
+      "category": "Conditional",
+      "description": "Pulls enemy traps and bombs LV tiles towards yourself at the start of a new round.",
+      "notes": "",
+      "immuneRaces": [],
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": []
+    },
+    {
+      "id": "guard-break",
+      "name": "Guard Break",
+      "category": "Conditional",
+      "description": "The character's guard has been broken. They temporarily take 15% more damage, cannot Guard, and Parry skills will automatically fail.",
+      "notes": "Requires the opponent to be Guarding. This effect ends on their next turn.",
+      "immuneRaces": [],
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": []
+    },
+    {
+      "id": "certain-defeat",
+      "name": "Certain Defeat",
+      "category": "Conditional",
+      "description": "At the start of a new round, this unit's HP becomes 0.",
+      "notes": "If you are revived, you can still act before round is over.",
+      "immuneRaces": [],
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": []
+    },
+    {
+      "id": "airborne",
+      "name": "Airborne",
+      "category": "Conditional",
+      "description": "In the air, dude.",
+      "notes": "A myriad of skills interact with this status effect, but it does nothing by itself.",
+      "immuneRaces": [],
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": []
+    },
+    {
+      "id": "claret-call",
+      "name": "Claret Call",
+      "category": "Conditional",
+      "description": "Increases physical damage caused by the causer.",
+      "notes": "Only increases the damage of Basic Attacks and Ghost skills.",
+      "immuneRaces": [],
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": []
+    },
+    {
+      "id": "needle",
+      "name": "Needle",
+      "category": "Conditional",
+      "description": "Upon taking Light damage from any source but Needle, explodes, taking Light damage equal to LV and heals allies of the causer that are within 2 Range for the same amount.",
+      "notes": "",
+      "immuneRaces": [],
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": []
+    },
+    {
+      "id": "solar-lance",
+      "name": "Solar Lance",
+      "category": "Conditional",
+      "description": "That can't be good.",
+      "notes": "Upon taking any Fire or Light damage, it explodes next turn, dealing 100% of the causer's Fire ATK as protection-ignoring Fire damage.",
+      "immuneRaces": [],
+      "protectionIgnoring": true,
+      "perRound": false,
+      "links": []
+    },
+    {
+      "id": "analyze-weakness",
+      "name": "Analyze Weakness",
+      "category": "Crowd-Control Status Effects",
+      "description": "Increases all damage suffered by LV%.",
+      "notes": "Affects Damage Over Time effects too.",
+      "immuneRaces": [],
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": [
+        "Analyze Weakness"
+      ]
+    },
+    {
+      "id": "hunted",
+      "name": "Hunted",
+      "category": "Crowd-Control Status Effects",
+      "description": "Increases damage taken from the causer by LV%.",
+      "notes": "Affects Damage Over Time effects too.",
+      "immuneRaces": [],
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": []
+    },
+    {
+      "id": "hesitation",
+      "name": "Hesitation",
+      "category": "Crowd-Control Status Effects",
+      "description": "LV% chance to hesitate when attacking.",
+      "notes": "This only affects Basic Attack or skills that use Basic Attacks. Shaitan are immune to Hesitation infliction.",
+      "immuneRaces": [
+        "Shaitan"
+      ],
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": [
+        "Shaitan"
+      ]
+    },
+    {
+      "id": "sneezed-on",
+      "name": "Sneezed On",
+      "category": "Crowd-Control Status Effects",
+      "description": "You were sneezed on... ew. -10% Status Resistance.",
+      "notes": "You gain this effect if you're a Kaelensia and someone with Animal Allergy is nearby during combat.",
+      "immuneRaces": [],
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": [
+        "Kaelensia"
+      ]
+    },
+    {
+      "id": "fear",
+      "name": "Fear",
+      "category": "Crowd-Control Status Effects",
+      "description": "-15 Hit VS Causer.",
+      "notes": "Shaitan are immune to Fear infliction.",
+      "immuneRaces": [
+        "Shaitan"
+      ],
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": [
+        "Shaitan"
+      ]
+    },
+    {
+      "id": "goose-bite",
+      "name": "Goose Bite",
+      "category": "Crowd-Control Status Effects",
+      "description": "Reduces all stats by LV.",
+      "notes": "",
+      "immuneRaces": [],
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": []
+    },
+    {
+      "id": "drain",
+      "name": "Drain",
+      "category": "Crowd-Control Status Effects",
+      "description": "Reduces all stats by LV.",
+      "notes": "This will also increase the causer's status by LV.",
+      "immuneRaces": [],
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": []
+    },
+    {
+      "id": "blotch",
+      "name": "Blotch",
+      "category": "Crowd-Control Status Effects",
+      "description": "Decreases Hit by LV.",
+      "notes": "",
+      "immuneRaces": [],
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": [
+        "Blotch"
+      ]
+    },
+    {
+      "id": "wear-down",
+      "name": "Wear Down",
+      "category": "Crowd-Control Status Effects",
+      "description": "Reduces Armor by LV.",
+      "notes": "",
+      "immuneRaces": [],
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": []
+    },
+    {
+      "id": "rampage",
+      "name": "Rampage",
+      "category": "Crowd-Control Status Effects",
+      "description": "Decreases DEF by LV.",
+      "notes": "",
+      "immuneRaces": [],
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": []
+    },
+    {
+      "id": "cursed-wound",
+      "name": "Cursed Wound",
+      "category": "Crowd-Control Status Effects",
+      "description": "Lowers maximum HP by LV.",
+      "notes": "",
+      "immuneRaces": [],
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": []
+    },
+    {
+      "id": "soul-chains",
+      "name": "Soul Chains",
+      "category": "Crowd-Control Status Effects",
+      "description": "Prevents FP recovery as if it were Interfered. Treated as being Installed uniquely.",
+      "notes": "Interference reduction effects apply to this.",
+      "immuneRaces": [],
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": [
+        "Soul Chains"
+      ]
+    },
+    {
+      "id": "acidity",
+      "name": "Acidity",
+      "category": "Crowd-Control Status Effects",
+      "description": "Reduces Phys. Defense and Mag. Defense by LV%.",
+      "notes": "",
+      "immuneRaces": [],
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": []
+    },
+    {
+      "id": "black-drain",
+      "name": "Black Drain",
+      "category": "Crowd-Control Status Effects",
+      "description": "Power drained by an enemy. Lowers Scaled Weapon Attack equal to LV.",
+      "notes": "This also applies from non-damaging skills from Soldier.",
+      "immuneRaces": [],
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": [
+        "Black Drain"
+      ]
+    },
+    {
+      "id": "glowing",
+      "name": "Glowing",
+      "category": "Crowd-Control Status Effects",
+      "description": "Evade is reduced by LV.",
+      "notes": "",
+      "immuneRaces": [],
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": []
+    },
+    {
+      "id": "magnetize",
+      "name": "Magnetize",
+      "category": "Crowd-Control Status Effects",
+      "description": "Increases the causer's Hit when attacking you by LV (max 50).",
+      "notes": "",
+      "immuneRaces": [],
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": []
+    },
+    {
+      "id": "pacify",
+      "name": "Pacify",
+      "category": "Crowd-Control Status Effects",
+      "description": "Cannot use basic attacks or Offensive skills. Taking non-status, non-bonus damage will reduce its duration by 1 round.",
+      "notes": "This will only be seen used on Monsters, usually.",
+      "immuneRaces": [],
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": []
+    },
+    {
+      "id": "spelldaze",
+      "name": "Spelldaze",
+      "category": "Crowd-Control Status Effects",
+      "description": "Once acquired, puts a random spell you have equipped on a 2 round cooldown. Cannot be reapplied while active.",
+      "notes": "Cooldown timer cannot be reduced below the original cooldown duration.",
+      "immuneRaces": [],
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": []
+    },
+    {
+      "id": "enemy-evaluation",
+      "name": "Enemy Evaluation",
+      "category": "Hard Crowd-Control Status Effects",
+      "description": "Decreases Hit, Critical, Evade, and damage dealt by LV%.",
+      "notes": "",
+      "immuneRaces": [],
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": [
+        "Enemy Evaluation"
+      ]
+    },
+    {
+      "id": "confusion",
+      "name": "Confusion",
+      "category": "Hard Crowd-Control Status Effects",
+      "description": "Cannot differentiate between friend and foe.",
+      "notes": "This prevents you from targeting allies with supporting or healing skills.",
+      "immuneRaces": [],
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": []
+    },
+    {
+      "id": "blind",
+      "name": "Blind",
+      "category": "Hard Crowd-Control Status Effects",
+      "description": "Final hit chance is capped at 50%.",
+      "notes": "Kaminah Robes turn this effect into Beyond Sight, which has a lesser impact on your hit chance.",
+      "immuneRaces": [],
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": []
+    },
+    {
+      "id": "interference",
+      "name": "Interference",
+      "category": "Hard Crowd-Control Status Effects",
+      "description": "Prevents recovery of HP and FP.",
+      "notes": "This also prevents revive effects.",
+      "immuneRaces": [],
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": []
+    },
+    {
+      "id": "silence",
+      "name": "Silence",
+      "category": "Hard Crowd-Control Status Effects",
+      "description": "This character is silenced and cannot cast spells.",
+      "notes": "Grants 2 rounds of immunity after recovery.",
+      "immuneRaces": [],
+      "recoveryImmunityRounds": 2,
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": []
+    },
+    {
+      "id": "removed-from-battle",
+      "name": "Removed From Battle",
+      "category": "Hard Crowd-Control Status Effects",
+      "description": "Removed from the battle while this status is active.",
+      "notes": "",
+      "immuneRaces": [],
+      "protectionIgnoring": false,
+      "perRound": false,
+      "links": []
+    }
+  ]
+}

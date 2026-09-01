@@ -221,6 +221,45 @@ describe('AI optimizer agent core', () => {
     expect(value.result.candidates).toHaveLength(1);
   });
 
+  it('gives a rejected selection one corrective round before falling back', async () => {
+    let call = 0;
+    let ids: string[] = [];
+    let correctionInput = '';
+    const client = {
+      responses: {
+        create: async (params: { input?: unknown }) => {
+          call++;
+          if (call === 1) return response('retry_1', [{ type: 'function_call', call_id: 'call_context', name: 'get_build_context', arguments: '{}' }]);
+          if (call === 2) return response('retry_2', [{
+            type: 'function_call', call_id: 'call_search', name: 'search_candidate_pool',
+            arguments: JSON.stringify({ presetId: 'hybrid', defensePlan: 'hybrid', extraPackage: 'none', referenceProfileId: null, searchDepth: 'standard', resultLimit: 3 }),
+          }]);
+          if (call === 3) {
+            const outputs = params.input as Array<{ output: string }>;
+            ids = (JSON.parse(outputs[0].output) as Array<{ id: string }>).map(item => item.id);
+            // First selection cites a paraphrased source, so every id is dropped.
+            return response('retry_3', [], JSON.stringify({
+              candidateIds: ids, summary: '', clarification: '',
+              rationale: ids.map(id => ({ id, reasons: [], strengths: [], weaknesses: [], evidence: ['formulas.md (local notes)'] })),
+            }));
+          }
+          // The corrective round arrives as a plain string carrying the reasons.
+          correctionInput = params.input as string;
+          return response('retry_4', [], JSON.stringify({
+            candidateIds: ids, summary: 'Corrected citation.', clarification: '',
+            rationale: ids.map(id => ({ id, reasons: [], strengths: [], weaknesses: [], evidence: ['01-core-mechanics/formulas.md'] })),
+          }));
+        },
+      },
+    } as unknown as OpenAI;
+    const value = await runAiOptimization(request(), { apiKey: 'test-key', client, personalNotes: PERSONAL_NOTES });
+    expect(value.result.ai?.fallback).toBe(false);
+    expect(value.result.candidates).toHaveLength(3);
+    expect(correctionInput).toContain('selectionRejected');
+    expect(correctionInput).toContain('does not exactly match any delivered knowledge source');
+    expect(correctionInput).toContain('01-core-mechanics/formulas.md');
+  });
+
   it('rejects an AI selection that does not cite delivered local evidence', async () => {
     let call = 0;
     let ids: string[] = [];

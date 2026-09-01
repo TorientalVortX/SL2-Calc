@@ -54,6 +54,13 @@
         "san": 30
       }
     ],
+    "specials": [
+      {
+        "name": "Passive",
+        "type": "Passive",
+        "description": "Sub Type: Instrument"
+      }
+    ],
     "description": "The lute is a musician's best friend. If you're a bard, don't leave home without it - you'll need an instrument to play your songs, after all.",
     "location": [
       "Random Drops"
@@ -77,6 +84,13 @@
         "type": "Finesse",
         "gui": 70,
         "ski": 30
+      }
+    ],
+    "specials": [
+      {
+        "name": "Passive",
+        "type": "Passive",
+        "description": "Sub Type: Whip"
       }
     ],
     "description": "An incredibly simple yet effective weapon, the whip is less about lethality and more about threat.",
@@ -167,6 +181,13 @@
         "type": "Finesse",
         "gui": 70,
         "ski": 30
+      }
+    ],
+    "specials": [
+      {
+        "name": "Passive",
+        "type": "Passive",
+        "description": "Sub Type: Katana"
       }
     ],
     "description": "A small blade with a sharp edge, the tanto is often used for personal protection or as a backup weapon when longer blades aren't available or are impractical.",
@@ -290,6 +311,13 @@
         "type": "Finesse",
         "gui": 70,
         "ski": 30
+      }
+    ],
+    "specials": [
+      {
+        "name": "Passive",
+        "type": "Passive",
+        "description": "Sub Type: Shuriken"
       }
     ],
     "description": "A throwing-type dagger that originates from Oniga.",
@@ -555,7 +583,7 @@
         "fpCost": 25
       }
     ],
-    "description": "A bladed, iron-fan often used by covert female assassins to kill targets from a close distance.",
+    "description": "A bladed, iron-fan often used by covert female assassins to kill targets from a close distance",
     "location": [
       "Random Drops",
       "Metalworking",
@@ -812,7 +840,6 @@
         "vit": 40
       }
     ],
-    "material": "Coral",
     "specials": [
       {
         "name": "Hunted",
@@ -841,10 +868,6 @@
     "scaling": [
       {
         "type": "Cunning",
-        "gui": 80
-      },
-      {
-        "type": "Tool",
         "gui": 80
       }
     ],
@@ -890,7 +913,6 @@
         "san": 20
       }
     ],
-    "enchantment": "Divine Weapon",
     "specials": [
       {
         "name": "Divine Weapon",
@@ -1069,7 +1091,7 @@
         "description": "Targets 2 tiles in 6 Range. Location 1 must contain an enemy with String Attached LV 2+ (caused by you), and Location 2 must contain a different enemy. You puppeteer the first enemy, who takes 3 steps towards the second. Then, the first enemy is forced to attack the second with their main hand weapon (75% damage, or 100% if String Attached was LV4+). Afterwards, your strings detach from the first target."
       }
     ],
-    "description": "Gloves holding within them long puppet strings. One never knows when they may be forced to dance upon them.",
+    "description": "Puppet Assault Gloves holding within them long puppet strings. One never knows when they may be forced to dance upon them.",
     "location": [
       "Random Drops",
       "Highway Drop Table"
@@ -1135,7 +1157,7 @@
     "critical": 0,
     "criticalDamage": 130,
     "weight": 8,
-    "damageType": "Dark",
+    "damageType": "Darkness",
     "scaling": [
       {
         "type": "Darkness",
@@ -1263,7 +1285,6 @@
         "str": 40
       }
     ],
-    "material": "Magmic",
     "specials": [
       {
         "name": "Fire Damage",
@@ -1277,7 +1298,7 @@
         "triggerRate": "10% + 8% Bonus"
       }
     ],
-    "description": "A flame dagger used in ritual sacrifices by an old tribal cult inhabiting the lands near the volcano 'Autumn'.",
+    "description": "A flame dagger used in ritual sacrifices by an old tribal cult inhabiting the lands near the volcano 'Autumn'. Mysteriously, the tribal cult was burned to the ground, and this dagger found its way elsewhere somehow. It is theorized that the volcano itself set fire to the forest that the cult lived in, however it is just a theory. In reality, they were all killed by a youkai.",
     "location": [
       "Random Drops",
       "Fire Drop Table"
@@ -1473,7 +1494,6 @@
         "luc": 40
       }
     ],
-    "enchantment": "Vorpal",
     "specials": [
       {
         "name": "Vorpal Strike",

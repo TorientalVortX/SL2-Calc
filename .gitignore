@@ -29,6 +29,9 @@ tmp/
 temp/
 .eslintcache
 
+# Raw pages cached by scripts/scrape-wiki.mjs
+.wiki-cache/
+
 # TypeScript
 *.tsbuildinfo
 

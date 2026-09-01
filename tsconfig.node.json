@@ -4,7 +4,11 @@
     "skipLibCheck": true,
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    // A composite project must emit. Without an outDir it emits vite.config.js
+    // beside the source, and Vite resolves that ahead of vite.config.ts — so every
+    // later edit to the real config is silently ignored. Emit off to one side.
+    "outDir": "./node_modules/.tmp/tsconfig-node"
   },
   "include": ["vite.config.ts"]
 }

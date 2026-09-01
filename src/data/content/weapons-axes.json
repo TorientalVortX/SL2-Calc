@@ -1,31 +1,5 @@
 [
   {
-    "id": "weapon:axe:wrench",
-    "name": "Wrench",
-    "rarity": 1,
-    "weaponType": "Axe",
-    "subtype": "Club",
-    "range": 1,
-    "power": 8,
-    "accuracy": 75,
-    "critical": 0,
-    "criticalDamage": 125,
-    "weight": 8,
-    "damageType": "Blunt",
-    "scaling": [
-      {
-        "type": "Cunning",
-        "str": 70,
-        "gui": 40
-      }
-    ],
-    "description": "While not a conventional weapon, it still hurts.",
-    "location": [
-      "Random drops",
-      "Casino"
-    ]
-  },
-  {
     "id": "weapon:axe:axe",
     "name": "Axe",
     "rarity": 1,
@@ -45,9 +19,7 @@
     ],
     "description": "A heavy axe. Not easy to aim, but very powerful.",
     "location": [
-      "Random drops",
-      "Shops",
-      "Metalwork (Lv1)"
+      "Random drops Shops Metalwork (Lv1)"
     ]
   },
   {
@@ -78,8 +50,32 @@
     ],
     "description": "A large, heavy axe that can slice through soft spots.",
     "location": [
-      "Random drops",
-      "Metalwork (Lv2)"
+      "Ice Drop Table Metalwork (Lv2)"
+    ]
+  },
+  {
+    "id": "weapon:axe:wrench",
+    "name": "Wrench",
+    "rarity": 1,
+    "weaponType": "Axe",
+    "subtype": "Club",
+    "range": 1,
+    "power": 8,
+    "accuracy": 75,
+    "critical": 0,
+    "criticalDamage": 125,
+    "weight": 8,
+    "damageType": "Blunt",
+    "scaling": [
+      {
+        "type": "Cunning",
+        "str": 70,
+        "gui": 40
+      }
+    ],
+    "description": "While not a conventional weapon, it still hurts.",
+    "location": [
+      "Highway Drop Table Casino"
     ]
   },
   {
@@ -140,8 +136,7 @@
     ],
     "description": "A headsman's axe that gets more powerful as the target nears death",
     "location": [
-      "Random drops",
-      "Metalwork (Lv3)"
+      "Dark Drop Table Metalwork (Lv3)"
     ]
   },
   {
@@ -172,8 +167,42 @@
     ],
     "description": "A wide axe with a large area of attack.",
     "location": [
-      "Random drops",
-      "Metalwork (Lv3)"
+      "Wind Drop Table Metalwork (Lv3)"
+    ]
+  },
+  {
+    "id": "weapon:axe:battlepick",
+    "name": "Battlepick",
+    "rarity": 3,
+    "weaponType": "Axe",
+    "range": 1,
+    "power": 12,
+    "accuracy": 75,
+    "critical": 0,
+    "criticalDamage": 125,
+    "weight": 18,
+    "damageType": "Pierce",
+    "scaling": [
+      {
+        "type": "Basic",
+        "str": 100
+      }
+    ],
+    "specials": [
+      {
+        "name": "Armor Reduction",
+        "type": "Passive",
+        "description": "Reduces effectiveness of enemy Armor by 5."
+      },
+      {
+        "name": "Wear Down",
+        "type": "PotentialSkill",
+        "description": "When an enemy is damaged by weapons that reduce enemy Armor effectiveness, either by basic attacks or skills using them, a Wear Down status is applied for 3 rounds, or powered up. This status decreases the enemy's Armor by LV. (Max LV of 20, max duration of 3 rounds)."
+      }
+    ],
+    "description": "A pickaxe more similar to a halberd, made for piercing armor.",
+    "location": [
+      "Earth Drop Table Metalwork (Lv3)"
     ]
   },
   {
@@ -210,8 +239,31 @@
     ],
     "description": "Gorges itself on your enemies' blood.",
     "location": [
-      "Random drops",
-      "Metalwork (Lv3)"
+      "Water Drop Table Metalwork (Lv3)"
+    ]
+  },
+  {
+    "id": "weapon:axe:grand-axe",
+    "name": "Grand Axe",
+    "rarity": 3,
+    "weaponType": "Axe",
+    "subtype": "Greataxe",
+    "range": 1,
+    "power": 14,
+    "accuracy": 75,
+    "critical": 0,
+    "criticalDamage": 125,
+    "weight": 24,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Basic",
+        "str": 100
+      }
+    ],
+    "description": "A massive double-sided axe.",
+    "location": [
+      "Labyrinth Drop Table (Unattainable) Metalwork (Lv3)"
     ]
   },
   {
@@ -242,69 +294,7 @@
     ],
     "description": "A very literal weapon with an extremely cold blade.",
     "location": [
-      "Random drops",
-      "Metalwork (Lv3)"
-    ]
-  },
-  {
-    "id": "weapon:axe:battlepick",
-    "name": "Battlepick",
-    "rarity": 3,
-    "weaponType": "Axe",
-    "range": 1,
-    "power": 12,
-    "accuracy": 75,
-    "critical": 0,
-    "criticalDamage": 125,
-    "weight": 18,
-    "damageType": "Pierce",
-    "scaling": [
-      {
-        "type": "Basic",
-        "str": 100
-      }
-    ],
-    "specials": [
-      {
-        "name": "Armor Reduction",
-        "type": "Passive",
-        "description": "Reduces effectiveness of enemy Armor by 5."
-      },
-      {
-        "name": "Wear Down",
-        "type": "PotentialSkill",
-        "description": "When an enemy is damaged by weapons that reduce enemy Armor effectiveness, either by basic attacks or skills using them, a Wear Down status is applied for 3 rounds, or powered up. This status decreases the enemy's Armor by LV. (Max LV of 20, max duration of 3 rounds)."
-      }
-    ],
-    "description": "A pickaxe more similar to a halberd, made for piercing armor.",
-    "location": [
-      "Random drops",
-      "Metalwork (Lv3)"
-    ]
-  },
-  {
-    "id": "weapon:axe:grand-axe",
-    "name": "Grand Axe",
-    "rarity": 3,
-    "weaponType": "Axe",
-    "subtype": "Greataxe",
-    "range": 1,
-    "power": 14,
-    "accuracy": 75,
-    "critical": 0,
-    "criticalDamage": 125,
-    "weight": 24,
-    "damageType": "Slash",
-    "scaling": [
-      {
-        "type": "Basic",
-        "str": 100
-      }
-    ],
-    "description": "A massive double-sided axe.",
-    "location": [
-      "Random drops",
-      "Metalwork (Lv3)"
+      "Ice Drop Table Metalwork (Lv3)"
     ]
   },
   {
@@ -340,38 +330,7 @@
     ],
     "description": "Gravity manipulating axe used by an ancient lizardman.",
     "location": [
-      "Random drops"
-    ]
-  },
-  {
-    "id": "weapon:axe:spirit-axe",
-    "name": "Spirit Axe",
-    "rarity": 4,
-    "weaponType": "Axe",
-    "range": 1,
-    "power": 13,
-    "accuracy": 75,
-    "critical": 0,
-    "criticalDamage": 125,
-    "weight": 12,
-    "damageType": "Slash",
-    "scaling": [
-      {
-        "type": "Spiritual",
-        "str": 70,
-        "san": 40
-      }
-    ],
-    "specials": [
-      {
-        "name": "Focus Restoration",
-        "type": "Passive",
-        "description": "Restores Focus based on damage dealt. (10%) (Basic attacks only)"
-      }
-    ],
-    "description": "This axe absorbs Focus from the wounds that it makes.",
-    "location": [
-      "Random drops"
+      "Snake Drop Table Earth Drop Table"
     ]
   },
   {
@@ -409,7 +368,73 @@
     ],
     "description": "A large club with circular metal protusions. A rather brutal and heavy weapon, it is often associated with 'oni' or giants.",
     "location": [
+      "Eastern Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:axe:spirit-axe",
+    "name": "Spirit Axe",
+    "rarity": 4,
+    "weaponType": "Axe",
+    "range": 1,
+    "power": 13,
+    "accuracy": 75,
+    "critical": 0,
+    "criticalDamage": 125,
+    "weight": 12,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Spiritual",
+        "str": 70,
+        "san": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Focus Restoration",
+        "type": "Passive",
+        "description": "Restores Focus based on damage dealt. (10%) (Basic attacks only)"
+      }
+    ],
+    "description": "This axe absorbs Focus from the wounds that it makes.",
+    "location": [
       "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:axe:burngada",
+    "name": "Burngada",
+    "rarity": 5,
+    "weaponType": "Axe",
+    "range": 1,
+    "power": 13,
+    "accuracy": 75,
+    "critical": 0,
+    "criticalDamage": 125,
+    "weight": 12,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Basic",
+        "str": 100
+      }
+    ],
+    "specials": [
+      {
+        "name": "Fire Damage",
+        "type": "OnHit",
+        "description": "Deals magic Fire bonus damage equal to 50% of your Fire ATK, which ignores armor."
+      },
+      {
+        "name": "Nerifian Spell Power",
+        "type": "Passive",
+        "description": "+10% Power to Nerifian Spells (Halved if not main weapon.)"
+      }
+    ],
+    "description": "A fiery axe that just wants the world to burn.",
+    "location": [
+      "Summon Drop Table Metalwork (Lv4)"
     ]
   },
   {
@@ -457,7 +482,7 @@
     ],
     "description": "A solid metal fan. Commonly used for directing troops in battle, it also can act as a shield from projectile weapons, or just smash people who get too close.",
     "location": [
-      "Random drops"
+      "Eastern Drop Table"
     ]
   },
   {
@@ -491,45 +516,9 @@
         "description": "Targets one enemy within 1 Range. Messes with the target's inventory, preventing them from using items for 2 rounds. Their stuff becomes your stuff if they're dead."
       }
     ],
-    "description": "An axe favored by highwaymen and thieves.",
+    "description": "Their stuff becomes your stuff if they're dead.",
     "location": [
-      "Random drops"
-    ]
-  },
-  {
-    "id": "weapon:axe:burngada",
-    "name": "Burngada",
-    "rarity": 5,
-    "weaponType": "Axe",
-    "range": 1,
-    "power": 13,
-    "accuracy": 75,
-    "critical": 0,
-    "criticalDamage": 125,
-    "weight": 12,
-    "damageType": "Slash",
-    "scaling": [
-      {
-        "type": "Basic",
-        "str": 100
-      }
-    ],
-    "specials": [
-      {
-        "name": "Fire Damage",
-        "type": "OnHit",
-        "description": "Deals magic Fire bonus damage equal to 50% of your Fire ATK, which ignores armor."
-      },
-      {
-        "name": "Nerifian Spell Power",
-        "type": "Passive",
-        "description": "+10% Power to Nerifian Spells (Halved if not main weapon.)"
-      }
-    ],
-    "description": "A fiery axe that just wants the world to burn.",
-    "location": [
-      "Random drops",
-      "Metalwork (Lv4)"
+      "Highway Drop Table"
     ]
   },
   {
@@ -570,81 +559,7 @@
     ],
     "description": "This gorey weapon seems to resemble a monster's spine. Not fresh from the monster, of course, and perhaps it's just a passing resemblance. But the hunter who uses this unusual weapon would come from strange blood, to be sure.",
     "location": [
-      "Random drops"
-    ]
-  },
-  {
-    "id": "weapon:axe:excel-parashu",
-    "name": "Excel Parashu",
-    "rarity": 6,
-    "weaponType": "Axe",
-    "range": 1,
-    "power": 12,
-    "accuracy": 75,
-    "critical": 0,
-    "criticalDamage": 125,
-    "weight": 22,
-    "damageType": "Slash",
-    "scaling": [
-      {
-        "type": "Basic",
-        "str": 100
-      }
-    ],
-    "specials": [
-      {
-        "name": "Charge Consumption",
-        "type": "OnHit",
-        "description": "Consumes Weapon Charges, dealing 50% more damage per Charge Level."
-      },
-      {
-        "name": "Charge Weapon",
-        "type": "GrantsSkill",
-        "description": "Rev your weapon and fill it with focus, increasing its Charge, to a maximum of level 3. When you hit with a weapon that can consume Weapon Charges, the damage you deal with that attack will increase by 50% per level. (Weapon Charges will expire after 5 rounds.)",
-        "momentumCost": 3,
-        "fpCost": 5
-      },
-      {
-        "name": "Elite Engine",
-        "type": "PotentialSkill",
-        "description": "Charge Weapon FP cost is increased to 8 FP. Attacks do not use up all of your charges, instead the LV is reduced by 1, and the damage bonus is 35% (does not increase with charge amount like normal Excel attacks)."
-      }
-    ],
-    "description": "The Excel line of weapons were developed in Chaturanga, where the ability to be defensive while increasing offensive capabilities was highly valued. By charging up the weapon, it can explosively spend the focus energy when it strikes an enemy, greatly increasing damage. However, the engine module makes it heavier than other weapons.",
-    "location": [
-      "Random drops"
-    ]
-  },
-  {
-    "id": "weapon:axe:evil-club",
-    "name": "Evil Club",
-    "rarity": 6,
-    "weaponType": "Axe",
-    "subtype": "Club",
-    "range": 1,
-    "power": 15,
-    "accuracy": 75,
-    "critical": 0,
-    "criticalDamage": 125,
-    "weight": 15,
-    "damageType": "Blunt",
-    "scaling": [
-      {
-        "type": "Darkness",
-        "str": 70,
-        "res": 40
-      }
-    ],
-    "specials": [
-      {
-        "name": "Darkness Damage",
-        "type": "OnHit",
-        "description": "Deals magic Darkness bonus damage equal to 50% of your Darkness ATK, which ignores armor."
-      }
-    ],
-    "description": "This is an evil club. The weapon kind. Not the type of one you join where girls aren't allowed.",
-    "location": [
-      "Random drops"
+      "Labyrinth Drop Table"
     ]
   },
   {
@@ -687,113 +602,119 @@
         "cooldown": 2
       }
     ],
-    "description": "A tribal axe engraved with a goat-headed god. Rituals have left it powerful, but demanding.",
+    "description": "1 Momentum, 15 HP A tribal axe engraved with a goat-headed god. Rituals have left it powerful, but demanding.",
     "location": [
-      "Random drops"
+      "Labyrinth Drop Table"
     ]
   },
   {
-    "id": "weapon:axe:vampire-bat",
-    "name": "Vampire Bat",
-    "rarity": 7,
+    "id": "weapon:axe:cat-o-nine-tails",
+    "name": "Cat o' Nine Tails",
+    "rarity": 6,
     "weaponType": "Axe",
-    "range": 1,
-    "power": 14,
+    "range": 3,
+    "power": 4,
     "accuracy": 75,
-    "critical": -5,
+    "critical": 0,
+    "criticalDamage": 125,
+    "weight": 8,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Earthen",
+        "str": 70,
+        "def": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Passive",
+        "type": "Passive",
+        "description": "+1 Attack Range if weapon made of Thinsteel. On Hit: Apply or power up String Attached (LV 1, max 4, 3 rounds). Only 1 string can attached per action (even if you have multiple Puppet Strings equipped, or attack with it multiple times)."
+      },
+      {
+        "name": "Passive",
+        "type": "Passive",
+        "description": "Strings Attached effects that you apply deal protection-ignoring Pierce damage equal to LV x 10 at the start of a new round."
+      }
+    ],
+    "description": "A terrifying weapon made of barbed wires.",
+    "location": [
+      "Random Drops"
+    ]
+  },
+  {
+    "id": "weapon:axe:evil-club",
+    "name": "Evil Club",
+    "rarity": 6,
+    "weaponType": "Axe",
+    "subtype": "Club",
+    "range": 1,
+    "power": 15,
+    "accuracy": 75,
+    "critical": 0,
     "criticalDamage": 125,
     "weight": 15,
     "damageType": "Blunt",
     "scaling": [
       {
-        "type": "Vampiric",
-        "str": 80,
-        "vit": 30
+        "type": "Darkness",
+        "str": 70,
+        "res": 40
       }
     ],
     "specials": [
-      {
-        "name": "Vampiric",
-        "type": "Passive",
-        "description": "Vampiric (10%) (Basic attacks only)."
-      },
       {
         "name": "Darkness Damage",
         "type": "OnHit",
         "description": "Deals magic Darkness bonus damage equal to 50% of your Darkness ATK, which ignores armor."
       }
     ],
-    "description": "Punish your enemies. Getting hit with this will really suck. Just hope they don't up the stakes in return.",
+    "description": "This is an evil club. The weapon kind. Not the type of one you join where girls aren't allowed.",
     "location": [
-      "Random drops"
+      "Dark Drop Table"
     ]
   },
   {
-    "id": "weapon:axe:magical-sun",
-    "name": "Magical Sun",
-    "rarity": 7,
+    "id": "weapon:axe:excel-parashu",
+    "name": "Excel Parashu",
+    "rarity": 6,
     "weaponType": "Axe",
     "range": 1,
-    "power": 15,
+    "power": 12,
     "accuracy": 75,
     "critical": 0,
     "criticalDamage": 125,
-    "weight": 16,
+    "weight": 22,
     "damageType": "Slash",
     "scaling": [
       {
-        "type": "Magical",
-        "str": 70,
-        "wil": 40
+        "type": "Basic",
+        "str": 100
       }
     ],
     "specials": [
       {
-        "name": "Spelledge",
-        "type": "Passive",
-        "description": "This weapon can be used as a casting tool for spells."
-      }
-    ],
-    "description": "The whole world will revolve around you. Will not help you transform, however.",
-    "location": [
-      "Random drops",
-      "Metalwork (Lv5)"
-    ]
-  },
-  {
-    "id": "weapon:axe:sea-hunter-axe",
-    "name": "Sea Hunter Axe",
-    "rarity": 7,
-    "weaponType": "Axe",
-    "range": 1,
-    "power": 16,
-    "accuracy": 75,
-    "critical": 7,
-    "criticalDamage": 125,
-    "weight": 14,
-    "damageType": "Slash",
-    "scaling": [
-      {
-        "type": "Aquatic",
-        "str": 70,
-        "vit": 40
-      }
-    ],
-    "specials": [
-      {
-        "name": "Hunter's Mark",
+        "name": "Charge Consumption",
         "type": "OnHit",
-        "description": "Inflicts Hunted LV14 for 3 rounds if the target is a seafaring monster."
+        "description": "Consumes Weapon Charges, dealing 50% more damage per Charge Level."
       },
       {
-        "name": "Coral Material",
-        "type": "Passive",
-        "description": "Always comes made of Coral (+1 Power, +3 Accuracy, +3 Critical, +1 Weight, +3 Water ATK.)"
+        "name": "Charge Weapon",
+        "type": "GrantsSkill",
+        "description": "Rev your weapon and fill it with focus, increasing its Charge, to a maximum of level 3. When you hit with a weapon that can consume Weapon Charges, the damage you deal with that attack will increase by 50% per level. (Weapon Charges will expire after 5 rounds.)",
+        "momentumCost": 3,
+        "fpCost": 5
+      },
+      {
+        "name": "Elite Engine",
+        "type": "PotentialSkill",
+        "description": "Charge Weapon FP cost is increased to 8 FP. Attacks do not use up all of your charges, instead the LV is reduced by 1, and the damage bonus is 35% (does not increase with charge amount like normal Excel attacks)."
       }
     ],
-    "description": "This axe was born from the sea, and as anyone who lives there knows, anything that lives in the sea is out to get everything else... that lives in the sea.",
+    "description": "3 Momentum, 5 FP The Excel line of weapons were developed in Chaturanga, where the ability to be defensive while increasing offensive capabilities was highly valued. By charging up the weapon, it can explosively spend the focus energy when it strikes an enemy, greatly increasing damage. However, the engine module makes it heavier than other weapons.",
     "location": [
-      "Fishing Contest Chest"
+      "Mine Drop Table"
     ]
   },
   {
@@ -829,7 +750,7 @@
     ],
     "description": "This is the non-traditional version of an axe, which is the instrument. When filled with focus, it generates electricity and sick-nasty shreds.",
     "location": [
-      "Random drops"
+      "Lightning Drop Table"
     ]
   },
   {
@@ -869,76 +790,140 @@
     ],
     "description": "A heavy axe that fuels itself on focus. Much like the stone walls of a maze, the deeper you get, the harder it is to escape.",
     "location": [
-      "Random drops"
+      "Labyrinth Drop Table"
     ]
   },
   {
-    "id": "weapon:axe:ramarg",
-    "name": "Ramarg",
-    "rarity": 8,
+    "id": "weapon:axe:magical-sun",
+    "name": "Magical Sun",
+    "rarity": 7,
     "weaponType": "Axe",
     "range": 1,
-    "power": 11,
+    "power": 15,
     "accuracy": 75,
     "critical": 0,
     "criticalDamage": 125,
-    "weight": 6,
+    "weight": 16,
     "damageType": "Slash",
     "scaling": [
       {
-        "type": "Earthen",
+        "type": "Magical",
         "str": 70,
-        "def": 40
+        "wil": 40
       }
     ],
     "specials": [
       {
-        "name": "Wind Substitution",
+        "name": "Spelledge",
+        "type": "Passive",
+        "description": "This weapon can be used as a casting tool for spells."
+      }
+    ],
+    "description": "The whole world will revolve around you. Will not help you transform, however.",
+    "location": [
+      "Space Drop Table Metalwork (Lv5)"
+    ]
+  },
+  {
+    "id": "weapon:axe:sea-hunter-axe",
+    "name": "Sea Hunter Axe",
+    "rarity": 7,
+    "weaponType": "Axe",
+    "range": 1,
+    "power": 16,
+    "accuracy": 75,
+    "critical": 7,
+    "criticalDamage": 125,
+    "weight": 14,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Aquatic",
+        "str": 70,
+        "vit": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Hunter's Mark",
         "type": "OnHit",
-        "description": "Replaces your Wind ATK with the target's for 2 rounds."
+        "description": "Inflicts Hunted LV14 for 3 rounds if the target is a seafaring monster."
       },
       {
-        "name": "Sky's Call",
-        "type": "PotentialSkill",
-        "description": "Requires Substitute Wind ATK to be active. Consumes the status by the weapon, deals 20 armor-ignoring Wind Kickback Damage to you, curing Glowing effects you suffer from, and deals Wind magic damage ignores Reflect, Immunity, and Absorb) equal to 100% of Ramarg's Scaled Weapon Attack + 100% of the Substitute Wind ATK from its effect to all enemies in a 3 Size Circle around you. You and all damaged enemies are knocked airborne. 3 round CD.",
-        "cooldown": 3
+        "name": "Coral Material",
+        "type": "Passive",
+        "description": "Always comes made of Coral (+1 Power, +3 Accuracy, +3 Critical, +1 Weight, +3 Water ATK.)"
       }
     ],
-    "description": "An axe said to be designed in a land far across the ocean.",
+    "description": "This axe was born from the sea, and as anyone who lives there knows, anything that lives in the sea is out to get everything else... that lives in the sea.",
     "location": [
-      "Random drops"
+      "Fishing Contest Chest"
     ]
   },
   {
-    "id": "weapon:axe:nirvana-replica",
-    "name": "Nirvana Replica",
-    "rarity": 8,
+    "id": "weapon:axe:vampire-bat",
+    "name": "Vampire Bat",
+    "rarity": 7,
     "weaponType": "Axe",
     "range": 1,
-    "power": 19,
+    "power": 14,
     "accuracy": 75,
-    "critical": 0,
+    "critical": -5,
     "criticalDamage": 125,
-    "weight": 20,
-    "damageType": "Slash",
+    "weight": 15,
+    "damageType": "Blunt",
     "scaling": [
       {
-        "type": "Replica",
-        "str": 70,
-        "ski": 20,
-        "san": 20
+        "type": "Vampiric",
+        "str": 80,
+        "vit": 30
       }
     ],
     "specials": [
       {
-        "name": "Divine Weapon",
+        "name": "Vampiric",
         "type": "Passive",
-        "description": "Always comes enchanted with Divine Weapon (+2 Power, +5 Accuracy, +5 Critical, -2 Weight. Unbreakable.)"
+        "description": "Vampiric (10%) (Basic attacks only)."
+      },
+      {
+        "name": "Darkness Damage",
+        "type": "OnHit",
+        "description": "Deals magic Darkness bonus damage equal to 50% of your Darkness ATK, which ignores armor."
       }
     ],
-    "description": "A replica of an axe used by an Alstalain general. It possesses extremely high power.",
+    "description": "Punish your enemies. Getting hit with this will really suck. Just hope they don't up the stakes in return.",
     "location": [
-      "Casino"
+      "Dark Drop Table Beast Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:axe:lare-grystale",
+    "name": "Lare Grystale",
+    "rarity": 8,
+    "weaponType": "Axe",
+    "range": 1,
+    "power": 10,
+    "accuracy": 75,
+    "critical": 0,
+    "criticalDamage": 125,
+    "weight": 19,
+    "damageType": "Blunt",
+    "scaling": [
+      {
+        "type": "Basic",
+        "str": 100
+      }
+    ],
+    "specials": [
+      {
+        "name": "Defense Bonus",
+        "type": "Passive",
+        "description": "+2 DEF. Also counts as a Shield."
+      }
+    ],
+    "description": "A unique 'axe' that carries on it a heavy shield instead of a bladed head, atop a long pole. It would be quite useful at defending, and would probably hurt to be hit with.",
+    "location": [
+      "Mine Drop Table"
     ]
   },
   {
@@ -977,37 +962,76 @@
     ],
     "description": "Cuts through lies, falsehoods, and those somewhere inbetween.",
     "location": [
-      "Random drops"
+      "Labyrinth Drop Table Summon Drop Table"
     ]
   },
   {
-    "id": "weapon:axe:lare-grystale",
-    "name": "Lare Grystale",
+    "id": "weapon:axe:nirvana-replica",
+    "name": "Nirvana Replica",
     "rarity": 8,
     "weaponType": "Axe",
     "range": 1,
-    "power": 10,
+    "power": 19,
     "accuracy": 75,
     "critical": 0,
     "criticalDamage": 125,
-    "weight": 19,
-    "damageType": "Blunt",
+    "weight": 20,
+    "damageType": "Slash",
     "scaling": [
       {
-        "type": "Basic",
-        "str": 100
+        "type": "Replica",
+        "str": 70,
+        "ski": 20,
+        "san": 20
       }
     ],
     "specials": [
       {
-        "name": "Defense Bonus",
+        "name": "Divine Weapon",
         "type": "Passive",
-        "description": "+2 DEF. Also counts as a Shield."
+        "description": "Always comes enchanted with Divine Weapon (+2 Power, +5 Accuracy, +5 Critical, -2 Weight. Unbreakable.)"
       }
     ],
-    "description": "A unique 'axe' that carries on it a heavy shield instead of a bladed head, atop a long pole. It would be quite useful at defending, and would probably hurt to be hit with.",
+    "description": "A replica of an axe used by an Alstalain general. It possesses extremely high power.",
     "location": [
-      "Random drops"
+      "Casino"
+    ]
+  },
+  {
+    "id": "weapon:axe:ramarg",
+    "name": "Ramarg",
+    "rarity": 8,
+    "weaponType": "Axe",
+    "range": 1,
+    "power": 11,
+    "accuracy": 75,
+    "critical": 0,
+    "criticalDamage": 125,
+    "weight": 6,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Earthen",
+        "str": 70,
+        "def": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Wind Substitution",
+        "type": "OnHit",
+        "description": "Replaces your Wind ATK with the target's for 2 rounds."
+      },
+      {
+        "name": "Sky's Call",
+        "type": "PotentialSkill",
+        "description": "Requires Substitute Wind ATK to be active. Consumes the status by the weapon, deals 20 armor-ignoring Wind Kickback Damage to you, curing Glowing effects you suffer from, and deals Wind magic damage ignores Reflect, Immunity, and Absorb) equal to 100% of Ramarg's Scaled Weapon Attack + 100% of the Substitute Wind ATK from its effect to all enemies in a 3 Size Circle around you. You and all damaged enemies are knocked airborne. 3 round CD.",
+        "cooldown": 3
+      }
+    ],
+    "description": "An axe said to be designed in a land far across the ocean.",
+    "location": [
+      "Earth Drop Table"
     ]
   },
   {
@@ -1037,7 +1061,7 @@
     ],
     "description": "An axe made to kill citizens and not much else.",
     "location": [
-      "Random drops"
+      "Highway Drop Table"
     ]
   },
   {
@@ -1068,69 +1092,7 @@
     ],
     "description": "A powerful axe that is capable of launching even the most harmless object at fast speeds.",
     "location": [
-      "Random drops"
-    ]
-  },
-  {
-    "id": "weapon:axe:violet-varon",
-    "name": "Violet Varon",
-    "rarity": 9,
-    "weaponType": "Axe",
-    "range": 1,
-    "power": 9,
-    "accuracy": 75,
-    "critical": 0,
-    "criticalDamage": 125,
-    "weight": 14,
-    "damageType": "Slash",
-    "scaling": [
-      {
-        "type": "Basic",
-        "str": 100
-      }
-    ],
-    "specials": [
-      {
-        "name": "Dual Type",
-        "type": "Passive",
-        "description": "Also qualifies as a Sword weapon."
-      }
-    ],
-    "description": "This purple weapon is similar to a polearm, but seems to be an odd fusion of an axehead and a sharp sword.",
-    "location": [
-      "Random drops"
-    ]
-  },
-  {
-    "id": "weapon:axe:sky-mantis-scythe",
-    "name": "Sky Mantis Scythe",
-    "rarity": 9,
-    "weaponType": "Axe",
-    "subtype": "Scythe",
-    "range": 1,
-    "power": 8,
-    "accuracy": 90,
-    "critical": 0,
-    "criticalDamage": 125,
-    "weight": 5,
-    "damageType": "Slash",
-    "scaling": [
-      {
-        "type": "Sylphid",
-        "str": 70,
-        "cel": 40
-      }
-    ],
-    "specials": [
-      {
-        "name": "Airborne Efficiency",
-        "type": "Passive",
-        "description": "Airborne basic attacks with this weapon cost 1M less (to a minimum of 1M)."
-      }
-    ],
-    "description": "Made from a flying insect native to Alstalsia. Its lightweight makes it less destructive than most axes, but faster.",
-    "location": [
-      "Random drops"
+      "Ice Drop Table"
     ]
   },
   {
@@ -1167,23 +1129,53 @@
     ],
     "description": "Made from a flying insect native to Alstalsia. Its lightweight makes it less destructive than most axes, but faster.",
     "location": [
-      "Random drops",
-      "Loyrwell Tombs"
+      "Ice Drop Table Loyrwell Tombs"
     ]
   },
   {
-    "id": "weapon:axe:skullcaver",
-    "name": "Skullcaver",
-    "rarity": 10,
+    "id": "weapon:axe:sky-mantis-scythe",
+    "name": "Sky Mantis Scythe",
+    "rarity": 9,
     "weaponType": "Axe",
-    "subtype": "Club",
+    "subtype": "Scythe",
     "range": 1,
-    "power": 17,
-    "accuracy": 75,
-    "critical": 10,
+    "power": 8,
+    "accuracy": 90,
+    "critical": 0,
     "criticalDamage": 125,
-    "weight": 15,
-    "damageType": "Blunt",
+    "weight": 5,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Sylphid",
+        "str": 70,
+        "cel": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Airborne Efficiency",
+        "type": "Passive",
+        "description": "Airborne basic attacks with this weapon cost 1M less (to a minimum of 1M)."
+      }
+    ],
+    "description": "Made from a flying insect native to Alstalsia. Its lightweight makes it less destructive than most axes, but faster.",
+    "location": [
+      "Lightning Drop Table"
+    ]
+  },
+  {
+    "id": "weapon:axe:violet-varon",
+    "name": "Violet Varon",
+    "rarity": 9,
+    "weaponType": "Axe",
+    "range": 1,
+    "power": 9,
+    "accuracy": 75,
+    "critical": 0,
+    "criticalDamage": 125,
+    "weight": 14,
+    "damageType": "Slash",
     "scaling": [
       {
         "type": "Basic",
@@ -1192,14 +1184,14 @@
     ],
     "specials": [
       {
-        "name": "Stunning Critical",
-        "type": "OnCrit",
-        "description": "(UL/2)% chance to inflict Stun."
+        "name": "Dual Type",
+        "type": "Passive",
+        "description": "Also qualifies as a Sword weapon."
       }
     ],
-    "description": "This magical weapon possesses a unique function; turning heads into caverns.",
+    "description": "This purple weapon is similar to a polearm, but seems to be an odd fusion of an axehead and a sharp sword.",
     "location": [
-      "Bandit Bruiser (Lv56+)"
+      "Labyrinth Drop Table"
     ]
   },
   {
@@ -1236,6 +1228,37 @@
     "description": "This large anchor barely qualifies as an axe, although its edge is quite sharp. Tales say that it was used on a ship that sailed the seas of Hell.",
     "location": [
       "Fangs (Lv56+)"
+    ]
+  },
+  {
+    "id": "weapon:axe:noble-axe",
+    "name": "Noble Axe",
+    "rarity": 10,
+    "weaponType": "Axe",
+    "range": 1,
+    "power": 18,
+    "accuracy": 85,
+    "critical": 0,
+    "criticalDamage": 125,
+    "weight": 13,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Magical",
+        "str": 70,
+        "wil": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Chivalrous Bonus",
+        "type": "Passive",
+        "description": "When attacking an enemy from the front, while your party does not outnumber theirs: Increases Power and Critical by UL/2."
+      }
+    ],
+    "description": "An axe typically used by knights in the field of combat, it shines with the silvery sheen of chivalry.",
+    "location": [
+      "Headless Knight (Lv56+)"
     ]
   },
   {
@@ -1280,34 +1303,34 @@
     ]
   },
   {
-    "id": "weapon:axe:noble-axe",
-    "name": "Noble Axe",
+    "id": "weapon:axe:skullcaver",
+    "name": "Skullcaver",
     "rarity": 10,
     "weaponType": "Axe",
+    "subtype": "Club",
     "range": 1,
-    "power": 18,
-    "accuracy": 85,
-    "critical": 0,
+    "power": 17,
+    "accuracy": 75,
+    "critical": 10,
     "criticalDamage": 125,
-    "weight": 13,
-    "damageType": "Slash",
+    "weight": 15,
+    "damageType": "Blunt",
     "scaling": [
       {
-        "type": "Magical",
-        "str": 70,
-        "wil": 40
+        "type": "Basic",
+        "str": 100
       }
     ],
     "specials": [
       {
-        "name": "Chivalrous Bonus",
-        "type": "Passive",
-        "description": "When attacking an enemy from the front, while your party does not outnumber theirs: Increases Power and Critical by UL/2."
+        "name": "Stunning Critical",
+        "type": "OnCrit",
+        "description": "(UL/2)% chance to inflict Stun."
       }
     ],
-    "description": "An axe typically used by knights in the field of combat, it shines with the silvery sheen of chivalry.",
+    "description": "This magical weapon possesses a unique function; turning heads into caverns.",
     "location": [
-      "Headless Knight (Lv56+)"
+      "Bandit Bruiser (Lv56+)"
     ]
   }
 ]

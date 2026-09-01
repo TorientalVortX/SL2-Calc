@@ -1,11 +1,6 @@
-/**
- * Color constants for SL2 Calculator
- * Contains color mappings for stats and elements
- */
-
 import type { StatKey } from '../types';
 
-// Stat color mapping based on SL2 themes
+/** Each stat's colour, taken from the element it is associated with in game. */
 export const STAT_COLORS: Record<StatKey, string> = {
   'str': '#ef4444',     // Red - Fire element
   'wil': '#ffffff',     // White - Mental strength
@@ -34,3 +29,27 @@ export const ELEMENT_COLORS: Record<string, string> = {
   'Acid': '#22c55e',      // Green - matches GUI
   'Sound': '#6b7280'      // Grey - matches SAN
 };
+
+/**
+ * Render-time substitutions for values that fail WCAG AA (4.5:1) as text on the
+ * near-black panel surfaces.
+ *
+ * Nine of the twelve stat colours clear 4.5:1 on `surface.raised` (#121826) and
+ * render at their source value. These three do not. Each substitute keeps the
+ * stat's hue identity: DEF stays an amber-brown rather than lifting into LUC's
+ * orange, so the two remain distinguishable.
+ *
+ * The source constants above are deliberately untouched: they are the game's
+ * canonical colours and are still correct on light surfaces and in exports.
+ * Specified by the Turn 1 design document.
+ */
+export const ON_DARK: Record<string, string> = {
+  '#92400e': '#b5762e', // DEF  / Earth  brown
+  '#1e40af': '#4f7ce8', // VIT  / Water  deep blue
+  '#6b7280': '#9aa6bf', // SAN  / Sound  grey
+};
+
+/** Map a canonical colour to the variant safe to render on a dark panel. */
+export function onDark(color: string): string {
+  return ON_DARK[color.toLowerCase()] ?? color;
+}

@@ -1,0 +1,781 @@
+[
+  {
+    "id": "catalyst:black-hole",
+    "name": "Black Hole",
+    "rarity": 10,
+    "page": "Catalysts",
+    "flavour": "A sharp and painful anomaly.",
+    "raw": "'''Can Enchant:''' Weapons <br> '''Enchant Info:''' +10 Weapon Critical. +5% Critical Damage. When critically hitting monsters with this weapon (excluding bosses, and monsters whose level is 10 or more higher than yours): 5% chance for the attack to do a Vorpal Strike, dealing 9999 Akashic damage.<br><br><i>A sharp and painful anomaly.</i>",
+    "canenchant": "Weapons",
+    "enchantinfo": "+10 Weapon Critical. +5% Critical Damage. When critically hitting monsters with this weapon (excluding bosses, and monsters whose level is 10 or more higher than yours): 5% chance for the attack to do a Vorpal Strike, dealing 9999 Akashic damage.",
+    "location": [
+      "Shrine Maiden"
+    ],
+    "slots": [
+      "Weapons"
+    ],
+    "enchantInfo": "+10 Weapon Critical. +5% Critical Damage. When critically hitting monsters with this weapon (excluding bosses, and monsters whose level is 10 or more higher than yours): 5% chance for the attack to do a Vorpal Strike, dealing 9999 Akashic damage."
+  },
+  {
+    "id": "catalyst:bleached-fang",
+    "name": "Bleached Fang",
+    "rarity": 7,
+    "page": "Catalysts",
+    "flavour": "A hard bone fang long bleached by sunlight.",
+    "raw": "'''Can Enchant:''' Torso <br>'''Enchant Info:''' +25 Critical Evade<br><br><i>A hard bone fang long bleached by sunlight.</i>",
+    "canenchant": "Torso",
+    "enchantinfo": "+25 Critical Evade",
+    "location": [
+      "Gigas Rex"
+    ],
+    "slots": [
+      "Torso"
+    ],
+    "enchantInfo": "+25 Critical Evade"
+  },
+  {
+    "id": "catalyst:borneblood",
+    "name": "Borneblood",
+    "rarity": 7,
+    "page": "Catalysts",
+    "flavour": "This bloodmark, when borne and worn, will indicate a hunt is about to happen.",
+    "raw": "'''Can Enchant:''' Weapons, Legs <br>'''Enchant Info: Weapon:''' Gains 1 bonus Hit per 4% of missing HP of the attack target. <br>'''Legs:''' After moving, if you are within 1 Range of an enemy, gain 1 Move per 10% HP they are missing for 2 rounds.<br><br><i>This bloodmark, when borne and worn, will indicate a hunt is about to happen.</i>",
+    "canenchant": "Weapons, Legs",
+    "enchantinfo": "Weapon: Gains 1 bonus Hit per 4% of missing HP of the attack target. Legs: After moving, if you are within 1 Range of an enemy, gain 1 Move per 10% HP they are missing for 2 rounds.",
+    "location": [
+      "Fangs"
+    ],
+    "slots": [
+      "Weapons",
+      "Legs"
+    ],
+    "enchantInfo": "Weapon: Gains 1 bonus Hit per 4% of missing HP of the attack target. Legs: After moving, if you are within 1 Range of an enemy, gain 1 Move per 10% HP they are missing for 2 rounds."
+  },
+  {
+    "id": "catalyst:cosmic-cloth",
+    "name": "Cosmic Cloth",
+    "rarity": 1,
+    "page": "Catalysts",
+    "flavour": "A cloth made out of magical space energy that will wipe away any beneficial enchantments an item has.",
+    "raw": "<i>A cloth made out of magical space energy that will wipe away any beneficial enchantments an item has.</i>",
+    "location": [
+      "Badlands Arena",
+      "Duyuei Magic Shop"
+    ],
+    "slots": [],
+    "enchantInfo": ""
+  },
+  {
+    "id": "catalyst:cosmic-stars",
+    "name": "Cosmic Stars",
+    "rarity": 7,
+    "page": "Catalysts",
+    "flavour": "Glittering magical stars that would fill any girl's heart with joy.",
+    "raw": "'''Can Enchant:''' Weapons <br>'''Enchant Info:''' Weapon is treated as a Spelledge weapon, allowing it to be used as a casting tool, but it gains the Alterated scaling tag (-10% scaling for main stat).<br><br><i>Glittering magical stars that would fill any girl's heart with joy.</i>",
+    "canenchant": "Weapons",
+    "enchantinfo": "Weapon is treated as a Spelledge weapon, allowing it to be used as a casting tool, but it gains the Alterated scaling tag (-10% scaling for main stat).",
+    "location": [
+      "Breakdown (?%)",
+      "Enchanting (Lv5)"
+    ],
+    "slots": [
+      "Weapons"
+    ],
+    "enchantInfo": "Weapon is treated as a Spelledge weapon, allowing it to be used as a casting tool, but it gains the Alterated scaling tag (-10% scaling for main stat)."
+  },
+  {
+    "id": "catalyst:deathwish",
+    "name": "Deathwish",
+    "rarity": 7,
+    "page": "Catalysts",
+    "flavour": "A dark letter.",
+    "raw": "'''Can Enchant:''' Weapons <br>'''Enchant Info:''' +5 Power, +5 Critical.<br><br><i>A dark letter.</i>",
+    "canenchant": "Weapons",
+    "enchantinfo": "+5 Power, +5 Critical.",
+    "location": [
+      "Breakdown (20%)",
+      "Enchanting (Lv3)"
+    ],
+    "slots": [
+      "Weapons"
+    ],
+    "enchantInfo": "+5 Power, +5 Critical."
+  },
+  {
+    "id": "catalyst:evil-mass",
+    "name": "Evil Mass",
+    "rarity": 7,
+    "page": "Catalysts",
+    "flavour": "A mass of terrible, but necessary, evil.",
+    "raw": "'''Can Enchant:''' Hands<br>'''Enchant Info: On New Round:''' If you are Feared (and not incapacitated), allies within 3 Range who are incapacitated are revived with 35 HP.<br><br><i>A mass of terrible, but necessary, evil.</i>",
+    "canenchant": "Hands",
+    "enchantinfo": "On New Round: If you are Feared (and not incapacitated), allies within 3 Range who are incapacitated are revived with 35 HP.",
+    "location": [
+      "Spectre Knight"
+    ],
+    "slots": [
+      "Hands"
+    ],
+    "enchantInfo": "On New Round: If you are Feared (and not incapacitated), allies within 3 Range who are incapacitated are revived with 35 HP."
+  },
+  {
+    "id": "catalyst:eye-of-divinity",
+    "name": "Eye of Divinity",
+    "rarity": 10,
+    "page": "Catalysts",
+    "flavour": "Has the spark of divinity within its sight.",
+    "raw": "'''Can Enchant:''' Weapons <br>'''Enchant Info:''' +2 Power, +5 Critical, +5 Accuracy, -2 Weight. Weapon durability cannot decrease.<br><br><i>Has the spark of divinity within its sight.</i>",
+    "canenchant": "Weapons",
+    "enchantinfo": "+2 Power, +5 Critical, +5 Accuracy, -2 Weight. Weapon durability cannot decrease.",
+    "location": [
+      "Dual-Colored Starfish (Dark Amplifier Rematch)"
+    ],
+    "slots": [
+      "Weapons"
+    ],
+    "enchantInfo": "+2 Power, +5 Critical, +5 Accuracy, -2 Weight. Weapon durability cannot decrease."
+  },
+  {
+    "id": "catalyst:feathers-of-mercury",
+    "name": "Feathers of Mercury",
+    "rarity": 7,
+    "page": "Catalysts",
+    "flavour": "These feathers never seem to touch the ground on their own.",
+    "raw": "'''Can Enchant:''' Legs<br>'''Enchant Info:''' Your Airborne effects do not end when turns change. While Airborne under your own power, you gain +15 Evade.<br><br><i>These feathers never seem to touch the ground on their own.</i>",
+    "canenchant": "Legs",
+    "enchantinfo": "Your Airborne effects do not end when turns change. While Airborne under your own power, you gain +15 Evade.",
+    "location": [
+      "Tailoring (Lv6)"
+    ],
+    "slots": [
+      "Legs"
+    ],
+    "enchantInfo": "Your Airborne effects do not end when turns change. While Airborne under your own power, you gain +15 Evade."
+  },
+  {
+    "id": "catalyst:firejewel",
+    "name": "Firejewel",
+    "rarity": 3,
+    "page": "Catalysts",
+    "flavour": "An elemental gem.",
+    "raw": "'''Can Enchant:''' Torso, Hands <br>'''Enchant Info:''' Increases STR by 2 and Fire ATK by 3.<br><br><i>An elemental gem.</i>",
+    "canenchant": "Torso, Hands",
+    "enchantinfo": "Increases STR by 2 and Fire ATK by 3.",
+    "location": [
+      "Breakdown (50%)",
+      "Enchanting (Lv3)"
+    ],
+    "slots": [
+      "Torso",
+      "Hands"
+    ],
+    "enchantInfo": "Increases STR by 2 and Fire ATK by 3."
+  },
+  {
+    "id": "catalyst:floating-feather",
+    "name": "Floating Feather",
+    "rarity": 3,
+    "page": "Catalysts",
+    "flavour": "A weightless, magical feather.",
+    "raw": "'''Can Enchant:''' Weapons<br>'''Enchant Info:''' Weapon weight is halved.<br><br><i>A weightless, magical feather.</i>",
+    "canenchant": "Weapons",
+    "enchantinfo": "Weapon weight is halved.",
+    "location": [
+      "Breakdown (50%)",
+      "Enchanting (Lv3)"
+    ],
+    "slots": [
+      "Weapons"
+    ],
+    "enchantInfo": "Weapon weight is halved."
+  },
+  {
+    "id": "catalyst:four-leaf-clover",
+    "name": "Four-Leaf Clover",
+    "rarity": 3,
+    "page": "Catalysts",
+    "flavour": "Said to be bring good luck to whoever can find it.",
+    "raw": "'''Can Enchant:''' Accessory<br>'''Enchant Info:''' +3% Item Drop Rate (Enemies Only; Stacks)<br><br><i>Said to be bring good luck to whoever can find it.</i>",
+    "canenchant": "Accessory",
+    "enchantinfo": "+3% Item Drop Rate (Enemies Only; Stacks)",
+    "location": [
+      "Breakdown (50%)"
+    ],
+    "slots": [
+      "Accessory"
+    ],
+    "enchantInfo": "+3% Item Drop Rate (Enemies Only; Stacks)"
+  },
+  {
+    "id": "catalyst:geojewel",
+    "name": "Geojewel",
+    "rarity": 3,
+    "page": "Catalysts",
+    "flavour": "An elemental gem",
+    "raw": "'''Can Enchant:''' Torso, Hands<br>'''Enchant Info:''' Increases DEF by 2 and Earth ATK by 3.<br><br><i>An elemental gem</i>",
+    "canenchant": "Torso, Hands",
+    "enchantinfo": "Increases DEF by 2 and Earth ATK by 3.",
+    "location": [
+      "Breakdown (50%)",
+      "Enchanting (Lv3)"
+    ],
+    "slots": [
+      "Torso",
+      "Hands"
+    ],
+    "enchantInfo": "Increases DEF by 2 and Earth ATK by 3."
+  },
+  {
+    "id": "catalyst:ghost-killer",
+    "name": "Ghost Killer",
+    "rarity": 3,
+    "page": "Catalysts",
+    "flavour": "Ghosts gone, guaranteed.",
+    "raw": "'''Can Enchant:''' Weapons<br>'''Enchant Info:''' +2 FAI, +2 SAN. Enchanted weapon's basic attacks increase +30% damage versus Undead, Possessed, Ghost, and Vampire race enemies. (Halved versus non-monster enemies.)<br><br><i>Ghosts gone, guaranteed.</i>",
+    "canenchant": "Weapons",
+    "enchantinfo": "+2 FAI, +2 SAN. Enchanted weapon's basic attacks increase +30% damage versus Undead, Possessed, Ghost, and Vampire race enemies. (Halved versus non-monster enemies.)",
+    "location": [
+      "Breakdown (50%)",
+      "Enchanting (Lv3)"
+    ],
+    "slots": [
+      "Weapons"
+    ],
+    "enchantInfo": "+2 FAI, +2 SAN. Enchanted weapon's basic attacks increase +30% damage versus Undead, Possessed, Ghost, and Vampire race enemies. (Halved versus non-monster enemies.)"
+  },
+  {
+    "id": "catalyst:gigantic-gene",
+    "name": "Gigantic Gene",
+    "rarity": 7,
+    "page": "Catalysts",
+    "flavour": "This gene is so gigantic you can see it. And feel it. And it's big!",
+    "raw": "'''Can Enchant:''' Weapons, Torso <br>'''Enchant Info: Weapon:''' +1 Attack Range<br>'''Armor:''' +10% Maximum HP<br>'''Both:''' -10 Evade, +50% Weight (min. 2)<br><br><i>This gene is so gigantic you can see it. And feel it. And it's big!</i>",
+    "canenchant": "Weapons, Torso",
+    "enchantinfo": "Weapon: +1 Attack Range Armor: +10% Maximum HP Both: -10 Evade, +50% Weight (min. 2)",
+    "location": [
+      "Goblin Giant"
+    ],
+    "slots": [
+      "Weapons",
+      "Torso"
+    ],
+    "enchantInfo": "Weapon: +1 Attack Range Armor: +10% Maximum HP Both: -10 Evade, +50% Weight (min. 2)"
+  },
+  {
+    "id": "catalyst:golden-wax",
+    "name": "Golden Wax",
+    "rarity": 3,
+    "page": "Catalysts",
+    "flavour": "A rich wax that bleeds from the King's Tree in Egwyn. Those that can obtain some often make a sheath with it.",
+    "raw": "'''Can Enchant:''' Weapons<br>'''Enchant Info:''' +X HP Regeneration (X = 2 + Talent Points in Chivalry). At 25% HP or less, effect is doubled. (This enchant will not stack with other enchants of the same name.)<br><br><i>A rich wax that bleeds from the King's Tree in Egwyn. Those that can obtain some often make a sheath with it.</i>",
+    "canenchant": "Weapons",
+    "enchantinfo": "+X HP Regeneration (X = 2 + Talent Points in Chivalry). At 25% HP or less, effect is doubled. (This enchant will not stack with other enchants of the same name.)",
+    "location": [
+      "Breakdown (50%)",
+      "Enchanting (Lv3)"
+    ],
+    "slots": [
+      "Weapons"
+    ],
+    "enchantInfo": "+X HP Regeneration (X = 2 + Talent Points in Chivalry). At 25% HP or less, effect is doubled. (This enchant will not stack with other enchants of the same name.)"
+  },
+  {
+    "id": "catalyst:heart-of-leviathan",
+    "name": "Heart of Leviathan",
+    "rarity": 3,
+    "page": "Catalysts",
+    "flavour": "The heart of a large beast.",
+    "raw": "'''Can Enchant:''' Torso <br>'''Enchant Info:''' Increases maximum HP by 60.<br><br><i>The heart of a large beast.</i>",
+    "canenchant": "Torso",
+    "enchantinfo": "Increases maximum HP by 60.",
+    "location": [
+      "Breakdown (50%)",
+      "Enchanting (Lv3)"
+    ],
+    "slots": [
+      "Torso"
+    ],
+    "enchantInfo": "Increases maximum HP by 60."
+  },
+  {
+    "id": "catalyst:heart-of-tannin",
+    "name": "Heart of Tannin",
+    "rarity": 3,
+    "page": "Catalysts",
+    "flavour": "The heart of a demon.",
+    "raw": "'''Can Enchant:''' Torso <br>'''Enchant Info:''' Increases maximum FP by 60.<br><br><i>The heart of a demon.</i>",
+    "canenchant": "Torso",
+    "enchantinfo": "Increases maximum FP by 60.",
+    "location": [
+      "Breakdown (50%)",
+      "Enchanting (Lv3)"
+    ],
+    "slots": [
+      "Torso"
+    ],
+    "enchantInfo": "Increases maximum FP by 60."
+  },
+  {
+    "id": "catalyst:icejewel",
+    "name": "Icejewel",
+    "rarity": 3,
+    "page": "Catalysts",
+    "flavour": "An elemental gem.",
+    "raw": "'''Can Enchant:''' Torso, Hands<br>'''Enchant Info:''' Increases SKI by 2 and Ice ATK by 3.<br><br><i>An elemental gem.</i>",
+    "canenchant": "Torso, Hands",
+    "enchantinfo": "Increases SKI by 2 and Ice ATK by 3.",
+    "location": [
+      "Breakdown (50%)",
+      "Enchanting (Lv3)"
+    ],
+    "slots": [
+      "Torso",
+      "Hands"
+    ],
+    "enchantInfo": "Increases SKI by 2 and Ice ATK by 3."
+  },
+  {
+    "id": "catalyst:magic-blood-drop",
+    "name": "Magic Blood Drop",
+    "rarity": 3,
+    "page": "Catalysts",
+    "flavour": "A red drop of regenerating blood.",
+    "raw": "'''Can Enchant:''' Accessory <br>'''Enchant Info:''' +1 HP Regeneration<br><br><i>A red drop of regenerating blood.</i>",
+    "canenchant": "Accessory",
+    "enchantinfo": "+1 HP Regeneration",
+    "location": [
+      "Breakdown (50%)",
+      "Enchanting (Lv3)"
+    ],
+    "slots": [
+      "Accessory"
+    ],
+    "enchantInfo": "+1 HP Regeneration"
+  },
+  {
+    "id": "catalyst:magic-dew-drop",
+    "name": "Magic Dew Drop",
+    "rarity": 3,
+    "page": "Catalysts",
+    "flavour": "A drop of refreshing focus-rich dew.",
+    "raw": "'''Can Enchant:''' Accessory <br>'''Enchant Info:''' +1 FP Regeneration<br><br><i>A drop of refreshing focus-rich dew.</i>",
+    "canenchant": "Accessory",
+    "enchantinfo": "+1 FP Regeneration",
+    "location": [
+      "Breakdown (50%)",
+      "Enchanting (Lv3)"
+    ],
+    "slots": [
+      "Accessory"
+    ],
+    "enchantInfo": "+1 FP Regeneration"
+  },
+  {
+    "id": "catalyst:magic-marble",
+    "name": "Magic Marble",
+    "rarity": 7,
+    "page": "Catalysts",
+    "flavour": "A small pebble that is magic but otherwise unremarkable. Mundane, even.",
+    "raw": "'''Can Enchant:''' Weapons <br>'''Enchant Info:''' Removes all scaling tags from the weapon, except for purely negative ones (such as Tool).<br><br><i>A small pebble that is magic but otherwise unremarkable. Mundane, even.</i>",
+    "canenchant": "Weapons",
+    "enchantinfo": "Removes all scaling tags from the weapon, except for purely negative ones (such as Tool).",
+    "location": [
+      "Breakdown (?%)",
+      "Enchanting (Lv5)"
+    ],
+    "slots": [
+      "Weapons"
+    ],
+    "enchantInfo": "Removes all scaling tags from the weapon, except for purely negative ones (such as Tool)."
+  },
+  {
+    "id": "catalyst:magic-mirror",
+    "name": "Magic Mirror",
+    "rarity": 7,
+    "page": "Catalysts",
+    "flavour": "Your reflection hurts to look at.",
+    "raw": "'''Can Enchant:''' Hands<br>'''Enchant Info:''' Reflected damage you take is reduced by 75% (note: Retaliation damage is not Reflected damage). If you have a shield equipped, while Guard is active with a LV of 30 or more: Gain 50% Retaliation effect versus all damage types (max: 50 damage), except damage dealt by ranged weapon types.\n<br><br><i>Your reflection hurts to look at.</i>",
+    "canenchant": "Hands",
+    "enchantinfo": "Reflected damage you take is reduced by 75% (note: Retaliation damage is not Reflected damage). If you have a shield equipped, while Guard is active with a LV of 30 or more: Gain 50% Retaliation effect versus all damage types (max: 50 damage), except damage dealt by ranged weapon types.",
+    "location": [
+      "Mirror Knight"
+    ],
+    "slots": [
+      "Hands"
+    ],
+    "enchantInfo": "Reflected damage you take is reduced by 75% (note: Retaliation damage is not Reflected damage). If you have a shield equipped, while Guard is active with a LV of 30 or more: Gain 50% Retaliation effect versus all damage types (max: 50 damage), except damage dealt by ranged weapon types."
+  },
+  {
+    "id": "catalyst:mirage-scales",
+    "name": "Mirage Scales",
+    "rarity": 7,
+    "page": "Catalysts",
+    "flavour": "It doesn't look like it's really there.",
+    "raw": "'''Can Enchant:''' Legs<br>'''Enchant Info:''' After using a movement skill that costs at least 3M, gain +15 Evade for 1 attack (lasts for 3 rounds). If you already have Miragewalk active, instead the number of attacks the buff lasts for increases by 1 (to a max of 3).<br><br><i>It doesn't look like it's really there.</i>",
+    "canenchant": "Legs",
+    "enchantinfo": "After using a movement skill that costs at least 3M, gain +15 Evade for 1 attack (lasts for 3 rounds). If you already have Miragewalk active, instead the number of attacks the buff lasts for increases by 1 (to a max of 3).",
+    "location": [
+      "Feathered Serpent"
+    ],
+    "slots": [
+      "Legs"
+    ],
+    "enchantInfo": "After using a movement skill that costs at least 3M, gain +15 Evade for 1 attack (lasts for 3 rounds). If you already have Miragewalk active, instead the number of attacks the buff lasts for increases by 1 (to a max of 3)."
+  },
+  {
+    "id": "catalyst:mutated-jammer-core",
+    "name": "Mutated Jammer Core",
+    "rarity": 7,
+    "page": "Catalysts",
+    "flavour": "This core has been mutated by otherworldly energies.",
+    "raw": "'''Can Enchant:''' Weapons, Torso<br>'''Enchant Info: Weapon:''' -5 Hit. Weapon type may change based on rarity, but functions the same as normal. (9*+ weapons not affected). <br>'''Armor:''' Armor type changes based on rarity. (10*+ items not affected).<br>'''Both:''' +25% Weight Increase<br><br><i>This core has been mutated by otherworldly energies.</i>",
+    "canenchant": "Weapons, Torso",
+    "enchantinfo": "Weapon: -5 Hit. Weapon type may change based on rarity, but functions the same as normal. (9*+ weapons not affected). Armor: Armor type changes based on rarity. (10*+ items not affected). Both: +25% Weight Increase",
+    "location": [
+      "Jammer Omega"
+    ],
+    "slots": [
+      "Weapons",
+      "Torso"
+    ],
+    "enchantInfo": "Weapon: -5 Hit. Weapon type may change based on rarity, but functions the same as normal. (9*+ weapons not affected). Armor: Armor type changes based on rarity. (10*+ items not affected). Both: +25% Weight Increase"
+  },
+  {
+    "id": "catalyst:oath-sign",
+    "name": "Oath Sign",
+    "rarity": 3,
+    "page": "Catalysts",
+    "flavour": "A crystal arcane symbol that symbolizes loyalty and destiny.",
+    "raw": "'''Can Enchant:''' Weapons<br>'''Enchant Info:''' All weapon parameters improve by 3. Cannot be dropped when losing a battle.<br><br><i>A crystal arcane symbol that symbolizes loyalty and destiny.</i>",
+    "canenchant": "Weapons",
+    "enchantinfo": "All weapon parameters improve by 3. Cannot be dropped when losing a battle.",
+    "location": [
+      "Breakdown (50%)",
+      "Enchanting (Lv3)"
+    ],
+    "slots": [
+      "Weapons"
+    ],
+    "enchantInfo": "All weapon parameters improve by 3. Cannot be dropped when losing a battle."
+  },
+  {
+    "id": "catalyst:otherworld-wanted-poster",
+    "name": "Otherworld Wanted Poster",
+    "rarity": 3,
+    "page": "Catalysts",
+    "flavour": "A wanted poster from a different world.",
+    "raw": "'''Can Enchant:''' Hands<br>'''Enchant Info:''' +5 Guile. Increases Steal's success rate by 15%.<br><br><i>A wanted poster from a different world.</i>",
+    "canenchant": "Hands",
+    "enchantinfo": "+5 Guile. Increases Steal's success rate by 15%.",
+    "location": [
+      "Breakdown (50%)"
+    ],
+    "slots": [
+      "Hands"
+    ],
+    "enchantInfo": "+5 Guile. Increases Steal's success rate by 15%."
+  },
+  {
+    "id": "catalyst:pitch-black-feather",
+    "name": "Pitch-Black Feather",
+    "rarity": 7,
+    "page": "Catalysts",
+    "flavour": "At first glance, this looks like a feather, but touching it reveals it feels more like soft ice.",
+    "raw": "'''Can Enchant:''' Torso<br>'''Enchant Info:''' Increases this item's Armor/Magic Armor by 1 and Evade by 5 for each summoned or deployed NPC ally within 3 Range.<br><br><i>At first glance, this looks like a feather, but touching it reveals it feels more like soft ice.</i>",
+    "canenchant": "Torso",
+    "enchantinfo": "Increases this item's Armor/Magic Armor by 1 and Evade by 5 for each summoned or deployed NPC ally within 3 Range.",
+    "location": [
+      "Shadow Guardian"
+    ],
+    "slots": [
+      "Torso"
+    ],
+    "enchantInfo": "Increases this item's Armor/Magic Armor by 1 and Evade by 5 for each summoned or deployed NPC ally within 3 Range."
+  },
+  {
+    "id": "catalyst:precious-stone",
+    "name": "Precious Stone",
+    "rarity": 3,
+    "page": "Catalysts",
+    "flavour": "A gorgeous stone that can make a weapon equally as beautiful.",
+    "raw": "'''Can Enchant:''' Weapons<br>'''Enchant Info:''' Increase FAI by 2 and Light ATK by 3.<br><br><i>A gorgeous stone that can make a weapon equally as beautiful.</i>",
+    "canenchant": "Weapons",
+    "enchantinfo": "Increase FAI by 2 and Light ATK by 3.",
+    "location": [
+      "Breakdown (50%)",
+      "Enchanting (Lv3)"
+    ],
+    "slots": [
+      "Weapons"
+    ],
+    "enchantInfo": "Increase FAI by 2 and Light ATK by 3."
+  },
+  {
+    "id": "catalyst:purging-flame",
+    "name": "Purging Flame",
+    "rarity": 7,
+    "page": "Catalysts",
+    "flavour": "A magical flame that removes all enchantments from the item, including cursed and doomed ones.",
+    "raw": "<i>A magical flame that removes all enchantments from the item, including cursed and doomed ones.</i>",
+    "location": [
+      "Salamander",
+      "Belseph, the Fierce Flame"
+    ],
+    "slots": [],
+    "enchantInfo": ""
+  },
+  {
+    "id": "catalyst:rebellious-spirit",
+    "name": "Rebellious Spirit",
+    "rarity": 7,
+    "page": "Catalysts",
+    "flavour": "Doesn't want to play by the rules.",
+    "raw": "'''Can Enchant:''' Weapons<br>'''Enchant Info:''' +1.5 Power and -1.5 Hit for every 1 Rarity below 9.<br><br><i>Doesn't want to play by the rules.</i>",
+    "canenchant": "Weapons",
+    "enchantinfo": "+1.5 Power and -1.5 Hit for every 1 Rarity below 9.",
+    "location": [
+      "Breakdown (20%)"
+    ],
+    "slots": [
+      "Weapons"
+    ],
+    "enchantInfo": "+1.5 Power and -1.5 Hit for every 1 Rarity below 9."
+  },
+  {
+    "id": "catalyst:red-roc-feather",
+    "name": "Red Roc Feather",
+    "rarity": 3,
+    "page": "Catalysts",
+    "flavour": "A plume from a soaring predator.",
+    "raw": "'''Can Enchant:''' Torso, Legs<br>'''Enchant Info:''' +2 SAN, +2 CEL. Allows you to use Flight movement while Airborne.<br><br><i>A plume from a soaring predator.</i>",
+    "canenchant": "Torso, Legs",
+    "enchantinfo": "+2 SAN, +2 CEL. Allows you to use Flight movement while Airborne.",
+    "location": [
+      "Breakdown (?%)",
+      "Enchanting (Lv4)"
+    ],
+    "slots": [
+      "Torso",
+      "Legs"
+    ],
+    "enchantInfo": "+2 SAN, +2 CEL. Allows you to use Flight movement while Airborne."
+  },
+  {
+    "id": "catalyst:rune-tablet",
+    "name": "Rune Tablet",
+    "rarity": 7,
+    "page": "Catalysts",
+    "flavour": "A rock tablet engraved with a rune symbol.",
+    "raw": "'''Can Enchant:''' Weapons<br>'''Enchant Info:''' +2 Power, Critical, Hit. -2 Weight. Weapon becomes a valid casting tool for Rune spells.<br><br><i>A rock tablet engraved with a rune symbol.</i>",
+    "canenchant": "Weapons",
+    "enchantinfo": "+2 Power, Critical, Hit. -2 Weight. Weapon becomes a valid casting tool for Rune spells.",
+    "location": [
+      "Breakdown (?%)",
+      "Enchanting (Lv4)"
+    ],
+    "slots": [
+      "Weapons"
+    ],
+    "enchantInfo": "+2 Power, Critical, Hit. -2 Weight. Weapon becomes a valid casting tool for Rune spells."
+  },
+  {
+    "id": "catalyst:scripture",
+    "name": "Scripture",
+    "rarity": 7,
+    "page": "Catalysts",
+    "flavour": "A holy page.",
+    "raw": "'''Can Enchant:''' Weapons<br>'''Enchant Info:''' Against Undead, Ghost, and Possessed Enemies: Increases weapon's hit by half of your Scaled FAI.<br><br><i>A holy page.</i>",
+    "canenchant": "Weapons",
+    "enchantinfo": "Against Undead, Ghost, and Possessed Enemies: Increases weapon's hit by half of your Scaled FAI.",
+    "location": [
+      "Breakdown (20%)",
+      "Enchanting (Lv3)"
+    ],
+    "slots": [
+      "Weapons"
+    ],
+    "enchantInfo": "Against Undead, Ghost, and Possessed Enemies: Increases weapon's hit by half of your Scaled FAI."
+  },
+  {
+    "id": "catalyst:shadow-hole",
+    "name": "Shadow Hole",
+    "rarity": 3,
+    "page": "Catalysts",
+    "flavour": "Is this really there?",
+    "raw": "'''Can Enchant:''' Torso, Legs<br>'''Enchant Info:''' Increases item carrying maximum by 10. +1 Item Belt Slot.<br><br><i>Is this really there?</i>",
+    "canenchant": "Torso, Legs",
+    "enchantinfo": "Increases item carrying maximum by 10. +1 Item Belt Slot.",
+    "location": [
+      "Breakdown (50%)",
+      "Enchanting (Lv3)"
+    ],
+    "slots": [
+      "Torso",
+      "Legs"
+    ],
+    "enchantInfo": "Increases item carrying maximum by 10. +1 Item Belt Slot."
+  },
+  {
+    "id": "catalyst:spatial-spiral",
+    "name": "Spatial Spiral",
+    "rarity": 7,
+    "page": "Catalysts",
+    "flavour": "Concentrated destruction in a predictable pattern.",
+    "raw": "'''Can Enchant:''' Weapons<br>'''Enchant Info: On Hit:''' Inflicts a status that reduces the target's Defense by 25% of the enchanted weapon's Power (or powers up an existing status by the same amount (max Power*0.5) and increases duration by 1 (max 2).) Lasts 2 rounds.<br><br><i>Concentrated destruction in a predictable pattern.</i>",
+    "canenchant": "Weapons",
+    "enchantinfo": "On Hit: Inflicts a status that reduces the target's Defense by 25% of the enchanted weapon's Power (or powers up an existing status by the same amount (max Power*0.5) and increases duration by 1 (max 2).) Lasts 2 rounds.",
+    "location": [
+      "Spatial Ravager"
+    ],
+    "slots": [
+      "Weapons"
+    ],
+    "enchantInfo": "On Hit: Inflicts a status that reduces the target's Defense by 25% of the enchanted weapon's Power (or powers up an existing status by the same amount (max Power*0.5) and increases duration by 1 (max 2).) Lasts 2 rounds."
+  },
+  {
+    "id": "catalyst:spiritual-soot",
+    "name": "Spiritual Soot",
+    "rarity": 7,
+    "page": "Catalysts",
+    "flavour": "Remains of a volcano eruption that never happened.",
+    "raw": "'''Can Enchant:''' Legs<br>'''Enchant Info:''' Halves damage taken from Cinders.<br><br><i>Remains of a volcano eruption that never happened.</i>",
+    "canenchant": "Legs",
+    "enchantinfo": "Halves damage taken from Cinders.",
+    "location": [
+      "Breakdown (20%)"
+    ],
+    "slots": [
+      "Legs"
+    ],
+    "enchantInfo": "Halves damage taken from Cinders."
+  },
+  {
+    "id": "catalyst:sweet-leaf",
+    "name": "Sweet Leaf",
+    "rarity": 7,
+    "page": "Catalysts",
+    "flavour": "Smells absolutely amazing.",
+    "raw": "'''Can Enchant:''' Torso<br>'''Enchant Info:''' Damage you deal with Whip weapons does not reduce the duration of your Charm effects. <br>'''On New Round:''' 30% Chance to inflict Charm LV10 for 3 rounds on all enemies within 3 Range.<br><br><i>Smells absolutely amazing.</i>",
+    "canenchant": "Torso",
+    "enchantinfo": "Damage you deal with Whip weapons does not reduce the duration of your Charm effects. On New Round: 30% Chance to inflict Charm LV10 for 3 rounds on all enemies within 3 Range.",
+    "location": [
+      "Alraune"
+    ],
+    "slots": [
+      "Torso"
+    ],
+    "enchantInfo": "Damage you deal with Whip weapons does not reduce the duration of your Charm effects. On New Round: 30% Chance to inflict Charm LV10 for 3 rounds on all enemies within 3 Range."
+  },
+  {
+    "id": "catalyst:soul-of-war",
+    "name": "Soul of War",
+    "rarity": 3,
+    "page": "Catalysts",
+    "flavour": "Born in the heart of combat.",
+    "raw": "'''Can Enchant:''' Legs <br>'''Enchant Info:''' +20 HP, +20 FP<br><br><i>Born in the heart of combat.</i>",
+    "canenchant": "Legs",
+    "enchantinfo": "+20 HP, +20 FP",
+    "location": [
+      "Breakdown (50%)",
+      "Enchanting (Lv3)"
+    ],
+    "slots": [
+      "Legs"
+    ],
+    "enchantInfo": "+20 HP, +20 FP"
+  },
+  {
+    "id": "catalyst:thunderjewel",
+    "name": "Thunderjewel",
+    "rarity": 3,
+    "page": "Catalysts",
+    "flavour": "An elemental gem.",
+    "raw": "'''Can Enchant:''' Torso, Hands<br>'''Enchant Info:''' Increases LUC by 2 and Lightning ATK by 3.<br><br><i>An elemental gem.</i>",
+    "canenchant": "Torso, Hands",
+    "enchantinfo": "Increases LUC by 2 and Lightning ATK by 3.",
+    "location": [
+      "Breakdown (50%)",
+      "Enchanting (Lv3)"
+    ],
+    "slots": [
+      "Torso",
+      "Hands"
+    ],
+    "enchantInfo": "Increases LUC by 2 and Lightning ATK by 3."
+  },
+  {
+    "id": "catalyst:volcanic-seed",
+    "name": "Volcanic Seed",
+    "rarity": 7,
+    "page": "Catalysts",
+    "flavour": "This seed is used to grow a volcano. No, not really.",
+    "raw": "'''Can Enchant:''' Weapons, Torso<br>'''Enchant Info: Weapon:''' When you land a critical hit with a Volcanic enchanted weapon for the first time in a round, deals Fire magic bonus damage to all other enemies within 5 Range of the target, equal to this weapon's Power + your Fire ATK. (Ignores damage immunity and absorb of non-Boss enemies.)<br>'''Armor:''' +25 HP. Being hit by an attack creates Cinders at all tiles within 2 Range of you (LV 15, 2 rounds, once per round).<br><br><i>This seed is used to grow a volcano. No, not really.</i>",
+    "canenchant": "Weapons, Torso",
+    "enchantinfo": "Weapon: When you land a critical hit with a Volcanic enchanted weapon for the first time in a round, deals Fire magic bonus damage to all other enemies within 5 Range of the target, equal to this weapon's Power + your Fire ATK. (Ignores damage immunity and absorb of non-Boss enemies.) Armor: +25 HP. Being hit by an attack creates Cinders at all tiles within 2 Range of you (LV 15, 2 rounds, once per round).",
+    "location": [
+      "Lava Slime"
+    ],
+    "slots": [
+      "Weapons",
+      "Torso"
+    ],
+    "enchantInfo": "Weapon: When you land a critical hit with a Volcanic enchanted weapon for the first time in a round, deals Fire magic bonus damage to all other enemies within 5 Range of the target, equal to this weapon's Power + your Fire ATK. (Ignores damage immunity and absorb of non-Boss enemies.) Armor: +25 HP. Being hit by an attack creates Cinders at all tiles within 2 Range of you (LV 15, 2 rounds, once per round)."
+  },
+  {
+    "id": "catalyst:warding-charm",
+    "name": "Warding Charm",
+    "rarity": 3,
+    "page": "Catalysts",
+    "flavour": "Helps fend off unwanted attention.",
+    "raw": "'''Can Enchant:''' Torso, Legs<br>'''Enchant Info: Armor:''' +5 Resistance.<br>'''Legs:''' +3 Resistance.<br>'''Both:''' +10% Status Effect Resistance.<br><br><i>Helps fend off unwanted attention.</i>",
+    "canenchant": "Torso, Legs",
+    "enchantinfo": "Armor: +5 Resistance. Legs: +3 Resistance. Both: +10% Status Effect Resistance.",
+    "location": [
+      "Breakdown (50%)",
+      "Enchanting (Lv3)"
+    ],
+    "slots": [
+      "Torso",
+      "Legs"
+    ],
+    "enchantInfo": "Armor: +5 Resistance. Legs: +3 Resistance. Both: +10% Status Effect Resistance."
+  },
+  {
+    "id": "catalyst:waterjewel",
+    "name": "Waterjewel",
+    "rarity": 3,
+    "page": "Catalysts",
+    "flavour": "An elemental gem.",
+    "raw": "'''Can Enchant:''' Torso, Hands<br>'''Enchant Info:''' Increases VIT by 2 and Water ATK by 3.<br><br><i>An elemental gem.</i>",
+    "canenchant": "Torso, Hands",
+    "enchantinfo": "Increases VIT by 2 and Water ATK by 3.",
+    "location": [
+      "Breakdown (50%)",
+      "Enchanting (Lv3)"
+    ],
+    "slots": [
+      "Torso",
+      "Hands"
+    ],
+    "enchantInfo": "Increases VIT by 2 and Water ATK by 3."
+  },
+  {
+    "id": "catalyst:windjewel",
+    "name": "Windjewel",
+    "rarity": 3,
+    "page": "Catalysts",
+    "flavour": "An elemental gem.",
+    "raw": "'''Can Enchant:''' Torso, Hands<br>'''Enchant Info:''' Increases CEL by 2 and Wind ATK by 3.<br><br><i>An elemental gem.</i>",
+    "canenchant": "Torso, Hands",
+    "enchantinfo": "Increases CEL by 2 and Wind ATK by 3.",
+    "location": [
+      "Breakdown (50%)",
+      "Enchanting (Lv3)"
+    ],
+    "slots": [
+      "Torso",
+      "Hands"
+    ],
+    "enchantInfo": "Increases CEL by 2 and Wind ATK by 3."
+  }
+]

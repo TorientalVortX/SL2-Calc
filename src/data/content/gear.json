@@ -1,0 +1,2961 @@
+{
+  "Hands": [
+    {
+      "id": "hands:hands:acidic-claws",
+      "name": "Acidic Claws",
+      "slot": 3,
+      "rarity": 10,
+      "material": "Metal",
+      "details": "On Hit: Deal protection-ignoring Acid damage equal to 5+UL, but reduces the weapon's durability by 1.",
+      "specialEffects": [
+        "On Hit: Deal protection-ignoring Acid damage equal to 5+UL, but reduces the weapon's durability by 1."
+      ],
+      "flavour": "Coated in powerful acid, hitting your foes up close will splash some of it on them. And probably on your weapon, too, unfortunately."
+    },
+    {
+      "id": "hands:hands:archery-gloves",
+      "name": "Archery Gloves",
+      "slot": 3,
+      "rarity": 1,
+      "material": "Cloth",
+      "details": "+2 SKI +2 Power to Bow Weapons (Basic attacks only.)",
+      "specialEffects": [
+        "+2 SKI",
+        "+2 Power to Bow Weapons (Basic attacks only.)"
+      ],
+      "flavour": "A set of gloves made for archery. You don't have to use them for archery, though."
+    },
+    {
+      "id": "hands:hands:ash-kissed-malas",
+      "name": "Ash-Kissed Malas",
+      "slot": 3,
+      "rarity": 8,
+      "material": "Metal",
+      "details": "+2 STR Grants Skill: Goren Bakudan 3M, 15 FP, 1 Round CD Kenpo. Create an explosion from your fist in close proximity to an enemy within 1 Range, dealing damage split between Fire and your Fist's damage type to all enemies in 2 Range of them (+1 Range per Fire Mark). If the initial target is Grappled, the damage they take has Great Accuracy. Furinkazan: Gain 1 Fire Mark.",
+      "specialEffects": [
+        "+2 STR",
+        "Grants Skill: Goren Bakudan",
+        "3M, 15 FP, 1 Round CD",
+        "Kenpo. Create an explosion from your fist in close proximity to an enemy within 1 Range, dealing damage split between Fire and your Fist's damage type to all enemies in 2 Range of them (+1 Range per Fire Mark). If the initial target is Grappled, the damage they take has Great Accuracy.",
+        "Furinkazan: Gain 1 Fire Mark."
+      ],
+      "flavour": "Gently tickled by ashes and incense, these prayer beads are worn around the wrist in certain cultures. Hopefully their prayers won't be for you."
+    },
+    {
+      "id": "hands:hands:bands-of-skill",
+      "name": "Bands of Skill",
+      "slot": 3,
+      "rarity": 3,
+      "material": "Cloth",
+      "details": "+2 SKI +25 FP Set: Like a Dragon 2+ - Gain Cast Off Flexing Skill. When you use Cast Off Flexing; * Activate all of your Arcane Tattoo traits. * Activate Crack Knuckles skill (if equipped). * Gain Dragon Fist status permanently. (+2 Attack Range for Bare Fists. Bare Fists' Attack skill moves you to an unoccupied tile next to the target if not in 1 Range, and gains Trickery - Activate Kick skill on the target. * Kick skill Momentum cost reduced by 1 during a turn where you've used Attack.",
+      "specialEffects": [
+        "+2 SKI",
+        "+25 FP",
+        "Set: Like a Dragon",
+        "2+ - Gain Cast Off Flexing Skill. When you use Cast Off Flexing; * Activate all of your Arcane Tattoo traits. * Activate Crack Knuckles skill (if equipped). * Gain Dragon Fist status permanently. (+2 Attack Range for Bare Fists. Bare Fists' Attack skill moves you to an unoccupied tile next to the target if not in 1 Range, and gains Trickery - Activate Kick skill on the target. * Kick skill Momentum cost reduced by 1 during a turn where you've used Attack."
+      ],
+      "flavour": "A pair of cloth bands which raise the focus of the wearer, making them popular amongst magicians and martial artists."
+    },
+    {
+      "id": "hands:hands:bands-of-the-boar",
+      "name": "Bands of the Boar",
+      "slot": 3,
+      "rarity": 4,
+      "material": "Cloth",
+      "details": "+1-4 STR",
+      "specialEffects": [
+        "+1-4 STR"
+      ],
+      "flavour": "As a colleague of both Aretia Lutga and Caren Korough, the card magician Nicoli Dumata created these bands to make a statement to the both of them. While the bands make the person who wears them stronger, it was a message to the two about how pig-headed they were handling their rivalry. Still, they eventually became popular amongst adventurers."
+    },
+    {
+      "id": "hands:hands:bands-of-the-cat",
+      "name": "Bands of the Cat",
+      "slot": 3,
+      "rarity": 4,
+      "material": "Cloth",
+      "details": "+1-4 CEL",
+      "specialEffects": [
+        "+1-4 CEL"
+      ],
+      "flavour": "Made as an experiment by the well-known Grimalkin enchanter Aretia Lutga, these bands increase the wearer's agility, making them more cat-like. Eventually, due to popularity, many were produced, and it spawned several similar styles."
+    },
+    {
+      "id": "hands:hands:bands-of-the-centaur",
+      "name": "Bands of the Centaur",
+      "slot": 3,
+      "rarity": 4,
+      "material": "Cloth",
+      "details": "+1-3 SKI Increases Move by 1.",
+      "specialEffects": [
+        "+1-3 SKI",
+        "Increases Move by 1."
+      ],
+      "flavour": "Seemingly inspired by Aretia Lutga's work, the magical beast biologist Kalnal Sulet created these wristbands, giving it properties of the elusive centaur."
+    },
+    {
+      "id": "hands:hands:bands-of-the-chimera",
+      "name": "Bands of the Chimera",
+      "slot": 3,
+      "rarity": 9,
+      "material": "Cloth",
+      "details": "+1 to all stats. Also treated as 'Beast' race type.",
+      "specialEffects": [
+        "+1 to all stats.",
+        "Also treated as 'Beast' race type."
+      ],
+      "flavour": "A special set of fused wristbands. They give a variety of bonuses, but also give off the aura of a beast."
+    },
+    {
+      "id": "hands:hands:bands-of-the-crocodile",
+      "name": "Bands of the Crocodile",
+      "slot": 3,
+      "rarity": 4,
+      "material": "Cloth",
+      "details": "+1-3 WIL, +1-2 DEF",
+      "specialEffects": [
+        "+1-3 WIL, +1-2 DEF"
+      ],
+      "flavour": "A collaboration between 'Fist Mage' Nen Grander and magical beast biologist Kalnal Sulet. These wristbands grant the perceived properties of the crocodile's intelligence, as noted by Kalnal, and its toughness, as testified by Nen, saying it was the third hardest thing he's ever punched."
+    },
+    {
+      "id": "hands:hands:bands-of-the-hawk",
+      "name": "Bands of the Hawk",
+      "slot": 3,
+      "rarity": 4,
+      "material": "Cloth",
+      "details": "+1-4 SKI",
+      "specialEffects": [
+        "+1-4 SKI"
+      ],
+      "flavour": "Aretia Lutga's long-time rival as one of the few Kaelensia mages, Caren Korough, created these bands after seeing what Aretia's Bands of the Cat were capable of. Though, these bands, which grant superior eye-sight and accuracy, are made more in the image of Caren's ancestors than her rival's."
+    },
+    {
+      "id": "hands:hands:bands-of-the-wyvern",
+      "name": "Bands of the Wyvern",
+      "slot": 3,
+      "rarity": 1,
+      "material": "Cloth",
+      "details": "+1-4 VIT",
+      "specialEffects": [
+        "+1-4 VIT"
+      ],
+      "flavour": "After Aretia Lutga's 'Bands of the Cat' became popular, many similar bands were created by Karaten mages. 'Fist Mage' Nen Grander's spin were these fortitude-increasing bands, with the creator saying that the hardest thing he'd ever hit was a wyvern."
+    },
+    {
+      "id": "hands:hands:bloody-palms",
+      "name": "Bloody Palms",
+      "slot": 3,
+      "rarity": 10,
+      "material": "Metal",
+      "details": "On Deal Damage: If physical, inflicts Claret Call LV UL for 2 rounds. If magic, inflicts Hunted LV UL for 2 rounds. Then, your opponent applies the same status to you at half that LV, for 2 rounds.",
+      "specialEffects": [
+        "On Deal Damage: If physical, inflicts Claret Call LV UL for 2 rounds. If magic, inflicts Hunted LV UL for 2 rounds. Then, your opponent applies the same status to you at half that LV, for 2 rounds."
+      ],
+      "flavour": "Why won't the blood come off?"
+    },
+    {
+      "id": "hands:hands:blue-ki-controllers",
+      "name": "Blue Ki Controllers",
+      "slot": 3,
+      "rarity": 6,
+      "material": "Cloth",
+      "details": "Increases Experience Points gained by 10%. +1 STR, +1 VIT Caps HP damage taken by Ki Awoken at 10% of your maximum HP, but lowers its LV by 2 (min. 1). Set: Like a Dragon 2+ - Gain Cast Off Flexing Skill. When you use Cast Off Flexing; * Activate all of your Arcane Tattoo traits. * Activate Crack Knuckles skill (if equipped). * Gain Dragon Fist status permanently. (+2 Attack Range for Bare Fists. Bare Fists' Attack skill moves you to an unoccupied tile next to the target if not in 1 Range, and gains Trickery - Activate Kick skill on the target. * Kick skill Momentum cost reduced by 1 during a turn where you've used Attack.",
+      "specialEffects": [
+        "Increases Experience Points gained by 10%.",
+        "+1 STR, +1 VIT",
+        "Caps HP damage taken by Ki Awoken at 10% of your maximum HP, but lowers its LV by 2 (min. 1).",
+        "Set: Like a Dragon",
+        "2+ - Gain Cast Off Flexing Skill. When you use Cast Off Flexing; * Activate all of your Arcane Tattoo traits. * Activate Crack Knuckles skill (if equipped). * Gain Dragon Fist status permanently. (+2 Attack Range for Bare Fists. Bare Fists' Attack skill moves you to an unoccupied tile next to the target if not in 1 Range, and gains Trickery - Activate Kick skill on the target. * Kick skill Momentum cost reduced by 1 during a turn where you've used Attack."
+      ],
+      "flavour": "A pair of weighted, blue beaded-wristbands which help manage your ki from going out of control."
+    },
+    {
+      "id": "hands:hands:bradan-glove",
+      "name": "Bradan Glove",
+      "slot": 3,
+      "rarity": 7,
+      "material": "Metal",
+      "details": "Increases Hit by 5. Grants Skill: Lick Thumb 2 Momentum, 30 FP, 5 Round Cooldown Lick the thumb of the Bradan Glove, granting you incredible insight for a brief moment. Grants +50 Critical for 1 attack this round, and reduces the LV of any Burn status affecting you by 10.",
+      "specialEffects": [
+        "Increases Hit by 5.",
+        "Grants Skill: Lick Thumb",
+        "2 Momentum, 30 FP, 5 Round Cooldown",
+        "Lick the thumb of the Bradan Glove, granting you incredible insight for a brief moment. Grants +50 Critical for 1 attack this round, and reduces the LV of any Burn status affecting you by 10."
+      ],
+      "flavour": "A glove made out of salmon scales with a red thumb. It is nimble and flexible, but some say that licking your thumb while wearing it briefly grants god-like senses."
+    },
+    {
+      "id": "hands:hands:burning-bracers",
+      "name": "Burning Bracers",
+      "slot": 3,
+      "rarity": 4,
+      "material": "Metal",
+      "details": "Suffer 2 Fire magic damage every round. (Ignores resistances.) On Hit: If a Fist weapon, deals 15 Fire armor-ignoring magic damage.",
+      "specialEffects": [
+        "Suffer 2 Fire magic damage every round. (Ignores resistances.)",
+        "On Hit: If a Fist weapon, deals 15 Fire armor-ignoring magic damage."
+      ],
+      "flavour": "An enchanted pair of bracers that burn the wearer, but imbues their strikes with the element of fire."
+    },
+    {
+      "id": "hands:hands:chunin-gloves",
+      "name": "Chunin Gloves",
+      "slot": 3,
+      "rarity": 1,
+      "material": "Cloth",
+      "details": "+1 CEL, +1 STR",
+      "specialEffects": [
+        "+1 CEL, +1 STR"
+      ],
+      "flavour": "The gloves of a NINJA! Strike swiftly, strike hard!"
+    },
+    {
+      "id": "hands:hands:chunin-gloves-plus",
+      "name": "Chunin Gloves Plus",
+      "slot": 3,
+      "rarity": 3,
+      "material": "Cloth",
+      "details": "+2 CEL If you have a Shuriken equipped: Movement type becomes Teleport. +5 Hit to Shuriken Weapons",
+      "specialEffects": [
+        "+2 CEL",
+        "If you have a Shuriken equipped: Movement type becomes Teleport.",
+        "+5 Hit to Shuriken Weapons"
+      ],
+      "flavour": "The gloves of a NINJA! Strike swiftly, strike hard! Enhanced by a magical power."
+    },
+    {
+      "id": "hands:hands:conversion-gloves",
+      "name": "Conversion Gloves",
+      "slot": 3,
+      "rarity": 6,
+      "material": "Metal",
+      "details": "When you take any Lightning damage, activate Weapon Autocharge. (Weapon Autocharge has a 1 round CD shared with all effects that activate it.)",
+      "specialEffects": [
+        "When you take any Lightning damage, activate Weapon Autocharge. (Weapon Autocharge has a 1 round CD shared with all effects that activate it.)"
+      ],
+      "flavour": "A pair of mechanical gloves that are designed to interface with weapons along the same type of the Excel series. Which means if you don't have one of those weapons, they probably aren't useful to you."
+    },
+    {
+      "id": "hands:hands:crownbleeder",
+      "name": "Crownbleeder",
+      "slot": 3,
+      "rarity": 3,
+      "material": "Metal",
+      "details": "+2 STR When you bring a target below 25% HP, inflicts them with Fear for 1 turn.",
+      "specialEffects": [
+        "+2 STR",
+        "When you bring a target below 25% HP, inflicts them with Fear for 1 turn."
+      ],
+      "flavour": "An enchanted set of gauntlets said to be covered in the blood of royalty."
+    },
+    {
+      "id": "hands:hands:crownbleeder-plus",
+      "name": "Crownbleeder Plus",
+      "slot": 3,
+      "rarity": 5,
+      "material": "Metal",
+      "details": "+3 STR +5% Critical Chance When you bring a target below 50% HP, inflicts them with Fear for 4 turns.",
+      "specialEffects": [
+        "+3 STR",
+        "+5% Critical Chance",
+        "When you bring a target below 50% HP, inflicts them with Fear for 4 turns."
+      ],
+      "flavour": "An enchanted set of gauntlets said to be covered in the blood of royalty. Enhanced by a magical power."
+    },
+    {
+      "id": "hands:hands:dazzling-glove",
+      "name": "Dazzling Glove",
+      "slot": 3,
+      "rarity": 3,
+      "material": "Metal",
+      "details": "Dealing Lightning damage to an enemy has a chance to inflict Spelldaze on them for 2 rounds. (Chance = 50% of Damage Dealt)",
+      "specialEffects": [
+        "Dealing Lightning damage to an enemy has a chance to inflict Spelldaze on them for 2 rounds. (Chance = 50% of Damage Dealt)"
+      ],
+      "flavour": "A pair of magical gloves. They shine in a stunning way when exposed to intense light."
+    },
+    {
+      "id": "hands:hands:dew-drenched-charm",
+      "name": "Dew-Drenched Charm",
+      "slot": 3,
+      "rarity": 8,
+      "material": "Metal",
+      "details": "+2 VIT Grants Skill: Kaiyo Hosshin 3M, 15 FP, 1 Round CD Kenpo. Manifest a clone of water that performs a basic attack with your Fist weapon on a target within 12 Range (with no Farshot Penalty), dealing Water damage. In order to do so, the target must be within 1 Range of a water-based field tile, or Soaked. Furinkazan: Gain 1 Forest Mark.",
+      "specialEffects": [
+        "+2 VIT",
+        "Grants Skill: Kaiyo Hosshin",
+        "3M, 15 FP, 1 Round CD",
+        "Kenpo. Manifest a clone of water that performs a basic attack with your Fist weapon on a target within 12 Range (with no Farshot Penalty), dealing Water damage. In order to do so, the target must be within 1 Range of a water-based field tile, or Soaked.",
+        "Furinkazan: Gain 1 Forest Mark."
+      ],
+      "flavour": "A seemingly normal, harmless charm, if a little moist from morning dew. But even that dew can be a weapon in the right hands."
+    },
+    {
+      "id": "hands:hands:dragon-king-gauntlet",
+      "name": "Dragon King Gauntlet",
+      "slot": 3,
+      "rarity": 9,
+      "material": "Metal",
+      "details": "Set: Dragon King Increases total Strength by 5% and soft cap for Strength by 3 for each Dragon King item equipped.",
+      "specialEffects": [
+        "Set: Dragon King",
+        "Increases total Strength by 5% and soft cap for Strength by 3 for each Dragon King item equipped."
+      ],
+      "flavour": "Part of a set of armor once worn by a man with dragonblood. Its power causes the strength of the wearer to increase."
+    },
+    {
+      "id": "hands:hands:ghosthand",
+      "name": "Ghosthand",
+      "slot": 3,
+      "rarity": 3,
+      "material": "Cloth",
+      "details": "+2 CEL You do not trigger enemy effects that activate when you attack them.",
+      "specialEffects": [
+        "+2 CEL",
+        "You do not trigger enemy effects that activate when you attack them."
+      ],
+      "flavour": "Covers your hands in some sort of ectoplasmic cloth."
+    },
+    {
+      "id": "hands:hands:green-gloves",
+      "name": "Green Gloves",
+      "slot": 3,
+      "rarity": 1,
+      "material": "Cloth",
+      "details": "Increases Experience Points gained by 10%. Set: Unassuming Adventurer 2+: Flee success rate is (normal success rate+50)%. 3+: +(10 x total number of this set's item equipped) HP and FP. 5+: +15% damage dealt.",
+      "specialEffects": [
+        "Increases Experience Points gained by 10%.",
+        "Set: Unassuming Adventurer",
+        "2+: Flee success rate is (normal success rate+50)%.",
+        "3+: +(10 x total number of this set's item equipped) HP and FP.",
+        "5+: +15% damage dealt."
+      ],
+      "flavour": "A pair of gloves meant for beginners to hard work."
+    },
+    {
+      "id": "hands:hands:harp-plucker-s-gloves",
+      "name": "Harp Plucker's Gloves",
+      "slot": 3,
+      "rarity": 3,
+      "material": "Metal",
+      "details": "+5 Sound ATK Increases Hit by 5 for Instrument weapons. Reduces the FP cost of Song skills by 10%. (Applied as an Efficiency effect; doesn't stack with other Efficiency reductions.)",
+      "specialEffects": [
+        "+5 Sound ATK",
+        "Increases Hit by 5 for Instrument weapons.",
+        "Reduces the FP cost of Song skills by 10%. (Applied as an Efficiency effect; doesn't stack with other Efficiency reductions.)"
+      ],
+      "flavour": "A decorated pair of gloves that are meant to help take the pain out of playing the harp, or other instruments."
+    },
+    {
+      "id": "hands:hands:hulking-hands",
+      "name": "Hulking Hands",
+      "slot": 3,
+      "rarity": 5,
+      "material": "Cloth",
+      "details": "+4 STR Increases Hit by 5 for Fist weapons. +5% Success to Grapple attempts.",
+      "specialEffects": [
+        "+4 STR",
+        "Increases Hit by 5 for Fist weapons.",
+        "+5% Success to Grapple attempts."
+      ],
+      "flavour": "Your enemies won't like that you're angry while you're wearing these."
+    },
+    {
+      "id": "hands:hands:indignant-idol",
+      "name": "Indignant Idol",
+      "slot": 3,
+      "rarity": 6,
+      "material": "Devilbark",
+      "details": "-10% Light Resistance -10% Elemental Resistance to enemies when dealing damage from a Spell. (Doubled versus monsters.)",
+      "specialEffects": [
+        "-10% Light Resistance",
+        "-10% Elemental Resistance to enemies when dealing damage from a Spell. (Doubled versus monsters.)"
+      ],
+      "flavour": "This wooden carved idol is infused with a paranormal power that allows it to penetrate magical defenses."
+    },
+    {
+      "id": "hands:hands:insulated-burning-bracers",
+      "name": "Insulated Burning Bracers",
+      "slot": 3,
+      "rarity": 5,
+      "material": "Metal",
+      "details": "On Hit: If a Fist weapon, deals 15 Fire armor-ignoring magic damage.",
+      "specialEffects": [
+        "On Hit: If a Fist weapon, deals 15 Fire armor-ignoring magic damage."
+      ],
+      "flavour": "An enchanted pair of bracers that burn the wearer, but imbues their strikes with the element of fire. These ones are insulated with bird feathers, so they don't burn your arms. Neat."
+    },
+    {
+      "id": "hands:hands:ivy-binds",
+      "name": "Ivy Binds",
+      "slot": 3,
+      "rarity": 5,
+      "material": "Metal",
+      "details": "Successfully using Grapple on an enemy inflicts them with Slow LV2 (2 rounds) and deals protection-ignoring Earth magic bonus damage equal to 50% of your Earth ATK. Enemies who are standing on a plant tile are treated as Plant racial type for your effects.",
+      "specialEffects": [
+        "Successfully using Grapple on an enemy inflicts them with Slow LV2 (2 rounds) and deals protection-ignoring Earth magic bonus damage equal to 50% of your Earth ATK. Enemies who are standing on a plant tile are treated as Plant racial type for your effects."
+      ],
+      "flavour": "A large, living seed that wraps itself around the wearer's hand. It almost seems to have a will of its own."
+    },
+    {
+      "id": "hands:hands:magic-gauntlet",
+      "name": "Magic Gauntlet",
+      "slot": 3,
+      "rarity": 6,
+      "material": "Metal",
+      "details": "Grants Skill: Magic Shield 3 Momentum, 5 FP Charges your gauntlet with focus, creating a shield of energy that increases your DEF and RES by 4 for 4 rounds. This will also end other effects caused by the Magical Gauntlet.",
+      "specialEffects": [
+        "Grants Skill: Magic Shield",
+        "3 Momentum, 5 FP",
+        "Charges your gauntlet with focus, creating a shield of energy that increases your DEF and RES by 4 for 4 rounds. This will also end other effects caused by the Magical Gauntlet."
+      ],
+      "flavour": "A light-weight gauntlet enchanted with some sort of artifact that generates a protective barrier."
+    },
+    {
+      "id": "hands:hands:metal-gauntlet",
+      "name": "Metal Gauntlet",
+      "slot": 3,
+      "rarity": 1,
+      "material": "Metal",
+      "details": "+2 Armor",
+      "specialEffects": [
+        "+2 Armor"
+      ],
+      "flavour": "A gauntlet which is designed to protect your arm and hand in the midst of close combat."
+    },
+    {
+      "id": "hands:hands:metal-gauntlet-plus",
+      "name": "Metal Gauntlet Plus",
+      "slot": 3,
+      "rarity": 3,
+      "material": "Metal",
+      "details": "+5 Armor +10 Critical Evade versus melee range enemies who are not directly behind you.",
+      "specialEffects": [
+        "+5 Armor",
+        "+10 Critical Evade versus melee range enemies who are not directly behind you."
+      ],
+      "flavour": "A gauntlet which is designed to protect your arm and hand in the midst of close combat. Enhanced by a magical power."
+    },
+    {
+      "id": "hands:hands:metallic-magic-gauntlet",
+      "name": "Metallic Magic Gauntlet",
+      "slot": 3,
+      "rarity": 9,
+      "material": "Metal",
+      "details": "Grants Skill: Magic Shield 3 Momentum, 5 FP Charges your gauntlet with focus, creating a shield of energy that increases your DEF and RES by 4 for 4 rounds. This will also end other effects caused by the Magical Gauntlet. Grants Skill: Metallic Aegis 3 Momentum, 20 FP Charges your gauntlet with focus, creating a shield of energy that increases your DEF by 8 for 4 rounds. This will also end other effects caused by the Magical Gauntlet. Grants Skill: Magical Aegis 3 Momentum, 20 FP Charges your gauntlet with focus, creating a shield of energy that increases your RES by 4 for 4 rounds. This will also end other effects caused by the Magical Gauntlet.",
+      "specialEffects": [
+        "Grants Skill: Magic Shield",
+        "3 Momentum, 5 FP",
+        "Charges your gauntlet with focus, creating a shield of energy that increases your DEF and RES by 4 for 4 rounds. This will also end other effects caused by the Magical Gauntlet.",
+        "Grants Skill: Metallic Aegis",
+        "3 Momentum, 20 FP",
+        "Charges your gauntlet with focus, creating a shield of energy that increases your DEF by 8 for 4 rounds. This will also end other effects caused by the Magical Gauntlet.",
+        "Grants Skill: Magical Aegis",
+        "3 Momentum, 20 FP",
+        "Charges your gauntlet with focus, creating a shield of energy that increases your RES by 4 for 4 rounds. This will also end other effects caused by the Magical Gauntlet."
+      ],
+      "flavour": "An enhanced version of the normal gauntlet, this version can focus more of its power into physical defense or magical protection."
+    },
+    {
+      "id": "hands:hands:nihilist",
+      "name": "Nihilist",
+      "slot": 3,
+      "rarity": 9,
+      "material": "Cloth",
+      "details": "Ignores elemental absorption possessed by enemies and the equipped character.",
+      "specialEffects": [
+        "Ignores elemental absorption possessed by enemies and the equipped character."
+      ],
+      "flavour": "A set of cursed gloves that represent futility for both the user and their foes."
+    },
+    {
+      "id": "hands:hands:ninja-kote",
+      "name": "Ninja Kote",
+      "slot": 3,
+      "rarity": 6,
+      "material": "Metal",
+      "details": "+2 CEL, +2 GUI Grants Skill: Mozu Otoshi 3 Momentum, 3 FP, 1 Round Cooldown The flying ninja slam technique of rumor. Can only target an enemy you are grappling within 1 Range. You jump with your grappled target into the air, then fall down, slamming them head-first into the ground, dealing Blunt physical damage that can critically hit (equal to 100% of SWA of your weapon), and knocking them away 3 tiles. If the damage was a critical hit, there is also a status-infliction based chance they'll be Knocked Down. Damage inflicted by this skill cannot be parried, nor evaded.",
+      "specialEffects": [
+        "+2 CEL, +2 GUI",
+        "Grants Skill: Mozu Otoshi",
+        "3 Momentum, 3 FP, 1 Round Cooldown",
+        "The flying ninja slam technique of rumor. Can only target an enemy you are grappling within 1 Range. You jump with your grappled target into the air, then fall down, slamming them head-first into the ground, dealing Blunt physical damage that can critically hit (equal to 100% of SWA of your weapon), and knocking them away 3 tiles. If the damage was a critical hit, there is also a status-infliction based chance they'll be Knocked Down. Damage inflicted by this skill cannot be parried, nor evaded."
+      ],
+      "flavour": "A pair of thinly-armored armbands used by ninjas. The small spikes in the wrists help with climbing and holding onto unsuspecting prey."
+    },
+    {
+      "id": "hands:hands:nullstone-gauntlet",
+      "name": "Nullstone Gauntlet",
+      "slot": 3,
+      "rarity": 3,
+      "material": "Metal",
+      "details": "+10 HP -10% Magic Damage Taken.",
+      "specialEffects": [
+        "+10 HP",
+        "-10% Magic Damage Taken."
+      ],
+      "flavour": "Made from an anti-magic material called Nullstone, this gauntlet protects from magic, as you'd expect."
+    },
+    {
+      "id": "hands:hands:rogue-s-work-gloves",
+      "name": "Rogue's Work Gloves",
+      "slot": 3,
+      "rarity": 1,
+      "material": "Cloth",
+      "details": "+10% Critical Damage +2 Power if attacking an enemy from behind.",
+      "specialEffects": [
+        "+10% Critical Damage",
+        "+2 Power if attacking an enemy from behind."
+      ],
+      "flavour": "For showing enemies your stabs."
+    },
+    {
+      "id": "hands:hands:salamander-s-skin",
+      "name": "Salamander's Skin",
+      "slot": 3,
+      "rarity": 7,
+      "material": "Cloth",
+      "details": "Doubles the damage taken from Burn statuses, but negates additional effect(s) caused by them.",
+      "specialEffects": [
+        "Doubles the damage taken from Burn statuses, but negates additional effect(s) caused by them."
+      ],
+      "flavour": "These gloves are warm to the touch, and when they're even hotter, it seems like they make you tougher. At the cost of being even hotter. Just like a salamander."
+    },
+    {
+      "id": "hands:hands:sanctifying-hand-lantern",
+      "name": "Sanctifying Hand Lantern",
+      "slot": 3,
+      "rarity": 4,
+      "material": "Metal",
+      "details": "+3 FAI Prevents most special effect tiles from being created at your location by enemies.",
+      "specialEffects": [
+        "+3 FAI",
+        "Prevents most special effect tiles from being created at your location by enemies."
+      ],
+      "flavour": "A blessed lantern meant to be carried in one's hand."
+    },
+    {
+      "id": "hands:hands:sand-polished-band",
+      "name": "Sand-Polished Band",
+      "slot": 3,
+      "rarity": 8,
+      "material": "Metal",
+      "details": "+2 DEF Grants Skill: Riseki Yoroi 3M, 15 FP, 1 Round CD Kenpo. Targets 1 enemy in 1 Range (or 1 enemy you have Magnetized in 3 Range, who is pulled to you) and performs a shattering fist strike, dealing damage split between Earth and your Fist's damage type. If it hits, the target is inflicted with Wear Down (LV 10, 2 rounds). Furinkazan: Gain 1 Mountain Mark.",
+      "specialEffects": [
+        "+2 DEF",
+        "Grants Skill: Riseki Yoroi",
+        "3M, 15 FP, 1 Round CD",
+        "Kenpo. Targets 1 enemy in 1 Range (or 1 enemy you have Magnetized in 3 Range, who is pulled to you) and performs a shattering fist strike, dealing damage split between Earth and your Fist's damage type. If it hits, the target is inflicted with Wear Down (LV 10, 2 rounds).",
+        "Furinkazan: Gain 1 Mountain Mark."
+      ],
+      "flavour": "A metal wristband smoothed by countless desert winds. Not all who stand up to the buffeting storm come out looking so lovely."
+    },
+    {
+      "id": "hands:hands:sayakensa",
+      "name": "Sayakensa",
+      "slot": 3,
+      "rarity": 8,
+      "material": "Metal",
+      "details": "+10% Critical Chance -2 VIT Boosts Kensei skill damage by +10 and turns their damage into Dark if Katana is cursed.",
+      "specialEffects": [
+        "+10% Critical Chance",
+        "-2 VIT",
+        "Boosts Kensei skill damage by +10 and turns their damage into Dark if Katana is cursed."
+      ],
+      "flavour": "As an object bathed in shadow for so long, this sheath has been forever tainted by its curse."
+    },
+    {
+      "id": "hands:hands:shifty-pocket",
+      "name": "Shifty Pocket",
+      "slot": 3,
+      "rarity": 6,
+      "material": "Metal",
+      "details": "+2 CEL, +2 GUI On Battle Start: If you have a Magic Pocket enchantment on an equipped item, gain Hand On Weapon. (Permanent status that reduces the Momentum of the next Swap Main/Sub Weapon by 3 (one time).) If you end your turn with 2M or more remaining, you can put your hand back in your pocket.",
+      "specialEffects": [
+        "+2 CEL, +2 GUI",
+        "On Battle Start: If you have a Magic Pocket enchantment on an equipped item, gain Hand On Weapon. (Permanent status that reduces the Momentum of the next Swap Main/Sub Weapon by 3 (one time).) If you end your turn with 2M or more remaining, you can put your hand back in your pocket."
+      ],
+      "flavour": "Keep your hand in your pocket, and your eyes on the streets. You never know when you're gonna need to draw."
+    },
+    {
+      "id": "hands:hands:spirit-beast-gauntlet",
+      "name": "Spirit Beast Gauntlet",
+      "slot": 3,
+      "rarity": 8,
+      "material": "Metal",
+      "details": "+2 STR When you summon a Beast-race Youkai using Summon Youkai, they gain Beast Claws LV10 for 3 rounds. Set: Youkai Shaman 2+ - Item effects of Youkai Shaman items that apply to Youkai when summoned will also apply to you. 3+ - +1 duration to Youkai Shaman item effects. When a Youkai is summoned and receives a Youkai Shaman item effect, it performs an attack on a random enemy in 1 Range (50% damage).",
+      "specialEffects": [
+        "+2 STR",
+        "When you summon a Beast-race Youkai using Summon Youkai, they gain Beast Claws LV10 for 3 rounds.",
+        "Set: Youkai Shaman",
+        "2+ - Item effects of Youkai Shaman items that apply to Youkai when summoned will also apply to you.",
+        "3+ - +1 duration to Youkai Shaman item effects. When a Youkai is summoned and receives a Youkai Shaman item effect, it performs an attack on a random enemy in 1 Range (50% damage)."
+      ],
+      "flavour": "A pair of gauntlets enchanted with the power of a spiritual beast."
+    },
+    {
+      "id": "hands:hands:spy-wristwatch",
+      "name": "Spy Wristwatch",
+      "slot": 3,
+      "rarity": 7,
+      "material": "Metal",
+      "details": "Grants Skill: Poison Dart 3 Momentum, 0 FP Fires a small dart at a target, inflicting 5 unresistable Pierce damage and LV1 Poison for 3 Rounds without fail (unless they're immune to it, of course.)",
+      "specialEffects": [
+        "Grants Skill: Poison Dart",
+        "3 Momentum, 0 FP",
+        "Fires a small dart at a target, inflicting 5 unresistable Pierce damage and LV1 Poison for 3 Rounds without fail (unless they're immune to it, of course.)"
+      ],
+      "flavour": "One second you're checking your watch... the other, your enemy is on the floor, choking to death. Well, maybe not."
+    },
+    {
+      "id": "hands:hands:tetra-gauntlet",
+      "name": "Tetra Gauntlet",
+      "slot": 3,
+      "rarity": 9,
+      "material": "Metal",
+      "details": "+10% Fire Resistance (Tetra) +10% Status Resist versus Burn. (Tetra) (Tetra items can have their properties swapped between Fire & Burn, Ice & Frostbite, Earth & Poison and Wind & Confusion at the respective Crystals around Korvara.)",
+      "specialEffects": [
+        "+10% Fire Resistance (Tetra)",
+        "+10% Status Resist versus Burn. (Tetra)",
+        "(Tetra items can have their properties swapped between Fire & Burn, Ice & Frostbite, Earth & Poison and Wind & Confusion at the respective Crystals around Korvara.)"
+      ],
+      "flavour": "A magical gauntlet attuned with nature. If one had the opportunity and knowledge, it could resonate with powerful elemental forces, and change its own."
+    },
+    {
+      "id": "hands:hands:titan-s-gauntlet",
+      "name": "Titan's Gauntlet",
+      "slot": 3,
+      "rarity": 4,
+      "material": "Metal",
+      "details": "For the purposes of Battle Weight, your equipped weapon has 0 Weight.",
+      "specialEffects": [
+        "For the purposes of Battle Weight, your equipped weapon has 0 Weight."
+      ],
+      "flavour": "A single gauntlet enchanted with great strength, allowing its wearer to wield greatswords as if they were butter knives."
+    },
+    {
+      "id": "hands:hands:weaponmaster-s-glove",
+      "name": "Weaponmaster's Glove",
+      "slot": 3,
+      "rarity": 5,
+      "material": "Metal",
+      "details": "+2 SKI Increases the trigger rate and bonus trigger rate for your Special Strikes by 25% of their original values. Set: Weapon Singer 2+ - Decreases the cooldown of Special Strikes by 1 round. (Min. 1 round)",
+      "specialEffects": [
+        "+2 SKI",
+        "Increases the trigger rate and bonus trigger rate for your Special Strikes by 25% of their original values.",
+        "Set: Weapon Singer",
+        "2+ - Decreases the cooldown of Special Strikes by 1 round. (Min. 1 round)"
+      ],
+      "flavour": "A light glove that resonates with the weapons it holds, bringing out its full potential."
+    }
+  ],
+  "Shield": [
+    {
+      "id": "hands:shield:beastfoe-shield",
+      "name": "Beastfoe Shield",
+      "slot": 3,
+      "rarity": 6,
+      "material": "Metal",
+      "details": "Reduces damage from Beast race enemies by 10%.",
+      "specialEffects": [
+        "Reduces damage from Beast race enemies by 10%."
+      ],
+      "flavour": "A shield with a grudge towards beasts."
+    },
+    {
+      "id": "hands:shield:beastfoe-shield-plus",
+      "name": "Beastfoe Shield Plus",
+      "slot": 3,
+      "rarity": 8,
+      "material": "Metal",
+      "details": "Reduces damage from Beast race enemies by 15%. Increases status resistance versus Beast race enemies by 15%.",
+      "specialEffects": [
+        "Reduces damage from Beast race enemies by 15%.",
+        "Increases status resistance versus Beast race enemies by 15%."
+      ],
+      "flavour": "A shield with a grudge towards beasts. Enhanced by a magical power."
+    },
+    {
+      "id": "hands:shield:beldam-aegis",
+      "name": "Beldam Aegis",
+      "slot": 3,
+      "rarity": 4,
+      "material": "Metal",
+      "details": "+2 DEF 10-30% Lightning Resistance",
+      "specialEffects": [
+        "+2 DEF",
+        "10-30% Lightning Resistance"
+      ],
+      "flavour": "An enchanted shield used by Beldam Knights traditionally. It wards off the deadly grip of lightning."
+    },
+    {
+      "id": "hands:shield:blue-iron-shield",
+      "name": "Blue Iron Shield",
+      "slot": 3,
+      "rarity": 5,
+      "material": "Iron",
+      "details": "+3 DEF 10-30% Darkness Resistance",
+      "specialEffects": [
+        "+3 DEF",
+        "10-30% Darkness Resistance"
+      ],
+      "flavour": "Iron bathed in pure blue flames; it wards off the power of darkness. It can also be used to make an iron blue indention in an enemy's face."
+    },
+    {
+      "id": "hands:shield:brightray-bulwark",
+      "name": "Brightray Bulwark",
+      "slot": 3,
+      "rarity": 9,
+      "material": "Metal",
+      "details": "+2 DEF 50% Darkness Retaliation",
+      "specialEffects": [
+        "+2 DEF",
+        "50% Darkness Retaliation"
+      ],
+      "flavour": "A bright, glowing shield. Its reflective light returns the darkness to its owner."
+    },
+    {
+      "id": "hands:shield:fang-faced-shield",
+      "name": "Fang-Faced Shield",
+      "slot": 3,
+      "rarity": 10,
+      "material": "Metal",
+      "details": "On Attacked: Deals UL unresistable Pierce physical damage to the attacker if you are Guarding. Deals UL x 2 unresistable Pierce damage when you use the Bash skill on an enemy.",
+      "specialEffects": [
+        "On Attacked: Deals UL unresistable Pierce physical damage to the attacker if you are Guarding.",
+        "Deals UL x 2 unresistable Pierce damage when you use the Bash skill on an enemy."
+      ],
+      "flavour": "A gruesome combination of offense and defense that shows the duality of life. You will be very happy to be on one side of this shield, while others will not be pleased at all to be on the other side. Especially if it's piercing their face."
+    },
+    {
+      "id": "hands:shield:firefoe-shield",
+      "name": "Firefoe Shield",
+      "slot": 3,
+      "rarity": 6,
+      "material": "Metal",
+      "details": "Reduces damage from Fireblood race enemies by 10%.",
+      "specialEffects": [
+        "Reduces damage from Fireblood race enemies by 10%."
+      ],
+      "flavour": "A shield with a grudge towards firewalkers."
+    },
+    {
+      "id": "hands:shield:firefoe-shield-plus",
+      "name": "Firefoe Shield Plus",
+      "slot": 3,
+      "rarity": 8,
+      "material": "Metal",
+      "details": "Reduces damage from Fireblood race enemies by 15%. Increases status resistance versus Fireblood race enemies by 15%.",
+      "specialEffects": [
+        "Reduces damage from Fireblood race enemies by 15%.",
+        "Increases status resistance versus Fireblood race enemies by 15%."
+      ],
+      "flavour": "A shield with a grudge towards firewalkers. Enhanced by a magical power."
+    },
+    {
+      "id": "hands:shield:fossil-shield",
+      "name": "Fossil Shield",
+      "slot": 3,
+      "rarity": 6,
+      "material": "Metal",
+      "details": "+3 DEF 10-30% Earth Resistance",
+      "specialEffects": [
+        "+3 DEF",
+        "10-30% Earth Resistance"
+      ],
+      "flavour": "This is more like a giant piece of bone from a fossil than a shield, but if the shape fits..."
+    },
+    {
+      "id": "hands:shield:hero-s-shield",
+      "name": "Hero's Shield",
+      "slot": 3,
+      "rarity": 7,
+      "material": "Metal",
+      "details": "+25 Critical Evade VS Monster weapons. On Battle Start: If you have at least 40 base DEF, gain Debuff Immunity LV1 permanently.",
+      "specialEffects": [
+        "+25 Critical Evade VS Monster weapons.",
+        "On Battle Start: If you have at least 40 base DEF, gain Debuff Immunity LV1 permanently."
+      ],
+      "flavour": "This brilliant shield, with its fine engravings and golden finish, is something right out of a storybook where the hero does battle with fierce monsters."
+    },
+    {
+      "id": "hands:shield:lion-shield",
+      "name": "Lion Shield",
+      "slot": 3,
+      "rarity": 8,
+      "material": "Metal",
+      "details": "+2 DEF, +2 RES Grants Skill: Lion's Roar 3 Momentum, 15 FP Unleash a mighty roar. Increases the user's STR by 2 (+1 per 5 character levels) for 3 rounds. Enemies in range may also be Feared for 2 rounds.",
+      "specialEffects": [
+        "+2 DEF, +2 RES",
+        "Grants Skill: Lion's Roar",
+        "3 Momentum, 15 FP",
+        "Unleash a mighty roar. Increases the user's STR by 2 (+1 per 5 character levels) for 3 rounds. Enemies in range may also be Feared for 2 rounds."
+      ],
+      "flavour": "This lion-faced shield is very ornate, but sturdy. It can also roar, which will be sure to scare your enemies senseless."
+    },
+    {
+      "id": "hands:shield:magnetic-shield",
+      "name": "Magnetic Shield",
+      "slot": 3,
+      "rarity": 9,
+      "material": "Metal",
+      "details": "+3 DEF Reduces damage taken from Gun weapons by 3. Redirects Bow and Gun attacks on allies within 2 Range to yourself.",
+      "specialEffects": [
+        "+3 DEF",
+        "Reduces damage taken from Gun weapons by 3.",
+        "Redirects Bow and Gun attacks on allies within 2 Range to yourself."
+      ],
+      "flavour": "Similar to a tortoise shell, this shield is made of magnetic metals that can be enhanced during brief moments. It will draw in certain attacks towards it."
+    },
+    {
+      "id": "hands:shield:metal-buckler",
+      "name": "Metal Buckler",
+      "slot": 3,
+      "rarity": 1,
+      "material": "Metal",
+      "details": "+1 DEF +2 Power to Unarmed Weapons (Basic attacks only.)",
+      "specialEffects": [
+        "+1 DEF",
+        "+2 Power to Unarmed Weapons (Basic attacks only.)"
+      ],
+      "flavour": "A small buckler that offers extra protection while not weighing you down. Can also be used for quick bashes."
+    },
+    {
+      "id": "hands:shield:metal-shield",
+      "name": "Metal Shield",
+      "slot": 3,
+      "rarity": 1,
+      "material": "Metal",
+      "details": "+4 DEF, -2 CEL",
+      "specialEffects": [
+        "+4 DEF, -2 CEL"
+      ],
+      "flavour": "A large, metal shield that offers decent protection while guarding."
+    },
+    {
+      "id": "hands:shield:moon-mirror-shield",
+      "name": "Moon-Mirror Shield",
+      "slot": 3,
+      "rarity": 9,
+      "material": "Metal",
+      "details": "+2 RES 50% Light Retaliation",
+      "specialEffects": [
+        "+2 RES",
+        "50% Light Retaliation"
+      ],
+      "flavour": "The silvery polish of this shield reflects a time long past, where an ancient protector reflected the light of the moon to blind a star."
+    },
+    {
+      "id": "hands:shield:plantfoe-shield",
+      "name": "Plantfoe Shield",
+      "slot": 3,
+      "rarity": 6,
+      "material": "Metal",
+      "details": "Reduces damage from Plant race enemies by 10%.",
+      "specialEffects": [
+        "Reduces damage from Plant race enemies by 10%."
+      ],
+      "flavour": "A shield with a grudge towards plants."
+    },
+    {
+      "id": "hands:shield:plantfoe-shield-plus",
+      "name": "Plantfoe Shield Plus",
+      "slot": 3,
+      "rarity": 8,
+      "material": "Metal",
+      "details": "Reduces damage from Plant race enemies by 15%. Increases status resistance versus Plant race enemies by 15%.",
+      "specialEffects": [
+        "Reduces damage from Plant race enemies by 15%.",
+        "Increases status resistance versus Plant race enemies by 15%."
+      ],
+      "flavour": "A shield with a grudge towards plants. Enhanced by a magical power."
+    },
+    {
+      "id": "hands:shield:skull-shield",
+      "name": "Skull Shield",
+      "slot": 3,
+      "rarity": 10,
+      "material": "Metal",
+      "details": "While Guarding with a LV of at least 30, if you have Riposte equipped, it will always activate. When one of your Parry skills successfully triggers: Deals UL protection-ignoring Pierce damage to the attacker.",
+      "specialEffects": [
+        "While Guarding with a LV of at least 30, if you have Riposte equipped, it will always activate.",
+        "When one of your Parry skills successfully triggers: Deals UL protection-ignoring Pierce damage to the attacker."
+      ],
+      "flavour": "A gruesome combination of offense and defense that shows the duality of life. You will be very happy to be on one side of this shield, while others will not be pleased at all to be on the other side. Especially if it's piercing their face."
+    },
+    {
+      "id": "hands:shield:undeadfoe-shield",
+      "name": "Undeadfoe Shield",
+      "slot": 3,
+      "rarity": 6,
+      "material": "Metal",
+      "details": "Reduces damage from Undead race enemies by 10%.",
+      "specialEffects": [
+        "Reduces damage from Undead race enemies by 10%."
+      ],
+      "flavour": "A shield with a grudge towards undead."
+    },
+    {
+      "id": "hands:shield:undeadfoe-shield-plus",
+      "name": "Undeadfoe Shield Plus",
+      "slot": 3,
+      "rarity": 8,
+      "material": "Metal",
+      "details": "Reduces damage from Undead race enemies by 15%. Increases status resistance versus Undead race enemies by 15%.",
+      "specialEffects": [
+        "Reduces damage from Undead race enemies by 15%.",
+        "Increases status resistance versus Undead race enemies by 15%."
+      ],
+      "flavour": "A shield with a grudge towards undead. Enhanced by a magical power."
+    }
+  ],
+  "Legs": [
+    {
+      "id": "legs:legs:accellia",
+      "name": "Accellia",
+      "slot": 4,
+      "rarity": 6,
+      "material": "Metal",
+      "details": "Grants Skill: Charge Weapon Rev your weapon and fill it with focus, increasing its Charge, to a maximum of level 3. When you hit with a weapon that can consume Weapon Charges, the damage you deal with that attack will increase by 50% per level. (Weapon Charges will expire after 5 rounds, but can persist through multiple battles.) When the Kick skill is used: Consumes Weapon Charges, dealing 75% more damage per Charge Level. Increases Move based on Weapon Charge levels.",
+      "specialEffects": [
+        "Grants Skill: Charge Weapon",
+        "Rev your weapon and fill it with focus, increasing its Charge, to a maximum of level 3. When you hit with a weapon that can consume Weapon Charges, the damage you deal with that attack will increase by 50% per level. (Weapon Charges will expire after 5 rounds, but can persist through multiple battles.)",
+        "When the Kick skill is used: Consumes Weapon Charges, dealing 75% more damage per Charge Level.",
+        "Increases Move based on Weapon Charge levels."
+      ],
+      "flavour": "The Excel line of weapons were developed in Chaturanga, where the ability to be defensive while increasing offensive capabilities was highly valued. By charging up the weapon, it can explosively spend the focus energy when it strikes an enemy, greatly increasing damage. However, the engine module makes it heavier than other weapons. The Accellia is a unique take on the series meant to counteract the heavy weight by increasing movement speed, but this causes it to be unstable and somewhat unsafe for the user."
+    },
+    {
+      "id": "legs:legs:atlaua-s-shackles",
+      "name": "Atlaua's Shackles",
+      "slot": 4,
+      "rarity": 3,
+      "material": "Metal",
+      "details": "10-30% Water Resistance",
+      "specialEffects": [
+        "10-30% Water Resistance"
+      ],
+      "flavour": "Enchanted metal shackles for those who want to feel the water on their feet."
+    },
+    {
+      "id": "legs:legs:beo",
+      "name": "Beo",
+      "slot": 4,
+      "rarity": 7,
+      "material": "Metal",
+      "details": "After using a kick skill: Deals 25 Light magic bonus damage that ignores armor to target enemy. Set: The Wolf's Claws 2+ - * Grants access to the Shooting Star skill. * Increases the range of the Kick skill by 5. * Kick skill causes you to fly towards the target.",
+      "specialEffects": [
+        "After using a kick skill: Deals 25 Light magic bonus damage that ignores armor to target enemy.",
+        "Set: The Wolf's Claws",
+        "2+ -",
+        "* Grants access to the Shooting Star skill. * Increases the range of the Kick skill by 5. * Kick skill causes you to fly towards the target."
+      ],
+      "flavour": "A pair of boots with sharp claws extending from them. They are enchanted with the spirit of a great beast of light."
+    },
+    {
+      "id": "legs:legs:bladed-soles",
+      "name": "Bladed Soles",
+      "slot": 4,
+      "rarity": 8,
+      "material": "Cloth",
+      "details": "+2 GUI After using a kick skill: Deals 25 Slash damage to the target, which ignores Armor, and can critically hit.",
+      "specialEffects": [
+        "+2 GUI",
+        "After using a kick skill: Deals 25 Slash damage to the target, which ignores Armor, and can critically hit."
+      ],
+      "flavour": "A pair of otherwise normal shoes that conceal a pair of blades at the edges."
+    },
+    {
+      "id": "legs:legs:bluebeo",
+      "name": "Bluebeo",
+      "slot": 4,
+      "rarity": 8,
+      "material": "Metal",
+      "details": "+2 CEL Movement Becomes: Teleport After using a kick skill: Deals 25 Light magic bonus damage that ignores armor to target enemy. Set: The Wolf's Claws 2+ - * Grants access to the Shooting Star skill. * Increases the range of the Kick skill by 5. * Kick skill causes you to fly towards the target.",
+      "specialEffects": [
+        "+2 CEL",
+        "Movement Becomes: Teleport",
+        "After using a kick skill: Deals 25 Light magic bonus damage that ignores armor to target enemy.",
+        "Set: The Wolf's Claws",
+        "2+ -",
+        "* Grants access to the Shooting Star skill. * Increases the range of the Kick skill by 5. * Kick skill causes you to fly towards the target."
+      ],
+      "flavour": "A fused pair of demonic boots that grant incredible speed."
+    },
+    {
+      "id": "legs:legs:boots-of-initiative",
+      "name": "Boots of Initiative",
+      "slot": 4,
+      "rarity": 2,
+      "material": "Cloth",
+      "details": "Increases Move by 3 for the first 2 turns of battle.",
+      "specialEffects": [
+        "Increases Move by 3 for the first 2 turns of battle."
+      ],
+      "flavour": "A pair of boots that will help you make the first move."
+    },
+    {
+      "id": "legs:legs:combat-boots",
+      "name": "Combat Boots",
+      "slot": 4,
+      "rarity": 2,
+      "material": "Cloth",
+      "details": "+1-3 VIT",
+      "specialEffects": [
+        "+1-3 VIT"
+      ],
+      "flavour": "Hardy boots made for marching and battle."
+    },
+    {
+      "id": "legs:legs:combat-boots-plus",
+      "name": "Combat Boots Plus",
+      "slot": 4,
+      "rarity": 4,
+      "material": "Cloth",
+      "details": "+3 VIT Increases damage dealt by Kick skills by 5. Kick skill ignores knockback immunity.",
+      "specialEffects": [
+        "+3 VIT",
+        "Increases damage dealt by Kick skills by 5.",
+        "Kick skill ignores knockback immunity."
+      ],
+      "flavour": "Hardy boots made for marching and battle. Enhanced by a magical power."
+    },
+    {
+      "id": "legs:legs:dark-shielding-sabatons",
+      "name": "Dark-Shielding Sabatons",
+      "slot": 4,
+      "rarity": 3,
+      "material": "Metal",
+      "details": "+3 Armor 10% Darkness Resistance",
+      "specialEffects": [
+        "+3 Armor",
+        "10% Darkness Resistance"
+      ],
+      "flavour": "Simple metal sabatons with an enchantment that protects the wearer from a certain element. While mundane, they are very effective."
+    },
+    {
+      "id": "legs:legs:dokuneko-bells",
+      "name": "Dokuneko Bells",
+      "slot": 4,
+      "rarity": 10,
+      "material": "Metal",
+      "details": "Upon moving within 1 Range of an enemy using Move, or after using a Dance skill: (UL*4)% chance to inflict or power-up Poison status LV (UL/2) for 3 rounds. (This effect can only trigger once per enemy per Move. Infliction chance halved if triggered by a Dance skill.)",
+      "specialEffects": [
+        "Upon moving within 1 Range of an enemy using Move, or after using a Dance skill: (UL*4)% chance to inflict or power-up Poison status LV (UL/2) for 3 rounds. (This effect can only trigger once per enemy per Move. Infliction chance halved if triggered by a Dance skill.)"
+      ],
+      "flavour": "These leg bells are tied to the dokuneko, at least in myth. They spread poison, and so the deep, distinct tone of the bell is supposed to warn common folk that they are in danger. While bells are a common thing in mythology, with happy jingles of high tones and such being related to cats, the bell of the dokuneko is low pitched and not very nice to listen to at all."
+    },
+    {
+      "id": "legs:legs:dragon-queen-s-sollerets",
+      "name": "Dragon Queen's Sollerets",
+      "slot": 4,
+      "rarity": 9,
+      "material": "Metal",
+      "details": "Set: Dragon Queen Increases total Will by 5% and soft cap for Will by 3 for each Dragon Queen item equipped.",
+      "specialEffects": [
+        "Set: Dragon Queen",
+        "Increases total Will by 5% and soft cap for Will by 3 for each Dragon Queen item equipped."
+      ],
+      "flavour": "A pair of armored boots worn by a strong willed woman with dragon's blood."
+    },
+    {
+      "id": "legs:legs:elytra",
+      "name": "Elytra",
+      "slot": 4,
+      "rarity": 10,
+      "material": "Metal",
+      "details": "UL% Blunt Resistance When Battle Weight is at least 30: Immunity to knockback.",
+      "specialEffects": [
+        "UL% Blunt Resistance",
+        "When Battle Weight is at least 30: Immunity to knockback."
+      ],
+      "flavour": "These heavy shoes are gaudy and gold, but may have some use..."
+    },
+    {
+      "id": "legs:legs:firewalker-s-boots",
+      "name": "Firewalker's Boots",
+      "slot": 4,
+      "rarity": 3,
+      "material": "Cloth",
+      "details": "10-30% Fire Resistance",
+      "specialEffects": [
+        "10-30% Fire Resistance"
+      ],
+      "flavour": "Almost-fireproof shoes perfect for traversing random puddles of fire."
+    },
+    {
+      "id": "legs:legs:flower-wreathed-shoes",
+      "name": "Flower-Wreathed Shoes",
+      "slot": 4,
+      "rarity": 5,
+      "material": "Wood",
+      "details": "15% Wind Resistance When you summon a Fairy-race Youkai using Summon Youkai, they gain Fairy Dust LV10 for 3 rounds, and creates a random flower tile at a random location within 2 Range of them for 4 rounds.",
+      "specialEffects": [
+        "15% Wind Resistance",
+        "When you summon a Fairy-race Youkai using Summon Youkai, they gain Fairy Dust LV10 for 3 rounds, and creates a random flower tile at a random location within 2 Range of them for 4 rounds."
+      ],
+      "flavour": "Natural shoes with a grass-like texture and flowers growing from the sides. Such types of flowers are often seen in fairy circles."
+    },
+    {
+      "id": "legs:legs:fox-paw",
+      "name": "Fox Paw",
+      "slot": 4,
+      "rarity": 10,
+      "material": "Metal",
+      "details": "Grants Skill: Firefall Boosts the duration of Cinder tiles created by Firefall by UL/6. On Defeat Enemy: UL*4% chance to spawn a Seeker Flame at its location.",
+      "specialEffects": [
+        "Grants Skill: Firefall",
+        "Boosts the duration of Cinder tiles created by Firefall by UL/6.",
+        "On Defeat Enemy: UL*4% chance to spawn a Seeker Flame at its location."
+      ],
+      "flavour": "A set of strange boots that end in beast paws. Maybe it's lucky like a rabbit's paw... in some sense. Maybe wearing them could be fun. They look nice and warm."
+    },
+    {
+      "id": "legs:legs:goat-lord-s-hooves",
+      "name": "Goat Lord's Hooves",
+      "slot": 4,
+      "rarity": 4,
+      "material": "Metal",
+      "details": "Increases damage dealt by Kick skills by 5. Allows you to use upward Jump points without the Jump subtalent, at the cost of 5 FP per jump (you will still need physical stamina, as well). 15% Lightning Resistance",
+      "specialEffects": [
+        "Increases damage dealt by Kick skills by 5.",
+        "Allows you to use upward Jump points without the Jump subtalent, at the cost of 5 FP per jump (you will still need physical stamina, as well).",
+        "15% Lightning Resistance"
+      ],
+      "flavour": "Strong boots with a unique hoof design. They make climbing up cliffs a breeze."
+    },
+    {
+      "id": "legs:legs:green-soles",
+      "name": "Green Soles",
+      "slot": 4,
+      "rarity": 1,
+      "material": "Cloth",
+      "details": "Increases Experience Points gained by 10% Set: Unassuming Adventurer 2+: Flee success rate is (normal success rate+50)%. 3+: +(10 x total number of this set's item equipped) HP and FP. 5+: +15% damage dealt.",
+      "specialEffects": [
+        "Increases Experience Points gained by 10%",
+        "Set: Unassuming Adventurer",
+        "2+: Flee success rate is (normal success rate+50)%.",
+        "3+: +(10 x total number of this set's item equipped) HP and FP.",
+        "5+: +15% damage dealt."
+      ],
+      "flavour": "The bottoms of these shoes are brand new, which will make taking your first few steps easier... for a while."
+    },
+    {
+      "id": "legs:legs:gunfighter-s-boots",
+      "name": "Gunfighter's Boots",
+      "slot": 4,
+      "rarity": 7,
+      "material": "Cloth",
+      "details": "8% Pierce Resistance Upon using the Kick skill while you have a Gun weapon equipped: Automatically use that Gun's basic attack skill on the target.",
+      "specialEffects": [
+        "8% Pierce Resistance",
+        "Upon using the Kick skill while you have a Gun weapon equipped: Automatically use that Gun's basic attack skill on the target."
+      ],
+      "flavour": "A pair of heavy boots that conceal an ankle holster, which may them popular with gun users."
+    },
+    {
+      "id": "legs:legs:holy-soles",
+      "name": "Holy Soles",
+      "slot": 4,
+      "rarity": 1,
+      "material": "Cloth",
+      "details": "+1-3 RES",
+      "specialEffects": [
+        "+1-3 RES"
+      ],
+      "flavour": "Very resistant to dark magic, and discarded gum."
+    },
+    {
+      "id": "legs:legs:holy-soles-plus",
+      "name": "Holy Soles Plus",
+      "slot": 4,
+      "rarity": 1,
+      "material": "Cloth",
+      "details": "+3 RES Increases status resistance by 5%. Starting a turn on a Sanctuary tile grants Quiet Step for 2 rounds, which prevents you from triggering field object effects.",
+      "specialEffects": [
+        "+3 RES",
+        "Increases status resistance by 5%.",
+        "Starting a turn on a Sanctuary tile grants Quiet Step for 2 rounds, which prevents you from triggering field object effects."
+      ],
+      "flavour": "Very resistant to dark magic, and discarded gum. Enhanced by a magical power."
+    },
+    {
+      "id": "legs:legs:jammer-waders",
+      "name": "Jammer Waders",
+      "slot": 4,
+      "rarity": 5,
+      "material": "Cloth",
+      "details": "Reduces damage from Jammer race enemies by 25%.",
+      "specialEffects": [
+        "Reduces damage from Jammer race enemies by 25%."
+      ],
+      "flavour": "These boots are specially designed so be able to keep jammers away from you. With your feet."
+    },
+    {
+      "id": "legs:legs:kickboxing-shoes",
+      "name": "Kickboxing Shoes",
+      "slot": 4,
+      "rarity": 2,
+      "material": "Cloth",
+      "details": "+2 Power to Unarmed Weapons (Basic attacks only.)",
+      "specialEffects": [
+        "+2 Power to Unarmed Weapons (Basic attacks only.)"
+      ],
+      "flavour": "Made for martial arts rather than protection."
+    },
+    {
+      "id": "legs:legs:kickboxing-shoes-plus",
+      "name": "Kickboxing Shoes Plus",
+      "slot": 4,
+      "rarity": 4,
+      "material": "Cloth",
+      "details": "+5 Power to Unarmed Weapons (Basic attacks only.) Increases damage dealt by Kick skills by 15.",
+      "specialEffects": [
+        "+5 Power to Unarmed Weapons (Basic attacks only.)",
+        "Increases damage dealt by Kick skills by 15."
+      ],
+      "flavour": "Made for martial arts rather than protection. Enhanced by a magical power."
+    },
+    {
+      "id": "legs:legs:marching-band-shoes",
+      "name": "Marching Band Shoes",
+      "slot": 4,
+      "rarity": 4,
+      "material": "Cloth",
+      "details": "+2 SAN Grants Skill: Marching Band Passive While toggled on, if you have any March talent ranks, once per round after you use a Song skill: You move up to X tiles forward in the direction you are facing, and recover X HP & FP. (X = March talent rank. Max of 5 for steps.) This effect will not trigger if you cannot use movement skills.",
+      "specialEffects": [
+        "+2 SAN",
+        "Grants Skill: Marching Band",
+        "Passive",
+        "While toggled on, if you have any March talent ranks, once per round after you use a Song skill: You move up to X tiles forward in the direction you are facing, and recover X HP & FP. (X = March talent rank. Max of 5 for steps.) This effect will not trigger if you cannot use movement skills."
+      ],
+      "flavour": "Boots made for marching and playing at the same time."
+    },
+    {
+      "id": "legs:legs:mercury",
+      "name": "Mercury",
+      "slot": 4,
+      "rarity": 5,
+      "material": "Metal",
+      "details": "Movement Becomes: Teleport",
+      "specialEffects": [
+        "Movement Becomes: Teleport"
+      ],
+      "flavour": "Lined with the flesh of demons, these boots cause the wearer's movements to speed up to the point where they appear to be teleporting."
+    },
+    {
+      "id": "legs:legs:metal-greaves",
+      "name": "Metal Greaves",
+      "slot": 4,
+      "rarity": 1,
+      "material": "Metal",
+      "details": "+3 Armor",
+      "specialEffects": [
+        "+3 Armor"
+      ],
+      "flavour": "An armored set of metal boots."
+    },
+    {
+      "id": "legs:legs:metal-greaves-plus",
+      "name": "Metal Greaves Plus",
+      "slot": 4,
+      "rarity": 3,
+      "material": "Metal",
+      "details": "+5 Armor +10 Critical Evade versus melee range enemies who are not Airborne.",
+      "specialEffects": [
+        "+5 Armor",
+        "+10 Critical Evade versus melee range enemies who are not Airborne."
+      ],
+      "flavour": "An armored set of metal boots. Enhanced by a magical power."
+    },
+    {
+      "id": "legs:legs:mountain-boots",
+      "name": "Mountain Boots",
+      "slot": 4,
+      "rarity": 3,
+      "material": "Metal",
+      "details": "10-30% Ice Resistance",
+      "specialEffects": [
+        "10-30% Ice Resistance"
+      ],
+      "flavour": "Warm boots made for marching in the snow and ice."
+    },
+    {
+      "id": "legs:legs:ogata-s-waraji",
+      "name": "Ogata's Waraji",
+      "slot": 4,
+      "rarity": 3,
+      "material": "Cloth",
+      "details": "+2 CEL -10% Physical damage taken if wearing an unarmored torso, but only if your main class is Kensei or your CEL is higher than your DEF.",
+      "specialEffects": [
+        "+2 CEL",
+        "-10% Physical damage taken if wearing an unarmored torso, but only if your main class is Kensei or your CEL is higher than your DEF."
+      ],
+      "flavour": "A replica of a famous female swordsman's waraji, a popular form of footwear for Kensei."
+    },
+    {
+      "id": "legs:legs:quadrapedal",
+      "name": "Quadrapedal",
+      "slot": 4,
+      "rarity": 6,
+      "material": "Wood",
+      "details": "If you have no Torso item equipped: -2 Momentum required to get up from Knocked Down status. When you get up from being Knocked Down: If you have a Claws-type Fist weapon equipped, deals 15 protection-and-evasion-ignoring Slash physical damage to all enemies within 2 Range.",
+      "specialEffects": [
+        "If you have no Torso item equipped: -2 Momentum required to get up from Knocked Down status.",
+        "When you get up from being Knocked Down: If you have a Claws-type Fist weapon equipped, deals 15 protection-and-evasion-ignoring Slash physical damage to all enemies within 2 Range."
+      ],
+      "flavour": "These simple looking shin guards hide the spirit of a beast within them, filling the wearer with instinctual swiftness."
+    },
+    {
+      "id": "legs:legs:runner-s-high",
+      "name": "Runner's High",
+      "slot": 4,
+      "rarity": 5,
+      "material": "Cloth",
+      "details": "+2 CEL After using basic Movement to move at least 6 tiles: Gain Runner's High LV 5 for 2 rounds. This effect becomes more powerful if certain Scaled stats are 50+; CEL: +LV% Phys/Mag Def VIT:+(LV x 3)% Status Resist STR: +LV% Damage Amplification",
+      "specialEffects": [
+        "+2 CEL",
+        "After using basic Movement to move at least 6 tiles: Gain Runner's High LV 5 for 2 rounds. This effect becomes more powerful if certain Scaled stats are 50+;",
+        "CEL: +LV% Phys/Mag Def",
+        "VIT:+(LV x 3)% Status Resist",
+        "STR: +LV% Damage Amplification"
+      ],
+      "flavour": "A very simple, perhaps magically enchanted, ankle cloth. It makes you experience the joys of exercise."
+    },
+    {
+      "id": "legs:legs:sanctified-shoes",
+      "name": "Sanctified Shoes",
+      "slot": 4,
+      "rarity": 8,
+      "material": "Cloth",
+      "details": "Dark Water tiles only reduces your Faith by 50% (instead of 100%) while equipped. Set: Church Faithful 2+ - +15% Healing-tag skill Power and +3 Light ATK 3+ - +15 Evade versus Vampire race, Possessed race, and Cladis Mortem Null enemies. 4+ - Can't be targeted by the Banquet skill. Vampiric effects (item effects or miniboss skill) do not work against you. Pray skill's Momentum cost becomes 3.",
+      "specialEffects": [
+        "Dark Water tiles only reduces your Faith by 50% (instead of 100%) while equipped.",
+        "Set: Church Faithful",
+        "2+ - +15% Healing-tag skill Power and +3 Light ATK",
+        "3+ - +15 Evade versus Vampire race, Possessed race, and Cladis Mortem Null enemies.",
+        "4+ - Can't be targeted by the Banquet skill. Vampiric effects (item effects or miniboss skill) do not work against you. Pray skill's Momentum cost becomes 3."
+      ],
+      "flavour": "A set of shoes that have been sanctified, keeping them safe from graveyard dirt and black water."
+    },
+    {
+      "id": "legs:legs:shadow",
+      "name": "Shadow",
+      "slot": 4,
+      "rarity": 5,
+      "material": "Cloth",
+      "details": "Lowers random encounters. Increases success rate of escaping from a battle.",
+      "specialEffects": [
+        "Lowers random encounters.",
+        "Increases success rate of escaping from a battle."
+      ],
+      "flavour": "A lesser artifact that aids in sneaking."
+    },
+    {
+      "id": "legs:legs:shadow-plus",
+      "name": "Shadow Plus",
+      "slot": 4,
+      "rarity": 7,
+      "material": "Cloth",
+      "details": "Lowers random encounters. Increases success rate of escaping from a battle. On Battle Start: Gain Sneak for 2 rounds. Moving into a tile with a Light Shaft created by an enemy reduces its duration by 2.",
+      "specialEffects": [
+        "Lowers random encounters.",
+        "Increases success rate of escaping from a battle.",
+        "On Battle Start: Gain Sneak for 2 rounds.",
+        "Moving into a tile with a Light Shaft created by an enemy reduces its duration by 2."
+      ],
+      "flavour": "A lesser artifact that aids in sneaking. Enhanced by a magical power."
+    },
+    {
+      "id": "legs:legs:shoes-of-swiftness",
+      "name": "Shoes of Swiftness",
+      "slot": 4,
+      "rarity": 1,
+      "material": "Cloth",
+      "details": "+2 CEL Increases Move by 1.",
+      "specialEffects": [
+        "+2 CEL",
+        "Increases Move by 1."
+      ],
+      "flavour": "Light-weight combat shoes that promote quick, agile movements."
+    },
+    {
+      "id": "legs:legs:souji-s-waraji",
+      "name": "Souji's Waraji",
+      "slot": 4,
+      "rarity": 5,
+      "material": "Cloth",
+      "details": "+2 CEL -10% magical damage taken if wearing an unarmored torso, but only if your main class is Kensei or your CEL is higher than your RES.",
+      "specialEffects": [
+        "+2 CEL",
+        "-10% magical damage taken if wearing an unarmored torso, but only if your main class is Kensei or your CEL is higher than your RES."
+      ],
+      "flavour": "A replica of a famous male swordsman's waraji, a popular form of footwear for Kensei."
+    },
+    {
+      "id": "legs:legs:spiked-treads",
+      "name": "Spiked Treads",
+      "slot": 4,
+      "rarity": 4,
+      "material": "Metal",
+      "details": "Grants immunity to Knockback effects. Deals 6 Pierce physical damage when you Kick an enemy.",
+      "specialEffects": [
+        "Grants immunity to Knockback effects.",
+        "Deals 6 Pierce physical damage when you Kick an enemy."
+      ],
+      "flavour": "Boots with heavy, thick iron spikes on the bottom, giving you great traction."
+    },
+    {
+      "id": "legs:legs:summoner-s-dance-shoes",
+      "name": "Summoner's Dance Shoes",
+      "slot": 4,
+      "rarity": 6,
+      "material": "Cloth",
+      "details": "When you summon a Youkai using Summon Youkai, you dance 2 tiles towards the enemy nearest to that Youkai.",
+      "specialEffects": [
+        "When you summon a Youkai using Summon Youkai, you dance 2 tiles towards the enemy nearest to that Youkai."
+      ],
+      "flavour": "Engage in the dance of battle with your Youkai with these soft shoes."
+    },
+    {
+      "id": "legs:legs:thunder-hooves",
+      "name": "Thunder Hooves",
+      "slot": 4,
+      "rarity": 10,
+      "material": "Metal",
+      "details": "Deals 5 + UL x 2 Lightning magic damage when you Kick an enemy. Moving and dealing Lightning damage builds Electrocharges. (Move = tiles moved, damage = 5% of damage dealt, min. 1, UL/2 max.) At (30-UL) Electrocharges, using Kick or Movement expends them, and you can no longer gain Electrocharges during the same round. (Kick = doubles Thunder Hooves' kick damage and Kick can critically hit. Move = Movement becomes Teleport. Both = Refunds 2M.)",
+      "specialEffects": [
+        "Deals 5 + UL x 2 Lightning magic damage when you Kick an enemy. Moving and dealing Lightning damage builds Electrocharges. (Move = tiles moved, damage = 5% of damage dealt, min. 1, UL/2 max.)",
+        "At (30-UL) Electrocharges, using Kick or Movement expends them, and you can no longer gain Electrocharges during the same round. (Kick = doubles Thunder Hooves' kick damage and Kick can critically hit. Move = Movement becomes Teleport. Both = Refunds 2M.)"
+      ],
+      "flavour": "Said to belong to the mythological beast Sleipner, these hooves make you move pretty darn fast. Just like Sleipner."
+    },
+    {
+      "id": "legs:legs:ulrenreka",
+      "name": "Ulrenreka",
+      "slot": 4,
+      "rarity": 8,
+      "material": "Metal",
+      "details": "On Kick: Replaces your Water ATK with the target's for 2 rounds. A set of boots said to belong to an infamous pirate king.",
+      "specialEffects": [
+        "On Kick: Replaces your Water ATK with the target's for 2 rounds. A set of boots said to belong to an infamous pirate king."
+      ]
+    },
+    {
+      "id": "legs:legs:void-walker",
+      "name": "Void Walker",
+      "slot": 4,
+      "rarity": 5,
+      "material": "Cloth",
+      "details": "10-30% Darkness Resistance",
+      "specialEffects": [
+        "10-30% Darkness Resistance"
+      ],
+      "flavour": "These won't help you walk in the actual void, so the namesake is more likely referencing to the 'void' as in the depth of darkness."
+    }
+  ],
+  "Accessory": [
+    {
+      "id": "accessory:accessory:argent-ring",
+      "name": "Argent Ring",
+      "slot": 5,
+      "rarity": 10,
+      "material": "Metal",
+      "details": "Enemies affected by Poison inflicted by you have -(10+UL) status resistance versus your status inflictions.",
+      "specialEffects": [
+        "Enemies affected by Poison inflicted by you have -(10+UL) status resistance versus your status inflictions."
+      ],
+      "flavour": "A snake-faced ring with a sinister enchantment to invade an enemy's body."
+    },
+    {
+      "id": "accessory:accessory:black-stone",
+      "name": "Black Stone",
+      "slot": 5,
+      "rarity": 1,
+      "material": "Metal",
+      "details": "+1 STR +2 Power to Huggessoan Spells. Set: Black-Forged Pact.",
+      "specialEffects": [
+        "+1 STR",
+        "+2 Power to Huggessoan Spells.",
+        "Set: Black-Forged Pact."
+      ],
+      "flavour": "A dark sphere, hiding power within it."
+    },
+    {
+      "id": "accessory:accessory:blood-jewel",
+      "name": "Blood Jewel",
+      "slot": 5,
+      "rarity": 1,
+      "material": "Metal",
+      "details": "Recover 2 HP each Round.",
+      "specialEffects": [
+        "Recover 2 HP each Round."
+      ],
+      "flavour": "A necklace with a jewel made of solid, enchanted blood, enhancing regeneration."
+    },
+    {
+      "id": "accessory:accessory:blood-whistle",
+      "name": "Blood Whistle",
+      "slot": 5,
+      "rarity": 1,
+      "material": "Metal",
+      "details": "Always Cursed with Blood-Drenched - Attracts monsters. Recover 2 HP Each Round +2 Power to Sylphid Spells +1 CEL On New Round: Feeds blood-hungry items.",
+      "specialEffects": [
+        "Always Cursed with Blood-Drenched - Attracts monsters.",
+        "Recover 2 HP Each Round",
+        "+2 Power to Sylphid Spells",
+        "+1 CEL",
+        "On New Round: Feeds blood-hungry items."
+      ],
+      "flavour": "Hear its cry."
+    },
+    {
+      "id": "accessory:accessory:blue-brooch",
+      "name": "Blue Brooch",
+      "slot": 5,
+      "rarity": 8,
+      "material": "Metal",
+      "details": "+5 Water ATK",
+      "specialEffects": [
+        "+5 Water ATK"
+      ],
+      "flavour": "A deep, blue brooch that seems to be filled with liquid."
+    },
+    {
+      "id": "accessory:accessory:blue-seal",
+      "name": "Blue Seal",
+      "slot": 5,
+      "rarity": 1,
+      "material": "Cloth",
+      "details": "+2 FAI",
+      "specialEffects": [
+        "+2 FAI"
+      ],
+      "flavour": "A seal used for local religions within Oniga. It has a small bit of holy energy, but it's kind of diminished from being sold wholesale."
+    },
+    {
+      "id": "accessory:accessory:boulder-s-ring",
+      "name": "Boulder's Ring",
+      "slot": 5,
+      "rarity": 4,
+      "material": "Metal",
+      "details": "+1-3 DEF Once per round, after you redirect damage to yourself OR your parry skill is triggered, you recover 10 FP.",
+      "specialEffects": [
+        "+1-3 DEF",
+        "Once per round, after you redirect damage to yourself OR your parry skill is triggered, you recover 10 FP."
+      ],
+      "flavour": "A protective ring created to keep the wearer safe from physical harm. Especially useful in a den of monsters."
+    },
+    {
+      "id": "accessory:accessory:bunny-ears",
+      "name": "Bunny Ears",
+      "slot": 5,
+      "rarity": 4,
+      "material": "Cloth",
+      "details": "+2-4 CEL",
+      "specialEffects": [
+        "+2-4 CEL"
+      ],
+      "flavour": "A simple pair of bunny ears. They're probably not real, but they make you feel like a real bunny. Maybe."
+    },
+    {
+      "id": "accessory:accessory:camera-hat",
+      "name": "Camera Hat",
+      "slot": 5,
+      "rarity": 4,
+      "material": "Metal",
+      "details": "+2 DEF Grants Skill: Camera Flash 3 Momentum, 0 FP Surprise your enemy with a flash from your camera hat, dealing 5 unresistible Light damage to them. There is also a 10% chance that they will be Blinded for 2 rounds. Weaknesses and resistances the target has to Light are added to the chance.",
+      "specialEffects": [
+        "+2 DEF",
+        "Grants Skill: Camera Flash",
+        "3 Momentum, 0 FP",
+        "Surprise your enemy with a flash from your camera hat, dealing 5 unresistible Light damage to them. There is also a 10% chance that they will be Blinded for 2 rounds. Weaknesses and resistances the target has to Light are added to the chance."
+      ],
+      "flavour": "This hat holds a terrifying secret; it has a camera inside. Okay, maybe that's not scary. But it is scary to suddenly get an eye full of brightness from an otherwise regular-looking hat."
+    },
+    {
+      "id": "accessory:accessory:cat-mask",
+      "name": "Cat Mask",
+      "slot": 5,
+      "rarity": 8,
+      "material": "Metal",
+      "details": "+2 CEL, +2 LUC Grants Skill: Steal Take something from another for yourself! But only the good things. And only status effects. At a chance equal to your Scaled CEL + a bonus based on Rank, you can take up to 1 beneficial status effect from the target for yourself.",
+      "specialEffects": [
+        "+2 CEL, +2 LUC",
+        "Grants Skill: Steal",
+        "Take something from another for yourself! But only the good things. And only status effects. At a chance equal to your Scaled CEL + a bonus based on Rank, you can take up to 1 beneficial status effect from the target for yourself."
+      ],
+      "flavour": "This cat mask will make you feel more at home in cat-like situations, such as taking things from other people. While cats are good at stealing, some species of bird are far superior, so don't get too cocky, kitty."
+    },
+    {
+      "id": "accessory:accessory:chaos-dice",
+      "name": "Chaos Dice",
+      "slot": 5,
+      "rarity": 7,
+      "material": "Metal",
+      "details": "On New Round: The die will roll itself. You will gain 100% resistance versus one element, and a 50% weakness to a different element, from these possible elements: Slash, Blunt, Pierce, Fire, Ice, Earth, Wind, Lightning, Light, Darkness, Sound, Acid",
+      "specialEffects": [
+        "On New Round: The die will roll itself. You will gain 100% resistance versus one element, and a 50% weakness to a different element, from these possible elements: Slash, Blunt, Pierce, Fire, Ice, Earth, Wind, Lightning, Light, Darkness, Sound, Acid"
+      ],
+      "flavour": "A small die that ominously shakes in the palm of your hand. It has a tendency to roll itself, but you're never sure if you'll be happy with the result."
+    },
+    {
+      "id": "accessory:accessory:circle-ring",
+      "name": "Circle Ring",
+      "slot": 5,
+      "rarity": 9,
+      "material": "Metal",
+      "details": "Grants Skill: Circle Nine 3 Momentum, 19FP, 9 Round Cooldown Prove to everyone you're not an idiot by dealing 99% of your Ice ATK as bonus armor-ignoring Ice damage to all enemies in a 3 range Circle. You also gain Absorb Ice (Limited) for 9 Rounds.",
+      "specialEffects": [
+        "Grants Skill: Circle Nine",
+        "3 Momentum, 19FP, 9 Round Cooldown",
+        "Prove to everyone you're not an idiot by dealing 99% of your Ice ATK as bonus armor-ignoring Ice damage to all enemies in a 3 range Circle. You also gain Absorb Ice (Limited) for 9 Rounds."
+      ],
+      "flavour": "A ring once said to belong to the strongest fairy in the world."
+    },
+    {
+      "id": "accessory:accessory:crow-s-feather",
+      "name": "Crow's Feather",
+      "slot": 5,
+      "rarity": 5,
+      "material": "Metal",
+      "details": "+1-3 GUI",
+      "specialEffects": [
+        "+1-3 GUI"
+      ],
+      "flavour": "A simple feather that came from a corvid, known for their intelligence."
+    },
+    {
+      "id": "accessory:accessory:crucifix",
+      "name": "Crucifix",
+      "slot": 5,
+      "rarity": 5,
+      "material": "Metal",
+      "details": "+1 FAI +2 Power to Mercalan Spells Increases Status Resistance by 10%. Set: Church Faithful 2+ - +15% Healing-tag skill Power and +3 Light ATK 3+ - +15 Evade versus Vampire race, Possessed race, and Cladis Mortem Null enemies. 4+ - Can't be targeted by the Banquet skill. Vampiric effects (item effects or miniboss skill) do not work against you. Pray skill's Momentum cost becomes 3.",
+      "specialEffects": [
+        "+1 FAI",
+        "+2 Power to Mercalan Spells",
+        "Increases Status Resistance by 10%.",
+        "Set: Church Faithful",
+        "2+ - +15% Healing-tag skill Power and +3 Light ATK",
+        "3+ - +15 Evade versus Vampire race, Possessed race, and Cladis Mortem Null enemies.",
+        "4+ - Can't be targeted by the Banquet skill. Vampiric effects (item effects or miniboss skill) do not work against you. Pray skill's Momentum cost becomes 3."
+      ],
+      "flavour": "A holy symbol of Mercala that wards off ill winds. Make sure you hold it close."
+    },
+    {
+      "id": "accessory:accessory:crystal-mirror",
+      "name": "Crystal Mirror",
+      "slot": 5,
+      "rarity": 9,
+      "material": "Metal",
+      "details": "50% Light Retaliation",
+      "specialEffects": [
+        "50% Light Retaliation"
+      ],
+      "flavour": "A mirror that returns the brightness of your enemies back at them."
+    },
+    {
+      "id": "accessory:accessory:cypelle-amulet",
+      "name": "Cypelle Amulet",
+      "slot": 5,
+      "rarity": 9,
+      "material": "Metal",
+      "details": "+25 FP On Battle Start: Grants a status that increases the activation rate of your next Special Strike by 10% (expires after activating). Set: Weapon Singer 2+ - Decreases the cooldown of Special Strikes by 1 round. (Min. 1 round)",
+      "specialEffects": [
+        "+25 FP",
+        "On Battle Start: Grants a status that increases the activation rate of your next Special Strike by 10% (expires after activating).",
+        "Set: Weapon Singer",
+        "2+ - Decreases the cooldown of Special Strikes by 1 round. (Min. 1 round)"
+      ]
+    },
+    {
+      "id": "accessory:accessory:dar-ensha",
+      "name": "Dar'Ensha",
+      "slot": 5,
+      "rarity": 3,
+      "material": "Metal",
+      "details": "10% chance, when using a Rogue skill, that it will not consume FP.",
+      "specialEffects": [
+        "10% chance, when using a Rogue skill, that it will not consume FP."
+      ],
+      "flavour": "A golden coin with a dagger motif in the center in it, hanging from a leather strap."
+    },
+    {
+      "id": "accessory:accessory:dar-ensha-plus",
+      "name": "Dar'Ensha Plus",
+      "slot": 5,
+      "rarity": 5,
+      "material": "Metal",
+      "details": "-10% FP cost of Rogue skills. (Applied as if it were an Efficiency talent, meaning only the highest Efficiency effect is applied. If a base class, will apply to all promoted classes of that base class.)",
+      "specialEffects": [
+        "-10% FP cost of Rogue skills. (Applied as if it were an Efficiency talent, meaning only the highest Efficiency effect is applied. If a base class, will apply to all promoted classes of that base class.)"
+      ],
+      "flavour": "A golden coin with a dagger motif in the center in it, hanging from a leather strap. Enhanced by a magical power."
+    },
+    {
+      "id": "accessory:accessory:deadly-shades",
+      "name": "Deadly Shades",
+      "slot": 5,
+      "rarity": 6,
+      "material": "Metal",
+      "details": "+3 CEL 10% Light Resistance Using Swap Weapon grants you +50 Critical and +25% Critical Damage (doubled versus monsters), and if a Gun attack hits, creates a burst of bullets in 5 Range around the target that damages all other enemies for 50% of the attack's damage. This effect lasts 1 round and expires upon hitting an enemy, and can only trigger once per round. On Defeat Enemy: If you have a Shifty Pocket, you put your hand back inside of it.",
+      "specialEffects": [
+        "+3 CEL",
+        "10% Light Resistance",
+        "Using Swap Weapon grants you +50 Critical and +25% Critical Damage (doubled versus monsters), and if a Gun attack hits, creates a burst of bullets in 5 Range around the target that damages all other enemies for 50% of the attack's damage. This effect lasts 1 round and expires upon hitting an enemy, and can only trigger once per round.",
+        "On Defeat Enemy: If you have a Shifty Pocket, you put your hand back inside of it."
+      ],
+      "flavour": "These black shades hide your eyes darting around, making sure your chosen target doesn't know what hits 'em."
+    },
+    {
+      "id": "accessory:accessory:dragon-king-s-helmet",
+      "name": "Dragon King's Helmet",
+      "slot": 5,
+      "rarity": 9,
+      "material": "Metal",
+      "details": "Set: Dragon King Increases total STR by 5% and STR soft cap by 3 for each Dragon King item equipped.",
+      "specialEffects": [
+        "Set: Dragon King",
+        "Increases total STR by 5% and STR soft cap by 3 for each Dragon King item equipped."
+      ],
+      "flavour": "Part of a set of armor once worn by a man with dragonblood. Its power causes the strength of the wearer to increase."
+    },
+    {
+      "id": "accessory:accessory:dragon-queen-s-horn",
+      "name": "Dragon Queen's Horn",
+      "slot": 5,
+      "rarity": 9,
+      "material": "Metal",
+      "details": "Set: Dragon Queen Increases total Will by 5% and soft cap for Will by 3 for each Dragon Queen item equipped.",
+      "specialEffects": [
+        "Set: Dragon Queen",
+        "Increases total Will by 5% and soft cap for Will by 3 for each Dragon Queen item equipped."
+      ],
+      "flavour": "A magically charged horn turned into an amulet, once said to belong to a dragon-like queen."
+    },
+    {
+      "id": "accessory:accessory:dummy-wallet",
+      "name": "Dummy Wallet",
+      "slot": 5,
+      "rarity": 6,
+      "material": "Metal",
+      "details": "Fanciness: +2 When stolen, the dirty thief who took it finds out the wallet explodes, taking Fire damage (bonus, ignores protection, immunity, reflect, absorb) equal to 30 + your Fanciness and putting their Steal skill on a 3 round CD (and preventing its Trickery when this is stolen). If your Fanciness is 30+, this effect has +1 priority over other stealable effects.",
+      "specialEffects": [
+        "Fanciness: +2",
+        "When stolen, the dirty thief who took it finds out the wallet explodes, taking Fire damage (bonus, ignores protection, immunity, reflect, absorb) equal to 30 + your Fanciness and putting their Steal skill on a 3 round CD (and preventing its Trickery when this is stolen). If your Fanciness is 30+, this effect has +1 priority over other stealable effects."
+      ],
+      "flavour": "On Battle Start: Gain Dummy Wallet. Some aren't lucky enough to have one wallet. But if you are, why not have two? And why not make one of them a bomb to really stick it to those filthy pickpockets?"
+    },
+    {
+      "id": "accessory:accessory:endless-quiver",
+      "name": "Endless Quiver",
+      "slot": 5,
+      "rarity": 10,
+      "material": "Metal",
+      "details": "Increases the amount of shots granted by special arrow skills by UL",
+      "specialEffects": [
+        "Increases the amount of shots granted by special arrow skills by UL"
+      ],
+      "flavour": "A mysterious quiver that never seems to run out of arrows."
+    },
+    {
+      "id": "accessory:accessory:enhanced-swordmaster-s-ring",
+      "name": "Enhanced Swordmaster's Ring",
+      "slot": 5,
+      "rarity": 7,
+      "material": "Metal",
+      "details": "On Hit: If a Sword weapon, deals 10 Pierce unresistable magic damage.",
+      "specialEffects": [
+        "On Hit: If a Sword weapon, deals 10 Pierce unresistable magic damage."
+      ],
+      "flavour": "Supposedly belonged to an Onigan officer, this ring will cause your cuts to pierce deeper. Has been enhanced to increase its magical power."
+    },
+    {
+      "id": "accessory:accessory:est-lestrada",
+      "name": "Est Lestrada",
+      "slot": 5,
+      "rarity": 8,
+      "material": "Metal",
+      "details": "+3 Light ATK Grants Skill: Forbidden Charge 3 Momentum, 30FP, 5 Round Cooldown Draw out the power of the Est Lestrada, activating Charge Weapon 3 times. However, such power comes at a cost, inflicting yourself with -15 Hit and Blind for 10 rounds.",
+      "specialEffects": [
+        "+3 Light ATK",
+        "Grants Skill: Forbidden Charge",
+        "3 Momentum, 30FP, 5 Round Cooldown",
+        "Draw out the power of the Est Lestrada, activating Charge Weapon 3 times. However, such power comes at a cost, inflicting yourself with -15 Hit and Blind for 10 rounds."
+      ],
+      "flavour": "A minor artifact in the color of gold and shape of an eye that offers power in exchange for sight."
+    },
+    {
+      "id": "accessory:accessory:fake-badge",
+      "name": "Fake Badge",
+      "slot": 5,
+      "rarity": 7,
+      "material": "Metal",
+      "details": "+10 HP, +10 FP +2 CEL, +2 RES",
+      "specialEffects": [
+        "+10 HP, +10 FP",
+        "+2 CEL, +2 RES"
+      ],
+      "flavour": "This detective badge is fake; obviously, you aren't a detective (maybe?). But it is made of a nice metal and just wearing it makes you feel like one. And isn't that what matters?"
+    },
+    {
+      "id": "accessory:accessory:frosted-dog-collar",
+      "name": "Frosted Dog Collar",
+      "slot": 5,
+      "rarity": 7,
+      "material": "Metal",
+      "details": "Suffer 2 Ice magic damage every round. (Ignores resistances.) Prevents spirits possessing you from fleeing upon being reduced to 0 HP.",
+      "specialEffects": [
+        "Suffer 2 Ice magic damage every round. (Ignores resistances.)",
+        "Prevents spirits possessing you from fleeing upon being reduced to 0 HP."
+      ],
+      "flavour": "An unearthly chill covers this dog collar, and in a way it's quite unpleasant."
+    },
+    {
+      "id": "accessory:accessory:goat-lord-s-helmet",
+      "name": "Goat Lord's Helmet",
+      "slot": 5,
+      "rarity": 4,
+      "material": "Metal",
+      "details": "+2 Armor Grants Skill: Ram 3 Momentum, 0FP Ram your horns into the target, dealing Pierce damage equal to 20 + your Scaled STR. If the target is using an Unarmored torso, they take 50% more damage.",
+      "specialEffects": [
+        "+2 Armor",
+        "Grants Skill: Ram",
+        "3 Momentum, 0FP",
+        "Ram your horns into the target, dealing Pierce damage equal to 20 + your Scaled STR. If the target is using an Unarmored torso, they take 50% more damage."
+      ],
+      "flavour": "A helmet shaped in the form of a visor with horns on each side. One could consider them to be weapons in their own right."
+    },
+    {
+      "id": "accessory:accessory:goldie-fox-autograph",
+      "name": "Goldie Fox Autograph",
+      "slot": 5,
+      "rarity": 1,
+      "material": "Metal",
+      "details": "+1 LUC",
+      "specialEffects": [
+        "+1 LUC"
+      ],
+      "flavour": "An autograph by the famous 'Goldie Fox', a hugely famous gambler known for their many wins and witty personality. A little of their luck has rubbed off on it."
+    },
+    {
+      "id": "accessory:accessory:goldie-fox-jar-of-dirt",
+      "name": "Goldie Fox Jar of Dirt",
+      "slot": 5,
+      "rarity": 1,
+      "material": "Metal",
+      "details": "+3 LUC Set: Precautionary Tale 2+ - Life-Saving Charm's HP and FP recovery increases by (25 x total number of this set's items equipped), and when it is activated, grants Debuff Immunity LV2 for 3 rounds, and if Jerkin of Fortune is equipped, reactivates its On Battle Start effect. 3+ - After Life-Saving Charm activates, you gain Death-Defying Fortune LV (25 + your scaled CEL) for 2 rounds.",
+      "specialEffects": [
+        "+3 LUC",
+        "Set: Precautionary Tale",
+        "2+ - Life-Saving Charm's HP and FP recovery increases by (25 x total number of this set's items equipped), and when it is activated, grants Debuff Immunity LV2 for 3 rounds, and if Jerkin of Fortune is equipped, reactivates its On Battle Start effect.",
+        "3+ - After Life-Saving Charm activates, you gain Death-Defying Fortune LV (25 + your scaled CEL) for 2 rounds."
+      ],
+      "flavour": "A jar of ground walked on by the famous 'Goldie Fox', a hugely famous gambler known for their many wins and witty personality. A little of their luck has rubbed off on it. Frankly, it disturbs you that this exists, but you can't deny it's tempting to own..."
+    },
+    {
+      "id": "accessory:accessory:goldie-fox-poem",
+      "name": "Goldie Fox Poem",
+      "slot": 5,
+      "rarity": 1,
+      "material": "Metal",
+      "details": "+2 LUC A poem written by the famous 'Goldie Fox', a hugely famous gambler known for their many wins and witty personality. \"Casino chips are red, Except when they are blue...\" It just goes on like that. A little of their luck has rubbed off on it.",
+      "specialEffects": [
+        "+2 LUC",
+        "A poem written by the famous 'Goldie Fox', a hugely famous gambler known for their many wins and witty personality. \"Casino chips are red, Except when they are blue...\"",
+        "It just goes on like that. A little of their luck has rubbed off on it."
+      ]
+    },
+    {
+      "id": "accessory:accessory:grimalkin-hat",
+      "name": "Grimalkin Hat",
+      "slot": 5,
+      "rarity": 8,
+      "material": "Metal",
+      "details": "+5 Darkness ATK",
+      "specialEffects": [
+        "+5 Darkness ATK"
+      ],
+      "flavour": "Similar to a witch's hat, but with a longer tip, similar to a cat's tail."
+    },
+    {
+      "id": "accessory:accessory:halo",
+      "name": "Halo",
+      "slot": 5,
+      "rarity": 1,
+      "material": "Metal",
+      "details": "+2 Power to Mercalan Spells +1 WIL Set: Church Faithful 2+ - +15% Healing-tag skill Power and +3 Light ATK 3+ - +15 Evade versus Vampire race, Possessed race, and Cladis Mortem Null enemies. 4+ - Can't be targeted by the Banquet skill. Vampiric effects (item effects or miniboss skill) do not work against you. Pray skill's Momentum cost becomes 3.",
+      "specialEffects": [
+        "+2 Power to Mercalan Spells",
+        "+1 WIL",
+        "Set: Church Faithful",
+        "2+ - +15% Healing-tag skill Power and +3 Light ATK",
+        "3+ - +15 Evade versus Vampire race, Possessed race, and Cladis Mortem Null enemies.",
+        "4+ - Can't be targeted by the Banquet skill. Vampiric effects (item effects or miniboss skill) do not work against you. Pray skill's Momentum cost becomes 3."
+      ],
+      "flavour": "A popular form of imagery showing purity and divinity."
+    },
+    {
+      "id": "accessory:accessory:heart-of-stone",
+      "name": "Heart of Stone",
+      "slot": 5,
+      "rarity": 9,
+      "material": "Metal",
+      "details": "Charm effects caused to you and by you have no effect.",
+      "specialEffects": [
+        "Charm effects caused to you and by you have no effect."
+      ],
+      "flavour": "Having this stone at your side seems to dull your emotions, for better or worse."
+    },
+    {
+      "id": "accessory:accessory:heart-of-the-lion",
+      "name": "Heart of the Lion",
+      "slot": 5,
+      "rarity": 4,
+      "material": "Metal",
+      "details": "On Battle Start: For 3 rounds, you gain +2 STR, WIL, DEF, and RES, as well as Status Immunity (Fear).",
+      "specialEffects": [
+        "On Battle Start: For 3 rounds, you gain +2 STR, WIL, DEF, and RES, as well as Status Immunity (Fear)."
+      ],
+      "flavour": "An armband with a lion pattern and fur decorating it. The magic inside grants the wearer a lion's heart, increasing their strength and bravery."
+    },
+    {
+      "id": "accessory:accessory:heron-feather",
+      "name": "Heron Feather",
+      "slot": 5,
+      "rarity": 8,
+      "material": "Cloth",
+      "details": "Reduces the duration of Silence effects caused by enemies by 1.",
+      "specialEffects": [
+        "Reduces the duration of Silence effects caused by enemies by 1."
+      ],
+      "flavour": "A simple feather said to be from a Heron."
+    },
+    {
+      "id": "accessory:accessory:high-mage-s-cape",
+      "name": "High Mage's Cape",
+      "slot": 5,
+      "rarity": 6,
+      "material": "Cloth",
+      "details": "+2 WIL, +2 RES Recover 2% of your Maximum FP each turn. (Max: 3 + Number of Spells Equipped)",
+      "specialEffects": [
+        "+2 WIL, +2 RES",
+        "Recover 2% of your Maximum FP each turn. (Max: 3 + Number of Spells Equipped)"
+      ],
+      "flavour": "A common, but expensive, cape worn by high mages that helps protect them from the forces of magic. And accidents involving magic that they may or may not have caused."
+    },
+    {
+      "id": "accessory:accessory:holy-symbol",
+      "name": "Holy Symbol",
+      "slot": 5,
+      "rarity": 8,
+      "material": "Metal",
+      "details": "+5 Light ATK",
+      "specialEffects": [
+        "+5 Light ATK"
+      ],
+      "flavour": "Light seems to be reflected more clearly and brightly in this pendant."
+    },
+    {
+      "id": "accessory:accessory:holy-water-urn",
+      "name": "Holy Water Urn",
+      "slot": 5,
+      "rarity": 1,
+      "material": "Metal",
+      "details": "+ 2 Power to Aquarian Spells +1 RES",
+      "specialEffects": [
+        "+ 2 Power to Aquarian Spells",
+        "+1 RES"
+      ],
+      "flavour": "Filled with holy water, this urn protects the holder from magics and boosts the power of Water spells."
+    },
+    {
+      "id": "accessory:accessory:isesipian-charm",
+      "name": "Isesipian Charm",
+      "slot": 5,
+      "rarity": 1,
+      "material": "Metal",
+      "details": "10-30% Earth Resistance",
+      "specialEffects": [
+        "10-30% Earth Resistance"
+      ],
+      "flavour": "An earthen charm that is often carried in hopes of it protecting travelers from land slides and other natural disasters."
+    },
+    {
+      "id": "accessory:accessory:ish-agami",
+      "name": "Ish'Agami",
+      "slot": 5,
+      "rarity": 3,
+      "material": "Metal",
+      "details": "10% Chance, when using a Martial Artist skill, that it will not consume FP.",
+      "specialEffects": [
+        "10% Chance, when using a Martial Artist skill, that it will not consume FP."
+      ],
+      "flavour": "A golden coin with a fist motif in the center in it, hanging from a leather strap."
+    },
+    {
+      "id": "accessory:accessory:ish-agami-plus",
+      "name": "Ish'Agami Plus",
+      "slot": 5,
+      "rarity": 5,
+      "material": "Metal",
+      "details": "-10% FP cost of Martial Artist skills. (Applied as if it were an Efficiency talent, meaning only the highest Efficiency effect is applied. If a base class, will apply to all promoted classes of that base class.)",
+      "specialEffects": [
+        "-10% FP cost of Martial Artist skills. (Applied as if it were an Efficiency talent, meaning only the highest Efficiency effect is applied. If a base class, will apply to all promoted classes of that base class.)"
+      ],
+      "flavour": "A golden coin with a fist motif in the center in it, hanging from a leather strap. Enhanced by a magical power."
+    },
+    {
+      "id": "accessory:accessory:jupiter-badge",
+      "name": "Jupiter Badge",
+      "slot": 5,
+      "rarity": 8,
+      "material": "Metal",
+      "details": "+1 CEL, +1 LUC -25% Fire Resistance Always treated as enchanted with 'Redgull' for elemental impact effects.",
+      "specialEffects": [
+        "+1 CEL, +1 LUC",
+        "-25% Fire Resistance",
+        "Always treated as enchanted with 'Redgull' for elemental impact effects."
+      ],
+      "flavour": "Named after the celestial god of lightning, this badge contains a fragment of the power of an elemental."
+    },
+    {
+      "id": "accessory:accessory:leviathan-amulet",
+      "name": "Leviathan Amulet",
+      "slot": 5,
+      "rarity": 10,
+      "material": "Metal",
+      "details": "UL% Water Resistance On Defeat Enemy: Restores 1 + UL HP and FP.",
+      "specialEffects": [
+        "UL% Water Resistance",
+        "On Defeat Enemy: Restores 1 + UL HP and FP."
+      ],
+      "flavour": "This is a simple necklace has a precious, wet stone that looks as deep as the ocean. It makes you feel rugged and tubular when you wear it."
+    },
+    {
+      "id": "accessory:accessory:life-saving-charm",
+      "name": "Life-Saving Charm",
+      "slot": 5,
+      "rarity": 3,
+      "material": "Metal",
+      "details": "Once per battle, when you take damage that brings you to or below 25% of your Max HP: Restores HP and FP by 30 + character level. (Does not trigger if you are reduced to 0 HP.) Set: Precautionary Tale 2+ - Life-Saving Charm's HP and FP recovery increases by (25 x total number of this set's items equipped), and when it is activated, grants Debuff Immunity LV2 for 3 rounds, and if Jerkin of Fortune is equipped, reactivates its On Battle Start effect. 3+ - After Life-Saving Charm activates, you gain Death-Defying Fortune LV (25 + your scaled CEL) for 2 rounds.",
+      "specialEffects": [
+        "Once per battle, when you take damage that brings you to or below 25% of your Max HP: Restores HP and FP by 30 + character level. (Does not trigger if you are reduced to 0 HP.)",
+        "Set: Precautionary Tale",
+        "2+ - Life-Saving Charm's HP and FP recovery increases by (25 x total number of this set's items equipped), and when it is activated, grants Debuff Immunity LV2 for 3 rounds, and if Jerkin of Fortune is equipped, reactivates its On Battle Start effect.",
+        "3+ - After Life-Saving Charm activates, you gain Death-Defying Fortune LV (25 + your scaled CEL) for 2 rounds."
+      ],
+      "flavour": "A plain looking copper-colored charm. It has been protected with a blessing that aids the one holding it in precarious situations."
+    },
+    {
+      "id": "accessory:accessory:lover-s-ring",
+      "name": "Lover's Ring",
+      "slot": 5,
+      "rarity": 4,
+      "material": "Metal",
+      "details": "+1-3 FAI",
+      "specialEffects": [
+        "+1-3 FAI"
+      ],
+      "flavour": "A simple ring with a lover's design. Wearing it helps keep you faithful."
+    },
+    {
+      "id": "accessory:accessory:lucky-amulet",
+      "name": "Lucky Amulet",
+      "slot": 5,
+      "rarity": 9,
+      "material": "Metal",
+      "details": "+3 LUC Reduces damage you take from critical hits by 10%.",
+      "specialEffects": [
+        "+3 LUC",
+        "Reduces damage you take from critical hits by 10%."
+      ],
+      "flavour": "An oddity, but this amulet is made with some beautiful, shiny metal, and an even prettier jewel. Such an amulet grants its owner the power to manipulate their fate... rather, it manipulates it for them, to a degree."
+    },
+    {
+      "id": "accessory:accessory:magician-s-ring",
+      "name": "Magician's Ring",
+      "slot": 5,
+      "rarity": 4,
+      "material": "Metal",
+      "details": "+1-3 WIL Once per round, after hitting an enemy's elemental weakness, you recover 10 FP.",
+      "specialEffects": [
+        "+1-3 WIL",
+        "Once per round, after hitting an enemy's elemental weakness, you recover 10 FP."
+      ],
+      "flavour": "Created as a means to amplify the power of arcana, these rings tend to originate from Karaten."
+    },
+    {
+      "id": "accessory:accessory:mars-badge",
+      "name": "Mars Badge",
+      "slot": 5,
+      "rarity": 8,
+      "material": "Metal",
+      "details": "+1 STR, +1 WIL -25% Ice Resistance Always treated as enchanted with 'Nerhaven' for elemental impact effects.",
+      "specialEffects": [
+        "+1 STR, +1 WIL",
+        "-25% Ice Resistance",
+        "Always treated as enchanted with 'Nerhaven' for elemental impact effects."
+      ],
+      "flavour": "Named after the celestial god of war, this badge contains a fragment of the power of an elemental."
+    },
+    {
+      "id": "accessory:accessory:mercury-badge",
+      "name": "Mercury Badge",
+      "slot": 5,
+      "rarity": 8,
+      "material": "Metal",
+      "details": "+1 DEF, +1 SKI -25% Wind Resistance Always treated as enchanted with 'Kraken' for elemental impact effects.",
+      "specialEffects": [
+        "+1 DEF, +1 SKI",
+        "-25% Wind Resistance",
+        "Always treated as enchanted with 'Kraken' for elemental impact effects."
+      ],
+      "flavour": "Named after the celestial god of boundaries, this badge contains a fragment of the power of an elemental."
+    },
+    {
+      "id": "accessory:accessory:metal-beads",
+      "name": "Metal Beads",
+      "slot": 5,
+      "rarity": 8,
+      "material": "Metal",
+      "details": "+5 Earth ATK",
+      "specialEffects": [
+        "+5 Earth ATK"
+      ],
+      "flavour": "Metallic beads that dance about their own with magnetic power."
+    },
+    {
+      "id": "accessory:accessory:nor-ladoh",
+      "name": "Nor'ladoh",
+      "slot": 5,
+      "rarity": 3,
+      "material": "Metal",
+      "details": "10% chance, when using a Curate skill, that it will not consume FP.",
+      "specialEffects": [
+        "10% chance, when using a Curate skill, that it will not consume FP."
+      ],
+      "flavour": "A golden coin with a staff motif in the center in it, hanging from a leather strap."
+    },
+    {
+      "id": "accessory:accessory:nor-ladoh-plus",
+      "name": "Nor'ladoh Plus",
+      "slot": 5,
+      "rarity": 5,
+      "material": "Metal",
+      "details": "-10% FP cost of Curate skills. (Applied as if it were an Efficiency talent, meaning only the highest Efficiency effect is applied. If a base class, will apply to all promoted classes of that base class.)",
+      "specialEffects": [
+        "-10% FP cost of Curate skills. (Applied as if it were an Efficiency talent, meaning only the highest Efficiency effect is applied. If a base class, will apply to all promoted classes of that base class.)"
+      ],
+      "flavour": "A golden coin with a staff motif in the center in it, hanging from a leather strap. Enhanced by a magical power."
+    },
+    {
+      "id": "accessory:accessory:numa",
+      "name": "Numa",
+      "slot": 5,
+      "rarity": 5,
+      "material": "Metal",
+      "details": "On Battle Start: Gain Curse of Numa LV 30 for 2 rounds. Set: Black-Forged Pact.",
+      "specialEffects": [
+        "On Battle Start: Gain Curse of Numa LV 30 for 2 rounds.",
+        "Set: Black-Forged Pact."
+      ],
+      "flavour": "A cursed ring that offers a cursed power... after a time."
+    },
+    {
+      "id": "accessory:accessory:obsidian-earrings",
+      "name": "Obsidian Earrings",
+      "slot": 5,
+      "rarity": 8,
+      "material": "Metal",
+      "details": "+5 Fire ATK",
+      "specialEffects": [
+        "+5 Fire ATK"
+      ],
+      "flavour": "Made of polished obsidian, these earrings boost the power of the wearer's fire attacks."
+    },
+    {
+      "id": "accessory:accessory:oka-keran",
+      "name": "Oka'Keran",
+      "slot": 5,
+      "rarity": 3,
+      "material": "Metal",
+      "details": "10% chance, when using a Soldier skill, that it will not consume FP.",
+      "specialEffects": [
+        "10% chance, when using a Soldier skill, that it will not consume FP."
+      ],
+      "flavour": "A golden coin with a shield motif in the center in it, hanging from a leather strap."
+    },
+    {
+      "id": "accessory:accessory:oka-keran-plus",
+      "name": "Oka'Keran Plus",
+      "slot": 5,
+      "rarity": 5,
+      "material": "Metal",
+      "details": "-10% FP cost of Soldier skills. (Applied as if it were an Efficiency talent, meaning only the highest Efficiency effect is applied. If a base class, will apply to all promoted classes of that base class.)",
+      "specialEffects": [
+        "-10% FP cost of Soldier skills. (Applied as if it were an Efficiency talent, meaning only the highest Efficiency effect is applied. If a base class, will apply to all promoted classes of that base class.)"
+      ],
+      "flavour": "A golden coin with a shield motif in the center in it, hanging from a leather strap. Enhanced by a magical power."
+    },
+    {
+      "id": "accessory:accessory:overload-amulet",
+      "name": "Overload Amulet",
+      "slot": 5,
+      "rarity": 5,
+      "material": "Metal",
+      "details": "+25 FP Increases WIL by 6 for the first 2 turns of battle.",
+      "specialEffects": [
+        "+25 FP",
+        "Increases WIL by 6 for the first 2 turns of battle."
+      ],
+      "flavour": "Stores magical power and then blows it all at the first sign of trouble."
+    },
+    {
+      "id": "accessory:accessory:phoenix-fire-lantern",
+      "name": "Phoenix Fire Lantern",
+      "slot": 5,
+      "rarity": 1,
+      "material": "Metal",
+      "details": "+2 Power to Nerifian Spells +1 SKI",
+      "specialEffects": [
+        "+2 Power to Nerifian Spells",
+        "+1 SKI"
+      ],
+      "flavour": "A lantern said to contain the undying flame of a phoenix. Said to boost the power of magical fire."
+    },
+    {
+      "id": "accessory:accessory:pirate-eyepatch",
+      "name": "Pirate Eyepatch",
+      "slot": 5,
+      "rarity": 5,
+      "material": "Metal",
+      "details": "On Unequip During Battle: Your other eye, conditioned to low light, grants you Darkvision (2 rounds) and cures you of Blind. Grants Skill: Discard Eyepatch 0M, 0 FP, 10 Round CD Throw off your eyepatch, unequipping the first Eyepatch accessory equipped.",
+      "specialEffects": [
+        "On Unequip During Battle: Your other eye, conditioned to low light, grants you Darkvision (2 rounds) and cures you of Blind.",
+        "Grants Skill: Discard Eyepatch",
+        "0M, 0 FP, 10 Round CD",
+        "Throw off your eyepatch, unequipping the first Eyepatch accessory equipped."
+      ],
+      "flavour": "Not just a fashion statement, the functionality of the eyepatch is that it makes the covered eye used to total darkness. By removing the eyepatch at an appropriate time, say night raids or when moving into low-light areas below deck, this gives the wearer a temporary but important edge in awareness."
+    },
+    {
+      "id": "accessory:accessory:pluto-badge",
+      "name": "Pluto Badge",
+      "slot": 5,
+      "rarity": 8,
+      "material": "Metal",
+      "details": "+1 GUI, +1 RES -25% Lightning Resistance Always treated as enchanted with 'Abyssia' for elemental impact effects.",
+      "specialEffects": [
+        "+1 GUI, +1 RES",
+        "-25% Lightning Resistance",
+        "Always treated as enchanted with 'Abyssia' for elemental impact effects."
+      ],
+      "flavour": "Named after the celestial god of secrets, this badge contains a fragment of the power of an elemental."
+    },
+    {
+      "id": "accessory:accessory:por-phavr",
+      "name": "Por'Phavr",
+      "slot": 5,
+      "rarity": 3,
+      "material": "Metal",
+      "details": "10% chance, when using a Summoner or Evoke skill, that it will not consume FP.",
+      "specialEffects": [
+        "10% chance, when using a Summoner or Evoke skill, that it will not consume FP."
+      ],
+      "flavour": "A golden coin with a summoner motif in the center in it, hanging from a leather strap."
+    },
+    {
+      "id": "accessory:accessory:por-phavr-plus",
+      "name": "Por'Phavr Plus",
+      "slot": 5,
+      "rarity": 5,
+      "material": "Metal",
+      "details": "-10% FP cost of Summoner skills. (Applied as if it were an Efficiency talent, meaning only the highest Efficiency effect is applied. If a base class, will apply to all promoted classes of that base class.)",
+      "specialEffects": [
+        "-10% FP cost of Summoner skills. (Applied as if it were an Efficiency talent, meaning only the highest Efficiency effect is applied. If a base class, will apply to all promoted classes of that base class.)"
+      ],
+      "flavour": "A golden coin with a summoner motif in the center in it, hanging from a leather strap. Enhanced by a magical power."
+    },
+    {
+      "id": "accessory:accessory:prism-jewel",
+      "name": "Prism Jewel",
+      "slot": 5,
+      "rarity": 1,
+      "material": "Metal",
+      "details": "+2 Power to Aquarian, Huggessoan, Isesipian, Mercalan, Nerifian and Sylphid Spells",
+      "specialEffects": [
+        "+2 Power to Aquarian, Huggessoan, Isesipian, Mercalan, Nerifian and Sylphid Spells"
+      ],
+      "flavour": "A gem containing many different elemental forces inside of it; it radiates with power."
+    },
+    {
+      "id": "accessory:accessory:protective-paper-charm",
+      "name": "Protective Paper Charm",
+      "slot": 5,
+      "rarity": 7,
+      "material": "Paper",
+      "details": "Grants 40% Status Resist in battle until you take 20 or more Fire damage.",
+      "specialEffects": [
+        "Grants 40% Status Resist in battle until you take 20 or more Fire damage."
+      ],
+      "flavour": "A paper charm often used in Onigan religious practices that resembles a person."
+    },
+    {
+      "id": "accessory:accessory:rainbow-gem",
+      "name": "Rainbow Gem",
+      "slot": 5,
+      "rarity": 1,
+      "material": "Metal",
+      "details": "+2 Power to Isesipian Spells +1 VIT",
+      "specialEffects": [
+        "+2 Power to Isesipian Spells",
+        "+1 VIT"
+      ],
+      "flavour": "The rainbowy illusion this gem gives is common for precious stones found within or near the Egwyn Crevasse, and the stones themselves amplify certain magics."
+    },
+    {
+      "id": "accessory:accessory:red-cape",
+      "name": "Red Cape",
+      "slot": 5,
+      "rarity": 3,
+      "material": "Cloth",
+      "details": "+25 HP On Take Damage: If below 50% HP, you become immune to Fear for 3 turns.",
+      "specialEffects": [
+        "+25 HP",
+        "On Take Damage: If below 50% HP, you become immune to Fear for 3 turns."
+      ],
+      "flavour": "A red knight's cape, showing your bravery."
+    },
+    {
+      "id": "accessory:accessory:red-seal",
+      "name": "Red Seal",
+      "slot": 5,
+      "rarity": 1,
+      "material": "Metal",
+      "details": "+3 FAI",
+      "specialEffects": [
+        "+3 FAI"
+      ],
+      "flavour": "A seal used for local religions within Oniga. It has a small bit of holy energy, but it's kind of diminished from being sold wholesale."
+    },
+    {
+      "id": "accessory:accessory:riding-hood",
+      "name": "Riding Hood",
+      "slot": 5,
+      "rarity": 3,
+      "material": "Metal",
+      "details": "+15 HP +2 CEL Using a consumable item skill on another ally restores 10 HP and 10 FP to both you and the target.",
+      "specialEffects": [
+        "+15 HP",
+        "+2 CEL",
+        "Using a consumable item skill on another ally restores 10 HP and 10 FP to both you and the target."
+      ],
+      "flavour": "A rosey-red cloak with a hood upon it. While it provides the wearer some protection and hides their form, one can't help but feel the joy of delivering things while wearing it."
+    },
+    {
+      "id": "accessory:accessory:ring-of-cursed-prolonging",
+      "name": "Ring of Cursed Prolonging",
+      "slot": 5,
+      "rarity": 7,
+      "material": "Metal",
+      "details": "Decreases status resistance by 50%. Reduces Murai lost upon defeat by 90%, as well as the chance of losing items upon defeat by 90% of the normal value.",
+      "specialEffects": [
+        "Decreases status resistance by 50%.",
+        "Reduces Murai lost upon defeat by 90%, as well as the chance of losing items upon defeat by 90% of the normal value."
+      ],
+      "flavour": "An evil ring that staves off the greedy clutches of others, at a price."
+    },
+    {
+      "id": "accessory:accessory:ring-of-focus",
+      "name": "Ring of Focus",
+      "slot": 5,
+      "rarity": 1,
+      "material": "Metal",
+      "details": "+40 FP Set: Unassuming Adventurer 2+: Flee success rate is (normal success rate+50)%. 3+: +(10 x total number of this set's item equipped) HP and FP. 5+: +15% damage dealt.",
+      "specialEffects": [
+        "+40 FP",
+        "Set: Unassuming Adventurer",
+        "2+: Flee success rate is (normal success rate+50)%.",
+        "3+: +(10 x total number of this set's item equipped) HP and FP.",
+        "5+: +15% damage dealt."
+      ],
+      "flavour": "Small mana crystals within the ring's design increase the wearer's ability to store Focus."
+    },
+    {
+      "id": "accessory:accessory:ring-of-life",
+      "name": "Ring of Life",
+      "slot": 5,
+      "rarity": 1,
+      "material": "Metal",
+      "details": "+40 HP Set: Unassuming Adventurer 2+: Flee success rate is (normal success rate+50)%. 3+: +(10 x total number of this set's item equipped) HP and FP. 5+: +15% damage dealt.",
+      "specialEffects": [
+        "+40 HP",
+        "Set: Unassuming Adventurer",
+        "2+: Flee success rate is (normal success rate+50)%.",
+        "3+: +(10 x total number of this set's item equipped) HP and FP.",
+        "5+: +15% damage dealt."
+      ],
+      "flavour": "A ring enchanted with magic that enhances the body and makes it healthier."
+    },
+    {
+      "id": "accessory:accessory:ring-of-the-bat",
+      "name": "Ring of the Bat",
+      "slot": 5,
+      "rarity": 7,
+      "material": "Metal",
+      "details": "When you deal Sound damage to an enemy, you gain +10 Hit and +10 Evade versus them until your next turn.",
+      "specialEffects": [
+        "When you deal Sound damage to an enemy, you gain +10 Hit and +10 Evade versus them until your next turn."
+      ],
+      "flavour": "This dark blue ring is engraved with the likeness of a bat, and will help you locate enemies in a way similar to them."
+    },
+    {
+      "id": "accessory:accessory:ring-of-the-dancer",
+      "name": "Ring of the Dancer",
+      "slot": 5,
+      "rarity": 7,
+      "material": "Metal",
+      "details": "On Hit: If a Fist weapon, deals 10 Sound unresistible magic damage.",
+      "specialEffects": [
+        "On Hit: If a Fist weapon, deals 10 Sound unresistible magic damage."
+      ],
+      "flavour": "This ring turns a dance into a deadly affair, creating sound waves that hurt."
+    },
+    {
+      "id": "accessory:accessory:ring-of-the-knight",
+      "name": "Ring of the Knight",
+      "slot": 5,
+      "rarity": 7,
+      "material": "Metal",
+      "details": "Grants Skill: Guard 1+ Momentum, 0FP Raise your shield and protect yourself from enemy attacks. Consumes all remaining Momentum, but until your next action, all damage you take is reduced by (Momentum consumed * 10)%.",
+      "specialEffects": [
+        "Grants Skill: Guard",
+        "1+ Momentum, 0FP",
+        "Raise your shield and protect yourself from enemy attacks. Consumes all remaining Momentum, but until your next action, all damage you take is reduced by (Momentum consumed * 10)%."
+      ],
+      "flavour": "A ring that harbors the strength of nobility."
+    },
+    {
+      "id": "accessory:accessory:ring-of-thorns",
+      "name": "Ring of Thorns",
+      "slot": 5,
+      "rarity": 4,
+      "material": "Metal",
+      "details": "-10% Maximum HP +3 Power to All Weapons (Basic attacks only.)",
+      "specialEffects": [
+        "-10% Maximum HP",
+        "+3 Power to All Weapons (Basic attacks only.)"
+      ],
+      "flavour": "Hurts your finger, but makes you feel stronger."
+    },
+    {
+      "id": "accessory:accessory:ring-of-thorns-plus",
+      "name": "Ring of Thorns Plus",
+      "slot": 5,
+      "rarity": 6,
+      "material": "Metal",
+      "details": "-7% Maximum HP -10 Critical Evade +10 Power to All Weapons (Basic attacks only.) +10% Critical Chance",
+      "specialEffects": [
+        "-7% Maximum HP",
+        "-10 Critical Evade",
+        "+10 Power to All Weapons (Basic attacks only.)",
+        "+10% Critical Chance"
+      ],
+      "flavour": "Hurts your finger, but makes you feel stronger. Enhanced by a magical power."
+    },
+    {
+      "id": "accessory:accessory:saturn-badge",
+      "name": "Saturn Badge",
+      "slot": 5,
+      "rarity": 8,
+      "material": "Metal",
+      "details": "+1 CEL Increases Move by 1 -25% Earth Resistance Always treated as enchanted with 'Talvyd' for elemental impact effects.",
+      "specialEffects": [
+        "+1 CEL",
+        "Increases Move by 1",
+        "-25% Earth Resistance",
+        "Always treated as enchanted with 'Talvyd' for elemental impact effects."
+      ],
+      "flavour": "Named after the celestial god of liberation, this badge contains a fragment of the power of an elemental."
+    },
+    {
+      "id": "accessory:accessory:saya",
+      "name": "Saya",
+      "slot": 5,
+      "rarity": 4,
+      "material": "Metal",
+      "details": "If your Quick Draw defeats an enemy, the attack that triggered it is negated. While preparing a Quick Draw, you gain +10 Evade and +5% Critical Damage. After your Quick Draw triggers, you gain the same effect (2 rounds). (If both Quick Draw and this effect is active at the same time, they stack.) Grants Skill: Sheath Sword (Saya) 3M, 5 FP Katana skill. Targets 1 tile in 5 Range. Sheath your katana and prepare a Quick Draw (LV 1), which triggers a counter-attack when an enemy would perform a basic attack on you. If there was an enemy on the tile you selected, you inflict them with Watchful Eye (1 round).",
+      "specialEffects": [
+        "If your Quick Draw defeats an enemy, the attack that triggered it is negated. While preparing a Quick Draw, you gain +10 Evade and +5% Critical Damage. After your Quick Draw triggers, you gain the same effect (2 rounds). (If both Quick Draw and this effect is active at the same time, they stack.)",
+        "Grants Skill: Sheath Sword (Saya)",
+        "3M, 5 FP",
+        "Katana skill. Targets 1 tile in 5 Range. Sheath your katana and prepare a Quick Draw (LV 1), which triggers a counter-attack when an enemy would perform a basic attack on you. If there was an enemy on the tile you selected, you inflict them with Watchful Eye (1 round)."
+      ],
+      "flavour": "The sheath of a katana. Although for many swordsmen, it holds little relevance once blades have been drawn, some others frequently make use of the saya to prepare lightning-fast draw techniques."
+    },
+    {
+      "id": "accessory:accessory:sayakana",
+      "name": "Sayakana",
+      "slot": 5,
+      "rarity": 1,
+      "material": "Cloth",
+      "details": "Grants 5% Resistance to all elements if main weapon is Cursed or Doomed.",
+      "specialEffects": [
+        "Grants 5% Resistance to all elements if main weapon is Cursed or Doomed."
+      ],
+      "flavour": "A cute little doll who sometimes moves when you're not looking. She'll hug you if your weapon is scary, which will protect you! (Hopefully.)"
+    },
+    {
+      "id": "accessory:accessory:scarf",
+      "name": "Scarf",
+      "slot": 5,
+      "rarity": 2,
+      "material": "Cloth",
+      "details": "10-30% Ice Resistance",
+      "specialEffects": [
+        "10-30% Ice Resistance"
+      ],
+      "flavour": "Keeps your neck nice and toasty."
+    },
+    {
+      "id": "accessory:accessory:sel-miaka",
+      "name": "Sel'Miaka",
+      "slot": 5,
+      "rarity": 3,
+      "material": "Metal",
+      "details": "10% chance, when using a Duelist skill, that it will not consume FP.",
+      "specialEffects": [
+        "10% chance, when using a Duelist skill, that it will not consume FP."
+      ],
+      "flavour": "A golden coin with a twinblade motif in the center in it, hanging from a leather strap."
+    },
+    {
+      "id": "accessory:accessory:sel-miaka-plus",
+      "name": "Sel'Miaka Plus",
+      "slot": 5,
+      "rarity": 5,
+      "material": "Metal",
+      "details": "-10% FP cost of Duelist skills. (Applied as if it were an Efficiency talent, meaning only the highest Efficiency effect is applied. If a base class, will apply to all promoted classes of that base class.)",
+      "specialEffects": [
+        "-10% FP cost of Duelist skills. (Applied as if it were an Efficiency talent, meaning only the highest Efficiency effect is applied. If a base class, will apply to all promoted classes of that base class.)"
+      ],
+      "flavour": "A golden coin with a twinblade motif in the center in it, hanging from a leather strap. Enhanced by a magical power."
+    },
+    {
+      "id": "accessory:accessory:sharkfang-necklace",
+      "name": "Sharkfang Necklace",
+      "slot": 5,
+      "rarity": 5,
+      "material": "Metal",
+      "details": "Reduces damage from Shark race enemies by 15%. Reduces damage from Fish race enemies by 15%.",
+      "specialEffects": [
+        "Reduces damage from Shark race enemies by 15%.",
+        "Reduces damage from Fish race enemies by 15%."
+      ],
+      "flavour": "This necklace has a shark's fang on it, which will intimidate them into not messing with you."
+    },
+    {
+      "id": "accessory:accessory:shock-collar",
+      "name": "Shock Collar",
+      "slot": 5,
+      "rarity": 2,
+      "material": "Metal",
+      "details": "Suffer 2 Lighting magic damage every round. (Ignores resistances.)",
+      "specialEffects": [
+        "Suffer 2 Lighting magic damage every round. (Ignores resistances.)"
+      ],
+      "flavour": "Usually these are magically enchanted to give pets a jolt if they step outside of a certain range, so they don't wander off when given the chance. Whatever that range was, it isn't here, as the thing is constantly triggering randomly, and it's made for pets, so honestly, this probably doesn't have any use for you."
+    },
+    {
+      "id": "accessory:accessory:shroomhead",
+      "name": "Shroomhead",
+      "slot": 5,
+      "rarity": 5,
+      "material": "Fungusbark",
+      "details": "Gain the following benefits based on your current Fungusbark LV: 1+ - Scaled Weapon Power increases by Fungusbark LV. 2+ - Evade increases by Fungusbark LV. 3+ - Leave behind Weakening Spores LV1 for 2 rounds when you move. (Max LV capped at 5.) 4+ - Gain Skill: Mushroom Punch 5+ - Treated as Plant race and tiles within 1 Range of you are treated as having plant tiles on them.",
+      "specialEffects": [
+        "Gain the following benefits based on your current Fungusbark LV:",
+        "1+ - Scaled Weapon Power increases by Fungusbark LV.",
+        "2+ - Evade increases by Fungusbark LV.",
+        "3+ - Leave behind Weakening Spores LV1 for 2 rounds when you move. (Max LV capped at 5.)",
+        "4+ - Gain Skill: Mushroom Punch",
+        "5+ - Treated as Plant race and tiles within 1 Range of you are treated as having plant tiles on them."
+      ]
+    },
+    {
+      "id": "accessory:accessory:singer-s-earrings",
+      "name": "Singer's Earrings",
+      "slot": 5,
+      "rarity": 8,
+      "material": "Metal",
+      "details": "+5 Sound ATK",
+      "specialEffects": [
+        "+5 Sound ATK"
+      ],
+      "flavour": "Helps you put on your best performance."
+    },
+    {
+      "id": "accessory:accessory:skull-face-dice",
+      "name": "Skull-Face Dice",
+      "slot": 5,
+      "rarity": 6,
+      "material": "Metal",
+      "details": "On New Round: The die will roll itself. If the result is 1-5, all enemies lose Scaled Weapon Attack equal to the result * 2 for 1 round. If the result is 6, you take 12 protection-ignoring Dark damage.",
+      "specialEffects": [
+        "On New Round: The die will roll itself. If the result is 1-5, all enemies lose Scaled Weapon Attack equal to the result * 2 for 1 round. If the result is 6, you take 12 protection-ignoring Dark damage."
+      ],
+      "flavour": "A small die that floats in the palm of your hand. It has a tendency to roll itself, for better or worse..."
+    },
+    {
+      "id": "accessory:accessory:skyburn",
+      "name": "Skyburn",
+      "slot": 5,
+      "rarity": 10,
+      "material": "Metal",
+      "details": "Grants Skill: Burn Up 1 Momentum, 0FP Catch the hot air in your wings, gaining Airborne status and taking 5 unresistable Fire damage. Upon going Airborne: Gain Flaming Wings LV UL. When your Airborne ends, the wings explode into fire, dealing unresistable Fire damage equal to its LV to all enemies within 3 Range.",
+      "specialEffects": [
+        "Grants Skill: Burn Up",
+        "1 Momentum, 0FP",
+        "Catch the hot air in your wings, gaining Airborne status and taking 5 unresistable Fire damage.",
+        "Upon going Airborne: Gain Flaming Wings LV UL. When your Airborne ends, the wings explode into fire, dealing unresistable Fire damage equal to its LV to all enemies within 3 Range."
+      ],
+      "flavour": "Feathers from a firey bird held together with a golden pin. Like a bird, they belong in the air."
+    },
+    {
+      "id": "accessory:accessory:snake-faced-helm",
+      "name": "Snake-Faced Helm",
+      "slot": 5,
+      "rarity": 10,
+      "material": "Metal",
+      "details": "+UL/2 Armor Negates enemy's item effects that inflict Stun on you.",
+      "specialEffects": [
+        "+UL/2 Armor",
+        "Negates enemy's item effects that inflict Stun on you."
+      ],
+      "flavour": "A helmet shaped like a snake's face. It looks quite sturdy, to say the least."
+    },
+    {
+      "id": "accessory:accessory:snake-tooth-necklace",
+      "name": "Snake-Tooth Necklace",
+      "slot": 5,
+      "rarity": 10,
+      "material": "Metal",
+      "details": "Increases Acid ATK by UL. (Doesn't stack.) On Battle Start: If you do not already have them, grants 3 rounds of Argent Blessing, Argent Regeneration, and Argent Speed at LV UL.",
+      "specialEffects": [
+        "Increases Acid ATK by UL. (Doesn't stack.)",
+        "On Battle Start: If you do not already have them, grants 3 rounds of Argent Blessing, Argent Regeneration, and Argent Speed at LV UL."
+      ],
+      "flavour": "Not just any snake, either."
+    },
+    {
+      "id": "accessory:accessory:snowflake-pendant",
+      "name": "Snowflake Pendant",
+      "slot": 5,
+      "rarity": 8,
+      "material": "Metal",
+      "details": "+5 Ice ATK",
+      "specialEffects": [
+        "+5 Ice ATK"
+      ],
+      "flavour": "A cool-to-the-touch pendant that seems to increase the wearer's ice attacks' effectiveness."
+    },
+    {
+      "id": "accessory:accessory:spelleater-amulet",
+      "name": "Spelleater Amulet",
+      "slot": 5,
+      "rarity": 2,
+      "material": "Metal",
+      "details": "Turns 10% of magic damage you take into FP.",
+      "specialEffects": [
+        "Turns 10% of magic damage you take into FP."
+      ],
+      "flavour": "This magical amulet will absorb a portion of the magic damage dealt to you and use it to restore your Focus."
+    },
+    {
+      "id": "accessory:accessory:spirit-hawk-veil",
+      "name": "Spirit Hawk Veil",
+      "slot": 5,
+      "rarity": 8,
+      "material": "?",
+      "details": "+2 GUI When you summon an Avian-race Youkai using Summon Youkai, they gain Avian Feathers for 3 rounds. (Avian Feathers allow the use of Flight movement, and moving does not trigger field tiles or traps.) Set: Youkai Shaman 2+ - Item effects of Youkai Shaman items that apply to Youkai when summoned will also apply to you. 3+ - +1 duration to Youkai Shaman item effects. When a Youkai is summoned and receives a Youkai Shaman item effect, it performs an attack on a random enemy in 1 Range (50% damage).",
+      "specialEffects": [
+        "+2 GUI",
+        "When you summon an Avian-race Youkai using Summon Youkai, they gain Avian Feathers for 3 rounds. (Avian Feathers allow the use of Flight movement, and moving does not trigger field tiles or traps.)",
+        "Set: Youkai Shaman",
+        "2+ - Item effects of Youkai Shaman items that apply to Youkai when summoned will also apply to you.",
+        "3+ - +1 duration to Youkai Shaman item effects. When a Youkai is summoned and receives a Youkai Shaman item effect, it performs an attack on a random enemy in 1 Range (50% damage)."
+      ]
+    },
+    {
+      "id": "accessory:accessory:spirit-jar",
+      "name": "Spirit Jar",
+      "slot": 5,
+      "rarity": 10,
+      "material": "Metal",
+      "details": "On Defeat Enemy: Grants a Stored Spirit, up to a maximum of UL. (Upon being defeated, all Stored Spirits are lost.) Grants Skill: Spiriteater 3 Momentum, 0FP Devour all the spirits in the Spirit Jar, restoring HP and FP equal to (8 + Spirits)% of your maximum, and reducing the duration of one random negative status you have by 1.",
+      "specialEffects": [
+        "On Defeat Enemy: Grants a Stored Spirit, up to a maximum of UL. (Upon being defeated, all Stored Spirits are lost.)",
+        "Grants Skill: Spiriteater",
+        "3 Momentum, 0FP",
+        "Devour all the spirits in the Spirit Jar, restoring HP and FP equal to (8 + Spirits)% of your maximum, and reducing the duration of one random negative status you have by 1."
+      ],
+      "flavour": "Previously owned by a warlord of hell with a desire to eat the essence of his enemies, this spirit jar can trap spirits (or something like them) inside, which can be used in a healing nature on the owner. Of course, the 'spirits' aren't there by choice, and will flee the first chance they get."
+    },
+    {
+      "id": "accessory:accessory:spirit-mirror",
+      "name": "Spirit Mirror",
+      "slot": 5,
+      "rarity": 5,
+      "material": "Metal",
+      "details": "Reflects the first enemy projectile that hits you.",
+      "specialEffects": [
+        "Reflects the first enemy projectile that hits you."
+      ],
+      "flavour": "An enchanted spiritual mirror that wards off dangerous magic."
+    },
+    {
+      "id": "accessory:accessory:sunglasses",
+      "name": "Sunglasses",
+      "slot": 5,
+      "rarity": 2,
+      "material": "Metal",
+      "details": "10-30% Light Resistance",
+      "specialEffects": [
+        "10-30% Light Resistance"
+      ],
+      "flavour": "Helps keep your eyes free of natural and magical glares alike."
+    },
+    {
+      "id": "accessory:accessory:swordmaster-s-ring",
+      "name": "Swordmaster's Ring",
+      "slot": 5,
+      "rarity": 6,
+      "material": "Metal",
+      "details": "On Hit: If a Sword weapon, deals 5 Pierce unresistable magic damage.",
+      "specialEffects": [
+        "On Hit: If a Sword weapon, deals 5 Pierce unresistable magic damage."
+      ],
+      "flavour": "Supposedly belonged to an Onigan officer, this ring will cause your cuts to pierce deeper."
+    },
+    {
+      "id": "accessory:accessory:sylph-cloak",
+      "name": "Sylph Cloak",
+      "slot": 5,
+      "rarity": 1,
+      "material": "Cloth",
+      "details": "10-30% Wind Resistance",
+      "specialEffects": [
+        "10-30% Wind Resistance"
+      ],
+      "flavour": "This green cloak will protect you from the blasting winds of the world."
+    },
+    {
+      "id": "accessory:accessory:tel-valsh",
+      "name": "Tel'Valsh",
+      "slot": 5,
+      "rarity": 3,
+      "material": "Metal",
+      "details": "10% chance, when using a Mage skill, that it will not consume FP.",
+      "specialEffects": [
+        "10% chance, when using a Mage skill, that it will not consume FP."
+      ],
+      "flavour": "A golden coin with a tome motif in the center in it, hanging from a leather strap."
+    },
+    {
+      "id": "accessory:accessory:tel-valsh-plus",
+      "name": "Tel'Valsh Plus",
+      "slot": 5,
+      "rarity": 5,
+      "material": "Metal",
+      "details": "-10% FP cost of Mage skills. (Applied as if it were an Efficiency talent, meaning only the highest Efficiency effect is applied. If a base class, will apply to all promoted classes of that base class.)",
+      "specialEffects": [
+        "-10% FP cost of Mage skills. (Applied as if it were an Efficiency talent, meaning only the highest Efficiency effect is applied. If a base class, will apply to all promoted classes of that base class.)"
+      ],
+      "flavour": "A golden coin with a tome motif in the center in it, hanging from a leather strap. Enhanced by a magical power."
+    },
+    {
+      "id": "accessory:accessory:tetra-dragon-fang",
+      "name": "Tetra Dragon Fang",
+      "slot": 5,
+      "rarity": 9,
+      "material": "Metal",
+      "details": "+3 Stat (Tetra) +3 Elemental ATK (Tetra) Upon triggering a Special Strike, inflicts the target of it with Elemental Pierce (Element) for 3 rounds (2 rounds for bosses), and then deal 30 armor-ignoring Element bonus magic damage to them. (Tetra) (Tetra items can have their properties swapped between Fire & STR, Ice & SKI, Earth & DEF and Wind & CEL at the respective Crystals around Korvara.)",
+      "specialEffects": [
+        "+3 Stat (Tetra)",
+        "+3 Elemental ATK (Tetra)",
+        "Upon triggering a Special Strike, inflicts the target of it with Elemental Pierce (Element) for 3 rounds (2 rounds for bosses), and then deal 30 armor-ignoring Element bonus magic damage to them. (Tetra)",
+        "(Tetra items can have their properties swapped between Fire & STR, Ice & SKI, Earth & DEF and Wind & CEL at the respective Crystals around Korvara.)"
+      ],
+      "flavour": "A fang made of some strange material that resembles that of a dragon's. It resonates with elemental power."
+    },
+    {
+      "id": "accessory:accessory:thunder-whistle",
+      "name": "Thunder Whistle",
+      "slot": 5,
+      "rarity": 8,
+      "material": "Metal",
+      "details": "+5 Lightning ATK",
+      "specialEffects": [
+        "+5 Lightning ATK"
+      ],
+      "flavour": "Said to call storms if played, although this is probably just a lie. It sort of sounds like thunder rolling when played, though."
+    },
+    {
+      "id": "accessory:accessory:tor-inaeh",
+      "name": "Tor'Inaeh",
+      "slot": 5,
+      "rarity": 3,
+      "material": "Metal",
+      "details": "10% chance, when using a Archer skill, that it will not consume FP.",
+      "specialEffects": [
+        "10% chance, when using a Archer skill, that it will not consume FP."
+      ],
+      "flavour": "A golden coin with a bow motif in the center in it, hanging from a leather strap."
+    },
+    {
+      "id": "accessory:accessory:tor-inaeh-plus",
+      "name": "Tor'Inaeh Plus",
+      "slot": 5,
+      "rarity": 5,
+      "material": "Metal",
+      "details": "-10% FP cost of Archer skills. (Applied as if it were an Efficiency talent, meaning only the highest Efficiency effect is applied. If a base class, will apply to all promoted classes of that base class.)",
+      "specialEffects": [
+        "-10% FP cost of Archer skills. (Applied as if it were an Efficiency talent, meaning only the highest Efficiency effect is applied. If a base class, will apply to all promoted classes of that base class.)"
+      ],
+      "flavour": "A golden coin with a bow motif in the center in it, hanging from a leather strap. Enhanced by a magical power."
+    },
+    {
+      "id": "accessory:accessory:torando-pendant",
+      "name": "Torando Pendant",
+      "slot": 5,
+      "rarity": 8,
+      "material": "Metal",
+      "details": "+5 Wind ATK",
+      "specialEffects": [
+        "+5 Wind ATK"
+      ],
+      "flavour": "The winds themself seem to dance inside of this pendant's core."
+    },
+    {
+      "id": "accessory:accessory:trapper-s-bag",
+      "name": "Trapper's Bag",
+      "slot": 5,
+      "rarity": 6,
+      "material": "Metal",
+      "details": "+2 GUI +1 Range to Trap-type skills.",
+      "specialEffects": [
+        "+2 GUI",
+        "+1 Range to Trap-type skills."
+      ],
+      "flavour": "A bag that is typically full of traps ready to go. You can really throw them out there now."
+    },
+    {
+      "id": "accessory:accessory:valkyrie-ring",
+      "name": "Valkyrie Ring",
+      "slot": 5,
+      "rarity": 5,
+      "material": "Metal",
+      "details": "Grants +25 Scaled Weapon Attack while you have 0 Momentum. If you are reduced to 0 HP, upon revival, this effect always applies for the rest of the battle (even when you have Momentum).",
+      "specialEffects": [
+        "Grants +25 Scaled Weapon Attack while you have 0 Momentum. If you are reduced to 0 HP, upon revival, this effect always applies for the rest of the battle (even when you have Momentum)."
+      ],
+      "flavour": "The ring of a mythical figure that guides lost souls away from Lazarus and to a realm, where they await the final battle of the gods."
+    },
+    {
+      "id": "accessory:accessory:venus-badge",
+      "name": "Venus Badge",
+      "slot": 5,
+      "rarity": 8,
+      "material": "Metal",
+      "details": "+1 RES, +1 DEF -25% Water Resistance Always treated as enchanted with 'Galren' for elemental impact effects.",
+      "specialEffects": [
+        "+1 RES, +1 DEF",
+        "-25% Water Resistance",
+        "Always treated as enchanted with 'Galren' for elemental impact effects."
+      ],
+      "flavour": "Named after the celestial god of love, this badge contains a fragment of the power of an elemental."
+    },
+    {
+      "id": "accessory:accessory:vile-helmet",
+      "name": "Vile Helmet",
+      "slot": 5,
+      "rarity": 8,
+      "material": "Metal",
+      "details": "+5 Acid ATK",
+      "specialEffects": [
+        "+5 Acid ATK"
+      ],
+      "flavour": "A sickly green metal decorates the edges of this helmet."
+    },
+    {
+      "id": "accessory:accessory:warrior-s-ring",
+      "name": "Warrior's Ring",
+      "slot": 5,
+      "rarity": 4,
+      "material": "Metal",
+      "details": "+1-3 STR Once per round, after hitting an enemy with a basic attack, you recover 10 FP.",
+      "specialEffects": [
+        "+1-3 STR",
+        "Once per round, after hitting an enemy with a basic attack, you recover 10 FP."
+      ],
+      "flavour": "These rings are often used by mercenaries looking to give themselves a little extra oomph."
+    },
+    {
+      "id": "accessory:accessory:white-seal",
+      "name": "White Seal",
+      "slot": 5,
+      "rarity": 1,
+      "material": "Cloth",
+      "details": "+1 FAI",
+      "specialEffects": [
+        "+1 FAI"
+      ],
+      "flavour": "A seal used for local religions within Oniga. It has a small bit of holy energy, but it's kind of diminished from being sold wholesale."
+    },
+    {
+      "id": "accessory:accessory:wind-flute",
+      "name": "Wind Flute",
+      "slot": 5,
+      "rarity": 1,
+      "material": "Metal",
+      "details": "+2 Power to Sylphid Spells +1 CEL",
+      "specialEffects": [
+        "+2 Power to Sylphid Spells",
+        "+1 CEL"
+      ],
+      "flavour": "This blessed flute conjures the wind when played, boosting its power."
+    },
+    {
+      "id": "accessory:accessory:witch-hat",
+      "name": "Witch Hat",
+      "slot": 5,
+      "rarity": 2,
+      "material": "Cloth",
+      "details": "Recover 2 FP each round.",
+      "specialEffects": [
+        "Recover 2 FP each round."
+      ],
+      "flavour": "A pointed magician's hat that regenerates focus passively."
+    },
+    {
+      "id": "accessory:accessory:yinyan-charm",
+      "name": "Yinyan Charm",
+      "slot": 5,
+      "rarity": 1,
+      "material": "Metal",
+      "details": "10% Light and Dark Resistance Set: Gunsmoke Spiritual 2+: Grants access to the Double Dao skill. 3+: Darkness and Light damage you deal ignores up to 10% of elemental resistance. Double Dao Fire both Yin and Yang at a target enemy within 3 Range, alternating between Light and Darkness damage, over 4 shots. The total damage dealt is equal to 100% Darkness ATK + 100% Light ATK + 50% of the total Scaled Weapon ATK of both weapons.",
+      "specialEffects": [
+        "10% Light and Dark Resistance",
+        "Set: Gunsmoke Spiritual",
+        "2+: Grants access to the Double Dao skill.",
+        "3+: Darkness and Light damage you deal ignores up to 10% of elemental resistance.",
+        "Double Dao",
+        "Fire both Yin and Yang at a target enemy within 3 Range, alternating between Light and Darkness damage, over 4 shots. The total damage dealt is equal to 100% Darkness ATK + 100% Light ATK + 50% of the total Scaled Weapon ATK of both weapons."
+      ],
+      "flavour": "3 Momentum, 30 FP An enchanted holy charm that protects the user from both the light of judgement and the darkness of corruption."
+    }
+  ]
+}

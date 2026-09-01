@@ -47,7 +47,8 @@ await new Promise((resolve) => setTimeout(resolve, 6000));
 await request('Runtime.evaluate', { expression: `[...document.querySelectorAll('button')].find((button) => button.innerText.includes('Skip Intro'))?.click()` });
 await new Promise((resolve) => setTimeout(resolve, 750));
 
-for (const [label, expected] of [['Weapon', 'Weapon Calculator'], ['Armor', 'Armor Calculator'], ['Screen', 'Screenshot Mode'], ['Stats', 'Private build optimizer experiment']]) {
+// Weapon and Armor merged into the Equipment workspace's six-slot loadout.
+for (const [label, expected] of [['Equipment', 'LOADOUT'], ['Screenshot', 'FORMAT'], ['Optimizer', 'RANKED ALLOCATIONS'], ['Stats', 'POINTS REMAINING']]) {
   await request('Runtime.evaluate', { expression: `[...document.querySelectorAll('[role="tab"]')].find((button) => button.innerText.trim() === ${JSON.stringify(label)})?.click()` });
   await new Promise((resolve) => setTimeout(resolve, 500));
   const workspace = await request('Runtime.evaluate', { expression: `document.getElementById('root')?.innerText.includes(${JSON.stringify(expected)})`, returnByValue: true });
@@ -73,11 +74,15 @@ if (!keyboardState.closed || !keyboardState.focusReturned) process.exitCode = 1;
 await request('Runtime.evaluate', { expression: `document.querySelector('button[aria-label^="Choose Main Class"]')?.click()` });
 await new Promise((resolve) => setTimeout(resolve, 200));
 await request('Runtime.evaluate', { expression: `[...document.querySelectorAll('[data-class-choice="true"]')].find((button) => button.innerText.trim() === 'Ghost')?.click()` });
-await request('Runtime.evaluate', { expression: `[...document.querySelectorAll('[role="tab"]')].find((button) => button.innerText.trim() === 'Stats')?.click()` });
-await new Promise((resolve) => setTimeout(resolve, 300));
+// The optimizer is its own tab now, and the engine, search scope, defence
+// contract and hard minimums live in that tab's left rail directly.
+await request('Runtime.evaluate', { expression: `[...document.querySelectorAll('[role="tab"]')].find((button) => button.innerText.trim() === 'Optimizer')?.click()` });
+await new Promise((resolve) => setTimeout(resolve, 600));
 
+// Query the select by aria-label: its visible label is CSS-uppercased, so
+// matching the label's innerText against mixed case silently finds nothing.
 await request('Runtime.evaluate', { expression: `(() => {
-  const select = [...document.querySelectorAll('label')].find((label) => label.innerText.includes('Reference evidence'))?.querySelector('select');
+  const select = document.querySelector('select[aria-label="Reference evidence"]');
   if (!select) return false;
   select.value = 'amalgama-ghost-black-knight';
   select.dispatchEvent(new Event('change', { bubbles: true }));
@@ -85,27 +90,32 @@ await request('Runtime.evaluate', { expression: `(() => {
 })()` });
 await new Promise((resolve) => setTimeout(resolve, 200));
 const profileState = await request('Runtime.evaluate', { expression: `JSON.stringify({
-  selected: [...document.querySelectorAll('label')].find((label) => label.innerText.includes('Reference evidence'))?.querySelector('select')?.value === 'amalgama-ghost-black-knight',
+  selected: document.querySelector('select[aria-label="Reference evidence"]')?.value === 'amalgama-ghost-black-knight',
   fixedMain: document.querySelector('[aria-labelledby="optimizer-title"]')?.innerText.includes('main class Ghost'),
   engineChoices: [...document.querySelectorAll('[role="radio"]')].map((button) => button.innerText.trim())
 })`, returnByValue: true });
 console.log(`optimizer:profile=${profileState.result.value}`);
 const profile = JSON.parse(profileState.result.value);
-if (!profile.selected || !profile.fixedMain || profile.engineChoices.length !== 3) process.exitCode = 1;
+// The engine count is not pinned: FEATURES.aiPlanner gates the AI planner in or
+// out, so assert on the deterministic engines the smoke run actually drives.
+const hasDeterministicEngines = ['V2 search', 'Legacy']
+  .every((label) => profile.engineChoices.some((choice) => choice.includes(label)));
+if (!profile.selected || !profile.fixedMain || !hasDeterministicEngines) process.exitCode = 1;
 
 await request('Runtime.evaluate', { expression: `[...document.querySelectorAll('[role="radio"]')].find((button) => button.innerText.includes('V2 search'))?.click()` });
 await new Promise((resolve) => setTimeout(resolve, 300));
 await request('Runtime.evaluate', { expression: `[...document.querySelectorAll('button')].find((button) => button.innerText.includes('Run V2 optimizer'))?.click()` });
 for (let attempt = 0; attempt < 30; attempt += 1) {
   await new Promise((resolve) => setTimeout(resolve, 1000));
-  const finished = await request('Runtime.evaluate', { expression: `document.body.innerText.includes('Apply primary build') || Boolean(document.querySelector('[role="alert"]'))`, returnByValue: true });
+  const finished = await request('Runtime.evaluate', { expression: `document.body.innerText.includes('Apply primary allocation') || Boolean(document.querySelector('[role="alert"]'))`, returnByValue: true });
   if (finished.result.value) break;
 }
-const optimizerState = await request('Runtime.evaluate', { expression: `JSON.stringify({ result: document.body.innerText.includes('Apply primary build'), validated: document.body.innerText.includes('Validated candidate'), equipment: document.body.innerText.includes('Primary weapon') && document.body.innerText.includes('Torso'), aptitude: document.body.innerText.includes('APT breakpoint efficiency') && document.body.innerText.includes('stranded'), defense: document.body.innerText.includes('Reliable defense scenario') && document.body.innerText.includes('Partial load'), oldTab: [...document.querySelectorAll('[role="tab"]')].some((tab) => tab.innerText.includes('Optimizer')) })`, returnByValue: true });
+// Section headings are CSS-uppercased, so innerText reports them in caps.
+const optimizerState = await request('Runtime.evaluate', { expression: `JSON.stringify({ result: document.body.innerText.includes('Apply primary allocation'), validated: document.body.innerText.includes('Validated candidate'), equipment: document.body.innerText.includes('PRIMARY WEAPON') && document.body.innerText.includes('TORSO'), aptitude: document.body.innerText.includes('APT BREAKPOINT EFFICIENCY') && document.body.innerText.includes('Stranded'), defense: document.body.innerText.includes('RELIABLE DEFENSE SCENARIO') && document.body.innerText.includes('Partial load'), optimizerTab: [...document.querySelectorAll('[role="tab"]')].some((tab) => tab.innerText.includes('Optimizer')) })`, returnByValue: true });
 console.log(`optimizer=${optimizerState.result.value}`);
 const optimizer = JSON.parse(optimizerState.result.value);
-if (!optimizer.result || !optimizer.validated || !optimizer.equipment || !optimizer.aptitude || !optimizer.defense || optimizer.oldTab) process.exitCode = 1;
-await request('Runtime.evaluate', { expression: `[...document.querySelectorAll('button')].find((button) => button.innerText.includes('Apply primary build'))?.click()` });
+if (!optimizer.result || !optimizer.validated || !optimizer.equipment || !optimizer.aptitude || !optimizer.defense || !optimizer.optimizerTab) process.exitCode = 1;
+await request('Runtime.evaluate', { expression: `[...document.querySelectorAll('button')].find((button) => button.innerText.includes('Apply primary allocation'))?.click()` });
 await new Promise((resolve) => setTimeout(resolve, 300));
 const undoState = await request('Runtime.evaluate', { expression: `document.body.innerText.includes('Undo optimizer')`, returnByValue: true });
 console.log(`optimizer:undo=${Boolean(undoState.result.value)}`);
@@ -147,7 +157,7 @@ if (verifyOffline) {
   if (!offlineState.controlled || !offlineState.rootText?.includes('SL2 Calculator Suite')) process.exitCode = 1;
   await request('Runtime.evaluate', { expression: `[...document.querySelectorAll('button')].find((button) => button.innerText.includes('Skip Intro'))?.click()` });
   await new Promise((resolve) => setTimeout(resolve, 750));
-  for (const [label, expected] of [['Weapon', 'Weapon Calculator'], ['Armor', 'Armor Calculator'], ['Screen', 'Screenshot Mode'], ['Stats', 'Private build optimizer experiment']]) {
+  for (const [label, expected] of [['Equipment', 'LOADOUT'], ['Screenshot', 'FORMAT'], ['Optimizer', 'RANKED ALLOCATIONS'], ['Stats', 'POINTS REMAINING']]) {
     await request('Runtime.evaluate', { expression: `[...document.querySelectorAll('[role="tab"]')].find((button) => button.innerText.trim() === ${JSON.stringify(label)})?.click()` });
     await new Promise((resolve) => setTimeout(resolve, 750));
     const workspace = await request('Runtime.evaluate', { expression: `document.getElementById('root')?.innerText.includes(${JSON.stringify(expected)})`, returnByValue: true });

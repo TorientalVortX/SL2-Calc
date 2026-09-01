@@ -1,0 +1,2154 @@
+{
+  "youkai": [
+    {
+      "id": "apus",
+      "name": "Apus",
+      "baseFormId": null,
+      "race": "Avian",
+      "stats": {
+        "str": 26,
+        "wil": 13,
+        "ski": 49,
+        "cel": 37,
+        "def": 19,
+        "res": 14,
+        "vit": 35,
+        "fai": 40,
+        "luc": 14,
+        "gui": 0,
+        "san": 5
+      },
+      "statsLv1": {
+        "str": 6,
+        "wil": 3,
+        "ski": 9,
+        "cel": 7,
+        "def": 4,
+        "res": 4,
+        "vit": 5,
+        "fai": 0,
+        "luc": 4,
+        "gui": 0,
+        "san": 0
+      },
+      "skills": [
+        {
+          "slot": "evoke-active",
+          "name": "Apodis",
+          "passive": false,
+          "fp": 29,
+          "momentum": 3,
+          "range": "5",
+          "area": "Single",
+          "target": "Enemy Only",
+          "domain": "Mercalan",
+          "description": "Creates lines of light that attack the target, dealing Light magic damage to the target. During the night, the damage is increased by 25%."
+        },
+        {
+          "slot": "evoke-passive",
+          "name": "Fortune Feather",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "When taking Fire, Ice, Lightning or Wind damage, there is a LUC+Apus's level% chance that you will gain 10% resistance for that damage instance only."
+        },
+        {
+          "slot": "main",
+          "name": "Floating",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "Maintaining an aerial positioning, increasing Earth resistance by 25%, but also increasing Wind weakness by 25%."
+        }
+      ]
+    },
+    {
+      "id": "hippogriph",
+      "name": "Hippogriph",
+      "baseFormId": null,
+      "race": "Avian",
+      "stats": {
+        "str": 46,
+        "wil": 13,
+        "ski": 39,
+        "cel": 47,
+        "def": 24,
+        "res": 24,
+        "vit": 35,
+        "fai": 0,
+        "luc": 4,
+        "gui": 20,
+        "san": 0
+      },
+      "statsLv1": {
+        "str": 6,
+        "wil": 3,
+        "ski": 9,
+        "cel": 7,
+        "def": 4,
+        "res": 4,
+        "vit": 5,
+        "fai": 0,
+        "luc": 4,
+        "gui": 0,
+        "san": 0
+      },
+      "skills": [
+        {
+          "slot": "evoke-active",
+          "name": "Mare Wing",
+          "passive": false,
+          "fp": 32,
+          "momentum": 3,
+          "range": "3",
+          "area": "Circle",
+          "target": "Enemy Only",
+          "domain": null,
+          "description": "Creates a buffet of wind, dealing Wind magic damage to all within 3 Range. It also creates an Air Shaft at the user's location for 3 rounds."
+        },
+        {
+          "slot": "evoke-passive",
+          "name": "Talon Claw",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "Deadly, razor-sharp talons that tear apart anything. Grants +5 Power to attacks with Fist weapons and skills that require a Fist weapon."
+        },
+        {
+          "slot": "main",
+          "name": "Gryphon Hoof",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "A floating state that nullifies attacks by the ground (literally). While Airborne, you become immune to Earth damage."
+        }
+      ]
+    },
+    {
+      "id": "snow-crow",
+      "name": "Snow Crow",
+      "baseFormId": null,
+      "race": "Avian",
+      "stats": {
+        "str": 31,
+        "wil": 33,
+        "ski": 49,
+        "cel": 37,
+        "def": 19,
+        "res": 14,
+        "vit": 35,
+        "fai": 0,
+        "luc": 14,
+        "gui": 15,
+        "san": 5
+      },
+      "statsLv1": {
+        "str": 6,
+        "wil": 3,
+        "ski": 9,
+        "cel": 7,
+        "def": 4,
+        "res": 4,
+        "vit": 5,
+        "fai": 0,
+        "luc": 4,
+        "gui": 0,
+        "san": 0
+      },
+      "skills": [
+        {
+          "slot": "evoke-active",
+          "name": "Cresyr",
+          "passive": false,
+          "fp": 32,
+          "momentum": 3,
+          "range": "4",
+          "area": "Single",
+          "target": "Enemy Only",
+          "domain": null,
+          "description": "A loud, chilling screech, dealing Ice magic damage to the target. If the target is Weak to Ice, the caster also gains Crowcall LV2 for 3 rounds. (Crowcall increases STR and CEL by its LV. The LV is doubled if Snow Crow is the one using this skill.)"
+        },
+        {
+          "slot": "evoke-passive",
+          "name": "Snowfall",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "Tiles the owner of this skill walks on are covered in ice sheets, which end movement prematurely if stepped on by enemies. The ice sheets created by this skill last for 2 rounds."
+        },
+        {
+          "slot": "main",
+          "name": "Ice Armor",
+          "passive": false,
+          "fp": 15,
+          "momentum": 3,
+          "range": null,
+          "area": "Single",
+          "target": "Enemy Only",
+          "domain": null,
+          "description": "Creates a protective layer of ice around the body of the caster, increasing their DEF by 2 (+1 per 5 Snow Crow levels) for 3 rounds (+1 per 10 Snow Crow levels). It also grants 25% Resistance to Ice, but also a 25% Weakness to Fire."
+        }
+      ]
+    },
+    {
+      "id": "suzaku",
+      "name": "Suzaku",
+      "baseFormId": null,
+      "race": "Avian",
+      "stats": {
+        "str": 46,
+        "wil": 15,
+        "ski": 49,
+        "cel": 27,
+        "def": 24,
+        "res": 24,
+        "vit": 35,
+        "fai": 0,
+        "luc": 4,
+        "gui": 30,
+        "san": 0
+      },
+      "statsLv1": {
+        "str": 6,
+        "wil": 5,
+        "ski": 9,
+        "cel": 7,
+        "def": 4,
+        "res": 4,
+        "vit": 5,
+        "fai": 0,
+        "luc": 4,
+        "gui": 0,
+        "san": 0
+      },
+      "skills": [
+        {
+          "slot": "evoke-active",
+          "name": "Lord's Flame",
+          "passive": false,
+          "fp": 33,
+          "momentum": 3,
+          "range": "5",
+          "area": "Single",
+          "target": "Enemy Only",
+          "domain": null,
+          "description": "Invoke a burst of fire, dealing Fire magic damage that ignores evasion to a target within 5 Range. If the user is Suzaku, the target is also inflicted with Soul Shot for 2 rounds."
+        },
+        {
+          "slot": "evoke-passive",
+          "name": "Seal of the South",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "Crest of the ruler of the South. They gain +2 WIL."
+        },
+        {
+          "slot": "main",
+          "name": "Burning Strikes",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "Blessing of the ruler of flame. Basic attacks deal bonus armor-ignoring Fire magic damage equal to half of character level."
+        }
+      ]
+    },
+    {
+      "id": "suzaku-ascended",
+      "name": "Suzaku (Ascended)",
+      "baseFormId": "suzaku",
+      "race": "Avian",
+      "stats": {
+        "str": 56,
+        "wil": 25,
+        "ski": 59,
+        "cel": 27,
+        "def": 24,
+        "res": 24,
+        "vit": 40,
+        "fai": 0,
+        "luc": 4,
+        "gui": 35,
+        "san": 0
+      },
+      "statsLv1": {
+        "str": 6,
+        "wil": 5,
+        "ski": 9,
+        "cel": 7,
+        "def": 4,
+        "res": 4,
+        "vit": 5,
+        "fai": 0,
+        "luc": 4,
+        "gui": 0,
+        "san": 0
+      },
+      "skills": [
+        {
+          "slot": "evoke-active",
+          "name": "Lord's Flame",
+          "passive": false,
+          "fp": 33,
+          "momentum": 3,
+          "range": "5",
+          "area": "Single",
+          "target": "Enemy Only",
+          "domain": null,
+          "description": "Invoke a burst of fire, dealing Fire magic damage that ignores evasion to a target within 5 Range. If the user is Suzaku, the target is also inflicted with Soul Shot for 2 rounds."
+        },
+        {
+          "slot": "evoke-passive",
+          "name": "Seal of the South+",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "Crest of the ruler of the South. They gain +2 WIL."
+        },
+        {
+          "slot": "main",
+          "name": "Burning Strikes",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "Blessing of the ruler of flame. Basic attacks deal bonus armor-ignoring Fire magic damage equal to half of character level."
+        }
+      ]
+    },
+    {
+      "id": "byakko",
+      "name": "Byakko",
+      "baseFormId": null,
+      "race": "Beast",
+      "stats": {
+        "str": 56,
+        "wil": 14,
+        "ski": 41,
+        "cel": 36,
+        "def": 14,
+        "res": 14,
+        "vit": 36,
+        "fai": 0,
+        "luc": 43,
+        "gui": 0,
+        "san": 0
+      },
+      "statsLv1": {
+        "str": 11,
+        "wil": 4,
+        "ski": 6,
+        "cel": 6,
+        "def": 4,
+        "res": 4,
+        "vit": 6,
+        "fai": 0,
+        "luc": 3,
+        "gui": 0,
+        "san": 0
+      },
+      "skills": [
+        {
+          "slot": "evoke-active",
+          "name": "Thunder Claw",
+          "passive": false,
+          "fp": 28,
+          "momentum": 3,
+          "range": "2",
+          "area": "Single",
+          "target": "Enemy Only",
+          "domain": null,
+          "description": "A lightning-flash swipe of a tiger's claw. Deals Lightning physical damage based on Lighting ATK."
+        },
+        {
+          "slot": "evoke-passive",
+          "name": "Seal of the West",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "Crest of the ruler of the West. They gain +2 STR."
+        },
+        {
+          "slot": "main",
+          "name": "Roar",
+          "passive": false,
+          "fp": 15,
+          "momentum": 3,
+          "range": "2",
+          "area": "Circle(2)",
+          "target": "Enemy Only",
+          "domain": null,
+          "description": "Unleash a mighty roar. Increases the user's STR by 2 (+1 per 5 Byakko levels) for 3 rounds (+1 round per 10 Byakko levels). Enemies in range may also be Feared for 2 rounds."
+        }
+      ]
+    },
+    {
+      "id": "byakko-ascended",
+      "name": "Byakko (Ascended)",
+      "baseFormId": "byakko",
+      "race": "Beast",
+      "stats": {
+        "str": 66,
+        "wil": 14,
+        "ski": 51,
+        "cel": 36,
+        "def": 19,
+        "res": 19,
+        "vit": 46,
+        "fai": 0,
+        "luc": 43,
+        "gui": 0,
+        "san": 0
+      },
+      "statsLv1": {
+        "str": 11,
+        "wil": 4,
+        "ski": 6,
+        "cel": 6,
+        "def": 4,
+        "res": 4,
+        "vit": 6,
+        "fai": 0,
+        "luc": 3,
+        "gui": 0,
+        "san": 0
+      },
+      "skills": [
+        {
+          "slot": "evoke-active",
+          "name": "Thunder Claw",
+          "passive": false,
+          "fp": 28,
+          "momentum": 3,
+          "range": "2",
+          "area": "Single",
+          "target": "Enemy Only",
+          "domain": null,
+          "description": "A lightning-flash swipe of a tiger's claw. Deals Lightning physical damage based on Lighting ATK."
+        },
+        {
+          "slot": "evoke-passive",
+          "name": "Seal of the West",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "Crest of the ruler of the West. They gain +2 STR."
+        },
+        {
+          "slot": "main",
+          "name": "Roar",
+          "passive": false,
+          "fp": 15,
+          "momentum": 3,
+          "range": "2",
+          "area": "Circle(2)",
+          "target": "Enemy Only",
+          "domain": null,
+          "description": "Unleash a mighty roar. Increases the user's STR by 2 (+1 per 5 Byakko levels) for 3 rounds (+1 round per 10 Byakko levels). Enemies in range may also be Feared for 2 rounds."
+        }
+      ]
+    },
+    {
+      "id": "firefox",
+      "name": "Firefox",
+      "baseFormId": null,
+      "race": "Beast",
+      "stats": {
+        "str": 59,
+        "wil": 24,
+        "ski": 36,
+        "cel": 46,
+        "def": 9,
+        "res": 9,
+        "vit": 31,
+        "fai": 0,
+        "luc": 8,
+        "gui": 30,
+        "san": 0
+      },
+      "statsLv1": {
+        "str": 9,
+        "wil": 4,
+        "ski": 6,
+        "cel": 6,
+        "def": 4,
+        "res": 4,
+        "vit": 6,
+        "fai": 0,
+        "luc": 3,
+        "gui": 0,
+        "san": 0
+      },
+      "skills": [
+        {
+          "slot": "evoke-active",
+          "name": "Seeker Flame",
+          "passive": false,
+          "fp": 20,
+          "momentum": 3,
+          "range": null,
+          "area": "Single",
+          "target": "Enemy Only",
+          "domain": null,
+          "description": "Creates a Seeker Flame at a random unoccupied location around you. The Seeker Flame will seek out an enemy, and if it can stand next to them, will detonate, dealing Fire magic damage that ignores armor to all enemies within 1 Range around it equal to its LV. The LV of the Seeker Flame is equal to the user's level, and only one can be active at a time."
+        },
+        {
+          "slot": "evoke-passive",
+          "name": "Firefall",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "Tiles the owner of this skill walks on are covered in cinders, which deal damage to enemies who walk on them (LV = 10+10% of Fire ATK). The cinders created by this skill last for 2 rounds."
+        },
+        {
+          "slot": "main",
+          "name": "Firebody",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "A body of living fire, which causes this unit's Fire damage to pierce up to 10% of Fire Resistance."
+        }
+      ]
+    },
+    {
+      "id": "kerberos",
+      "name": "Kerberos",
+      "baseFormId": null,
+      "race": "Beast",
+      "stats": {
+        "str": 54,
+        "wil": 24,
+        "ski": 51,
+        "cel": 16,
+        "def": 29,
+        "res": 29,
+        "vit": 46,
+        "fai": 0,
+        "luc": 8,
+        "gui": 5,
+        "san": 0
+      },
+      "statsLv1": {
+        "str": 9,
+        "wil": 4,
+        "ski": 6,
+        "cel": 6,
+        "def": 4,
+        "res": 4,
+        "vit": 6,
+        "fai": 0,
+        "luc": 3,
+        "gui": 0,
+        "san": 0
+      },
+      "skills": [
+        {
+          "slot": "evoke-active",
+          "name": "Underworld Drain",
+          "passive": false,
+          "fp": 33,
+          "momentum": 3,
+          "range": null,
+          "area": "Circle (3)",
+          "target": "Enemy Only",
+          "domain": null,
+          "description": "The user claws at the dirt and unleashes a swarm of insects that attack all enemies in a 3 Size Circle around them, dealing Dark magic damage. These insects them return to the user and restore their HP based on how many enemies were hit. (25% of level per enemy hit.)"
+        },
+        {
+          "slot": "evoke-passive",
+          "name": "Stalwart Guardian",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "Reduces redirected and reflected damage by 15%. If the owner of this skill is Kerberos, the reduction is increased to 40%."
+        },
+        {
+          "slot": "main",
+          "name": "Guard Dog",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "Grants a LV X% (X = Kerberos' level) chance to redirect basic attacks and skill damage from another allied unit within 2 Range to this unit."
+        }
+      ]
+    },
+    {
+      "id": "kilkenny",
+      "name": "Kilkenny",
+      "baseFormId": null,
+      "race": "Beast",
+      "stats": {
+        "str": 59,
+        "wil": 14,
+        "ski": 41,
+        "cel": 41,
+        "def": 14,
+        "res": 14,
+        "vit": 36,
+        "fai": 0,
+        "luc": 28,
+        "gui": 5,
+        "san": 0
+      },
+      "statsLv1": {
+        "str": 9,
+        "wil": 4,
+        "ski": 6,
+        "cel": 6,
+        "def": 4,
+        "res": 4,
+        "vit": 6,
+        "fai": 0,
+        "luc": 3,
+        "gui": 0,
+        "san": 0
+      },
+      "skills": [
+        {
+          "slot": "evoke-active",
+          "name": "Cat's Claw",
+          "passive": false,
+          "fp": 30,
+          "momentum": 3,
+          "range": "4",
+          "area": "Single",
+          "target": "Enemy Only",
+          "domain": null,
+          "description": "A magical slash from what feels like a lion's claws. Deals Slash magic damage equal to Kilkenny's level, and reduces the target's FP by half of Kilkenny's level.."
+        },
+        {
+          "slot": "evoke-passive",
+          "name": "Anti-Beast",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "A hatred towards beast-kind, dealing 10% more damage against Beast, Lupine, Felidae, and Grimalkin races."
+        },
+        {
+          "slot": "main",
+          "name": "Tough Fur",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "Hard to cut, but easy to soak. Increases Slash resistance by 25%, but increases Water weakness by 25%."
+        }
+      ]
+    },
+    {
+      "id": "chun",
+      "name": "Chun",
+      "baseFormId": null,
+      "race": "Dragon",
+      "stats": {},
+      "statsLv1": {
+        "str": 8,
+        "wil": 6,
+        "ski": 7,
+        "cel": 4,
+        "def": 3,
+        "res": 6,
+        "vit": 7,
+        "fai": 0,
+        "luc": 2,
+        "gui": 0,
+        "san": 0
+      },
+      "skills": [
+        {
+          "slot": "evoke-active",
+          "name": "Fire Jet",
+          "passive": false,
+          "fp": 9,
+          "momentum": 3,
+          "range": null,
+          "area": "Line (5)",
+          "target": "Enemy Only",
+          "domain": null,
+          "description": "Releases a super fast jet of fire in a line, dealing Fire magic damage to all enemies within that line. All tiles in the line are also covered in Cinders for 2 rounds that deal damage equal to 50% of the user's Fire ATK."
+        },
+        {
+          "slot": "evoke-passive",
+          "name": "Daisangen",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "A powerful combination of three dragons. If the Summoner has contracted all three of Chun, Haku, and Hatsu, all Dragon-race Youkai the Summoner summons gain +2 to all stats except VIT. This also applies to the Summoner if the Summoner installs a Dragon-race Youkai. (Multiple instances of this skill do not stack.)"
+        },
+        {
+          "slot": "main",
+          "name": "Fire Scale",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "Scales born in fire. Immunity to Fire damage, but has a 25% weakness to Ice damage."
+        }
+      ]
+    },
+    {
+      "id": "genbu",
+      "name": "Genbu",
+      "baseFormId": null,
+      "race": "Dragon",
+      "stats": {},
+      "statsLv1": {
+        "str": 8,
+        "wil": 6,
+        "ski": 7,
+        "cel": 4,
+        "def": 5,
+        "res": 6,
+        "vit": 7,
+        "fai": 0,
+        "luc": 2,
+        "gui": 0,
+        "san": 0
+      },
+      "skills": [
+        {
+          "slot": "evoke-active",
+          "name": "Sea Sweep",
+          "passive": false,
+          "fp": 6,
+          "momentum": 3,
+          "range": null,
+          "area": "Diamond (4)",
+          "target": "Enemy Only",
+          "domain": "Aquarian",
+          "description": "Just like the ebb and flow of the northern shores. Deals damage split between Water and Ice to all enemies within 3 Range around the user, which knocks them back 2 tiles. If this skill is used by this unit again within 5 rounds, it will pull enemies in instead of knock them back."
+        },
+        {
+          "slot": "evoke-passive",
+          "name": "Seal of the North",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "Crest of the ruler of the North. They gain +2 DEF."
+        },
+        {
+          "slot": "main",
+          "name": "Great Tortoise",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "An ancient tortoise of great size and experience, protected by a powerful shell. Provides the following benefits:"
+        }
+      ]
+    },
+    {
+      "id": "genbu-ascended",
+      "name": "Genbu (Ascended)",
+      "baseFormId": "genbu",
+      "race": "Dragon",
+      "stats": {},
+      "statsLv1": {
+        "str": 8,
+        "wil": 6,
+        "ski": 7,
+        "cel": 4,
+        "def": 5,
+        "res": 6,
+        "vit": 7,
+        "fai": 0,
+        "luc": 2,
+        "gui": 0,
+        "san": 0
+      },
+      "skills": [
+        {
+          "slot": "evoke-active",
+          "name": "Sea Sweep",
+          "passive": false,
+          "fp": 6,
+          "momentum": 3,
+          "range": null,
+          "area": "Diamond (4)",
+          "target": "Enemy Only",
+          "domain": "Aquarian",
+          "description": "Just like the ebb and flow of the northern shores. Deals damage split between Water and Ice to all enemies within 3 Range around the user, which knocks them back 2 tiles. If this skill is used by this unit again within 5 rounds, it will pull enemies in instead of knock them back."
+        },
+        {
+          "slot": "evoke-passive",
+          "name": "Seal of the North+",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "Crest of the ruler of the North. They gain +2 DEF."
+        },
+        {
+          "slot": "main",
+          "name": "Great Tortoise",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "An ancient tortoise of great size and experience, protected by a powerful shell. Provides the following benefits:"
+        }
+      ]
+    },
+    {
+      "id": "haku",
+      "name": "Haku",
+      "baseFormId": null,
+      "race": "Dragon",
+      "stats": {},
+      "statsLv1": {
+        "str": 8,
+        "wil": 6,
+        "ski": 7,
+        "cel": 4,
+        "def": 3,
+        "res": 6,
+        "vit": 7,
+        "fai": 0,
+        "luc": 2,
+        "gui": 0,
+        "san": 0
+      },
+      "skills": [
+        {
+          "slot": "evoke-active",
+          "name": "Ice Jet",
+          "passive": false,
+          "fp": 9,
+          "momentum": 3,
+          "range": null,
+          "area": "Line (5)",
+          "target": "Enemy Only",
+          "domain": null,
+          "description": "Releases a super fast jet of cold air in a line, dealing Ice magic damage to all enemies within that line. All tiles in the line are also covered in Ice Sheets for 2 rounds."
+        },
+        {
+          "slot": "evoke-passive",
+          "name": "Daisangen",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "A powerful combination of three dragons. If the Summoner has contracted all three of Chun, Haku, and Hatsu, all Dragon-race Youkai the Summoner summons gain +2 to all stats except VIT. This also applies to the Summoner if the Summoner installs a Dragon-race Youkai. (Multiple instances of this skill do not stack.)"
+        },
+        {
+          "slot": "main",
+          "name": "Ice Scale",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "Scales born in ice. Immunity to Ice damage, but has a 25% weakness to Fire damage."
+        }
+      ]
+    },
+    {
+      "id": "hatsu",
+      "name": "Hatsu",
+      "baseFormId": null,
+      "race": "Dragon",
+      "stats": {},
+      "statsLv1": {
+        "str": 8,
+        "wil": 6,
+        "ski": 7,
+        "cel": 4,
+        "def": 3,
+        "res": 6,
+        "vit": 7,
+        "fai": 0,
+        "luc": 2,
+        "gui": 0,
+        "san": 0
+      },
+      "skills": [
+        {
+          "slot": "evoke-active",
+          "name": "Acid Jet",
+          "passive": false,
+          "fp": 9,
+          "momentum": 3,
+          "range": null,
+          "area": "Line (5)",
+          "target": "Enemy Only",
+          "domain": null,
+          "description": "Releases a super fast jet of acid in a line, dealing Acid magic damage to all enemies within that line. Enemies damaged also have their DEF and RES reduced by 2 for 3 rounds."
+        },
+        {
+          "slot": "evoke-passive",
+          "name": "Daisangen",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "A powerful combination of three dragons. If the Summoner has contracted all three of Chun, Haku, and Hatsu, all Dragon-race Youkai the Summoner summons gain +2 to all stats except VIT. This also applies to the Summoner if the Summoner installs a Dragon-race Youkai. (Multiple instances of this skill do not stack.)"
+        },
+        {
+          "slot": "main",
+          "name": "Acid Scale",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "Scales born in acid. Immunity to Acid damage, but has a 25% weakness to Water damage."
+        }
+      ]
+    },
+    {
+      "id": "jhunn",
+      "name": "Jhunn",
+      "baseFormId": null,
+      "race": "Dragon",
+      "stats": {},
+      "statsLv1": {
+        "str": 8,
+        "wil": 6,
+        "ski": 7,
+        "cel": 4,
+        "def": 3,
+        "res": 6,
+        "vit": 7,
+        "fai": 0,
+        "luc": 2,
+        "gui": 0,
+        "san": 0
+      },
+      "skills": [
+        {
+          "slot": "evoke-active",
+          "name": "Flame Jetwing",
+          "passive": false,
+          "fp": 9,
+          "momentum": 3,
+          "range": null,
+          "area": "Line (5-7)",
+          "target": "Enemy Only",
+          "domain": null,
+          "description": "Launches the user like a jet in a 5-7 Range line, dealing Fire magic damage to all enemies within that line, which must end in an unoccupied spot. All tiles in the line are also covered in Cinders for 2 rounds that deal damage equal to 25% of the user's Fire ATK."
+        },
+        {
+          "slot": "evoke-passive",
+          "name": "Lightweight Body",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "Reduces Battle Weight by 3. Jhunn receives +10 Evade instead."
+        },
+        {
+          "slot": "main",
+          "name": "Fire Scale",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "Scales born in fire. Immunity to Fire damage, but has a 25% weakness to Ice damage."
+        }
+      ]
+    },
+    {
+      "id": "seiryuu",
+      "name": "Seiryuu",
+      "baseFormId": null,
+      "race": "Dragon",
+      "stats": {},
+      "statsLv1": {
+        "str": 8,
+        "wil": 6,
+        "ski": 7,
+        "cel": 6,
+        "def": 8,
+        "res": 6,
+        "vit": 7,
+        "fai": 0,
+        "luc": 2,
+        "gui": 0,
+        "san": 0
+      },
+      "skills": [
+        {
+          "slot": "evoke-active",
+          "name": "Hunter Wind",
+          "passive": false,
+          "fp": 8,
+          "momentum": 3,
+          "range": "3",
+          "area": "Single",
+          "target": "Enemy Only",
+          "domain": "Sylphid",
+          "description": "Wraps the target in sharp winds, dealing Wind magic damage. It also inflicts Hunted on the target for 2 rounds with a LV equal to half of Seiryuu's level (min. 5, max. 15). (Hunted increases damage dealt to the victim by the causer by LV%.)"
+        },
+        {
+          "slot": "evoke-passive",
+          "name": "Seal of the East",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "Crest of the ruler of the East. They gain +2 CEL."
+        },
+        {
+          "slot": "main",
+          "name": "Dragonscale",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "Covered in scales of a divine dragon, increasing DEF by 5 and Critical Evade by 10."
+        }
+      ]
+    },
+    {
+      "id": "seiryuu-ascended",
+      "name": "Seiryuu (Ascended)",
+      "baseFormId": "seiryuu",
+      "race": "Dragon",
+      "stats": {},
+      "statsLv1": {
+        "str": 8,
+        "wil": 6,
+        "ski": 7,
+        "cel": 6,
+        "def": 8,
+        "res": 6,
+        "vit": 7,
+        "fai": 0,
+        "luc": 2,
+        "gui": 0,
+        "san": 0
+      },
+      "skills": [
+        {
+          "slot": "evoke-active",
+          "name": "Hunter Wind",
+          "passive": false,
+          "fp": 8,
+          "momentum": 3,
+          "range": "3",
+          "area": "Single",
+          "target": "Enemy Only",
+          "domain": "Sylphid",
+          "description": "Wraps the target in sharp winds, dealing Wind magic damage. It also inflicts Hunted on the target for 2 rounds with a LV equal to half of Seiryuu's level (min. 5, max. 15). (Hunted increases damage dealt to the victim by the causer by LV%.)"
+        },
+        {
+          "slot": "evoke-passive",
+          "name": "Seal of the East+",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "Superior crest of the ruler of the East. They gain +2 CEL."
+        },
+        {
+          "slot": "main",
+          "name": "Dragonscale",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "Covered in scales of a divine dragon, increasing DEF by 5 and Critical Evade by 10."
+        }
+      ]
+    },
+    {
+      "id": "asrai",
+      "name": "Asrai",
+      "baseFormId": null,
+      "race": "Fairy",
+      "stats": {},
+      "statsLv1": {
+        "str": 3,
+        "wil": 6,
+        "ski": 6,
+        "cel": 9,
+        "def": 3,
+        "res": 4,
+        "vit": 6,
+        "fai": 0,
+        "luc": 5,
+        "gui": 0,
+        "san": 0
+      },
+      "skills": [
+        {
+          "slot": "evoke-active",
+          "name": "Paraeta",
+          "passive": false,
+          "fp": 6,
+          "momentum": 3,
+          "range": "4",
+          "area": "Single",
+          "target": "Enemy Only",
+          "domain": "Aquarian",
+          "description": "Summons the spirit of Asrai, who creates a mass of bubbles between you and the target enemy. Deals magic Water damage to the target. If the user is Asrai, they recover HP equal to 50% of the damage dealt. Otherwise, the user recovers 25% of the damage dealt."
+        },
+        {
+          "slot": "evoke-passive",
+          "name": "Fairy Ring",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "A protective charm that leads away from danger. Grants +10% Resistance to luck-based status effects. If you have multiple Fairy Ring skills equipped, the effects will stack."
+        },
+        {
+          "slot": "main",
+          "name": "Aquae Crista",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "Seal of the kingdom of water. Increases Water resistance by 50%, but increases vulnerability to Fire by 25%."
+        }
+      ]
+    },
+    {
+      "id": "izabe",
+      "name": "Izabe",
+      "baseFormId": null,
+      "race": "Fairy",
+      "stats": {},
+      "statsLv1": {
+        "str": 3,
+        "wil": 6,
+        "ski": 6,
+        "cel": 9,
+        "def": 3,
+        "res": 4,
+        "vit": 6,
+        "fai": 0,
+        "luc": 5,
+        "gui": 0,
+        "san": 0
+      },
+      "skills": [
+        {
+          "slot": "evoke-active",
+          "name": "Fairy Lance",
+          "passive": false,
+          "fp": 4,
+          "momentum": 3,
+          "range": null,
+          "area": "Line (5)",
+          "target": "Enemy Only",
+          "domain": "Mercalan",
+          "description": "Creates a lance made of focus at your current location and fires it in a line in the direction you are facing, which deals Light magic damage to the first enemy hit. The maximum range of this skill increases by 1 per 10 Izabe levels."
+        },
+        {
+          "slot": "evoke-passive",
+          "name": "Fairy Ring",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "A protective charm that leads away from danger. Grants +10% Resistance to luck-based status effects. If you have multiple Fairy Ring skills equipped, the effects will stack."
+        },
+        {
+          "slot": "main",
+          "name": "Radiant Roa",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": "2",
+          "area": null,
+          "target": "Ally Only",
+          "domain": null,
+          "description": "An aura of belief and protection granted by the sun. Increases FAI and RES for all allies in 2 Range by 2. The Range increases by 1 per 10 Izabe levels. If Izabe is installed, the stat bonus increases by 1 per 15 Izabe levels."
+        }
+      ]
+    },
+    {
+      "id": "kasa-obake",
+      "name": "Kasa-Obake",
+      "baseFormId": null,
+      "race": "Fairy",
+      "stats": {},
+      "statsLv1": {
+        "str": 3,
+        "wil": 6,
+        "ski": 6,
+        "cel": 9,
+        "def": 3,
+        "res": 4,
+        "vit": 6,
+        "fai": 0,
+        "luc": 5,
+        "gui": 0,
+        "san": 0
+      },
+      "skills": [
+        {
+          "slot": "evoke-active",
+          "name": "Umbrella Flap",
+          "passive": false,
+          "fp": 6,
+          "momentum": 3,
+          "range": null,
+          "area": "Circle (1)",
+          "target": "Enemy Only",
+          "domain": "Aquarian",
+          "description": "A sudden opening of an umbrella, which deals Wind magic damage to all enemies in a 1 Size Circle around the user, and applies Aero Shift (2) to field tiles. If the owner is Kasa-Obake and they are Soaked, +2 Size, and they create a burst of water as moisture is flung from it, dealing an extra hit equal to 100% of Water ATK, and curing them of Soaked."
+        },
+        {
+          "slot": "evoke-passive",
+          "name": "Disturbing Presence",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": "2 At the start of a new round",
+          "area": null,
+          "target": "Ally Only",
+          "domain": null,
+          "description": "Enemies within 1 Range of this unit are distracted by it, taking a -5 Hit, Evade, and Critical penalty when attacking a unit (except this one). If the owner of this skill is Kasa-Obake, +2 Range and additional -5 penalty."
+        },
+        {
+          "slot": "main",
+          "name": "Mysterious Rainhat",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "+15% Water Resistance, +30% damage reduction VS rain-based attacks and field effects. If the owner of this skill is Kasa-Obake, they instead are immune to Water damage and rain-based attacks and field effects, and if they have Umbrella Up active, damage to all allies in 2 Range of those types is redirected to Kasa-Obake."
+        }
+      ]
+    },
+    {
+      "id": "wawa",
+      "name": "Wawa",
+      "baseFormId": null,
+      "race": "Fairy",
+      "stats": {},
+      "statsLv1": {
+        "str": 3,
+        "wil": 6,
+        "ski": 6,
+        "cel": 9,
+        "def": 3,
+        "res": 4,
+        "vit": 6,
+        "fai": 0,
+        "luc": 5,
+        "gui": 0,
+        "san": 0
+      },
+      "skills": [
+        {
+          "slot": "evoke-active",
+          "name": "Black Rose",
+          "passive": false,
+          "fp": 6,
+          "momentum": 3,
+          "range": "2",
+          "area": "Single",
+          "target": "Enemy Only",
+          "domain": "Huggessoan",
+          "description": "Hands the target a black rose, dealing Dark magic damage to them. There is also a chance it will inflict Charm LV X (X = half of Wawa's level) or Blind to that target for 2 rounds (but only one per cast)."
+        },
+        {
+          "slot": "evoke-passive",
+          "name": "Fairy Ring",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "A protective charm that leads away from danger. Grants +10% Resistance to luck-based status effects. If you have multiple Fairy Ring skills equipped, the effects will stack."
+        },
+        {
+          "slot": "main",
+          "name": "Bad Juju",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "At a chance equal to (LUC+Wawa's level)%, the owner of this skill may steal FP equal to half of Wawa's level from an enemy in 2 Range at the start of a new round."
+        }
+      ]
+    },
+    {
+      "id": "carbuncle",
+      "name": "Carbuncle",
+      "baseFormId": null,
+      "race": "Mystic",
+      "stats": {},
+      "statsLv1": {
+        "str": 3,
+        "wil": 7,
+        "ski": 6,
+        "cel": 6,
+        "def": 4,
+        "res": 3,
+        "vit": 6,
+        "fai": 0,
+        "luc": 9,
+        "gui": 0,
+        "san": 0
+      },
+      "skills": [
+        {
+          "slot": "evoke-active",
+          "name": "Ruby Beam",
+          "passive": false,
+          "fp": 6,
+          "momentum": 3,
+          "range": "5",
+          "area": "Single",
+          "target": "Enemy Only",
+          "domain": "Isespian",
+          "description": "Fires a beam from the Carbuncle's gem, dealing Earth magic damage. It may also inflict Blindness on the target for 2 turns."
+        },
+        {
+          "slot": "evoke-passive",
+          "name": "Positive Thinker",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "Due to maintaining a sunny outlook, Dark resistance is increased by 10%."
+        },
+        {
+          "slot": "main",
+          "name": "777",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "A unique lucky charm that the Carbuncle possesses. If the Master (or you, if Installed) possesses exactly 7 Youkai contracts, the owner of this skill gains a +7 Luck bonus to all statistics except VIT, SAN, and APT. However, the bonus is only +3 if the target it would apply to is a non-Youkai."
+        }
+      ]
+    },
+    {
+      "id": "fire-elemental",
+      "name": "Fire Elemental",
+      "baseFormId": null,
+      "race": "Mystic",
+      "stats": {},
+      "statsLv1": {
+        "str": 3,
+        "wil": 7,
+        "ski": 6,
+        "cel": 6,
+        "def": 4,
+        "res": 3,
+        "vit": 6,
+        "fai": 0,
+        "luc": 9,
+        "gui": 0,
+        "san": 0
+      },
+      "skills": [
+        {
+          "slot": "evoke-active",
+          "name": "Burst of Fire",
+          "passive": false,
+          "fp": 5,
+          "momentum": 3,
+          "range": "5",
+          "area": "Single",
+          "target": "Enemy Only",
+          "domain": "Nerifian",
+          "description": "Targets 1 enemy within 5 Range, then wrap yourself with the power of the fire elemental Nerhaven (if no elemental is active) until your next turn, and then deal Fire magic damage to the target. If the user of the skill is Fire Elemental, the elemental effect is permanent, and the Range is increased by 2. (LV = Fire Elemental's LV/10, min. 2 max. 5)"
+        },
+        {
+          "slot": "evoke-passive",
+          "name": "Barrier of Fire",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "+3 Armor versus weapons made of Wood. If the owner of this skill is Fire Elemental, they gain +15 Armor instead."
+        },
+        {
+          "slot": "main",
+          "name": "Elemental of Fire",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "+15% Fire Resistance, Nerhaven provides +10 Scaled Weapon Attack. If the owner of this skill is Fire Elemental, they reflect Fire damage, and gain immunity to Burn, Poison, and Immobilize."
+        }
+      ]
+    },
+    {
+      "id": "phase-python",
+      "name": "Phase Python",
+      "baseFormId": null,
+      "race": "Mystic",
+      "stats": {},
+      "statsLv1": {
+        "str": 3,
+        "wil": 7,
+        "ski": 6,
+        "cel": 6,
+        "def": 4,
+        "res": 3,
+        "vit": 6,
+        "fai": 0,
+        "luc": 9,
+        "gui": 0,
+        "san": 0
+      },
+      "skills": [
+        {
+          "slot": "evoke-active",
+          "name": "Phase Fang",
+          "passive": false,
+          "fp": 5,
+          "momentum": 3,
+          "range": "1",
+          "area": "Single",
+          "target": "Enemy Only",
+          "domain": null,
+          "description": "Performs a basic attack on an enemy within 1 Range that deals bonus damage equal to Phase Python's level/3. If it hits, it may inflict Poison LV X (X = Level/2, min. 3), and if you're in the tile the enemy is facing, you teleport back to the tile you began the round on. If you are on any other tile, if any other enemies are in the battle, you are teleported behind a random one."
+        },
+        {
+          "slot": "evoke-passive",
+          "name": "Vile Mastery",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "Grants Poison Resistance equal to Level/2%. Phase Python itself receives 40+Level% instead."
+        },
+        {
+          "slot": "main",
+          "name": "Slither Mastery",
+          "passive": false,
+          "fp": 15,
+          "momentum": 3,
+          "range": null,
+          "area": "Single",
+          "target": "Enemy Only",
+          "domain": null,
+          "description": "Has both passive and active components. Passively, Movement becomes teleport, and total movement speed penalties are reduced by 15+Level% (Phase Python receives 100% immunity). When activated, any Immobilize effect on the user is instantly ended."
+        }
+      ]
+    },
+    {
+      "id": "sazae-oni",
+      "name": "Sazae-Oni",
+      "baseFormId": null,
+      "race": "Mystic",
+      "stats": {},
+      "statsLv1": {
+        "str": 3,
+        "wil": 7,
+        "ski": 7,
+        "cel": 6,
+        "def": 4,
+        "res": 3,
+        "vit": 6,
+        "fai": 0,
+        "luc": 9,
+        "gui": 0,
+        "san": 0
+      },
+      "skills": [
+        {
+          "slot": "evoke-active",
+          "name": "Whirlpool",
+          "passive": false,
+          "fp": 8,
+          "momentum": 3,
+          "range": null,
+          "area": "Circle (3)",
+          "target": "Enemy Only",
+          "domain": "Aquarian",
+          "description": "Creates a whirlpool around the user, dealing Water magic damage with Great Accuracy to all within 3 Range. Damaged enemies are also pulled toward the user by 1 square."
+        },
+        {
+          "slot": "evoke-passive",
+          "name": "Painful Accuracy",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "The owner of this skill possess attacks that hit in... tender places. Grants the owner of the skill +2 SKI, and causes their Kicks to deal +6 damage."
+        },
+        {
+          "slot": "main",
+          "name": "Seafarer",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "A being that lives and travels in the sea. Grants immunity to Water damage."
+        }
+      ]
+    },
+    {
+      "id": "terrasque",
+      "name": "Terrasque",
+      "baseFormId": null,
+      "race": "Mystic",
+      "stats": {},
+      "statsLv1": {
+        "str": 3,
+        "wil": 7,
+        "ski": 6,
+        "cel": 6,
+        "def": 6,
+        "res": 3,
+        "vit": 6,
+        "fai": 0,
+        "luc": 9,
+        "gui": 0,
+        "san": 0
+      },
+      "skills": [
+        {
+          "slot": "evoke-active",
+          "name": "Shatter Beam",
+          "passive": false,
+          "fp": 9,
+          "momentum": 3,
+          "range": "5",
+          "area": "Single",
+          "target": "Enemy Only",
+          "domain": "Isespian",
+          "description": "Fires a beam from the Terrasque's chest, dealing Earth physical damage. In addition, it reduces the target's DEF and RES by 1+(Terrasque Level/12) for 3 rounds."
+        },
+        {
+          "slot": "evoke-passive",
+          "name": "Skitterscale",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "Possesses a body that is both protective and flexible. Increases Evade by 5 and Defense by 2. Terrasque gets +10 Evade instead."
+        },
+        {
+          "slot": "main",
+          "name": "Regrowth",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "A rapid regeneration of the body, which restores 2 HP every round."
+        }
+      ]
+    },
+    {
+      "id": "wind-elemental",
+      "name": "Wind Elemental",
+      "baseFormId": null,
+      "race": "Mystic",
+      "stats": {},
+      "statsLv1": {
+        "str": 3,
+        "wil": 7,
+        "ski": 6,
+        "cel": 6,
+        "def": 4,
+        "res": 3,
+        "vit": 6,
+        "fai": 0,
+        "luc": 9,
+        "gui": 0,
+        "san": 0
+      },
+      "skills": [
+        {
+          "slot": "evoke-active",
+          "name": "Burst of Wind",
+          "passive": false,
+          "fp": 5,
+          "momentum": 3,
+          "range": "5",
+          "area": "Single",
+          "target": "Enemy Only",
+          "domain": "Sylphid",
+          "description": "Targets 1 enemy within 5 Range, then wrap yourself with the power of the wind elemental Talvyd (if no elemental is active) until your next turn, and then deal Wind magic damage to the target. If the user of the skill is Wind Elemental, the elemental effect is permanent, and the Range is increased by 2. (LV = Wind Elemental's LV/10, min. 2 max. 5)"
+        },
+        {
+          "slot": "evoke-passive",
+          "name": "Barrier of Wind",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "+5 Evade versus ranged weapons. If the owner of this skill is Wind Elemental, they gain +20 Evade instead."
+        },
+        {
+          "slot": "main",
+          "name": "Elemental of Wind",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "+15% Wind Resistance, Talvyd provides +10 Evade. If the owner of this skill is Wind Elemental, they reflect Wind damage, and gain immunity to Burn, Poison, and Immobilize."
+        }
+      ]
+    },
+    {
+      "id": "drowned-woman",
+      "name": "Drowned Woman",
+      "baseFormId": null,
+      "race": "Night",
+      "stats": {},
+      "statsLv1": {
+        "str": 6,
+        "wil": 9,
+        "ski": 4,
+        "cel": 6,
+        "def": 3,
+        "res": 4,
+        "vit": 6,
+        "fai": 0,
+        "luc": 6,
+        "gui": 0,
+        "san": 0
+      },
+      "skills": [
+        {
+          "slot": "evoke-active",
+          "name": "Drown",
+          "passive": false,
+          "fp": 9,
+          "momentum": 3,
+          "range": "4",
+          "area": "Single",
+          "target": "Enemy Only",
+          "domain": "Aquarian",
+          "description": "Create a ball of water around the target's head (or whatever counts as it), dealing Water magic damage. If the user is Drowned Woman, there is also a chance that it will Silence the target for 3 rounds."
+        },
+        {
+          "slot": "evoke-passive",
+          "name": "Ghost Sea",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "Property belonging to those who have died at sea. Grants immunity to Burn status. User is treated as Ghost-race in addition to all other racial types."
+        },
+        {
+          "slot": "main",
+          "name": "Ammendum, Sin, and Purpose",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "An irregularity that results in an incorporeal body. Grants 50% Slash, Blunt, and Pierce resistance, but also grants a 25% weakness to Dark damage. (Only 25% for non-Drowned Woman units)."
+        }
+      ]
+    },
+    {
+      "id": "lilu",
+      "name": "Lilu",
+      "baseFormId": null,
+      "race": "Night",
+      "stats": {},
+      "statsLv1": {
+        "str": 6,
+        "wil": 9,
+        "ski": 4,
+        "cel": 6,
+        "def": 6,
+        "res": 6,
+        "vit": 6,
+        "fai": 0,
+        "luc": 6,
+        "gui": 0,
+        "san": 0
+      },
+      "skills": [
+        {
+          "slot": "evoke-active",
+          "name": "Wink",
+          "passive": false,
+          "fp": 10,
+          "momentum": 3,
+          "range": "4",
+          "area": "Single",
+          "target": "Enemy Only",
+          "domain": "Huggessoan",
+          "description": "A low-grade enchantment that is triggered by a wink. May inflict Charm LV X (X = half of Lilu's level) on the target for 3 turns."
+        },
+        {
+          "slot": "evoke-passive",
+          "name": "Nightshade",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "A protective charm that is powered by the night. They gain +2 DEF and +2 RES."
+        },
+        {
+          "slot": "main",
+          "name": "Embrace",
+          "passive": false,
+          "fp": 10,
+          "momentum": 3,
+          "range": "1",
+          "area": "Single",
+          "target": "Enemy Only",
+          "domain": null,
+          "description": "Attempts to pull the target close, applying the Grapple skill to them. If the target is Charmed by the user, the Grapple is always successful. If used by Lilu, the Range increases to 8, and they will teleport to an empty tile next to the target."
+        }
+      ]
+    },
+    {
+      "id": "nacht",
+      "name": "Nacht",
+      "baseFormId": null,
+      "race": "Night",
+      "stats": {},
+      "statsLv1": {
+        "str": 6,
+        "wil": 9,
+        "ski": 4,
+        "cel": 6,
+        "def": 3,
+        "res": 4,
+        "vit": 6,
+        "fai": 0,
+        "luc": 6,
+        "gui": 0,
+        "san": 0
+      },
+      "skills": [
+        {
+          "slot": "evoke-active",
+          "name": "Ichor Veil",
+          "passive": false,
+          "fp": 5,
+          "momentum": 3,
+          "range": "5",
+          "area": "Single",
+          "target": "Ally Only",
+          "domain": "Huggessoan",
+          "description": "Costs 10% of max HP. Targets 1 other allied unit within 5 Range, granting them Ichor Veil LV X (X = 10% of max HP, 3 rounds). If the user of this skill is Nacht, they can target themself to create a burst of blood, dealing Water + Dark magic damage to all enemies within a 3 Size Circle (damage increased by HP consumed). If the summoner has the Claret Call skill active, damaged enemies have it applied to them. Additionally, when used by Nacht, this skill's CD is reduced by 1 round."
+        },
+        {
+          "slot": "evoke-passive",
+          "name": "Bloodstained Night",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "When this unit is defeated, the battlefield is covered in a Bloodstained Night effect (LV = Nacht's level, 5 rounds). If the owner of this skill is Nacht, after 3 rounds (or when the battle ends), they recover to full HP (in an unsummoned state)."
+        },
+        {
+          "slot": "main",
+          "name": "Midnight Ruler",
+          "passive": false,
+          "fp": 15,
+          "momentum": 2,
+          "range": null,
+          "area": "Single",
+          "target": "Ally Only",
+          "domain": "Huggessoan",
+          "description": "On New Round: If it is night, or the owner of this skill is standing in a Darkness tile, they gain Midnight Ruler LV X (X = higher of 25% of Nacht's level or 5, 3 rounds) if they do not already have it. If the owner of this skill is Nacht, this effect also applies when summoned and is permanent when it does."
+        }
+      ]
+    },
+    {
+      "id": "yukionna",
+      "name": "Yukionna",
+      "baseFormId": null,
+      "race": "Night",
+      "stats": {},
+      "statsLv1": {
+        "str": 6,
+        "wil": 9,
+        "ski": 4,
+        "cel": 6,
+        "def": 3,
+        "res": 4,
+        "vit": 6,
+        "fai": 0,
+        "luc": 6,
+        "gui": 0,
+        "san": 0
+      },
+      "skills": [
+        {
+          "slot": "evoke-active",
+          "name": "Frostbite",
+          "passive": false,
+          "fp": 8,
+          "momentum": 3,
+          "range": "4",
+          "area": "Single",
+          "target": "Enemy Only",
+          "domain": "Aquarian",
+          "description": "Fangs of ice appear around the target and bite down, dealing Ice physical damage. It also inflicts Frostbite LVX (Yuki-onna's LV/2, min. 2) for 2 rounds. (Frostbite causes unresistible LV Ice damage every time the afflicted unit walks on an Ice Sheet.)"
+        },
+        {
+          "slot": "evoke-passive",
+          "name": "Snowshoes",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "Being prepared to walk on unstable footing, the owner of this skill does not suffer reduced movement nor break Ice Sheets during Move."
+        },
+        {
+          "slot": "main",
+          "name": "Snow Crest",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "Possessed by beings born of the snow. Reflects Ice damage, but suffers a 50% Vulnerability to Fire damage."
+        }
+      ]
+    },
+    {
+      "id": "jack-o-lantern",
+      "name": "Jack o' Lantern",
+      "baseFormId": null,
+      "race": "Plant",
+      "stats": {},
+      "statsLv1": {
+        "str": 6,
+        "wil": 6,
+        "ski": 6,
+        "cel": 4,
+        "def": 6,
+        "res": 4,
+        "vit": 9,
+        "fai": 0,
+        "luc": 4,
+        "gui": 0,
+        "san": 0
+      },
+      "skills": [
+        {
+          "slot": "evoke-active",
+          "name": "Fire Wall",
+          "passive": false,
+          "fp": 6,
+          "momentum": 3,
+          "range": "4",
+          "area": "Single",
+          "target": "Enemy Only",
+          "domain": "Nerifian",
+          "description": "A shriek that sends flames shooting at the target. Deals Fire magic damage to a target enemy within 4 Range and has a chance to inflict Fear for 2 rounds. If unit is Stoked, Range increases by 3, targets a 3 Size Circle, damage by 25%, gains Great Accuracy, and has a chance to inflict Burn LV 15 for 2 rounds, but it consumes the Stoked effect."
+        },
+        {
+          "slot": "evoke-passive",
+          "name": "Sinister Regrowth",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "+5 HP Regeneration. If the owner of this skill is Jack o' Lantern, then at the start of a new round: If within 1 Range of a Hardiness 1 plant field tile, consumes and destroys 1 of those tiles to restore HP equal to level x 2, and this unit becomes Stoked and cures any Burn they possess. (Stoked causes basic attacks to deal Fire magic bonus damage equal to 30% of Fire ATK on hit, grants immunity to Burn, and grants +25 Evade.) This effect has a 3 round cooldown."
+        },
+        {
+          "slot": "main",
+          "name": "Autumn Animation",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "A plant said to come alive when covered in dead leaves. Grants +15% Earth Resistance and +15% Water Resistance, but also gives a 15% Fire Weakness. If the owner of this skill is Jack o' Lantern, instead grants +50% Earth Resistance, absorbs Water damage, and has a 25% Fire Weakness."
+        }
+      ]
+    },
+    {
+      "id": "orbello",
+      "name": "Orbello",
+      "baseFormId": null,
+      "race": "Plant",
+      "stats": {},
+      "statsLv1": {
+        "str": 6,
+        "wil": 6,
+        "ski": 6,
+        "cel": 4,
+        "def": 7,
+        "res": 6,
+        "vit": 9,
+        "fai": 0,
+        "luc": 4,
+        "gui": 0,
+        "san": 0
+      },
+      "skills": [
+        {
+          "slot": "evoke-active",
+          "name": "Deathtouch",
+          "passive": false,
+          "fp": 9,
+          "momentum": 3,
+          "range": "2",
+          "area": "Single",
+          "target": "Enemy Only",
+          "domain": "Huggessoan",
+          "description": "Touches a target within 2 Range with a cold, arcane hand, dealing magic damage split between Ice and Darkness damage."
+        },
+        {
+          "slot": "evoke-passive",
+          "name": "Nightshade",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "A protective charm that is powered by the night. They gain +2 DEF and +2 RES."
+        },
+        {
+          "slot": "main",
+          "name": "Chain Cast",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "After casting a spell while Orbello is Installed, you gain a status that increases your Spell Power by 1 and reduces Spell Costs by 10% for 2 rounds. Additional spell casts increase the effect and duration by 1 (as well as the cost reduction by 10%), to a maximum of 3+(Orbello's Level/10), and a maximum duration of 2 rounds."
+        }
+      ]
+    },
+    {
+      "id": "vampiric-legume",
+      "name": "Vampiric Legume",
+      "baseFormId": null,
+      "race": "Plant",
+      "stats": {},
+      "statsLv1": {
+        "str": 6,
+        "wil": 6,
+        "ski": 6,
+        "cel": 4,
+        "def": 6,
+        "res": 4,
+        "vit": 9,
+        "fai": 0,
+        "luc": 4,
+        "gui": 0,
+        "san": 0
+      },
+      "skills": [
+        {
+          "slot": "evoke-active",
+          "name": "Ingrain",
+          "passive": false,
+          "fp": 10,
+          "momentum": 3,
+          "range": null,
+          "area": "Single",
+          "target": "Enemy Only",
+          "domain": null,
+          "description": "Dig your roots into the ground, gaining Immobilize for 3 rounds. If you use this skill while already Immobilized, if it was caused by yourself, the status is removed."
+        },
+        {
+          "slot": "evoke-passive",
+          "name": "Synthesis",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "At the start of a new round, if the owner of this skill is Immobilized, all enemies within 3 Range are drained for half of the owner's LV in HP. The owner of this skill is then healed for that total amount in HP."
+        },
+        {
+          "slot": "main",
+          "name": "Demon Plant",
+          "passive": true,
+          "fp": null,
+          "momentum": null,
+          "range": null,
+          "area": null,
+          "target": null,
+          "domain": null,
+          "description": "A plant capable of growing in the soil of Hell itself. Grants 25% Dark Resistance, but also gives a 25% Light Weakness. In addition, 10% of the damage dealt by the owner of this skill is returned to them as HP."
+        }
+      ]
+    }
+  ]
+}

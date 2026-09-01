@@ -1,7 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
-import { Check, ChevronDown, X } from 'lucide-react';
+import { Check, LayoutGrid, X } from 'lucide-react';
 import { CLASSES, CLASS_HIERARCHY } from './data/classes';
 import { getBaseClass, STAT_KEYS } from './domain/buildEvaluation';
+import { STAT_COLORS, onDark } from './data/colors';
+import { cx, Modal, ModalFooter, ModalHeader } from './design';
+import { DeckLabel } from './CommandDeck';
+import type { StatKey } from './types';
 
 interface ClassFamilyPickerProps {
   label: string;
@@ -9,52 +13,44 @@ interface ClassFamilyPickerProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSelect: (className: string) => void;
-  retroMode?: boolean;
 }
 
-export default function ClassFamilyPicker({ label, selectedClass, open, onOpenChange, onSelect, retroMode = false }: ClassFamilyPickerProps) {
+/**
+ * Browse every class family with its stat bonuses and valid weapons.
+ *
+ * The mockup's left rail picks classes with two plain selects, which is faster
+ * but shows none of that detail, so this is kept as a "browse" affordance
+ * beside them rather than dropped. Restyled to the deck's language: surface
+ * tokens, condensed micro-labels, mono numerals.
+ */
+export default function ClassFamilyPicker({
+  label,
+  selectedClass,
+  open,
+  onOpenChange,
+  onSelect,
+}: ClassFamilyPickerProps) {
   const triggerRef = useRef<HTMLButtonElement>(null);
-  const dialogRef = useRef<HTMLDivElement>(null);
   const [highlightedClass, setHighlightedClass] = useState(selectedClass);
 
+  // Focus trapping, scroll lock, Escape and focus restoration live in <Modal>;
+  // this only resets the preview row each time the dialog opens.
   useEffect(() => {
-    if (!open) return;
-    setHighlightedClass(selectedClass);
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    requestAnimationFrame(() => dialogRef.current?.querySelector<HTMLButtonElement>('[data-class-choice="true"]')?.focus());
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        event.preventDefault();
-        onOpenChange(false);
-        triggerRef.current?.focus();
-        return;
-      }
-      if (event.key !== 'Tab' || !dialogRef.current) return;
-      const focusable = [...dialogRef.current.querySelectorAll<HTMLElement>('button:not([disabled]), [href], input, select, [tabindex]:not([tabindex="-1"])')];
-      if (!focusable.length) return;
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
-      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
-      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
-    };
-    document.addEventListener('keydown', onKeyDown);
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      document.removeEventListener('keydown', onKeyDown);
-    };
-  }, [open, onOpenChange, selectedClass]);
+    if (open) setHighlightedClass(selectedClass);
+  }, [open, selectedClass]);
 
   const close = () => {
     onOpenChange(false);
     requestAnimationFrame(() => triggerRef.current?.focus());
   };
+
   const selectedBase = getBaseClass(selectedClass);
   const details = CLASSES[highlightedClass] ?? CLASSES[selectedClass];
+  const titleId = `${label.replace(/\s+/g, '-').toLowerCase()}-dialog-title`;
+  const bonuses = STAT_KEYS.filter(stat => (details?.[stat] ?? 0) !== 0);
 
   return (
-    <div>
-      <label className="block text-sm font-medium mb-2">{label}</label>
+    <>
       <button
         ref={triggerRef}
         type="button"
@@ -62,71 +58,119 @@ export default function ClassFamilyPicker({ label, selectedClass, open, onOpenCh
         aria-haspopup="dialog"
         aria-expanded={open}
         onClick={() => onOpenChange(true)}
-        className={`w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-left hover:bg-gray-600 flex justify-between items-center text-sm md:text-base tap-target ${retroMode ? 'font-retro glow-border sound-click sound-hover' : ''}`}
+        title="Browse classes with their bonuses"
+        className={cx(
+          'flex items-center gap-1 rounded-6 px-1.5 py-0.5 text-10 text-content-ghost transition-colors',
+          'hover:bg-surface-raised hover:text-content-secondary',
+        )}
       >
-        <span className="min-w-0">
-          <span className="block text-white truncate">{selectedClass}</span>
-          {selectedClass !== selectedBase && <span className="block text-xs text-gray-400 truncate">{selectedBase} promotion</span>}
-        </span>
-        <ChevronDown size={18} className="text-gray-400 shrink-0" aria-hidden="true" />
+        <LayoutGrid size={11} aria-hidden="true" />
+        Browse
       </button>
 
-      {open && (
-        <div className="fixed inset-0 z-[80] bg-black/75 p-2 sm:p-6 flex items-center justify-center" onMouseDown={(event) => event.target === event.currentTarget && close()}>
-          <div
-            ref={dialogRef}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby={`${label.replace(/\s+/g, '-').toLowerCase()}-dialog-title`}
-            className={`w-full max-w-6xl max-h-[94vh] overflow-y-auto rounded-xl border border-gray-600 bg-gray-900 shadow-2xl ${retroMode ? 'font-retro glow-border' : ''}`}
+      <Modal
+        open={open}
+        onClose={() => onOpenChange(false)}
+        labelledBy={titleId}
+        returnFocusTo={triggerRef}
+        initialFocus='[data-class-choice="true"]'
+        maxWidth="6xl"
+      >
+        <ModalHeader>
+          <div>
+            <h2 id={titleId} className="text-15 font-semibold text-content">Choose {label}</h2>
+            <p className="text-11 text-content-faint">Pick a base class or one of its promotions.</p>
+          </div>
+          <button
+            type="button"
+            onClick={close}
+            aria-label="Close class picker"
+            className="grid h-7 w-7 place-items-center rounded-6 text-content-muted hover:bg-surface-raised hover:text-content"
           >
-            <div className="sticky top-0 z-10 bg-gray-900/95 backdrop-blur border-b border-gray-700 px-4 py-3 flex items-center justify-between">
-              <div>
-                <h2 id={`${label.replace(/\s+/g, '-').toLowerCase()}-dialog-title`} className="text-xl font-bold text-white">Choose {label}</h2>
-                <p className="text-xs text-gray-400">Choose a base class or one of its promotions.</p>
-              </div>
-              <button type="button" onClick={close} aria-label="Close class picker" className="p-2 rounded hover:bg-gray-700"><X size={20} /></button>
+            <X size={16} />
+          </button>
+        </ModalHeader>
+
+        <div className="grid grid-cols-1 gap-2.5 p-4 sm:grid-cols-2 lg:grid-cols-3">
+          {Object.entries(CLASS_HIERARCHY).map(([baseName, family]) => {
+            const isCurrentFamily = selectedBase === baseName;
+            return (
+              <section
+                key={baseName}
+                className={cx(
+                  'rounded-9 border p-3 transition-colors',
+                  isCurrentFamily ? 'border-info bg-info-bg/25' : 'border-edge bg-surface-bar',
+                )}
+              >
+                <DeckLabel className={isCurrentFamily ? 'text-info-soft' : undefined}>{baseName}</DeckLabel>
+                <div className="mt-2 flex flex-wrap gap-1.5">
+                  {[baseName, ...family.subClasses].map(className => {
+                    const selected = selectedClass === className;
+                    return (
+                      <button
+                        key={className}
+                        type="button"
+                        data-class-choice="true"
+                        onMouseEnter={() => setHighlightedClass(className)}
+                        onFocus={() => setHighlightedClass(className)}
+                        onClick={() => { onSelect(className); close(); }}
+                        className={cx(
+                          'flex items-center gap-1.5 rounded-7 border px-2.5 py-1.5 text-12 transition-colors',
+                          selected
+                            ? 'border-info bg-info-bg text-content'
+                            : 'border-edge bg-surface-base text-content-bright hover:border-edge-emphasis',
+                        )}
+                      >
+                        {selected && <Check size={12} aria-hidden="true" />}
+                        {className}
+                      </button>
+                    );
+                  })}
+                </div>
+              </section>
+            );
+          })}
+        </div>
+
+        <ModalFooter>
+          <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-6">
+            <strong className="shrink-0 text-13 font-semibold text-info">{highlightedClass}</strong>
+
+            <div className="flex min-w-0 flex-wrap items-center gap-1.5">
+              <DeckLabel>Stats</DeckLabel>
+              {bonuses.length === 0 ? (
+                <span className="text-11 text-content-faint">No class stat bonuses</span>
+              ) : (
+                bonuses.map(stat => {
+                  const key = stat as StatKey;
+                  const raw = STAT_COLORS[key];
+                  const value = details[key];
+                  return (
+                    <span key={key} className="flex items-baseline gap-1 rounded-6 bg-surface-base px-1.5 py-0.5">
+                      <span
+                        className="font-condensed text-10 font-semibold uppercase tracking-tag"
+                        style={{ color: raw === 'rainbow' ? '#e6ebf5' : onDark(raw) }}
+                      >
+                        {key.toUpperCase()}
+                      </span>
+                      <span className={cx('font-mono text-11 font-semibold', value > 0 ? 'text-positive' : 'text-negative')}>
+                        {value > 0 ? '+' : ''}{value}
+                      </span>
+                    </span>
+                  );
+                })
+              )}
             </div>
 
-            <div className="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-              {Object.entries(CLASS_HIERARCHY).map(([baseName, family]) => (
-                <section key={baseName} className={`rounded-lg border p-3 ${selectedBase === baseName ? 'border-green-500 bg-green-950/25' : 'border-gray-700 bg-gray-800/70'}`}>
-                  <h3 className="font-bold text-red-300 mb-2">{baseName}</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {[baseName, ...family.subClasses].map(className => {
-                      const selected = selectedClass === className;
-                      return (
-                        <button
-                          key={className}
-                          type="button"
-                          data-class-choice="true"
-                          onMouseEnter={() => setHighlightedClass(className)}
-                          onFocus={() => setHighlightedClass(className)}
-                          onClick={() => { onSelect(className); close(); }}
-                          className={`px-3 py-2 rounded-md text-sm border flex items-center gap-1.5 ${selected ? 'bg-blue-700 border-blue-400 text-white' : 'bg-gray-900 border-gray-600 text-gray-200 hover:border-blue-400 hover:bg-gray-700'}`}
-                        >
-                          {selected && <Check size={14} aria-hidden="true" />}
-                          {className}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </section>
-              ))}
-            </div>
-
-            <div className="sticky bottom-0 border-t border-gray-700 bg-gray-950/95 backdrop-blur px-4 py-3">
-              <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-6 text-sm">
-                <strong className="text-blue-300">{highlightedClass}</strong>
-                <span className="text-gray-300">
-                  Stats: {STAT_KEYS.filter(stat => (details?.[stat] ?? 0) !== 0).map(stat => `${stat.toUpperCase()} ${details[stat] > 0 ? '+' : ''}${details[stat]}`).join(', ') || 'No class stat bonuses'}
-                </span>
-                <span className="text-gray-400">Weapons: {details?.validWeapons?.join(', ') || 'None listed'}</span>
-              </div>
+            <div className="flex min-w-0 items-baseline gap-1.5">
+              <DeckLabel>Weapons</DeckLabel>
+              <span className="truncate text-11 text-content-muted">
+                {details?.validWeapons?.join(', ') || 'None listed'}
+              </span>
             </div>
           </div>
-        </div>
-      )}
-    </div>
+        </ModalFooter>
+      </Modal>
+    </>
   );
 }

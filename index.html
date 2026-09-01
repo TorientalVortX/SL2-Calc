@@ -3,21 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#0f172a">
-    <title>SL2 Calculator - Sigrogana Legend 2 Character Builder</title>
-    <meta name="description" content="Advanced character calculator for Sigrogana Legend 2 - Build and optimize your character stats, weapons, and armor">
-    
-    <meta name="application-name" content="SL2 Calculator Suite">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta property="og:title" content="SL2 Calculator Suite">
-    <meta property="og:description" content="Build and share SL2 characters, weapons, armor, and optimized stat spreads.">
+    <meta name="theme-color" content="#05070b">
+    <title>Aether Codex — SL2 Character Builder</title>
+    <meta name="description" content="Sigrogana Legend 2 character builder: class, attribute, skill and trait planning with live derived stats.">
+    <meta property="og:title" content="Aether Codex — SL2 Character Builder">
+    <meta property="og:description" content="Plan SL2 characters with live derived stats, skills, traits and racials.">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="/social-preview.svg">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <!-- Painted before any stylesheet loads. Without it the first frame of a
+         cold load is white, which is a poor way to open a dark cinematic. -->
+    <style>html, body { margin: 0; background: #04060a; }</style>
 </head>
 <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <script type="module" src="/src/aether/main.tsx"></script>
 </body>
 </html>

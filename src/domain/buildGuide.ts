@@ -114,14 +114,18 @@ function primaryScalingSummary(build: BuildState): BuildGuideCheck {
 function classWeaponCheck(build: BuildState): BuildGuideCheck {
   const category = weaponCategory(build.equipment.primaryWeapon?.weaponType);
   if (!category) return verify('class-weapon', 'Class and weapon fit', 'REQUIRES CALCULATOR DATA: configure a primary weapon before checking class weapon access.');
-  const listed = [build.mainClass, build.subClass].filter(className => CLASSES[className]?.validWeapons?.includes(category));
-  if (listed.length) {
+  // Only the main class grants weapons. A subclass listing the category is not
+  // a pass. It supplies skills, not proficiency.
+  if (CLASSES[build.mainClass]?.validWeapons?.includes(category)) {
     return {
       id: 'class-weapon', label: 'Class and weapon fit', status: 'pass', basis: 'calculator-data',
-      summary: `${category} is listed for ${listed.join(' and ')}. Class actions and buffs are not modeled and still require verification.`,
+      summary: `${category} is listed for ${build.mainClass}. Class actions and buffs are not modeled and still require verification.`,
     };
   }
-  return verify('class-weapon', 'Class and weapon fit', `REQUIRES VERIFICATION: ${category} is not listed for either class. The document says talents may still grant access, so this is not treated as a failure.`);
+  const viaSubClass = CLASSES[build.subClass]?.validWeapons?.includes(category)
+    ? ` ${category} is on ${build.subClass}'s list, which grants no weapons of its own.`
+    : '';
+  return verify('class-weapon', 'Class and weapon fit', `REQUIRES VERIFICATION: ${category} is not listed for ${build.mainClass}.${viaSubClass} An Adaptation talent may still grant access, so this is not treated as a failure.`);
 }
 
 function endgameNumericChecks(build: BuildState, evaluation: BuildEvaluation, preset: OptimizationPreset): BuildGuideCheck[] {

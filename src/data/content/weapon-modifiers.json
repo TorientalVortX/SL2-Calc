@@ -1271,7 +1271,7 @@
       "crit": 3,
       "critMod": 0,
       "hit": 3,
-      "weight": 3,
+      "weight": -3,
       "weightMod": 1
     },
     "Rampaging": {

@@ -1,15 +1,14 @@
-/**
- * Armor data loader for SL2 Calculator
- * Loads armor data from JSON file for easy updates
- */
-
 import type { Armor } from '../types';
 import armorData from './armors.json';
 
-// Convert JSON data to proper Armor objects
+/**
+ * The armor catalogue, keyed by name.
+ *
+ * `armors.json` groups items by armor type and leaves `type` off each record,
+ * so the type is folded back in here as the groups are flattened.
+ */
 export const ARMORS: Record<string, Armor> = {};
 
-// Process each armor type and convert to Armor objects
 Object.entries(armorData as Record<string, Omit<Armor, 'type'>[]>).forEach(([type, armors]) => {
   armors.forEach((armorJson) => {
     const armor: Armor = {

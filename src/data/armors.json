@@ -79,7 +79,7 @@
         "Mercalan": 5
       },
       "resistances": {
-        "Darkness": 10
+        "Dark": 10
       },
       "rarity": 8
     },
@@ -189,7 +189,7 @@
       "weight": 6,
       "details": "+3 Darkness ATK Protection From Spatial race. Darkheart enchant blocks Star Map skills.",
       "statBonuses": {
-        "Darkness": 3
+        "Dark": 3
       },
       "specialEffects": [
         "10% Spatial damage reduction",
@@ -231,7 +231,7 @@
       "magicArmor": 3,
       "evade": 0,
       "weight": 17,
-      "details": "Getting up from knockdown costs +1 Momentum. Reduces back damage and grants back Critical Evade.",
+      "details": "Getting up from a knockdown costs 1 more Momentum. Reduces physical damage taken from behind by 1+UL%, and grants 1+UL Critical Evade against enemies behind you.",
       "specialEffects": [
         "+1 Momentum knockdown recovery",
         "Back damage reduction",
@@ -533,7 +533,7 @@
       "magicArmor": 4,
       "evade": 5,
       "weight": 9,
-      "details": "Increases Evade vs enemies based on their missing FP. Saps FP on evade.",
+      "details": "Increases Evade versus enemies based on the attacker's missing FP (1% missing FP = 0.5 Evade, up to a maximum of UL). When you evade a basic attack, sap FP from the attacker equal to half of UL.",
       "specialEffects": [
         "Evade bonus vs low FP enemies",
         "FP sap on evade"
@@ -577,7 +577,7 @@
       "magicArmor": 5,
       "evade": 0,
       "weight": 7,
-      "details": "Explodes when critically hit or taking Fire damage. Creates Firey Armor on Fire trigger.",
+      "details": "When critically hit or taking Fire damage, deals 2+UL unresistable Fire damage around you. A Fire trigger also grants Firey Armor, dealing UL/2 damage to attackers.",
       "specialEffects": [
         "Fire explosion on crit/fire damage",
         "Firey Armor effect"
@@ -913,7 +913,7 @@
       "magicArmor": 3,
       "evade": 5,
       "weight": 4,
-      "details": "Material: Metal Increases Hit by UL/2, UL% chance to reduce critical damage.",
+      "details": "Material: Metal Increases Hit by UL/2, except when Blinded. UL% chance when critically hit to reduce the critical damage multiplier by UL%.",
       "specialEffects": [
         "Hit bonus",
         "Critical damage reduction"

@@ -1,6 +1,6 @@
 import { createServer, type IncomingMessage, type ServerResponse } from 'node:http';
-import type { AiOptimizationRequest } from '../src/types';
 import { runAiOptimization } from './agentCore';
+import { aiOptimizationRequestSchema, formatSchemaIssues } from './aiSchemas';
 import { readPersonalNotes } from './personalKnowledge';
 
 const host = '127.0.0.1';
@@ -17,20 +17,6 @@ async function readJson(request: IncomingMessage): Promise<unknown> {
     chunks.push(buffer);
   }
   return JSON.parse(Buffer.concat(chunks).toString('utf8')) as unknown;
-}
-
-function isAiRequest(value: unknown): value is AiOptimizationRequest {
-  if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
-  const item = value as Partial<AiOptimizationRequest>;
-  return Boolean(item.build && typeof item.build === 'object'
-    && typeof item.build.race === 'string'
-    && typeof item.build.subrace === 'string'
-    && typeof item.build.mainClass === 'string'
-    && typeof item.intent === 'string'
-    && (item.mode === 'standard' || item.mode === 'deep')
-    && typeof item.presetId === 'string'
-    && Array.isArray(item.constraints)
-    && item.locks && typeof item.locks === 'object');
 }
 
 function json(response: ServerResponse, status: number, body: unknown): void {
@@ -58,13 +44,13 @@ const server = createServer(async (request, response) => {
     return;
   }
   try {
-    const body = await readJson(request);
-    if (!isAiRequest(body)) {
-      json(response, 400, { error: 'Invalid AI optimization request.' });
+    const parsed = aiOptimizationRequestSchema.safeParse(await readJson(request));
+    if (!parsed.success) {
+      json(response, 400, { error: `Invalid AI optimization request: ${formatSchemaIssues(parsed.error)}` });
       return;
     }
     const personalNotes = await readPersonalNotes(root);
-    const result = await runAiOptimization(body, { personalNotes });
+    const result = await runAiOptimization(parsed.data, { personalNotes });
     json(response, 200, result);
   } catch (error) {
     json(response, 500, { error: error instanceof Error ? error.message : 'AI optimizer failed.' });

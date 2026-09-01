@@ -33,63 +33,37 @@
     ]
   },
   {
-    "id": "weapon:fist:knuckledusters",
-    "name": "Knuckledusters",
+    "id": "weapon:fist:boxing-glove",
+    "name": "Boxing Glove",
     "rarity": 2,
     "weaponType": "Fist",
     "range": 1,
-    "power": 5,
-    "accuracy": 80,
-    "critical": 10,
-    "criticalDamage": 120,
-    "weight": 8,
-    "damageType": "Blunt",
-    "scaling": [
-      {
-        "type": "Finesse",
-        "str": 70,
-        "ski": 30
-      }
-    ],
-    "description": "A sharp pair of brass knuckles.",
-    "location": [
-      "Random drops",
-      "Metalwork (Lv3)"
-    ]
-  },
-  {
-    "id": "weapon:fist:crash-cymbals",
-    "name": "Crash Cymbals",
-    "rarity": 2,
-    "weaponType": "Fist",
-    "subtype": "Instrument",
-    "range": 1,
-    "power": 8,
+    "power": 6,
     "accuracy": 80,
     "critical": 0,
     "criticalDamage": 105,
-    "weight": 8,
-    "damageType": "Sound",
+    "weight": 2,
+    "damageType": "Blunt",
     "scaling": [
       {
-        "type": "Dextria-Sound",
-        "str": 80,
-        "san": 30
+        "type": "Earthen",
+        "str": 70,
+        "def": 40
       }
     ],
     "specials": [
       {
-        "name": "Fear Infliction",
-        "type": "OnHit",
-        "description": "If you are behind your target, inflicts Fear on them until your next turn. (Works even while outside of melee range.)"
+        "name": "Defense Bonus",
+        "type": "Passive",
+        "description": "+1-3 DEF"
       },
       {
-        "name": "Song Damage",
-        "type": "Passive",
-        "description": "When played (via a Song skill): Deals bonus armor-ignoring Sound magic damage equal to 5 + UL to all enemies within 5 Range."
+        "name": "Guard Skill",
+        "type": "GrantsSkill",
+        "description": "Grants skill: Guard. Guard does not deplete the Schwarz Sturm gauge."
       }
     ],
-    "description": "A pair of cymbals, which are typically played by smashing them together.",
+    "description": "A type of fighting glove used in one of Kysei's provinces. It gives some defensive options.",
     "location": [
       "Random drops"
     ]
@@ -132,106 +106,64 @@
     ]
   },
   {
-    "id": "weapon:fist:boxing-glove",
-    "name": "Boxing Glove",
+    "id": "weapon:fist:crash-cymbals",
+    "name": "Crash Cymbals",
     "rarity": 2,
     "weaponType": "Fist",
-    "range": 1,
-    "power": 6,
-    "accuracy": 80,
-    "critical": 0,
-    "criticalDamage": 105,
-    "weight": 2,
-    "damageType": "Blunt",
-    "scaling": [
-      {
-        "type": "Earthen",
-        "str": 70,
-        "def": 40
-      }
-    ],
-    "specials": [
-      {
-        "name": "Defense Bonus",
-        "type": "Passive",
-        "description": "+1-3 DEF"
-      },
-      {
-        "name": "Guard Skill",
-        "type": "GrantsSkill",
-        "description": "Grants skill: Guard. Guard does not deplete the Schwarz Sturm gauge."
-      }
-    ],
-    "description": "A type of fighting glove used in one of Kysei's provinces. It gives some defensive options.",
-    "location": [
-      "Random drops"
-    ]
-  },
-  {
-    "id": "weapon:fist:tenderizers",
-    "name": "Tenderizers",
-    "rarity": 3,
-    "weaponType": "Fist",
-    "range": 1,
-    "power": 6,
-    "accuracy": 80,
-    "critical": 0,
-    "criticalDamage": 105,
-    "weight": 4,
-    "damageType": "Blunt",
-    "scaling": [
-      {
-        "type": "Vampiric",
-        "str": 80,
-        "vit": 30
-      }
-    ],
-    "specials": [
-      {
-        "name": "Vampiric",
-        "type": "Passive",
-        "description": "Vampiric (10%)"
-      }
-    ],
-    "description": "This gauntlet absorbs Focus from the wounds that it makes.",
-    "location": [
-      "Random drops",
-      "Metalwork (Lv3)"
-    ]
-  },
-  {
-    "id": "weapon:fist:needler",
-    "name": "Needler",
-    "rarity": 3,
-    "weaponType": "Fist",
+    "subtype": "Instrument",
     "range": 1,
     "power": 8,
     "accuracy": 80,
     "critical": 0,
     "criticalDamage": 105,
     "weight": 8,
-    "damageType": "Blunt",
+    "damageType": "Sound",
     "scaling": [
       {
-        "type": "Basic",
-        "str": 100
+        "type": "Dextria-Sound",
+        "str": 80,
+        "san": 30
       }
     ],
     "specials": [
       {
-        "name": "Armor Reduction",
-        "type": "Passive",
-        "description": "Reduces effectiveness of enemy Armor by 5."
+        "name": "Fear Infliction",
+        "type": "OnHit",
+        "description": "If you are behind your target, inflicts Fear on them until your next turn. (Works even while outside of melee range.)"
       },
       {
-        "name": "Wear Down",
-        "type": "PotentialSkill",
-        "description": "When an enemy is damaged by weapons that reduce enemy Armor effectiveness, either by basic attacks or by skills using them, a Wear Down status is applied for 3 rounds, or powered up. This status decreases the enemy's Armor by 5 per LV. (Max LV of 20, max duration of 3 rounds)."
+        "name": "Song Damage",
+        "type": "Passive",
+        "description": "When played (via a Song skill): Deals bonus armor-ignoring Sound magic damage equal to 5 + UL to all enemies within 5 Range."
       }
     ],
-    "description": "A gauntlet designed to pierce armor.",
+    "description": "A pair of cymbals, which are typically played by smashing them together.",
     "location": [
-      "Random Drops",
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:fist:knuckledusters",
+    "name": "Knuckledusters",
+    "rarity": 2,
+    "weaponType": "Fist",
+    "range": 1,
+    "power": 5,
+    "accuracy": 80,
+    "critical": 10,
+    "criticalDamage": 120,
+    "weight": 8,
+    "damageType": "Blunt",
+    "scaling": [
+      {
+        "type": "Finesse",
+        "str": 70,
+        "ski": 30
+      }
+    ],
+    "description": "A sharp pair of brass knuckles.",
+    "location": [
+      "Random drops",
       "Metalwork (Lv3)"
     ]
   },
@@ -280,12 +212,48 @@
     ]
   },
   {
-    "id": "weapon:fist:spirit-gauntlet",
-    "name": "Spirit Gauntlet",
-    "rarity": 4,
+    "id": "weapon:fist:needler",
+    "name": "Needler",
+    "rarity": 3,
     "weaponType": "Fist",
     "range": 1,
-    "power": 10,
+    "power": 8,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 105,
+    "weight": 8,
+    "damageType": "Blunt",
+    "scaling": [
+      {
+        "type": "Basic",
+        "str": 100
+      }
+    ],
+    "specials": [
+      {
+        "name": "Armor Reduction",
+        "type": "Passive",
+        "description": "Reduces effectiveness of enemy Armor by 5."
+      },
+      {
+        "name": "Wear Down",
+        "type": "PotentialSkill",
+        "description": "When an enemy is damaged by weapons that reduce enemy Armor effectiveness, either by basic attacks or by skills using them, a Wear Down status is applied for 3 rounds, or powered up. This status decreases the enemy's Armor by 5 per LV. (Max LV of 20, max duration of 3 rounds)."
+      }
+    ],
+    "description": "A gauntlet designed to pierce armor.",
+    "location": [
+      "Random Drops",
+      "Metalwork (Lv3)"
+    ]
+  },
+  {
+    "id": "weapon:fist:tenderizers",
+    "name": "Tenderizers",
+    "rarity": 3,
+    "weaponType": "Fist",
+    "range": 1,
+    "power": 6,
     "accuracy": 80,
     "critical": 0,
     "criticalDamage": 105,
@@ -293,46 +261,22 @@
     "damageType": "Blunt",
     "scaling": [
       {
-        "type": "Spiritual",
-        "str": 70,
-        "san": 40
+        "type": "Vampiric",
+        "str": 80,
+        "vit": 30
       }
     ],
     "specials": [
       {
-        "name": "Focus Restoration",
+        "name": "Vampiric",
         "type": "Passive",
-        "description": "Restores Focus based on damage dealt. (10%)"
+        "description": "Vampiric (10%)"
       }
     ],
     "description": "This gauntlet absorbs Focus from the wounds that it makes.",
     "location": [
-      "Random drops"
-    ]
-  },
-  {
-    "id": "weapon:fist:ninja-scroll",
-    "name": "Ninja Scroll",
-    "rarity": 4,
-    "weaponType": "Fist",
-    "subtype": "Gauntlet",
-    "range": 1,
-    "power": 7,
-    "accuracy": 80,
-    "critical": 0,
-    "criticalDamage": 105,
-    "weight": 9,
-    "damageType": "Blunt",
-    "scaling": [
-      {
-        "type": "Magical",
-        "str": 70,
-        "wil": 40
-      }
-    ],
-    "description": "Concealed within the wrist of these otherwise unassuming gloves is a scroll. Often used by shinobi as a means to transport and use hidden arts.",
-    "location": [
-      "Random drops"
+      "Random drops",
+      "Metalwork (Lv3)"
     ]
   },
   {
@@ -370,40 +314,108 @@
     ]
   },
   {
-    "id": "weapon:fist:pickpocketers",
-    "name": "Pickpocketers",
-    "rarity": 5,
+    "id": "weapon:fist:ninja-scroll",
+    "name": "Ninja Scroll",
+    "rarity": 4,
     "weaponType": "Fist",
+    "subtype": "Gauntlet",
     "range": 1,
-    "power": 9,
+    "power": 7,
     "accuracy": 80,
     "critical": 0,
     "criticalDamage": 105,
-    "weight": 8,
+    "weight": 9,
     "damageType": "Blunt",
     "scaling": [
       {
-        "type": "Cunning",
+        "type": "Magical",
         "str": 70,
-        "gui": 40
+        "wil": 40
       }
     ],
     "specials": [
       {
-        "name": "Steal Bonus",
+        "name": "Passive",
         "type": "Passive",
-        "description": "Increases Steal's success rate by 15%."
+        "description": "Sub Type: Gauntlet"
+      }
+    ],
+    "description": "Concealed within the wrist of these otherwise unassuming gloves is a scroll. Often used by shinobi as a means to transport and use hidden arts.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:fist:spirit-gauntlet",
+    "name": "Spirit Gauntlet",
+    "rarity": 4,
+    "weaponType": "Fist",
+    "range": 1,
+    "power": 10,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 105,
+    "weight": 4,
+    "damageType": "Blunt",
+    "scaling": [
+      {
+        "type": "Spiritual",
+        "str": 70,
+        "san": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Focus Restoration",
+        "type": "Passive",
+        "description": "Restores Focus based on damage dealt. (10%)"
+      }
+    ],
+    "description": "This gauntlet absorbs Focus from the wounds that it makes.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:fist:burst-claw",
+    "name": "Burst Claw",
+    "rarity": 5,
+    "weaponType": "Fist",
+    "subtype": "Claws",
+    "range": 1,
+    "power": 8,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 105,
+    "weight": 6,
+    "damageType": "Slash",
+    "scaling": [
+      {
+        "type": "Basic",
+        "str": 100
+      }
+    ],
+    "specials": [
+      {
+        "name": "Fire Damage",
+        "type": "OnHit",
+        "description": "Deals magic Fire damage equal to 50% of your Fire ATK, which ignores armor."
       },
       {
-        "name": "Pilfer",
+        "name": "Weapon Charge Consumption",
+        "type": "OnHit",
+        "description": "Consumes Weapon Charges, dealing 50% more damage per Charge Level."
+      },
+      {
+        "name": "Red Raid",
         "type": "PotentialSkill",
-        "description": "Targets one enemy within 1 Range. Messes with the target's inventory, preventing them from using items for 2 rounds.",
+        "description": "Dash forward in a 4 Range line (+1 for every Weapon Charge level). If you encounter an enemy, you grab them and cause an explosion around them, dealing Blunt physical damage to all enemies in a 2 Range circle around them equal to 100% of Burst Claw's SWA, then your Weapon Charge level increases by 1.",
         "momentumCost": 3,
-        "fpCost": 5,
+        "fpCost": 15,
         "cooldown": 2
       }
     ],
-    "description": "A pair of gloves that excel at theft.",
+    "description": "An explosive set of claws that can cause fire plumes to appear when it strikes.",
     "location": [
       "Random drops"
     ]
@@ -450,17 +462,100 @@
     ]
   },
   {
-    "id": "weapon:fist:burst-claw",
-    "name": "Burst Claw",
+    "id": "weapon:fist:pickpocketers",
+    "name": "Pickpocketers",
     "rarity": 5,
     "weaponType": "Fist",
-    "subtype": "Claws",
     "range": 1,
-    "power": 8,
+    "power": 9,
     "accuracy": 80,
     "critical": 0,
     "criticalDamage": 105,
-    "weight": 6,
+    "weight": 8,
+    "damageType": "Blunt",
+    "scaling": [
+      {
+        "type": "Cunning",
+        "str": 70,
+        "gui": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Steal Bonus",
+        "type": "Passive",
+        "description": "Increases Steal's success rate by 15%."
+      },
+      {
+        "name": "Pilfer",
+        "type": "PotentialSkill",
+        "description": "Targets one enemy within 1 Range. Messes with the target's inventory, preventing them from using items for 2 rounds.",
+        "momentumCost": 3,
+        "fpCost": 5,
+        "cooldown": 2
+      }
+    ],
+    "description": "A pair of gloves that excel at theft.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:fist:tricky-yoyo",
+    "name": "Tricky Yoyo",
+    "rarity": 5,
+    "weaponType": "Fist",
+    "subtype": "Strings",
+    "range": 3,
+    "power": 2,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 105,
+    "weight": 4,
+    "damageType": "Blunt",
+    "scaling": [
+      {
+        "type": "Finesse",
+        "str": 70,
+        "ski": 30
+      }
+    ],
+    "specials": [
+      {
+        "name": "Passive",
+        "type": "Passive",
+        "description": "Sub Type: Strings"
+      },
+      {
+        "name": "- Around The World",
+        "type": "SpecialStrike",
+        "description": "Trigger Rate: 10% + 15% Bonus Trigger CD: 1 Rounds Triggers before an enemy is attacked, and replaces the attack. Deals 110% of Scaled Weapon Attack as Blunt damage to all enemies in 4 Range of the target (including them), which ignores immunity/absorb/reflect."
+      },
+      {
+        "name": "Elevator",
+        "type": "GrantsSkill",
+        "description": "Walk The Dog: 3M, 10 FP, 1 round CD. Can only be used if the Special Strike 'Around The World' is not on cooldown. Targets a 5 Size Line in front of you. Spin your yoyo on the ground and move forward, until you encounter a dense tile or an enemy. For each tile you move through, increases the activation chance of your Around The World Special Strike by 6%. Afterwards, if you encountered an enemy, you will activate Tricky Yoyo's basic attack skill on them. Elevator: 1M. Can only be used if the Special Strike 'Around The World' is not on cooldown. Spin your yoyo, angling the string so that it moves upwards. Not only a visually impressive defiance of gravity, but one that straightens the string out, restoring 5 durability and increasing the chance of its next Special Strike activation by 15%.",
+        "momentumCost": 3,
+        "fpCost": 10
+      }
+    ],
+    "description": "A yoyo. Not a typical sight on the battlefield, but can be used as a weapon, technically.",
+    "location": [
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:fist:bear-claws",
+    "name": "Bear Claws",
+    "rarity": 6,
+    "weaponType": "Fist",
+    "subtype": "Claws",
+    "range": 1,
+    "power": 7,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 105,
+    "weight": 8,
     "damageType": "Slash",
     "scaling": [
       {
@@ -470,25 +565,58 @@
     ],
     "specials": [
       {
-        "name": "Fire Damage",
-        "type": "OnHit",
-        "description": "Deals magic Fire damage equal to 50% of your Fire ATK, which ignores armor."
+        "name": "Stat Bonus",
+        "type": "Passive",
+        "description": "+2 STR, +2 VIT"
+      },
+      {
+        "name": "Scary Mauling",
+        "type": "PotentialSkill",
+        "description": "+10% Critical Damage for Claws-type weapons. On Critical Hit (Bear Claws only): Automatically activate the skill 'Bellow' (3 round cooldown). Bellow - Roars loudly, generating a strong fighting will. Deals Sound magic damage equal to 150% Sound ATK to all enemies in Circle (2) range. Also increases the user's STR by LV/5 (min. 3) for 3 rounds."
+      }
+    ],
+    "description": "Shaped somewhat like a bear's paw, the claws hidden within will shred anyone caught in them just as effectively.",
+    "location": [
+      "Random drops",
+      "Metalwork (Lv4)"
+    ]
+  },
+  {
+    "id": "weapon:fist:excellion",
+    "name": "Excellion",
+    "rarity": 6,
+    "weaponType": "Fist",
+    "range": 1,
+    "power": 8,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 105,
+    "weight": 15,
+    "damageType": "Blunt",
+    "scaling": [
+      {
+        "type": "Basic",
+        "str": 100
+      }
+    ],
+    "specials": [
+      {
+        "name": "Charge Weapon",
+        "type": "GrantsSkill",
+        "description": "Grants Skill: Charge Weapon (3 Momentum, 5 FP) - Rev your weapon and fill it with focus, increasing its Charge, to a maximum of level 3. When you hit with a weapon that can consume Weapon Charges, the damage you deal with that attack will increase by 50% per level. (Weapon Charges will expire after 5 rounds.)"
       },
       {
         "name": "Weapon Charge Consumption",
         "type": "OnHit",
-        "description": "Consumes Weapon Charges, dealing 50% more damage per Charge Level."
+        "description": "Consumes Weapon Charge, dealing 50% more damage per Charge Level."
       },
       {
-        "name": "Red Raid",
+        "name": "Elite Engine",
         "type": "PotentialSkill",
-        "description": "Dash forward in a 4 Range line (+1 for every Weapon Charge level). If you encounter an enemy, you grab them and cause an explosion around them, dealing Blunt physical damage to all enemies in a 2 Range circle around them equal to 100% of Burst Claw's SWA, then your Weapon Charge level increases by 1.",
-        "momentumCost": 3,
-        "fpCost": 15,
-        "cooldown": 2
+        "description": "Charge Weapon FP cost is increased to 8 FP. Attacks do not use up all of your charges, instead the LV is reduced by 1, and the damage bonus is 35% (does not increase with charge amount like normal Excel attacks)."
       }
     ],
-    "description": "An explosive set of claws that can cause fire plumes to appear when it strikes.",
+    "description": "Grants Skill: Charge Weapon The Excel line of weapons were developed in Chaturanga, where the ability to be defensive while increasing offensive capabilities was highly valued. By charging up the weapon, it can explosively spend the focus energy when it strikes an enemy, greatly increasing damage. However, the engine module makes it heavier than other weapons.",
     "location": [
       "Random drops"
     ]
@@ -545,144 +673,40 @@
     ]
   },
   {
-    "id": "weapon:fist:excellion",
-    "name": "Excellion",
-    "rarity": 6,
+    "id": "weapon:fist:kusarigami",
+    "name": "Kusarigami",
+    "rarity": 7,
     "weaponType": "Fist",
-    "range": 1,
-    "power": 8,
+    "subtype": "Whip",
+    "range": 5,
+    "power": 11,
     "accuracy": 80,
-    "critical": 0,
+    "critical": 10,
     "criticalDamage": 105,
-    "weight": 15,
-    "damageType": "Blunt",
+    "weight": 14,
+    "damageType": "Slash",
     "scaling": [
       {
-        "type": "Basic",
-        "str": 100
+        "type": "Finesse",
+        "str": 70,
+        "ski": 30
       }
     ],
     "specials": [
       {
-        "name": "Charge Weapon",
+        "name": "Weight Strike",
         "type": "GrantsSkill",
-        "description": "Grants Skill: Charge Weapon (3 Momentum, 5 FP) - Rev your weapon and fill it with focus, increasing its Charge, to a maximum of level 3. When you hit with a weapon that can consume Weapon Charges, the damage you deal with that attack will increase by 50% per level. (Weapon Charges will expire after 5 rounds.)"
+        "description": "Has a special secondary attack called 'Weight Strike', and grants access to the 'Spin Kusarigami' skill. Weight Strike: 3M, Basic attack that deals Blunt Damage."
       },
       {
-        "name": "Weapon Charge Consumption",
-        "type": "OnHit",
-        "description": "Consumes Weapon Charge, dealing 50% more damage per Charge Level."
-      },
-      {
-        "name": "Elite Engine",
-        "type": "PotentialSkill",
-        "description": "Charge Weapon FP cost is increased to 8 FP. Attacks do not use up all of your charges, instead the LV is reduced by 1, and the damage bonus is 35% (does not increase with charge amount like normal Excel attacks)."
+        "name": "Spin Kusarigami",
+        "type": "GrantsSkill",
+        "description": "Spin Kusarigami: 1M, Puts Weight Strike on 1 round CD, but the next time you attack with it and it hits, you pull the target 3 tiles towards you. Afterwards, if they are within 1 Range of you, you automatically apply the Grapple skill to them."
       }
     ],
-    "description": "The Excel line of weapons were developed in Chaturanga, where the ability to be defensive while increasing offensive capabilities was highly valued. By charging up the weapon, it can explosively spend the focus energy when it strikes an enemy, greatly increasing damage. However, the engine module makes it heavier than other weapons.",
+    "description": "The Kusarigami is traditionally seen as a strange weapon. Part kama, part weighed chain, it is a weapon that requires a good deal of skill to use effectively. The origin of the weapon is relatively unknown, but has been found discarded in places such as deserts or canyons, theorized to have been used for its utility, or its surprising ability to be concealed due to its flexible nature.",
     "location": [
       "Random drops"
-    ]
-  },
-  {
-    "id": "weapon:fist:bear-claws",
-    "name": "Bear Claws",
-    "rarity": 6,
-    "weaponType": "Fist",
-    "subtype": "Claws",
-    "range": 1,
-    "power": 7,
-    "accuracy": 80,
-    "critical": 0,
-    "criticalDamage": 105,
-    "weight": 8,
-    "damageType": "Slash",
-    "scaling": [
-      {
-        "type": "Basic",
-        "str": 100
-      }
-    ],
-    "specials": [
-      {
-        "name": "Stat Bonus",
-        "type": "Passive",
-        "description": "+2 STR, +2 VIT"
-      },
-      {
-        "name": "Scary Mauling",
-        "type": "PotentialSkill",
-        "description": "+10% Critical Damage for Claws-type weapons. On Critical Hit (Bear Claws only): Automatically activate the skill 'Bellow' (3 round cooldown). Bellow - Roars loudly, generating a strong fighting will. Deals Sound magic damage equal to 150% Sound ATK to all enemies in Circle (2) range. Also increases the user's STR by LV/5 (min. 3) for 3 rounds."
-      }
-    ],
-    "description": "Shaped somewhat like a bear's paw, the claws hidden within will shred anyone caught in them just as effectively.",
-    "location": [
-      "Random drops",
-      "Metalwork (Lv4)"
-    ]
-  },
-  {
-    "id": "weapon:fist:whulf",
-    "name": "Whulf",
-    "rarity": 7,
-    "weaponType": "Fist",
-    "subtype": "Claws",
-    "range": 1,
-    "power": 10,
-    "accuracy": 80,
-    "critical": 0,
-    "criticalDamage": 105,
-    "weight": 6,
-    "damageType": "Slash",
-    "scaling": [
-      {
-        "type": "Faithful",
-        "str": 70,
-        "fai": 40
-      }
-    ],
-    "specials": [
-      {
-        "name": "The Wolf's Claws Set",
-        "type": "SetBonus",
-        "description": "Set: The Wolf's Claws. 2+ - 1) Grants access to the Shooting Star skill. 2) Increases the range of the Kick skill by 5. 3) Kick skill causes you to fly towards your target."
-      }
-    ],
-    "description": "A set of gloves with sharp claws extending from them. They are enchanted with the spirit of a great beast of light.",
-    "location": [
-      "Random drops"
-    ]
-  },
-  {
-    "id": "weapon:fist:sea-hunter-gauntlet",
-    "name": "Sea Hunter Gauntlet",
-    "rarity": 7,
-    "weaponType": "Fist",
-    "range": 1,
-    "power": 13,
-    "accuracy": 80,
-    "critical": 7,
-    "criticalDamage": 105,
-    "weight": 12,
-    "damageType": "Blunt",
-    "scaling": [
-      {
-        "type": "Aquatic",
-        "str": 70,
-        "vit": 40
-      }
-    ],
-    "specials": [
-      {
-        "name": "Hunted Infliction",
-        "type": "OnHit",
-        "description": "Inflicts Hunted LV14 for 3 rounds if the target is a seafaring monster."
-      }
-    ],
-    "material": "Coral",
-    "description": "This gauntlet was born from the sea, and as anyone who lives there knows, anything that lives in the sea is out to get everything else... that lives in the sea.",
-    "location": [
-      "Fishing Contest"
     ]
   },
   {
@@ -726,110 +750,64 @@
     ]
   },
   {
-    "id": "weapon:fist:kusarigami",
-    "name": "Kusarigami",
+    "id": "weapon:fist:sea-hunter-gauntlet",
+    "name": "Sea Hunter Gauntlet",
     "rarity": 7,
     "weaponType": "Fist",
-    "subtype": "Whip",
-    "range": 5,
-    "power": 11,
-    "accuracy": 80,
-    "critical": 10,
-    "criticalDamage": 105,
-    "weight": 14,
-    "damageType": "Slash",
-    "scaling": [
-      {
-        "type": "Finesse",
-        "str": 70,
-        "ski": 30
-      }
-    ],
-    "specials": [
-      {
-        "name": "Weight Strike",
-        "type": "GrantsSkill",
-        "description": "Has a special secondary attack called 'Weight Strike', and grants access to the 'Spin Kusarigami' skill. Weight Strike: 3M, Basic attack that deals Blunt Damage."
-      },
-      {
-        "name": "Spin Kusarigami",
-        "type": "GrantsSkill",
-        "description": "Spin Kusarigami: 1M, Puts Weight Strike on 1 round CD, but the next time you attack with it and it hits, you pull the target 3 tiles towards you. Afterwards, if they are within 1 Range of you, you automatically apply the Grapple skill to them."
-      }
-    ],
-    "description": "The Kusarigami is traditionally seen as a strange weapon. Part kama, part weighed chain, it is a weapon that requires a good deal of skill to use effectively. The origin of the weapon is relatively unknown, but has been found discarded in places such as deserts or canyons, theorized to have been used for its utility, or its surprising ability to be concealed due to its flexible nature.",
-    "location": [
-      "Random drops"
-    ]
-  },
-  {
-    "id": "weapon:fist:shredder-replica",
-    "name": "Shredder Replica",
-    "rarity": 8,
-    "weaponType": "Fist",
     "range": 1,
-    "power": 16,
+    "power": 13,
     "accuracy": 80,
-    "critical": 0,
+    "critical": 7,
     "criticalDamage": 105,
-    "weight": 8,
+    "weight": 12,
     "damageType": "Blunt",
     "scaling": [
       {
-        "type": "Replica",
+        "type": "Aquatic",
         "str": 70,
-        "ski": 20,
-        "san": 20
+        "vit": 40
       }
     ],
-    "enchantment": "Divine Weapon",
     "specials": [
       {
-        "name": "Divine Weapon",
-        "type": "Passive",
-        "description": "Always comes enchanted with Divine Weapon. (+2 Power, +5 Critical, +5 Accuracy, -2 Weight. Weapon durability cannot decrease.)"
+        "name": "Hunted Infliction",
+        "type": "OnHit",
+        "description": "Inflicts Hunted LV14 for 3 rounds if the target is a seafaring monster."
       }
     ],
-    "description": "A replica of a deadly pair of gauntlets that rend flesh. It possesses extremely high power.",
+    "description": "This gauntlet was born from the sea, and as anyone who lives there knows, anything that lives in the sea is out to get everything else... that lives in the sea.",
     "location": [
-      "Korvara Casino",
-      "Arena"
+      "Fishing Contest"
     ]
   },
   {
-    "id": "weapon:fist:helrenroka",
-    "name": "Helrenroka",
-    "rarity": 8,
+    "id": "weapon:fist:whulf",
+    "name": "Whulf",
+    "rarity": 7,
     "weaponType": "Fist",
+    "subtype": "Claws",
     "range": 1,
-    "power": 11,
+    "power": 10,
     "accuracy": 80,
     "critical": 0,
     "criticalDamage": 105,
     "weight": 6,
-    "damageType": "Blunt",
+    "damageType": "Slash",
     "scaling": [
       {
-        "type": "Basic",
-        "gui": 100
+        "type": "Faithful",
+        "str": 70,
+        "fai": 40
       }
     ],
     "specials": [
       {
-        "name": "Fire ATK Substitution",
-        "type": "OnHit",
-        "description": "Replaces your Fire ATK with the target's for 2 Rounds."
-      },
-      {
-        "name": "Guiding Flame",
-        "type": "PotentialSkill",
-        "description": "Helrenroka's Potential Skill. Ninjutsu. Requires Substitute Fire ATK to be active. Invoke a fiery ninja art, dealing 20 armor-ignoring Fire Kickback damage to you, curing Blind effects you suffer from, and creating a burst of Fire around you that damages all enemies in a 3 Size Circle for Fire magic damage (can critically hit for +25% damage, ignores Reflect, Immunity, and Absorb) equal to 100% of Helrenroka's Scaled Weapon Attack + 100% of the Substitute Fire ATK from its effect. Damaged enemies are inflicted with Glowing LV 10 (3 rounds). 2 round CD. Furinkazan: Gain 1 Fire Mark.",
-        "momentumCost": 3,
-        "fpCost": 0,
-        "cooldown": 2
+        "name": "The Wolf's Claws Set",
+        "type": "SetBonus",
+        "description": "Set: The Wolf's Claws. 2+ - 1) Grants access to the Shooting Star skill. 2) Increases the range of the Kick skill by 5. 3) Kick skill causes you to fly towards your target."
       }
     ],
-    "description": "A gauntlet said to once belong to a ninja who could summon fire.",
+    "description": "A set of gloves with sharp claws extending from them. They are enchanted with the spirit of a great beast of light.",
     "location": [
       "Random drops"
     ]
@@ -872,35 +850,104 @@
     ]
   },
   {
-    "id": "weapon:fist:ymir",
-    "name": "Ymir",
-    "rarity": 9,
+    "id": "weapon:fist:helrenroka",
+    "name": "Helrenroka",
+    "rarity": 8,
     "weaponType": "Fist",
     "range": 1,
-    "power": 13,
-    "accuracy": 85,
+    "power": 11,
+    "accuracy": 80,
     "critical": 0,
     "criticalDamage": 105,
-    "weight": 15,
+    "weight": 6,
     "damageType": "Blunt",
     "scaling": [
       {
-        "type": "Cold",
-        "str": 70,
-        "ski": 40
+        "type": "Basic",
+        "gui": 100
       }
     ],
     "specials": [
       {
-        "name": "Freezing Knockback",
+        "name": "Fire ATK Substitution",
         "type": "OnHit",
-        "description": "If target is not immune to knockback effects; Inflicts knockback (1 tile) in your current direction. If the enemy doesn't move from this effect (due to that tile being invalid/occupied), they take Ice magic damage equal to 150% of your Ice ATK. (Activations of this effect beyond the first in a round will only use 50% instead.)"
+        "description": "Replaces your Fire ATK with the target's for 2 Rounds."
+      },
+      {
+        "name": "Guiding Flame",
+        "type": "PotentialSkill",
+        "description": "Helrenroka's Potential Skill. Ninjutsu. Requires Substitute Fire ATK to be active. Invoke a fiery ninja art, dealing 20 armor-ignoring Fire Kickback damage to you, curing Blind effects you suffer from, and creating a burst of Fire around you that damages all enemies in a 3 Size Circle for Fire magic damage (can critically hit for +25% damage, ignores Reflect, Immunity, and Absorb) equal to 100% of Helrenroka's Scaled Weapon Attack + 100% of the Substitute Fire ATK from its effect. Damaged enemies are inflicted with Glowing LV 10 (3 rounds). 2 round CD. Furinkazan: Gain 1 Fire Mark.",
+        "momentumCost": 3,
+        "fpCost": 0,
+        "cooldown": 2
       }
     ],
-    "description": "The frosty gauntlets of a frosty giant.",
+    "description": "A gauntlet said to once belong to a ninja who could summon fire.",
     "location": [
-      "Random drops",
-      "Ice Giants"
+      "Random drops"
+    ]
+  },
+  {
+    "id": "weapon:fist:shredder-replica",
+    "name": "Shredder Replica",
+    "rarity": 8,
+    "weaponType": "Fist",
+    "range": 1,
+    "power": 16,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 105,
+    "weight": 8,
+    "damageType": "Blunt",
+    "scaling": [
+      {
+        "type": "Replica",
+        "str": 70,
+        "ski": 20,
+        "san": 20
+      }
+    ],
+    "specials": [
+      {
+        "name": "Divine Weapon",
+        "type": "Passive",
+        "description": "Always comes enchanted with Divine Weapon. (+2 Power, +5 Critical, +5 Accuracy, -2 Weight. Weapon durability cannot decrease.)"
+      }
+    ],
+    "description": "A replica of a deadly pair of gauntlets that rend flesh. It possesses extremely high power.",
+    "location": [
+      "Korvara Casino",
+      "Arena"
+    ]
+  },
+  {
+    "id": "weapon:fist:cobalt-qrytys",
+    "name": "Cobalt Qrytys",
+    "rarity": 9,
+    "weaponType": "Fist",
+    "range": 1,
+    "power": 9,
+    "accuracy": 80,
+    "critical": 0,
+    "criticalDamage": 105,
+    "weight": 14,
+    "damageType": "Blunt",
+    "scaling": [
+      {
+        "type": "Basic",
+        "str": 100
+      }
+    ],
+    "specials": [
+      {
+        "name": "Dual Type",
+        "type": "Passive",
+        "description": "Also qualifies as a Dagger weapon."
+      }
+    ],
+    "description": "This heavy, cold-blue metallic gauntlet hides within it several retractable dagger-like claws.",
+    "location": [
+      "Random drops"
     ]
   },
   {
@@ -947,96 +994,103 @@
     ]
   },
   {
-    "id": "weapon:fist:cobalt-qrytys",
-    "name": "Cobalt Qrytys",
+    "id": "weapon:fist:ymir",
+    "name": "Ymir",
     "rarity": 9,
     "weaponType": "Fist",
     "range": 1,
-    "power": 9,
-    "accuracy": 80,
+    "power": 13,
+    "accuracy": 85,
     "critical": 0,
     "criticalDamage": 105,
-    "weight": 14,
+    "weight": 15,
     "damageType": "Blunt",
     "scaling": [
       {
-        "type": "Basic",
-        "str": 100
+        "type": "Cold",
+        "str": 70,
+        "ski": 40
       }
     ],
     "specials": [
       {
-        "name": "Dual Type",
-        "type": "Passive",
-        "description": "Also qualifies as a Dagger weapon."
+        "name": "Freezing Knockback",
+        "type": "OnHit",
+        "description": "If target is not immune to knockback effects; Inflicts knockback (1 tile) in your current direction. If the enemy doesn't move from this effect (due to that tile being invalid/occupied), they take Ice magic damage equal to 150% of your Ice ATK. (Activations of this effect beyond the first in a round will only use 50% instead.)"
       }
     ],
-    "description": "This heavy, cold-blue metallic gauntlet hides within it several retractable dagger-like claws.",
+    "description": "The frosty gauntlets of a frosty giant.",
     "location": [
-      "Random drops"
+      "Random drops",
+      "Ice Giants"
     ]
   },
   {
-    "id": "weapon:fist:pinchers",
-    "name": "Pinchers",
+    "id": "weapon:fist:buzzing-chakram",
+    "name": "Buzzing Chakram",
     "rarity": 10,
     "weaponType": "Fist",
+    "subtype": "Chakram",
     "range": 1,
     "power": 14,
     "accuracy": 85,
     "critical": 10,
     "criticalDamage": 105,
-    "weight": 9,
-    "damageType": "Blunt",
-    "scaling": [
-      {
-        "type": "Aquatic",
-        "str": 70,
-        "vit": 40
-      }
-    ],
-    "specials": [
-      {
-        "name": "Restrain",
-        "type": "OnHit",
-        "description": "UL% chance of automatically applying Restrain to the target."
-      }
-    ],
-    "description": "A set of natural claws that are made for giving your enemies the clamps. Just watch your fingers.",
-    "location": [
-      "Soldier Kraboids (Lv56+)"
-    ]
-  },
-  {
-    "id": "weapon:fist:mortissimo",
-    "name": "Mortissimo",
-    "rarity": 10,
-    "weaponType": "Fist",
-    "subtype": "Claws",
-    "range": 1,
-    "power": 13,
-    "accuracy": 85,
-    "critical": 5,
-    "criticalDamage": 105,
-    "weight": 13,
+    "weight": 8,
     "damageType": "Slash",
     "scaling": [
       {
-        "type": "Spiritual",
+        "type": "Cunning",
         "str": 70,
-        "san": 40
+        "gui": 40
       }
     ],
     "specials": [
       {
-        "name": "Fear Damage",
+        "name": "Range Increase",
+        "type": "Passive",
+        "description": "Attack range increases by 1 for every 6 UL."
+      },
+      {
+        "name": "Bouncing Acid",
         "type": "OnHit",
-        "description": "Deals 1+UL unresistable Sound Damage if target is Feared."
+        "description": "Bounces to an enemy within 5 Range and deals UL Acid magic bonus damage to them that ignores armor, then repeats. (Enemies cannot be hit more than once per activation and the original target cannot be the initial bounce target.)"
       }
     ],
-    "description": "These thin, wired claws make a powerful screech when they hit an enemy just right. Not approved for scratching itches.",
+    "description": "This chakram vibrates within your hands and sounds strangely like the buzzing of insect wings...",
     "location": [
-      "Scarebears (Lv56+)"
+      "Vect Wasps (Lv56+)"
+    ]
+  },
+  {
+    "id": "weapon:fist:deadclaw",
+    "name": "Deadclaw",
+    "rarity": 10,
+    "weaponType": "Fist",
+    "range": 1,
+    "power": 13,
+    "accuracy": 85,
+    "critical": 10,
+    "criticalDamage": 105,
+    "weight": 6,
+    "damageType": "Blunt",
+    "scaling": [
+      {
+        "type": "Darkness",
+        "str": 70,
+        "res": 40
+      }
+    ],
+    "specials": [
+      {
+        "name": "Grounded Advantage",
+        "type": "Passive",
+        "description": "Scaled Weapon Attack and Critical Damage for this weapon are increased by UL/UL% respectively against enemies who are Knocked Down."
+      }
+    ],
+    "description": "The downward facing claws on this gauntlet are quite deadly to anyone who may have tripped and can't get away.",
+    "location": [
+      "Swarming Wretches (Lv56+)"
     ]
   },
   {
@@ -1081,71 +1135,66 @@
     ]
   },
   {
-    "id": "weapon:fist:deadclaw",
-    "name": "Deadclaw",
+    "id": "weapon:fist:mortissimo",
+    "name": "Mortissimo",
     "rarity": 10,
     "weaponType": "Fist",
+    "subtype": "Claws",
     "range": 1,
     "power": 13,
     "accuracy": 85,
-    "critical": 10,
+    "critical": 5,
     "criticalDamage": 105,
-    "weight": 6,
-    "damageType": "Blunt",
+    "weight": 13,
+    "damageType": "Slash",
     "scaling": [
       {
-        "type": "Darkness",
+        "type": "Spiritual",
         "str": 70,
-        "res": 40
+        "san": 40
       }
     ],
     "specials": [
       {
-        "name": "Grounded Advantage",
-        "type": "Passive",
-        "description": "Scaled Weapon Attack and Critical Damage for this weapon are increased by UL/UL% respectively against enemies who are Knocked Down."
+        "name": "Fear Damage",
+        "type": "OnHit",
+        "description": "Deals 1+UL unresistable Sound Damage if target is Feared."
       }
     ],
-    "description": "The downward facing claws on this gauntlet are quite deadly to anyone who may have tripped and can't get away.",
+    "description": "These thin, wired claws make a powerful screech when they hit an enemy just right. Not approved for scratching itches.",
     "location": [
-      "Swarming Wretches (Lv56+)"
+      "Scarebears (Lv56+)"
     ]
   },
   {
-    "id": "weapon:fist:buzzing-chakram",
-    "name": "Buzzing Chakram",
+    "id": "weapon:fist:pinchers",
+    "name": "Pinchers",
     "rarity": 10,
     "weaponType": "Fist",
-    "subtype": "Chakram",
     "range": 1,
     "power": 14,
     "accuracy": 85,
     "critical": 10,
     "criticalDamage": 105,
-    "weight": 8,
-    "damageType": "Slash",
+    "weight": 9,
+    "damageType": "Blunt",
     "scaling": [
       {
-        "type": "Cunning",
+        "type": "Aquatic",
         "str": 70,
-        "gui": 40
+        "vit": 40
       }
     ],
     "specials": [
       {
-        "name": "Range Increase",
-        "type": "Passive",
-        "description": "Attack range increases by 1 for every 6 UL."
-      },
-      {
-        "name": "Bouncing Acid",
+        "name": "Restrain",
         "type": "OnHit",
-        "description": "Bounces to an enemy within 5 Range and deals UL Acid magic bonus damage to them that ignores armor, then repeats. (Enemies cannot be hit more than once per activation and the original target cannot be the initial bounce target.)"
+        "description": "UL% chance of automatically applying Restrain to the target."
       }
     ],
-    "description": "This chakram vibrates within your hands and sounds strangely like the buzzing of insect wings...",
+    "description": "A set of natural claws that are made for giving your enemies the clamps. Just watch your fingers.",
     "location": [
-      "Vect Wasps (Lv56+)"
+      "Soldier Kraboids (Lv56+)"
     ]
   }
 ]

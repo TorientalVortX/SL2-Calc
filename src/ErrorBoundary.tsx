@@ -1,5 +1,6 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react';
 import { APP_VERSION, GAME_DATA_MANIFEST } from './domain/buildPersistence';
+import { Button } from './design';
 
 interface Props { children: ReactNode }
 interface State { error: Error | null; copied: boolean }
@@ -32,14 +33,14 @@ export default class ErrorBoundary extends Component<Props, State> {
   render() {
     if (!this.state.error) return this.props.children;
     return (
-      <main className="flex min-h-screen items-center justify-center bg-slate-950 p-6 text-slate-100">
-        <section className="w-full max-w-xl rounded-xl border border-red-500/50 bg-slate-900 p-6 shadow-2xl">
-          <div className="font-retro text-lg text-red-300">Calculator fault detected</div>
-          <p className="mt-3 text-sm text-slate-300">Your browser-local saves were not deleted. Reload the page, or copy a diagnostic report when filing an issue.</p>
-          <pre className="mt-4 max-h-40 overflow-auto rounded bg-black/40 p-3 text-xs text-red-200">{this.state.error.message}</pre>
+      <main className="flex min-h-screen items-center justify-center bg-surface-sunken p-6 text-content-bright">
+        <section className="w-full max-w-xl rounded-xl border border-negative-ring/50 bg-surface-base p-6 shadow-2xl">
+          <div className="text-15 font-bold text-negative-soft">Calculator fault detected</div>
+          <p className="mt-3 text-sm text-content-secondary">Your browser-local saves were not deleted. Reload the page, or copy a diagnostic report when filing an issue.</p>
+          <pre className="mt-4 max-h-40 overflow-auto rounded bg-black/40 p-3 text-xs text-negative-strong">{this.state.error.message}</pre>
           <div className="mt-4 flex flex-wrap gap-2">
-            <button className="rounded bg-cyan-700 px-4 py-2" onClick={this.copyDiagnostics}>{this.state.copied ? 'Diagnostic Copied' : 'Copy Diagnostic'}</button>
-            <button className="rounded border border-slate-600 px-4 py-2" onClick={() => window.location.reload()}>Reload</button>
+            <Button variant="solid" tone="highlight" onClick={this.copyDiagnostics}>{this.state.copied ? 'Diagnostic Copied' : 'Copy Diagnostic'}</Button>
+            <Button className="border border-edge bg-transparent hover:bg-transparent" onClick={() => window.location.reload()}>Reload</Button>
           </div>
         </section>
       </main>

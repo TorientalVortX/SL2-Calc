@@ -26,3 +26,40 @@ describe('derived character calculations', () => {
     expect(calculateElementalResistance({ element: 'Fire', san: 12, manualAdjustment: 1, raceAdjustment: -5, armorAdjustment: 4 })).toBe(2);
   });
 });
+
+describe('vitals cannot go negative', () => {
+  /*
+   * Reachable through a large enough debuff or manual override: a post-softcap
+   * VIT buff of -400 drove Max HP to about -3900, and every readout downstream
+   * (current HP included) then reported a nonsense quantity rather than a very
+   * fragile character.
+   */
+  const health = {
+    vit: -400, san: 0, strengthHpBase: 0, pointsSpent: 0, homunculi: false, giantGene: false,
+    fortitude: false, painToleranceRank: 0, warwalk: false, endurance: false,
+    customHP: 0, equipmentHP: 0, normalcyHP: 0, lich: false,
+  };
+
+  it('floors Max HP at zero', () => {
+    expect(calculateMaxHealth(health)).toBe(0);
+  });
+
+  it('floors Max HP against a negative manual override too', () => {
+    expect(calculateMaxHealth({ ...health, vit: 10, customHP: -9999 })).toBe(0);
+  });
+
+  it('still reports a real figure for an ordinary build', () => {
+    expect(calculateMaxHealth({ ...health, vit: 40 })).toBeGreaterThan(0);
+  });
+
+  it('floors Max FP at zero', () => {
+    expect(calculateMaxFocus({
+      wil: -400, san: 0, fai: 0, homunculi: false, warwalk: false,
+      customFP: 0, equipmentFP: 0, lich: false,
+    })).toBe(0);
+  });
+
+  it('leaves current HP at zero when Max HP is', () => {
+    expect(calculateCurrentHealth(calculateMaxHealth(health), 100)).toBe(0);
+  });
+});

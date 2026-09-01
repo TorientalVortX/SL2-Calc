@@ -1,0 +1,1644 @@
+{
+  "materials": {
+    "Breezecloth": {
+      "appliesTo": [
+        "armor",
+        "other"
+      ],
+      "evade": 5,
+      "weight": -2,
+      "resistances": {
+        "Wind": 5
+      },
+      "other": {
+        "resistances": {
+          "Wind": 5
+        }
+      }
+    },
+    "Canvas Square": {
+      "appliesTo": [
+        "armor",
+        "other"
+      ],
+      "armor": 1,
+      "resistances": {
+        "Pierce": 5
+      },
+      "other": {
+        "resistances": {
+          "Pierce": 5
+        }
+      }
+    },
+    "Chainmail Section": {
+      "appliesTo": [
+        "armor",
+        "other"
+      ],
+      "armor": 1,
+      "resistances": {
+        "Slash": 5
+      },
+      "other": {
+        "resistances": {
+          "Slash": 5
+        }
+      }
+    },
+    "Demonsilk": {
+      "appliesTo": [
+        "armor",
+        "other"
+      ],
+      "armor": 1,
+      "resistances": {
+        "Dark": 5
+      },
+      "other": {
+        "resistances": {
+          "Dark": 5
+        }
+      }
+    },
+    "Furcloth": {
+      "appliesTo": [
+        "armor",
+        "other"
+      ],
+      "armor": 1,
+      "magicArmor": 1,
+      "evade": 3,
+      "weight": 5,
+      "resistances": {
+        "Ice": 5
+      },
+      "other": {
+        "resistances": {
+          "Ice": 5
+        }
+      }
+    },
+    "Leather Square": {
+      "appliesTo": [
+        "armor",
+        "other"
+      ],
+      "armor": 1,
+      "resistances": {
+        "Blunt": 5
+      },
+      "other": {
+        "resistances": {
+          "Blunt": 5
+        }
+      }
+    },
+    "Orichalcloth": {
+      "appliesTo": [
+        "armor",
+        "other"
+      ],
+      "armor": -1,
+      "weight": 2,
+      "resistances": {
+        "Light": 5
+      },
+      "other": {
+        "resistances": {
+          "Light": 5
+        }
+      }
+    },
+    "Pureprint": {
+      "appliesTo": [
+        "armor",
+        "other"
+      ],
+      "magicArmor": 1,
+      "resistances": {
+        "Light": 5
+      },
+      "other": {
+        "resistances": {
+          "Light": 5
+        }
+      }
+    },
+    "Rainbowthread": {
+      "appliesTo": [
+        "armor",
+        "other"
+      ],
+      "evade": 6,
+      "criticalEvade": -3
+    },
+    "Redthread": {
+      "appliesTo": [
+        "armor",
+        "other"
+      ],
+      "armor": 3,
+      "weight": 3,
+      "other": {
+        "fp": 5
+      }
+    },
+    "Rubber": {
+      "appliesTo": [
+        "armor",
+        "other"
+      ],
+      "evade": 2,
+      "resistances": {
+        "Lightning": 5
+      },
+      "other": {
+        "resistances": {
+          "Lightning": 5
+        }
+      }
+    },
+    "Sandcloth": {
+      "appliesTo": [
+        "armor",
+        "other"
+      ],
+      "armor": 1,
+      "evade": 3,
+      "weight": 1,
+      "resistances": {
+        "Earth": 5
+      },
+      "other": {
+        "resistances": {
+          "Earth": 5
+        }
+      }
+    },
+    "Shiverthread": {
+      "appliesTo": [
+        "armor",
+        "other"
+      ],
+      "magicArmor": 1,
+      "weight": 3,
+      "fp": 10,
+      "resistances": {
+        "Ice": 5
+      },
+      "other": {
+        "resistances": {
+          "Ice": 5
+        }
+      }
+    },
+    "Silk": {
+      "appliesTo": [
+        "armor"
+      ],
+      "armor": -3,
+      "magicArmor": -3,
+      "weight": 6
+    },
+    "Singethread": {
+      "appliesTo": [
+        "armor",
+        "other"
+      ],
+      "armor": 1,
+      "weight": 3,
+      "hp": 10,
+      "resistances": {
+        "Fire": 5
+      },
+      "other": {
+        "resistances": {
+          "Fire": 5
+        }
+      }
+    },
+    "Snakescale": {
+      "appliesTo": [
+        "armor",
+        "other"
+      ],
+      "hp": 3,
+      "other": {
+        "hp": 3
+      }
+    },
+    "Spidersilk": {
+      "appliesTo": [
+        "armor",
+        "other"
+      ],
+      "magicArmor": 3,
+      "evade": 3,
+      "weight": 3,
+      "resistances": {
+        "Acid": 5
+      },
+      "other": {
+        "resistances": {
+          "Acid": 5
+        }
+      }
+    },
+    "Sunderthread": {
+      "appliesTo": [
+        "armor",
+        "other"
+      ],
+      "hp": 5,
+      "fp": 5,
+      "resistances": {
+        "Lightning": 5
+      },
+      "elementalAttack": {
+        "Lightning": 3
+      },
+      "other": {
+        "resistances": {
+          "Lightning": 5
+        }
+      }
+    },
+    "Swiftthread": {
+      "appliesTo": [
+        "armor",
+        "other"
+      ],
+      "evade": 3,
+      "weight": 3,
+      "hp": 5,
+      "fp": 5,
+      "resistances": {
+        "Wind": 5
+      },
+      "other": {
+        "resistances": {
+          "Wind": 5
+        }
+      }
+    },
+    "Thick Padding": {
+      "appliesTo": [
+        "armor"
+      ],
+      "armor": 8,
+      "evade": -5,
+      "weight": 3,
+      "resistances": {
+        "Sound": 5
+      }
+    },
+    "Toadscloth": {
+      "appliesTo": [
+        "armor",
+        "other"
+      ],
+      "magicArmor": 1,
+      "evade": 3,
+      "weight": 1,
+      "resistances": {
+        "Water": 5
+      },
+      "other": {
+        "resistances": {
+          "Water": 5
+        }
+      }
+    },
+    "Webbing": {
+      "appliesTo": [
+        "armor"
+      ],
+      "evade": 5,
+      "weight": -2,
+      "elementalAttack": {
+        "Acid": 3
+      }
+    },
+    "Accursed Remains": {
+      "appliesTo": [
+        "weapon",
+        "armor"
+      ],
+      "armor": 2,
+      "magicArmor": 1,
+      "evade": 6,
+      "weight": 8
+    },
+    "Arctic Gold": {
+      "appliesTo": [
+        "weapon",
+        "armor",
+        "other"
+      ],
+      "armor": 1,
+      "weight": 1,
+      "resistances": {
+        "Ice": 5
+      },
+      "other": {
+        "resistances": {
+          "Ice": 5
+        }
+      }
+    },
+    "Aureate": {
+      "appliesTo": [
+        "weapon",
+        "armor"
+      ],
+      "armor": -3,
+      "magicArmor": -3,
+      "weight": 6
+    },
+    "Boulder": {
+      "appliesTo": [
+        "weapon",
+        "armor"
+      ],
+      "armor": 7,
+      "magicArmor": 7,
+      "evade": -10,
+      "weight": 25
+    },
+    "Carapace": {
+      "appliesTo": [
+        "weapon",
+        "armor",
+        "other"
+      ],
+      "armor": 4,
+      "weight": 8,
+      "resistances": {
+        "Dark": 5
+      },
+      "other": {
+        "resistances": {
+          "Dark": 5
+        }
+      }
+    },
+    "Clawice": {
+      "appliesTo": [
+        "weapon",
+        "armor",
+        "other"
+      ],
+      "armor": 1,
+      "magicArmor": 1,
+      "evade": 3,
+      "weight": 5,
+      "resistances": {
+        "Ice": 5
+      },
+      "other": {
+        "resistances": {
+          "Ice": 5
+        }
+      }
+    },
+    "Conduiz": {
+      "appliesTo": [
+        "weapon",
+        "armor",
+        "other"
+      ],
+      "armor": 1,
+      "magicArmor": 1,
+      "resistances": {
+        "Lightning": 5
+      },
+      "other": {
+        "resistances": {
+          "Lightning": 5
+        }
+      }
+    },
+    "Coral": {
+      "appliesTo": [
+        "weapon",
+        "armor",
+        "other"
+      ],
+      "magicArmor": 2,
+      "weight": 3,
+      "resistances": {
+        "Water": 5
+      },
+      "other": {
+        "resistances": {
+          "Water": 5
+        }
+      }
+    },
+    "Dragon Remains": {
+      "appliesTo": [
+        "weapon",
+        "armor"
+      ],
+      "armor": 2,
+      "magicArmor": 2,
+      "weight": 8
+    },
+    "Etherium": {
+      "appliesTo": [
+        "weapon",
+        "armor",
+        "other"
+      ],
+      "weight": -4,
+      "fp": 3,
+      "other": {
+        "fp": 3
+      }
+    },
+    "Fireblood Remains": {
+      "appliesTo": [
+        "weapon",
+        "armor"
+      ],
+      "armor": 4,
+      "weight": 8
+    },
+    "Fish Remains": {
+      "appliesTo": [
+        "weapon",
+        "armor"
+      ],
+      "magicArmor": 2,
+      "evade": 4,
+      "weight": 8
+    },
+    "Folded Steel": {
+      "appliesTo": [
+        "weapon",
+        "armor"
+      ],
+      "armor": 2,
+      "magicArmor": 2
+    },
+    "Fossil": {
+      "appliesTo": [
+        "weapon",
+        "armor",
+        "other"
+      ],
+      "armor": 3,
+      "magicArmor": 2,
+      "weight": 6,
+      "other": {
+        "resistances": {
+          "Fire": 5
+        }
+      }
+    },
+    "Gasprock": {
+      "appliesTo": [
+        "weapon",
+        "armor",
+        "other"
+      ],
+      "armor": -3,
+      "magicArmor": 3,
+      "evade": 5,
+      "weight": 5,
+      "resistances": {
+        "Wind": 5
+      },
+      "other": {
+        "resistances": {
+          "Wind": 5
+        }
+      }
+    },
+    "Gorgon Remains": {
+      "appliesTo": [
+        "weapon",
+        "armor"
+      ],
+      "magicArmor": 4,
+      "weight": 8
+    },
+    "Gravestone": {
+      "appliesTo": [
+        "weapon",
+        "armor",
+        "other"
+      ],
+      "magicArmor": 5,
+      "evade": -5,
+      "weight": 3,
+      "resistances": {
+        "Dark": 5
+      },
+      "other": {
+        "resistances": {
+          "Dark": 5
+        }
+      }
+    },
+    "Iceblood Remains": {
+      "appliesTo": [
+        "weapon",
+        "armor"
+      ],
+      "magicArmor": 4,
+      "weight": 8
+    },
+    "Insect Remains": {
+      "appliesTo": [
+        "weapon",
+        "armor"
+      ],
+      "evade": 8,
+      "weight": 8
+    },
+    "Kraboid Remains": {
+      "appliesTo": [
+        "weapon",
+        "armor"
+      ],
+      "armor": 1,
+      "magicArmor": 1,
+      "evade": 6,
+      "weight": 8
+    },
+    "Meteorite": {
+      "appliesTo": [
+        "weapon",
+        "armor",
+        "other"
+      ],
+      "armor": 3,
+      "evade": 5,
+      "weight": 8,
+      "resistances": {
+        "Sound": 5
+      },
+      "other": {
+        "resistances": {
+          "Sound": 5
+        }
+      }
+    },
+    "Nerif's Blood": {
+      "appliesTo": [
+        "weapon",
+        "armor",
+        "other"
+      ],
+      "armor": 1,
+      "weight": 1,
+      "resistances": {
+        "Fire": 5
+      },
+      "other": {
+        "resistances": {
+          "Fire": 5
+        }
+      }
+    },
+    "Orichalum": {
+      "appliesTo": [
+        "weapon",
+        "armor",
+        "other"
+      ],
+      "armor": -1,
+      "weight": 2,
+      "resistances": {
+        "Light": 5
+      },
+      "other": {
+        "resistances": {
+          "Light": 5
+        }
+      }
+    },
+    "Planetarium": {
+      "appliesTo": [
+        "weapon",
+        "armor",
+        "other"
+      ],
+      "weight": -2,
+      "resistances": {
+        "Sound": 5
+      },
+      "other": {
+        "resistances": {
+          "Sound": 5
+        }
+      }
+    },
+    "Rockdirt": {
+      "appliesTo": [
+        "weapon",
+        "armor",
+        "other"
+      ],
+      "armor": 2,
+      "weight": 2,
+      "resistances": {
+        "Earth": 5
+      },
+      "other": {
+        "resistances": {
+          "Earth": 5
+        }
+      }
+    },
+    "Sandstone": {
+      "appliesTo": [
+        "weapon",
+        "armor",
+        "other"
+      ],
+      "armor": 1,
+      "magicArmor": 1,
+      "evade": 4,
+      "weight": 3,
+      "resistances": {
+        "Light": 5
+      }
+    },
+    "Shark Remains": {
+      "appliesTo": [
+        "weapon",
+        "armor"
+      ],
+      "armor": 1,
+      "magicArmor": 3,
+      "evade": 3,
+      "weight": 8
+    },
+    "Slipheed's Curse": {
+      "appliesTo": [
+        "weapon",
+        "armor",
+        "other"
+      ],
+      "armor": -2,
+      "weight": -2,
+      "resistances": {
+        "Wind": 5
+      },
+      "other": {
+        "resistances": {
+          "Wind": 5
+        }
+      }
+    },
+    "Snakeman Remains": {
+      "appliesTo": [
+        "weapon",
+        "armor"
+      ],
+      "armor": 3,
+      "magicArmor": 1,
+      "weight": 8
+    },
+    "Spatial Remains": {
+      "appliesTo": [
+        "weapon",
+        "armor"
+      ],
+      "armor": 2,
+      "magicArmor": 2,
+      "weight": 8
+    },
+    "Thinsteel": {
+      "appliesTo": [
+        "weapon",
+        "armor"
+      ],
+      "armor": -3,
+      "magicArmor": 1,
+      "evade": 5,
+      "weight": -2
+    },
+    "Aquarian Page": {
+      "appliesTo": [
+        "weapon"
+      ]
+    },
+    "Ashen Page": {
+      "appliesTo": [
+        "weapon"
+      ]
+    },
+    "Beast Page": {
+      "appliesTo": [
+        "weapon"
+      ]
+    },
+    "Fine Art": {
+      "appliesTo": [
+        "weapon"
+      ]
+    },
+    "Foamy Page": {
+      "appliesTo": [
+        "weapon"
+      ]
+    },
+    "Heretic Page": {
+      "appliesTo": [
+        "weapon"
+      ]
+    },
+    "Isesip Page": {
+      "appliesTo": [
+        "weapon"
+      ]
+    },
+    "Mercalan Page": {
+      "appliesTo": [
+        "weapon"
+      ]
+    },
+    "Moldy Page": {
+      "appliesTo": [
+        "weapon",
+        "other"
+      ]
+    },
+    "Nerifian Page": {
+      "appliesTo": [
+        "weapon"
+      ]
+    },
+    "Orichal Page": {
+      "appliesTo": [
+        "weapon"
+      ]
+    },
+    "Sandy Page": {
+      "appliesTo": [
+        "weapon"
+      ]
+    },
+    "Sheet Music": {
+      "appliesTo": [
+        "weapon"
+      ]
+    },
+    "Star Page": {
+      "appliesTo": [
+        "weapon"
+      ]
+    },
+    "Storm Page": {
+      "appliesTo": [
+        "weapon"
+      ]
+    },
+    "Sylphid Page": {
+      "appliesTo": [
+        "weapon"
+      ]
+    },
+    "Thin Page": {
+      "appliesTo": [
+        "weapon"
+      ]
+    },
+    "Coldbark": {
+      "appliesTo": [
+        "weapon",
+        "armor",
+        "other"
+      ],
+      "armor": 1,
+      "weight": 1,
+      "resistances": {
+        "Ice": 5
+      },
+      "other": {
+        "resistances": {
+          "Ice": 5
+        }
+      }
+    },
+    "Devilbark": {
+      "appliesTo": [
+        "weapon",
+        "armor",
+        "other"
+      ],
+      "armor": 4,
+      "weight": 8,
+      "resistances": {
+        "Dark": 5
+      },
+      "other": {
+        "resistances": {
+          "Dark": 5
+        }
+      }
+    },
+    "Etherbark": {
+      "appliesTo": [
+        "weapon",
+        "armor",
+        "other"
+      ],
+      "weight": -4,
+      "fp": 3,
+      "other": {
+        "fp": 3
+      }
+    },
+    "Firebark": {
+      "appliesTo": [
+        "weapon",
+        "armor",
+        "other"
+      ],
+      "armor": 1,
+      "weight": 1,
+      "resistances": {
+        "Fire": 5
+      },
+      "other": {
+        "resistances": {
+          "Fire": 5
+        }
+      }
+    },
+    "Fungusbark": {
+      "appliesTo": [
+        "weapon",
+        "armor",
+        "other"
+      ],
+      "armor": -1,
+      "magicArmor": -1,
+      "evade": 5,
+      "weight": 2,
+      "resistances": {
+        "Acid": 5
+      },
+      "other": {
+        "resistances": {
+          "Acid": 5
+        }
+      }
+    },
+    "Hollow Log": {
+      "appliesTo": [
+        "weapon",
+        "armor"
+      ],
+      "armor": 7,
+      "magicArmor": 7,
+      "evade": -10,
+      "weight": 25
+    },
+    "Ivorybark": {
+      "appliesTo": [
+        "weapon",
+        "armor"
+      ],
+      "armor": -3,
+      "magicArmor": -3,
+      "weight": 6
+    },
+    "Loyrwell Rotwood": {
+      "appliesTo": [
+        "weapon",
+        "armor",
+        "other"
+      ],
+      "magicArmor": 1,
+      "evade": 3,
+      "resistances": {
+        "Dark": 5
+      },
+      "other": {
+        "resistances": {
+          "Dark": 5
+        }
+      }
+    },
+    "Markedbark": {
+      "appliesTo": [
+        "weapon",
+        "armor",
+        "other"
+      ],
+      "armor": -2,
+      "magicArmor": 3,
+      "evade": 4,
+      "weight": 4,
+      "resistances": {
+        "Lightning": 5
+      },
+      "other": {
+        "resistances": {
+          "Lightning": 5
+        }
+      }
+    },
+    "Mossybark": {
+      "appliesTo": [
+        "weapon",
+        "armor",
+        "other"
+      ],
+      "armor": -2,
+      "magicArmor": 5,
+      "weight": 3,
+      "resistances": {
+        "Water": 5
+      },
+      "other": {
+        "resistances": {
+          "Water": 5
+        }
+      }
+    },
+    "Nightflower": {
+      "appliesTo": [
+        "weapon"
+      ]
+    },
+    "Oribark": {
+      "appliesTo": [
+        "weapon",
+        "armor",
+        "other"
+      ],
+      "armor": -1,
+      "weight": 2,
+      "resistances": {
+        "Light": 5
+      },
+      "other": {
+        "resistances": {
+          "Light": 5
+        }
+      }
+    },
+    "Petrified Wood": {
+      "appliesTo": [
+        "weapon",
+        "armor",
+        "other"
+      ],
+      "armor": 4,
+      "weight": 6,
+      "resistances": {
+        "Earth": 5
+      },
+      "other": {
+        "resistances": {
+          "Earth": 5
+        }
+      }
+    },
+    "Rainbowbark": {
+      "appliesTo": [
+        "weapon",
+        "armor"
+      ],
+      "evade": 5,
+      "hp": 15,
+      "fp": 15
+    },
+    "Scorched Wood": {
+      "appliesTo": [
+        "weapon",
+        "armor",
+        "other"
+      ],
+      "armor": 2,
+      "magicArmor": 2,
+      "evade": 3,
+      "weight": 6,
+      "resistances": {
+        "Fire": 5
+      },
+      "other": {
+        "resistances": {
+          "Fire": 5
+        }
+      }
+    },
+    "Seedbark": {
+      "appliesTo": [
+        "weapon",
+        "armor",
+        "other"
+      ],
+      "armor": -1,
+      "magicArmor": 4,
+      "evade": 3,
+      "weight": 4
+    },
+    "Smoothbark": {
+      "appliesTo": [
+        "weapon",
+        "armor",
+        "other"
+      ],
+      "evade": 5,
+      "weight": 2,
+      "resistances": {
+        "Wind": 5
+      },
+      "other": {
+        "resistances": {
+          "Wind": 5
+        }
+      }
+    },
+    "Windbark": {
+      "appliesTo": [
+        "weapon",
+        "armor",
+        "other"
+      ],
+      "armor": -2,
+      "weight": -2,
+      "resistances": {
+        "Wind": 5
+      },
+      "other": {
+        "resistances": {
+          "Wind": 5
+        }
+      }
+    }
+  },
+  "categories": {
+    "Cloth": [
+      "Breezecloth",
+      "Canvas Square",
+      "Chainmail Section",
+      "Demonsilk",
+      "Furcloth",
+      "Leather Square",
+      "Orichalcloth",
+      "Pureprint",
+      "Rainbowthread",
+      "Redthread",
+      "Rubber",
+      "Sandcloth",
+      "Shiverthread",
+      "Silk",
+      "Singethread",
+      "Snakescale",
+      "Spidersilk",
+      "Sunderthread",
+      "Swiftthread",
+      "Thick Padding",
+      "Toadscloth",
+      "Webbing"
+    ],
+    "Hard": [
+      "Accursed Remains",
+      "Arctic Gold",
+      "Aureate",
+      "Boulder",
+      "Carapace",
+      "Clawice",
+      "Conduiz",
+      "Coral",
+      "Dragon Remains",
+      "Etherium",
+      "Fireblood Remains",
+      "Fish Remains",
+      "Folded Steel",
+      "Fossil",
+      "Gasprock",
+      "Gorgon Remains",
+      "Gravestone",
+      "Iceblood Remains",
+      "Insect Remains",
+      "Kraboid Remains",
+      "Meteorite",
+      "Nerif's Blood",
+      "Orichalum",
+      "Planetarium",
+      "Rockdirt",
+      "Sandstone",
+      "Shark Remains",
+      "Slipheed's Curse",
+      "Snakeman Remains",
+      "Spatial Remains",
+      "Thinsteel"
+    ],
+    "Chapters": [
+      "Aquarian Page",
+      "Ashen Page",
+      "Beast Page",
+      "Fine Art",
+      "Foamy Page",
+      "Heretic Page",
+      "Isesip Page",
+      "Mercalan Page",
+      "Moldy Page",
+      "Nerifian Page",
+      "Orichal Page",
+      "Sandy Page",
+      "Sheet Music",
+      "Star Page",
+      "Storm Page",
+      "Sylphid Page",
+      "Thin Page"
+    ],
+    "Woods": [
+      "Coldbark",
+      "Devilbark",
+      "Etherbark",
+      "Firebark",
+      "Fungusbark",
+      "Hollow Log",
+      "Ivorybark",
+      "Loyrwell Rotwood",
+      "Markedbark",
+      "Mossybark",
+      "Nightflower",
+      "Oribark",
+      "Petrified Wood",
+      "Rainbowbark",
+      "Scorched Wood",
+      "Seedbark",
+      "Smoothbark",
+      "Windbark"
+    ]
+  },
+  "enchantments": {
+    "Tannin": {
+      "slots": [
+        "Torso"
+      ],
+      "description": "Increases maximum FP by 60.",
+      "fp": 60
+    },
+    "Leviathan": {
+      "slots": [
+        "Torso"
+      ],
+      "description": "Increases maximum HP by 60.",
+      "hp": 60
+    },
+    "Fireheart": {
+      "slots": [
+        "Torso",
+        "Hands"
+      ],
+      "description": "Increases STR by 2 and Fire ATK by 3.",
+      "stats": {
+        "str": 2
+      },
+      "elementalAttack": {
+        "Fire": 3
+      },
+      "bySlot": {
+        "Hands": {
+          "stats": {
+            "str": 2
+          },
+          "elementalAttack": {
+            "Fire": 3
+          }
+        }
+      }
+    },
+    "Iceheart": {
+      "slots": [
+        "Torso",
+        "Hands"
+      ],
+      "description": "Increases SKI by 2 and Ice ATK by 3.",
+      "stats": {
+        "ski": 2
+      },
+      "elementalAttack": {
+        "Ice": 3
+      },
+      "bySlot": {
+        "Hands": {
+          "stats": {
+            "ski": 2
+          },
+          "elementalAttack": {
+            "Ice": 3
+          }
+        }
+      }
+    },
+    "Geoheart": {
+      "slots": [
+        "Torso",
+        "Hands"
+      ],
+      "description": "Increases DEF by 2 and Earth ATK by 3.",
+      "stats": {
+        "def": 2
+      },
+      "elementalAttack": {
+        "Earth": 3
+      },
+      "bySlot": {
+        "Hands": {
+          "stats": {
+            "def": 2
+          },
+          "elementalAttack": {
+            "Earth": 3
+          }
+        }
+      }
+    },
+    "Windheart": {
+      "slots": [
+        "Torso",
+        "Hands"
+      ],
+      "description": "Increases CEL by 2 and Wind ATK by 3.",
+      "stats": {
+        "cel": 2
+      },
+      "elementalAttack": {
+        "Wind": 3
+      },
+      "bySlot": {
+        "Hands": {
+          "stats": {
+            "cel": 2
+          },
+          "elementalAttack": {
+            "Wind": 3
+          }
+        }
+      }
+    },
+    "Aquaheart": {
+      "slots": [
+        "Torso",
+        "Hands"
+      ],
+      "description": "Increases VIT by 2 and Water ATK by 3.",
+      "stats": {
+        "vit": 2
+      },
+      "elementalAttack": {
+        "Water": 3
+      },
+      "bySlot": {
+        "Hands": {
+          "stats": {
+            "vit": 2
+          },
+          "elementalAttack": {
+            "Water": 3
+          }
+        }
+      }
+    },
+    "Thunderheart": {
+      "slots": [
+        "Torso",
+        "Hands"
+      ],
+      "description": "Increases LUC by 2 and Lightning ATK by 3.",
+      "stats": {
+        "luc": 2
+      },
+      "elementalAttack": {
+        "Lightning": 3
+      },
+      "bySlot": {
+        "Hands": {
+          "stats": {
+            "luc": 2
+          },
+          "elementalAttack": {
+            "Lightning": 3
+          }
+        }
+      }
+    },
+    "Darkheart": {
+      "slots": [
+        "Torso",
+        "Hands"
+      ],
+      "description": "Increases RES by 2 and Dark ATK by 3.",
+      "stats": {
+        "res": 2
+      },
+      "elementalAttack": {
+        "Dark": 3
+      },
+      "bySlot": {
+        "Hands": {
+          "stats": {
+            "res": 2
+          },
+          "elementalAttack": {
+            "Dark": 3
+          }
+        }
+      }
+    },
+    "Acidheart": {
+      "slots": [
+        "Torso",
+        "Hands"
+      ],
+      "description": "Increases GUI by 2 and Acid ATK by 3.",
+      "stats": {
+        "gui": 2
+      },
+      "elementalAttack": {
+        "Acid": 3
+      },
+      "bySlot": {
+        "Hands": {
+          "stats": {
+            "gui": 2
+          },
+          "elementalAttack": {
+            "Acid": 3
+          }
+        }
+      }
+    },
+    "Magic Pocket": {
+      "slots": [
+        "Torso",
+        "Legs"
+      ],
+      "description": "Increases item carrying maximum by 10. +1 Item Belt Slot."
+    },
+    "Warding": {
+      "slots": [
+        "Torso",
+        "Legs"
+      ],
+      "description": "Armor: +5 Resistance. Legs: +3 Resistance. Both: +10% Status Effect Resistance.",
+      "statusResistance": 10,
+      "stats": {
+        "res": 5
+      },
+      "bySlot": {
+        "Legs": {
+          "statusResistance": 10,
+          "stats": {
+            "res": 3
+          }
+        }
+      }
+    },
+    "Thieving": {
+      "slots": [
+        "Hands"
+      ],
+      "description": "+5 Guile. Increases Steal's success rate by 15%.",
+      "bySlot": {
+        "Hands": {
+          "stats": {
+            "gui": 5
+          }
+        }
+      }
+    },
+    "Warwalk": {
+      "slots": [
+        "Legs"
+      ],
+      "description": "+20 HP, +20 FP.",
+      "bySlot": {
+        "Legs": {
+          "hp": 20,
+          "fp": 20
+        }
+      }
+    },
+    "Lucky": {
+      "slots": [
+        "Accessory"
+      ],
+      "description": "+3% Item Drop Rate (Enemies Only; Stacks)"
+    },
+    "Renewal": {
+      "slots": [
+        "Accessory"
+      ],
+      "description": "+1 FP Regeneration.",
+      "bySlot": {
+        "Accessory": {
+          "fp": 1
+        }
+      }
+    },
+    "Refresh": {
+      "slots": [
+        "Accessory"
+      ],
+      "description": "+1 HP Regeneration.",
+      "bySlot": {
+        "Accessory": {
+          "hp": 1
+        }
+      }
+    },
+    "Winged": {
+      "slots": [
+        "Torso",
+        "Legs"
+      ],
+      "description": "+2 SAN, +2 CEL. Allows you to use Flight movement while Airborne.",
+      "stats": {
+        "san": 2,
+        "cel": 2
+      },
+      "bySlot": {
+        "Legs": {
+          "stats": {
+            "san": 2,
+            "cel": 2
+          }
+        }
+      }
+    },
+    "Flamewalk": {
+      "slots": [
+        "Legs"
+      ],
+      "description": "Halves damage taken from Cinders."
+    },
+    "Boneheart": {
+      "slots": [
+        "Torso"
+      ],
+      "description": "+25 Critical Evade.",
+      "criticalEvade": 25
+    },
+    "Sweet-Smelling": {
+      "slots": [
+        "Torso"
+      ],
+      "description": "Damage you deal with Whip weapons does not reduce the duration of your Charm effects. On New Round: 30% Chance to inflict Charm LV10 for 3 rounds on all enemies within 3 Range."
+    },
+    "Gravedigger": {
+      "slots": [
+        "Hands"
+      ],
+      "description": "On New Round: If you are Feared (and not incapacitated), allies within 3 Range who are incapacitated are revived with 35 HP."
+    },
+    "Gigantic": {
+      "slots": [
+        "Torso"
+      ],
+      "description": "Weapon: +1 Attack Range.Armor: +10% Maximum HP.Both: -10 Evade, +50% Weight (min. 2)",
+      "evade": -10,
+      "weightMod": 1.5,
+      "hpPercent": 10
+    },
+    "Bloodhunt": {
+      "slots": [
+        "Legs"
+      ],
+      "description": "Weapon: Gains 1 bonus Hit per 4% of missing HP of the attack target.Legs: After moving, if you are within 1 Range of an enemy, gain 1 Move per 10% HP they are missing for 2 rounds."
+    },
+    "Mutation": {
+      "slots": [
+        "Torso"
+      ],
+      "description": "Weapon: -5 Hit. Weapon type may change based on rarity, but functions the same as normal. (9*+ weapons not affected). Armor: Armor type changes based on rarity. (10*+ items not affected). Both: +25% Weight Increase.(See: Mutation)",
+      "weightMod": 1.25
+    },
+    "Flock": {
+      "slots": [
+        "Torso"
+      ],
+      "description": "Increases this item's Armor/Magic Armor by 1 and Evade by 5 for each summoned or deployed NPC ally within 3 Range."
+    },
+    "Volcanic": {
+      "slots": [
+        "Torso"
+      ],
+      "description": "Weapon: When you land a critical hit with a Volcanic enchanted weapon for the first time in a round, deals Fire magic bonus damage to all other enemies within 5 Range of the target, equal to this weapon's Power + your Fire ATK. (Ignores damage immunity and absorb of non-Boss enemies.)Armor: +25 HP. Being hit by an attack creates Cinders at all tiles within 2 Range of you (LV 15, 2 rounds, once per round).",
+      "hp": 25
+    },
+    "Miragewalk": {
+      "slots": [
+        "Legs"
+      ],
+      "description": "After using a movement skill that costs at least 3M, gain +15 Evade for 1 attack (lasts for 3 rounds). If you already have Miragewalk active, instead the number of attacks the buff lasts for increases by 1 (to a max of 3)."
+    },
+    "Mirrored": {
+      "slots": [
+        "Hands"
+      ],
+      "description": "Reflected damage you take is reduced by 75% (note: Retaliation damage is not Reflected damage). If you have a shield equipped, while you use Guard with 3 Momentum or more: gain Damage Retaliation (All) (LV 50, 1 round, 1 hit, max 50 damage)."
+    },
+    "Windstream": {
+      "slots": [
+        "Legs"
+      ],
+      "description": "Your Airborne effects do not end when turns change. While Airborne under your own power, you gain +15 Evade."
+    },
+    "Feasting": {
+      "slots": [
+        "Hands"
+      ],
+      "description": "+10 HP, +2 CEL. On Defeat Enemy: Recover 20 HP and 20 FP.",
+      "bySlot": {
+        "Hands": {
+          "hp": 10,
+          "stats": {
+            "cel": 2
+          }
+        }
+      }
+    },
+    "Solid": {
+      "slots": [
+        "Torso"
+      ],
+      "description": "+20 HP, +4 Armor, +5 Weight. Rampage, Wear Down, and Acidity have their LVs capped at 10 versus you.",
+      "armor": 4,
+      "weight": 5,
+      "hp": 20
+    },
+    "Flashrun": {
+      "slots": [
+        "Legs"
+      ],
+      "description": "+3 CEL. When using Move, every step, field objects you pass over or within 1 Range of apply Aero Shift (1) (once per object, per use).",
+      "bySlot": {
+        "Legs": {
+          "stats": {
+            "cel": 3
+          }
+        }
+      }
+    },
+    "Camouflage": {
+      "slots": [
+        "Torso"
+      ],
+      "description": "+3 CEL. Sneak grants -10% Damage Taken and +25 Evade. Stepping on a Nest grants Sneak (until your next turn, 1 round CD).",
+      "stats": {
+        "cel": 3
+      }
+    },
+    "Envenomed": {
+      "slots": [
+        "Hands"
+      ],
+      "description": "Weapon: Weapon gains the Alterated tag (-10% main stat scaling), but On Hit: Inflicts or powers up Lingering Damage (Poison) (LV 2, 2 rounds, max LV 100, +2 LV if weapon is made of an Acid material).Hands: When you use Grapple on an enemy, you attempt to inflict them with Poison (LV 5, 2 rounds).Both: +2 Acid ATK.",
+      "bySlot": {
+        "Hands": {
+          "elementalAttack": {
+            "Acid": 2
+          }
+        }
+      }
+    },
+    "Enflamed": {
+      "slots": [
+        "Hands"
+      ],
+      "description": "Weapon: Weapon gains the Alterated tag (-10% main stat scaling), but On Hit: Inflicts 20 armor-ignoring Fire magic bonus damage. +10 damage if weapon is made of a Fire material.Hands: When you use Grapple on an enemy, you attempt to inflict them with Burn (LV 10, 2 rounds).Both: +2 Fire ATK.",
+      "bySlot": {
+        "Hands": {
+          "elementalAttack": {
+            "Fire": 2
+          }
+        }
+      }
+    },
+    "Manipulating": {
+      "slots": [
+        "Hands"
+      ],
+      "description": "-3 WIL. When a non-boss enemy inflicts a non-permanent duration negative status effect on you, there is a 25% chance the effect will be changed to either Poison, Burn, Blind, Confusion, or Charm instead. Chance doubled if your GUI is less than 10. (1 round CD, can't change to an effect you are immune to or already have. Changed effect will have the same LV and duration as the intended effect.)",
+      "bySlot": {
+        "Hands": {
+          "stats": {
+            "wil": -3
+          }
+        }
+      }
+    },
+    "Maddening": {
+      "slots": [
+        "Torso"
+      ],
+      "description": "-10% Status Resist. Every 3 rounds, remove Madness Exhaustion and activate the effects of your Madness traits (if any). While you have a Madness or Compulsion effect active (excluding Madness Adrenaline & Madness Exhaustion), -15% healing received, but 15% of damage taken is applied as Madness Adrenaline (LV X, 3 rounds. Duration is not extended when LV increases. Damage is not taken on battle end.)Madness Adrenaline: When this effect ends (except by the battle ending), you lose HP equal to its LV. +1 Scaled Weapon Attack per 20 LV. Duration is not extended when powered up.",
+      "statusResistance": -10
+    }
+  }
+}

@@ -121,7 +121,7 @@
       "apt": 0,
       "validWeapons": [
         "Swords",
-        "Daggers"
+        "Spears"
       ]
     },
     "Mage": {
@@ -172,9 +172,8 @@
       "san": 0,
       "apt": 0,
       "validWeapons": [
-        "Daggers",
-        "Tomes",
-        "Spears"
+        "Spears",
+        "Tomes"
       ]
     },
     "Monk": {
@@ -209,7 +208,7 @@
       "apt": 0,
       "validWeapons": [
         "Swords",
-        "Daggers"
+        "Axes"
       ]
     },
     "Bonder": {
@@ -226,6 +225,9 @@
       "san": 0,
       "apt": 0,
       "validWeapons": [
+        "Swords",
+        "Axes",
+        "Spears",
         "Tomes"
       ]
     },
@@ -260,7 +262,6 @@
       "san": 0,
       "apt": 0,
       "validWeapons": [
-        "Daggers",
         "Bows",
         "Guns"
       ]
@@ -316,8 +317,8 @@
       "apt": 0,
       "validWeapons": [
         "Swords",
-        "Axes",
-        "Spears"
+        "Guns",
+        "Tomes"
       ]
     },
     "Demon Hunter": {
@@ -336,7 +337,8 @@
       "validWeapons": [
         "Swords",
         "Axes",
-        "Spears"
+        "Spears",
+        "Guns"
       ]
     },
     "Curate": {
@@ -353,9 +355,8 @@
       "san": 0,
       "apt": 0,
       "validWeapons": [
-        "Daggers",
-        "Tomes",
-        "Spears"
+        "Spears",
+        "Tomes"
       ]
     },
     "Engineer": {
@@ -372,7 +373,8 @@
       "san": 0,
       "apt": 0,
       "validWeapons": [
-        "Daggers",
+        "Swords",
+        "Axes",
         "Guns"
       ]
     },
@@ -390,8 +392,8 @@
       "san": 2,
       "apt": 0,
       "validWeapons": [
-        "Daggers",
         "Swords",
+        "Daggers",
         "Axes"
       ]
     },
@@ -409,9 +411,9 @@
       "san": 3,
       "apt": 0,
       "validWeapons": [
+        "Swords",
         "Daggers",
         "Axes",
-        "Swords",
         "Tomes"
       ]
     },
@@ -429,9 +431,9 @@
       "san": 0,
       "apt": 0,
       "validWeapons": [
+        "Swords",
         "Daggers",
         "Axes",
-        "Swords",
         "Guns"
       ]
     },
@@ -449,9 +451,9 @@
       "san": 3,
       "apt": 0,
       "validWeapons": [
+        "Swords",
         "Daggers",
         "Axes",
-        "Swords",
         "Tomes"
       ]
     },
@@ -486,6 +488,7 @@
       "san": 0,
       "apt": 0,
       "validWeapons": [
+        "Swords",
         "Tomes"
       ]
     },
@@ -503,6 +506,7 @@
       "san": 0,
       "apt": 0,
       "validWeapons": [
+        "Swords",
         "Tomes"
       ]
     },
@@ -537,7 +541,8 @@
       "san": 0,
       "apt": 0,
       "validWeapons": [
-        "Daggers"
+        "Swords",
+        "Guns"
       ]
     },
     "Archer": {
@@ -590,8 +595,7 @@
       "san": 0,
       "apt": 0,
       "validWeapons": [
-        "Swords",
-        "Daggers"
+        "Spears"
       ]
     },
     "Aquamancer": {
@@ -608,9 +612,8 @@
       "san": 0,
       "apt": 0,
       "validWeapons": [
-        "Daggers",
-        "Tomes",
-        "Spears"
+        "Spears",
+        "Tomes"
       ]
     },
     "Druid": {
@@ -628,8 +631,9 @@
       "apt": 0,
       "validWeapons": [
         "Daggers",
-        "Tomes",
-        "Spears"
+        "Spears",
+        "Bows",
+        "Tomes"
       ]
     },
     "Shapeshifter": {
@@ -646,6 +650,8 @@
       "san": 0,
       "apt": 0,
       "validWeapons": [
+        "Daggers",
+        "Fist",
         "Tomes"
       ]
     },
@@ -663,9 +669,8 @@
       "san": 0,
       "apt": 0,
       "validWeapons": [
-        "Daggers",
-        "Tomes",
-        "Spears"
+        "Spears",
+        "Tomes"
       ]
     },
     "Spellthief": {
@@ -682,7 +687,7 @@
       "san": 0,
       "apt": 0,
       "validWeapons": [
-        "Daggers"
+        "Tomes"
       ]
     },
     "Magic Gunner": {
@@ -699,7 +704,6 @@
       "san": 0,
       "apt": 0,
       "validWeapons": [
-        "Daggers",
         "Guns"
       ]
     },
@@ -717,7 +721,6 @@
       "san": 2,
       "apt": 0,
       "validWeapons": [
-        "Daggers",
         "Bows"
       ]
     },
@@ -735,6 +738,8 @@
       "san": 2,
       "apt": 0,
       "validWeapons": [
+        "Swords",
+        "Daggers",
         "Tomes"
       ]
     },
@@ -769,6 +774,9 @@
       "san": 0,
       "apt": 0,
       "validWeapons": [
+        "Swords",
+        "Daggers",
+        "Spears",
         "Fist"
       ]
     },
@@ -805,7 +813,7 @@
       "san": 0,
       "apt": 0,
       "validWeapons": [
-        "Daggers"
+        "Swords"
       ]
     }
   },

@@ -1,0 +1,994 @@
+[
+  {
+    "name": "Aquamancer",
+    "type": "Promoted Class",
+    "weapons": "Tome, Spear",
+    "move": "5",
+    "bonuses": [
+      [
+        "WIL",
+        "+1"
+      ],
+      [
+        "CEL",
+        "+2"
+      ],
+      [
+        "VIT",
+        "+3"
+      ],
+      [
+        "FAI",
+        "+2"
+      ]
+    ],
+    "skillCount": 26
+  },
+  {
+    "name": "Arbalest",
+    "type": "Promoted Class",
+    "weapons": "Bow, Gun",
+    "move": "5",
+    "bonuses": [
+      [
+        "STR",
+        "+2"
+      ],
+      [
+        "SKI",
+        "+2"
+      ],
+      [
+        "DEF",
+        "+2"
+      ],
+      [
+        "RES",
+        "+1"
+      ],
+      [
+        "LUC",
+        "+1"
+      ]
+    ],
+    "skillCount": 23
+  },
+  {
+    "name": "Archer",
+    "type": "Base Class",
+    "weapons": "Daggers, Bows, Guns",
+    "move": "5",
+    "bonuses": [
+      [
+        "CEL",
+        "+2"
+      ],
+      [
+        "SKI",
+        "+2"
+      ],
+      [
+        "LUC",
+        "+1"
+      ]
+    ],
+    "skillCount": 20
+  },
+  {
+    "name": "Bard",
+    "type": "Base Class",
+    "weapons": "Dagger, Sword, Axe",
+    "move": "5",
+    "bonuses": [
+      [
+        "CEL",
+        "+2"
+      ],
+      [
+        "LUC",
+        "+1"
+      ],
+      [
+        "SAN",
+        "+2"
+      ]
+    ],
+    "skillCount": 20
+  },
+  {
+    "name": "Black Knight",
+    "type": "Promoted Class",
+    "weapons": "Sword, Spear, Axe",
+    "move": "5",
+    "bonuses": [
+      [
+        "STR",
+        "+2"
+      ],
+      [
+        "SKI",
+        "+1"
+      ],
+      [
+        "DEF",
+        "+2"
+      ],
+      [
+        "VIT",
+        "+2"
+      ],
+      [
+        "LUC",
+        "+1"
+      ]
+    ],
+    "skillCount": 24
+  },
+  {
+    "name": "Bonder",
+    "type": "Promoted Class",
+    "weapons": "Axe, Spear, Sword, Tome",
+    "move": "5",
+    "bonuses": [
+      [
+        "STR",
+        "+2"
+      ],
+      [
+        "WIL",
+        "+2"
+      ],
+      [
+        "CEL",
+        "+1"
+      ],
+      [
+        "SKI",
+        "+2"
+      ],
+      [
+        "LUC",
+        "+1"
+      ]
+    ],
+    "skillCount": 27
+  },
+  {
+    "name": "Boxer",
+    "type": "Promoted Class",
+    "weapons": "Fist",
+    "move": "5",
+    "bonuses": [
+      [
+        "STR",
+        "+2"
+      ],
+      [
+        "SKI",
+        "+2"
+      ],
+      [
+        "DEF",
+        "+2"
+      ],
+      [
+        "VIT",
+        "+2"
+      ]
+    ],
+    "skillCount": 24
+  },
+  {
+    "name": "Chemist",
+    "type": "Promoted Class",
+    "weapons": "Bow, Gun, Tome, Dagger",
+    "move": "5",
+    "bonuses": [
+      [
+        "WIL",
+        "+2"
+      ],
+      [
+        "SKI",
+        "+3"
+      ],
+      [
+        "GUI",
+        "+3"
+      ]
+    ],
+    "skillCount": 2
+  },
+  {
+    "name": "Curate",
+    "type": "Base Class",
+    "weapons": "Tome Spear",
+    "move": "5",
+    "bonuses": [
+      [
+        "WIL",
+        "+2"
+      ],
+      [
+        "CEL",
+        "+2"
+      ],
+      [
+        "RES",
+        "+1"
+      ]
+    ],
+    "skillCount": 22
+  },
+  {
+    "name": "Dancer",
+    "type": "Promoted Class",
+    "weapons": "Dagger, Sword, Axe, Gun",
+    "move": "5",
+    "bonuses": [
+      [
+        "STR",
+        "+1"
+      ],
+      [
+        "WIL",
+        "+2"
+      ],
+      [
+        "CEL",
+        "+3"
+      ],
+      [
+        "SKI",
+        "+2"
+      ]
+    ],
+    "skillCount": 21
+  },
+  {
+    "name": "Dark Bard",
+    "type": "Promoted Class",
+    "weapons": "Dagger, Axe, Sword, Tome",
+    "move": "5",
+    "bonuses": [
+      [
+        "STR",
+        "+2"
+      ],
+      [
+        "RES",
+        "+2"
+      ],
+      [
+        "VIT",
+        "+1"
+      ],
+      [
+        "SAN",
+        "+3"
+      ]
+    ],
+    "skillCount": 21
+  },
+  {
+    "name": "Demon Hunter",
+    "type": "Promoted Class",
+    "weapons": "Sword, Spear, Axe, Gun",
+    "move": "5",
+    "bonuses": [
+      [
+        "STR",
+        "+2"
+      ],
+      [
+        "CEL",
+        "+2"
+      ],
+      [
+        "SKI",
+        "+2"
+      ],
+      [
+        "DEF",
+        "+2"
+      ]
+    ],
+    "skillCount": 33
+  },
+  {
+    "name": "Druid",
+    "type": "Promoted Class",
+    "weapons": "Dagger, Spear, Bow, Tome",
+    "move": "5",
+    "bonuses": [
+      [
+        "CEL",
+        "+2"
+      ],
+      [
+        "DEF",
+        "+2"
+      ],
+      [
+        "LUC",
+        "+2"
+      ],
+      [
+        "FAI",
+        "+2"
+      ]
+    ],
+    "skillCount": 30
+  },
+  {
+    "name": "Duelist",
+    "type": "Base Class",
+    "weapons": "Sword, Spear",
+    "move": "5",
+    "bonuses": [
+      [
+        "STR",
+        "+1"
+      ],
+      [
+        "CEL",
+        "+2"
+      ],
+      [
+        "SKI",
+        "+2"
+      ]
+    ],
+    "skillCount": 22
+  },
+  {
+    "name": "Engineer",
+    "type": "Promoted Class",
+    "weapons": "Sword, Axe, Gun",
+    "move": "5",
+    "bonuses": [
+      [
+        "STR",
+        "+2"
+      ],
+      [
+        "CEL",
+        "+2"
+      ],
+      [
+        "SKI",
+        "+1"
+      ],
+      [
+        "DEF",
+        "+1"
+      ],
+      [
+        "LUC",
+        "+2"
+      ]
+    ],
+    "skillCount": 24
+  },
+  {
+    "name": "Evoker",
+    "type": "Promoted Class",
+    "weapons": "Tome",
+    "move": "5",
+    "bonuses": [
+      [
+        "WIL",
+        "+3"
+      ],
+      [
+        "CEL",
+        "+2"
+      ],
+      [
+        "SKI",
+        "+2"
+      ],
+      [
+        "LUC",
+        "+1"
+      ]
+    ],
+    "skillCount": 25
+  },
+  {
+    "name": "Firebird",
+    "type": "Promoted Class",
+    "weapons": "Spear",
+    "move": "5",
+    "bonuses": [
+      [
+        "STR",
+        "+2"
+      ],
+      [
+        "CEL",
+        "+3"
+      ],
+      [
+        "SKI",
+        "+2"
+      ],
+      [
+        "LUC",
+        "+1"
+      ]
+    ],
+    "skillCount": 24
+  },
+  {
+    "name": "Ghost",
+    "type": "Promoted Class",
+    "weapons": "Sword, Axe",
+    "move": "5",
+    "bonuses": [],
+    "skillCount": 22
+  },
+  {
+    "name": "Grand Summoner",
+    "type": "Promoted Class",
+    "weapons": "Sword, Tome",
+    "move": "5",
+    "bonuses": [
+      [
+        "WIL",
+        "+2"
+      ],
+      [
+        "CEL",
+        "+2"
+      ],
+      [
+        "SKI",
+        "+2"
+      ],
+      [
+        "FAI",
+        "+2"
+      ]
+    ],
+    "skillCount": 21
+  },
+  {
+    "name": "Hexer",
+    "type": "Promoted Class",
+    "weapons": "Tome",
+    "move": "5",
+    "bonuses": [
+      [
+        "WIL",
+        "1"
+      ],
+      [
+        "SKI",
+        "1"
+      ],
+      [
+        "DEF",
+        "3"
+      ],
+      [
+        "RES",
+        "3"
+      ]
+    ],
+    "skillCount": 30
+  },
+  {
+    "name": "Kensei",
+    "type": "Promoted Class",
+    "weapons": "Sword",
+    "move": "5",
+    "bonuses": [
+      [
+        "STR",
+        "+2"
+      ],
+      [
+        "CEL",
+        "+2"
+      ],
+      [
+        "SKI",
+        "+2"
+      ],
+      [
+        "LUC",
+        "+2"
+      ]
+    ],
+    "skillCount": 24
+  },
+  {
+    "name": "Lantern Bearer",
+    "type": "Promoted Class",
+    "weapons": "Tome, Spear",
+    "move": "5",
+    "bonuses": [
+      [
+        "WIL",
+        "+2"
+      ],
+      [
+        "CEL",
+        "+2"
+      ],
+      [
+        "DEF",
+        "+1"
+      ],
+      [
+        "RES",
+        "+2"
+      ],
+      [
+        "LUC",
+        "+1"
+      ]
+    ],
+    "skillCount": 19
+  },
+  {
+    "name": "Mage",
+    "type": "Base Class",
+    "weapons": "Tome",
+    "move": "5",
+    "bonuses": [
+      [
+        "WIL",
+        "+2"
+      ],
+      [
+        "CEL",
+        "+1"
+      ],
+      [
+        "RES",
+        "+2"
+      ]
+    ],
+    "skillCount": 26
+  },
+  {
+    "name": "Magic Gunner",
+    "type": "Promoted Class",
+    "weapons": "Gun",
+    "move": "5",
+    "bonuses": [
+      [
+        "WIL",
+        "+2"
+      ],
+      [
+        "CEL",
+        "+2"
+      ],
+      [
+        "SKI",
+        "+3"
+      ],
+      [
+        "LUC",
+        "+1"
+      ]
+    ],
+    "skillCount": 26
+  },
+  {
+    "name": "Martial Artist",
+    "type": "Base Class",
+    "weapons": "Fist",
+    "move": "5",
+    "bonuses": [
+      [
+        "STR",
+        "+2"
+      ],
+      [
+        "CEL",
+        "+1"
+      ],
+      [
+        "SKI",
+        "+2"
+      ]
+    ],
+    "skillCount": 20
+  },
+  {
+    "name": "Monk",
+    "type": "Promoted Class",
+    "weapons": "Fist",
+    "move": "5",
+    "bonuses": [
+      [
+        "STR",
+        "+1"
+      ],
+      [
+        "CEL",
+        "+2"
+      ],
+      [
+        "SKI",
+        "+2"
+      ],
+      [
+        "DEF",
+        "+2"
+      ],
+      [
+        "RES",
+        "+1"
+      ]
+    ],
+    "skillCount": 21
+  },
+  {
+    "name": "Performer",
+    "type": "Promoted Class",
+    "weapons": "Dagger, Sword, Axe, Tome",
+    "move": "5",
+    "bonuses": [
+      [
+        "STR",
+        "+1"
+      ],
+      [
+        "CEL",
+        "+2"
+      ],
+      [
+        "LUC",
+        "+2"
+      ],
+      [
+        "SAN",
+        "+3"
+      ]
+    ],
+    "skillCount": 23
+  },
+  {
+    "name": "Priest",
+    "type": "Promoted Class",
+    "weapons": "Tome, Spear",
+    "move": "5",
+    "bonuses": [
+      [
+        "WIL",
+        "+2"
+      ],
+      [
+        "CEL",
+        "+1"
+      ],
+      [
+        "RES",
+        "+2"
+      ],
+      [
+        "FAI",
+        "+3"
+      ]
+    ],
+    "skillCount": 21
+  },
+  {
+    "name": "Ranger",
+    "type": "Promoted Class",
+    "weapons": "Bow",
+    "move": "5",
+    "bonuses": [
+      [
+        "STR",
+        "+2"
+      ],
+      [
+        "CEL",
+        "+2"
+      ],
+      [
+        "SKI",
+        "+2"
+      ],
+      [
+        "SAN",
+        "+2"
+      ]
+    ],
+    "skillCount": 23
+  },
+  {
+    "name": "Rogue",
+    "type": "Base Class",
+    "weapons": "Sword, Gun",
+    "move": "5",
+    "bonuses": [
+      [
+        "CEL",
+        "+2"
+      ],
+      [
+        "SKI",
+        "+1"
+      ],
+      [
+        "LUC",
+        "+2"
+      ]
+    ],
+    "skillCount": 24
+  },
+  {
+    "name": "Ruler",
+    "type": "Promoted Class",
+    "weapons": "Daggers, Swords, Tomes",
+    "move": "5",
+    "bonuses": [
+      [
+        "WIL",
+        "+2"
+      ],
+      [
+        "RES",
+        "+2"
+      ],
+      [
+        "LUC",
+        "+2"
+      ],
+      [
+        "SAN",
+        "+2"
+      ]
+    ],
+    "skillCount": 25
+  },
+  {
+    "name": "Rune Magician",
+    "type": "Promoted Class",
+    "weapons": "Tome",
+    "move": "5",
+    "bonuses": [
+      [
+        "WIL",
+        "+3"
+      ],
+      [
+        "SKI",
+        "+2"
+      ],
+      [
+        "GUI",
+        "+3"
+      ]
+    ],
+    "skillCount": 22
+  },
+  {
+    "name": "Shapeshifter",
+    "type": "Promoted Class",
+    "weapons": "Fist, Tome, Dagger",
+    "move": "5",
+    "bonuses": [
+      [
+        "STR",
+        "+2"
+      ],
+      [
+        "CEL",
+        "+2"
+      ],
+      [
+        "SKI",
+        "+2"
+      ],
+      [
+        "LUC",
+        "+2"
+      ]
+    ],
+    "skillCount": 25
+  },
+  {
+    "name": "Shinobi",
+    "type": "Promoted Class",
+    "weapons": "Dagger, Fist, Spear, Sword",
+    "move": "5",
+    "bonuses": [
+      [
+        "STR",
+        "+2"
+      ],
+      [
+        "CEL",
+        "+4"
+      ],
+      [
+        "GUI",
+        "+2"
+      ]
+    ],
+    "skillCount": 28
+  },
+  {
+    "name": "Solblader",
+    "type": "Promoted Class",
+    "weapons": "Sword, Spear, Axe",
+    "move": "5",
+    "bonuses": [
+      [
+        "STR",
+        "+2"
+      ],
+      [
+        "WIL",
+        "+2"
+      ],
+      [
+        "CEL",
+        "+2"
+      ],
+      [
+        "FAI",
+        "+2"
+      ]
+    ],
+    "skillCount": 29
+  },
+  {
+    "name": "Soldier",
+    "type": "Base Class",
+    "weapons": "Sword, Spear, Axe",
+    "move": "5",
+    "bonuses": [
+      [
+        "STR",
+        "+2"
+      ],
+      [
+        "SKI",
+        "+1"
+      ],
+      [
+        "VIT",
+        "+2"
+      ]
+    ],
+    "skillCount": 19
+  },
+  {
+    "name": "Spellthief",
+    "type": "Promoted Class",
+    "weapons": "Tome",
+    "move": "5",
+    "bonuses": [
+      [
+        "STR",
+        "+2"
+      ],
+      [
+        "WIL",
+        "+2"
+      ],
+      [
+        "CEL",
+        "+2"
+      ],
+      [
+        "SKI",
+        "+2"
+      ]
+    ],
+    "skillCount": 25
+  },
+  {
+    "name": "Summoner",
+    "type": "Base Class",
+    "weapons": "Sword, Tome",
+    "move": "5",
+    "bonuses": [
+      [
+        "WIL",
+        "+2"
+      ],
+      [
+        "CEL",
+        "+2"
+      ],
+      [
+        "RES",
+        "+1"
+      ]
+    ],
+    "skillCount": 12
+  },
+  {
+    "name": "Tactician",
+    "type": "Promoted Class",
+    "weapons": "Sword, Tome, Gun",
+    "move": "5",
+    "bonuses": [
+      [
+        "STR",
+        "+1"
+      ],
+      [
+        "WIL",
+        "+1"
+      ],
+      [
+        "CEL",
+        "+2"
+      ],
+      [
+        "SKI",
+        "+2"
+      ],
+      [
+        "DEF",
+        "+1"
+      ],
+      [
+        "RES",
+        "+1"
+      ]
+    ],
+    "skillCount": 27
+  },
+  {
+    "name": "Verglas",
+    "type": "Promoted Class",
+    "weapons": "Fist",
+    "move": "5",
+    "bonuses": [
+      [
+        "STR",
+        "+2"
+      ],
+      [
+        "WIL",
+        "+2"
+      ],
+      [
+        "CEL",
+        "+2"
+      ],
+      [
+        "SKI",
+        "+2"
+      ]
+    ],
+    "skillCount": 21
+  },
+  {
+    "name": "Void Assassin",
+    "type": "Promoted Class",
+    "weapons": "Sword",
+    "move": "5",
+    "bonuses": [
+      [
+        "CEL",
+        "+2"
+      ],
+      [
+        "SKI",
+        "+3"
+      ],
+      [
+        "RES",
+        "+2"
+      ],
+      [
+        "LUC",
+        "+1"
+      ]
+    ],
+    "skillCount": 32
+  }
+]
