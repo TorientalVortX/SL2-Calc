@@ -1912,7 +1912,6 @@ button { cursor: pointer; }
   place-items: center;
   padding: 24px;
   background: rgba(2, 4, 7, 0.72);
-  backdrop-filter: blur(7px);
   animation: fade-in 0.24s var(--ease);
 }
 
