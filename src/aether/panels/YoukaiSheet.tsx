@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import type { SkillRanks, StatKey, Youkai, YoukaiSkill } from '../../types';
-import { STAT_COLORS, onDark } from '../../data/colors';
+import { statInk } from '../../data/colors';
 import { getBaseClass } from '../../domain/buildEvaluation';
 import { canContractYoukai } from '../../domain/loadout';
 import { mergeSkillRanks, skillById } from '../../domain/skills';
@@ -516,6 +516,5 @@ function statSummary(stats: Partial<Record<StatKey, number>>): string {
 }
 
 function tint(stat: StatKey): string {
-  const color = STAT_COLORS[stat];
-  return color === 'rainbow' ? 'var(--gold-200)' : onDark(color);
+  return statInk(stat);
 }

@@ -14,6 +14,37 @@
 
 /* ------------------------------------------------------------------ tokens */
 
+/*
+ * Two themes, one vocabulary.
+ *
+ * Every colour the sheet paints is named here, and nothing below this block
+ * writes a literal again. That is what makes the second theme possible at all:
+ * it is this interface with another set of values, not another stylesheet to
+ * keep in step with this one.
+ *
+ * Three kinds of token live here.
+ *
+ *   Scales   `--ink-*`, `--gold-*`, `--text-*`. Numbered by role, and the
+ *            numbering means the same thing in both themes: `--ink-900` is the
+ *            recessed ground and `--ink-500` the raised one, `--gold-100` is the
+ *            accent at its most emphatic and `--bronze` at its quietest. The
+ *            light theme runs the gold ladder the other way round in absolute
+ *            lightness, because emphasis on vellum is depth rather than glow.
+ *
+ *   Channels `--tint-rgb` and the three semantic triplets: bare `R G B`, used as
+ *            `rgb(var(--tint-rgb) / 0.06)`. For the families where the sheet
+ *            wants a dozen alphas of one colour and the alpha ladder carries
+ *            across themes unchanged. `--tint-rgb` is the overlay that has to
+ *            contrast with the ground, so it is white on ink and umber on
+ *            vellum: every `--tint` alpha reads as "this much emphasis", not as
+ *            "this much white".
+ *
+ *   Roles    `--well`, `--channel`, `--panel-top`… A surface whose light value
+ *            is a different idea rather than a recolouring: a text field on
+ *            near-black is a hole cut into the panel, and on vellum it is a
+ *            paler card lying on top of it.
+ */
+
 :root {
   /* Ground. Cool near-black, warmed very slightly toward the centre. */
   --void: #04060a;
@@ -39,6 +70,9 @@
   /* Semantic. */
   --alert: #e3705d;
   --alert-dim: rgba(227, 112, 93, 0.16);
+  --alert-text: #f0a99b;
+  /* The far end of the over-budget meter, where the gradient starts. */
+  --alert-deep: #9c4436;
   --affirm: #8fd6a0;
 
   /* Type. */
@@ -52,6 +86,72 @@
   --edge-soft: rgba(200, 170, 106, 0.12);
   --edge-hard: rgba(200, 170, 106, 0.4);
   --hairline: rgba(255, 255, 255, 0.055);
+
+  /* Overlay channels. See the note above: alphas, not colours, are the ladder. */
+  --tint-rgb: 255 255 255;
+  --gold-rgb: 216 192 136;
+  --alert-rgb: 227 112 93;
+  --affirm-rgb: 143 214 160;
+
+  /* Painted surfaces. Each pair is one vertical gradient, top then bottom. */
+  --masthead-top: rgba(28, 34, 46, 0.94);
+  --masthead-bottom: rgba(9, 12, 18, 0.96);
+  --panel-top: rgba(17, 22, 32, 0.9);
+  --panel-bottom: rgba(8, 11, 17, 0.94);
+  --head-top: rgba(32, 39, 52, 0.95);
+  --head-bottom: rgba(16, 21, 31, 0.98);
+  --nav-top: rgba(20, 25, 34, 0.98);
+  --nav-bottom: rgba(9, 12, 18, 0.98);
+  --modal-top: rgba(20, 26, 37, 0.98);
+  --modal-bottom: rgba(7, 10, 16, 0.99);
+  --notice-top: rgba(26, 33, 45, 0.97);
+  --notice-bottom: rgba(9, 12, 18, 0.97);
+  --pool-top: rgba(28, 35, 47, 0.6);
+  --pool-bottom: rgba(8, 11, 17, 0.5);
+  --btn-top: rgba(38, 46, 60, 0.85);
+  --btn-bottom: rgba(14, 18, 26, 0.9);
+  --btn-ghost: rgba(0, 0, 0, 0.28);
+  --btn-primary-top: rgba(157, 130, 74, 0.5);
+  --btn-primary-bottom: rgba(80, 64, 34, 0.4);
+  --btn-primary-hover-top: rgba(192, 162, 98, 0.6);
+  --btn-primary-hover-bottom: rgba(100, 80, 42, 0.5);
+  --btn-active-top: rgba(157, 130, 74, 0.35);
+  --btn-active-bottom: rgba(60, 48, 26, 0.3);
+  --glyph-top: rgba(255, 255, 255, 0.06);
+  --glyph-bottom: rgba(0, 0, 0, 0.4);
+
+  /*
+   * Recessed things. `--well` is a field the reader types into and `--channel`
+   * an empty bar waiting to be filled; on ink both are simply darker than the
+   * panel, which is why they were one value for so long. On vellum they part
+   * company — a field goes paler than the paper and a channel goes greyer.
+   */
+  --well: rgba(0, 0, 0, 0.45);
+  --channel: rgba(0, 0, 0, 0.55);
+  --figure-bg: rgba(0, 0, 0, 0.35);
+  --tick: rgba(255, 255, 255, 0.11);
+  --pip-off: rgba(255, 255, 255, 0.09);
+  --hatch-a: rgba(255, 255, 255, 0.22);
+  --hatch-b: rgba(255, 255, 255, 0.05);
+  --scroll-thumb: rgba(157, 130, 74, 0.5);
+  --scroll-track: rgba(0, 0, 0, 0.3);
+
+  /* Highlights that stay highlights: a gleam sweeping a row, the lit edge of a
+     bar. These are light in both themes, only weaker where the ground is pale. */
+  --sheen: rgba(255, 255, 255, 0.06);
+  --sheen-card: rgba(255, 255, 255, 0.07);
+  --fill-edge: rgba(255, 255, 255, 0.35);
+
+  --scrim: rgba(2, 4, 7, 0.72);
+
+  /* The ambient layer under everything, drawn by `.backdrop`. */
+  --wash-a: rgba(58, 78, 112, 0.28);
+  --wash-b: rgba(96, 72, 34, 0.16);
+  --wash-c: rgba(40, 84, 104, 0.14);
+  --wash-base: linear-gradient(180deg, #070a11 0%, #04060a 45%, #05070c 100%);
+  --weave-a: rgba(255, 255, 255, 0.014);
+  --weave-b: rgba(255, 255, 255, 0.01);
+  --vignette: rgba(0, 0, 0, 0.72);
 
   --font-display: 'Barlow Condensed', 'Barlow', system-ui, sans-serif;
   --font-body: 'Barlow', system-ui, -apple-system, sans-serif;
@@ -68,8 +168,140 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.05),
     inset 0 0 48px rgba(0, 0, 0, 0.55),
     0 18px 48px -22px rgba(0, 0, 0, 0.95);
+  --shadow-modal: 0 40px 90px -30px rgba(0, 0, 0, 1);
+  --shadow-notice: 0 22px 50px -22px rgba(0, 0, 0, 1);
+  --shadow-card: 0 10px 24px -18px rgba(0, 0, 0, 1);
+  --shadow-nav: 0 6px 18px -12px rgba(0, 0, 0, 0.9);
 
   color-scheme: dark;
+}
+
+/*
+ * The light variation: vellum and bronze.
+ *
+ * Not an inversion, and deliberately not white. The sheet is read for long
+ * stretches at a time, and a monitor's full output through a 1400px column of
+ * small type is the part of a light theme that hurts; every ground here is a
+ * warm off-white a few points down from that, which also keeps the gold accent
+ * the interface is built around from reading as dirt on a blue-white page.
+ *
+ * The frame is still drawn entirely in bronze — same corner brackets, same rules
+ * under the same headers — so the two themes are recognisably one interface.
+ * What changes is the direction of every light: shadows lift the panels off the
+ * page instead of sinking them into it, and where the dark sheet glows, this one
+ * darkens.
+ */
+:root[data-theme='light'] {
+  --void: #dcd6c8;
+  --ink-900: #efeae0;
+  --ink-800: #f2eee5;
+  --ink-700: #f6f2ea;
+  --ink-600: #f9f6f0;
+  --ink-500: #fdfbf7;
+
+  /* Ink-on-vellum bronzes. `--gold-100` still means "the most emphatic the
+     accent gets", which here is the darkest rather than the palest. */
+  --gold-100: #45300f;
+  --gold-200: #66481a;
+  --gold-300: #855f26;
+  --gold-400: #9d7634;
+  --gold-500: #ad8b46;
+  --bronze: #c6a970;
+
+  --aether: #0d7288;
+  --aether-dim: rgba(13, 114, 136, 0.3);
+  --glow-gold: rgba(140, 104, 40, 0.3);
+
+  --alert: #ad3722;
+  --alert-dim: rgba(173, 55, 34, 0.1);
+  --alert-text: #8a2c1a;
+  --alert-deep: #7d2415;
+  --affirm: #2b7549;
+
+  --text: #262a32;
+  --text-2: #494f5c;
+  --text-3: #666c7b;
+  --text-4: #8a8f9d;
+
+  --edge: rgba(122, 92, 44, 0.34);
+  --edge-soft: rgba(122, 92, 44, 0.2);
+  --edge-hard: rgba(122, 92, 44, 0.56);
+  --hairline: rgba(52, 44, 28, 0.13);
+
+  /* Umber rather than white: on vellum an overlay has to darken to register. */
+  --tint-rgb: 54 45 28;
+  --gold-rgb: 140 104 40;
+  --alert-rgb: 173 55 34;
+  --affirm-rgb: 43 117 73;
+
+  --masthead-top: rgba(255, 253, 249, 0.96);
+  --masthead-bottom: rgba(240, 235, 224, 0.96);
+  --panel-top: rgba(255, 253, 249, 0.92);
+  --panel-bottom: rgba(242, 237, 227, 0.92);
+  --head-top: rgba(255, 254, 251, 0.97);
+  --head-bottom: rgba(239, 233, 221, 0.98);
+  --nav-top: rgba(255, 253, 249, 0.98);
+  --nav-bottom: rgba(240, 234, 223, 0.98);
+  --modal-top: rgba(255, 254, 250, 0.99);
+  --modal-bottom: rgba(244, 239, 230, 0.99);
+  --notice-top: rgba(255, 253, 248, 0.98);
+  --notice-bottom: rgba(242, 236, 224, 0.98);
+  --pool-top: rgba(255, 253, 249, 0.7);
+  --pool-bottom: rgba(236, 230, 218, 0.6);
+  --btn-top: rgba(255, 253, 249, 0.95);
+  --btn-bottom: rgba(236, 230, 217, 0.95);
+  --btn-ghost: rgba(255, 255, 255, 0.5);
+  --btn-primary-top: rgba(178, 143, 74, 0.34);
+  --btn-primary-bottom: rgba(150, 116, 54, 0.26);
+  --btn-primary-hover-top: rgba(178, 143, 74, 0.5);
+  --btn-primary-hover-bottom: rgba(150, 116, 54, 0.4);
+  --btn-active-top: rgba(178, 143, 74, 0.26);
+  --btn-active-bottom: rgba(150, 116, 54, 0.18);
+  --glyph-top: rgba(255, 255, 255, 0.9);
+  --glyph-bottom: rgba(214, 205, 187, 0.7);
+
+  --well: rgba(255, 255, 255, 0.82);
+  --channel: rgba(96, 80, 50, 0.15);
+  --figure-bg: rgba(255, 255, 255, 0.62);
+  --tick: rgba(96, 80, 50, 0.22);
+  --pip-off: rgba(96, 80, 50, 0.2);
+  --hatch-a: rgba(72, 60, 38, 0.3);
+  --hatch-b: rgba(72, 60, 38, 0.08);
+  --scroll-thumb: rgba(150, 118, 58, 0.55);
+  --scroll-track: rgba(96, 80, 50, 0.09);
+
+  --sheen: rgba(255, 255, 255, 0.55);
+  --sheen-card: rgba(255, 255, 255, 0.6);
+  /* A shade rather than a gleam. The dark sheet lights the near end of a bar,
+     which on vellum only made the bar look like it faded in from nothing. */
+  --fill-edge: rgba(66, 54, 34, 0.22);
+
+  /* Heavier than the dark theme's, which is the opposite of what it looks like
+     it should be: a dialog has to sit on something, and 40% over vellum left the
+     whole sheet legible behind it and the modal floating free. */
+  --scrim: rgba(58, 48, 32, 0.52);
+
+  --wash-a: rgba(120, 146, 190, 0.26);
+  --wash-b: rgba(198, 164, 96, 0.3);
+  --wash-c: rgba(116, 172, 192, 0.2);
+  --wash-base: linear-gradient(180deg, #e7e1d4 0%, #dcd6c8 45%, #d7d0c1 100%);
+  --weave-a: rgba(70, 58, 36, 0.032);
+  --weave-b: rgba(70, 58, 36, 0.024);
+  --vignette: rgba(104, 88, 58, 0.16);
+
+  /* Panels lie on the page rather than being cut out of it, so the inner black
+     glow that gives the dark sheet its depth becomes a faint warm one and the
+     drop shadow does the lifting. */
+  --shadow-panel:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 0 48px rgba(120, 96, 50, 0.045),
+    0 14px 34px -26px rgba(58, 46, 26, 0.55);
+  --shadow-modal: 0 40px 80px -28px rgba(48, 38, 22, 0.6);
+  --shadow-notice: 0 22px 50px -24px rgba(58, 46, 26, 0.4);
+  --shadow-card: 0 10px 24px -18px rgba(58, 46, 26, 0.55);
+  --shadow-nav: 0 6px 18px -12px rgba(58, 46, 26, 0.3);
+
+  color-scheme: light;
 }
 
 /* -------------------------------------------------------------------- base */
@@ -110,7 +342,7 @@ textarea {
 button { cursor: pointer; }
 
 ::selection {
-  background: rgba(216, 192, 136, 0.3);
+  background: rgb(var(--gold-rgb) / 0.3);
   color: var(--gold-100);
 }
 
@@ -120,10 +352,10 @@ button { cursor: pointer; }
   /* Deliberately not `contain`: when a pinned sidebar reaches its end the wheel
      should carry on scrolling the page rather than stopping dead. */
   scrollbar-width: thin;
-  scrollbar-color: rgba(157, 130, 74, 0.5) transparent;
+  scrollbar-color: var(--scroll-thumb) transparent;
 }
 .scroll::-webkit-scrollbar { width: 9px; }
-.scroll::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.3); }
+.scroll::-webkit-scrollbar-track { background: var(--scroll-track); }
 .scroll::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, var(--gold-500), var(--bronze));
   border: 2px solid transparent;
@@ -163,10 +395,10 @@ button { cursor: pointer; }
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(120% 80% at 50% -10%, rgba(58, 78, 112, 0.28), transparent 60%),
-    radial-gradient(90% 70% at 12% 100%, rgba(96, 72, 34, 0.16), transparent 62%),
-    radial-gradient(70% 60% at 88% 88%, rgba(40, 84, 104, 0.14), transparent 60%),
-    linear-gradient(180deg, #070a11 0%, #04060a 45%, #05070c 100%);
+    radial-gradient(120% 80% at 50% -10%, var(--wash-a), transparent 60%),
+    radial-gradient(90% 70% at 12% 100%, var(--wash-b), transparent 62%),
+    radial-gradient(70% 60% at 88% 88%, var(--wash-c), transparent 60%),
+    var(--wash-base);
 }
 
 /* A very fine diagonal weave; the fabric texture under FFXIV's window art. */
@@ -175,14 +407,14 @@ button { cursor: pointer; }
   inset: 0;
   opacity: 0.5;
   background-image:
-    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.014) 0 1px, transparent 1px 6px),
-    repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.01) 0 1px, transparent 1px 6px);
+    repeating-linear-gradient(45deg, var(--weave-a) 0 1px, transparent 1px 6px),
+    repeating-linear-gradient(-45deg, var(--weave-b) 0 1px, transparent 1px 6px);
 }
 
 .backdrop__vignette {
   position: absolute;
   inset: 0;
-  background: radial-gradient(105% 90% at 50% 45%, transparent 45%, rgba(0, 0, 0, 0.72) 100%);
+  background: radial-gradient(105% 90% at 50% 45%, transparent 45%, var(--vignette) 100%);
 }
 
 /* ------------------------------------------------------------------- shell */
@@ -271,7 +503,7 @@ button { cursor: pointer; }
   padding: 0 16px;
   min-height: 58px;
   background:
-    linear-gradient(180deg, rgba(28, 34, 46, 0.94), rgba(9, 12, 18, 0.96)),
+    linear-gradient(180deg, var(--masthead-top), var(--masthead-bottom)),
     var(--ink-900);
   border: 1px solid var(--edge);
   border-radius: 2px;
@@ -305,7 +537,7 @@ button { cursor: pointer; }
 }
 .masthead__mark:hover {
   border-color: var(--edge-soft);
-  filter: drop-shadow(0 0 10px rgba(216, 192, 136, 0.65));
+  filter: drop-shadow(0 0 10px rgb(var(--gold-rgb) / 0.65));
   transform: rotate(90deg);
 }
 
@@ -323,7 +555,7 @@ button { cursor: pointer; }
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--gold-100);
-  text-shadow: 0 0 18px rgba(216, 192, 136, 0.25);
+  text-shadow: 0 0 18px rgb(var(--gold-rgb) / 0.25);
   white-space: nowrap;
 }
 
@@ -349,7 +581,7 @@ button { cursor: pointer; }
 }
 .masthead__subtitle--link:hover {
   color: var(--gold-200);
-  text-shadow: 0 0 14px rgba(216, 192, 136, 0.3);
+  text-shadow: 0 0 14px rgb(var(--gold-rgb) / 0.3);
 }
 
 .masthead__name {
@@ -360,7 +592,7 @@ button { cursor: pointer; }
   flex: 1 1 90px;
   min-width: 90px;
   max-width: 300px;
-  background: rgba(0, 0, 0, 0.45);
+  background: var(--well);
   border: 1px solid var(--edge-soft);
   border-radius: 2px;
   padding: 6px 10px;
@@ -374,7 +606,7 @@ button { cursor: pointer; }
 .masthead__name:focus {
   outline: none;
   border-color: var(--gold-400);
-  box-shadow: 0 0 0 1px rgba(216, 192, 136, 0.2), 0 0 18px -4px var(--glow-gold);
+  box-shadow: 0 0 0 1px rgb(var(--gold-rgb) / 0.2), 0 0 18px -4px var(--glow-gold);
 }
 
 .masthead__actions {
@@ -421,7 +653,7 @@ button { cursor: pointer; }
      The same panel is 292px in a sidebar and 890px in the centre column. */
   container-type: inline-size;
   background:
-    linear-gradient(180deg, rgba(17, 22, 32, 0.9) 0%, rgba(8, 11, 17, 0.94) 100%),
+    linear-gradient(180deg, var(--panel-top) 0%, var(--panel-bottom) 100%),
     var(--ink-900);
   border: 1px solid var(--edge-soft);
   border-radius: 2px;
@@ -433,7 +665,7 @@ button { cursor: pointer; }
   content: '';
   position: absolute;
   inset: 3px;
-  border: 1px solid rgba(255, 255, 255, 0.03);
+  border: 1px solid rgb(var(--tint-rgb) / 0.03);
   border-radius: 1px;
   pointer-events: none;
 }
@@ -458,7 +690,7 @@ button { cursor: pointer; }
   padding: 9px 13px 8px;
   /* Opaque: content scrolls underneath it. */
   background:
-    linear-gradient(180deg, rgba(32, 39, 52, 0.95), rgba(16, 21, 31, 0.98)),
+    linear-gradient(180deg, var(--head-top), var(--head-bottom)),
     var(--ink-900);
   border-bottom: 1px solid var(--edge-soft);
 }
@@ -604,14 +836,14 @@ button { cursor: pointer; }
   position: absolute;
   inset: 0;
   border-radius: 2px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.06), transparent);
+  background: linear-gradient(90deg, transparent, var(--sheen), transparent);
   transform: translateX(-100%);
   opacity: 0;
   pointer-events: none;
 }
 
 .row:hover {
-  background: rgba(255, 255, 255, 0.035);
+  background: rgb(var(--tint-rgb) / 0.035);
   color: var(--text);
   border-color: var(--hairline);
 }
@@ -620,8 +852,8 @@ button { cursor: pointer; }
 }
 
 .row.is-selected {
-  background: linear-gradient(90deg, rgba(216, 192, 136, 0.17), rgba(216, 192, 136, 0.03) 62%, transparent);
-  border-color: rgba(216, 192, 136, 0.28);
+  background: linear-gradient(90deg, rgb(var(--gold-rgb) / 0.17), rgb(var(--gold-rgb) / 0.03) 62%, transparent);
+  border-color: rgb(var(--gold-rgb) / 0.28);
   color: var(--gold-100);
   box-shadow: inset 2px 0 0 var(--gold-300), 0 0 22px -12px var(--glow-gold);
 }
@@ -675,7 +907,7 @@ button { cursor: pointer; }
   align-items: center;
   gap: 6px;
   padding: 6px 12px;
-  background: linear-gradient(180deg, rgba(38, 46, 60, 0.85), rgba(14, 18, 26, 0.9));
+  background: linear-gradient(180deg, var(--btn-top), var(--btn-bottom));
   border: 1px solid var(--edge-soft);
   border-radius: 2px;
   font-family: var(--font-display);
@@ -703,31 +935,31 @@ button { cursor: pointer; }
 .btn:active { transform: translateY(1px); }
 
 .btn--ghost {
-  background: rgba(0, 0, 0, 0.28);
+  background: var(--btn-ghost);
   border-color: transparent;
 }
 .btn--ghost:hover { border-color: var(--edge-soft); }
 
 .btn--primary {
-  background: linear-gradient(180deg, rgba(157, 130, 74, 0.5), rgba(80, 64, 34, 0.4));
+  background: linear-gradient(180deg, var(--btn-primary-top), var(--btn-primary-bottom));
   border-color: var(--edge-hard);
   color: var(--gold-100);
 }
 .btn--primary:hover {
-  background: linear-gradient(180deg, rgba(192, 162, 98, 0.6), rgba(100, 80, 42, 0.5));
-  box-shadow: 0 0 26px -8px rgba(216, 192, 136, 0.5);
+  background: linear-gradient(180deg, var(--btn-primary-hover-top), var(--btn-primary-hover-bottom));
+  box-shadow: 0 0 26px -8px rgb(var(--gold-rgb) / 0.5);
 }
 
 .btn--danger:hover {
   color: var(--alert);
-  border-color: rgba(227, 112, 93, 0.4);
-  box-shadow: 0 0 20px -8px rgba(227, 112, 93, 0.5);
+  border-color: rgb(var(--alert-rgb) / 0.4);
+  box-shadow: 0 0 20px -8px rgb(var(--alert-rgb) / 0.5);
 }
 
 .btn.is-active {
   color: var(--gold-100);
   border-color: var(--edge-hard);
-  background: linear-gradient(180deg, rgba(157, 130, 74, 0.35), rgba(60, 48, 26, 0.3));
+  background: linear-gradient(180deg, var(--btn-active-top), var(--btn-active-bottom));
 }
 
 .btn--icon {
@@ -742,7 +974,7 @@ button { cursor: pointer; }
   width: 20px;
   height: 20px;
   flex: none;
-  background: rgba(255, 255, 255, 0.04);
+  background: rgb(var(--tint-rgb) / 0.04);
   border: 1px solid var(--hairline);
   border-radius: 2px;
   color: var(--text-3);
@@ -752,7 +984,7 @@ button { cursor: pointer; }
   transition: all 0.16s var(--ease);
 }
 .step:hover:not(:disabled) {
-  background: rgba(216, 192, 136, 0.16);
+  background: rgb(var(--gold-rgb) / 0.16);
   border-color: var(--edge-hard);
   color: var(--gold-100);
 }
@@ -776,7 +1008,7 @@ button { cursor: pointer; }
 .input {
   width: 100%;
   padding: 6px 9px;
-  background: rgba(0, 0, 0, 0.42);
+  background: var(--well);
   border: 1px solid var(--edge-soft);
   border-radius: 2px;
   color: var(--text);
@@ -789,7 +1021,7 @@ button { cursor: pointer; }
 .input:focus {
   outline: none;
   border-color: var(--gold-400);
-  box-shadow: 0 0 0 1px rgba(216, 192, 136, 0.18), 0 0 20px -6px var(--glow-gold);
+  box-shadow: 0 0 0 1px rgb(var(--gold-rgb) / 0.18), 0 0 20px -6px var(--glow-gold);
 }
 .select option { background: var(--ink-700); color: var(--text); }
 
@@ -799,7 +1031,7 @@ button { cursor: pointer; }
   gap: 9px;
   width: 100%;
   padding: 6px 9px;
-  background: rgba(255, 255, 255, 0.02);
+  background: rgb(var(--tint-rgb) / 0.02);
   border: 1px solid transparent;
   border-radius: 2px;
   color: var(--text-2);
@@ -808,14 +1040,14 @@ button { cursor: pointer; }
   transition: all 0.18s var(--ease);
 }
 .toggle:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgb(var(--tint-rgb) / 0.05);
   border-color: var(--hairline);
   color: var(--text);
 }
 .toggle.is-on {
   color: var(--gold-100);
-  border-color: rgba(216, 192, 136, 0.24);
-  background: linear-gradient(90deg, rgba(216, 192, 136, 0.13), transparent);
+  border-color: rgb(var(--gold-rgb) / 0.24);
+  background: linear-gradient(90deg, rgb(var(--gold-rgb) / 0.13), transparent);
 }
 
 /* The mark itself: an empty diamond that fills when on. */
@@ -848,7 +1080,7 @@ button { cursor: pointer; }
   align-items: center;
   gap: 5px;
   padding: 2px 7px;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgb(var(--tint-rgb) / 0.05);
   border: 1px solid var(--hairline);
   border-radius: 2px;
   font-family: var(--font-display);
@@ -859,9 +1091,9 @@ button { cursor: pointer; }
   color: var(--text-3);
   white-space: nowrap;
 }
-.chip--gold { color: var(--gold-200); border-color: var(--edge); background: rgba(216, 192, 136, 0.09); }
-.chip--alert { color: var(--alert); border-color: rgba(227, 112, 93, 0.35); background: var(--alert-dim); }
-.chip--good { color: var(--affirm); border-color: rgba(143, 214, 160, 0.3); background: rgba(143, 214, 160, 0.08); }
+.chip--gold { color: var(--gold-200); border-color: var(--edge); background: rgb(var(--gold-rgb) / 0.09); }
+.chip--alert { color: var(--alert); border-color: rgb(var(--alert-rgb) / 0.35); background: var(--alert-dim); }
+.chip--good { color: var(--affirm); border-color: rgb(var(--affirm-rgb) / 0.3); background: rgb(var(--affirm-rgb) / 0.08); }
 
 /*
  * What a chosen material, part or enchantment does, under the select that chose
@@ -931,7 +1163,7 @@ button { cursor: pointer; }
 .tab.is-active {
   color: var(--gold-100);
   border-bottom-color: var(--gold-300);
-  text-shadow: 0 0 14px rgba(216, 192, 136, 0.4);
+  text-shadow: 0 0 14px rgb(var(--gold-rgb) / 0.4);
 }
 /* Holds a class name, which can be "Shapeshifter" or "Aquamancer". Capped and
    ellipsised so the tab strip can never widen the panel past its column. */
@@ -1018,14 +1250,14 @@ button { cursor: pointer; }
 .stat-head span:nth-child(5) { text-align: right; }
 
 .stat:hover {
-  background: rgba(255, 255, 255, 0.035);
+  background: rgb(var(--tint-rgb) / 0.035);
   border-color: var(--hairline);
 }
 
 .stat.is-focused,
 .stat:focus-within {
-  background: linear-gradient(90deg, rgba(216, 192, 136, 0.12), rgba(216, 192, 136, 0.02) 70%, transparent);
-  border-color: rgba(216, 192, 136, 0.26);
+  background: linear-gradient(90deg, rgb(var(--gold-rgb) / 0.12), rgb(var(--gold-rgb) / 0.02) 70%, transparent);
+  border-color: rgb(var(--gold-rgb) / 0.26);
   box-shadow: inset 2px 0 0 var(--gold-300);
 }
 
@@ -1097,7 +1329,7 @@ button { cursor: pointer; }
 .stat__input {
   width: 42px;
   padding: 2px 4px;
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--well);
   border: 1px solid var(--hairline);
   border-radius: 2px;
   font-family: var(--font-num);
@@ -1126,8 +1358,8 @@ button { cursor: pointer; }
   position: relative;
   height: 9px;
   background:
-    repeating-linear-gradient(90deg, transparent 0 calc(25% - 1px), rgba(255, 255, 255, 0.11) calc(25% - 1px) 25%),
-    rgba(0, 0, 0, 0.55);
+    repeating-linear-gradient(90deg, transparent 0 calc(25% - 1px), var(--tick) calc(25% - 1px) 25%),
+    var(--channel);
   border: 1px solid var(--hairline);
   border-radius: 1px;
   cursor: ew-resize;
@@ -1142,7 +1374,7 @@ button { cursor: pointer; }
   position: absolute;
   top: 0;
   bottom: 0;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0.35), currentColor);
+  background: linear-gradient(90deg, var(--fill-edge), currentColor);
   box-shadow: 0 0 12px -2px currentColor;
   transition: width 0.28s var(--ease-out), left 0.28s var(--ease-out);
 }
@@ -1155,8 +1387,8 @@ button { cursor: pointer; }
   left: 0;
   background: repeating-linear-gradient(
     -45deg,
-    rgba(255, 255, 255, 0.22) 0 1px,
-    rgba(255, 255, 255, 0.05) 1px 4px
+    var(--hatch-a) 0 1px,
+    var(--hatch-b) 1px 4px
   );
   transition: width 0.28s var(--ease-out);
 }
@@ -1192,18 +1424,18 @@ button { cursor: pointer; }
   gap: 12px;
   padding: 6px 12px;
   margin-bottom: 7px;
-  background: linear-gradient(180deg, rgba(28, 35, 47, 0.6), rgba(8, 11, 17, 0.5));
+  background: linear-gradient(180deg, var(--pool-top), var(--pool-bottom));
   border: 1px solid var(--edge-soft);
   border-radius: 2px;
   transition: border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
 }
 .pool.is-over {
-  border-color: rgba(227, 112, 93, 0.45);
-  box-shadow: inset 0 0 30px -12px rgba(227, 112, 93, 0.6);
+  border-color: rgb(var(--alert-rgb) / 0.45);
+  box-shadow: inset 0 0 30px -12px rgb(var(--alert-rgb) / 0.6);
   animation: alert-pulse 2.4s ease-in-out infinite;
 }
 .pool.is-spent {
-  border-color: rgba(143, 214, 160, 0.3);
+  border-color: rgb(var(--affirm-rgb) / 0.3);
 }
 
 .pool__value {
@@ -1213,19 +1445,19 @@ button { cursor: pointer; }
   line-height: 1;
   font-weight: 500;
   color: var(--gold-100);
-  text-shadow: 0 0 24px rgba(216, 192, 136, 0.35);
+  text-shadow: 0 0 24px rgb(var(--gold-rgb) / 0.35);
   transition: color 0.3s var(--ease);
 }
 .pool.is-over .pool__value {
   color: var(--alert);
-  text-shadow: 0 0 24px rgba(227, 112, 93, 0.45);
+  text-shadow: 0 0 24px rgb(var(--alert-rgb) / 0.45);
 }
 
 .pool__meter {
   position: relative;
   flex: 1;
   height: 5px;
-  background: rgba(0, 0, 0, 0.6);
+  background: var(--channel);
   border: 1px solid var(--hairline);
   border-radius: 1px;
   overflow: hidden;
@@ -1238,8 +1470,8 @@ button { cursor: pointer; }
   transition: width 0.4s var(--ease-out), background 0.3s var(--ease);
 }
 .pool.is-over .pool__meter i {
-  background: linear-gradient(90deg, #9c4436, var(--alert));
-  box-shadow: 0 0 14px -2px rgba(227, 112, 93, 0.7);
+  background: linear-gradient(90deg, var(--alert-deep), var(--alert));
+  box-shadow: 0 0 14px -2px rgb(var(--alert-rgb) / 0.7);
 }
 
 /* ------------------------------------------------------------ derived rail */
@@ -1272,7 +1504,7 @@ button { cursor: pointer; }
 }
 .readout--open:focus-visible {
   outline: none;
-  background: rgba(216, 192, 136, 0.1);
+  background: rgb(var(--gold-rgb) / 0.1);
   box-shadow: inset 2px 0 0 var(--gold-300);
 }
 .readout--open:hover .readout__label { color: var(--text-2); }
@@ -1289,12 +1521,12 @@ button { cursor: pointer; }
 }
 .element--open:focus-visible {
   outline: none;
-  background: rgba(216, 192, 136, 0.08);
+  background: rgb(var(--gold-rgb) / 0.08);
   box-shadow: inset 2px 0 0 var(--gold-300);
 }
 
 .readout:hover {
-  background: rgba(255, 255, 255, 0.035);
+  background: rgb(var(--tint-rgb) / 0.035);
   border-left-color: var(--gold-400);
 }
 
@@ -1348,7 +1580,7 @@ button { cursor: pointer; }
   border-radius: 2px;
   transition: background-color 0.2s var(--ease);
 }
-.element:hover { background: rgba(255, 255, 255, 0.035); }
+.element:hover { background: rgb(var(--tint-rgb) / 0.035); }
 
 .element__gem {
   width: 8px;
@@ -1395,7 +1627,7 @@ button { cursor: pointer; }
   display: grid;
   gap: 2px;
   padding: 8px 10px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.028), transparent);
+  background: linear-gradient(180deg, rgb(var(--tint-rgb) / 0.028), transparent);
   border: 1px solid var(--hairline);
   border-radius: 2px;
   text-align: left;
@@ -1408,7 +1640,7 @@ button { cursor: pointer; }
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.07), transparent);
+  background: linear-gradient(90deg, transparent, var(--sheen-card), transparent);
   transform: translateX(-100%);
   opacity: 0;
   pointer-events: none;
@@ -1419,12 +1651,12 @@ button { cursor: pointer; }
   border-color: var(--edge);
   color: var(--text);
   transform: translateY(-1px);
-  box-shadow: 0 10px 24px -18px rgba(0, 0, 0, 1);
+  box-shadow: var(--shadow-card);
 }
 
 .card.is-selected {
-  border-color: rgba(216, 192, 136, 0.45);
-  background: linear-gradient(180deg, rgba(216, 192, 136, 0.15), rgba(216, 192, 136, 0.02));
+  border-color: rgb(var(--gold-rgb) / 0.45);
+  background: linear-gradient(180deg, rgb(var(--gold-rgb) / 0.15), rgb(var(--gold-rgb) / 0.02));
   color: var(--gold-100);
   box-shadow: 0 0 26px -12px var(--glow-gold), inset 0 0 22px -14px var(--glow-gold);
 }
@@ -1460,14 +1692,14 @@ button { cursor: pointer; }
 /* The base class runs full width above its promotions, which is most of what
    tells the two apart before the badge is read. */
 .card--base {
-  border-color: rgba(216, 192, 136, 0.28);
-  background: linear-gradient(180deg, rgba(216, 192, 136, 0.07), transparent);
+  border-color: rgb(var(--gold-rgb) / 0.28);
+  background: linear-gradient(180deg, rgb(var(--gold-rgb) / 0.07), transparent);
 }
 .card--base .card__name { font-size: 14.5px; letter-spacing: 0.08em; }
 
 .card--promoted {
   /* A hanging indent bar, reading as a branch off the base above. */
-  border-left: 2px solid rgba(216, 192, 136, 0.22);
+  border-left: 2px solid rgb(var(--gold-rgb) / 0.22);
 }
 
 .card__meta {
@@ -1508,10 +1740,10 @@ button { cursor: pointer; }
   text-align: left;
   transition: all 0.18s var(--ease);
 }
-.entry:hover { background: rgba(255, 255, 255, 0.035); border-color: var(--hairline); }
+.entry:hover { background: rgb(var(--tint-rgb) / 0.035); border-color: var(--hairline); }
 .entry.is-taken {
-  background: linear-gradient(90deg, rgba(216, 192, 136, 0.12), transparent 70%);
-  border-color: rgba(216, 192, 136, 0.22);
+  background: linear-gradient(90deg, rgb(var(--gold-rgb) / 0.12), transparent 70%);
+  border-color: rgb(var(--gold-rgb) / 0.22);
   box-shadow: inset 2px 0 0 var(--gold-400);
 }
 .entry.is-blocked { opacity: 0.45; }
@@ -1562,11 +1794,11 @@ button { cursor: pointer; }
   padding: 1px 5px;
   color: var(--text-4);
   border-color: transparent;
-  background: rgba(255, 255, 255, 0.04);
+  background: rgb(var(--tint-rgb) / 0.04);
 }
 .entry__name .chip--gold {
   color: var(--gold-300);
-  background: rgba(216, 192, 136, 0.09);
+  background: rgb(var(--gold-rgb) / 0.09);
 }
 .entry.is-blocked .entry__name { color: var(--text-3); }
 
@@ -1594,7 +1826,7 @@ button { cursor: pointer; }
 .rank-pip {
   width: 4px;
   height: 11px;
-  background: rgba(255, 255, 255, 0.09);
+  background: var(--pip-off);
   border-radius: 1px;
   transition: all 0.24s var(--ease-out);
 }
@@ -1638,13 +1870,13 @@ button { cursor: pointer; }
   transition: all 0.18s var(--ease);
 }
 .slot__open:hover {
-  background: rgba(255, 255, 255, 0.04);
+  background: rgb(var(--tint-rgb) / 0.04);
   border-color: var(--hairline);
 }
 
 .slot.is-filled .slot__open {
-  background: linear-gradient(90deg, rgba(216, 192, 136, 0.1), transparent 72%);
-  border-color: rgba(216, 192, 136, 0.2);
+  background: linear-gradient(90deg, rgb(var(--gold-rgb) / 0.1), transparent 72%);
+  border-color: rgb(var(--gold-rgb) / 0.2);
   box-shadow: inset 2px 0 0 var(--gold-400);
 }
 
@@ -1654,7 +1886,7 @@ button { cursor: pointer; }
   place-items: center;
   width: 26px;
   height: 26px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(0, 0, 0, 0.4));
+  background: linear-gradient(180deg, var(--glyph-top), var(--glyph-bottom));
   border: 1px solid var(--hairline);
   border-radius: 2px;
   font-size: 13px;
@@ -1794,7 +2026,7 @@ button { cursor: pointer; }
   display: grid;
   gap: 4px;
   padding: 5px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.035);
+  border-bottom: 1px solid rgb(var(--tint-rgb) / 0.035);
 }
 .effect:last-child { border-bottom: none; }
 
@@ -1834,7 +2066,7 @@ button { cursor: pointer; }
   -webkit-appearance: none;
   appearance: none;
   height: 4px;
-  background: rgba(0, 0, 0, 0.55);
+  background: var(--channel);
   border: 1px solid var(--hairline);
   border-radius: 2px;
   outline: none;
@@ -1869,8 +2101,8 @@ button { cursor: pointer; }
 .install {
   margin-top: 8px;
   padding: 8px 10px;
-  background: linear-gradient(90deg, rgba(216, 192, 136, 0.09), transparent);
-  border: 1px solid rgba(216, 192, 136, 0.22);
+  background: linear-gradient(90deg, rgb(var(--gold-rgb) / 0.09), transparent);
+  border: 1px solid rgb(var(--gold-rgb) / 0.22);
   border-radius: 2px;
 }
 
@@ -1889,7 +2121,7 @@ button { cursor: pointer; }
   flex: 1;
   min-width: 0;
   padding: 5px 9px;
-  background: rgba(0, 0, 0, 0.42);
+  background: var(--well);
   border: 1px solid var(--edge-soft);
   border-radius: 2px;
   font-size: 12.5px;
@@ -1911,7 +2143,7 @@ button { cursor: pointer; }
   display: grid;
   place-items: center;
   padding: 24px;
-  background: rgba(2, 4, 7, 0.72);
+  background: var(--scrim);
   animation: fade-in 0.24s var(--ease);
 }
 
@@ -1931,11 +2163,11 @@ button { cursor: pointer; }
   display: grid;
   grid-template-rows: auto minmax(0, 1fr) auto;
   background:
-    linear-gradient(180deg, rgba(20, 26, 37, 0.98), rgba(7, 10, 16, 0.99)),
+    linear-gradient(180deg, var(--modal-top), var(--modal-bottom)),
     var(--ink-900);
   border: 1px solid var(--edge);
   border-radius: 2px;
-  box-shadow: 0 40px 90px -30px rgba(0, 0, 0, 1), var(--shadow-panel);
+  box-shadow: var(--shadow-modal), var(--shadow-panel);
   animation: modal-in 0.34s var(--ease-out);
 }
 
@@ -1991,7 +2223,7 @@ button { cursor: pointer; }
   width: 100%;
   min-height: 260px;
   padding: 11px;
-  background: rgba(0, 0, 0, 0.55);
+  background: var(--well);
   border: 1px solid var(--edge-soft);
   border-radius: 2px;
   font-family: var(--font-num);
@@ -2014,10 +2246,10 @@ button { cursor: pointer; }
   align-items: center;
   gap: 9px;
   padding: 9px 18px;
-  background: linear-gradient(180deg, rgba(26, 33, 45, 0.97), rgba(9, 12, 18, 0.97));
+  background: linear-gradient(180deg, var(--notice-top), var(--notice-bottom));
   border: 1px solid var(--edge);
   border-radius: 2px;
-  box-shadow: 0 22px 50px -22px rgba(0, 0, 0, 1), 0 0 40px -20px var(--glow-gold);
+  box-shadow: var(--shadow-notice), 0 0 40px -20px var(--glow-gold);
   font-family: var(--font-display);
   font-size: 12.5px;
   letter-spacing: 0.12em;
@@ -2026,8 +2258,8 @@ button { cursor: pointer; }
   animation: notice-in 0.4s var(--ease-out);
   transform: translateX(-50%);
 }
-.notice--bad { border-color: rgba(227, 112, 93, 0.5); color: var(--alert); }
-.notice--good { border-color: rgba(143, 214, 160, 0.45); color: var(--affirm); }
+.notice--bad { border-color: rgb(var(--alert-rgb) / 0.5); color: var(--alert); }
+.notice--good { border-color: rgb(var(--affirm-rgb) / 0.45); color: var(--affirm); }
 
 /* ------------------------------------------------------------- misc pieces */
 
@@ -2043,10 +2275,10 @@ button { cursor: pointer; }
   padding: 8px 10px;
   margin-bottom: 9px;
   background: var(--alert-dim);
-  border: 1px solid rgba(227, 112, 93, 0.3);
+  border: 1px solid rgb(var(--alert-rgb) / 0.3);
   border-radius: 2px;
   font-size: 11.5px;
-  color: #f0a99b;
+  color: var(--alert-text);
 }
 
 .empty {
@@ -2076,7 +2308,7 @@ button { cursor: pointer; }
   min-width: 17px;
   padding: 0 4px;
   height: 16px;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgb(var(--tint-rgb) / 0.06);
   border: 1px solid var(--hairline);
   border-radius: 2px;
   font-family: var(--font-num);
@@ -2092,13 +2324,13 @@ button { cursor: pointer; }
 }
 
 @keyframes value-flash {
-  0% { color: var(--gold-100); text-shadow: 0 0 16px rgba(216, 192, 136, 0.9); }
+  0% { color: var(--gold-100); text-shadow: 0 0 16px rgb(var(--gold-rgb) / 0.9); }
   100% { color: var(--text); text-shadow: none; }
 }
 
 @keyframes alert-pulse {
-  0%, 100% { box-shadow: inset 0 0 30px -12px rgba(227, 112, 93, 0.5); }
-  50% { box-shadow: inset 0 0 34px -8px rgba(227, 112, 93, 0.8); }
+  0%, 100% { box-shadow: inset 0 0 30px -12px rgb(var(--alert-rgb) / 0.5); }
+  50% { box-shadow: inset 0 0 34px -8px rgb(var(--alert-rgb) / 0.8); }
 }
 
 @keyframes fade-in {
@@ -2149,7 +2381,7 @@ button { cursor: pointer; }
   align-items: center;
   gap: 8px;
   padding: 6px 9px;
-  background: rgba(255, 255, 255, 0.02);
+  background: rgb(var(--tint-rgb) / 0.02);
   border: 1px solid transparent;
   border-radius: 2px;
   color: var(--text-3);
@@ -2157,11 +2389,11 @@ button { cursor: pointer; }
   text-align: left;
   transition: all 0.18s var(--ease);
 }
-.le:hover { background: rgba(255, 255, 255, 0.045); border-color: var(--hairline); }
+.le:hover { background: rgb(var(--tint-rgb) / 0.045); border-color: var(--hairline); }
 .le.is-on {
   color: var(--text);
-  background: linear-gradient(90deg, rgba(216, 192, 136, 0.1), transparent 75%);
-  border-color: rgba(216, 192, 136, 0.24);
+  background: linear-gradient(90deg, rgb(var(--gold-rgb) / 0.1), transparent 75%);
+  border-color: rgb(var(--gold-rgb) / 0.24);
 }
 
 .le__bar {
@@ -2181,7 +2413,7 @@ button { cursor: pointer; }
   align-items: center;
   gap: 9px;
   padding: 4px 9px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgb(var(--tint-rgb) / 0.03);
 }
 .eladjust:last-child { border-bottom: none; }
 
@@ -2345,12 +2577,12 @@ button { cursor: pointer; }
   border: 1px solid var(--hairline);
   border-left: 2px solid var(--edge-soft);
   border-radius: 2px;
-  background: rgba(255, 255, 255, 0.012);
+  background: rgb(var(--tint-rgb) / 0.012);
 }
 
 .yskill.is-held {
   border-left-color: var(--gold-400);
-  background: linear-gradient(90deg, rgba(216, 192, 136, 0.08), transparent 70%);
+  background: linear-gradient(90deg, rgb(var(--gold-rgb) / 0.08), transparent 70%);
 }
 
 .yskill__head {
@@ -2437,16 +2669,16 @@ button { cursor: pointer; }
   display: grid;
   gap: 1px;
   padding: 9px 11px;
-  background: rgba(0, 0, 0, 0.35);
+  background: var(--figure-bg);
   border: 1px solid var(--hairline);
   border-radius: 2px;
   text-align: left;
   transition: border-color 0.18s var(--ease), background-color 0.18s var(--ease);
 }
-.figure:hover { border-color: var(--edge-soft); background: rgba(255, 255, 255, 0.03); }
+.figure:hover { border-color: var(--edge-soft); background: rgb(var(--tint-rgb) / 0.03); }
 .figure.is-active {
-  background: linear-gradient(180deg, rgba(216, 192, 136, 0.11), rgba(216, 192, 136, 0.02));
-  border-color: rgba(216, 192, 136, 0.34);
+  background: linear-gradient(180deg, rgb(var(--gold-rgb) / 0.11), rgb(var(--gold-rgb) / 0.02));
+  border-color: rgb(var(--gold-rgb) / 0.34);
   box-shadow: inset 0 0 22px -12px var(--glow-gold);
 }
 .figure:focus-visible {
@@ -2478,11 +2710,11 @@ button { cursor: pointer; }
 .figure--static { cursor: default; }
 .figure--static:hover {
   border-color: var(--hairline);
-  background: rgba(0, 0, 0, 0.35);
+  background: var(--figure-bg);
 }
 .figure--static.is-active:hover {
-  background: linear-gradient(180deg, rgba(216, 192, 136, 0.11), rgba(216, 192, 136, 0.02));
-  border-color: rgba(216, 192, 136, 0.34);
+  background: linear-gradient(180deg, rgb(var(--gold-rgb) / 0.11), rgb(var(--gold-rgb) / 0.02));
+  border-color: rgb(var(--gold-rgb) / 0.34);
 }
 
 /* The attributes a derived figure reads, each a route to that attribute's card. */
@@ -2501,13 +2733,13 @@ button { cursor: pointer; }
   transition: background-color 0.18s var(--ease), border-color 0.18s var(--ease);
 }
 .source:hover {
-  background: rgba(255, 255, 255, 0.035);
+  background: rgb(var(--tint-rgb) / 0.035);
   border-color: var(--hairline);
 }
 .source:focus-visible {
   outline: none;
-  border-color: rgba(216, 192, 136, 0.34);
-  background: rgba(216, 192, 136, 0.08);
+  border-color: rgb(var(--gold-rgb) / 0.34);
+  background: rgb(var(--gold-rgb) / 0.08);
 }
 
 .source__abbr {
@@ -2652,11 +2884,11 @@ button { cursor: pointer; }
     gap: 2px;
     /* Opaque: the panels scroll underneath it. */
     background:
-      linear-gradient(180deg, rgba(20, 25, 34, 0.98), rgba(9, 12, 18, 0.98)),
+      linear-gradient(180deg, var(--nav-top), var(--nav-bottom)),
       var(--ink-900);
     border: 1px solid var(--edge-soft);
     border-radius: 2px;
-    box-shadow: 0 6px 18px -12px rgba(0, 0, 0, 0.9);
+    box-shadow: var(--shadow-nav);
   }
 
   /* The panel headers stick too, and two sticky bands stacking would hide the

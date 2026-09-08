@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import type { StatKey } from '../../types';
-import { ELEMENT_COLORS, STAT_COLORS, onDark } from '../../data/colors';
+import { elementInk, statInk } from '../../data/colors';
 import { STAT_INFO } from '../../data/stats';
 import { Modal } from '../ui/Modal';
 import { SectionHead } from '../ui/Panel';
@@ -40,7 +40,7 @@ export function StatCard({ builder, stat, view, onView, onSelect, onClose }: Sta
   const info = STAT_INFO[stat];
   const parts = statBreakdown(build, evaluation, stat);
   const element = ELEMENT_FOR_STAT[stat];
-  const color = STAT_COLORS[stat] === 'rainbow' ? '#d8c088' : onDark(STAT_COLORS[stat]);
+  const color = statInk(stat);
   const headroom = parts.cap - parts.invested;
 
   const index = STAT_KEYS.indexOf(stat);
@@ -76,7 +76,7 @@ export function StatCard({ builder, stat, view, onView, onSelect, onClose }: Sta
           {stat.toUpperCase()}
         </span>
         {element ? (
-          <span className="chip" style={{ color: onDark(ELEMENT_COLORS[element]) }}>
+          <span className="chip" style={{ color: elementInk(element) }}>
             {element} · {evaluation.elementalAttack[element]} ATK
           </span>
         ) : null}

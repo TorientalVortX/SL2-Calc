@@ -141,7 +141,7 @@ export function AetherApp() {
 
   return (
     <>
-      <Backdrop />
+      <Backdrop theme={builder.theme} />
 
       <div className={`shell ${revealing ? 'is-revealing' : ''}`} aria-hidden={intro ? true : undefined}>
         <Masthead builder={builder} onOpen={setDialog} onReplayIntro={replayIntro} />

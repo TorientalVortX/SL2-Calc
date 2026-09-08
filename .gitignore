@@ -38,3 +38,6 @@ temp/
 # Coverage
 coverage/
 .nyc_output/
+
+# Local SL2 desktop driver
+/tools/sl2-desktop/

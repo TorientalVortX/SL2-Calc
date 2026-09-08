@@ -1,5 +1,6 @@
 import { Corners } from './Panel';
 import { play } from '../state/audio';
+import { THEME_LABEL, THEME_MARK, otherTheme } from '../state/theme';
 import { GAME_DATA_MANIFEST } from '../../domain/buildPersistence';
 import type { Builder } from '../state/useBuilder';
 
@@ -16,10 +17,12 @@ function Crest() {
   return (
     <svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true">
       <defs>
+        {/* The theme's own gold, so the crest darkens onto vellum with everything
+            else rather than staying a pale ghost on it. */}
         <linearGradient id="crest-gold" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#f6ecd2" />
-          <stop offset="55%" stopColor="#c0a262" />
-          <stop offset="100%" stopColor="#6f5a31" />
+          <stop offset="0%" stopColor="var(--gold-100)" />
+          <stop offset="55%" stopColor="var(--gold-400)" />
+          <stop offset="100%" stopColor="var(--bronze)" />
         </linearGradient>
       </defs>
       <path d="M16 2 L28 16 L16 30 L4 16 Z" fill="none" stroke="url(#crest-gold)" strokeWidth="1.2" />
@@ -31,7 +34,7 @@ function Crest() {
 }
 
 export function Masthead({ builder, onOpen, onReplayIntro }: MastheadProps) {
-  const { build, buildName, setBuildName, evaluation, sound, setSound, version } = builder;
+  const { build, buildName, setBuildName, evaluation, sound, setSound, theme, setTheme, version } = builder;
   const remaining = evaluation.pointBudget - evaluation.pointsSpent;
 
   return (
@@ -107,6 +110,20 @@ export function Masthead({ builder, onOpen, onReplayIntro }: MastheadProps) {
           onClick={() => { play('select'); onOpen('shortcuts'); }}
         >
           <span className="keycap">?</span>
+        </button>
+
+        {/* Reports the theme in force rather than the one it would move to: the
+            two marks are a moon and a sun, and either reads as a promise or as a
+            statement depending on which way round you take it. The title is what
+            settles it. */}
+        <button
+          type="button"
+          className="btn btn--ghost btn--icon"
+          title={`Switch to the ${THEME_LABEL[otherTheme(theme)].toLowerCase()} theme`}
+          aria-label={`Theme: ${THEME_LABEL[theme]}. Switch to the ${THEME_LABEL[otherTheme(theme)].toLowerCase()} theme`}
+          onClick={() => { play('select'); setTheme(otherTheme(theme)); }}
+        >
+          {THEME_MARK[theme]} {THEME_LABEL[theme]}
         </button>
 
         <button

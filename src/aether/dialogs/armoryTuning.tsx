@@ -12,7 +12,7 @@
 import type { StatKey, WeaponUpgradePoints } from '../../types';
 import { NO_ARMOR_QUALITY, resolveArmorUpgradePoints, resolveUpgradePoints } from '../../types';
 import { ARMORS } from '../../data/armors';
-import { STAT_COLORS, onDark } from '../../data/colors';
+import { statInk } from '../../data/colors';
 import modifierData from '../../data/content/weapon-modifiers.json';
 import {
   ARMOR_MATERIAL_CATEGORIES,
@@ -353,7 +353,7 @@ export function WeaponTuning({ builder, which }: { builder: Builder; which: 'pri
         <div className="scaling">
           {STAT_KEYS.map(stat => (
             <label className="scaling__cell" key={stat} title={`${stat.toUpperCase()} scaling`}>
-              <span style={{ color: STAT_COLORS[stat] === 'rainbow' ? 'var(--gold-200)' : onDark(STAT_COLORS[stat]) }}>
+              <span style={{ color: statInk(stat) }}>
                 {stat.toUpperCase()}
               </span>
               <input

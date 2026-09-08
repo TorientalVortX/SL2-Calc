@@ -9,7 +9,24 @@
    the acts are the only signal that crosses over.
    ========================================================================= */
 
+/*
+ * The opening stays dark in both themes.
+ *
+ * It is a curtain rather than a surface: a lit stage, a crest assembling out of
+ * nothing, and one line of type. There is no light version of that, and a light
+ * one would also mean drawing the whole sequence twice for a moment that lasts
+ * six seconds and is skippable. So the five colour tokens it reads are pinned
+ * here to their dark values, and the sheet behind is whatever the reader chose.
+ */
 .intro {
+  --gold-100: #f6ecd2;
+  --gold-400: #c0a262;
+  --text-3: #707a8d;
+  --text-4: #4b5468;
+  --edge-soft: rgba(200, 170, 106, 0.12);
+  --edge-hard: rgba(200, 170, 106, 0.4);
+  color-scheme: dark;
+
   position: fixed;
   inset: 0;
   z-index: 100;

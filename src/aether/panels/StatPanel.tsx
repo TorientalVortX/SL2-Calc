@@ -1,6 +1,6 @@
 import { useCallback, type KeyboardEvent } from 'react';
 import type { StatKey } from '../../types';
-import { STAT_COLORS, onDark } from '../../data/colors';
+import { statInk } from '../../data/colors';
 import { STAT_INFO } from '../../data/stats';
 import { Panel } from '../ui/Panel';
 import { AnimatedNumber } from '../ui/AnimatedNumber';
@@ -240,7 +240,7 @@ function StatRow({
   const parts = statBreakdown(build, evaluation, stat);
   const { cap, floor, invested } = parts;
   const shown = view === 'raw' ? parts.raw : parts.scaled;
-  const color = STAT_COLORS[stat] === 'rainbow' ? '#d8c088' : onDark(STAT_COLORS[stat]);
+  const color = statInk(stat);
 
   const title = [
     STAT_INFO[stat]?.title ?? STAT_NAMES[stat],

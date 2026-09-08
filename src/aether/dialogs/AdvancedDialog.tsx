@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { BuildState, ElementKey, GameWorld, StampKey } from '../../types';
-import { ELEMENT_COLORS, onDark } from '../../data/colors';
+import { elementInk } from '../../data/colors';
 import { LEGEND_EXTEND } from '../../data/bonuses';
 import { ELEMENT_KEYS } from '../../domain/buildEvaluation';
 import { Modal } from '../ui/Modal';
@@ -309,7 +309,7 @@ interface ElementAdjusterProps {
 
 /** One element's two adjusters, signed so a penalty reads as a penalty. */
 function ElementAdjuster({ element, attack, resistance, onAttack, onResistance }: ElementAdjusterProps) {
-  const colour = onDark(ELEMENT_COLORS[element]);
+  const colour = elementInk(element);
   return (
     <div className="eladjust" style={{ color: colour }}>
       <span className="element__gem" style={{ background: colour }} />

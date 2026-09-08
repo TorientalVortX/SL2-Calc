@@ -1,6 +1,6 @@
 import { useMemo, useState, type KeyboardEvent } from 'react';
 import type { StatKey } from '../../types';
-import { ELEMENT_COLORS, onDark } from '../../data/colors';
+import { elementInk } from '../../data/colors';
 import { play } from '../state/audio';
 import { Panel, SectionHead } from '../ui/Panel';
 import { AnimatedNumber } from '../ui/AnimatedNumber';
@@ -146,7 +146,7 @@ export function AttributesRail({
                   key={row.element}
                   data-nav
                   data-entry={`element:${row.element}`}
-                  style={{ color: onDark(ELEMENT_COLORS[row.element]) }}
+                  style={{ color: elementInk(row.element) }}
                   title={[
                     `${row.element} attack scales from ${row.stat.toUpperCase()}.`,
                     'Resistance is a percentage, from SAN and your race.',

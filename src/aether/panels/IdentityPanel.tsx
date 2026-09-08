@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import type { StatKey } from '../../types';
 import { SUBRACES } from '../../data/races';
 import { ASTROLOGY_PLANETS, FOODS, HISTORY, PLANET_ELEMENTS } from '../../data/bonuses';
-import { STAT_COLORS, onDark } from '../../data/colors';
+import { statInk } from '../../data/colors';
 import { Panel } from '../ui/Panel';
 import { SelectField } from '../ui/controls';
 import { RACE_NAMES, STAT_KEYS, subracesFor } from '../state/build';
@@ -107,6 +107,5 @@ export function IdentityPanel({ builder }: { builder: Builder }) {
 }
 
 function tint(stat: StatKey): string {
-  const color = STAT_COLORS[stat];
-  return color === 'rainbow' ? 'var(--gold-200)' : onDark(color);
+  return statInk(stat);
 }

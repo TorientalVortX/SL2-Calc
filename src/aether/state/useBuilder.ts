@@ -24,6 +24,7 @@ import { TALENT_POINT_BUDGET, skillViolations, talentViolations, traitViolations
 import { talentSpending } from '../../data/talents';
 import { buildReducer, createDefaultBuild, type BuildAction, type LoadoutSheet } from './build';
 import { AUDIO_PREFS_KEY, isAudioEnabled, play, setAudioEnabled } from './audio';
+import { applyTheme, readTheme, writeTheme, type Theme } from './theme';
 
 const STORAGE = {
   draft: 'sl2:aether:draft:v1',
@@ -90,6 +91,8 @@ export interface Builder {
   notify: (tone: Notice['tone'], text: string) => void;
   sound: boolean;
   setSound: (value: boolean) => void;
+  theme: Theme;
+  setTheme: (value: Theme) => void;
   version: string;
   /** A build offered by the URL, or null. See `acceptShare` / `dismissShare`. */
   pendingShare: PendingShare | null;
@@ -171,6 +174,7 @@ export function useBuilder(): Builder {
   const [saves, setSaves] = useState<SaveSlotV1[]>(readSaves);
   const [notice, setNotice] = useState<Notice | null>(null);
   const [sound, setSoundState] = useState(isAudioEnabled);
+  const [theme, setTheme] = useState<Theme>(readTheme);
   const [pendingShare, setPendingShare] = useState<PendingShare | null>(readSharedBuild);
 
   useEffect(() => {
@@ -179,6 +183,13 @@ export function useBuilder(): Builder {
       localStorage.setItem(STORAGE.prefs, JSON.stringify({ sound }));
     } catch { /* private browsing; the preference simply does not persist */ }
   }, [sound]);
+
+  // The attribute goes on `<html>`, outside the tree, so this runs on the first
+  // render too rather than only on a change.
+  useEffect(() => {
+    applyTheme(theme);
+    writeTheme(theme);
+  }, [theme]);
 
   const evaluation = useMemo(() => evaluateBuild(build), [build]);
 
@@ -373,6 +384,8 @@ export function useBuilder(): Builder {
     notify,
     sound,
     setSound,
+    theme,
+    setTheme,
     version: APP_VERSION,
     pendingShare,
     acceptShare,

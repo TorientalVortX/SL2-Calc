@@ -10,9 +10,30 @@
     <meta property="og:description" content="Plan SL2 characters with live derived stats, skills, traits and racials.">
     <meta property="og:type" content="website">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <!--
+      The theme, put on the document before anything is painted.
+
+      This has to run here rather than in the app: the stylesheet below decides
+      the page's colour the moment it parses, which is long before the module
+      bundle executes, so a reader on the light theme would watch the sheet open
+      dark and then flip. The key is the one `state/theme.ts` writes; the two
+      have to stay in step, and the version suffix is what makes a change safe.
+    -->
+    <script>
+      try {
+        if (localStorage.getItem('sl2:aether:theme:v1') === 'light') {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      } catch (error) { /* private browsing; the dark default stands */ }
+    </script>
     <!-- Painted before any stylesheet loads. Without it the first frame of a
          cold load is white, which is a poor way to open a dark cinematic. -->
-    <style>html, body { margin: 0; background: #04060a; }</style>
+    <style>
+      html, body { margin: 0; background: #04060a; }
+      /* Kept in step with `--void` in each theme, by eye: this is only ever on
+         screen for the moment before the real stylesheet arrives. */
+      html[data-theme='light'], html[data-theme='light'] body { background: #dcd6c8; }
+    </style>
 </head>
 <body>
     <div id="root"></div>

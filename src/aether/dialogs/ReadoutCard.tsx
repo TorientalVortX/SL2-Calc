@@ -1,5 +1,5 @@
 import type { BuildEvaluation, BuildState, StatKey } from '../../types';
-import { ELEMENT_COLORS, STAT_COLORS, onDark } from '../../data/colors';
+import { elementInk, statInk } from '../../data/colors';
 import { STAT_INFO } from '../../data/stats';
 import { Modal } from '../ui/Modal';
 import { SectionHead } from '../ui/Panel';
@@ -300,7 +300,7 @@ function ElementBody({
 }) {
   const { row } = entry;
   const adjusted = elementAdjustment(build, row.element);
-  const color = onDark(ELEMENT_COLORS[row.element]);
+  const color = elementInk(row.element);
 
   return (
     <>
@@ -383,7 +383,7 @@ function Sources({
       <SectionHead aside="scaled">Reads from</SectionHead>
       <div className="sources">
         {stats.map(stat => {
-          const color = STAT_COLORS[stat] === 'rainbow' ? '#d8c088' : onDark(STAT_COLORS[stat]);
+          const color = statInk(stat);
           return (
             <button
               key={stat}
