@@ -1,20 +1,19 @@
 import { useMemo, useState } from 'react';
-import type { Skill, SkillConditionals } from '../../types';
+import type { Skill } from '../../types';
 import {
-  conditionalKey,
   groupSkills,
   inertReason,
-  isEffectModelled,
   mergeSkillRanks,
-  signedAmount,
   skillsForClassTree,
   summaryAtRank,
 } from '../../domain/skills';
 import { SectionHead } from '../ui/Panel';
-import { Toggle } from '../ui/controls';
 import { useListNavigation } from '../hooks/useListNavigation';
 import { play } from '../state/audio';
 import type { Builder } from '../state/useBuilder';
+import { CopySpells } from './CopySpells';
+import { SkillCard } from '../dialogs/SkillCard';
+import { SkillEffects } from './SkillEffects';
 
 /**
  * The skill sheet, one section per class the build can spend points in.
@@ -31,6 +30,7 @@ export function SkillsSheet({ builder }: { builder: Builder }) {
   const { build, status, dispatch } = builder;
   const [query, setQuery] = useState('');
   const [takenOnly, setTakenOnly] = useState(false);
+  const [selected, setSelected] = useState<Skill | null>(null);
   const onKeys = useListNavigation(1);
 
   const ranks = useMemo(() => mergeSkillRanks(build.skillRanks), [build.skillRanks]);
@@ -38,11 +38,6 @@ export function SkillsSheet({ builder }: { builder: Builder }) {
     () => new Set(skillsForClassTree(build.mainClass).map(skill => skill.id)),
     [build.mainClass],
   );
-
-  const setConditional = (key: string, on: boolean) => {
-    play(on ? 'select' : 'back');
-    dispatch({ type: 'field', patch: { skillConditionals: { ...build.skillConditionals, [key]: on } } });
-  };
 
   const setRank = (skill: Skill, rank: number) => {
     const next = Math.max(0, Math.min(rank, skill.maxRank));
@@ -63,6 +58,7 @@ export function SkillsSheet({ builder }: { builder: Builder }) {
 
   return (
     <>
+      <CopySpells builder={builder} />
       <div className="filters">
         <input
           className="search"
@@ -124,8 +120,8 @@ export function SkillsSheet({ builder }: { builder: Builder }) {
                         skill={skill}
                         rank={ranks[skill.id] ?? 0}
                         onRank={setRank}
-                        conditionals={build.skillConditionals}
-                        onConditional={setConditional}
+                        builder={builder}
+                        onDetails={() => { play('select'); setSelected(skill); }}
                       />
                     ))}
                   </div>
@@ -135,6 +131,17 @@ export function SkillsSheet({ builder }: { builder: Builder }) {
           );
         })}
       </div>
+      {selected && (
+        <SkillCard
+          key={selected.id}
+          skill={selected}
+          evaluation={builder.evaluation}
+          builder={builder}
+          rank={ranks[selected.id] ?? 0}
+          onRank={rank => setRank(selected, rank)}
+          onClose={() => setSelected(null)}
+        />
+      )}
     </>
   );
 }
@@ -143,34 +150,29 @@ interface SkillRowProps {
   skill: Skill;
   rank: number;
   onRank: (skill: Skill, rank: number) => void;
-  conditionals: SkillConditionals;
-  onConditional: (key: string, on: boolean) => void;
+  builder: Builder;
+  onDetails: () => void;
 }
 
-function SkillRow({ skill, rank, onRank, conditionals, onConditional }: SkillRowProps) {
+function SkillRow({ skill, rank, onRank, builder, onDetails }: SkillRowProps) {
   const inert = inertReason(skill);
   const summary = rank > 0 ? summaryAtRank(skill, rank) : summaryAtRank(skill, 1);
-  /*
-   * Situational bonuses only exist once the skill is ranked, and only matter for
-   * effects the calculator can actually apply. The rest are shown by
-   * `summaryAtRank` as text and would be a switch that does nothing.
-   */
-  const situational = rank > 0
-    ? skill.effects
-      .map((effect, index) => ({ effect, index }))
-      .filter(entry => entry.effect.applies === 'conditional' && isEffectModelled(entry.effect))
-    : [];
-
   return (
     <>
     <div
-      className={`entry ${rank > 0 ? 'is-taken' : ''}`}
+      className={`entry entry--skill ${rank > 0 ? 'is-taken' : ''}`}
       data-nav
       tabIndex={0}
       role="group"
       aria-label={`${skill.name}, rank ${rank} of ${skill.maxRank}`}
       title={inert ? `Not applied to your stats: ${inert}` : undefined}
       onKeyDown={event => {
+        if (event.target !== event.currentTarget) return;
+        if (event.key.toLowerCase() === 'i') {
+          event.preventDefault();
+          onDetails();
+          return;
+        }
         if (event.key === 'Enter' || event.key === ' ') {
           event.preventDefault();
           onRank(skill, rank >= skill.maxRank ? 0 : rank + 1);
@@ -180,6 +182,9 @@ function SkillRow({ skill, rank, onRank, conditionals, onConditional }: SkillRow
       <div className="entry__main">
         <div className="entry__name">
           {skill.name}
+          <button type="button" className="skill-details" aria-label={`Read ${skill.name} details`} onClick={onDetails}>
+            Details
+          </button>
           {inert ? <span className="chip" title={inert}>ref</span> : null}
           {skill.requires?.length ? <span className="chip" title="Has prerequisites">req</span> : null}
         </div>
@@ -216,32 +221,7 @@ function SkillRow({ skill, rank, onRank, conditionals, onConditional }: SkillRow
       </div>
     </div>
 
-    {/*
-      * Off until the player says the condition holds. Most SL2 skill bonuses need
-      * a weapon, a position or a buff window the calculator cannot see, so opting
-      * in is the only honest default, and until now the sheet had no switch at
-      * all, which silently pinned every one of them to off.
-      */}
-    {situational.length ? (
-      <div className="situational">
-        {situational.map(({ effect, index }) => {
-          const key = conditionalKey(skill.id, index);
-          const value = effect.valueByRank[Math.min(rank, effect.valueByRank.length) - 1];
-          return (
-            <Toggle
-              key={key}
-              on={Boolean(conditionals[key])}
-              onChange={on => onConditional(key, on)}
-              hint={`Counts ${signedAmount(value)} ${effect.key} only while the skill's condition holds.`}
-            >
-              <span className="situational__label">
-                When it applies: <span className="num">{signedAmount(value)} {effect.key}</span>
-              </span>
-            </Toggle>
-          );
-        })}
-      </div>
-    ) : null}
+    {rank > 0 && <div className="situational"><SkillEffects skill={skill} rank={rank} builder={builder} /></div>}
     </>
   );
 }

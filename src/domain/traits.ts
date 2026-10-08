@@ -16,7 +16,7 @@
  */
 import type { BuildState, StatKey, StatRecord } from '../types';
 import content from '../data/content/traits.json';
-import { SUBRACES } from '../data/races';
+import { RACES, SUBRACES } from '../data/races';
 
 /**
  * A prerequisite trait, satisfied by any one of `anyOf`.
@@ -116,12 +116,14 @@ export function traitById(id: string): Trait | undefined {
  * the wiki states is free.
  */
 export function traitCost(trait: Trait, race: string | null | undefined): number {
-  if (trait.category === 'History' && race === 'Human') return 0;
+  if (trait.category === 'History' && race && RACES[race]?.human) return 0;
   return 1;
 }
 
-export function traitPointsSpent(ids: string[], race: string | null | undefined): number {
-  return ids.reduce((total, id) => {
+export function traitPointsSpent(ids: string[], race: string | null | undefined, history?: string): number {
+  const selected = historyTraitFor(history ?? 'None');
+  const taken = selected ? [...ids.filter(id => !traitById(id)?.historyKey), selected.id] : ids;
+  return taken.reduce((total, id) => {
     const trait = traitById(id);
     return trait ? total + traitCost(trait, race) : total;
   }, 0);
@@ -157,9 +159,10 @@ export type TraitCheckTarget = Pick<BuildState, 'race' | 'subrace' | 'mainClass'
  */
 export function traitCheckTarget(build: BuildState): TraitCheckTarget {
   const subrace = SUBRACES[build.subrace];
+  const history = historyTraitFor(build.history);
   const baseStats: Partial<StatRecord> = {};
   for (const stat of Object.keys(build.addedStats) as StatKey[]) {
-    baseStats[stat] = (subrace?.[stat] ?? 0) + build.addedStats[stat] + (build.customBaseStats[stat] ?? 0);
+    baseStats[stat] = (subrace?.[stat] ?? 0) + build.addedStats[stat] + (build.customBaseStats[stat] ?? 0) + (history?.statBonuses[stat] ?? 0);
   }
   return {
     baseStats,
@@ -167,7 +170,7 @@ export function traitCheckTarget(build: BuildState): TraitCheckTarget {
     subrace: build.subrace,
     mainClass: build.mainClass,
     subClass: build.subClass,
-    taken: build.traits ?? [],
+    taken: history ? [...(build.traits ?? []), history.id] : build.traits ?? [],
   };
 }
 

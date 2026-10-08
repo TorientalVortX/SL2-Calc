@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import { parseBuildFile } from './buildPersistence';
 import { evaluateBuild } from './buildEvaluation';
+import { buildReducer } from '../aether/state/build';
 import {
   TRAITS,
   traitById,
+  traitCheckTarget,
   traitCost,
   traitEligibility,
   traitPointBudget,
@@ -33,6 +35,11 @@ describe('trait point budget', () => {
 });
 
 describe('trait cost', () => {
+  it('counts the selected History once and makes it free for Humans', () => {
+    expect(traitPointsSpent([], 'Kaelensia', 'Warrior')).toBe(1);
+    expect(traitPointsSpent(['history-warrior'], 'Kaelensia', 'Warrior')).toBe(1);
+    expect(traitPointsSpent([], 'Human', 'Warrior')).toBe(0);
+  });
   it('is one point for an ordinary trait', () => {
     const general = TRAITS.find(t => t.category === 'General')!;
     expect(traitCost(general, 'Human')).toBe(1);
@@ -48,6 +55,32 @@ describe('trait cost', () => {
     const general = TRAITS.filter(t => t.category === 'General').slice(0, 3).map(t => t.id);
     expect(traitPointsSpent(general, 'Kaelensia')).toBe(3);
     expect(traitPointsSpent([...general, 'not-a-trait'], 'Kaelensia')).toBe(3);
+  });
+});
+
+describe('History selection', () => {
+  it('replaces the previous History and can clear it', () => {
+    const first = buildReducer(build(), { type: 'trait', id: 'history-warrior', taken: true });
+    const next = buildReducer(first, { type: 'trait', id: 'history-assassin', taken: true });
+    expect(next.history).toBe('Assassin');
+    expect(next.traits).toEqual([]);
+    expect(buildReducer(next, { type: 'trait', id: 'history-assassin', taken: false }).history).toBe('None');
+    expect(buildReducer(next, { type: 'traits-clear' }).history).toBe('None');
+  });
+
+  it('adds History to trait requirements without changing racial base stats', () => {
+    const before = build();
+    const after = { ...before, history: 'Warrior' };
+    expect(traitCheckTarget(after).baseStats.str! - traitCheckTarget(before).baseStats.str!).toBe(2);
+    expect(traitCheckTarget(after).baseStats.ski! - traitCheckTarget(before).baseStats.ski!).toBe(1);
+    expect(after.customBaseStats).toEqual(before.customBaseStats);
+    expect(evaluateBuild(after).derived.initiative).toBe(evaluateBuild(before).derived.initiative);
+  });
+
+  it('keeps one History when importing trait ids', () => {
+    const imported = build({ history: undefined, traits: ['history-warrior', 'history-assassin'] });
+    expect(imported.history).toBe('Warrior');
+    expect(imported.traits).toEqual([]);
   });
 });
 

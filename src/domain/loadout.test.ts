@@ -173,10 +173,12 @@ describe('elemental attack from skills', () => {
   });
 
   it('leaves an unattributable element alone', () => {
-    // Install Element Boost's element depends on the installed Youkai, so there
-    // is no single element to credit.
     const boost = SKILLS.find(skill => skill.name === 'Install Element Boost')!;
-    expect(boost.effects).toEqual([]);
+    const summoner = build({ mainClass: 'Summoner', subClass: 'Summoner' });
+    summoner.skillRanks = { main: { [boost.id]: 3 }, sub: {} };
+    const before = evaluateBuild(summoner).elementalAttack;
+    summoner.skillConditionals = { [conditionalKey(boost.id, 0)]: true };
+    expect(evaluateBuild(summoner).elementalAttack).toEqual(before);
   });
 });
 
@@ -381,8 +383,8 @@ describe('loadout search', () => {
     expect(summary.skillPointsSpent).toBe(2);
     // Two classes at the Destiny allowance each, reported per class and summed.
     expect(summary.skillPools.map(pool => pool.className).sort()).toEqual(['Grand Summoner', 'Summoner']);
-    expect(summary.skillPools.every(pool => pool.budget === SKILL_POINTS_PER_CLASS_DESTINY)).toBe(true);
-    expect(summary.skillPointBudget).toBe(2 * SKILL_POINTS_PER_CLASS_DESTINY);
+    expect(summary.skillPools.every(pool => pool.budget === SKILL_POINTS_PER_CLASS_DESTINY + 2)).toBe(true);
+    expect(summary.skillPointBudget).toBe(2 * (SKILL_POINTS_PER_CLASS_DESTINY + 2));
     expect(summary.skillPools.find(pool => pool.className === 'Summoner')?.spent).toBe(2);
     expect(summary.skillPools.find(pool => pool.className === 'Grand Summoner')?.spent).toBe(0);
     expect(summary.skills).toEqual([

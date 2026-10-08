@@ -18,7 +18,6 @@ function request(): AiOptimizationRequest {
   return {
     build: build(), presetId: 'hybrid', constraints: [], locks: {}, defensePlan: 'hybrid', extraPackage: 'none',
     intent: 'Make a durable accurate weapon build.', mode: 'standard', previousResponseId: 'resp_previous',
-    assumedMainPassiveRank: 0, assumedSubPassiveRank: 0,
   };
 }
 

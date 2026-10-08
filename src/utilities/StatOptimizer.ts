@@ -12,7 +12,7 @@ import type {
 import { CLASSES } from '../data/classes';
 import { BUILD_TYPES } from '../data/stats';
 import { OPTIMIZER_REFERENCE_PROFILE_BY_ID } from '../data/optimizerProfiles';
-import { evaluateBuild, getBaseClass, clampPassiveRank, metricValue, STAT_KEYS } from '../domain/buildEvaluation';
+import { evaluateBuild, getBaseClass, metricValue, STAT_KEYS } from '../domain/buildEvaluation';
 import { scoreBuildGuideBaselines, validateBuildAgainstGuide } from '../domain/buildGuide';
 
 const emptyStats = (): StatRecord => ({ str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0 });
@@ -97,8 +97,6 @@ interface ScoredEvaluation {
 interface PairSeed {
   mainClass: string;
   subClass: string;
-  mainRank: number;
-  subRank: number;
   preScore: number;
 }
 
@@ -114,16 +112,12 @@ export interface OptimizationControl {
 }
 
 function buildForPair(request: OptimizationRequest, mainClass: string, subClass: string, allocation: StatRecord): BuildState {
-  const mainRank = clampPassiveRank(mainClass, request.assumedMainPassiveRank);
-  const subRank = mainClass === subClass ? 0 : clampPassiveRank(subClass, request.assumedSubPassiveRank);
   return {
     ...request.build,
     mainClass,
     subClass,
     selectedMainBaseClass: getBaseClass(mainClass),
     selectedSubBaseClass: getBaseClass(subClass),
-    mainClassPassive: mainRank,
-    subClassPassive: subRank,
     addedStats: allocation,
   };
 }
@@ -206,11 +200,9 @@ function enumeratePairs(request: OptimizationRequest): PairSeed[] {
   const seeds: PairSeed[] = [];
   for (const mainClass of classes) {
     for (const subClass of subClasses) {
-      const mainRank = clampPassiveRank(mainClass, request.assumedMainPassiveRank);
-      const subRank = mainClass === subClass ? 0 : clampPassiveRank(subClass, request.assumedSubPassiveRank);
       const baselineBuild = buildForPair(request, mainClass, subClass, emptyStats());
       const baseline = evaluateBuild(baselineBuild);
-      seeds.push({ mainClass, subClass, mainRank, subRank, preScore: classPrior(mainClass, subClass, request, baseline) });
+      seeds.push({ mainClass, subClass, preScore: classPrior(mainClass, subClass, request, baseline) });
     }
   }
   return seeds.sort((a, b) => b.preScore - a.preScore || a.mainClass.localeCompare(b.mainClass) || a.subClass.localeCompare(b.subClass));
@@ -296,8 +288,6 @@ function candidateFrom(request: OptimizationRequest, item: { build: BuildState; 
       subClass: build.subClass,
       selectedMainBaseClass: getBaseClass(build.mainClass),
       selectedSubBaseClass: getBaseClass(build.subClass),
-      mainClassPassive: build.mainClassPassive,
-      subClassPassive: build.subClassPassive,
       addedStats: { ...build.addedStats },
     },
     evaluation: scored.evaluation,
@@ -311,7 +301,7 @@ function candidateFrom(request: OptimizationRequest, item: { build: BuildState; 
       ...(profile ? [`Uses “${profile.name}” as a soft stat-shape and ${profile.primaryClass} / ${profile.secondaryClass} pairing prior. Class skills are not directly simulated.`] : []),
       `SL2BuildInfo validation: ${guideValidation.passed} pass, ${guideValidation.failed} fail, ${guideValidation.requiresVerification} require verification.`,
       ...weighted.map(item => `${item.metric}: ${Math.round(item.value)} (preset priority ${item.weight}/10).`),
-      'Class scoring uses structured stats, passives, weapon access, and preset compatibility; class skill behavior is not modeled.',
+      'Class scoring uses structured stats, selected skill bonuses, weapon access, and preset compatibility; combat rotations are not modeled.',
     ],
     warnings,
   };

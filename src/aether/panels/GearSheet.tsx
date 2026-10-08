@@ -34,14 +34,14 @@ export function GearSheet({ builder }: { builder: Builder }) {
   const notes = [
     overview.restrictedWeapon
       && (overview.restrictedBySubClassOnly
-        ? `${overview.restrictedWeapon}s are on ${build.subClass}'s list, but a subclass grants no weapons, so only ${build.mainClass}'s are free. An Adaptation talent is the other way in. The numbers still compute; the character could not equip it.`
-        : `${build.mainClass} cannot wield a ${overview.restrictedWeapon}. Only the main class grants weapons; an Adaptation talent is the other way in. The numbers still compute; the character could not equip it.`),
+        ? `${build.subClass} lists ${overview.restrictedWeapon}s, but only the main class grants weapon access. ${build.mainClass} needs Adaptation to equip one. Its stats are still included.`
+        : `${build.mainClass} cannot equip a ${overview.restrictedWeapon} without Adaptation. Its stats are still included.`),
     overview.duplicateAccessory
-      && 'Both accessory slots hold the same item, which the game does not allow.',
+      && 'The same accessory is equipped twice. The game allows only one copy.',
     overview.overWeight
       && `Weapon and torso weigh ${overview.load} against a battle weight of ${overview.capacity}.`,
     overview.unmodelledOffHand
-      && 'Slot 3 holds a weapon. It displaces the hands piece, but the evaluator scores only the main hand. The off-hand adds nothing to the numbers yet.',
+      && 'An off-hand weapon replaces the hands item. Only the main hand contributes to calculated stats.',
   ].filter((note): note is string => Boolean(note));
 
   return (

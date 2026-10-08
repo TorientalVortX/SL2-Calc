@@ -7,9 +7,9 @@ describe('gear data', () => {
   it('loads every slot 3-6 group', () => {
     expect(GEAR_BY_GROUP.Hands.length).toBe(48);
     expect(GEAR_BY_GROUP.Shield.length).toBe(20);
-    expect(GEAR_BY_GROUP.Legs.length).toBe(41);
+    expect(GEAR_BY_GROUP.Legs.length).toBe(42);
     expect(GEAR_BY_GROUP.Accessory.length).toBe(115);
-    expect(Object.keys(GEAR).length).toBe(224);
+    expect(Object.keys(GEAR).length).toBe(225);
   });
 
   it('assigns each group the slot it occupies', () => {

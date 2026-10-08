@@ -1,20 +1,21 @@
 {
   "schemaVersion": 1,
-  "version": "0.8.0",
-  "releasedAt": "2026-08-31",
-  "headline": "A new character sheet, talents, status effects, and a hit/evade model you can open up.",
+  "version": "0.9.0",
+  "releasedAt": "2026-10-08",
+  "headline": "Chemist mixtures, battle effects, and updated build controls.",
   "notes": [
-    "New Aether Codex character sheet, now the SL2 Calculator experience.",
-    "Added talents: 40 talents and 135 subtalents, ranked by subpoint spend, with their stat and Hit modifiers folded into the build.",
-    "Adaptation subtalents now grant weapon access by Rarity, so a class can legally equip a weapon its own list does not offer.",
-    "Added a status effect catalogue: 53 statuses, including which subraces cannot be inflicted with each one.",
-    "Added a hit and evade model. Every figure opens to show where it came from, including flanking, the shared +50 bonus ceiling, and the 5%/75% floor and cap while Blind.",
-    "Derived values now name their sources. A capped Hit or Evade figure says which effects are competing for the ceiling and how much is being discarded.",
-    "Added an opponent gauntlet: 7 community reference statlines a build can be scored against, with counter-build mode to target specific ones.",
-    "Hands, legs and accessory slots now take upgrade points at +1 of their stat per point, plus Fortune and Greed on accessories.",
-    "Builds now record which world they are played in. G6 raises every upgrade ceiling by one; Korvara uses the base caps.",
-    "Added a mobile layout with swipe between tabs and touch-sized controls.",
-    "Armor is now spelled the way the game spells it everywhere in the interface; some labels and messages previously read \"armour\".",
-    "Optimizer has been removed for now for extensive reworks."
+    "Added Chemist mixtures: all 60 recipes, flask planning, wiki descriptions, status tooltips and controls for supported ally effects.",
+    "Chemist mixture power now uses the Chemist class level and the stat for its mixture type: GUI, DEF, FAI or APT. Unholy Dye uses B + E.",
+    "Skills now have Details with wiki descriptions, formulas, rank values, costs and requirements. Damage formulas use the build's referenced stats, weapon ATK and elemental ATK.",
+    "Added controls for supported battle effects, with fields for stacks, resource counts and element choices. Each Bard song has one Active toggle for all its bonuses.",
+    "Temporary skill stat boosts keep their full value after diminishing returns. Temporary Evade uses the bonus cap; Dodger remains base Evade.",
+    "Skill Power bonuses now reach Scaled Weapon ATK. Supported resistance, critical damage and FP bonuses reach the build totals.",
+    "Chaos Reflex now shows Max LV by rank. Its Active control shows the Evade bonus from the entered LV.",
+    "Added a Spellthief spell library for saved cards and prepared copies, with descriptions, requirements and capacity. Cards use their normal maximum rank.",
+    "Moved History into Traits. Only one can be selected, and it is free for Human-category races. History stats count toward trait requirements without changing racial base stats.",
+    "Added Crystals beside Level in Identity: +1 HP and FP each, up to 45.",
+    "Added Spirits to Talents. White Spirits grant +3 HP and FP each, up to five. Black Spirits are marked TBA.",
+    "Crystal, White Spirit and skill input counts are kept in saves, imports and share links.",
+    "Simplified Aether's wording, helper text and decorative styling while preserving wiki text. Removed the redundant build note from readout cards."
   ]
 }

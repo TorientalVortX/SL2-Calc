@@ -1,8 +1,13 @@
 {
   "schemaVersion": 1,
-  "dataVersion": "2026.08.14",
-  "updatedAt": "2026-08-14",
+  "dataVersion": "2026.10.07",
+  "updatedAt": "2026-10-07",
   "changes": [
+    "Added the wiki's mixture tooltip effects and granted skill descriptions to Aether's Chemist recipes.",
+    "Corrected Unholy Dye to use B + E, matching the updated wiki.",
+    "Added Chemist as an Archer promotion with its class stats, weapon options and 29 wiki skills.",
+    "Added a Chemist Mixtures sheet with all 60 recipes, planned flasks, wiki effects and source links.",
+    "Added Razor Talons to leg equipment and corrected the Tornado Pendant name from the wiki.",
     "Added all six equipment slots: hands, shields, legs and both accessory slots, with 224 new items.",
     "Slot 3 now holds either a hands piece or an off-hand weapon, and the same accessory cannot be worn twice.",
     "Merged the Weapon and Armor tabs into one Equipment workspace with a six-slot loadout.",

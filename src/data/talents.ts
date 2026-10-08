@@ -181,15 +181,15 @@ export function talentsAllowWeapon(
 
 export interface TalentModifierOptions {
   /** Restrict to modifiers that apply to this weapon type; omit for unscoped only. */
-  weaponType?: string | null;
+  weaponType?: string | string[] | null;
   /** Include modifiers the wiki gates on a stance, facing, or time of day. */
   includeConditional?: boolean;
 }
 
 /** A modifier applies when it is unscoped, or scoped to the weapon in hand. */
-function inScope(modifier: TalentModifier, weaponType?: string | null): boolean {
+function inScope(modifier: TalentModifier, weaponType?: string | string[] | null): boolean {
   if (!modifier.weapons?.length) return true;
-  return weaponType ? modifier.weapons.includes(weaponType) : false;
+  return weaponType ? (Array.isArray(weaponType) ? weaponType : [weaponType]).some(type => modifier.weapons!.includes(type)) : false;
 }
 
 /**

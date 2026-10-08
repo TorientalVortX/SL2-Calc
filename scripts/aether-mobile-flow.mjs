@@ -10,6 +10,7 @@
  * Usage: node scripts/aether-mobile-flow.mjs [--url=...] [--width=360] [--height=780]
  */
 import { chromium, devices } from 'playwright';
+import { readFile } from 'node:fs/promises';
 
 const flag = (name, fallback) => {
   const found = process.argv.find(argument => argument.startsWith(`--${name}=`));
@@ -121,6 +122,35 @@ await step('a stat card opens and closes by touch', async () => {
   if (await page.locator('.scrim').count()) throw new Error('card did not close');
 });
 
+await step('skill details show wiki text and allow rank changes by touch', async () => {
+  const { text } = JSON.parse(await readFile(new URL('../src/data/content/skills-text.json', import.meta.url), 'utf8'));
+  const reference = text.find(skill => skill.id === 'execute');
+  await jump('Loadout');
+  await page.locator('#panel-loadout .tab').filter({ hasText: /^skills/i }).tap();
+  const details = page.getByRole('button', { name: 'Read Execute details', exact: true });
+  const row = details.locator('xpath=ancestor::div[contains(@class,"entry--skill")]');
+  const before = await row.locator('.rank-value').innerText();
+  await details.tap();
+  const dialog = page.getByRole('dialog', { name: 'Execute', exact: true });
+  await dialog.locator('.skill-card__prose').first().waitFor();
+  if (await dialog.locator('.skill-card__prose').first().textContent() !== reference.description) throw new Error('wiki description differs');
+  if (await dialog.locator('.skill-card__power').textContent() !== reference.powerRaw) throw new Error('wiki power formula differs');
+  if (await dialog.locator('.skill-card__ranks tbody tr').count() !== 5) throw new Error('rank table is incomplete');
+  const rankOnePower = Number(await dialog.locator('.skill-card__total dd').innerText());
+  if (!(rankOnePower > 0)) throw new Error('skill power did not use the equipped weapon');
+  const modal = await dialog.boundingBox();
+  if (modal.x < 0 || modal.x + modal.width > width + 1) throw new Error('skill card exceeds viewport');
+  await dialog.getByRole('button', { name: 'Execute rank up', exact: true }).tap();
+  if (await dialog.locator('.skill-card__ranks .is-current th').innerText() !== '1 · Current') throw new Error('rank did not update');
+  await dialog.getByRole('button', { name: 'Execute rank up', exact: true }).tap();
+  const rankTwoPower = Number(await dialog.locator('.skill-card__total dd').innerText());
+  if (Math.abs(rankTwoPower - rankOnePower * 120 / 110) > 0.02) throw new Error('skill power did not update with rank');
+  await dialog.getByRole('button', { name: 'Execute rank down', exact: true }).tap();
+  await dialog.getByRole('button', { name: 'Execute rank down', exact: true }).tap();
+  await dialog.getByRole('button', { name: /Close/ }).tap();
+  if (await row.locator('.rank-value').innerText() !== before) throw new Error('opening details changed the skill rank');
+});
+
 /* Every dialog, checked for the one failure a phone cannot recover from: a Close
    button off the side of the screen, on a device with no Esc key. */
 for (const [label, name] of [['Templates', 'templates'], ['Builds', 'saved builds'], ['Advanced', 'advanced'], ['Import', 'import / export']]) {
@@ -141,6 +171,77 @@ for (const [label, name] of [['Templates', 'templates'], ['Builds', 'saved build
     if (await page.locator('.scrim').count()) throw new Error('dialog did not close');
   });
 }
+
+await step('History is selected in Traits and only one stays selected', async () => {
+  if (await page.locator('#panel-identity').getByLabel('History', { exact: true }).count()) throw new Error('History is still in Identity');
+  await jump('Loadout');
+  await page.locator('#panel-loadout .tab').filter({ hasText: /^traits/i }).tap();
+  await page.getByRole('searchbox', { name: 'Search traits', exact: true }).fill('History:');
+  const warrior = page.getByRole('checkbox', { name: 'History: Warrior', exact: true });
+  const assassin = page.getByRole('checkbox', { name: 'History: Assassin', exact: true });
+  await warrior.tap();
+  if (await warrior.getAttribute('aria-checked') !== 'true') throw new Error('History was not selected');
+  await assassin.tap();
+  if (await warrior.getAttribute('aria-checked') !== 'false' || await assassin.getAttribute('aria-checked') !== 'true') throw new Error('History selection did not replace the previous choice');
+  await assassin.tap();
+  if (await assassin.getAttribute('aria-checked') !== 'false') throw new Error('History was not cleared');
+});
+
+await step('Aria has one toggle that applies and removes its bonuses', async () => {
+  await page.evaluate(() => {
+    const file = JSON.parse(localStorage.getItem('sl2:aether:draft:v1'));
+    file.build.mainClass = 'Bard';
+    file.build.subClass = 'Bard';
+    file.build.skillRanks = { main: { 'aria-of-agility': 5 }, sub: {} };
+    file.build.skillConditionals = {};
+    localStorage.setItem('sl2:aether:draft:v1', JSON.stringify(file));
+  });
+  await page.reload();
+  await page.waitForSelector('.shell');
+  await jump('Loadout');
+  await page.locator('#panel-loadout .tab').filter({ hasText: /^skills/i }).tap();
+  await page.getByRole('button', { name: 'Read Aria of Agility details', exact: true }).tap();
+  const dialog = page.getByRole('dialog', { name: 'Aria of Agility', exact: true });
+  const toggle = dialog.getByRole('switch');
+  if (await toggle.count() !== 1) throw new Error('song has more than one toggle');
+  const evade = page.locator('[data-entry="evade"] .readout__value');
+  const before = Number(await evade.innerText());
+  await toggle.tap();
+  await page.waitForTimeout(400);
+  if (await toggle.getAttribute('aria-checked') !== 'true') throw new Error('song did not activate');
+  if (Number(await evade.innerText()) - before !== 14) throw new Error('CEL and Evade bonuses were not applied together');
+  const box = await dialog.boundingBox();
+  if (box.x < 0 || box.x + box.width > width + 1) throw new Error('song card exceeds viewport');
+  await toggle.tap();
+  await page.waitForTimeout(400);
+  if (Number(await evade.innerText()) !== before) throw new Error('song bonuses were not removed');
+  await dialog.getByRole('button', { name: /Close/ }).tap();
+});
+
+await step('crystals and White Spirits change HP and FP and survive reload', async () => {
+  const hp = page.locator('[data-entry="maxHP"] .readout__value');
+  const fp = page.locator('[data-entry="fp"] .readout__value');
+  const read = async locator => Number((await locator.innerText()).replaceAll(',', ''));
+  const beforeHP = await read(hp);
+  const beforeFP = await read(fp);
+  await jump('Identity');
+  await page.getByRole('spinbutton', { name: /^Crystals/ }).fill('45');
+  await jump('Loadout');
+  await page.locator('#panel-loadout .tab').filter({ hasText: /^talents/i }).tap();
+  await page.getByRole('spinbutton', { name: /^White Spirits/ }).fill('5');
+  await page.waitForTimeout(500);
+  if (await read(hp) - beforeHP !== 60 || await read(fp) - beforeFP !== 60) throw new Error('HP/FP bonuses did not apply');
+  if (!await page.getByText('Black Spirits', { exact: true }).count() || !await page.getByText('TBA', { exact: true }).count()) throw new Error('Black Spirits placeholder is missing');
+  await hp.tap();
+  if (await page.getByText('Live, from this build', { exact: true }).count()) throw new Error('redundant readout note remains');
+  await page.getByRole('dialog').getByRole('button', { name: /Close/ }).tap();
+  await page.reload();
+  await page.waitForSelector('.shell');
+  if (await page.getByRole('spinbutton', { name: /^Crystals/ }).inputValue() !== '45') throw new Error('crystals did not persist');
+  await jump('Loadout');
+  await page.locator('#panel-loadout .tab').filter({ hasText: /^talents/i }).tap();
+  if (await page.getByRole('spinbutton', { name: /^White Spirits/ }).inputValue() !== '5') throw new Error('spirits did not persist');
+});
 
 await step('nothing scrolls sideways', async () => {
   const over = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);

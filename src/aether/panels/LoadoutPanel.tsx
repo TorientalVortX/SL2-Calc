@@ -1,14 +1,16 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Panel } from '../ui/Panel';
 import { play } from '../state/audio';
 import type { Builder } from '../state/useBuilder';
 import { SkillsSheet } from './SkillsSheet';
+import { Mixtures } from './Mixtures';
 import { TraitsSheet } from './TraitsSheet';
 import { TalentsSheet } from './TalentsSheet';
 import { RacialsSheet } from './RacialsSheet';
 import { GearSheet } from './GearSheet';
 import { YoukaiSheet } from './YoukaiSheet';
 import { SLOTS, slotSummary } from '../state/equipment';
+import { mixtureFlaskCapacity } from '../../domain/chemist';
 import type { LoadoutSheet } from '../state/build';
 
 type Sheet = LoadoutSheet;
@@ -23,12 +25,18 @@ type Sheet = LoadoutSheet;
 export function LoadoutPanel({ builder }: { builder: Builder }) {
   const [sheet, setSheet] = useState<Sheet>('gear');
   const { status, build, evaluation } = builder;
+  const hasChemist = build.mainClass === 'Chemist' || build.subClass === 'Chemist';
+
+  useEffect(() => {
+    if (!hasChemist && sheet === 'mixtures') setSheet('skills');
+  }, [hasChemist, sheet]);
 
   const youkaiCap = evaluation.derived.youkaiCap;
 
   const counts = useMemo(() => ({
     gear: `${SLOTS.filter(descriptor => slotSummary(build.equipment, descriptor.id).name).length}/${SLOTS.length}`,
     skills: `${status.skillsSpent}/${status.skillsBudget}`,
+    mixtures: `${build.mixturePlan?.length ?? 0}/${mixtureFlaskCapacity(build)}`,
     traits: `${status.traitsSpent}/${status.traitsBudget}`,
     talents: `${status.talentsSpent}/${status.talentsBudget}`,
     racials: String(build.subrace),
@@ -36,6 +44,7 @@ export function LoadoutPanel({ builder }: { builder: Builder }) {
   }), [status, build.subrace, build.equipment, build.youkai.contracted.length, youkaiCap]);
 
   const overSkills = status.skillPools.some(pool => pool.overspent);
+  const overMixtures = (build.mixturePlan?.length ?? 0) > mixtureFlaskCapacity(build);
   const overTraits = status.traitsSpent > status.traitsBudget;
   const overTalents = status.talentsSpent > status.talentsBudget;
   const overYoukai = build.youkai.contracted.length > youkaiCap;
@@ -49,7 +58,7 @@ export function LoadoutPanel({ builder }: { builder: Builder }) {
       scroll={false}
       meta={
         <div className="tabs">
-          {(['gear', 'skills', 'traits', 'talents', 'racials', 'youkai'] as Sheet[]).map(entry => (
+          {(['gear', 'skills', ...(hasChemist ? ['mixtures' as const] : []), 'traits', 'talents', 'racials', 'youkai'] as Sheet[]).map(entry => (
             <button
               key={entry}
               type="button"
@@ -57,6 +66,7 @@ export function LoadoutPanel({ builder }: { builder: Builder }) {
               onClick={() => { play('select'); setSheet(entry); }}
               style={
                 (entry === 'skills' && overSkills)
+                  || (entry === 'mixtures' && overMixtures)
                   || (entry === 'traits' && overTraits)
                   || (entry === 'talents' && overTalents)
                   || (entry === 'youkai' && overYoukai)
@@ -95,6 +105,7 @@ export function LoadoutPanel({ builder }: { builder: Builder }) {
 
       {sheet === 'gear' ? <GearSheet builder={builder} /> : null}
       {sheet === 'skills' ? <SkillsSheet builder={builder} /> : null}
+      {sheet === 'mixtures' ? <Mixtures builder={builder} /> : null}
       {sheet === 'traits' ? <TraitsSheet builder={builder} /> : null}
       {sheet === 'talents' ? <TalentsSheet builder={builder} /> : null}
       {sheet === 'racials' ? <RacialsSheet builder={builder} /> : null}

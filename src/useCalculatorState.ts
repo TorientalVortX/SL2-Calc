@@ -7,7 +7,6 @@ import type {
   StatRecord,
   StampRecord,
   ElementalRecord,
-  ClassPassive,
   BuildState,
   SaveSlotV1,
   SharePayloadV1,
@@ -25,7 +24,7 @@ import { EMPTY_GEAR_LOADOUT } from './types';
 
 // Import data constants
 import { RACES, SUBRACES, RACE_RESISTANCES } from './data/races';
-import { CLASSES, CLASS_PASSIVES, CLASS_HIERARCHY } from './data/classes';
+import { CLASSES, CLASS_HIERARCHY } from './data/classes';
 import { FOODS, HISTORY, LEGEND_EXTEND, ASTROLOGY_PLANETS } from './data/bonuses';
 import { MAX_POINTS, TEMPLATE_BUILDS } from './data/constants';
 import { ARMORS } from './data/armors';
@@ -185,9 +184,6 @@ export function useCalculatorState() {
   const [persistenceOfNormalcy, setPersistenceOfNormalcy] = useState(false);
   const [powerOfNormalcy, setPowerOfNormalcy] = useState(false);
 
-  // Class passive ranks
-  const [mainClassPassive, setMainClassPassive] = useState(0);
-  const [subClassPassive, setSubClassPassive] = useState(0);
 
   // Destiny: 50 skill points instead of 35, at the cost of both class slots
   // having to sit in the same base-class family.
@@ -196,7 +192,12 @@ export function useCalculatorState() {
   // Skill ranks, kept per class slot, plus the situational bonuses the user has
   // confirmed apply. Both are part of the build so they save and share.
   const [skillRanks, setSkillRanks] = useState<Record<'main' | 'sub', SkillRanks>>({ main: {}, sub: {} });
+  // Preserve Aether's Copy spell collection when importing/exporting in Classic.
+  const [spellthief, setSpellthief] = useState<BuildState['spellthief']>({ cards: [], equipped: [] });
   const [skillConditionals, setSkillConditionals] = useState<SkillConditionals>({});
+  const [skillInputs, setSkillInputs] = useState<Record<string, number>>({});
+  const [whiteSpiritCount, setWhiteSpiritCount] = useState(0);
+  const [crystalCount, setCrystalCount] = useState(0);
 
   // Contracted Youkai and the installed one, for Summoner builds.
   const [youkai, setYoukai] = useState<YoukaiState>({ contracted: [], installed: null });
@@ -294,7 +295,7 @@ export function useCalculatorState() {
    */
   type OptimizerUndoState = Pick<BuildState,
     'mainClass' | 'subClass' | 'selectedMainBaseClass' | 'selectedSubBaseClass'
-    | 'mainClassPassive' | 'subClassPassive' | 'addedStats' | 'equipment'
+    | 'addedStats' | 'equipment'
     | 'traits' | 'skillRanks' | 'youkai'>;
   const [optimizerUndo, setOptimizerUndo] = useState<OptimizerUndoState | null>(null);
 
@@ -311,7 +312,7 @@ export function useCalculatorState() {
     dragonKing, dragonQueen, hpPercent, sanguineCrest, felidaeInstinct, lupineInstinct,
     redtailFortuneLevel, redtailDiceColor, karakuriYoukai,
     warwalk, luminaryElement, persistenceOfNormalcy,
-    powerOfNormalcy, mainClassPassive, subClassPassive, destiny, skillRanks, skillConditionals, youkai, traits,
+    powerOfNormalcy, destiny, skillRanks, skillConditionals, skillInputs, whiteSpiritCount, crystalCount, spellthief, youkai, traits,
     elementalATKAdjustments, elementalRESAdjustments,
     equipment: {
       armorName: equippedArmor?.name ?? null,
@@ -362,11 +363,13 @@ export function useCalculatorState() {
     setLuminaryElement(build.luminaryElement);
     setPersistenceOfNormalcy(build.persistenceOfNormalcy);
     setPowerOfNormalcy(build.powerOfNormalcy);
-    setMainClassPassive(build.mainClassPassive);
-    setSubClassPassive(build.subClassPassive);
     setDestiny(build.destiny ?? false);
     setSkillRanks(build.skillRanks);
+    setSpellthief(build.spellthief ?? { cards: [], equipped: [] });
     setSkillConditionals(build.skillConditionals);
+    setSkillInputs(build.skillInputs ?? {});
+    setWhiteSpiritCount(build.whiteSpiritCount ?? 0);
+    setCrystalCount(build.crystalCount ?? 0);
     setYoukai(build.youkai);
     setTraits(build.traits ?? []);
     setElementalATKAdjustments(build.elementalATKAdjustments);
@@ -495,8 +498,6 @@ export function useCalculatorState() {
     setLuminaryElement(false);
     setPersistenceOfNormalcy(false);
     setPowerOfNormalcy(false);
-    setMainClassPassive(0);
-    setSubClassPassive(0);
     setDestiny(false);
 
     setElementalATKAdjustments({
@@ -802,27 +803,6 @@ export function useCalculatorState() {
     return className;
   };
 
-  // A promotion class can use its base class's passive as well as its own.
-  const hasClassPassive = (className: string): boolean => {
-    if (CLASS_PASSIVES[className]) return true;
-
-    const baseClass = getBaseClass(className);
-    return baseClass !== className && CLASS_PASSIVES[baseClass] !== undefined;
-  };
-
-  const getClassPassiveData = (className: string): ClassPassive | undefined => {
-    // Check for class's own passive first
-    if (CLASS_PASSIVES[className]) return CLASS_PASSIVES[className];
-
-    // Check for base class passive
-    const baseClass = getBaseClass(className);
-    if (baseClass !== className && CLASS_PASSIVES[baseClass]) {
-      return CLASS_PASSIVES[baseClass];
-    }
-
-    return undefined;
-  };
-
   const leBonus = getLEBonus();
   const astroBonus = getAstrologyBonus();
   const foodBonus = FOODS[food];
@@ -1058,8 +1038,6 @@ export function useCalculatorState() {
     setWarwalk(false);
     setPersistenceOfNormalcy(false);
     setPowerOfNormalcy(false);
-    setMainClassPassive(0);
-    setSubClassPassive(0);
     setDestiny(false);
 
     setElementalATKAdjustments({
@@ -1157,7 +1135,7 @@ export function useCalculatorState() {
 
   const applyOptimizationCandidate = (candidate: OptimizationCandidate): void => {
     setOptimizerUndo({
-      mainClass, subClass, selectedMainBaseClass, selectedSubBaseClass, mainClassPassive, subClassPassive,
+      mainClass, subClass, selectedMainBaseClass, selectedSubBaseClass,
       addedStats: { ...addedStats },
       // Snapshotted too, because the optimizer may now rewrite them and undo has
       // to put back the traits, skills and contracts the user had chosen.
@@ -1178,8 +1156,6 @@ export function useCalculatorState() {
     setSubClass(candidate.patch.subClass);
     setSelectedMainBaseClass(candidate.patch.selectedMainBaseClass);
     setSelectedSubBaseClass(candidate.patch.selectedSubBaseClass);
-    setMainClassPassive(candidate.patch.mainClassPassive);
-    setSubClassPassive(candidate.patch.subClassPassive);
     setAddedStats({ ...candidate.patch.addedStats });
     // Absent when the engine did not search that axis, in which case the build
     // keeps what it had rather than being cleared.
@@ -1205,8 +1181,6 @@ export function useCalculatorState() {
     setSubClass(optimizerUndo.subClass);
     setSelectedMainBaseClass(optimizerUndo.selectedMainBaseClass ?? getBaseClass(optimizerUndo.mainClass));
     setSelectedSubBaseClass(optimizerUndo.selectedSubBaseClass ?? getBaseClass(optimizerUndo.subClass));
-    setMainClassPassive(optimizerUndo.mainClassPassive);
-    setSubClassPassive(optimizerUndo.subClassPassive);
     setAddedStats({ ...optimizerUndo.addedStats });
     if (optimizerUndo.traits) setTraits([...optimizerUndo.traits]);
     if (optimizerUndo.skillRanks) {
@@ -1337,13 +1311,13 @@ export function useCalculatorState() {
     elementalATKAdjustments, elementalRESAdjustments, elements,
     equippedArmor, exportBuild, felidaeInstinct, food,
     foodBonus, getAvailableSubraces, getBaseClass,
-    getClassPassiveData, getRaceResistances, getWeaponStatBonus, giantGene,
+    getRaceResistances, getWeaponStatBonus, giantGene,
     handleCustomBaseStatChange, handleHistoryChange, handleLegendExtendToggle, handleRaceChange,
-    handleSubraceChange, hasClassPassive, history, historyBonus, hpPercent,
+    handleSubraceChange, history, historyBonus, hpPercent,
     importBuild, inputRefs, isOnline, karakuriYoukai,
     konamiActive, leBonus, legendExtend, loadNamedSave,
     loadTemplate, luminaryElement, lupineInstinct, mainClass,
-    mainClassPassive, monoclassModifier, notice, optimizerUndo,
+    monoclassModifier, notice, optimizerUndo,
     pendingSharedBuild, persistenceOfNormalcy, powerOfNormalcy,
     race, rawStats, redtailDiceColor, redtailFortuneLevel,
     removeStat, resetStats, restoreDraft, sanguineCrest, saveSlots, screenshotRef,
@@ -1353,22 +1327,22 @@ export function useCalculatorState() {
     setCustomHP, setCustomStats, setDragonKing, setDragonQueen,
     setEquippedArmor, setFelidaeInstinct, setFood,
     setGiantGene, setHpPercent, setKarakuriYoukai,
-    setLuminaryElement, setLupineInstinct, setMainClass, setMainClassPassive,
+    setLuminaryElement, setLupineInstinct, setMainClass,
     setNotice, setPersistenceOfNormalcy, setPowerOfNormalcy,
     setRedtailDiceColor, setRedtailFortuneLevel,
     setSanguineCrest, setSelectedMainBaseClass, setSelectedStat, setSelectedSubBaseClass,
     setShowAdvanced, setShowChanges, setShowFood, setShowImportExport,
     setShowIntro, setShowIntroOnStartup, setShowMainClassDropdown, setShowRawStats,
     setShowSettings, setShowStamps, setShowStatInfo, setShowSubClassDropdown,
-    setShowTalents, setStamps, setSubClass, setSubClassPassive,
+    setShowTalents, setStamps, setSubClass,
     setUiSounds, setWarwalk, setWeaponConfig, shareBuild,
     showAdvanced, showChanges, showFood, showImportExport,
     showIntro, showIntroOnStartup, showMainClassDropdown, showRawStats,
     showSettings, showStamps, showStatInfo, showSubClassDropdown,
-    showTalents, skillRanks, setSkillRanks, skillConditionals, setSkillConditionals,
+    showTalents, skillRanks, setSkillRanks, skillConditionals, setSkillConditionals, skillInputs, setSkillInputs, whiteSpiritCount, setWhiteSpiritCount, crystalCount, setCrystalCount,
     youkai, setYoukai, traits, setTraits, destiny, setDestiny,
     stamps, stats, subClass,
-    subClassPassive, subrace, takeScreenshot, totalPoints,
+    subrace, takeScreenshot, totalPoints,
     uiSounds, undoOptimization, updateActiveSave, warwalk,
     weaponConfig, youkaiCap, armorUpgradePoints, setArmorUpgradePoints,
     armorMaterial, setArmorMaterial, armorEnchantment, setArmorEnchantment,

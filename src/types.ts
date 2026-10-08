@@ -72,13 +72,6 @@ export interface Stats {
   homunculi?: boolean;
 }
 
-export interface ClassPassive {
-  stats: Partial<StatRecord>;
-  fpCost?: number;
-  maxRank?: number;
-  description?: string;
-}
-
 /* ------------------------------------------------------------------- skills */
 
 /**
@@ -122,7 +115,17 @@ export interface SkillScalingTerm {
  * are added to a build automatically.
  */
 export interface SkillEffect {
-  kind: 'stat' | 'derived' | 'element';
+  unmodelled?: string;
+  round?: 'floor';
+  target?: 'enemy' | 'summon';
+  statMode?: 'buff' | 'class';
+  condition?: string;
+  input?: string;
+  rankSource?: string;
+  scaledStat?: { stat: StatKey; percent: number };
+  elementInput?: string;
+  weapons?: string[];
+  kind: 'stat' | 'derived' | 'element' | 'elementResistance';
   /**
    * A `StatKey` for `stat`, an `ElementKey` for `element`, otherwise a derived
    * channel such as `hit`.
@@ -158,6 +161,9 @@ export interface Skill {
    * the same bonus twice.
    */
   handModelled?: boolean;
+  inputs?: Array<{ key: string; label: string; min: number; max: number; default: number; maxByRank?: number[]; maxRankSource?: string; choices?: Array<{ value: number; label: string }> }>;
+  battleNote?: string;
+  battleRules?: Array<{ description: string; url: string }>;
 }
 
 /** Prose and reference fields for a skill, fetched on demand by the Skills dialog. */
@@ -179,6 +185,12 @@ export interface SkillText {
 
 /** Ranks taken, keyed by skill id. An absent id means rank 0. */
 export type SkillRanks = Record<string, number>;
+
+/** Spell cards owned and copies prepared, oldest prepared first. */
+export interface SpellthiefState {
+  cards: string[];
+  equipped: string[];
+}
 
 /**
  * Conditional skill effects the user has switched on, keyed by `skillId:index` into
@@ -322,6 +334,8 @@ export interface BuildData {
   legendExtend: Record<string, boolean>;
   astrology: string; // Now stores single planet name
   customHP: number;
+  whiteSpiritCount?: number;
+  crystalCount?: number;
   customFP: number;
   baseEvade: number;
   bonusEvade: number;
@@ -352,8 +366,6 @@ export interface BuildData {
   luminaryElement: boolean;
   persistenceOfNormalcy: boolean;
   powerOfNormalcy: boolean;
-  mainClassPassive: number;
-  subClassPassive: number;
   /**
    * Destiny: trades every class tree but one for a larger skill budget.
    *
@@ -363,8 +375,13 @@ export interface BuildData {
   destiny: boolean;
   /** Skill-rank storage per slot; classes reached by both slots share their ranks. */
   skillRanks: Record<'main' | 'sub', SkillRanks>;
+  mixturePlan?: string[];
+  activeMixtureEffects?: string[];
+  /** Copy spells are separate from learned ranks and never spend class points. */
+  spellthief?: SpellthiefState;
   /** Situational skill bonuses the user has confirmed apply to this build. */
   skillConditionals: SkillConditionals;
+  skillInputs?: Record<string, number>;
   /** Contracted Youkai and the installed one, for Summoner builds. */
   youkai: YoukaiState;
   /** Trait ids the character has bought, bounded by the trait point budget. */
@@ -1104,6 +1121,7 @@ export interface DerivedSources {
 }
 
 export interface BuildEvaluation {
+  statSources?: Record<StatKey, Array<{ label: string; value: number }>>;
   rawStats: StatRecord;
   scaledStats: StatRecord;
   maxInvestedStats: StatRecord;
@@ -1125,6 +1143,8 @@ export interface BuildEvaluation {
     criticalEvade: number;
     statusInfliction: number;
     statusResistance: number;
+    mutagenPotency: number;
+    complexMutationChance: number;
     initiative: number;
     youkaiCap: number;
     flanking: number;
@@ -1194,8 +1214,6 @@ export interface OptimizationBuildPatch {
   subClass: string;
   selectedMainBaseClass: string;
   selectedSubBaseClass: string;
-  mainClassPassive: number;
-  subClassPassive: number;
   addedStats: StatRecord;
   /*
    * Chosen content. Absent on a candidate from an engine that does not search
@@ -1250,8 +1268,6 @@ export interface OptimizationRequest {
   searchLoadout?: Partial<OptimizationLoadoutAxes>;
   /** Which body the stats are ranked in. Defaults to `baseline`. */
   installPolicy?: InstallPolicy;
-  assumedMainPassiveRank: number;
-  assumedSubPassiveRank: number;
   resultLimit?: number;
   engine?: 'legacy' | 'v2';
   locks?: OptimizationEquipmentLocks;
@@ -1295,8 +1311,6 @@ export interface AiOptimizationRequest {
   searchLoadout?: Partial<OptimizationLoadoutAxes>;
   /** Counter-build mode: the user's selected gauntlet opponents, passed through verbatim. */
   gauntletOpponentIds?: string[];
-  assumedMainPassiveRank: number;
-  assumedSubPassiveRank: number;
 }
 
 export interface AiOptimizationMetadata {

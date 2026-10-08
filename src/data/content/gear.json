@@ -1308,6 +1308,19 @@
       "flavour": "These simple looking shin guards hide the spirit of a beast within them, filling the wearer with instinctual swiftness."
     },
     {
+      "id": "legs:legs:razor-talons",
+      "name": "Razor Talons",
+      "slot": 4,
+      "rarity": 7,
+      "material": "Metal",
+      "details": "While Airborne, when you move into the same tile as an enemy, deal 25 armor-ignoring Slash damage to that enemy. (Once per enemy per action.) * Grants Skill: {{#tip-text: Falcon Arc | Falcon Arc Cost: 10 FP / 2M Target: Location Area: Single (Line To) Range: 2 Cooldown: 3 Round(s) Targets a flexible line to an unoccupied tile up to 2 Range away. You flip, becoming Airborne, and float along the line to that tile. If you have Razor Talons equipped, and they are enchanted with Winged, this skill has +1 Range. If you have no armor equipped, or armor that is enchanted with Winged, this skill costs -1M.}}",
+      "specialEffects": [
+        "While Airborne, when you move into the same tile as an enemy, deal 25 armor-ignoring Slash damage to that enemy. (Once per enemy per action.)",
+        "* Grants Skill: {{#tip-text: Falcon Arc | Falcon Arc Cost: 10 FP / 2M Target: Location Area: Single (Line To) Range: 2 Cooldown: 3 Round(s) Targets a flexible line to an unoccupied tile up to 2 Range away. You flip, becoming Airborne, and float along the line to that tile. If you have Razor Talons equipped, and they are enchanted with Winged, this skill has +1 Range. If you have no armor equipped, or armor that is enchanted with Winged, this skill costs -1M.}}"
+      ],
+      "flavour": "A pair of razor sharp falcon-like boots. They are rather impractical, unless you can somehow fly."
+    },
+    {
       "id": "legs:legs:runner-s-high",
       "name": "Runner's High",
       "slot": 4,
@@ -2828,8 +2841,8 @@
       "flavour": "A golden coin with a bow motif in the center in it, hanging from a leather strap. Enhanced by a magical power."
     },
     {
-      "id": "accessory:accessory:torando-pendant",
-      "name": "Torando Pendant",
+      "id": "accessory:accessory:tornado-pendant",
+      "name": "Tornado Pendant",
       "slot": 5,
       "rarity": 8,
       "material": "Metal",

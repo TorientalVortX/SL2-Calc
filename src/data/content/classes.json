@@ -6,7 +6,8 @@
       "subClasses": [
         "Arbalest",
         "Magic Gunner",
-        "Ranger"
+        "Ranger",
+        "Chemist"
       ]
     },
     "Martial Artist": {
@@ -707,6 +708,21 @@
         "Guns"
       ]
     },
+    "Chemist": {
+      "str": 0,
+      "wil": 2,
+      "ski": 3,
+      "cel": 0,
+      "def": 0,
+      "res": 0,
+      "vit": 0,
+      "fai": 0,
+      "luc": 0,
+      "gui": 3,
+      "san": 0,
+      "apt": 0,
+      "validWeapons": ["Bows", "Guns", "Tomes", "Daggers"]
+    },
     "Ranger": {
       "str": 2,
       "wil": 0,
@@ -815,135 +831,6 @@
       "validWeapons": [
         "Swords"
       ]
-    }
-  },
-  "passives": {
-    "Arbalest": {
-      "maxRank": 6,
-      "stats": {
-        "ski": 1
-      },
-      "description": "+SKI per rank"
-    },
-    "Bard": {
-      "maxRank": 6,
-      "stats": {
-        "san": 1
-      },
-      "description": "+SAN per rank"
-    },
-    "Black Knight": {
-      "maxRank": 6,
-      "stats": {
-        "def": 1
-      },
-      "description": "+DEF per rank"
-    },
-    "Bonder": {
-      "maxRank": 3,
-      "stats": {
-        "wil": 1,
-        "fai": 1
-      },
-      "description": "+WIL/FAI per rank"
-    },
-    "Dark Bard": {
-      "maxRank": 3,
-      "stats": {
-        "san": 1
-      },
-      "description": "+STR/SAN at rank 7+"
-    },
-    "Engineer": {
-      "maxRank": 6,
-      "stats": {
-        "gui": 1
-      },
-      "description": "+GUI per rank"
-    },
-    "Evoker": {
-      "maxRank": 6,
-      "stats": {
-        "wil": 1
-      },
-      "description": "+WIL per rank"
-    },
-    "Ghost": {
-      "maxRank": 5,
-      "stats": {
-        "res": 1
-      },
-      "description": "+RES per rank"
-    },
-    "Hexer": {
-      "maxRank": 3,
-      "stats": {
-        "def": 1,
-        "res": 1
-      },
-      "description": "+DEF/RES per rank"
-    },
-    "Kensei": {
-      "maxRank": 3,
-      "stats": {
-        "str": 1,
-        "ski": 1
-      },
-      "description": "+STR/SKI per rank"
-    },
-    "Lantern Bearer": {
-      "maxRank": 6,
-      "stats": {
-        "res": 1
-      },
-      "description": "+RES per rank"
-    },
-    "Magic Gunner": {
-      "maxRank": 3,
-      "stats": {
-        "cel": 1,
-        "res": 1
-      },
-      "description": "+CEL/RES per rank"
-    },
-    "Monk": {
-      "maxRank": 3,
-      "stats": {
-        "ski": 1,
-        "cel": 1
-      },
-      "description": "+SKI/CEL per rank"
-    },
-    "Priest": {
-      "maxRank": 6,
-      "stats": {
-        "fai": 1
-      },
-      "description": "+FAI per rank"
-    },
-    "Solblader": {
-      "maxRank": 3,
-      "stats": {
-        "fai": 1,
-        "gui": 1
-      },
-      "description": "+FAI/GUI per rank"
-    },
-    "Tactician": {
-      "maxRank": 3,
-      "stats": {
-        "wil": 1,
-        "gui": 1
-      },
-      "description": "+WIL/GUI per rank"
-    },
-    "Void Assassin": {
-      "maxRank": 3,
-      "stats": {
-        "ski": 1,
-        "res": 1
-      },
-      "description": "+SKI/RES per rank"
     }
   }
 }

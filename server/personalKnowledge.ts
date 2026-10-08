@@ -16,7 +16,8 @@ async function collectMarkdown(current: string, relative = ''): Promise<string[]
   for (const entry of entries) {
     const relativeName = path.join(relative, entry.name);
     if (entry.isDirectory()) files.push(...await collectMarkdown(path.join(current, entry.name), relativeName));
-    else if (entry.isFile() && entry.name.toLowerCase().endsWith('.md') && !entry.name.startsWith('_')) files.push(relativeName);
+    else if (entry.isFile() && entry.name.toLowerCase().endsWith('.md')
+      && !entry.name.startsWith('_') && !entry.name.startsWith('test-server-learning-')) files.push(relativeName);
   }
   return files;
 }

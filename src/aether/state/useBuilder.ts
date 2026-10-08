@@ -194,9 +194,9 @@ export function useBuilder(): Builder {
   const evaluation = useMemo(() => evaluateBuild(build), [build]);
 
   const status = useMemo<LoadoutStatus>(() => {
-    const pools = skillPoolSpends(build.mainClass, build.subClass, build.skillRanks, build.destiny);
+    const pools = skillPoolSpends(build.mainClass, build.subClass, build.skillRanks, build.destiny, build);
     return {
-      traitsSpent: traitPointsSpent(build.traits ?? [], build.race),
+      traitsSpent: traitPointsSpent(build.traits ?? [], build.race, build.history),
       traitsBudget: traitPointBudget(build.characterLevel),
       talentsSpent: talentSpending(build.talents ?? {}).totalRanks,
       talentsBudget: TALENT_POINT_BUDGET,

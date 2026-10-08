@@ -159,8 +159,6 @@ function optimizationRequest(session: AgentSession, options: {
      */
     searchMainClass: base.searchMainClass ?? false,
     searchLoadout: intersectLoadoutAxes(base.searchLoadout, options.searchLoadout),
-    assumedMainPassiveRank: base.assumedMainPassiveRank,
-    assumedSubPassiveRank: base.assumedSubPassiveRank,
     resultLimit: options.resultLimit ?? 3,
     engine: 'v2',
     locks: { ...base.locks, ...(options.subClass ? { subClass: options.subClass } : {}) },

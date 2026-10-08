@@ -76,7 +76,7 @@
       "id": "redtail-chemist-monk",
       "name": "Redtail Chemist / Monk",
       "enabled": false,
-      "unavailableReason": "Chemist is not present in the current canonical class data, so this profile is retained for future migration but cannot guide optimization yet.",
+      "unavailableReason": "Chemist's Mixture effects are available for reference, but their combat effects are not yet simulated for optimization.",
       "race": "Other",
       "subrace": "Redtail",
       "primaryClass": "Chemist",

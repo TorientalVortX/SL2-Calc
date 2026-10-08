@@ -15,7 +15,10 @@
 import type { ArmorQuality, ArmorUpgradePoints, BuildState, StatKey, WeaponConfig } from '../../types';
 import { evaluateBuild } from '../../domain/buildEvaluation';
 import { normalizeBuildState } from '../../domain/buildPersistence';
-import { CLASSES, CLASS_HIERARCHY, CLASS_PASSIVES } from '../../data/classes';
+import { traitById } from '../../domain/traits';
+import { changeCopySpell, settleSpellthief, type CopySpellAction } from '../../domain/spellthief';
+import { planMixture, removePlannedMixture, toggleMixtureEffect } from '../../domain/chemist';
+import { CLASSES, CLASS_HIERARCHY } from '../../data/classes';
 import { RACES, SUBRACES } from '../../data/races';
 import { TEMPLATE_BUILDS } from '../../data/constants';
 import {
@@ -57,7 +60,7 @@ export type ClassSlot = 'main' | 'sub';
  * The panel owns the tab strip, but a legality problem has to say which sheet it
  * belongs to, and that is decided where the violations are collected.
  */
-export type LoadoutSheet = 'gear' | 'skills' | 'traits' | 'talents' | 'racials' | 'youkai';
+export type LoadoutSheet = 'gear' | 'skills' | 'mixtures' | 'traits' | 'talents' | 'racials' | 'youkai';
 
 /* --------------------------------------------------------------- construction */
 
@@ -112,15 +115,6 @@ export function familyOf(className: string): ClassFamily {
   return CLASS_FAMILIES.find(family => family.members.includes(className)) ?? CLASS_FAMILIES[0];
 }
 
-export function classPassiveMaxRank(className: string): number {
-  const passive = CLASS_PASSIVES[className] ?? CLASS_PASSIVES[familyOf(className).base];
-  return passive?.maxRank ?? 0;
-}
-
-export function classPassiveOf(className: string) {
-  return CLASS_PASSIVES[className] ?? CLASS_PASSIVES[familyOf(className).base];
-}
-
 export function subracesFor(race: string): string[] {
   return Object.entries(SUBRACES)
     .filter(([, config]) => (config.allowedRaces ?? []).includes(race))
@@ -139,13 +133,17 @@ export type BuildAction =
   | { type: 'subrace'; subrace: string }
   | { type: 'class'; slot: ClassSlot; className: string }
   | { type: 'monoclass'; enabled: boolean }
-  | { type: 'passive'; slot: ClassSlot; rank: number }
   | { type: 'stat'; stat: StatKey; value: number }
   | { type: 'stat-delta'; stat: StatKey; delta: number }
   | { type: 'stats-clear' }
   | { type: 'level'; level: number }
   | { type: 'skill-rank'; slot: ClassSlot; skillId: string; rank: number }
   | { type: 'skills-clear' }
+  | { type: 'mixture-plan-add'; name: string }
+  | { type: 'mixture-plan-remove'; index: number }
+  | { type: 'mixture-plan-clear' }
+  | { type: 'mixture-effect-toggle'; name: string; effect: string }
+  | { type: 'copy-spell'; id: string; action: CopySpellAction }
   | { type: 'trait'; id: string; taken: boolean }
   | { type: 'traits-clear' }
   | { type: 'subtalent-rank'; subtalentId: string; rank: number }
@@ -188,22 +186,20 @@ function pruneSkills(build: BuildState): BuildState {
   };
 }
 
-/** Re-clamps passive ranks and the class-family selections after a class change. */
+/** Updates the class-family selections after a class change. */
 function settleClasses(build: BuildState): BuildState {
   const next: BuildState = {
     ...build,
     selectedMainBaseClass: familyOf(build.mainClass).base,
     selectedSubBaseClass: familyOf(build.subClass).base,
-    mainClassPassive: Math.min(build.mainClassPassive, classPassiveMaxRank(build.mainClass)),
-    subClassPassive: Math.min(build.subClassPassive, classPassiveMaxRank(build.subClass)),
   };
-  return pruneSkills(next);
+  return settleSpellthief(pruneSkills(next));
 }
 
 export function buildReducer(build: BuildState, action: BuildAction): BuildState {
   switch (action.type) {
     case 'replace':
-      return action.build;
+      return settleSpellthief(action.build);
 
     case 'template': {
       const template = TEMPLATES.find(entry => entry.id === action.id);
@@ -245,14 +241,6 @@ export function buildReducer(build: BuildState, action: BuildAction): BuildState
         ? { ...build, subClass: build.mainClass }
         : build);
 
-    case 'passive': {
-      const className = action.slot === 'main' ? build.mainClass : build.subClass;
-      const rank = Math.max(0, Math.min(Math.floor(action.rank), classPassiveMaxRank(className)));
-      return action.slot === 'main'
-        ? { ...build, mainClassPassive: rank }
-        : { ...build, subClassPassive: rank };
-    }
-
     case 'stat': {
       const cap = investedCaps(build)[action.stat];
       const value = Math.max(0, Math.min(Math.floor(action.value), cap));
@@ -280,7 +268,7 @@ export function buildReducer(build: BuildState, action: BuildAction): BuildState
     }
 
     case 'skill-rank':
-      return {
+      return settleSpellthief({
         ...build,
         skillRanks: setSkillRankForClassSlots(
           build.mainClass,
@@ -290,12 +278,35 @@ export function buildReducer(build: BuildState, action: BuildAction): BuildState
           action.skillId,
           action.rank,
         ),
-      };
+      });
 
     case 'skills-clear':
-      return { ...build, skillRanks: { main: {}, sub: {} } };
+      return settleSpellthief({ ...build, skillRanks: { main: {}, sub: {} } });
+
+    case 'mixture-plan-add':
+      return planMixture(build, action.name);
+
+    case 'mixture-plan-remove':
+      return removePlannedMixture(build, action.index);
+
+    case 'mixture-plan-clear':
+      return { ...build, mixturePlan: [], activeMixtureEffects: [] };
+
+    case 'mixture-effect-toggle':
+      return toggleMixtureEffect(build, action.name, action.effect);
+
+    case 'copy-spell':
+      return changeCopySpell(build, action.id, action.action);
 
     case 'trait': {
+      const trait = traitById(action.id);
+      if (trait?.historyKey) {
+        return {
+          ...build,
+          history: action.taken ? trait.historyKey : 'None',
+          traits: (build.traits ?? []).filter(id => !traitById(id)?.historyKey),
+        };
+      }
       const taken = new Set(build.traits ?? []);
       if (action.taken) taken.add(action.id);
       else taken.delete(action.id);
@@ -319,7 +330,7 @@ export function buildReducer(build: BuildState, action: BuildAction): BuildState
       return { ...build, talents: {}, talentConditionals: {} };
 
     case 'traits-clear':
-      return { ...build, traits: [] };
+      return { ...build, traits: [], history: 'None' };
 
     /*
      * Equipment. Each case delegates the slot rules to `state/equipment.ts` and
@@ -415,7 +426,7 @@ export function buildReducer(build: BuildState, action: BuildAction): BuildState
       if (next.destiny && !destinyAllowsClassPair(next.mainClass, next.subClass)) {
         return settleClasses({ ...next, subClass: next.mainClass });
       }
-      return next;
+      return settleSpellthief(next);
     }
 
     default:

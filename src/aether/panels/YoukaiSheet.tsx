@@ -110,8 +110,7 @@ export function YoukaiSheet({ builder }: { builder: Builder }) {
 
       {!allowed ? (
         <div className="warnings">
-          Contracting is a Summoner activity. Set the main or sub class to Summoner or one of its
-          promotions to take new contracts. Existing ones are kept.
+          New contracts require Summoner or a promotion in either class slot. Existing contracts stay saved.
         </div>
       ) : null}
 

@@ -195,7 +195,7 @@ export function EffectControls({ builder, slot }: { builder: Builder; slot: Slot
               <Toggle
                 on={Boolean(conditionals[entry.conditionalKey])}
                 onChange={on => dispatch({ type: 'item-conditional', key: entry.conditionalKey, on })}
-                hint="Gated on something the calculator cannot see, so it is opt-in."
+                hint="Enable this when the condition applies."
               >
                 {entry.effect.description}
               </Toggle>

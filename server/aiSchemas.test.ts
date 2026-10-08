@@ -262,8 +262,6 @@ describe('the browser request', () => {
     extraPackage: 'auto',
     intent: 'A duelist that survives.',
     mode: 'standard',
-    assumedMainPassiveRank: 3,
-    assumedSubPassiveRank: 3,
   };
 
   it('accepts the payload the calculator posts and carries the build through whole', () => {
@@ -277,11 +275,6 @@ describe('the browser request', () => {
     const parsed = aiOptimizationRequestSchema.safeParse({ ...validRequest, constraints: [{ metric: 'vibes', minimum: 1 }] });
     expect(parsed.success).toBe(false);
     expect(parsed.success || formatIssues(parsed)).toContain('constraints.0.metric');
-  });
-
-  it('rejects a non-numeric passive rank instead of scoring with NaN', () => {
-    expect(aiOptimizationRequestSchema.safeParse({ ...validRequest, assumedMainPassiveRank: '3' }).success).toBe(false);
-    expect(aiOptimizationRequestSchema.safeParse({ ...validRequest, assumedMainPassiveRank: Number.NaN }).success).toBe(false);
   });
 
   it('rejects an armor type lock that is not an armor type', () => {

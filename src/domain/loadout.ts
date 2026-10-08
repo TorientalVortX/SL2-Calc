@@ -34,6 +34,7 @@ import {
   mergeSkillRanks,
   skillById,
   skillPointBudget,
+  classSkillPointBudget,
   skillPoolSpends,
   skillsForClassSlots,
   skillsForClassTree,
@@ -136,7 +137,7 @@ export function eligibleTraits(build: BuildState): string[] {
 export function traitViolations(build: BuildState, budget = traitPointBudget(build.characterLevel)): string[] {
   const target = traitCheckTarget(build);
   const problems: string[] = [];
-  const spent = traitPointsSpent(build.traits ?? [], build.race);
+  const spent = traitPointsSpent(build.traits ?? [], build.race, build.history);
   if (spent > budget) problems.push(`Traits cost ${spent} points against a budget of ${budget}.`);
   for (const id of build.traits ?? []) {
     const trait = TRAITS.find(item => item.id === id);
@@ -204,7 +205,7 @@ export function skillViolations(build: BuildState): string[] {
   const problems: string[] = [];
   // Checked per class, not in total: 40 points across two 35-point classes is
   // within the overall 70 and still illegal if 40 of it landed on one of them.
-  for (const pool of skillPoolSpends(build.mainClass, build.subClass, build.skillRanks, build.destiny)) {
+  for (const pool of skillPoolSpends(build.mainClass, build.subClass, build.skillRanks, build.destiny, build)) {
     if (pool.overspent) problems.push(`${pool.className} skills cost ${pool.spent} points against its ${pool.budget}.`);
   }
   const pool = skillsForClassSlots(build.mainClass, build.subClass);
@@ -256,7 +257,7 @@ export function withPrerequisites(
   ranks: Record<'main' | 'sub', SkillRanks>,
   skillId: string,
   rank: number,
-  context: { mainClass: string; subClass: string; destiny: boolean; slotFor: (id: string) => 'main' | 'sub' },
+  context: { race?: string; subrace?: string; traits?: string[]; mainClass: string; subClass: string; destiny: boolean; slotFor: (id: string) => 'main' | 'sub' },
 ): Record<'main' | 'sub', SkillRanks> | null {
   const reachable = reachableSkills(context.mainClass, context.subClass);
   let next = { main: { ...ranks.main }, sub: { ...ranks.sub } };
@@ -277,9 +278,8 @@ export function withPrerequisites(
     for (const requirement of skill.requires ?? []) pending.push({ ...requirement });
   }
 
-  const budget = skillPointBudget(context.destiny);
-  const spends = skillPoolSpends(context.mainClass, context.subClass, next, context.destiny);
-  return spends.some(pool => pool.spent > budget) ? null : next;
+  const spends = skillPoolSpends(context.mainClass, context.subClass, next, context.destiny, context);
+  return spends.some(pool => pool.overspent) ? null : next;
 }
 
 /* ------------------------------------------------------------------- youkai */
@@ -367,7 +367,7 @@ export function optimizeLoadout(build: BuildState, score: LoadoutScore, options:
     }
 
     if (skillPool.length) {
-      const result = buySkills(current, currentScore, score, skillPool, mainTree, build, budget.skillPointsPerClass, options.isCancelled);
+      const result = buySkills(current, currentScore, score, skillPool, mainTree, build, options.isCancelled);
       current = result.loadout;
       currentScore = result.score;
     }
@@ -422,7 +422,7 @@ function buyTraits(
 
   for (;;) {
     if (isCancelled?.()) break;
-    const spent = traitPointsSpent(current.traits, build.race);
+    const spent = traitPointsSpent(current.traits, build.race, build.history);
     let best: Step | null = null;
     for (const id of pool) {
       if (current.traits.includes(id)) continue;
@@ -447,7 +447,6 @@ function buySkills(
   pool: ReturnType<typeof skillsForClassSlots>,
   mainTree: Set<string>,
   build: BuildState,
-  budget: number,
   isCancelled?: () => boolean,
 ): Step {
   let current = start;
@@ -462,10 +461,10 @@ function buySkills(
   for (;;) {
     if (isCancelled?.()) break;
     const spentByPool = new Map(
-      skillPoolSpends(build.mainClass, build.subClass, current.skillRanks, build.destiny)
+      skillPoolSpends(build.mainClass, build.subClass, current.skillRanks, build.destiny, { ...build, traits: current.traits })
         .map(entry => [entry.className, entry.spent]),
     );
-    if ([...spentByPool.values()].every(spent => spent + SKILL_POINT_COST_PER_RANK > budget)) break;
+    if ([...spentByPool.entries()].every(([name, spent]) => spent + SKILL_POINT_COST_PER_RANK > classSkillPointBudget(name, build.destiny, { ...build, traits: current.traits }))) break;
     const merged = mergeSkillRanks(current.skillRanks);
     let best: Step | null = null;
 
@@ -474,7 +473,7 @@ function buySkills(
       if (rank >= skill.maxRank) continue;
       // Room is checked in the skill's own class, not across the build.
       const owner = poolOf.get(skill.id);
-      if (!owner || (spentByPool.get(owner) ?? 0) + SKILL_POINT_COST_PER_RANK > budget) continue;
+      if (!owner || (spentByPool.get(owner) ?? 0) + SKILL_POINT_COST_PER_RANK > classSkillPointBudget(owner, build.destiny, { ...build, traits: current.traits })) continue;
       /*
        * Only 46 of 951 skills have a prerequisite, and resolving the chain means
        * re-pricing every pool. The overwhelmingly common case is a plain rank
@@ -483,6 +482,8 @@ function buySkills(
       const slot = slotForSkill(mainTree, skill.id);
       const skillRanks = skill.requires?.length
         ? withPrerequisites(current.skillRanks, skill.id, rank + 1, {
+          ...build,
+          traits: current.traits,
           mainClass: build.mainClass,
           subClass: build.subClass,
           destiny: build.destiny,
@@ -560,6 +561,8 @@ function installMove(current: Loadout, youkaiId: string, options: YoukaiOptions)
      * than an Install rank the build could not legally hold.
      */
     const withChain = withPrerequisites(skillRanks, INSTALL_SKILL_ID, 1, {
+      ...options.build,
+      traits: current.traits,
       mainClass: options.build.mainClass,
       subClass: options.build.subClass,
       destiny: options.build.destiny,
@@ -593,6 +596,8 @@ function withSyncMind(current: Loadout, rank: 1 | 2, options: YoukaiOptions): Lo
   if ((mergeSkillRanks(current.skillRanks)['sync-mind'] ?? 0) >= rank) return current;
   if (!options.canRankSyncMind) return null;
   const skillRanks = withPrerequisites(current.skillRanks, 'sync-mind', rank, {
+    ...options.build,
+    traits: current.traits,
     mainClass: options.build.mainClass,
     subClass: options.build.subClass,
     destiny: options.build.destiny,
@@ -723,7 +728,7 @@ export function summarizeLoadout(
   options: { originalYoukai?: YoukaiState; optimizationContext?: YoukaiOptimizationContext } = {},
 ): LoadoutSummary {
   const merged = mergeSkillRanks(build.skillRanks);
-  const pools = skillPoolSpends(build.mainClass, build.subClass, build.skillRanks, build.destiny);
+  const pools = skillPoolSpends(build.mainClass, build.subClass, build.skillRanks, build.destiny, build);
   const original = normalizeYoukaiState(options.originalYoukai ?? build.youkai);
   const originalIds = new Set(original.contracted);
   const rosterFit = evaluateYoukaiRosterFit(build, options.optimizationContext ?? {}, originalIds);
@@ -761,11 +766,11 @@ export function summarizeLoadout(
         ? [{ id, name: youkai.name, race: youkai.race, installed: build.youkai.installed === id, source, reasons }]
         : [];
     }),
-    traitPointsSpent: traitPointsSpent(build.traits ?? [], build.race),
+    traitPointsSpent: traitPointsSpent(build.traits ?? [], build.race, build.history),
     traitPointBudget: traitPointBudget(build.characterLevel),
     skillPools: pools.map(pool => ({ className: pool.className, spent: pool.spent, budget: pool.budget })),
     skillPointsSpent: buildSkillPointsSpent(build.mainClass, build.subClass, build.skillRanks),
-    skillPointBudget: buildSkillPointBudget(build.mainClass, build.subClass, build.destiny),
+    skillPointBudget: buildSkillPointBudget(build.mainClass, build.subClass, build.destiny, build),
     youkaiCap: Math.max(0, Math.floor(youkaiCap)),
     destiny: build.destiny,
     youkaiRaces: [...new Set(build.youkai.contracted.flatMap(id => {

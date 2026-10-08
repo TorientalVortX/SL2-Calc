@@ -46,6 +46,20 @@
         "effects": []
       }
     ],
+    "Battlepick": [
+      {
+        "name": "Armor Reduction",
+        "description": "Reduces effectiveness of enemy Armor by 5.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Wear Down",
+        "description": "When an enemy is damaged by weapons that reduce enemy Armor effectiveness, either by basic attacks or skills using them, a Wear Down status is applied for 3 rounds, or powered up. This status decreases the enemy's Armor by LV. (Max LV of 20, max duration of 3 rounds).",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
     "Gorger": [
       {
         "name": "Vampiric",
@@ -68,20 +82,6 @@
         "effects": []
       }
     ],
-    "Battlepick": [
-      {
-        "name": "Armor Reduction",
-        "description": "Reduces effectiveness of enemy Armor by 5.",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Wear Down",
-        "description": "When an enemy is damaged by weapons that reduce enemy Armor effectiveness, either by basic attacks or skills using them, a Wear Down status is applied for 3 rounds, or powered up. This status decreases the enemy's Armor by LV. (Max LV of 20, max duration of 3 rounds).",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
     "Graality": [
       {
         "name": "CEL Reduction",
@@ -96,14 +96,6 @@
         "effects": []
       }
     ],
-    "Spirit Axe": [
-      {
-        "name": "Focus Restoration",
-        "description": "Restores Focus based on damage dealt. (10%) (Basic attacks only)",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
     "Kanabo": [
       {
         "name": "Wear Down Synergy",
@@ -114,6 +106,28 @@
       {
         "name": "Kanabo Crusher",
         "description": "An extremely heavy swing that uses up all of your Momentum (min. 3) and smashes into an enemy within 1 Range, which deals damage equal your STR (80 max) x Momentum consumed. This also shatters the target's defenses (if not a few bones), inflicting them with Wear Down (LV = Kanabo's Power, 2 round). The attack takes its toll on the Kanabo and reduces its durability by the amount of Momentum used.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Spirit Axe": [
+      {
+        "name": "Focus Restoration",
+        "description": "Restores Focus based on damage dealt. (10%) (Basic attacks only)",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Burngada": [
+      {
+        "name": "Fire Damage",
+        "description": "Deals magic Fire bonus damage equal to 50% of your Fire ATK, which ignores armor.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Nerifian Spell Power",
+        "description": "+10% Power to Nerifian Spells (Halved if not main weapon.)",
         "applies": "reference",
         "effects": []
       }
@@ -165,20 +179,6 @@
         "effects": []
       }
     ],
-    "Burngada": [
-      {
-        "name": "Fire Damage",
-        "description": "Deals magic Fire bonus damage equal to 50% of your Fire ATK, which ignores armor.",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Nerifian Spell Power",
-        "description": "+10% Power to Nerifian Spells (Halved if not main weapon.)",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
     "Monster Spine": [
       {
         "name": "Bloodhunt Synergy",
@@ -195,34 +195,6 @@
       {
         "name": "Staggering Critical",
         "description": "Critical hits apply or power up Stagger LV 1 (max LV: 5) to the target for 5 rounds. (Stagger reduces Hit by LV x 2 and Parry activation chance by LV x 2%.)",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Excel Parashu": [
-      {
-        "name": "Charge Consumption",
-        "description": "Consumes Weapon Charges, dealing 50% more damage per Charge Level.",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Charge Weapon",
-        "description": "Rev your weapon and fill it with focus, increasing its Charge, to a maximum of level 3. When you hit with a weapon that can consume Weapon Charges, the damage you deal with that attack will increase by 50% per level. (Weapon Charges will expire after 5 rounds.)",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Elite Engine",
-        "description": "Charge Weapon FP cost is increased to 8 FP. Attacks do not use up all of your charges, instead the LV is reduced by 1, and the damage bonus is 35% (does not increase with charge amount like normal Excel attacks).",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Evil Club": [
-      {
-        "name": "Darkness Damage",
-        "description": "Deals magic Darkness bonus damage equal to 50% of your Darkness ATK, which ignores armor.",
         "applies": "reference",
         "effects": []
       }
@@ -260,16 +232,78 @@
         "effects": []
       }
     ],
-    "Vampire Bat": [
+    "Cat o' Nine Tails": [
       {
-        "name": "Vampiric",
-        "description": "Vampiric (10%) (Basic attacks only).",
+        "name": "Passive",
+        "description": "+1 Attack Range if weapon made of Thinsteel. On Hit: Apply or power up String Attached (LV 1, max 4, 3 rounds). Only 1 string can attached per action (even if you have multiple Puppet Strings equipped, or attack with it multiple times).",
         "applies": "reference",
         "effects": []
       },
       {
+        "name": "Passive",
+        "description": "Strings Attached effects that you apply deal protection-ignoring Pierce damage equal to LV x 10 at the start of a new round.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Evil Club": [
+      {
         "name": "Darkness Damage",
         "description": "Deals magic Darkness bonus damage equal to 50% of your Darkness ATK, which ignores armor.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Excel Parashu": [
+      {
+        "name": "Charge Consumption",
+        "description": "Consumes Weapon Charges, dealing 50% more damage per Charge Level.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Charge Weapon",
+        "description": "Rev your weapon and fill it with focus, increasing its Charge, to a maximum of level 3. When you hit with a weapon that can consume Weapon Charges, the damage you deal with that attack will increase by 50% per level. (Weapon Charges will expire after 5 rounds.)",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Elite Engine",
+        "description": "Charge Weapon FP cost is increased to 8 FP. Attacks do not use up all of your charges, instead the LV is reduced by 1, and the damage bonus is 35% (does not increase with charge amount like normal Excel attacks).",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Electric Axe": [
+      {
+        "name": "Sound Shockwave",
+        "description": "Inflicts unresistable Sound damage to all enemies in 3 Range equal to this weapon's Power * 2.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Nefarious Riff",
+        "description": "Plays a riff off the guitar, surrounding you with electrical bats for 5 rounds. While active, attackers will take Lightning magic damage equal to Electric Axe's UL if they hit you. You can reactive the skill to send the bats flying at all enemies, ending the effect but dealing Lightning magic damage equal to your Lightning ATK + Sound ATK + Electric Axe's SWA.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Labrys": [
+      {
+        "name": "Charge Consumption",
+        "description": "Consumes Weapon Charges, dealing 50% more damage per Charge Level.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Immovable",
+        "description": "While you have a Weapon Charge(s), and this is your main hand weapon: Gain immunity to knockback and pull effects.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Retaliating Charge",
+        "description": "Grants a 10% chance to activate Charge Weapon skill automatically when you take non-bonus, non-field, non-status damage from an enemy.",
         "applies": "reference",
         "effects": []
       }
@@ -321,56 +355,51 @@
         ]
       }
     ],
-    "Electric Axe": [
+    "Vampire Bat": [
       {
-        "name": "Sound Shockwave",
-        "description": "Inflicts unresistable Sound damage to all enemies in 3 Range equal to this weapon's Power * 2.",
+        "name": "Vampiric",
+        "description": "Vampiric (10%) (Basic attacks only).",
         "applies": "reference",
         "effects": []
       },
       {
-        "name": "Nefarious Riff",
-        "description": "Plays a riff off the guitar, surrounding you with electrical bats for 5 rounds. While active, attackers will take Lightning magic damage equal to Electric Axe's UL if they hit you. You can reactive the skill to send the bats flying at all enemies, ending the effect but dealing Lightning magic damage equal to your Lightning ATK + Sound ATK + Electric Axe's SWA.",
+        "name": "Darkness Damage",
+        "description": "Deals magic Darkness bonus damage equal to 50% of your Darkness ATK, which ignores armor.",
         "applies": "reference",
         "effects": []
       }
     ],
-    "Labrys": [
+    "Lare Grystale": [
       {
-        "name": "Charge Consumption",
-        "description": "Consumes Weapon Charges, dealing 50% more damage per Charge Level.",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Immovable",
-        "description": "While you have a Weapon Charge(s), and this is your main hand weapon: Gain immunity to knockback and pull effects.",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Retaliating Charge",
-        "description": "Grants a 10% chance to activate Charge Weapon skill automatically when you take non-bonus, non-field, non-status damage from an enemy.",
-        "applies": "reference",
-        "effects": []
+        "name": "Defense Bonus",
+        "description": "+2 DEF. Also counts as a Shield.",
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "stat",
+            "key": "def",
+            "base": 2,
+            "ulMultiplier": 0
+          }
+        ]
       }
     ],
-    "Ramarg": [
+    "Mythslayer": [
       {
-        "name": "Wind Substitution",
-        "description": "Replaces your Wind ATK with the target's for 2 rounds.",
+        "name": "Youkai Hunter",
+        "description": "Damage dealt by this weapon's attack is increased by 25% if the target is a Youkai or installed with one.",
         "applies": "reference",
         "effects": []
       },
       {
-        "name": "Sky's Call",
-        "description": "Requires Substitute Wind ATK to be active. Consumes the status by the weapon, deals 20 armor-ignoring Wind Kickback Damage to you, curing Glowing effects you suffer from, and deals Wind magic damage ignores Reflect, Immunity, and Absorb) equal to 100% of Ramarg's Scaled Weapon Attack + 100% of the Substitute Wind ATK from its effect to all enemies in a 3 Size Circle around you. You and all damaged enemies are knocked airborne. 3 round CD.",
+        "name": "Fiction Reaper",
+        "description": "Triggers before an enemy is attacked. If the target is a Youkai, the attack gains +999 Critical. If the attack hits, deals 35 Light bonus damage that ignores Armor to the target and all Youkai in their party.",
         "applies": "conditional",
         "effects": [
           {
             "kind": "derived",
-            "key": "armor",
-            "base": 20,
+            "key": "critical",
+            "base": 999,
             "ulMultiplier": 0
           }
         ]
@@ -403,37 +432,22 @@
         ]
       }
     ],
-    "Mythslayer": [
+    "Ramarg": [
       {
-        "name": "Youkai Hunter",
-        "description": "Damage dealt by this weapon's attack is increased by 25% if the target is a Youkai or installed with one.",
+        "name": "Wind Substitution",
+        "description": "Replaces your Wind ATK with the target's for 2 rounds.",
         "applies": "reference",
         "effects": []
       },
       {
-        "name": "Fiction Reaper",
-        "description": "Triggers before an enemy is attacked. If the target is a Youkai, the attack gains +999 Critical. If the attack hits, deals 35 Light bonus damage that ignores Armor to the target and all Youkai in their party.",
+        "name": "Sky's Call",
+        "description": "Requires Substitute Wind ATK to be active. Consumes the status by the weapon, deals 20 armor-ignoring Wind Kickback Damage to you, curing Glowing effects you suffer from, and deals Wind magic damage ignores Reflect, Immunity, and Absorb) equal to 100% of Ramarg's Scaled Weapon Attack + 100% of the Substitute Wind ATK from its effect to all enemies in a 3 Size Circle around you. You and all damaged enemies are knocked airborne. 3 round CD.",
         "applies": "conditional",
         "effects": [
           {
             "kind": "derived",
-            "key": "critical",
-            "base": 999,
-            "ulMultiplier": 0
-          }
-        ]
-      }
-    ],
-    "Lare Grystale": [
-      {
-        "name": "Defense Bonus",
-        "description": "+2 DEF. Also counts as a Shield.",
-        "applies": "always",
-        "effects": [
-          {
-            "kind": "stat",
-            "key": "def",
-            "base": 2,
+            "key": "armor",
+            "base": 20,
             "ulMultiplier": 0
           }
         ]
@@ -455,22 +469,6 @@
         "effects": []
       }
     ],
-    "Violet Varon": [
-      {
-        "name": "Dual Type",
-        "description": "Also qualifies as a Sword weapon.",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Sky Mantis Scythe": [
-      {
-        "name": "Airborne Efficiency",
-        "description": "Airborne basic attacks with this weapon cost 1M less (to a minimum of 1M).",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
     "Sheer Cold": [
       {
         "name": "Frozen Preservation",
@@ -485,10 +483,18 @@
         "effects": []
       }
     ],
-    "Skullcaver": [
+    "Sky Mantis Scythe": [
       {
-        "name": "Stunning Critical",
-        "description": "(UL/2)% chance to inflict Stun.",
+        "name": "Airborne Efficiency",
+        "description": "Airborne basic attacks with this weapon cost 1M less (to a minimum of 1M).",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Violet Varon": [
+      {
+        "name": "Dual Type",
+        "description": "Also qualifies as a Sword weapon.",
         "applies": "reference",
         "effects": []
       }
@@ -503,26 +509,6 @@
       {
         "name": "Anchor Pull",
         "description": "Enemies in the attack line are pulled (UL/12) tiles towards you.",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Pillawag": [
-      {
-        "name": "Wide Attack",
-        "description": "Attacks in a 3 Range wide line and does not need an attack target.",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Pillage",
-        "description": "Attacking will pillage all tiles in the attack range, removing all special tiles from them and preventing new ones from being created there for (UL/3) rounds.",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Rampaging Enchantment",
-        "description": "Always comes enchanted with Rampaging (On Hit: Inflicts a status that reduces the target's Defense by 25% of the enchanted weapon's Power (or powers up an existing status by the same amount (max Power*0.5) and increases duration by 1 (max 2).) Lasts 2 rounds.)",
         "applies": "reference",
         "effects": []
       }
@@ -548,6 +534,42 @@
         ]
       }
     ],
+    "Pillawag": [
+      {
+        "name": "Wide Attack",
+        "description": "Attacks in a 3 Range wide line and does not need an attack target.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Pillage",
+        "description": "Attacking will pillage all tiles in the attack range, removing all special tiles from them and preventing new ones from being created there for (UL/3) rounds.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Rampaging Enchantment",
+        "description": "Always comes enchanted with Rampaging (On Hit: Inflicts a status that reduces the target's Defense by 25% of the enchanted weapon's Power (or powers up an existing status by the same amount (max Power*0.5) and increases duration by 1 (max 2).) Lasts 2 rounds.)",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Skullcaver": [
+      {
+        "name": "Stunning Critical",
+        "description": "(UL/2)% chance to inflict Stun.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Guiding Shot": [
+      {
+        "name": "Passive",
+        "description": "Sub Type: Shortbow",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
     "Bow (Enhanced)": [
       {
         "name": "Enhanced Stats",
@@ -561,6 +583,14 @@
             "ulMultiplier": 0
           }
         ]
+      }
+    ],
+    "Crossbow": [
+      {
+        "name": "Passive",
+        "description": "Sub Type: Crossbow",
+        "applies": "reference",
+        "effects": []
       }
     ],
     "Hunting Bow": [
@@ -1049,10 +1079,66 @@
         "effects": []
       }
     ],
+    "Sunken Silk Bow": [
+      {
+        "name": "Passive",
+        "description": "Always enchanted with Evolving (+10% EXP Received (Doesn't stack). Once per battle, after losing 5 durability on this weapon: restores 5 durability, and gives +5 Power, Hit, and Critical to this weapon for the rest of the battle.)",
+        "applies": "conditional",
+        "effects": [
+          {
+            "kind": "derived",
+            "key": "power",
+            "base": 5,
+            "ulMultiplier": 0
+          }
+        ]
+      },
+      {
+        "name": "Passive",
+        "description": "Increases Acid ATK by UL/2. (Doesn't stack.)",
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "elementalAttack",
+            "key": "Acid",
+            "base": 0,
+            "ulMultiplier": 0.5
+          }
+        ]
+      },
+      {
+        "name": "Passive",
+        "description": "An enemy affected by your String Attached has -X CEL (X = its LV x 2). When this weapon evolves, gain Silk Armor LV X (X = half of your level, 5 rounds).",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Passive",
+        "description": "+1 Attack Range if weapon made of Thinsteel. On Hit: Apply or power up String Attached (LV 1, max 4, 3 rounds). Only 1 string can attached per action (even if you have multiple Puppet Strings equipped, or attack with it multiple times).",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
     "Dagger": [
       {
         "name": "Forbidden Technique",
         "description": "Inflicts you with Cursed Vengeance LV10 for 3 rounds. (Cursed Vengeance increases your damage by LV%, but drains your HP by LV% of your maximum HP every round.)",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Lute": [
+      {
+        "name": "Passive",
+        "description": "Sub Type: Instrument",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Whip": [
+      {
+        "name": "Passive",
+        "description": "Sub Type: Whip",
         "applies": "reference",
         "effects": []
       }
@@ -1078,6 +1164,14 @@
         "effects": []
       }
     ],
+    "Tanto": [
+      {
+        "name": "Passive",
+        "description": "Sub Type: Katana",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
     "Throwing Dagger": [
       {
         "name": "Deadly Roundabout",
@@ -1098,6 +1192,14 @@
       {
         "name": "Parry Bonus",
         "description": "Increases activation rate of Parry skills by 15%.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Shuriken": [
+      {
+        "name": "Passive",
+        "description": "Sub Type: Shuriken",
         "applies": "reference",
         "effects": []
       }
@@ -1611,16 +1713,24 @@
         "effects": []
       }
     ],
-    "Crash Cymbals": [
+    "Boxing Glove": [
       {
-        "name": "Fear Infliction",
-        "description": "If you are behind your target, inflicts Fear on them until your next turn. (Works even while outside of melee range.)",
-        "applies": "reference",
-        "effects": []
+        "name": "Defense Bonus",
+        "description": "+1-3 DEF",
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "stat",
+            "key": "def",
+            "base": 1,
+            "ulMultiplier": 0,
+            "rollMax": 3
+          }
+        ]
       },
       {
-        "name": "Song Damage",
-        "description": "When played (via a Song skill): Deals bonus armor-ignoring Sound magic damage equal to 5 + UL to all enemies within 5 Range.",
+        "name": "Guard Skill",
+        "description": "Grants skill: Guard. Guard does not deplete the Schwarz Sturm gauge.",
         "applies": "reference",
         "effects": []
       }
@@ -1646,46 +1756,16 @@
         "effects": []
       }
     ],
-    "Boxing Glove": [
+    "Crash Cymbals": [
       {
-        "name": "Defense Bonus",
-        "description": "+1-3 DEF",
-        "applies": "always",
-        "effects": [
-          {
-            "kind": "stat",
-            "key": "def",
-            "base": 1,
-            "ulMultiplier": 0,
-            "rollMax": 3
-          }
-        ]
-      },
-      {
-        "name": "Guard Skill",
-        "description": "Grants skill: Guard. Guard does not deplete the Schwarz Sturm gauge.",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Tenderizers": [
-      {
-        "name": "Vampiric",
-        "description": "Vampiric (10%)",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Needler": [
-      {
-        "name": "Armor Reduction",
-        "description": "Reduces effectiveness of enemy Armor by 5.",
+        "name": "Fear Infliction",
+        "description": "If you are behind your target, inflicts Fear on them until your next turn. (Works even while outside of melee range.)",
         "applies": "reference",
         "effects": []
       },
       {
-        "name": "Wear Down",
-        "description": "When an enemy is damaged by weapons that reduce enemy Armor effectiveness, either by basic attacks or by skills using them, a Wear Down status is applied for 3 rounds, or powered up. This status decreases the enemy's Armor by 5 per LV. (Max LV of 20, max duration of 3 rounds).",
+        "name": "Song Damage",
+        "description": "When played (via a Song skill): Deals bonus armor-ignoring Sound magic damage equal to 5 + UL to all enemies within 5 Range.",
         "applies": "reference",
         "effects": []
       }
@@ -1710,10 +1790,24 @@
         "effects": []
       }
     ],
-    "Spirit Gauntlet": [
+    "Needler": [
       {
-        "name": "Focus Restoration",
-        "description": "Restores Focus based on damage dealt. (10%)",
+        "name": "Armor Reduction",
+        "description": "Reduces effectiveness of enemy Armor by 5.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Wear Down",
+        "description": "When an enemy is damaged by weapons that reduce enemy Armor effectiveness, either by basic attacks or by skills using them, a Wear Down status is applied for 3 rounds, or powered up. This status decreases the enemy's Armor by 5 per LV. (Max LV of 20, max duration of 3 rounds).",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Tenderizers": [
+      {
+        "name": "Vampiric",
+        "description": "Vampiric (10%)",
         "applies": "reference",
         "effects": []
       }
@@ -1726,36 +1820,18 @@
         "effects": []
       }
     ],
-    "Pickpocketers": [
+    "Ninja Scroll": [
       {
-        "name": "Steal Bonus",
-        "description": "Increases Steal's success rate by 15%.",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Pilfer",
-        "description": "Targets one enemy within 1 Range. Messes with the target's inventory, preventing them from using items for 2 rounds.",
+        "name": "Passive",
+        "description": "Sub Type: Gauntlet",
         "applies": "reference",
         "effects": []
       }
     ],
-    "Maned Tonfa": [
+    "Spirit Gauntlet": [
       {
-        "name": "Guard Skill",
-        "description": "Grants Skill: Guard (1+ Momentum, 0FP) - Raise your shield and protect yourself from enemy attacks. Consumes all remaining Momentum, but until your next action, all damage you take is reduced by (Momentum consumed * 10)%.",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Tonfa Block",
-        "description": "Increases the LV of Guard statuses applied to you by 5 if you are two-handing this weapon.",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Tonfa Parry",
-        "description": "Parry skill. Grants a chance to parry non-spell, non-ranged weapon damage for 25% reduction. Activate Rate: 15% + 50% of Scaled DEF, +10% if the owner of this skill has the Roar status active.",
+        "name": "Focus Restoration",
+        "description": "Restores Focus based on damage dealt. (10%)",
         "applies": "reference",
         "effects": []
       }
@@ -1780,49 +1856,56 @@
         "effects": []
       }
     ],
-    "Shadow Wind Claw": [
+    "Maned Tonfa": [
       {
-        "name": "Elemental ATK Bonus",
-        "description": "+5 Darkness & Wind ATK",
+        "name": "Guard Skill",
+        "description": "Grants Skill: Guard (1+ Momentum, 0FP) - Raise your shield and protect yourself from enemy attacks. Consumes all remaining Momentum, but until your next action, all damage you take is reduced by (Momentum consumed * 10)%.",
         "applies": "reference",
         "effects": []
       },
       {
-        "name": "Debuff Immunity",
-        "description": "If you have at least 40 base CEL, gain Debuff Immunity LV1 for 3 rounds.",
+        "name": "Tonfa Block",
+        "description": "Increases the LV of Guard statuses applied to you by 5 if you are two-handing this weapon.",
         "applies": "reference",
         "effects": []
       },
       {
-        "name": "Air Explosion",
-        "description": "Triggers after the attack hits an enemy. Knocks the target airborne, deals 35 armor-ignoring Wind magic bonus damage to them, and applies an Aero Shift (5) effect to all tiles in 5 Range.",
-        "applies": "conditional",
-        "effects": [
-          {
-            "kind": "derived",
-            "key": "armor",
-            "base": 35,
-            "ulMultiplier": 0
-          }
-        ]
+        "name": "Tonfa Parry",
+        "description": "Parry skill. Grants a chance to parry non-spell, non-ranged weapon damage for 25% reduction. Activate Rate: 15% + 50% of Scaled DEF, +10% if the owner of this skill has the Roar status active.",
+        "applies": "reference",
+        "effects": []
       }
     ],
-    "Excellion": [
+    "Pickpocketers": [
       {
-        "name": "Charge Weapon",
-        "description": "Grants Skill: Charge Weapon (3 Momentum, 5 FP) - Rev your weapon and fill it with focus, increasing its Charge, to a maximum of level 3. When you hit with a weapon that can consume Weapon Charges, the damage you deal with that attack will increase by 50% per level. (Weapon Charges will expire after 5 rounds.)",
+        "name": "Steal Bonus",
+        "description": "Increases Steal's success rate by 15%.",
         "applies": "reference",
         "effects": []
       },
       {
-        "name": "Weapon Charge Consumption",
-        "description": "Consumes Weapon Charge, dealing 50% more damage per Charge Level.",
+        "name": "Pilfer",
+        "description": "Targets one enemy within 1 Range. Messes with the target's inventory, preventing them from using items for 2 rounds.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Tricky Yoyo": [
+      {
+        "name": "Passive",
+        "description": "Sub Type: Strings",
         "applies": "reference",
         "effects": []
       },
       {
-        "name": "Elite Engine",
-        "description": "Charge Weapon FP cost is increased to 8 FP. Attacks do not use up all of your charges, instead the LV is reduced by 1, and the damage bonus is 35% (does not increase with charge amount like normal Excel attacks).",
+        "name": "- Around The World",
+        "description": "Trigger Rate: 10% + 15% Bonus Trigger CD: 1 Rounds Triggers before an enemy is attacked, and replaces the attack. Deals 110% of Scaled Weapon Attack as Blunt damage to all enemies in 4 Range of the target (including them), which ignores immunity/absorb/reflect.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Elevator",
+        "description": "Walk The Dog: 3M, 10 FP, 1 round CD. Can only be used if the Special Strike 'Around The World' is not on cooldown. Targets a 5 Size Line in front of you. Spin your yoyo on the ground and move forward, until you encounter a dense tile or an enemy. For each tile you move through, increases the activation chance of your Around The World Special Strike by 6%. Afterwards, if you encountered an enemy, you will activate Tricky Yoyo's basic attack skill on them. Elevator: 1M. Can only be used if the Special Strike 'Around The World' is not on cooldown. Spin your yoyo, angling the string so that it moves upwards. Not only a visually impressive defiance of gravity, but one that straightens the string out, restoring 5 durability and increasing the chance of its next Special Strike activation by 15%.",
         "applies": "reference",
         "effects": []
       }
@@ -1854,18 +1937,63 @@
         "effects": []
       }
     ],
-    "Whulf": [
+    "Excellion": [
       {
-        "name": "The Wolf's Claws Set",
-        "description": "Set: The Wolf's Claws. 2+ - 1) Grants access to the Shooting Star skill. 2) Increases the range of the Kick skill by 5. 3) Kick skill causes you to fly towards your target.",
+        "name": "Charge Weapon",
+        "description": "Grants Skill: Charge Weapon (3 Momentum, 5 FP) - Rev your weapon and fill it with focus, increasing its Charge, to a maximum of level 3. When you hit with a weapon that can consume Weapon Charges, the damage you deal with that attack will increase by 50% per level. (Weapon Charges will expire after 5 rounds.)",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Weapon Charge Consumption",
+        "description": "Consumes Weapon Charge, dealing 50% more damage per Charge Level.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Elite Engine",
+        "description": "Charge Weapon FP cost is increased to 8 FP. Attacks do not use up all of your charges, instead the LV is reduced by 1, and the damage bonus is 35% (does not increase with charge amount like normal Excel attacks).",
         "applies": "reference",
         "effects": []
       }
     ],
-    "Sea Hunter Gauntlet": [
+    "Shadow Wind Claw": [
       {
-        "name": "Hunted Infliction",
-        "description": "Inflicts Hunted LV14 for 3 rounds if the target is a seafaring monster.",
+        "name": "Elemental ATK Bonus",
+        "description": "+5 Darkness & Wind ATK",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Debuff Immunity",
+        "description": "If you have at least 40 base CEL, gain Debuff Immunity LV1 for 3 rounds.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Air Explosion",
+        "description": "Triggers after the attack hits an enemy. Knocks the target airborne, deals 35 armor-ignoring Wind magic bonus damage to them, and applies an Aero Shift (5) effect to all tiles in 5 Range.",
+        "applies": "conditional",
+        "effects": [
+          {
+            "kind": "derived",
+            "key": "armor",
+            "base": 35,
+            "ulMultiplier": 0
+          }
+        ]
+      }
+    ],
+    "Kusarigami": [
+      {
+        "name": "Weight Strike",
+        "description": "Has a special secondary attack called 'Weight Strike', and grants access to the 'Spin Kusarigami' skill. Weight Strike: 3M, Basic attack that deals Blunt Damage.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Spin Kusarigami",
+        "description": "Spin Kusarigami: 1M, Puts Weight Strike on 1 round CD, but the next time you attack with it and it hits, you pull the target 3 tiles towards you. Afterwards, if they are within 1 Range of you, you automatically apply the Grapple skill to them.",
         "applies": "reference",
         "effects": []
       }
@@ -1884,18 +2012,55 @@
         "effects": []
       }
     ],
-    "Kusarigami": [
+    "Sea Hunter Gauntlet": [
       {
-        "name": "Weight Strike",
-        "description": "Has a special secondary attack called 'Weight Strike', and grants access to the 'Spin Kusarigami' skill. Weight Strike: 3M, Basic attack that deals Blunt Damage.",
+        "name": "Hunted Infliction",
+        "description": "Inflicts Hunted LV14 for 3 rounds if the target is a seafaring monster.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Whulf": [
+      {
+        "name": "The Wolf's Claws Set",
+        "description": "Set: The Wolf's Claws. 2+ - 1) Grants access to the Shooting Star skill. 2) Increases the range of the Kick skill by 5. 3) Kick skill causes you to fly towards your target.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Giant Slayer": [
+      {
+        "name": "Giant Slaying",
+        "description": "Basic attacks with this weapon deal 15% more damage if the target is a Giant, Enlarged, or has the Mountain skill. Also applies to enemies with a Gigantic torso enchantment at half effectiveness.",
         "applies": "reference",
         "effects": []
       },
       {
-        "name": "Spin Kusarigami",
-        "description": "Spin Kusarigami: 1M, Puts Weight Strike on 1 round CD, but the next time you attack with it and it hits, you pull the target 3 tiles towards you. Afterwards, if they are within 1 Range of you, you automatically apply the Grapple skill to them.",
+        "name": "Demoralize Giants",
+        "description": "On Defeat Enemy: If enemy was a Giant, Enlarged, had the Mountain skill, or a Gigantic torso enchantment, and this weapon defeated them, all other enemies in the battle of those same categories suffer -5 to all stats (except VIT) for 5 rounds.",
         "applies": "reference",
         "effects": []
+      }
+    ],
+    "Helrenroka": [
+      {
+        "name": "Fire ATK Substitution",
+        "description": "Replaces your Fire ATK with the target's for 2 Rounds.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Guiding Flame",
+        "description": "Helrenroka's Potential Skill. Ninjutsu. Requires Substitute Fire ATK to be active. Invoke a fiery ninja art, dealing 20 armor-ignoring Fire Kickback damage to you, curing Blind effects you suffer from, and creating a burst of Fire around you that damages all enemies in a 3 Size Circle for Fire magic damage (can critically hit for +25% damage, ignores Reflect, Immunity, and Absorb) equal to 100% of Helrenroka's Scaled Weapon Attack + 100% of the Substitute Fire ATK from its effect. Damaged enemies are inflicted with Glowing LV 10 (3 rounds). 2 round CD. Furinkazan: Gain 1 Fire Mark.",
+        "applies": "conditional",
+        "effects": [
+          {
+            "kind": "derived",
+            "key": "armor",
+            "base": 20,
+            "ulMultiplier": 0
+          }
+        ]
       }
     ],
     "Shredder Replica": [
@@ -1925,45 +2090,10 @@
         ]
       }
     ],
-    "Helrenroka": [
+    "Cobalt Qrytys": [
       {
-        "name": "Fire ATK Substitution",
-        "description": "Replaces your Fire ATK with the target's for 2 Rounds.",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Guiding Flame",
-        "description": "Helrenroka's Potential Skill. Ninjutsu. Requires Substitute Fire ATK to be active. Invoke a fiery ninja art, dealing 20 armor-ignoring Fire Kickback damage to you, curing Blind effects you suffer from, and creating a burst of Fire around you that damages all enemies in a 3 Size Circle for Fire magic damage (can critically hit for +25% damage, ignores Reflect, Immunity, and Absorb) equal to 100% of Helrenroka's Scaled Weapon Attack + 100% of the Substitute Fire ATK from its effect. Damaged enemies are inflicted with Glowing LV 10 (3 rounds). 2 round CD. Furinkazan: Gain 1 Fire Mark.",
-        "applies": "conditional",
-        "effects": [
-          {
-            "kind": "derived",
-            "key": "armor",
-            "base": 20,
-            "ulMultiplier": 0
-          }
-        ]
-      }
-    ],
-    "Giant Slayer": [
-      {
-        "name": "Giant Slaying",
-        "description": "Basic attacks with this weapon deal 15% more damage if the target is a Giant, Enlarged, or has the Mountain skill. Also applies to enemies with a Gigantic torso enchantment at half effectiveness.",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Demoralize Giants",
-        "description": "On Defeat Enemy: If enemy was a Giant, Enlarged, had the Mountain skill, or a Gigantic torso enchantment, and this weapon defeated them, all other enemies in the battle of those same categories suffer -5 to all stats (except VIT) for 5 rounds.",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Ymir": [
-      {
-        "name": "Freezing Knockback",
-        "description": "If target is not immune to knockback effects; Inflicts knockback (1 tile) in your current direction. If the enemy doesn't move from this effect (due to that tile being invalid/occupied), they take Ice magic damage equal to 150% of your Ice ATK. (Activations of this effect beyond the first in a round will only use 50% instead.)",
+        "name": "Dual Type",
+        "description": "Also qualifies as a Dagger weapon.",
         "applies": "reference",
         "effects": []
       }
@@ -1995,26 +2125,32 @@
         "effects": []
       }
     ],
-    "Cobalt Qrytys": [
+    "Ymir": [
       {
-        "name": "Dual Type",
-        "description": "Also qualifies as a Dagger weapon.",
+        "name": "Freezing Knockback",
+        "description": "If target is not immune to knockback effects; Inflicts knockback (1 tile) in your current direction. If the enemy doesn't move from this effect (due to that tile being invalid/occupied), they take Ice magic damage equal to 150% of your Ice ATK. (Activations of this effect beyond the first in a round will only use 50% instead.)",
         "applies": "reference",
         "effects": []
       }
     ],
-    "Pinchers": [
+    "Buzzing Chakram": [
       {
-        "name": "Restrain",
-        "description": "UL% chance of automatically applying Restrain to the target.",
+        "name": "Range Increase",
+        "description": "Attack range increases by 1 for every 6 UL.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Bouncing Acid",
+        "description": "Bounces to an enemy within 5 Range and deals UL Acid magic bonus damage to them that ignores armor, then repeats. (Enemies cannot be hit more than once per activation and the original target cannot be the initial bounce target.)",
         "applies": "reference",
         "effects": []
       }
     ],
-    "Mortissimo": [
+    "Deadclaw": [
       {
-        "name": "Fear Damage",
-        "description": "Deals 1+UL unresistable Sound Damage if target is Feared.",
+        "name": "Grounded Advantage",
+        "description": "Scaled Weapon Attack and Critical Damage for this weapon are increased by UL/UL% respectively against enemies who are Knocked Down.",
         "applies": "reference",
         "effects": []
       }
@@ -2046,24 +2182,18 @@
         "effects": []
       }
     ],
-    "Deadclaw": [
+    "Mortissimo": [
       {
-        "name": "Grounded Advantage",
-        "description": "Scaled Weapon Attack and Critical Damage for this weapon are increased by UL/UL% respectively against enemies who are Knocked Down.",
+        "name": "Fear Damage",
+        "description": "Deals 1+UL unresistable Sound Damage if target is Feared.",
         "applies": "reference",
         "effects": []
       }
     ],
-    "Buzzing Chakram": [
+    "Pinchers": [
       {
-        "name": "Range Increase",
-        "description": "Attack range increases by 1 for every 6 UL.",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Bouncing Acid",
-        "description": "Bounces to an enemy within 5 Range and deals UL Acid magic bonus damage to them that ignores armor, then repeats. (Enemies cannot be hit more than once per activation and the original target cannot be the initial bounce target.)",
+        "name": "Restrain",
+        "description": "UL% chance of automatically applying Restrain to the target.",
         "applies": "reference",
         "effects": []
       }
@@ -2091,6 +2221,20 @@
         "effects": []
       }
     ],
+    "Ghost Smoke": [
+      {
+        "name": "Grudge Wound",
+        "description": "Triggers before an enemy is attacked, and replaces the attack. Fire a black bullet at the target, dealing 110% Scaled Weapon Attack. If it hits, and one of your equipped items is enchanted with Gravedigger, summons a Ghost ally next to the target with HP equal to 100 + damage dealt by the attack.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Reduced Counters",
+        "description": "This weapon does not trigger effects that activate when an enemy is hit by an attack. Reduces the chance for Deflection and Parry skills to activate from this weapon's attacks by 25%.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
     "Hold Upper": [
       {
         "name": "Steal Success Bonus",
@@ -2109,20 +2253,6 @@
       {
         "name": "Anti-Youkai Damage",
         "description": "Damage dealt by this weapon's attack is increased by 15% if the target is a Youkai or installed with one.",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Ghost Smoke": [
-      {
-        "name": "Grudge Wound",
-        "description": "Triggers before an enemy is attacked, and replaces the attack. Fire a black bullet at the target, dealing 110% Scaled Weapon Attack. If it hits, and one of your equipped items is enchanted with Gravedigger, summons a Ghost ally next to the target with HP equal to 100 + damage dealt by the attack.",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Reduced Counters",
-        "description": "This weapon does not trigger effects that activate when an enemy is hit by an attack. Reduces the chance for Deflection and Parry skills to activate from this weapon's attacks by 25%.",
         "applies": "reference",
         "effects": []
       }
@@ -2147,14 +2277,6 @@
         "effects": []
       }
     ],
-    "Ryeser": [
-      {
-        "name": "Clumsy on Critical",
-        "description": "Inflict the target with Clumsy until your next turn. (Clumsy prevents the use of movement skills that aren't basic movement.) When this effect is applied to a unit, that unit cannot be affected by Ryeser again for 3 rounds.",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
     "Firthrower": [
       {
         "name": "Cone Attack",
@@ -2169,54 +2291,10 @@
         "effects": []
       }
     ],
-    "Yin": [
+    "Ryeser": [
       {
-        "name": "Damage Type Change",
-        "description": "Damage type changes to Dark if Yang is also equipped.",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Muddle",
-        "description": "Item properties that would change the damage type of your basic attacks are ignored.",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Gunsmoke Spiritual Set",
-        "description": "Set: Gunsmoke Spiritual - 2+: Grants access to the Double Dao skill. 3+: Darkness and Light damage you deal ignores up to 10% of elemental resistance.",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Double Dao",
-        "description": "Fire both Yin and Yang at a target enemy within 3 Range, alternating between Light and Darkness damage, over 4 shots. The total damage dealt is equal to 100% Darkness ATK + 100% Light ATK + 50% of the total Scaled Weapon ATK of both weapons. In addition, both guns gain 2 additional attack rounds for 2 rounds.",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Yang": [
-      {
-        "name": "Damage Type Change",
-        "description": "Damage type changes to Light if Yin is also equipped.",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Muddle",
-        "description": "Item properties that would change the damage type of your basic attacks are ignored.",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Gunsmoke Spiritual Set",
-        "description": "Set: Gunsmoke Spiritual - 2+: Grants access to the Double Dao skill. 3+: Darkness and Light damage you deal ignores up to 10% of elemental resistance.",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Double Dao",
-        "description": "Fire both Yin and Yang at a target enemy within 3 Range, alternating between Light and Darkness damage, over 4 shots. The total damage dealt is equal to 100% Darkness ATK + 100% Light ATK + 50% of the total Scaled Weapon ATK of both weapons. In addition, both guns gain 2 additional attack rounds for 2 rounds.",
+        "name": "Clumsy on Critical",
+        "description": "Inflict the target with Clumsy until your next turn. (Clumsy prevents the use of movement skills that aren't basic movement.) When this effect is applied to a unit, that unit cannot be affected by Ryeser again for 3 rounds.",
         "applies": "reference",
         "effects": []
       }
@@ -2274,19 +2352,329 @@
         "effects": []
       }
     ],
-    "Spear (Enhanced)": [
+    "The Kiss Farewell": [
       {
-        "name": "Enhanced Stats",
-        "description": "+3 STR",
+        "name": "Passive",
+        "description": "On Hit: Consumes Weapon Charges, dealing 50% more damage per Charge Level.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Sparking Kiss",
+        "description": "Defeating an enemy grants Auto Charge for 3 rounds. (Auto Charge automatically activates Weapon Autocharge at the start of every round.)",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Yang": [
+      {
+        "name": "Damage Type Change",
+        "description": "Damage type changes to Light if Yin is also equipped.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Muddle",
+        "description": "Item properties that would change the damage type of your basic attacks are ignored.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Gunsmoke Spiritual Set",
+        "description": "Set: Gunsmoke Spiritual - 2+: Grants access to the Double Dao skill. 3+: Darkness and Light damage you deal ignores up to 10% of elemental resistance.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Double Dao",
+        "description": "Fire both Yin and Yang at a target enemy within 3 Range, alternating between Light and Darkness damage, over 4 shots. The total damage dealt is equal to 100% Darkness ATK + 100% Light ATK + 50% of the total Scaled Weapon ATK of both weapons. In addition, both guns gain 2 additional attack rounds for 2 rounds.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Yin": [
+      {
+        "name": "Damage Type Change",
+        "description": "Damage type changes to Dark if Yang is also equipped.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Muddle",
+        "description": "Item properties that would change the damage type of your basic attacks are ignored.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Gunsmoke Spiritual Set",
+        "description": "Set: Gunsmoke Spiritual - 2+: Grants access to the Double Dao skill. 3+: Darkness and Light damage you deal ignores up to 10% of elemental resistance.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Double Dao",
+        "description": "Fire both Yin and Yang at a target enemy within 3 Range, alternating between Light and Darkness damage, over 4 shots. The total damage dealt is equal to 100% Darkness ATK + 100% Light ATK + 50% of the total Scaled Weapon ATK of both weapons. In addition, both guns gain 2 additional attack rounds for 2 rounds.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Blaster Trumpet": [
+      {
+        "name": "Passive",
+        "description": "+5 Fire ATK",
         "applies": "always",
         "effects": [
           {
-            "kind": "stat",
-            "key": "str",
-            "base": 3,
+            "kind": "elementalAttack",
+            "key": "Fire",
+            "base": 5,
             "ulMultiplier": 0
           }
         ]
+      },
+      {
+        "name": "Passive",
+        "description": "When played (via a Song skill): Creates a blast of sound that knocks back all within 3 Range tiles 2 away from you.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Holy Word": [
+      {
+        "name": "Passive",
+        "description": "While equipped, you cannot use movement skills, except basic skills, Mercalan domain spells, or skills with the 'Holy' tag.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Crusader Charge",
+        "description": "(Crusader Charge: 3M / 10 FP. Wield the Holy Word and charge forward in a resizeable Line (2-3, +1 max per 20 STR, capped at 6). The first enemy you encounter is pushed along with you, until you or they encounter an impassable tile or another enemy. Afterwards, if an enemy was hit, they take Pierce damage equal to 100% of Holy Word's Scaled Weapon Attack. If the movement was stopped by another enemy, that enemy takes Blunt damage equal to half that.)",
+        "applies": "conditional",
+        "effects": [
+          {
+            "kind": "derived",
+            "key": "fp",
+            "base": 10,
+            "ulMultiplier": 0
+          },
+          {
+            "kind": "stat",
+            "key": "str",
+            "base": 20,
+            "ulMultiplier": 0
+          }
+        ]
+      },
+      {
+        "name": "Divine Bunker",
+        "description": "(Divine Bunker: 3M / 15 FP. 3 Rounds CD. Unleash the Holy Word's full force. Can only be used after having used Crusader Charge in the same round. Fire the pilebunker, dealing Pierce damage with Great Accuracy equal to 100% of Holy Word's Scaled Weapon Attack to the enemy in the tile you are facing, which knocks them airborne and away 5 tiles. Afterwards, if the Holy Word is Jeweled, and an Offensive Mercalan spell scroll (excluding invocations) is in its Scroll weapon part slot, you cast it at the target's location for free. If there is no valid spell scroll, they are struck by divine lightning instead, taking Lightning magic damage equal to your FAI x 2, which ignores evasion, protection, reflect, absorb, and immune.)",
+        "applies": "conditional",
+        "effects": [
+          {
+            "kind": "derived",
+            "key": "fp",
+            "base": 15,
+            "ulMultiplier": 0
+          }
+        ]
+      }
+    ],
+    "Tarnell": [
+      {
+        "name": "Passive",
+        "description": "On Hit: Replaces your Earth ATK with the target's for 2 rounds.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Lockdown",
+        "description": "1 Momentum, 10 FP Requires Substitute Earth ATK to be active. Consumes the status caused by the weapon, deals 20 armor-ignoring Earth Kickback damage to you, inflict you with Immobilize and Unmoving until your next turn, and grants you Lockdown (LV = higher of 50% Substituted Earth ATK or Tarnell's UL, 3 rounds). (Lockdown - Increases Tarnell's Power by LV when you cannot use movement skills.) 3 round CD.",
+        "applies": "conditional",
+        "effects": [
+          {
+            "kind": "derived",
+            "key": "armor",
+            "base": 20,
+            "ulMultiplier": 0
+          }
+        ]
+      }
+    ],
+    "Black Zepia": [
+      {
+        "name": "- Ether Lasso",
+        "description": "1M / 0 FP. 3 Rounds CD. Targets 1 enemy within 3 Range and deal armor-ignoring damage equal to Black Zepia's Power (and of its damage type) to the target. If it hits, the target is pulled 2 tiles towards you; if they are immune to pull effects, you quickly move to an empty tile nearby them (if any). Airborne and Flying enemies cannot be targetted by this skill. Also qualifies as a Whip weapon.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Crazy Coyote": [
+      {
+        "name": "Passive",
+        "description": "On Hit: Knockbacks 1 tile.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Jackhammer": [
+      {
+        "name": "Passive",
+        "description": "Attacks in a radius 4 circle.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Steady Shot",
+        "description": "An aimed shot that increases the Hit of Jackhammer by 55, but costs 4 Momentum, 10 FP, and has a slightly smaller radius.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Shotgun Tonfa": [
+      {
+        "name": "- Tonfa Parry",
+        "description": "Parry skill. Grants a chance to parry non-spell, non-ranged weapon damage for 25% reduction. Activate Rate: 15% + 50% of Scaled DEF, +10% if the owner of this skill has the Roar status active. Also qualifies as a Fist weapon. Also qualifies as a Shotgun weapon. After performing an attack with this weapon, gain Tonfa Afterblast (LV 1, 1 round), which allows you to use the skill of the same name. (Tonfa Afterblast: 1M / 5 FP. Discharge your Shotgun Tonfa at a target enemy within 3 Range, dealing armor-ignoring Pierce damage equal to the Shotgun Tonfa's Power x 2, which can critically hit. If it does, it can ricochet to another enemy in 3 Range of the first target, dealing the same damage (but cannot critically hit). Tonfa Block - Increases the LV of Guard statuses applied to you by 5 if you are two-handing this weapon.",
+        "applies": "conditional",
+        "effects": [
+          {
+            "kind": "derived",
+            "key": "fp",
+            "base": 5,
+            "ulMultiplier": 0
+          }
+        ]
+      }
+    ],
+    "Toyatori": [
+      {
+        "name": "Passive",
+        "description": "On Attack: Creates 3 Ice Sheets (3 rounds) at a random tile within 2 Range of the target that doesn't have any special effect tiles.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Yang (Gilded)": [
+      {
+        "name": "Passive",
+        "description": "Damage type changes to Light if Yin is also equipped.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Muddle",
+        "description": "Item properties that would change the damage type of your basic attacks are ignored. (Use this skillfully with Limit Potential to avoid hitting elemental resists!)",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Gunsmoke Spiritual Set",
+        "description": "2+: Grants access to the Double Dao skill. 3+: Darkness and Light damage you deal ignores up to 10% of elemental resistance.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Yin (Gilded)": [
+      {
+        "name": "Passive",
+        "description": "Damage type changes to Dark if Yang is also equipped.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Muddle",
+        "description": "Item properties that would change the damage type of your basic attacks are ignored. (Use this skillfully with Limit Potential to avoid hitting elemental resists!)",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Gunsmoke Spiritual Set",
+        "description": "2+: Grants access to the Double Dao skill. 3+: Darkness and Light damage you deal ignores up to 10% of elemental resistance.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Bell of No Rest": [
+      {
+        "name": "Passive",
+        "description": "Increases Sound ATK by UL/2. (Doesn't stack.)",
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "elementalAttack",
+            "key": "Sound",
+            "base": 0,
+            "ulMultiplier": 0.5
+          }
+        ]
+      },
+      {
+        "name": "Passive",
+        "description": "On Defeat Enemy: The first unsummoned Youkai in your contracts with 0 HP is restored to UL*2% maximum HP.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Corvus Cannon": [
+      {
+        "name": "Passive",
+        "description": "On Hit: Covers the enemy in black feathers for 3 rounds. While covered in the feathers, Wind damage they take will force them Airborne.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Passive",
+        "description": "On Hit: Deals 1+(UL*2) unresistable Wind damage if the target is Airborne.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Moonlight Mercy": [
+      {
+        "name": "Passive",
+        "description": "+UL Critical Damage (flat damage) (for this weapon only)",
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "derived",
+            "key": "critical",
+            "base": 0,
+            "ulMultiplier": 1
+          }
+        ]
+      },
+      {
+        "name": "Passive",
+        "description": "On Critical Hit: If a Feared, non-Boss monster, there is a UL% chance of instant death. (Does not apply to enemies 10 or more levels above yours.)",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Quickdraw": [
+      {
+        "name": "Passive",
+        "description": "CEL is treated as UL/2 higher for the purposes of determining turn order.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Passive",
+        "description": "This weapon's basic attacks against enemies with 6 or more Momentum gain an additional Round per 6 UL.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Seed Sniper": [
+      {
+        "name": "Passive",
+        "description": "On Hit: The enemy is seeded until their next turn. If they take Water damage while seeded, the seed erupts into vines, inflicting Immobilize on them until your next turn.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Passive",
+        "description": "When you attack an enemy: Leaves behind seeds at the location they are at. At the start of a new round, they will erupt, creating vines that lower the Evade of anyone who stands in them by UL.",
+        "applies": "reference",
+        "effects": []
       }
     ],
     "Duodent": [
@@ -2303,18 +2691,33 @@
         "effects": []
       }
     ],
-    "Impaler": [
+    "Spear (Enhanced)": [
       {
-        "name": "Vampiric",
-        "description": "Vampiric (10%) (Basic attacks only)",
-        "applies": "reference",
-        "effects": []
+        "name": "Enhanced Stats",
+        "description": "+3 STR",
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "stat",
+            "key": "str",
+            "base": 3,
+            "ulMultiplier": 0
+          }
+        ]
       }
     ],
     "Holy Lance": [
       {
         "name": "Light Damage",
         "description": "Deals magic Light bonus damage equal to 50% of your Light ATK, which ignores armor.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Impaler": [
+      {
+        "name": "Vampiric",
+        "description": "Vampiric (10%) (Basic attacks only)",
         "applies": "reference",
         "effects": []
       }
@@ -2357,24 +2760,10 @@
         "effects": []
       }
     ],
-    "Monk Priest's Staff": [
+    "Bamboo-Bo": [
       {
-        "name": "Sanctify",
-        "description": "Targets a 1 Range diamond around your position and removes most special effects tiles inside of it, destroying them, and creates a Sanctuary for 3 rounds with LV X (X = 1 + Power upgrade of Monk-Priest's Staff). Requires 2 durability to use and will fail if below that.",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Pilfer Spear": [
-      {
-        "name": "Steal Bonus",
-        "description": "Increases Steal's success rate by 15%.",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Pilfer",
-        "description": "Targets one enemy within 1 Range. Messes with the target's inventory, preventing them from using items for 2 rounds.",
+        "name": "Pole Slots",
+        "description": "Has two pole slots.",
         "applies": "reference",
         "effects": []
       }
@@ -2393,10 +2782,38 @@
         "effects": []
       }
     ],
-    "Bamboo-Bo": [
+    "King Fisher": [
       {
-        "name": "Pole Slots",
-        "description": "Has two pole slots.",
+        "name": "Passive",
+        "description": "+1 Attack Range if weapon made of Thinsteel.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Passive",
+        "description": "On Hit: Apply or power up String Attached (LV 1, max 4, 3 rounds). Only 1 string can attached per action (even if you have multiple Puppet Strings equipped, or attack with it multiple times).",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Monk Priest's Staff": [
+      {
+        "name": "Sanctify",
+        "description": "Targets a 1 Range diamond around your position and removes most special effects tiles inside of it, destroying them, and creates a Sanctuary for 3 rounds with LV X (X = 1 + Power upgrade of Monk-Priest's Staff). Requires 2 durability to use and will fail if below that.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Pilfer Spear": [
+      {
+        "name": "Steal Bonus",
+        "description": "Increases Steal's success rate by 15%.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Pilfer",
+        "description": "Targets one enemy within 1 Range. Messes with the target's inventory, preventing them from using items for 2 rounds.",
         "applies": "reference",
         "effects": []
       }
@@ -2471,14 +2888,6 @@
         "effects": []
       }
     ],
-    "Magical Moon": [
-      {
-        "name": "Spelledge",
-        "description": "This weapon can be used as a casting tool for spells.",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
     "Abberation Spear": [
       {
         "name": "Lightning Damage",
@@ -2499,6 +2908,26 @@
         "effects": []
       }
     ],
+    "Black Spear": [
+      {
+        "name": "Field Object Bonus",
+        "description": "Attacks with this weapon against field objects deal 20 more damage to them.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Magic Armor Reduction",
+        "description": "Reduces effectiveness of enemy Magic Armor by 7.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Hell Spear",
+        "description": "Triggers before an enemy is attacked, and replaces the attack. Causes dark spears to slice through the target and all other enemies within 5 Range, dealing Dark magic bonus damage that ignores immunities/absorbs/reflects equal to your weapon's Scaled Weapon Attack + 6.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
     "Deadly Smile": [
       {
         "name": "Fear Knockdown",
@@ -2509,6 +2938,22 @@
       {
         "name": "Jolly Slaughter",
         "description": "Dance skill. Hop in place in a taunting manner while making snipping noises, removing Knockdown Immunity from all enemies (excluding bosses). Enemies within 4 Range of you may be inflicted with Fear for 3 rounds; if your Deadly Smile is Cursed or Doomed, you also perform a basic attack with it on an enemy Feared by you within 1 Range (50% damage).",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Lorelei": [
+      {
+        "name": "Lorelei Dance",
+        "description": "On New Round: If you are within 1 Range of any Flooded Water tiles, you gain Lorelei Dance for 1 round. (On Hit: Lorelei Dance is consumed, dealing Water magic bonus damage equal to 100% of Water ATK, and restores 15 FP.)",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Magical Moon": [
+      {
+        "name": "Spelledge",
+        "description": "This weapon can be used as a casting tool for spells.",
         "applies": "reference",
         "effects": []
       }
@@ -2552,34 +2997,6 @@
         ]
       }
     ],
-    "Black Spear": [
-      {
-        "name": "Field Object Bonus",
-        "description": "Attacks with this weapon against field objects deal 20 more damage to them.",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Magic Armor Reduction",
-        "description": "Reduces effectiveness of enemy Magic Armor by 7.",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Hell Spear",
-        "description": "Triggers before an enemy is attacked, and replaces the attack. Causes dark spears to slice through the target and all other enemies within 5 Range, dealing Dark magic bonus damage that ignores immunities/absorbs/reflects equal to your weapon's Scaled Weapon Attack + 6.",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Lorelei": [
-      {
-        "name": "Lorelei Dance",
-        "description": "On New Round: If you are within 1 Range of any Flooded Water tiles, you gain Lorelei Dance for 1 round. (On Hit: Lorelei Dance is consumed, dealing Water magic bonus damage equal to 100% of Water ATK, and restores 15 FP.)",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
     "Elenoa": [
       {
         "name": "Dark ATK Substitution",
@@ -2621,37 +3038,7 @@
         ]
       }
     ],
-    "Knight Slayer": [
-      {
-        "name": "Heavy Armor Bonus",
-        "description": "Increases Scaled Weapon ATK by 20% if the target's armor type is Heavy Armor.",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Gae Baed": [
-      {
-        "name": "Cursed Wound",
-        "description": "Inflicts or powers up Cursed Wound by 10 LV for 3 rounds. (Cursed Wound lowers the target's maximum HP by LV.)",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Cursed Thrust",
-        "description": "Triggers before an enemy is attacked. Increases the damage the attack deals by 15, and if it hits, applies or powers up Cursed Wound LV X (X = 75 + 25 per Curse status effect on the target) (3 rounds) to the target.",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Red Argus": [
-      {
-        "name": "Dual Type",
-        "description": "Also qualifies as a Axe weapon.",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Ruby-Head Staff": [
+    "Aerialite-Head Staff": [
       {
         "name": "Spelledge",
         "description": "This weapon can be used as a casting tool for spells.",
@@ -2659,102 +3046,21 @@
         "effects": []
       },
       {
-        "name": "Fire ATK Bonus",
-        "description": "+5 Fire ATK.",
+        "name": "Light ATK Bonus",
+        "description": "+5 Light ATK.",
         "applies": "always",
         "effects": [
           {
             "kind": "elementalAttack",
-            "key": "Fire",
+            "key": "Light",
             "base": 5,
             "ulMultiplier": 0
           }
         ]
       },
       {
-        "name": "Deploy Talis (Ruby)",
-        "description": "Creates (or moves, if already active) a Ruby talis at target location within 5 Range. While active, the talis becomes the center point for Nerifian spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Sapphire-Head Staff": [
-      {
-        "name": "Spelledge",
-        "description": "This weapon can be used as a casting tool for spells.",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Ice ATK Bonus",
-        "description": "+5 Ice ATK.",
-        "applies": "always",
-        "effects": [
-          {
-            "kind": "elementalAttack",
-            "key": "Ice",
-            "base": 5,
-            "ulMultiplier": 0
-          }
-        ]
-      },
-      {
-        "name": "Deploy Talis (Sapphire)",
-        "description": "Creates (or moves, if already active) a Sapphire talis at target location within 5 Range. While active, the talis becomes the center point for Aquarian spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Emerald-Head Staff": [
-      {
-        "name": "Spelledge",
-        "description": "This weapon can be used as a casting tool for spells.",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Wind ATK Bonus",
-        "description": "+5 Wind ATK.",
-        "applies": "always",
-        "effects": [
-          {
-            "kind": "elementalAttack",
-            "key": "Wind",
-            "base": 5,
-            "ulMultiplier": 0
-          }
-        ]
-      },
-      {
-        "name": "Deploy Talis (Emerald)",
-        "description": "Creates (or moves, if already active) a Emerald talis at target location within 5 Range. While active, the talis becomes the center point for Sylphid spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Topaz-Head Staff": [
-      {
-        "name": "Spelledge",
-        "description": "This weapon can be used as a casting tool for spells.",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Lightning ATK Bonus",
-        "description": "+5 Lightning ATK.",
-        "applies": "always",
-        "effects": [
-          {
-            "kind": "elementalAttack",
-            "key": "Lightning",
-            "base": 5,
-            "ulMultiplier": 0
-          }
-        ]
-      },
-      {
-        "name": "Deploy Talis (Topaz)",
-        "description": "Creates (or moves, if already active) a Topaz talis at target location within 5 Range. While active, the talis becomes the center point for Nature spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)",
+        "name": "Magic Stone Power",
+        "description": "Allows you to use the power of the magic stone in battle on a 10-round cooldown. This cooldown is halved if this weapon has the Jeweled enchantment. (This does not use up a magic stone item or require one to be equipped in your item belt.) (Aerialite (Staff): 1M. Magic stone. Forces the target to become Airborne and creates an Air Shaft at their location for 2 rounds.)",
         "applies": "reference",
         "effects": []
       }
@@ -2786,7 +3092,7 @@
         "effects": []
       }
     ],
-    "Onyx-Head Staff": [
+    "Aquamarine-Head Staff": [
       {
         "name": "Spelledge",
         "description": "This weapon can be used as a casting tool for spells.",
@@ -2794,14 +3100,48 @@
         "effects": []
       },
       {
-        "name": "Darkness ATK Bonus",
-        "description": "+5 Darkness ATK.",
+        "name": "Water ATK Bonus",
+        "description": "+5 Water ATK.",
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "elementalAttack",
+            "key": "Water",
+            "base": 5,
+            "ulMultiplier": 0
+          }
+        ]
+      },
+      {
+        "name": "Deploy Talis (Sapphire)",
+        "description": "Creates (or moves, if already active) a Sapphire talis at target location within 5 Range. While active, the talis becomes the center point for Aquarian spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Cariaite-Head Staff": [
+      {
+        "name": "Spelledge",
+        "description": "This weapon can be used as a casting tool for spells.",
         "applies": "reference",
         "effects": []
       },
       {
-        "name": "Deploy Talis (Onyx)",
-        "description": "Creates (or moves, if already active) a Onyx talis at target location within 5 Range. While active, the talis becomes the center point for Huggesoan spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)",
+        "name": "Ice ATK Bonus",
+        "description": "+5 Ice ATK.",
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "elementalAttack",
+            "key": "Ice",
+            "base": 5,
+            "ulMultiplier": 0
+          }
+        ]
+      },
+      {
+        "name": "Magic Stone Power",
+        "description": "Allows you to use the power of the magic stone in battle on a 10-round cooldown. This cooldown is halved if this weapon has the Jeweled enchantment. (This does not use up a magic stone item or require one to be equipped in your item belt.) (Cariaite (Staff): 1M. Magic stone. Creates a dense earth pillar which can be attacked at a target location within 5 Range. Any enemy in that tile will be knocked back 1 tile.)",
         "applies": "reference",
         "effects": []
       }
@@ -2833,7 +3173,7 @@
         "effects": []
       }
     ],
-    "Aquamarine-Head Staff": [
+    "Emerald-Head Staff": [
       {
         "name": "Spelledge",
         "description": "This weapon can be used as a casting tool for spells.",
@@ -2841,75 +3181,21 @@
         "effects": []
       },
       {
-        "name": "Water ATK Bonus",
-        "description": "+5 Water ATK.",
+        "name": "Wind ATK Bonus",
+        "description": "+5 Wind ATK.",
         "applies": "always",
         "effects": [
           {
             "kind": "elementalAttack",
-            "key": "Water",
+            "key": "Wind",
             "base": 5,
             "ulMultiplier": 0
           }
         ]
       },
       {
-        "name": "Deploy Talis (Sapphire)",
-        "description": "Creates (or moves, if already active) a Sapphire talis at target location within 5 Range. While active, the talis becomes the center point for Aquarian spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Aerialite-Head Staff": [
-      {
-        "name": "Spelledge",
-        "description": "This weapon can be used as a casting tool for spells.",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Light ATK Bonus",
-        "description": "+5 Light ATK.",
-        "applies": "always",
-        "effects": [
-          {
-            "kind": "elementalAttack",
-            "key": "Light",
-            "base": 5,
-            "ulMultiplier": 0
-          }
-        ]
-      },
-      {
-        "name": "Magic Stone Power",
-        "description": "Allows you to use the power of the magic stone in battle on a 10-round cooldown. This cooldown is halved if this weapon has the Jeweled enchantment. (This does not use up a magic stone item or require one to be equipped in your item belt.) (Aerialite (Staff): 1M. Magic stone. Forces the target to become Airborne and creates an Air Shaft at their location for 2 rounds.)",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Cariaite-Head Staff": [
-      {
-        "name": "Spelledge",
-        "description": "This weapon can be used as a casting tool for spells.",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Ice ATK Bonus",
-        "description": "+5 Ice ATK.",
-        "applies": "always",
-        "effects": [
-          {
-            "kind": "elementalAttack",
-            "key": "Ice",
-            "base": 5,
-            "ulMultiplier": 0
-          }
-        ]
-      },
-      {
-        "name": "Magic Stone Power",
-        "description": "Allows you to use the power of the magic stone in battle on a 10-round cooldown. This cooldown is halved if this weapon has the Jeweled enchantment. (This does not use up a magic stone item or require one to be equipped in your item belt.) (Cariaite (Staff): 1M. Magic stone. Creates a dense earth pillar which can be attacked at a target location within 5 Range. Any enemy in that tile will be knocked back 1 tile.)",
+        "name": "Deploy Talis (Emerald)",
+        "description": "Creates (or moves, if already active) a Emerald talis at target location within 5 Range. While active, the talis becomes the center point for Sylphid spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)",
         "applies": "reference",
         "effects": []
       }
@@ -2968,6 +3254,28 @@
         "effects": []
       }
     ],
+    "Gae Baed": [
+      {
+        "name": "Cursed Wound",
+        "description": "Inflicts or powers up Cursed Wound by 10 LV for 3 rounds. (Cursed Wound lowers the target's maximum HP by LV.)",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Cursed Thrust",
+        "description": "Triggers before an enemy is attacked. Increases the damage the attack deals by 15, and if it hits, applies or powers up Cursed Wound LV X (X = 75 + 25 per Curse status effect on the target) (3 rounds) to the target.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Knight Slayer": [
+      {
+        "name": "Heavy Armor Bonus",
+        "description": "Increases Scaled Weapon ATK by 20% if the target's armor type is Heavy Armor.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
     "Morganite-Head Staff": [
       {
         "name": "Spelledge",
@@ -2991,6 +3299,34 @@
       {
         "name": "Magic Stone Power",
         "description": "Allows you to use the power of the magic stone in battle on a 10-round cooldown. This cooldown is halved if this weapon has the Jeweled enchantment. (This does not use up a magic stone item or require one to be equipped in your item belt.) (Morganite(Staff): 1M. Magic stone. The target's next instance of damage is capped at 30, but they become vulnerable to Guard Break effects while active. Lasts for up to 5 rounds, or until the target takes damage.)",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Onyx-Head Staff": [
+      {
+        "name": "Spelledge",
+        "description": "This weapon can be used as a casting tool for spells.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Darkness ATK Bonus",
+        "description": "+5 Darkness ATK.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Deploy Talis (Onyx)",
+        "description": "Creates (or moves, if already active) a Onyx talis at target location within 5 Range. While active, the talis becomes the center point for Huggesoan spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Red Argus": [
+      {
+        "name": "Dual Type",
+        "description": "Also qualifies as a Axe weapon.",
         "applies": "reference",
         "effects": []
       }
@@ -3022,26 +3358,6 @@
         "effects": []
       }
     ],
-    "Tetraite-Head Staff": [
-      {
-        "name": "Spelledge",
-        "description": "This weapon can be used as a casting tool for spells.",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Darkness ATK Bonus",
-        "description": "+5 Darkness ATK.",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Magic Stone Power",
-        "description": "Allows you to use the power of the magic stone in battle on a 10-round cooldown. This cooldown is halved if this weapon has the Jeweled enchantment. (This does not use up a magic stone item or require one to be equipped in your item belt.) (Tetraite (Staff): 1M. Target becomes immune to critical hits until your next turn.)",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
     "Roaring Rose": [
       {
         "name": "Dual Type",
@@ -3069,65 +3385,103 @@
         ]
       }
     ],
-    "Fellgrant Drinker": [
+    "Ruby-Head Staff": [
       {
-        "name": "Vampiric",
-        "description": "Vampiric (UL%) (Basic attacks only)",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Overgrown Staff": [
-      {
-        "name": "Nature Spell Power",
-        "description": "Increases the power of Nature spells by 1 for every plant (Flowers, Bushes, Vines) in 4 Range.",
+        "name": "Spelledge",
+        "description": "This weapon can be used as a casting tool for spells.",
         "applies": "reference",
         "effects": []
       },
       {
-        "name": "Flower Generation",
-        "description": "Creates 1 flower at a random unoccupied tile in 4 Range per 6 UL. (Lasts for 3 rounds.)",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Staff of Eyes": [
-      {
-        "name": "Hit Bonus",
-        "description": "Increases Hit by UL/2, except when Blinded.",
+        "name": "Fire ATK Bonus",
+        "description": "+5 Fire ATK.",
         "applies": "always",
         "effects": [
           {
-            "kind": "derived",
-            "key": "hit",
-            "base": 0,
-            "ulMultiplier": 0.5
+            "kind": "elementalAttack",
+            "key": "Fire",
+            "base": 5,
+            "ulMultiplier": 0
           }
         ]
       },
       {
-        "name": "Analyze Weakness",
-        "description": "Inflicts Analyze Weakness LV UL/2 for 2 rounds.",
+        "name": "Deploy Talis (Ruby)",
+        "description": "Creates (or moves, if already active) a Ruby talis at target location within 5 Range. While active, the talis becomes the center point for Nerifian spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)",
         "applies": "reference",
         "effects": []
       }
     ],
-    "Winged Spear": [
+    "Sapphire-Head Staff": [
       {
-        "name": "Flight",
-        "description": "This unit, having wings, is capable of flight. While Airborne, this unit will hover when using Movement, allowing them to avoid field hazards and traps on the ground.",
+        "name": "Spelledge",
+        "description": "This weapon can be used as a casting tool for spells.",
         "applies": "reference",
         "effects": []
       },
       {
-        "name": "Gain Air",
-        "description": "Leap into the air and hover briefly with your wings, giving you the Airborne status.",
+        "name": "Ice ATK Bonus",
+        "description": "+5 Ice ATK.",
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "elementalAttack",
+            "key": "Ice",
+            "base": 5,
+            "ulMultiplier": 0
+          }
+        ]
+      },
+      {
+        "name": "Deploy Talis (Sapphire)",
+        "description": "Creates (or moves, if already active) a Sapphire talis at target location within 5 Range. While active, the talis becomes the center point for Aquarian spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Tetraite-Head Staff": [
+      {
+        "name": "Spelledge",
+        "description": "This weapon can be used as a casting tool for spells.",
         "applies": "reference",
         "effects": []
       },
       {
-        "name": "Winged Spearstrike",
-        "description": "Tosses your Winged Spear in a line, reducing its durability by 2, where it will travel up to 6 Range away. If it hits an enemy, it will deal Wind magic damage to them equal to 125% of Wind ATK + UL*2.",
+        "name": "Darkness ATK Bonus",
+        "description": "+5 Darkness ATK.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Magic Stone Power",
+        "description": "Allows you to use the power of the magic stone in battle on a 10-round cooldown. This cooldown is halved if this weapon has the Jeweled enchantment. (This does not use up a magic stone item or require one to be equipped in your item belt.) (Tetraite (Staff): 1M. Target becomes immune to critical hits until your next turn.)",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Topaz-Head Staff": [
+      {
+        "name": "Spelledge",
+        "description": "This weapon can be used as a casting tool for spells.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Lightning ATK Bonus",
+        "description": "+5 Lightning ATK.",
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "elementalAttack",
+            "key": "Lightning",
+            "base": 5,
+            "ulMultiplier": 0
+          }
+        ]
+      },
+      {
+        "name": "Deploy Talis (Topaz)",
+        "description": "Creates (or moves, if already active) a Topaz talis at target location within 5 Range. While active, the talis becomes the center point for Nature spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)",
         "applies": "reference",
         "effects": []
       }
@@ -3142,6 +3496,41 @@
       {
         "name": "Adon Graxis",
         "description": "This skill requires a Rank D Invocation. Cannot be used before Round 2. Unleashes pure darkness on the battlefield, tainting all enemies with curses and knocking them down. (All Lv5, duration 3: Noshka's Famine, Crippling Muysig, Frailty of Credwa, Fellel's Fumble, Plisfa's Masochism)",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Fellgrant Drinker": [
+      {
+        "name": "Vampiric",
+        "description": "Vampiric (UL%) (Basic attacks only)",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Gryphon Wing": [
+      {
+        "name": "Wind ATK Bonus",
+        "description": "Increases Wind ATK by UL/2. (Doesn't stack.)",
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "elementalAttack",
+            "key": "Wind",
+            "base": 0,
+            "ulMultiplier": 0.5
+          }
+        ]
+      },
+      {
+        "name": "Gryphon Storm",
+        "description": "Applies or powers up Gryphon Storm LV 5 to yourself for 5 rounds. (Max LV: 5 + UL)",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Gryphon Tempest",
+        "description": "Whildly spin your Grypon Wing whip around you, kicking up a storm in a 3 Size Circle. Deals Wind magic damage around you, which can critically hit (can activate Gryphon Wing's On Critical effect, but only once per skill use). Creates an Air Shaft at your location for 3 rounds. If you have Grypon Storm, this skill gains additional effects based on its LV: LV5+: If you have an unsummoned Hippogriph (and can summon it), summons it to a tile near you. LV10+: +1 Circle Size. Chance to inflict Lingering Wind Damage LV X (X = Gryphon Storm LV) for 2 rounds.",
         "applies": "reference",
         "effects": []
       }
@@ -3239,29 +3628,57 @@
         ]
       }
     ],
-    "Gryphon Wing": [
+    "Overgrown Staff": [
       {
-        "name": "Wind ATK Bonus",
-        "description": "Increases Wind ATK by UL/2. (Doesn't stack.)",
+        "name": "Nature Spell Power",
+        "description": "Increases the power of Nature spells by 1 for every plant (Flowers, Bushes, Vines) in 4 Range.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Flower Generation",
+        "description": "Creates 1 flower at a random unoccupied tile in 4 Range per 6 UL. (Lasts for 3 rounds.)",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Staff of Eyes": [
+      {
+        "name": "Hit Bonus",
+        "description": "Increases Hit by UL/2, except when Blinded.",
         "applies": "always",
         "effects": [
           {
-            "kind": "elementalAttack",
-            "key": "Wind",
+            "kind": "derived",
+            "key": "hit",
             "base": 0,
             "ulMultiplier": 0.5
           }
         ]
       },
       {
-        "name": "Gryphon Storm",
-        "description": "Applies or powers up Gryphon Storm LV 5 to yourself for 5 rounds. (Max LV: 5 + UL)",
+        "name": "Analyze Weakness",
+        "description": "Inflicts Analyze Weakness LV UL/2 for 2 rounds.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Winged Spear": [
+      {
+        "name": "Flight",
+        "description": "This unit, having wings, is capable of flight. While Airborne, this unit will hover when using Movement, allowing them to avoid field hazards and traps on the ground.",
         "applies": "reference",
         "effects": []
       },
       {
-        "name": "Gryphon Tempest",
-        "description": "Whildly spin your Grypon Wing whip around you, kicking up a storm in a 3 Size Circle. Deals Wind magic damage around you, which can critically hit (can activate Gryphon Wing's On Critical effect, but only once per skill use). Creates an Air Shaft at your location for 3 rounds. If you have Grypon Storm, this skill gains additional effects based on its LV: LV5+: If you have an unsummoned Hippogriph (and can summon it), summons it to a tile near you. LV10+: +1 Circle Size. Chance to inflict Lingering Wind Damage LV X (X = Gryphon Storm LV) for 2 rounds.",
+        "name": "Gain Air",
+        "description": "Leap into the air and hover briefly with your wings, giving you the Airborne status.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Winged Spearstrike",
+        "description": "Tosses your Winged Spear in a line, reducing its durability by 2, where it will travel up to 6 Range away. If it hits an enemy, it will deal Wind magic damage to them equal to 125% of Wind ATK + UL*2.",
         "applies": "reference",
         "effects": []
       }
@@ -3281,18 +3698,18 @@
         ]
       }
     ],
-    "Wo-Dao": [
-      {
-        "name": "Critical Bonus",
-        "description": "Increases Critical Chance",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
     "Swordfish Sword": [
       {
         "name": "Water Damage",
         "description": "Deals magic Water bonus damage equal to 50% of your Water ATK, which ignores armor.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Wo-Dao": [
+      {
+        "name": "Critical Bonus",
+        "description": "Increases Critical Chance",
         "applies": "reference",
         "effects": []
       }
@@ -3305,19 +3722,18 @@
         "effects": []
       }
     ],
-    "Moonblade": [
+    "Endless Handkerchief": [
       {
-        "name": "Hit Bonus",
-        "description": "+5 Hit for 2 turns. Bonus becomes +10 instead on a critical hit. (At night, bonuses and duration are doubled.)",
-        "applies": "conditional",
-        "effects": [
-          {
-            "kind": "derived",
-            "key": "hit",
-            "base": 5,
-            "ulMultiplier": 0
-          }
-        ]
+        "name": "Variable Range",
+        "description": "Attack range increases by 1 and basic attack damage increases by 3 for every empty Item Belt Slot.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Spinning Strike",
+        "description": "Attack target is spun in a random direction.",
+        "applies": "reference",
+        "effects": []
       }
     ],
     "Eresh": [
@@ -3348,32 +3764,19 @@
         "effects": []
       }
     ],
-    "Endless Handkerchief": [
+    "Moonblade": [
       {
-        "name": "Variable Range",
-        "description": "Attack range increases by 1 and basic attack damage increases by 3 for every empty Item Belt Slot.",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Spinning Strike",
-        "description": "Attack target is spun in a random direction.",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "River Sword": [
-      {
-        "name": "Water Damage",
-        "description": "Deals magic Water bonus damage equal to 50% of your Water ATK, which ignores armor.",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Aqua Pulse",
-        "description": "When an enemy is damaged by a weapon that inflicts Water damage by skills or basic attacks, they become Drenched for 3 rounds. While Drenched, the target takes +25% damage from Lightning element attacks and cannot be set on fire.",
-        "applies": "reference",
-        "effects": []
+        "name": "Hit Bonus",
+        "description": "+5 Hit for 2 turns. Bonus becomes +10 instead on a critical hit. (At night, bonuses and duration are doubled.)",
+        "applies": "conditional",
+        "effects": [
+          {
+            "kind": "derived",
+            "key": "hit",
+            "base": 5,
+            "ulMultiplier": 0
+          }
+        ]
       }
     ],
     "Crystal Blade": [
@@ -3390,6 +3793,48 @@
         "effects": []
       }
     ],
+    "Golgorth": [
+      {
+        "name": "Passive",
+        "description": "On Critical Hit: Steals 10% of target's FP. (Max: 50 FP)",
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "derived",
+            "key": "fp",
+            "base": 50,
+            "ulMultiplier": 0
+          }
+        ]
+      }
+    ],
+    "Needle": [
+      {
+        "name": "Passive",
+        "description": "Sub Type: Strings",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Unravel Strike",
+        "description": "Spin Up: 1M, 1 round CD. Wind up your weapon's thread, gaining Spun Weapon, which may confer different effects for certain weapons that can be spun up. Unravel Strike: 3M. Requires Spun Weapon. Basic attack that targets a 3 Size Diamond up to 3 Range away, but must be performed by a weapon that grants this skill. Afterwards, Spun Weapon ends. On Battle Start: Gain Spun Weapon. While you have Spun Weapon, weapon gains +5 Power and +5% Critical Damage. While you do not, weapon gains +5 Hit and +2 Attack Range.",
+        "applies": "conditional",
+        "effects": [
+          {
+            "kind": "derived",
+            "key": "power",
+            "base": 5,
+            "ulMultiplier": 0
+          },
+          {
+            "kind": "derived",
+            "key": "hit",
+            "base": 5,
+            "ulMultiplier": 0
+          }
+        ]
+      }
+    ],
     "Rapier of Resent": [
       {
         "name": "Darkness Damage",
@@ -3400,6 +3845,20 @@
       {
         "name": "Soul Burn",
         "description": "If the user is at 50% or less HP, inflicts Soul Burn LV 20 for 5 rounds on the target. (Soul Burn inflicts Dark damage at the start of a round equal to LV.)",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "River Sword": [
+      {
+        "name": "Water Damage",
+        "description": "Deals magic Water bonus damage equal to 50% of your Water ATK, which ignores armor.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Aqua Pulse",
+        "description": "When an enemy is damaged by a weapon that inflicts Water damage by skills or basic attacks, they become Drenched for 3 rounds. While Drenched, the target takes +25% damage from Lightning element attacks and cannot be set on fire.",
         "applies": "reference",
         "effects": []
       }
@@ -3432,10 +3891,73 @@
         "effects": []
       }
     ],
+    "Dual-Blade": [
+      {
+        "name": "Passive",
+        "description": "Has two blade slots and a hilt slot.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
     "Engraved Katana": [
       {
         "name": "Extra Scroll Slot",
         "description": "Weapon gains an additional Scroll customization slot.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Homura": [
+      {
+        "name": "Passive",
+        "description": "When an enemy's Parry skill is triggered by this weapon's damage; deals 30 protection-ignoring Fire bonus damage to them. (1 round cooldown).",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Blazing Wind",
+        "description": "Creates an attackable Flare Tornado LV X (X = Fire ATK) at target location within 3 Range, which lasts for 5 rounds. The tornado damages anything it touches and creates Cinders around itself, and will move towards enemies at the start of a new round.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Cleaving Clarinet": [
+      {
+        "name": "Passive",
+        "description": "+5 Wind ATK",
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "elementalAttack",
+            "key": "Wind",
+            "base": 5,
+            "ulMultiplier": 0
+          }
+        ]
+      },
+      {
+        "name": "Passive",
+        "description": "When played (via a Song skill): Creates a whirlwind that draws all enemies within 3 Range 2 tiles towards you.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Wind Risoluto",
+        "description": "Play the Cleaving Clarinet, creating an Air Shaft at your own location for 3 rounds. Afterwards, you attack all enemies within 1 Range with the Cleaving Clarinet.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Dynaxis": [
+      {
+        "name": "Static Field",
+        "description": "When you perform a basic attack with this weapon, it creates a Static Field LV X (X = Dynaxis's Power) for 2 rounds at the target's location. (Static Fields deal Lightning bonus damage that ignores armor equal to LV to enemies when it is created, at the start of a new round, or when an enemy passes through it.)",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Thunder Strike",
+        "description": "Special Strike: Thunder Strike (Trigger Rate: 10% + 8% Bonus, Trigger CD: 2 rounds) - Triggers before an enemy is attacked. Increases the Critical for that attack by 15, changes the damage type to Lightning, and if the attack hits, deals 50 Lightning magic bonus damage to them.",
         "applies": "reference",
         "effects": []
       }
@@ -3456,20 +3978,6 @@
       {
         "name": "Elite Engine",
         "description": "Shared Potential Skill. Charge Weapon FP cost is increased to 8 FP. Attacks do not use up all of your charges, instead the LV is reduced by 1, and the damage bonus is 35% (does not increase with charge amount like normal Excel attacks).",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Dynaxis": [
-      {
-        "name": "Static Field",
-        "description": "When you perform a basic attack with this weapon, it creates a Static Field LV X (X = Dynaxis's Power) for 2 rounds at the target's location. (Static Fields deal Lightning bonus damage that ignores armor equal to LV to enemies when it is created, at the start of a new round, or when an enemy passes through it.)",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Thunder Strike",
-        "description": "Special Strike: Thunder Strike (Trigger Rate: 10% + 8% Bonus, Trigger CD: 2 rounds) - Triggers before an enemy is attacked. Increases the Critical for that attack by 15, changes the damage type to Lightning, and if the attack hits, deals 50 Lightning magic bonus damage to them.",
         "applies": "reference",
         "effects": []
       }
@@ -3513,33 +4021,6 @@
         "effects": []
       }
     ],
-    "Raijin": [
-      {
-        "name": "Lightning Damage",
-        "description": "Deals magic Lightning bonus damage equal to 50% of your Lightning ATK, which ignores armor.",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Lightning Resistance",
-        "description": "10% Lightning Resistance",
-        "applies": "always",
-        "effects": [
-          {
-            "kind": "resistance",
-            "key": "Lightning",
-            "base": 10,
-            "ulMultiplier": 0
-          }
-        ]
-      },
-      {
-        "name": "Kuuga",
-        "description": "The Kensei skill Hidden Cut's effect changes in the following ways; Damage becomes Lightning magic damage, and can Lightning Critical.",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
     "Akuijin": [
       {
         "name": "Darkness Damage",
@@ -3567,6 +4048,96 @@
         "effects": []
       }
     ],
+    "Hakouhen Masterwork Katana": [
+      {
+        "name": "Weapon Properties",
+        "description": "Always comes with the Sharp, Precise, Deadly, and Lightweight properties.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Kamiya": [
+      {
+        "name": "Passive",
+        "description": "Show Mercy's success rate increases by 15%. (Percentage of actual success rate; not additive.)",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Passive",
+        "description": "Weapon suffers no penalties to damage, hit, or critical for being broken.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Kamiya Guard",
+        "description": "1+M, 0 FP, 2 Round CD A special self-defense technique. Consume all of your remaining Momentum and gain Swift Guard LV X (X = 8 x Momentum consumed), as you take a stance with the Kamiya. If you consume at least 4 Momentum this way, you also prepare the Kamiya Counter (until your next turn), a special retaliation strike that aims for the target's knees or other form of mobility. Kamiya Counter: Perform a counter attack (50% damage) when an enemy in 1 Range attacks you (except from behind), which will inflict Clumsy until the attacker's next turn if it hits. Doesn't stack with other counter attacks and takes priority over them.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Kouenjin": [
+      {
+        "name": "Passive",
+        "description": "On Hit: Deals magic Fire bonus damage equal to 50% of your Fire ATK, which ignores armor.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Passive",
+        "description": "10% Fire Resistance",
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "resistance",
+            "key": "Fire",
+            "base": 10,
+            "ulMultiplier": 0
+          }
+        ]
+      },
+      {
+        "name": "Crimson Lotus",
+        "description": "The Kensei skill Hidden Cut's effect changes in the following ways; Damage becomes Fire magic damage. Monsters who are defeated by this effect explode, knocking away field objects and dealing Fire magic damage equal to Hidden Cut's damage in a 3 Range circle around them.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Magical Star": [
+      {
+        "name": "Passive",
+        "description": "Spelledge (This weapon can be used as a casting tool for spells.)",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Raijin": [
+      {
+        "name": "Lightning Damage",
+        "description": "Deals magic Lightning bonus damage equal to 50% of your Lightning ATK, which ignores armor.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Lightning Resistance",
+        "description": "10% Lightning Resistance",
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "resistance",
+            "key": "Lightning",
+            "base": 10,
+            "ulMultiplier": 0
+          }
+        ]
+      },
+      {
+        "name": "Kuuga",
+        "description": "The Kensei skill Hidden Cut's effect changes in the following ways; Damage becomes Lightning magic damage, and can Lightning Critical.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
     "Sanjin": [
       {
         "name": "Acid Damage",
@@ -3590,14 +4161,6 @@
       {
         "name": "Mossy Grave",
         "description": "The Kensei skill Hidden Cut's effect changes in the following ways; Damage becomes Acid magic damage. Monsters who are defeated by this effect melt, becoming LV 30 Poison Pool tiles in a 2 Range circle for 3 rounds.",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Hakouhen Masterwork Katana": [
-      {
-        "name": "Weapon Properties",
-        "description": "Always comes with the Sharp, Precise, Deadly, and Lightweight properties.",
         "applies": "reference",
         "effects": []
       }
@@ -3641,10 +4204,29 @@
         ]
       }
     ],
-    "Hisen": [
+    "Yukijin": [
       {
-        "name": "Fatal Stroke",
-        "description": "The Kensei skill Hidden Cut's effect changes in the following ways; Sheath Sword's FP cost is increased to 25 FP. Damage is increased by 25% and can critically hit. Against non-boss monsters, the damage is increased by 100% instead. If an enemy damaged by this effect is defeated by it, you regain 5 FP for each.",
+        "name": "Passive",
+        "description": "On Hit: Deals magic Ice bonus damage equal to 50% of your Ice ATK, which ignores armor.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Passive",
+        "description": "10% Ice Resistance",
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "resistance",
+            "key": "Ice",
+            "base": 10,
+            "ulMultiplier": 0
+          }
+        ]
+      },
+      {
+        "name": "Ice Lily",
+        "description": "The Kensei skill Hidden Cut's effect changes in the following ways; Damage becomes Ice magic damage. Monsters who are defeated by this effect turn into Ice Points and create Ice Sheets in a 2 range diamond around themself, which last for 3 rounds each (The LV for the Ice Point created is 10).",
         "applies": "reference",
         "effects": []
       }
@@ -3709,10 +4291,18 @@
         ]
       }
     ],
-    "Narcus": [
+    "Hisen": [
       {
-        "name": "Narcus Revenge",
-        "description": "Upon taking damage: Gain Narcus LV X (X = 50% of damage taken) for 2 rounds, which causes your next basic attack that hits to deal Fire magic bonus damage that ignores armor equal to LV. (Does not stack, but status will refresh upon taking damage if it would result in a higher LV.)",
+        "name": "Fatal Stroke",
+        "description": "The Kensei skill Hidden Cut's effect changes in the following ways; Sheath Sword's FP cost is increased to 25 FP. Damage is increased by 25% and can critically hit. Against non-boss monsters, the damage is increased by 100% instead. If an enemy damaged by this effect is defeated by it, you regain 5 FP for each.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Kirosh": [
+      {
+        "name": "Trap Immunity",
+        "description": "You do not trigger traps or other field hazards while moving.",
         "applies": "reference",
         "effects": []
       },
@@ -3742,10 +4332,31 @@
         ]
       }
     ],
-    "Kirosh": [
+    "Larveget": [
       {
-        "name": "Trap Immunity",
-        "description": "You do not trigger traps or other field hazards while moving.",
+        "name": "Sound ATK Substitution",
+        "description": "Replaces your Sound ATK with the target's for 2 rounds.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Death Ant Shriek",
+        "description": "Song skill. Requires Substitute Sound ATK to be active. Consumes the status caused by the weapon, deals 20 armor-ignoring Sound Kickback damage to you, and accelerates any Silence effect you're suffering from by 1 round. Additionally grants you Larveget's Cursed Wail (LV = 35% of Substituted Sound ATK, min. 5, 5 rounds). (Larveget's Cursed Wail - -10% Status Resistance. Enemies who attack you take armor-ignoring Sound magic bonus damage equal to LV and apply or power up Cursed Wound by LV (3 rounds). Triggers only once per action.)",
+        "applies": "conditional",
+        "effects": [
+          {
+            "kind": "derived",
+            "key": "armor",
+            "base": 20,
+            "ulMultiplier": 0
+          }
+        ]
+      }
+    ],
+    "Narcus": [
+      {
+        "name": "Narcus Revenge",
+        "description": "Upon taking damage: Gain Narcus LV X (X = 50% of damage taken) for 2 rounds, which causes your next basic attack that hits to deal Fire magic bonus damage that ignores armor equal to LV. (Does not stack, but status will refresh upon taking damage if it would result in a higher LV.)",
         "applies": "reference",
         "effects": []
       },
@@ -3920,25 +4531,12 @@
         ]
       }
     ],
-    "Larveget": [
+    "Black Xyston": [
       {
-        "name": "Sound ATK Substitution",
-        "description": "Replaces your Sound ATK with the target's for 2 rounds.",
+        "name": "Dual Weapon Type",
+        "description": "Also qualifies as a Polearm weapon.",
         "applies": "reference",
         "effects": []
-      },
-      {
-        "name": "Death Ant Shriek",
-        "description": "Song skill. Requires Substitute Sound ATK to be active. Consumes the status caused by the weapon, deals 20 armor-ignoring Sound Kickback damage to you, and accelerates any Silence effect you're suffering from by 1 round. Additionally grants you Larveget's Cursed Wail (LV = 35% of Substituted Sound ATK, min. 5, 5 rounds). (Larveget's Cursed Wail - -10% Status Resistance. Enemies who attack you take armor-ignoring Sound magic bonus damage equal to LV and apply or power up Cursed Wound by LV (3 rounds). Triggers only once per action.)",
-        "applies": "conditional",
-        "effects": [
-          {
-            "kind": "derived",
-            "key": "armor",
-            "base": 20,
-            "ulMultiplier": 0
-          }
-        ]
       }
     ],
     "Rogue Dasher": [
@@ -3947,6 +4545,27 @@
         "description": "Increases Scaled Weapon ATK by 20% if the target's armor type is Light Armor.",
         "applies": "reference",
         "effects": []
+      }
+    ],
+    "Salamander Sword": [
+      {
+        "name": "Power Stacking",
+        "description": "Increases the Power of Salamander Sword by 5 every time you deal Fire damage, up to a maximum of +100 Power. (Lasts for the entirety of the battle. Non-monster targets only give +2 Power.)",
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "derived",
+            "key": "power",
+            "base": 100,
+            "ulMultiplier": 0
+          },
+          {
+            "kind": "derived",
+            "key": "power",
+            "base": 2,
+            "ulMultiplier": 0
+          }
+        ]
       }
     ],
     "Sogensara": [
@@ -3979,49 +4598,6 @@
       {
         "name": "Grudge",
         "description": "When you are defeated by an enemy, if you are not Badly Beaten, that enemy takes 100 Akashic magic damage that ignores protection.",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Black Xyston": [
-      {
-        "name": "Dual Weapon Type",
-        "description": "Also qualifies as a Polearm weapon.",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Salamander Sword": [
-      {
-        "name": "Power Stacking",
-        "description": "Increases the Power of Salamander Sword by 5 every time you deal Fire damage, up to a maximum of +100 Power. (Lasts for the entirety of the battle. Non-monster targets only give +2 Power.)",
-        "applies": "always",
-        "effects": [
-          {
-            "kind": "derived",
-            "key": "power",
-            "base": 100,
-            "ulMultiplier": 0
-          },
-          {
-            "kind": "derived",
-            "key": "power",
-            "base": 2,
-            "ulMultiplier": 0
-          }
-        ]
-      }
-    ],
-    "Hooked Twinblade": [
-      {
-        "name": "Pierce Bonus Damage",
-        "description": "Deals physical Pierce bonus damage equal to UL, which ignores armor.",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Parry Penetration",
-        "description": "Reduces the damage reduction of Parry skills triggered by this weapon's basic attack by UL%.",
         "applies": "reference",
         "effects": []
       }
@@ -4072,10 +4648,16 @@
         ]
       }
     ],
-    "Tarnada": [
+    "Hooked Twinblade": [
       {
-        "name": "Tarnada Charges",
-        "description": "On Critical: Gain 1+(UL/2) Tarnada Charges. Then, if you have 100 or more Tarnada Charges, consumes them and casts Vydel on the target for free.",
+        "name": "Pierce Bonus Damage",
+        "description": "Deals physical Pierce bonus damage equal to UL, which ignores armor.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Parry Penetration",
+        "description": "Reduces the damage reduction of Parry skills triggered by this weapon's basic attack by UL%.",
         "applies": "reference",
         "effects": []
       }
@@ -4111,6 +4693,14 @@
       {
         "name": "Ghostly Dog",
         "description": "On Battle Start: If UL is at least 10 and fighting monsters, a ghostly dog manifests and joins your battle as an ally.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Tarnada": [
+      {
+        "name": "Tarnada Charges",
+        "description": "On Critical: Gain 1+(UL/2) Tarnada Charges. Then, if you have 100 or more Tarnada Charges, consumes them and casts Vydel on the target for free.",
         "applies": "reference",
         "effects": []
       }
@@ -6094,7 +6684,7 @@
       {
         "name": "Bradan Glove",
         "description": "Lick the thumb of the Bradan Glove, granting you incredible insight for a brief moment. Grants +50 Critical for 1 attack this round, and reduces the LV of any Burn status affecting you by 10.",
-        "applies": "always",
+        "applies": "conditional",
         "effects": [
           {
             "kind": "derived",
@@ -7924,6 +8514,27 @@
       {
         "name": "Quadrapedal",
         "description": "When you get up from being Knocked Down: If you have a Claws-type Fist weapon equipped, deals 15 protection-and-evasion-ignoring Slash physical damage to all enemies within 2 Range.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Razor Talons": [
+      {
+        "name": "Razor Talons",
+        "description": "While Airborne, when you move into the same tile as an enemy, deal 25 armor-ignoring Slash damage to that enemy. (Once per enemy per action.)",
+        "applies": "conditional",
+        "effects": [
+          {
+            "kind": "derived",
+            "key": "armor",
+            "base": 25,
+            "ulMultiplier": 0
+          }
+        ]
+      },
+      {
+        "name": "Razor Talons",
+        "description": "* Grants Skill: {{#tip-text: Falcon Arc | Falcon Arc Cost: 10 FP / 2M Target: Location Area: Single (Line To) Range: 2 Cooldown: 3 Round(s) Targets a flexible line to an unoccupied tile up to 2 Range away. You flip, becoming Airborne, and float along the line to that tile. If you have Razor Talons equipped, and they are enchanted with Winged, this skill has +1 Range. If you have no armor equipped, or armor that is enchanted with Winged, this skill costs -1M.}}",
         "applies": "reference",
         "effects": []
       }
@@ -10308,9 +10919,9 @@
         "effects": []
       }
     ],
-    "Torando Pendant": [
+    "Tornado Pendant": [
       {
-        "name": "Torando Pendant",
+        "name": "Tornado Pendant",
         "description": "+5 Wind ATK",
         "applies": "always",
         "effects": [

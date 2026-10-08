@@ -60,7 +60,7 @@ export default function TraitsDialog({
   const [showIneligible, setShowIneligible] = useState(true);
 
   const budget = traitPointBudget(characterLevel);
-  const spent = traitPointsSpent(taken, race);
+  const spent = traitPointsSpent(taken, race, history);
   const remaining = budget - spent;
   const groups = useMemo(() => traitsByCategory(), []);
   const build = { baseStats, race, subrace, mainClass, subClass, taken };

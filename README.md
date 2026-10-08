@@ -40,6 +40,10 @@ npm run build
 
 `check` validates all game data, type-checks the app, and runs the Vitest suite. `build` creates the static Cloudflare Pages output in `dist/` and also generates the web app manifest and service worker.
 
+## Windows game inspection
+
+The independent [SL2 desktop driver](tools/sl2-desktop/README.md) exposes local MCP tools and a JSONL CLI for screenshot-guided BYOND navigation and character-stat evidence capture. It uses a separate Python virtual environment and does not change the calculator or connect to game internals.
+
 ## Updating game data
 
 JSON is the only authoritative authoring format. Calculator records live in:
@@ -63,7 +67,7 @@ Files under `reference/` are historical notes only and are not authoritative or 
 
 `src/data/content/optimizer-profiles.json` stores representative community builds as regression fixtures and optional soft optimizer priors. A profile may guide class pairing and the shape of final scaled stats, but it never overrides formulas, point limits, fixed race/main-class choices, equipment locks, or explicit minimum constraints. Profile-specific targets supersede generic guide defaults for that profile. Class skills that are not represented by structured calculator data are not simulated.
 
-Keep profiles disabled when their race or class data is unavailable. The retained Redtail Chemist / Monk example follows this rule until authoritative Chemist stats and passive information are added.
+Keep profiles disabled when their race or class data is unavailable, or when the skills that define the build are not simulated. The Redtail Chemist / Monk profile remains disabled until Mixture effects can guide optimization.
 
 ### Build-generator guidance
 

@@ -11,6 +11,58 @@ The notes for the current release are held in
 `APP_VERSION` and the in-app dialog read. `npm run validate:data` fails if that
 file and `package.json` disagree about the version.
 
+## 0.9.0 — 2026-10-08
+
+Chemist mixtures, battle effects, and a pass through Aether's controls and wording.
+
+### Added
+
+- **Chemist mixtures.** All 60 recipes, flask planning, wiki descriptions,
+  status tooltips and source links. Supported ally effects can be enabled
+  from the mixture sheet.
+- **Skill details.** Read the wiki description, formula, rank values, costs
+  and requirements from the skill list. Damage formulas use the build's
+  referenced stats, weapon ATK and elemental ATK.
+- **Battle effects.** Controls for temporary stat boosts, defenses, elemental
+  bonuses and other supported skill effects. Skills with stacks, resource
+  counts or an element choice have fields for those values.
+- **Spellthief spell library.** Save spell cards and prepare copies, with
+  descriptions, requirements and capacity shown. Cards use their normal
+  maximum rank and are kept when changing classes.
+- **Crystals.** A count beside Level in Identity, granting +1 HP and FP each,
+  up to 45.
+- **Spirits.** White Spirits in Talents grant +3 HP and FP each, up to five.
+  Black Spirits are marked TBA.
+- Crystal, White Spirit and skill input counts are kept in saves, imports
+  and share links.
+
+### Changed
+
+- Moved History from Identity into Traits. Selecting another History replaces
+  the previous choice. History is free for Human-category races and costs one
+  trait point otherwise.
+- Each Bard song now has one Active toggle for all its bonuses. Additional
+  conditions on other skills keep their own controls.
+- Simplified Aether's wording, helper text and decorative styling. Wiki text
+  is preserved.
+- Shortened the skill calculation heading to Power and removed
+  "Live, from this build" from readout cards.
+
+### Fixed
+
+- Chemist mixture power now includes the Chemist class level and the stat
+  for its mixture type: GUI for Cocktails, DEF for Balms, FAI for Medicine,
+  and APT for Mutagens.
+- Corrected Unholy Dye to B + E, matching the wiki correction.
+- History stats now count toward trait requirements without changing racial
+  base stats. Its point cost is included in the trait budget.
+- Temporary skill stat boosts keep their full value after diminishing
+  returns. Temporary Evade uses the bonus cap; Dodger remains base Evade.
+- Skill Power bonuses now reach Scaled Weapon ATK. Supported resistance,
+  critical damage and FP bonuses also reach the build totals.
+- Chaos Reflex shows Max LV by rank instead of +1 Evade. Its Active control
+  shows the bonus from the entered LV.
+
 ## 0.8.0 — 2026-08-31
 
 A new character sheet, talents, status effects, and a hit/evade model you can

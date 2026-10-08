@@ -157,9 +157,9 @@ export function RacialsSheet({ builder }: { builder: Builder }) {
             />
           </label>
           <div className="field">
-            <span className="field__label">Why it matters</span>
+            <span className="field__label">Current HP</span>
             <span className="hint">
-              Instinct and Rising Game read missing HP, so the sheet needs to know where you are standing.
+              Set this to apply Instinct and Rising Game at the right HP threshold.
             </span>
           </div>
         </div>

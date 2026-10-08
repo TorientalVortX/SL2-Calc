@@ -49,6 +49,7 @@ export interface WeaponSlotInput {
   stats: StatRecord;
   weaponType: string;
   effectiveWeaponType: string;
+  effectiveWeaponTypes?: string[];
   basePower: number;
   baseCrit: number;
   baseHit: number;
@@ -112,8 +113,8 @@ export function calculateWeaponSlot(input: WeaponSlotInput) {
     // Weapon data says `Polearm` where a class list and the Mutation table say
     // `Spear`. Both spellings reach here, so both have to be named or every spear
     // silently loses the bonus swords and axes get.
-    if (TWO_HANDED_POWER_TYPES.has(input.effectiveWeaponType)) twoHandedPowerBonus = totalWeight >= 20 ? baseBonus * 2 : baseBonus;
-    if (input.effectiveWeaponType === 'Gun') twoHandedHitBonus = baseBonus;
+    if ((input.effectiveWeaponTypes ?? [input.effectiveWeaponType]).some(type => TWO_HANDED_POWER_TYPES.has(type))) twoHandedPowerBonus = totalWeight >= 20 ? baseBonus * 2 : baseBonus;
+    if ((input.effectiveWeaponTypes ?? [input.effectiveWeaponType]).includes('Gun')) twoHandedHitBonus = baseBonus;
   }
 
   // The two-handed grip is a Power bonus, so it lands before scaling is added.

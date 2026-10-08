@@ -222,14 +222,13 @@ export function TransferDialog({ builder, onClose }: { builder: Builder; onClose
           Copy build code
         </button>
         <span className="hint" style={{ flex: 1, minWidth: 140 }}>
-          The link carries the whole build in its address, and opens in either front end.
+          Share links open in Aether or the classic calculator.
         </span>
       </div>
 
       <SectionHead aside="schema v1">File</SectionHead>
       <p className="hint" style={{ margin: '2px 0 9px' }}>
-        The same format the SL2 Calculator reads and writes. Paste a build below and choose Import,
-        or open an exported <span className="num">.json</span> file.
+        Paste build JSON or open a <span className="num">.json</span> file. Aether uses the same format as the classic calculator.
       </p>
       <textarea
         className="code scroll"
@@ -266,11 +265,11 @@ const SHORTCUTS: Array<{ group: string; rows: Array<[keys: string[], what: strin
   {
     group: 'Lists',
     rows: [
-      [['↑', '↓'], 'Walk any list: skills, traits, the Youkai roster'],
-      [['W', 'S'], 'The same, for a hand already on the keys'],
+      [['↑', '↓'], 'Move through lists'],
+      [['W', 'S'], 'Move through lists with one hand'],
       [['Enter'], 'Activate the focused row'],
-      [['Space'], 'The same'],
-      [['I'], 'Open the focused Youkai’s skill card'],
+      [['Space'], 'Activate the focused row'],
+      [['I'], 'Read the focused skill or Youkai’s details'],
     ],
   },
   {
@@ -290,8 +289,7 @@ export function ShortcutsDialog({ onClose }: { onClose: () => void }) {
   return (
     <Modal title="Keyboard" onClose={onClose}>
       <p className="hint" style={{ marginBottom: 9 }}>
-        Letter shortcuts are ignored while a field has focus, so typing a build name never opens a
-        dialog.
+        Letter shortcuts pause while you type in a field.
       </p>
       {SHORTCUTS.map(section => (
         <div className="section" key={section.group}>
@@ -391,8 +389,7 @@ export function SharedBuildDialog({ builder, onClose }: { builder: Builder; onCl
       }
     >
       <p className="hint" style={{ marginBottom: 9 }}>
-        This link carries a build. Loading it replaces what is on the sheet now, so save yours first if
-        you want to keep it.
+        Loading this build replaces your current sheet. Save it first if you want to keep it.
       </p>
       <div className="inline" style={{ gap: 5, flexWrap: 'wrap' }}>
         <span className="chip chip--gold">{pendingShare.buildName}</span>
@@ -407,8 +404,7 @@ export function SharedBuildDialog({ builder, onClose }: { builder: Builder; onCl
       </div>
       {stale ? (
         <p className="hint" style={{ marginTop: 9, color: 'var(--alert)' }}>
-          Made against dataset {pendingShare.dataVersion}; this sheet runs {GAME_DATA_MANIFEST.dataVersion}.
-          It loads either way, but its numbers may differ from the ones the sender saw.
+          Saved with data {pendingShare.dataVersion}. Current data is {GAME_DATA_MANIFEST.dataVersion}; stats may change after loading.
         </p>
       ) : null}
     </Modal>

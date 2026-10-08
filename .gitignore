@@ -41,3 +41,17 @@ coverage/
 
 # Local SL2 desktop driver
 /tools/sl2-desktop/
+
+# Local outputs and screenshots
+/outputs/
+/mobile-audit/
+/playwright-report/
+/test-results/
+/tmp-*
+
+# Local agent files
+/.agents/
+
+# Gameplay logs and personal build notes
+/docs/
+/optimizer-knowledge/08-combat-results/test-server-learning-*.md

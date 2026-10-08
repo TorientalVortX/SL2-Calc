@@ -1,23 +1,23 @@
 ---
 title: "Equipment"
-item_count: "635"
+item_count: "636"
 page_count: "15"
-scraped: "2026-08-12"
+scraped: "2026-10-07"
 confidence: "strong"
 ---
 # Equipment
 
-635 items across 15 wiki pages. A character has six equipment slots:
+636 items across 15 wiki pages. A character has six equipment slots:
 
 | Slot | Holds |
 | --- | --- |
 | 1 | Primary weapon |
 | 2 | Armor |
-| 3 | Hands — or a secondary weapon instead |
+| 3 | Hands, or a secondary weapon instead |
 | 4 | Legs |
 | 5, 6 | Accessories (two, but never two of the same one) |
 
-## Slot 1 — Primary weapon (or slot 3 as a secondary)
+## Slot 1: Primary weapon (or slot 3 as a secondary)
 
 | Page | Group | Items |
 | --- | --- | --- |
@@ -30,7 +30,7 @@ confidence: "strong"
 | [Swords](swords.md) | Sword | 54 |
 | [Tomes](tomes.md) | Tome | 53 |
 
-## Slot 2 — Armor
+## Slot 2: Armor
 
 | Page | Group | Items |
 | --- | --- | --- |
@@ -38,20 +38,20 @@ confidence: "strong"
 | [Light Armor](light-armor.md) | Light | 23 |
 | [Unarmored](unarmored.md) | Unarmored | 33 |
 
-## Slot 3 — Hands
+## Slot 3: Hands
 
 | Page | Group | Items |
 | --- | --- | --- |
 | [Hands](hands.md) | Hands | 48 |
 | [Shields](shields.md) | Shield | 20 |
 
-## Slot 4 — Legs
+## Slot 4: Legs
 
 | Page | Group | Items |
 | --- | --- | --- |
-| [Legs](legs.md) | Legs | 41 |
+| [Legs](legs.md) | Legs | 42 |
 
-## Slots 5 & 6 — Accessories
+## Slots 5 & 6: Accessories
 
 | Page | Group | Items |
 | --- | --- | --- |
@@ -62,7 +62,7 @@ confidence: "strong"
 | Page | What it covers |
 | --- | --- |
 | [Item materials](materials.md) | 92 materials. Their `Other` profile is what a material does on slots 3–6. |
-| [Catalysts](catalysts.md) | 44 catalysts — what applies an enchantment, and the slots each one accepts. |
+| [Catalysts](catalysts.md) | 44 catalysts: what applies an enchantment, and the slots each one accepts. |
 
 ## Notes
 

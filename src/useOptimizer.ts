@@ -53,8 +53,6 @@ export function useOptimizer({ build, currentEvaluation, onApply, canUndo, onUnd
   const [searchTraits, setSearchTraits] = useState(false);
   const [searchSkills, setSearchSkills] = useState(false);
   const [searchYoukai, setSearchYoukai] = useState(false);
-  const [mainRank, setMainRank] = useState(build.mainClassPassive);
-  const [subRank, setSubRank] = useState(build.subClassPassive);
   const [constraints, setConstraints] = useState<OptimizationConstraint[]>([]);
   const [defensePlan, setDefensePlan] = useState<OptimizationDefensePlan>('auto');
   const [minimumEvade, setMinimumEvade] = useState(195);
@@ -141,11 +139,6 @@ export function useOptimizer({ build, currentEvaluation, onApply, canUndo, onUnd
   }, [buildSignature]);
 
   useEffect(() => {
-    setMainRank(build.mainClassPassive);
-    setSubRank(build.subClassPassive);
-  }, [build.mainClassPassive, build.subClassPassive]);
-
-  useEffect(() => {
     if (!FEATURES.aiPlanner) return;
     let active = true;
     fetch('/api/optimizer-health')
@@ -198,8 +191,6 @@ export function useOptimizer({ build, currentEvaluation, onApply, canUndo, onUnd
         searchClasses,
         searchMainClass,
         searchLoadout,
-        assumedMainPassiveRank: mainRank,
-        assumedSubPassiveRank: subRank,
         resultLimit: 3,
         engine: workerEngine === 'v2' ? 'v2' : 'legacy',
         locks,
@@ -239,7 +230,7 @@ export function useOptimizer({ build, currentEvaluation, onApply, canUndo, onUnd
           gauntletOpponentIds: effectiveGauntletOpponentIds,
           referenceProfileId: effectiveReferenceProfileId || undefined,
           intent: intent.trim() || `Create a ${OPTIMIZATION_PRESETS[presetId].name.toLowerCase()} build using the fixed character choices.`,
-          mode: aiMode, previousResponseId, assumedMainPassiveRank: mainRank, assumedSubPassiveRank: subRank,
+          mode: aiMode, previousResponseId,
         }),
       });
       // A dead service answers through the proxy with an empty non-JSON body,
@@ -293,7 +284,7 @@ export function useOptimizer({ build, currentEvaluation, onApply, canUndo, onUnd
     armorLockMode, cancel, candidate, clarification,
     compareMetrics, constraints, defensePlan, engine,
     error, extraPackage, gauntletOpponentIds, intent, locks,
-    mainRank, minimumArmor, minimumDefense, minimumEvade,
+    minimumArmor, minimumDefense, minimumEvade,
     minimumMagicArmor, minimumResistance, preferredEvade, presetId,
     previousResponseId, progress, referenceProfileId, reliableBonusEvade,
     requirePartialBattleWeight, result, run, running,
@@ -301,11 +292,11 @@ export function useOptimizer({ build, currentEvaluation, onApply, canUndo, onUnd
     selectedIndex, selectedReferenceProfile, setAiMode,
     setSearchMainClass, setSearchSkills, setSearchTraits, setSearchYoukai,
     setArmorLockMode, setConstraints, setDefensePlan, setEngine,
-    setExtraPackage, setGauntletOpponentIds, setIntent, setMainRank, setMinimumArmor,
+    setExtraPackage, setGauntletOpponentIds, setIntent, setMinimumArmor,
     setMinimumDefense, setMinimumEvade, setMinimumMagicArmor, setMinimumResistance,
     setPreferredEvade, setPresetId, setReferenceProfileId, setReliableBonusEvade,
-    setRequirePartialBattleWeight, setSearchClasses, setSelectedIndex, setSubRank,
-    setUseVerifiedArmorConditionals, setWeaponLockMode, subRank, useVerifiedArmorConditionals,
+    setRequirePartialBattleWeight, setSearchClasses, setSelectedIndex,
+    setUseVerifiedArmorConditionals, setWeaponLockMode, useVerifiedArmorConditionals,
     weaponLockMode,
   };
 }

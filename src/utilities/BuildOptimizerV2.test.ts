@@ -29,8 +29,6 @@ function request(build = baseBuild(), overrides: Partial<OptimizationRequest> = 
     constraints: [],
     primaryClass: build.mainClass,
     searchClasses: true,
-    assumedMainPassiveRank: 3,
-    assumedSubPassiveRank: 3,
     resultLimit: 3,
     engine: 'v2',
     defensePlan: 'hybrid',
@@ -318,11 +316,11 @@ describe('build optimizer V2', () => {
 
     const plain = optimizeBuildV2(request(build, shared)).candidates[0];
     expect(plain.loadout?.skillPools).toHaveLength(poolCount);
-    expect(plain.loadout?.skillPointBudget).toBe(poolCount * SKILL_POINTS_PER_CLASS);
+    expect(plain.loadout?.skillPointBudget).toBe(poolCount * (SKILL_POINTS_PER_CLASS + 2));
     expect(plain.loadout?.skillPointsSpent).toBeGreaterThan(0);
     for (const pool of plain.loadout!.skillPools) {
-      expect(pool.budget).toBe(SKILL_POINTS_PER_CLASS);
-      expect(pool.spent).toBeLessThanOrEqual(SKILL_POINTS_PER_CLASS);
+      expect(pool.budget).toBe(SKILL_POINTS_PER_CLASS + 2);
+      expect(pool.spent).toBeLessThanOrEqual(SKILL_POINTS_PER_CLASS + 2);
     }
 
     // Both slots are Summoner promotions, so the pair is Destiny-legal and every
@@ -330,10 +328,10 @@ describe('build optimizer V2', () => {
     // value the ~30% of skills the wiki states numerically, so a wider budget
     // buys more only when there is more it can score.
     const destined = optimizeBuildV2(request({ ...build, destiny: true }, shared)).candidates[0];
-    expect(destined.loadout?.skillPointBudget).toBe(poolCount * SKILL_POINTS_PER_CLASS_DESTINY);
+    expect(destined.loadout?.skillPointBudget).toBe(poolCount * (SKILL_POINTS_PER_CLASS_DESTINY + 2));
     for (const pool of destined.loadout!.skillPools) {
-      expect(pool.budget).toBe(SKILL_POINTS_PER_CLASS_DESTINY);
-      expect(pool.spent).toBeLessThanOrEqual(SKILL_POINTS_PER_CLASS_DESTINY);
+      expect(pool.budget).toBe(SKILL_POINTS_PER_CLASS_DESTINY + 2);
+      expect(pool.spent).toBeLessThanOrEqual(SKILL_POINTS_PER_CLASS_DESTINY + 2);
     }
 
     const pool = skillsForClassSlots('Shapeshifter', 'Grand Summoner');

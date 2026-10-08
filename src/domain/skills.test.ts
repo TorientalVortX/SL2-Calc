@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import { parseBuildFile } from './buildPersistence';
 import { evaluateBuild } from './buildEvaluation';
-import { mergeSkillRanks, skillDamageAtRank, skillDamageProfile } from './skillDamage';
+import { findWeaponByName, weaponToConfig } from './equipment';
+import { CLASS_HIERARCHY } from '../data/classes';
+import { mergeSkillRanks, skillDamageAtRank, skillDamageProfile, skillFormulaBreakdown } from './skillDamage';
 import {
   SKILLS,
   fpCostAtRank,
@@ -16,6 +18,9 @@ import {
   skillsForClass,
   skillsForClassTree,
   valueAtRank,
+  setSkillEffectsActive,
+  skillInputValue,
+  classSkillPointBudget,
 } from './skills';
 
 function baseBuild() {
@@ -26,6 +31,23 @@ function baseBuild() {
 }
 
 describe('skill dataset', () => {
+  it('gives Class traits one point in their base class and every promotion', () => {
+    const families = {
+      'arcanic-study': 'Mage', 'bad-egg': 'Rogue', 'daily-prayer': 'Curate',
+      'fencing-study': 'Duelist', marksman: 'Archer', 'mercenary-work': 'Soldier',
+      'song-writer': 'Bard', 'spirit-caller': 'Summoner', 'spiritual-fighter': 'Martial Artist',
+    };
+    for (const [trait, family] of Object.entries(families)) {
+      for (const className of [family, ...CLASS_HIERARCHY[family].subClasses]) {
+        for (const destiny of [false, true]) {
+          const before = classSkillPointBudget(className, destiny);
+          expect(classSkillPointBudget(className, destiny, { traits: [trait] })).toBe(before + 1);
+        }
+      }
+      const other = family === 'Mage' ? 'Soldier' : 'Mage';
+      expect(classSkillPointBudget(other, false, { traits: [trait] })).toBe(classSkillPointBudget(other, false));
+    }
+  });
   it('carries the wiki values for a representative skill', () => {
     const skill = skillById('sanguine-star');
     expect(skill).toBeDefined();
@@ -213,7 +235,7 @@ describe('skill bonuses', () => {
 
   it('reads the stats a Wild Shape names in its own text', () => {
     const bear = skillById('wild-shape-bear')!;
-    expect(bear.effects.map(effect => effect.key).sort()).toEqual(['def', 'res', 'vit']);
+    expect(bear.effects.map(effect => effect.key).sort()).toEqual(['armor', 'def', 'res', 'swa', 'vit']);
     expect(bear.effects.every(effect => effect.valueByRank[0] === 3)).toBe(true);
   });
 
@@ -247,6 +269,60 @@ describe('skill bonuses', () => {
 });
 
 describe('skill damage', () => {
+  it('resolves weapon and attribute terms from SWA and scaled stats', () => {
+    const evaluation = evaluateBuild(baseBuild());
+    evaluation.primaryWeapon = { power: 10, swa: 100, hit: 0, critical: 0, criticalDamage: 0, weight: 0 };
+    evaluation.rawStats.str = 200;
+    evaluation.scaledStats.str = 32.5;
+    const formula = skillFormulaBreakdown(skillById('thousand-stab')!, 1, evaluation)!;
+    expect(formula.terms.map(term => term.sourceValue)).toEqual([100, 32.5]);
+    expect(formula.terms.map(term => term.amount)).toEqual([50, 32.5]);
+    expect(formula.subtotal).toBe(82.5);
+    expect(formula.complete).toBe(true);
+    evaluation.scaledStats.str = 40;
+    expect(skillFormulaBreakdown(skillById('thousand-stab')!, 5, evaluation)?.subtotal).toBe(110);
+  });
+
+  it('uses the referenced GUI and elemental ATK for traps', () => {
+    const evaluation = evaluateBuild(baseBuild());
+    evaluation.scaledStats.gui = 24;
+    evaluation.elementalAttack.Earth = 80;
+    const formula = skillFormulaBreakdown(skillById('entangle-trap')!, 3, evaluation)!;
+    expect(formula.terms.map(term => term.amount)).toEqual([24, 56]);
+    expect(formula.subtotal).toBe(80);
+  });
+
+  it('adds flat damage without treating it as a percentage', () => {
+    const evaluation = evaluateBuild(baseBuild());
+    evaluation.elementalAttack.Fire = 100;
+    expect(skillFormulaBreakdown(skillById('fire-dance')!, 3, evaluation)?.subtotal).toBe(65);
+    expect(skillFormulaBreakdown(skillById('samba-of-strength')!, 1, evaluation, {}, '+2/4/6/8/10 Scaled WPN ATK & Critical')).toBeNull();
+  });
+
+  it('requires an element choice for formulas with alternative elements', () => {
+    const evaluation = evaluateBuild(baseBuild());
+    evaluation.primaryWeapon = { power: 10, swa: 100, hit: 0, critical: 0, criticalDamage: 0, weight: 0 };
+    evaluation.elementalAttack.Dark = 20;
+    evaluation.elementalAttack.Water = 80;
+    const skill = skillById('black-bubble')!;
+    expect(skillFormulaBreakdown(skill, 1, evaluation)).toMatchObject({ complete: false, subtotal: 100 });
+    expect(skillFormulaBreakdown(skill, 1, evaluation, { 1: 'Water' })).toMatchObject({ complete: true, subtotal: 116 });
+    expect(skillFormulaBreakdown(skill, 1, evaluation, { 1: 'Dark' })).toMatchObject({ complete: true, subtotal: 104 });
+    expect(skillFormulaBreakdown(skill, 1, evaluation, { 1: 'Fire' })?.complete).toBe(false);
+  });
+
+  it('reports missing weapon and elemental sources without using zero for them', () => {
+    const evaluation = evaluateBuild(baseBuild());
+    evaluation.primaryWeapon = undefined;
+    const formula = skillFormulaBreakdown(skillById('altera')!, 1, evaluation)!;
+    expect(formula.complete).toBe(false);
+    expect(formula.terms.every(term => term.amount === null)).toBe(true);
+    evaluation.elementalAttack.Dark = 60;
+    expect(skillFormulaBreakdown(skillById('altera')!, 1, evaluation, { 0: 'Dark' })?.subtotal).toBe(48);
+    expect(skillFormulaBreakdown(skillById('dodger')!, 1, evaluation)).toBeNull();
+    expect(skillFormulaBreakdown(skillById('altera')!, 0, evaluation)).toBeNull();
+  });
+
   it('splits a formula into weapon and elemental percentages', () => {
     const skill = skillById('sanguine-star')!;
     const entry = skillDamageAtRank(skill, 3);
@@ -358,5 +434,117 @@ describe('skill cost lookups', () => {
     expect(fpCostAtRank(skillById('sanguine-star')!, 1)).toBe(13);
     expect(fpCostAtRank(skillById('sanguine-star')!, 5)).toBe(21);
     expect(fpCostAtRank(skillById('dodger')!, 1)).toBeNull();
+  });
+});
+
+describe('battle skill controls', () => {
+  it('activates all Aria bonuses together and removes them together', () => {
+    const skill = skillById('aria-of-agility')!;
+    expect(new Set(skill.effects.map(effect => effect.condition ?? 'Active'))).toEqual(new Set(['Active']));
+    const active = setSkillEffectsActive({}, skill, 'Active', true);
+    const bonuses = skillBonuses([skill], { [skill.id]: 5 }, active);
+    expect(bonuses.buffStats).toEqual({ cel: 2, ski: 2 });
+    expect(bonuses.derived).toMatchObject({ hit: 10, evade: 10 });
+    const inactive = setSkillEffectsActive(active, skill, 'Active', false);
+    expect(skillBonuses([skill], { [skill.id]: 5 }, inactive).stats).toEqual({});
+    expect(skillBonuses([skill], { [skill.id]: 5 }, inactive).derived).toEqual({});
+  });
+
+  it('applies Aria stats after diminishing returns and reverses the evaluated build', () => {
+    const build = baseBuild();
+    build.mainClass = 'Bard';
+    build.skillRanks = { main: { 'aria-of-agility': 5 }, sub: {} };
+    build.customStats.cel = 100;
+    build.customStats.ski = 100;
+    const before = evaluateBuild(build);
+    const skill = skillById('aria-of-agility')!;
+    build.skillConditionals = setSkillEffectsActive({}, skill, 'Active', true);
+    const after = evaluateBuild(build);
+    expect(after.scaledStats.cel - before.scaledStats.cel).toBe(2);
+    expect(after.scaledStats.ski - before.scaledStats.ski).toBe(2);
+    expect(after.derived.hitTiers.base).toBeGreaterThan(before.derived.hitTiers.base);
+    build.skillConditionals = setSkillEffectsActive(build.skillConditionals, skill, 'Active', false);
+    expect(evaluateBuild(build).scaledStats).toEqual(before.scaledStats);
+    expect(evaluateBuild(build).derived).toEqual(before.derived);
+  });
+
+  it('clamps stack inputs and calculates the resulting bonus', () => {
+    const skill = skillById('bear-s-might')!;
+    const active = setSkillEffectsActive({}, skill, 'Active', true);
+    const context = { inputs: { [`${skill.id}:stacks`]: 100 } };
+    expect(skillInputValue(skill, 'stacks', 1, context)).toBe(6);
+    expect(skillBonuses([skill], { [skill.id]: 1 }, active, [], context).derived).toMatchObject({ power: 30, criticalDamage: 30 });
+  });
+
+  it('uses scaled stats and referenced song ranks', () => {
+    const wind = skillById('fortune-wind')!;
+    const active = setSkillEffectsActive({}, wind, 'Active', true);
+    expect(skillBonuses([wind], { [wind.id]: 1 }, active, [], { scaledStats: { luc: 40 } }).derived.evade).toBe(25);
+    const aria = skillById('amplified-aria')!;
+    const singing = setSkillEffectsActive({}, aria, 'Active', true);
+    expect(skillBonuses([aria], { [aria.id]: 1, 'aria-of-agility': 5 }, singing).derived.evade).toBe(15);
+  });
+
+  it('applies only the selected element and includes Safety Gear resistance', () => {
+    const boost = skillById('install-element-boost')!;
+    const active = setSkillEffectsActive({}, boost, 'Active', true);
+    expect(skillBonuses([boost], { [boost.id]: 3 }, active, [], { inputs: { [`${boost.id}:element`]: 2 } }).elemental).toEqual({ Ice: 5 });
+    expect(skillBonuses([boost], { [boost.id]: 3 }, active).elemental).toEqual({});
+    const safety = skillById('safety-gear')!;
+    const bonuses = skillBonuses([safety], { [safety.id]: 3 }, setSkillEffectsActive({}, safety, 'Active', true));
+    expect(bonuses.elementalResistance).toEqual({ Fire: 10, Ice: 10, Wind: 10, Lightning: 10, Earth: 10 });
+    expect(bonuses.derived.statusResistancePercent).toBe(15);
+  });
+
+  it('switches exclusive stances and excludes enemy effects', () => {
+    const cobra = skillById('cobra-stance')!;
+    const matador = skillById('matador-stance')!;
+    const active = setSkillEffectsActive(setSkillEffectsActive({}, cobra, 'Active', true), matador, 'Active', true);
+    expect(cobra.effects.every((_, index) => !active[`${cobra.id}:${index}`])).toBe(true);
+    const enemy = skillById('aerial-razor')!;
+    const bonuses = skillBonuses([enemy], { [enemy.id]: enemy.maxRank }, Object.fromEntries(enemy.effects.map((_, index) => [`${enemy.id}:${index}`, true])));
+    expect(bonuses.stats).toEqual({});
+    expect(bonuses.derived).toEqual({});
+  });
+
+  it('preserves battle inputs through build imports', () => {
+    const build = baseBuild();
+    build.skillInputs = { 'bear-s-might:stacks': 4, 'install-element-boost:element': 2 };
+    expect(parseBuildFile(JSON.stringify({ ...build, version: '0.8.0', buildName: 'Battle' })).build.skillInputs).toEqual(build.skillInputs);
+  });
+
+  it('applies battle Power to weapon scaling and critical damage', () => {
+    const build = baseBuild();
+    build.mainClass = 'Verglas';
+    build.equipment.primaryWeapon = weaponToConfig(findWeaponByName('Longsword')!);
+    const buff = skillById('bear-s-might')!;
+    build.skillRanks = { main: { [buff.id]: 1 }, sub: {} };
+    build.skillInputs = { [`${buff.id}:stacks`]: 4 };
+    const before = evaluateBuild(build);
+    build.skillConditionals = setSkillEffectsActive({}, buff, 'Active', true);
+    const after = evaluateBuild(build);
+    expect(after.primaryWeapon!.power - before.primaryWeapon!.power).toBe(20);
+    expect(after.primaryWeapon!.swa - before.primaryWeapon!.swa).toBe(20);
+    expect(after.primaryWeapon!.criticalDamage - before.primaryWeapon!.criticalDamage).toBe(20);
+  });
+
+  it('caps temporary Evade without capping Dodger', () => {
+    const build = baseBuild();
+    build.mainClass = 'Verglas';
+    const buff = skillById('hare-s-agility')!;
+    build.skillRanks = { main: { [buff.id]: 1 }, sub: {} };
+    build.skillInputs = { [`${buff.id}:stacks`]: 6 };
+    build.skillConditionals = setSkillEffectsActive({}, buff, 'Active', true);
+    const before = evaluateBuild(build);
+    expect(before.derived.evadeBonus).toBe(30);
+    build.mainClass = 'Archer';
+    build.subClass = 'Rogue';
+    build.skillRanks = { main: { 'fortune-wind': 3 }, sub: { dodger: 1 } };
+    build.customStats.luc = 200;
+    build.skillConditionals = setSkillEffectsActive({}, skillById('fortune-wind')!, 'Active', true);
+    const withDodger = evaluateBuild(build);
+    expect(withDodger.derived.evadeBonus).toBe(50);
+    build.skillRanks.sub = {};
+    expect(withDodger.derived.evadeBase).toBeGreaterThan(evaluateBuild(build).derived.evadeBase);
   });
 });

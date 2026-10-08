@@ -3,14 +3,12 @@ import type { StatKey } from '../../types';
 import { CLASSES } from '../../data/classes';
 import { destinyAllowsClassPair } from '../../domain/skills';
 import { Panel, SectionHead } from '../ui/Panel';
-import { Stepper, Toggle } from '../ui/controls';
+import { Toggle } from '../ui/controls';
 import { useListNavigation } from '../hooks/useListNavigation';
 import { play } from '../state/audio';
 import {
   CLASS_FAMILIES,
   STAT_KEYS,
-  classPassiveMaxRank,
-  classPassiveOf,
   familyOf,
   type ClassSlot,
 } from '../state/build';
@@ -52,9 +50,6 @@ export function ClassPanel({ builder }: { builder: Builder }) {
     return { base: entry?.base ?? family, promotions: entry?.members.slice(1) ?? [] };
   }, [family]);
 
-  const passiveRank = slot === 'main' ? build.mainClassPassive : build.subClassPassive;
-  const passive = classPassiveOf(activeClass);
-  const passiveMax = classPassiveMaxRank(activeClass);
 
   const chooseClass = (className: string) => {
     if (className === activeClass) return;
@@ -86,7 +81,7 @@ export function ClassPanel({ builder }: { builder: Builder }) {
         <Toggle
           on={monoclass}
           onChange={enabled => dispatch({ type: 'monoclass', enabled })}
-          hint="Setting both slots to the same class applies its per-level stat bonus twice."
+          hint="Using the same class in both slots doubles its per-level stat bonus."
         >
           Monoclass <span className="dim" style={{ fontSize: 11 }}>(class bonus applies twice)</span>
         </Toggle>
@@ -156,21 +151,6 @@ export function ClassPanel({ builder }: { builder: Builder }) {
         </div>
       </div>
 
-      {passive ? (
-        <div className="section">
-          <SectionHead aside={`Max ${passiveMax}`}>{activeClass} passive</SectionHead>
-          <div className="inline" style={{ justifyContent: 'space-between' }}>
-            <span className="hint" style={{ flex: 1 }}>{passive.description}</span>
-            <Stepper
-              label={`${activeClass} passive rank`}
-              value={passiveRank}
-              min={0}
-              max={passiveMax}
-              onChange={rank => dispatch({ type: 'passive', slot, rank })}
-            />
-          </div>
-        </div>
-      ) : null}
     </Panel>
   );
 }

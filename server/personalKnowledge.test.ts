@@ -8,6 +8,7 @@ describe('personal optimizer knowledge', () => {
     expect(notes).toContain('09-patches-and-sources/source-register-2026-08.md');
     expect(notes).not.toContain('## 00-inbox/_TEMPLATE.md');
     expect(notes).not.toContain('## 01-core-mechanics/_TEMPLATE.md');
+    expect(notes).not.toContain('## 08-combat-results/test-server-learning-');
     expect(notes).not.toContain('Copy and rename this file before filling it in.');
     expect(notes.length).toBeLessThanOrEqual(MAX_PERSONAL_NOTES_CHARACTERS);
   });

@@ -317,7 +317,7 @@ function toRecord(name, description, alwaysEligible) {
     .replace(/,\s*except when\b[^.]*\.?/gi, '.')
     // Chance clauses after the passive magnitude describe a different effect.
     .replace(/\bUL%\s+chance\b.*$/i, '');
-  const conditional = CONDITION.test(magnitudeClause);
+  const conditional = CONDITION.test(magnitudeClause) || /for \d+ attacks? this round/i.test(description);
   return {
     name,
     description: description.replace(/\s+/g, ' ').trim(),

@@ -88,6 +88,17 @@ export function effectiveWeaponType(config?: WeaponConfig): string | undefined {
   return config.weaponType;
 }
 
+/** All simultaneous weapon identities; Mutation replaces the original identity. */
+export function effectiveWeaponTypes(config?: WeaponConfig): string[] {
+  const primary = effectiveWeaponType(config);
+  if (!primary) return [];
+  if (config?.enchantment === 'Mutation' && config.rarity < 9) return [primary];
+  const weapon = findWeaponByName(config?.selectedWeaponName);
+  const extra = (weapon?.specials ?? []).flatMap(special =>
+    [...special.description.matchAll(/also qualifies as an? (\w+) weapon/gi)].map(match => match[1]));
+  return [...new Set([primary, ...extra])];
+}
+
 /**
  * The category name a class's `validWeapons` list uses for a weapon type.
  *

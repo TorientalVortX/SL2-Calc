@@ -4,7 +4,7 @@ type: "Promoted Class"
 weapons: "Bow, Gun, Tome, Dagger"
 move: "5"
 source: "https://sl2.miraheze.org/wiki/Chemist"
-scraped: "2026-08-11"
+scraped: "2026-10-07"
 confidence: "strong"
 ---
 # Chemist
@@ -14,7 +14,7 @@ confidence: "strong"
 - **Type:** Promoted Class
 - **Weapons:** Bow, Gun, Tome, Dagger
 - **Move:** 5
-- **Skills:** 2
+- **Skills:** 29
 
 ## Stat bonuses per level
 
@@ -28,6 +28,33 @@ confidence: "strong"
 
 | Skill | Type | Max Rank | FP | Momentum |
 | --- | --- | --- | --- | --- |
+| Alchemic Barrage | Offensive | 1 | 35 | — |
+| Alchemic Bullet | Offensive | 1 | 25 | 2 |
+| Eight-Pointed Weaving | Offensive | 3 | 24/22/20 | 3 |
+| Forgotten Brew | Offensive | 1 | 10 | 2 |
+| Shake Shake | Offensive | 1 | 5 | 1 |
+| Lick Weapon | Defensive | 1 | 0 | 1 |
+| Safety Gear | Defensive | 3 | 5 | 2 |
+| Bolt Delivery | Support | 3 | 0 | 2 |
+| Coat Ammunition | Support | 3 | 10 | 3 |
+| Continuous Production | Support | 3 | 5 | 2 |
+| Dynamic Rainshot | Support | 3 | 15 | 3 |
+| Hasty Mixture | Support | 1 | 10 | 2 |
+| Outsourced Collection | Support | 3 | 10 | 1 |
+| Collect Ingredients | Utility | 1 | 5 | 2 |
+| Create Mixture | Utility | 3 | 0 | 2 |
+| Dillution | Utility | 3 | 5 | 2 |
+| Evaporative | Utility | 1 | 10 | 1 |
+| Ichor Recoating | Utility | 1 | 10 | 1 |
+| Powder Arrows | Utility | 1 | 5 | 1 |
+| Quick Refresher | Utility | 1 | 5 | 2 |
+| Restocking | Utility | 1 | 20 | 5 |
+| Chaotic Chemist | Passive | 2 | — | 3 |
+| Chemist's Belt | Passive | 2 | — | 3 |
+| Mad Science | Passive | 2 | — | 3 |
+| Needle & Thread | Passive | 2 | — | 3 |
+| Prepared Mixture | Passive | 2 | — | 3 |
+| Spillage | Passive | 3 | — | 3 |
 | Perfected Tolerance | Innate | 1 | — | — |
 | Specimen Containment | Innate | 1 | — | — |
 
@@ -38,6 +65,19 @@ Full values: [skills/chemist.md](../skills/chemist.md)
 The thirst for knowledge can only be slaked by some with the contents of flasks; the Chemist among them. A profession as fruitful as it can be deadly, one can never be sure what's waiting to happen after the last drop.
 
 -In-Game description.
+
+Chemist is a class focused around the creation of Mixtures, combinations of potions and similar items with a variety of effects.
+
+They do so via Create Mixture, selecting a Base among 4 types: Cocktail, Balm, Medicine, and Mutagen, and then any combination of 2 chemicals from among the types A, B, C, D, and E, which are gained through the use of other Chemist skills, or by using items in their item belt. The total number of unique combinations is 60, giving the class a huge variety of options available.
+
+Mixtures are extremely varied, but in general:
+
+- Cocktails are powerful offensive mixtures, but are just as punishing for allies as they are enemies.
+- Balms have a variety of utility-based applications, more aware of the distinction between ally and enemy. They are less effective in Mist form than other types.
+- Medicines are good at healing or preventing effects. They are less effective when applied via Coat Ammunition.
+- Mutagens grant powerful abilities in exchange for certain risks when used on allies. However, they have impaired efficacy when applied in indirect ways, such as the above.
+
+When a Mixture is created using items in the item belt, it does not consume stacks of the item; rather, it uses 'per battle uses', AKA the number of times an item can be used in a single battle. They also possess several ways to regain these uses.
 
 ### Strengths
 

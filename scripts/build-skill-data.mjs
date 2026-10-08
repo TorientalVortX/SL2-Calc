@@ -18,6 +18,7 @@
  */
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import { applyBattleEffects } from './skill-battle-effects.mjs';
 
 const IN = path.resolve('wiki-data/raw/skills.json');
 /** Mechanics: read by the damage and stat paths, so it loads with the app. */
@@ -363,6 +364,16 @@ const HAND_MODELLED = new Set([
   'Power of Normalcy',
 ]);
 
+// These wiki pages describe permanent stat bonuses alongside conditional
+// secondary effects (or flavour mentioning "against" / "when"). Those clauses
+// must not turn the innate stat bonus into a combat toggle.
+const PERMANENT_STAT_SKILLS = new Set([
+  "Dark Bard's Pledge", 'Exposure Tolerance', 'Illuminating Sol', 'Warding Light',
+]);
+// The rank headings are absent, but the bonus tables and Piety's rank-five
+// capstone explicitly establish these caps in the scraped source pages.
+const STAT_SKILL_RANK_CAPS = { Piety: 5, 'Illuminating Sol': 3 };
+
 /**
  * Wording that makes a bonus situational rather than permanent: a stance, a
  * weapon requirement, a timed buff, a reaction to being hit.
@@ -489,11 +500,6 @@ function parseEffects(extras, maxRank, applies, description = '') {
 const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 const raw = JSON.parse(await readFile(IN, 'utf8'));
-/*
- * The wiki documents a class the calculator does not implement (Chemist). Its
- * skills are dropped rather than shipped pointing at a class that cannot be
- * selected, and reported below so the gap stays visible.
- */
 const KNOWN_CLASSES = new Set(
   Object.keys(JSON.parse(await readFile(path.resolve('src/data/content/classes.json'), 'utf8')).classes),
 );
@@ -510,10 +516,13 @@ for (const entry of raw) {
     continue;
   }
 
-  const maxRank = parseInteger(entry.maxRank) ?? 1;
+  const maxRank = STAT_SKILL_RANK_CAPS[entry.name] ?? parseInteger(entry.maxRank) ?? 1;
   const { scaling, unparsed } = parsePower(entry.power, maxRank);
   const applies = classifyEffect(entry.description, entry.type);
   const effects = parseEffects(entry.extras, maxRank, applies, entry.description);
+  if (PERMANENT_STAT_SKILLS.has(entry.name)) {
+    for (const effect of effects) if (effect.kind === 'stat') effect.applies = 'always';
+  }
 
   let id = slug(entry.name);
   if (seenIds.has(id)) id = `${id}-${slug(known[0])}`;
@@ -526,9 +535,8 @@ for (const entry of raw) {
   }
   if (unparsed.length) report.unparsedTerms.push({ name: entry.name, power: entry.power, unparsed });
   if (!scaling && entry.power && !/^-+$/.test(entry.power)) report.noPower += 1;
-  report.effects += effects.length;
 
-  skills.push({
+  const skill = {
     id,
     name: entry.name,
     classes: known,
@@ -555,7 +563,10 @@ for (const entry of raw) {
       url: entry.url,
       ...(entry.transcribed ? { transcribed: true } : {}),
     },
-  });
+  };
+  applyBattleEffects(skill);
+  report.effects += skill.effects.length;
+  skills.push(skill);
 }
 
 /*
@@ -583,6 +594,17 @@ for (const skill of skills) {
   delete skill.requiresRaw;
   if (resolved.length) skill.requires = resolved;
 }
+
+// Live report confirmed by the project owner: Wind ATK is 7/9/11.
+// Append so saved CEL/Move conditional keys remain stable.
+skills.find(skill => skill.id === 'talvyd').effects.push(
+  { kind: 'element', key: 'Wind', valueByRank: [7, 9, 11], applies: 'conditional' },
+);
+
+// Weapon-scoped passive: the wiki lists this in an extra field.
+skills.find(skill => skill.id === 'keyshot').effects = [
+  { kind: 'derived', key: 'critical', valueByRank: [5, 10, 15], applies: 'always', weapons: ['Bow'] },
+];
 
 skills.sort((a, b) => a.name.localeCompare(b.name));
 const text = skills.map((s) => s.text);

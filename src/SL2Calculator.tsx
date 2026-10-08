@@ -150,7 +150,7 @@ export default function SL2Calculator() {
   const traitBaseStats = Object.fromEntries(
     (Object.keys(addedStats) as Array<keyof typeof addedStats>).map(stat => [
       stat,
-      (SUBRACES[subrace]?.[stat] ?? 0) + addedStats[stat] + customBaseStats[stat],
+      (SUBRACES[subrace]?.[stat] ?? 0) + addedStats[stat] + customBaseStats[stat] + (HISTORY[history]?.stats[stat] ?? 0),
     ]),
   );
   const mergedRanks = mergeSkillRanks(skillRanks);
@@ -527,7 +527,7 @@ export default function SL2Calculator() {
                   onOpenYoukai={() => setShowYoukai(true)}
                   onOpenRacials={() => setShowRacials(true)}
                   onOpenTraits={() => setShowTraits(true)}
-                  traitsSpent={traitPointsSpent(traits, race)}
+                  traitsSpent={traitPointsSpent(traits, race, history)}
                   traitsBudget={traitPointBudget(characterLevel)}
                   racials={hasRacialSkills(subrace)}
                   racialCount={racialSkillsFor(subrace).length}
@@ -818,6 +818,7 @@ export default function SL2Calculator() {
               onConditionalsChange={setSkillConditionals}
               destiny={destiny}
               onDestinyChange={setDestiny}
+              budgetContext={{ race, subrace, traits }}
             />
           )}
 

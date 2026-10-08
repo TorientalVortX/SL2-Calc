@@ -182,10 +182,6 @@ for (const [baseName, hierarchy] of Object.entries(classes.hierarchy ?? {})) {
     if (!classes.classes?.[subclass]) fail(`classes.json.hierarchy.${baseName}.subClasses`, `unknown class "${subclass}"`);
   }
 }
-for (const [name, passive] of Object.entries(classes.passives ?? {})) {
-  if (!classes.classes?.[name]) fail(`classes.json.passives.${name}`, 'passive references an unknown class');
-  validateStatRecord(passive.stats, `classes.json.passives.${name}.stats`, true);
-}
 
 const optimizerProfiles = await readJson('optimizer-profiles.json');
 if (optimizerProfiles.schemaVersion !== 1) fail('optimizer-profiles.json.schemaVersion', 'only schema version 1 is supported');
@@ -350,7 +346,7 @@ const SKILL_CATEGORIES = new Set(['Offensive', 'Defensive', 'Support', 'Utility'
 const SKILL_SOURCES = new Set(['weapon', 'element', 'stat', 'flat', 'heal']);
 const ELEMENT_KEYS = new Set(['Fire', 'Ice', 'Wind', 'Earth', 'Dark', 'Water', 'Light', 'Lightning', 'Acid', 'Sound']);
 /** Matches `SkillEffect['kind']` in src/types.ts. */
-const SKILL_EFFECT_KINDS = new Set(['stat', 'derived', 'element']);
+const SKILL_EFFECT_KINDS = new Set(['stat', 'derived', 'element', 'elementResistance']);
 
 const skillData = await readJson('skills.json');
 const skillText = await readJson('skills-text.json');
@@ -385,13 +381,19 @@ else for (const [index, skill] of skillData.skills.entries()) {
     const effectAt = `${at}.effects[${effectIndex}]`;
     if (!SKILL_EFFECT_KINDS.has(effect?.kind)) fail(`${effectAt}.kind`, `expected one of ${[...SKILL_EFFECT_KINDS].map((k) => `"${k}"`).join(', ')}`);
     if (effect?.kind === 'stat' && !STAT_KEYS.has(effect.key)) fail(`${effectAt}.key`, `unknown stat "${effect.key}"`);
-    // An element effect is a flat addition to one element's attack, so its key
-    // has to be an element the calculator actually tracks.
-    if (effect?.kind === 'element' && !ELEMENT_KEYS.has(effect.key)) fail(`${effectAt}.key`, `unknown element "${effect.key}"`);
+    if (effect?.kind === 'element' || effect?.kind === 'elementResistance') {
+      if (effect.elementInput) {
+        if (effect.key !== 'selected' || !skill.inputs?.some(input => input.key === effect.elementInput && input.choices)) {
+          fail(`${effectAt}.elementInput`, 'expected a matching element choice');
+        }
+      } else if (!ELEMENT_KEYS.has(effect.key)) fail(`${effectAt}.key`, `unknown element "${effect.key}"`);
+    }
     if (effect?.applies !== 'always' && effect?.applies !== 'conditional') fail(`${effectAt}.applies`, 'expected "always" or "conditional"');
     if (!Array.isArray(effect?.valueByRank) || effect.valueByRank.length < skill.maxRank) {
       fail(`${effectAt}.valueByRank`, `expected at least ${skill.maxRank} entries`);
     }
+    if (effect?.valueByRank?.some(value => !Number.isFinite(value))) fail(`${effectAt}.valueByRank`, 'expected finite numbers');
+    if (effect?.input && !skill.inputs?.some(input => input.key === effect.input)) fail(`${effectAt}.input`, 'missing input');
   }
   if (!textIds.has(skill?.id)) fail(`${at}.id`, 'has no matching entry in skills-text.json');
 }

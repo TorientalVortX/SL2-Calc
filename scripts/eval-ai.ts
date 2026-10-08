@@ -26,7 +26,7 @@ for (const profile of ENABLED_OPTIMIZER_REFERENCE_PROFILES) {
     const request: AiOptimizationRequest = {
       build: profileBuild(profile), presetId: 'hybrid', constraints: [], locks: {}, defensePlan: 'auto', extraPackage: 'auto',
       referenceProfileId: profile.id, intent: `Use the supplied ${profile.name} popular build as evidence. Recover its proven concept or return a calculator-validated Pareto improvement.`,
-      mode, assumedMainPassiveRank: 3, assumedSubPassiveRank: 3,
+      mode,
     };
     const started = performance.now();
     const response = await runAiOptimization(request);

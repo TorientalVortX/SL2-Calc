@@ -21,6 +21,18 @@ const weaponSlot = (overrides: Record<string, unknown> = {}) => ({
 });
 
 describe('build persistence', () => {
+  it('preserves crystals and White Spirits in files and share links', () => {
+    const build = parseBuildFile(JSON.stringify({ ...legacy, crystalCount: 45, whiteSpiritCount: 5 })).build;
+    const restored = parseBuildFile(JSON.stringify(createBuildFile('Counts', build))).build;
+    expect(restored).toMatchObject({ crystalCount: 45, whiteSpiritCount: 5 });
+    expect(decodeSharePayload(encodeSharePayload('Counts', build)).build).toMatchObject({ crystalCount: 45, whiteSpiritCount: 5 });
+  });
+
+  it('clamps counts and defaults old builds to zero', () => {
+    expect(parseBuildFile(JSON.stringify(legacy)).build).toMatchObject({ crystalCount: 0, whiteSpiritCount: 0 });
+    expect(parseBuildFile(JSON.stringify({ ...legacy, crystalCount: 99, whiteSpiritCount: 9 })).build).toMatchObject({ crystalCount: 45, whiteSpiritCount: 5 });
+    expect(parseBuildFile(JSON.stringify({ ...legacy, crystalCount: -1, whiteSpiritCount: -1 })).build).toMatchObject({ crystalCount: 0, whiteSpiritCount: 0 });
+  });
   it('migrates v0.5 builds without replacing valid zeroes', () => {
     const migrated = parseBuildFile(JSON.stringify(legacy));
     expect(migrated.schemaVersion).toBe(1);

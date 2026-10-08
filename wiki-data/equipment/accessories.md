@@ -5,18 +5,18 @@ kind: "Accessory"
 group: "Accessory"
 item_count: "115"
 source: "https://sl2.miraheze.org/wiki/Accessories"
-scraped: "2026-08-12"
+scraped: "2026-10-07"
 confidence: "strong"
 ---
 # Accessories
 
-**Slots 5 & 6 — Accessories.** 115 items.
+**Slots 5 & 6: Accessories.** 115 items.
 
 Accessories are used to augment your character, occupying the fifth and sixth equipment slots. Typically they offer minor benefits such as providing small stat boosts or elemental resistances. You can equip two accessories but not two of the same one. Some accessories also have types, which you may not be able to equip two of the same type (e.g. Helmets) You can upgrade Accessories at a Blacksmith to increase the two qualities Accessories have: Fortune, which is a percentage increase to not drop items or murai on defeat and Greed, which is a percentage increase to all murai dropped from monsters. You can stack these bonuses with both your Accessories.
 
 ## Quick reference
 
-Effect text is abbreviated here to keep the table scannable — follow an item's name for the full text.
+Effect text is abbreviated here to keep the table scannable; follow an item's name for the full text.
 
 | Rarity | Name | Material | Effects (abbreviated) |
 | --- | --- | --- | --- |
@@ -125,7 +125,7 @@ Effect text is abbreviated here to keep the table scannable — follow an item's
 | 8 | [Thunder Whistle](#thunder-whistle) | Metal | +5 Lightning ATK |
 | 3 | [Tor'Inaeh](#torinaeh) | Metal | 10% chance, when using a Archer skill, that it will not consume FP. |
 | 5 | [Tor'Inaeh Plus](#torinaeh-plus) | Metal | -10% FP cost of Archer skills. (Applied as if it were an Efficiency talent, meaning only … |
-| 8 | [Torando Pendant](#torando-pendant) | Metal | +5 Wind ATK |
+| 8 | [Tornado Pendant](#tornado-pendant) | Metal | +5 Wind ATK |
 | 6 | [Trapper's Bag](#trappers-bag) | Metal | +2 GUI +1 Range to Trap-type skills. |
 | 5 | [Valkyrie Ring](#valkyrie-ring) | Metal | Grants +25 Scaled Weapon Attack while you have 0 Momentum. If you are reduced to 0 HP … |
 | 8 | [Venus Badge](#venus-badge) | Metal | +1 RES, +1 DEF -25% Water Resistance Always treated as enchanted with 'Galren' for … |
@@ -1400,7 +1400,7 @@ _A golden coin with a bow motif in the center in it, hanging from a leather stra
 
 **Found:** Random Drops
 
-### Torando Pendant
+### Tornado Pendant
 
 - **Rarity:** 8★
 - **Material:** Metal

@@ -46,6 +46,7 @@ export interface SkillsDialogProps {
   onConditionalsChange: (next: Record<string, boolean>) => void;
   /** Destiny: 50 points instead of 35, at the cost of every tree but one. */
   destiny: boolean;
+  budgetContext?: import('./domain/skills').SkillBudgetContext;
   onDestinyChange: (next: boolean) => void;
 }
 
@@ -212,6 +213,7 @@ export default function SkillsDialog({
   onConditionalsChange,
   destiny,
   onDestinyChange,
+  budgetContext = {},
 }: SkillsDialogProps) {
   const [slot, setSlot] = useState<Slot>('main');
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -236,10 +238,10 @@ export default function SkillsDialog({
    * rather than one number. A single spent/budget pair would hide the case that
    * matters: full in one class and untouched in another.
    */
-  const allPools = skillPoolSpends(mainClass, subClass, ranks, destiny);
+  const allPools = skillPoolSpends(mainClass, subClass, ranks, destiny, budgetContext);
   const perClass = skillPointBudget(destiny);
   const spent = allPools.reduce((sum, pool) => sum + pool.spent, 0);
-  const budget = allPools.length * perClass;
+  const budget = allPools.reduce((sum, pool) => sum + pool.budget, 0);
   const spentPct = Math.min(100, (spent / Math.max(1, budget)) * 100);
   const overspent = allPools.some(pool => pool.overspent);
   const destinyBroken = destiny && !destinyAllowsClassPair(mainClass, subClass);
@@ -324,7 +326,7 @@ export default function SkillsDialog({
             </button>
           </span>
           <span className={cx('font-mono text-11', overspent ? 'text-negative' : 'text-content-muted')}>
-            {spent} / {budget} points · {allPools.length} × {perClass}
+            {spent} / {budget} points · {allPools.length} class pools
           </span>
         </div>
         <div className="h-[5px] overflow-hidden rounded-3 bg-surface-elevated">

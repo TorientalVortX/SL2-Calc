@@ -14984,8 +14984,8 @@
     ]
   },
   {
-    "id": "accessory:accessory:torando-pendant",
-    "name": "Torando Pendant",
+    "id": "accessory:accessory:tornado-pendant",
+    "name": "Tornado Pendant",
     "slot": 5,
     "kind": "Accessory",
     "group": "Accessory",
@@ -17662,6 +17662,30 @@
     "location": [
       "Random Drops",
       "Beast Drop Table"
+    ]
+  },
+  {
+    "id": "legs:legs:razor-talons",
+    "name": "Razor Talons",
+    "slot": 4,
+    "kind": "Legs",
+    "group": "Legs",
+    "page": "Legs",
+    "rarity": 7,
+    "details": {
+      "material": "Metal",
+      "damageType": "",
+      "subtype": "",
+      "effects": [
+        "While Airborne, when you move into the same tile as an enemy, deal 25 armor-ignoring Slash damage to that enemy. (Once per enemy per action.)",
+        "* Grants Skill: {{#tip-text: Falcon Arc | Falcon Arc Cost: 10 FP / 2M Target: Location Area: Single (Line To) Range: 2 Cooldown: 3 Round(s) Targets a flexible line to an unoccupied tile up to 2 Range away. You flip, becoming Airborne, and float along the line to that tile. If you have Razor Talons equipped, and they are enchanted with Winged, this skill has +1 Range. If you have no armor equipped, or armor that is enchanted with Winged, this skill costs -1M.}}"
+      ],
+      "flavour": "A pair of razor sharp falcon-like boots. They are rather impractical, unless you can somehow fly.",
+      "raw": "'''Material:''' Metal <br>While Airborne, when you move into the same tile as an enemy, deal 25 armor-ignoring Slash damage to that enemy. (Once per enemy per action.) <br>\n* Grants Skill: {{#tip-text: Falcon Arc | Falcon Arc\n\nCost: 10 FP / 2M\n\nTarget: Location\n\nArea: Single (Line To)\n\nRange: 2\n\nCooldown: 3 Round(s)\n\nTargets a flexible line to an unoccupied tile up to 2 Range away. You flip, becoming Airborne, and float along the line to that tile. If you have Razor Talons equipped, and they are enchanted with Winged, this skill has +1 Range. If you have no armor equipped, or armor that is enchanted with Winged, this skill costs -1M.}}\n</small><br><i> A pair of razor sharp falcon-like boots. They are rather impractical, unless you can somehow fly. </i>"
+    },
+    "location": [
+      "Random Drops",
+      "Lightning Drop Table"
     ]
   },
   {

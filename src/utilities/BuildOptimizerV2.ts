@@ -29,7 +29,7 @@ import { CLASSES } from '../data/classes';
 import { ALL_WEAPONS } from '../data/weapons';
 import { CLASS_PAIR_EVIDENCE } from '../data/optimizerKnowledge';
 import { OPTIMIZER_REFERENCE_PROFILE_BY_ID } from '../data/optimizerProfiles';
-import { clampPassiveRank, evaluateBuild, getBaseClass, metricValue, STAT_KEYS } from '../domain/buildEvaluation';
+import { evaluateBuild, getBaseClass, metricValue, STAT_KEYS } from '../domain/buildEvaluation';
 import { validateBuildAgainstGuide } from '../domain/buildGuide';
 import { effectiveWeaponType, findWeaponByName, weaponToConfig } from '../domain/equipment';
 import { effectiveScaling } from '../domain/weaponScaling';
@@ -247,8 +247,6 @@ function buildCandidate(request: OptimizationRequest, pair: ClassPair, weapon: W
     subClass,
     selectedMainBaseClass: getBaseClass(mainClass),
     selectedSubBaseClass: getBaseClass(subClass),
-    mainClassPassive: clampPassiveRank(mainClass, request.assumedMainPassiveRank),
-    subClassPassive: mainClass === subClass ? 0 : clampPassiveRank(subClass, request.assumedSubPassiveRank),
     addedStats: allocation,
     equipment: {
       armorName,
@@ -1190,8 +1188,6 @@ function toCandidate(item: ScoredBuild, request: OptimizationRequest, index: num
       subClass: item.build.subClass,
       selectedMainBaseClass: getBaseClass(item.build.mainClass),
       selectedSubBaseClass: getBaseClass(item.build.subClass),
-      mainClassPassive: item.build.mainClassPassive,
-      subClassPassive: item.build.subClassPassive,
       addedStats: { ...item.build.addedStats },
       traits: [...item.build.traits],
       skillRanks: { main: { ...item.build.skillRanks.main }, sub: { ...item.build.skillRanks.sub } },

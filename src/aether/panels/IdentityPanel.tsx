@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
 import type { StatKey } from '../../types';
 import { SUBRACES } from '../../data/races';
-import { ASTROLOGY_PLANETS, FOODS, HISTORY, PLANET_ELEMENTS } from '../../data/bonuses';
+import { ASTROLOGY_PLANETS, FOODS, PLANET_ELEMENTS } from '../../data/bonuses';
 import { statInk } from '../../data/colors';
 import { Panel } from '../ui/Panel';
-import { SelectField } from '../ui/controls';
+import { NumberField, SelectField } from '../ui/controls';
 import { RACE_NAMES, STAT_KEYS, subracesFor } from '../state/build';
 import type { Builder } from '../state/useBuilder';
 
@@ -54,12 +54,11 @@ export function IdentityPanel({ builder }: { builder: Builder }) {
             onChange={level => dispatch({ type: 'level', level: Number(level) })}
             title="Each level grants 4 attribute points and one trait point every third level."
           />
-          <SelectField
-            label="History"
-            value={build.history}
-            options={Object.keys(HISTORY).map(name => ({ value: name, label: name }))}
-            onChange={history => dispatch({ type: 'field', patch: { history } })}
-            title={HISTORY[build.history]?.description ?? ''}
+          <NumberField
+            label="Crystals"
+            value={build.crystalCount ?? 0}
+            min={0} max={45}
+            onChange={crystalCount => dispatch({ type: 'field', patch: { crystalCount: Math.floor(crystalCount) } })}
           />
         </div>
 

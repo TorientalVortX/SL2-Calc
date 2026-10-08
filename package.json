@@ -1,6 +1,6 @@
 {
   "name": "sl2-calculator",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -13,6 +13,7 @@
     "flow:mobile": "node scripts/aether-mobile-flow.mjs",
     "validate:data": "node scripts/validate-data.mjs",
     "scrape:wiki": "node scripts/scrape-wiki.mjs",
+    "scrape:mixtures": "node scripts/refresh-mixtures.mjs",
     "build:skills": "node scripts/build-skill-data.mjs",
     "scrape:races": "node scripts/scrape-races.mjs",
     "scrape:equipment": "node scripts/scrape-equipment.mjs",

@@ -33,7 +33,7 @@ const rawPowerPreset: OptimizationPreset = { id: 'raw-power', name: 'Raw Power',
 
 describe('deterministic stat optimizer', () => {
   it('returns a repeatable exact-budget allocation', () => {
-    const request = { build: baseBuild(), preset: OPTIMIZATION_PRESETS.hybrid, constraints: [], searchClasses: false, assumedMainPassiveRank: 0, assumedSubPassiveRank: 0, resultLimit: 3 };
+    const request = { build: baseBuild(), preset: OPTIMIZATION_PRESETS.hybrid, constraints: [], searchClasses: false, resultLimit: 3 };
     const first = optimizeBuild(request);
     const second = optimizeBuild(request);
     expect(first.candidates[0].patch).toEqual(second.candidates[0].patch);
@@ -42,7 +42,7 @@ describe('deterministic stat optimizer', () => {
   });
 
   it('reports exact deficits for infeasible minimums', () => {
-    const result = optimizeBuild({ build: baseBuild(), preset: OPTIMIZATION_PRESETS.tank, constraints: [{ metric: 'maxHP', minimum: 99999 }], searchClasses: false, assumedMainPassiveRank: 0, assumedSubPassiveRank: 0 });
+    const result = optimizeBuild({ build: baseBuild(), preset: OPTIMIZATION_PRESETS.tank, constraints: [{ metric: 'maxHP', minimum: 99999 }], searchClasses: false });
     expect(result.candidates[0].feasible).toBe(false);
     expect(result.candidates[0].constraintDeficits.maxHP).toBeGreaterThan(0);
   });
@@ -52,7 +52,7 @@ describe('deterministic stat optimizer', () => {
     strBuild.equipment.primaryWeapon = weapon({ ...zeroScaling(), str: 100 });
     const wilBuild = baseBuild(5);
     wilBuild.equipment.primaryWeapon = weapon({ ...zeroScaling(), wil: 100 });
-    const common = { preset: powerPreset, constraints: [], searchClasses: false, assumedMainPassiveRank: 0, assumedSubPassiveRank: 0 };
+    const common = { preset: powerPreset, constraints: [], searchClasses: false };
     const str = optimizeBuild({ ...common, build: strBuild }).candidates[0].patch.addedStats;
     const wil = optimizeBuild({ ...common, build: wilBuild }).candidates[0].patch.addedStats;
     expect(str.str).toBeGreaterThan(str.wil);
@@ -69,7 +69,7 @@ describe('deterministic stat optimizer', () => {
     strBuild.equipment.primaryWeapon = weapon({ ...zeroScaling(), str: 100 });
     const wilBuild = baseBuild(5);
     wilBuild.equipment.primaryWeapon = weapon({ ...zeroScaling(), wil: 100 });
-    const common = { preset: rawPowerPreset, constraints: [], searchClasses: false, assumedMainPassiveRank: 0, assumedSubPassiveRank: 0 };
+    const common = { preset: rawPowerPreset, constraints: [], searchClasses: false };
     const str = optimizeBuild({ ...common, build: strBuild }).candidates[0];
     const wil = optimizeBuild({ ...common, build: wilBuild }).candidates[0];
 
@@ -78,17 +78,20 @@ describe('deterministic stat optimizer', () => {
   });
 
   it('returns three stable unique class candidates and normalizes polearms', () => {
-    const result = optimizeBuild({ build: baseBuild(1), preset: OPTIMIZATION_PRESETS.hybrid, constraints: [], searchClasses: true, assumedMainPassiveRank: 99, assumedSubPassiveRank: 99, resultLimit: 3 });
+    const result = optimizeBuild({ build: baseBuild(1), preset: OPTIMIZATION_PRESETS.hybrid, constraints: [], searchClasses: true, resultLimit: 3 });
     expect(new Set(result.candidates.map(candidate => `${candidate.patch.mainClass}/${candidate.patch.subClass}`)).size).toBe(3);
     expect(result.evaluatedClassPairs).toBe(Object.keys(CLASSES).length ** 2);
     expect(normalizeWeaponCategory('Polearm')).toBe('Spears');
-    expect(result.candidates.every(candidate => candidate.patch.mainClassPassive <= 99 && candidate.patch.subClassPassive <= 99)).toBe(true);
+    for (const candidate of result.candidates) {
+      expect(candidate.patch).not.toHaveProperty('mainClassPassive');
+      expect(candidate.patch).not.toHaveProperty('subClassPassive');
+    }
   });
 
   it('locks a user-selected primary class while comparing secondary classes', () => {
     const result = optimizeBuild({
       build: baseBuild(1), preset: OPTIMIZATION_PRESETS.hybrid, constraints: [], primaryClass: 'Ghost',
-      searchClasses: true, assumedMainPassiveRank: 5, assumedSubPassiveRank: 5, resultLimit: 3,
+      searchClasses: true, resultLimit: 3,
     });
     expect(result.evaluatedClassPairs).toBe(Object.keys(CLASSES).length);
     expect(result.candidates.every(candidate => candidate.patch.mainClass === 'Ghost')).toBe(true);
@@ -103,7 +106,7 @@ describe('deterministic stat optimizer', () => {
     build.mainClass = profile.primaryClass;
     const result = optimizeBuild({
       build, preset: OPTIMIZATION_PRESETS.hybrid, constraints: [], primaryClass: profile.primaryClass,
-      referenceProfileId: profile.id, searchClasses: true, assumedMainPassiveRank: 5, assumedSubPassiveRank: 5, resultLimit: 3,
+      referenceProfileId: profile.id, searchClasses: true, resultLimit: 3,
     });
     expect(result.candidates[0].patch.mainClass).toBe('Ghost');
     expect(result.candidates[0].patch.subClass).toBe('Black Knight');
@@ -117,7 +120,7 @@ describe('deterministic stat optimizer', () => {
     build.subrace = profile.subrace;
     build.mainClass = profile.primaryClass;
     build.subClass = profile.secondaryClass;
-    const common = { build, preset: OPTIMIZATION_PRESETS.hybrid, constraints: [], primaryClass: profile.primaryClass, searchClasses: false, assumedMainPassiveRank: 0, assumedSubPassiveRank: 0 };
+    const common = { build, preset: OPTIMIZATION_PRESETS.hybrid, constraints: [], primaryClass: profile.primaryClass, searchClasses: false };
     const withoutProfile = optimizeBuild(common).candidates[0].patch.addedStats;
     const withProfile = optimizeBuild({ ...common, referenceProfileId: profile.id }).candidates[0].patch.addedStats;
     const priorityTotal = (stats: StatRecord) => profile.priorityStats.reduce((sum, stat) => sum + stats[stat], 0);
@@ -127,7 +130,6 @@ describe('deterministic stat optimizer', () => {
   it('treats the supported SL2BuildInfo endgame baselines as ranking requirements', () => {
     const result = optimizeBuild({
       build: baseBuild(60), preset: OPTIMIZATION_PRESETS.hybrid, constraints: [], searchClasses: false,
-      assumedMainPassiveRank: 0, assumedSubPassiveRank: 0,
     });
     const candidate = result.candidates[0];
     expect(Math.floor(candidate.evaluation.scaledStats.apt)).toBe(48);
@@ -146,7 +148,7 @@ describe('deterministic stat optimizer', () => {
       build.karakuriYoukai = profile.karakuriYoukai ?? 'None';
       const result = optimizeBuild({
         build, preset: OPTIMIZATION_PRESETS.hybrid, constraints: [], primaryClass: profile.primaryClass,
-        referenceProfileId: profile.id, searchClasses: false, assumedMainPassiveRank: 3, assumedSubPassiveRank: 3,
+        referenceProfileId: profile.id, searchClasses: false,
       });
       expect(result.candidates[0].evaluation.pointsSpent, profile.id).toBe(4);
       expect(result.candidates[0].patch.mainClass, profile.id).toBe(profile.primaryClass);
@@ -184,7 +186,7 @@ describe('preset damage weights', () => {
     build.equipment.primaryWeapon = weapon({ ...zeroScaling(), str: 100 });
     const result = optimizeBuild({
       build, preset: OPTIMIZATION_PRESETS.glass_cannon, constraints: [],
-      searchClasses: false, assumedMainPassiveRank: 0, assumedSubPassiveRank: 0, resultLimit: 1,
+      searchClasses: false, resultLimit: 1,
     });
     expect(result.candidates[0].patch.addedStats.str).toBeGreaterThan(0);
   });

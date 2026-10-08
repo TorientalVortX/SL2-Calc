@@ -173,6 +173,10 @@ export function readoutGroups(evaluation: BuildEvaluation): ReadoutGroup[] {
           partial: true,
           hint: 'Weapon and torso weight against a capacity of scaled STR + 5. Slots 3–6 have no published weight.',
         },
+        ...(d.mutagenPotency ? [
+          { key: 'mutagenPotency', label: 'Mutagen Potency', value: d.mutagenPotency, format: 'integer' as const, stats: [] as StatKey[], hint: 'Active Mutagen effects plus 10 per effect beyond the first' },
+          { key: 'complexMutationChance', label: 'Complex Mutation', value: d.complexMutationChance, format: 'percent' as const, stats: [] as StatKey[], hint: 'New-round chance: 2 x Potency minus Status Resist, with +15 resistance for Shapeshifter and Chimera during this check' },
+        ] : []),
         { key: 'encumbrance', label: 'Encumbrance', value: d.encumbrance, format: 'integer', stats: ['str', 'vit'], hint: 'Scaled STR + scaled VIT + 5' },
       ],
     },
@@ -231,12 +235,8 @@ export interface StatBreakdown {
 /**
  * One stat, split into the four figures that explain its total.
  *
- * `evaluateBuild` reports the raw and scaled totals but not their provenance (a
- * dozen sources are summed inside it), so the middle term here is arithmetic
- * rather than attribution: whatever the raw total holds that the floor and the
- * allocation do not account for. That keeps the three parts adding up to the raw
- * total exactly, which is the property a breakdown has to have; it cannot name
- * the individual sources, and does not claim to.
+ * The aggregate is computed from the evaluated totals. The stat dialog requests
+ * the evaluator's optional statSources to expand that aggregate into named rows.
  *
  * The floor comes from the cap rather than from the racial line, because the cap
  * is measured against the same pre-allocation total: subrace, base corrections,

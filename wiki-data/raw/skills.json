@@ -4134,6 +4134,648 @@
     "description": "When you fight up close and personal all the time, it's important to be able to move quickly, especially if you're on the offensive.\n\nIncreases your Evade by your Schwarz Sturm level * 2."
   },
   {
+    "name": "Alchemic Barrage",
+    "title": "Alchemic Barrage",
+    "class": "Chemist",
+    "type": "Offensive",
+    "typeRaw": "",
+    "maxRank": "1",
+    "fp": "35",
+    "momentum": "",
+    "range": "2",
+    "power": "--",
+    "target": "Single",
+    "cooldown": "",
+    "restriction": "",
+    "transcribed": false,
+    "flags": [
+      "Enemy Only"
+    ],
+    "extras": [
+      [
+        "Required weapon",
+        "Bow, Gun, Fist, Strings"
+      ],
+      [
+        "Tags",
+        "Alchemic"
+      ]
+    ],
+    "url": "https://sl2.miraheze.org/wiki/Alchemic_Barrage",
+    "description": "Requires an unused Magic Stone in your item belt. Prepares a barrage, up to 1 per chemical type (A, B, etc.), up to a max of your Momentum. Then, launches them at an enemy in 2 Range as Alchemic Bullets. Momentum cost equals the number of Stones used.\n\nDamage against your Marked Targets consumes the mark to increase damage by its LV% and gain Great Accuracy. +2 Range under Longdraw and consumes it."
+  },
+  {
+    "name": "Alchemic Bullet",
+    "title": "Alchemic Bullet",
+    "class": "Chemist",
+    "type": "Offensive",
+    "typeRaw": "",
+    "maxRank": "1",
+    "fp": "25",
+    "momentum": "2",
+    "range": "5",
+    "power": "--",
+    "target": "Single",
+    "cooldown": "",
+    "restriction": "",
+    "transcribed": false,
+    "flags": [
+      "Enemy Only"
+    ],
+    "extras": [
+      [
+        "Required weapon",
+        "Bow, Gun, Fist, Strings"
+      ],
+      [
+        "Tags",
+        "Alchemic"
+      ]
+    ],
+    "url": "https://sl2.miraheze.org/wiki/Alchemic_Bullet",
+    "description": "Requires an unused Magic Stone in your item belt. Fire the top-most Magic Stone at an enemy within 5 Range as an Alchemic Bullet.\n\nDamage against your Marked Targets consumes the mark to increase damage by its LV% and gain Great Accuracy. +2 Range under Longdraw and consumes it."
+  },
+  {
+    "name": "Eight-Pointed Weaving",
+    "title": "Eight-Pointed Weaving",
+    "class": "Chemist",
+    "type": "Offensive",
+    "typeRaw": "",
+    "maxRank": "3",
+    "fp": "24/22/20",
+    "momentum": "3",
+    "range": "",
+    "power": "--",
+    "target": "Octagon (1-3)",
+    "cooldown": "1 Round(s)",
+    "restriction": "",
+    "transcribed": false,
+    "flags": [
+      "Enemy Only"
+    ],
+    "extras": [
+      [
+        "Required weapon",
+        "Strings"
+      ]
+    ],
+    "url": "https://sl2.miraheze.org/wiki/Eight-Pointed_Weaving",
+    "description": "Targets a 1-3 Size Octagon around yourself, weaving a complex shape of strings, which last until your next turn, which deals Slash damage to enemies in those tiles or who cross over it (once).\n\nIf you have Coated Ammo active, 1 LV is used to coat the strings; any enemies that trigger them will also have its effect applied to them (once, doesn't use further LVs)."
+  },
+  {
+    "name": "Forgotten Brew",
+    "title": "Forgotten Brew",
+    "class": "Chemist",
+    "type": "Offensive",
+    "typeRaw": "",
+    "maxRank": "1",
+    "fp": "10",
+    "momentum": "2",
+    "range": "2",
+    "power": "--",
+    "target": "Single",
+    "cooldown": "2 Round(s)",
+    "restriction": "",
+    "transcribed": false,
+    "flags": [
+      "Location"
+    ],
+    "extras": [],
+    "url": "https://sl2.miraheze.org/wiki/Forgotten_Brew",
+    "description": "Dig up something from your belongings that you completely forgot mixing. Targets 1 tile in X Range (based on Rank) and applies the forgotten brew at it, just as if you'd use Use Mixture.\n\nThe forgotten brew is not part of your normal Flasks, in case you were unaware. You are also unaware of exactly what it is - it could be anything. Drink at your own risk!"
+  },
+  {
+    "name": "Shake Shake",
+    "title": "Shake Shake",
+    "class": "Chemist",
+    "type": "Offensive",
+    "typeRaw": "",
+    "maxRank": "1",
+    "fp": "5",
+    "momentum": "1",
+    "range": "",
+    "power": "--",
+    "target": "Single",
+    "cooldown": "1 Round(s)",
+    "restriction": "",
+    "transcribed": false,
+    "flags": [
+      "Ally Only"
+    ],
+    "extras": [],
+    "url": "https://sl2.miraheze.org/wiki/Shake_Shake",
+    "description": "Must have a completed Flask selected. Give it a good shake (ill-advised), which causes it to become an Unstable Mixture. If it's already unstable, well..."
+  },
+  {
+    "name": "Lick Weapon",
+    "title": "Lick Weapon",
+    "class": "Chemist",
+    "type": "Defensive",
+    "typeRaw": "",
+    "maxRank": "1",
+    "fp": "0",
+    "momentum": "1",
+    "range": "",
+    "power": "--",
+    "target": "Diamond (3)",
+    "cooldown": "1 Round(s)",
+    "restriction": "",
+    "transcribed": false,
+    "flags": [
+      "Enemy Only"
+    ],
+    "extras": [],
+    "url": "https://sl2.miraheze.org/wiki/Lick_Weapon",
+    "description": "Lick your weapon in an unsettling, intimidating, or cool(?) manner. Enemies in 2 Range who do not have Hesitation may be inflicted with Hesitation (LV 10, until your next turn).\n\nIf you have Coated Ammo, you apply its effects to yourself."
+  },
+  {
+    "name": "Safety Gear",
+    "title": "Safety Gear",
+    "class": "Chemist",
+    "type": "Defensive",
+    "typeRaw": "",
+    "maxRank": "3",
+    "fp": "5",
+    "momentum": "2",
+    "range": "",
+    "power": "--",
+    "target": "Single",
+    "cooldown": "1 Round(s)",
+    "restriction": "",
+    "transcribed": false,
+    "flags": [
+      "Ally Only"
+    ],
+    "extras": [],
+    "url": "https://sl2.miraheze.org/wiki/Safety_Gear",
+    "description": "Equip yourself in protective safety gear. You gain Safety Gear (LV X, Permanent Duration) or remove it (restores 2M). It will protect you from common hazards, including some you may expose yourself to, but it's rather bulky and difficult to talk in.\n\nIf you have a Personal Wardrobe with an outfit named 'Safety Gear', it will be applied/removed when you put on your gear."
+  },
+  {
+    "name": "Bolt Delivery",
+    "title": "Bolt Delivery",
+    "class": "Chemist",
+    "type": "Support",
+    "typeRaw": "",
+    "maxRank": "3",
+    "fp": "0",
+    "momentum": "2",
+    "range": "2",
+    "power": "--",
+    "target": "Single",
+    "cooldown": "",
+    "restriction": "",
+    "transcribed": false,
+    "flags": [
+      "Location"
+    ],
+    "extras": [
+      [
+        "Required weapon",
+        "Bow, Gun, Fist, Strings"
+      ]
+    ],
+    "url": "https://sl2.miraheze.org/wiki/Bolt_Delivery",
+    "description": "Requires your currently selected Mixture to be complete. Targets 1 tile within X Range (boosted by Longdraw & consumes it). If the tile is your location, you gain Long Range Item (LV 3, until your next turn).\n\nOtherwise, you launch your Mixture at that location with an appropriate weapon, applying it as if used by Use Mixture."
+  },
+  {
+    "name": "Coat Ammunition",
+    "title": "Coat Ammunition",
+    "class": "Chemist",
+    "type": "Support",
+    "typeRaw": "",
+    "maxRank": "3",
+    "fp": "10",
+    "momentum": "3",
+    "range": "2",
+    "power": "--",
+    "target": "Single",
+    "cooldown": "",
+    "restriction": "",
+    "transcribed": false,
+    "flags": [
+      "Ally Only"
+    ],
+    "extras": [],
+    "url": "https://sl2.miraheze.org/wiki/Coat_Ammunition",
+    "description": "Requires your current loaded Mixture to be complete. Target 1 unit within 2 Range with a Bow, Gun, Dagger, Strings, or monster weapon and coat it in your Mixture, giving them Coated Ammo (LV X, 5 rounds).\n\nDepending on the Mixture, it may not be suitable for this purpose. (Including Unstable and Evaporation mixtures, among others.)"
+  },
+  {
+    "name": "Continuous Production",
+    "title": "Continuous Production",
+    "class": "Chemist",
+    "type": "Support",
+    "typeRaw": "",
+    "maxRank": "3",
+    "fp": "5",
+    "momentum": "2",
+    "range": "",
+    "power": "--",
+    "target": "Single",
+    "cooldown": "4 Round(s)",
+    "restriction": "",
+    "transcribed": false,
+    "flags": [
+      "Ally Only"
+    ],
+    "extras": [],
+    "url": "https://sl2.miraheze.org/wiki/Continuous_Production",
+    "description": "Requires your selected Mixture be completed. Hunker down for a long production cycle, gaining Continuous Production (LV = Rank, 5 rounds).\n\nEffect will prefer to use chemicals if possible; otherwise, the first available battle item will be used. No effect if you lack the proper resources or empty flasks."
+  },
+  {
+    "name": "Dynamic Rainshot",
+    "title": "Dynamic Rainshot",
+    "class": "Chemist",
+    "type": "Support",
+    "typeRaw": "",
+    "maxRank": "3",
+    "fp": "15",
+    "momentum": "3",
+    "range": "5",
+    "power": "--",
+    "target": "Star (3)",
+    "cooldown": "3 Round(s)",
+    "restriction": "",
+    "transcribed": false,
+    "flags": [
+      "Location"
+    ],
+    "extras": [
+      [
+        "Required weapon",
+        "Bow, Gun, Fist, Strings"
+      ]
+    ],
+    "url": "https://sl2.miraheze.org/wiki/Dynamic_Rainshot",
+    "description": "Requires your currently selected Mixture to be complete. Targets 2 tiles within 5 Range. First, throw the Mixture towards Location 1. Then, slide to Location 2 and take a shot at it - if it hits, its effects are applied in a Size 3 Star with -20% Efficacy.\n\nThere is a chance you'll miss based on how far you move, in which case the Mixture will just hit the ground. (Higher Dynamic Shooting ranks decrease miss rate.)"
+  },
+  {
+    "name": "Hasty Mixture",
+    "title": "Hasty Mixture",
+    "class": "Chemist",
+    "type": "Support",
+    "typeRaw": "",
+    "maxRank": "1",
+    "fp": "10",
+    "momentum": "2",
+    "range": "",
+    "power": "--",
+    "target": "Single",
+    "cooldown": "2 Round(s)",
+    "restriction": "",
+    "transcribed": false,
+    "flags": [
+      "Ally Only"
+    ],
+    "extras": [],
+    "url": "https://sl2.miraheze.org/wiki/Hasty_Mixture",
+    "description": "Must have a completely empty active Flask. Hastily throw together whatever you can find in arm's reach and create a Mixture without consuming resources; however, the Base and Chemicals are randomly selected."
+  },
+  {
+    "name": "Outsourced Collection",
+    "title": "Outsourced Collection",
+    "class": "Chemist",
+    "type": "Support",
+    "typeRaw": "",
+    "maxRank": "3",
+    "fp": "10",
+    "momentum": "1",
+    "range": "7",
+    "power": "--",
+    "target": "Single",
+    "cooldown": "",
+    "restriction": "",
+    "transcribed": false,
+    "flags": [
+      "Ally Only"
+    ],
+    "extras": [],
+    "url": "https://sl2.miraheze.org/wiki/Outsourced_Collection",
+    "description": "Targets 1 of your summoned units or mercenaries in 7 Range (except units with Summon Limit/Fading Clone, etc.) and sends them out to gather ingredients for you. Inflicts them with Removed From Battle and Outsourced Collection (LV X, based on Rank).\n\nLasts for 3 rounds (-1 round for every 30 Scaled CEL of target. Min. 1)."
+  },
+  {
+    "name": "Collect Ingredients",
+    "title": "Collect Ingredients",
+    "class": "Chemist",
+    "type": "Utility",
+    "typeRaw": "",
+    "maxRank": "1",
+    "fp": "5",
+    "momentum": "2",
+    "range": "2",
+    "power": "--",
+    "target": "Single",
+    "cooldown": "1 Round(s)",
+    "restriction": "",
+    "transcribed": false,
+    "flags": [
+      "Location"
+    ],
+    "extras": [],
+    "url": "https://sl2.miraheze.org/wiki/Collect_Ingredients",
+    "description": "Targets 1 tile in 2 Range with a field object that produces a chemical, and gathers 1 dose of that chemical from it (some objects may be destroyed when harvested). Plants are often good sources of chemicals.\n\nGathered chemicals are stored for use with Create Mixture. At the start of a new round, if you are standing on a Nest, this skill's effect is automatically applied to it."
+  },
+  {
+    "name": "Create Mixture",
+    "title": "Create Mixture",
+    "class": "Chemist",
+    "type": "Utility",
+    "typeRaw": "",
+    "maxRank": "3",
+    "fp": "0",
+    "momentum": "2",
+    "range": "",
+    "power": "--",
+    "target": "Single",
+    "cooldown": "1 Round(s)",
+    "restriction": "",
+    "transcribed": false,
+    "flags": [
+      "Ally Only"
+    ],
+    "extras": [],
+    "url": "https://sl2.miraheze.org/wiki/Create_Mixture",
+    "description": "Create a unique concoction known as a Chemist Mixture. Each Mixture is created by combining a Base with two Chemicals in a Flask, and have wildly varying effects. The Mixture is used by various other Chemist skills, or on its own with Use Mixture.\n\nThe amount of Flasks you have is equal to 2 + Rank. (Flasks are reusable, even if broken, or misplaced, or melted, or eaten. This skill must be equipped to use Flasks, however!)"
+  },
+  {
+    "name": "Dillution",
+    "title": "Dillution",
+    "class": "Chemist",
+    "type": "Utility",
+    "typeRaw": "",
+    "maxRank": "3",
+    "fp": "5",
+    "momentum": "2",
+    "range": "2",
+    "power": "--",
+    "target": "Single",
+    "cooldown": "1 Round(s)",
+    "restriction": "",
+    "transcribed": false,
+    "flags": [
+      "Enemy Only"
+    ],
+    "extras": [],
+    "url": "https://sl2.miraheze.org/wiki/Dillution",
+    "description": "Targets 1 Water tile in 2 Range. If your currently selected Mixture is complete (and not Dilluted), and you have an empty flask, you split it between those flasks, duplicating it, but both become Dilluted (-X% Efficacy). The excess is used to restore 1 per battle use of 1 Potion-class in your item belt (which has been used, randomly).\n\nUsing the water will also destroy the field tile you target."
+  },
+  {
+    "name": "Evaporative",
+    "title": "Evaporative",
+    "class": "Chemist",
+    "type": "Utility",
+    "typeRaw": "",
+    "maxRank": "1",
+    "fp": "10",
+    "momentum": "1",
+    "range": "",
+    "power": "--",
+    "target": "Single",
+    "cooldown": "1 Round(s)",
+    "restriction": "",
+    "transcribed": false,
+    "flags": [
+      "Ally Only"
+    ],
+    "extras": [],
+    "url": "https://sl2.miraheze.org/wiki/Evaporative",
+    "description": "Requires your currently loaded Mixture to be complete. Add a reagent to it that causes rapid vaporization, turning it into an Evaporating Mixture."
+  },
+  {
+    "name": "Ichor Recoating",
+    "title": "Ichor Recoating",
+    "class": "Chemist",
+    "type": "Utility",
+    "typeRaw": "",
+    "maxRank": "1",
+    "fp": "10",
+    "momentum": "1",
+    "range": "",
+    "power": "--",
+    "target": "Single",
+    "cooldown": "2 Round(s)",
+    "restriction": "",
+    "transcribed": false,
+    "flags": [
+      "Ally Only"
+    ],
+    "extras": [],
+    "url": "https://sl2.miraheze.org/wiki/Ichor_Recoating",
+    "description": "Utilize a direct infusion of focus from your blood to replenish magic stones.\n\nYou take 10 protection-ignoring Pierce Kickback Damage, and restore 1 per battle use of a random Magic Stone in your item belt. by coating it with your blood. Furthermore, you apply or power up Ichor Recoating (LV 1, permanent, max LV 10)."
+  },
+  {
+    "name": "Powder Arrows",
+    "title": "Powder Arrows",
+    "class": "Chemist",
+    "type": "Utility",
+    "typeRaw": "",
+    "maxRank": "1",
+    "fp": "5",
+    "momentum": "1",
+    "range": "",
+    "power": "--",
+    "target": "Single",
+    "cooldown": "1 Round(s)",
+    "restriction": "",
+    "transcribed": false,
+    "flags": [
+      "Ally Only"
+    ],
+    "extras": [],
+    "url": "https://sl2.miraheze.org/wiki/Powder_Arrows",
+    "description": "Requires you to have Elemental Arrows loaded. Grind some of those arrows down into powder, expending 3 LV of them to gain 1 dose of a chemical based on its element. (Fire = A, Ice = B, Stone = C, Gust = D).\n\nAlso gain Embered Ashes (LV 1, 2 rounds) with the same element."
+  },
+  {
+    "name": "Quick Refresher",
+    "title": "Quick Refresher",
+    "class": "Chemist",
+    "type": "Utility",
+    "typeRaw": "",
+    "maxRank": "1",
+    "fp": "5",
+    "momentum": "2",
+    "range": "",
+    "power": "--",
+    "target": "Single",
+    "cooldown": "1 Round(s)",
+    "restriction": "",
+    "transcribed": false,
+    "flags": [
+      "Ally Only"
+    ],
+    "extras": [
+      [
+        "Required weapon",
+        "Tome"
+      ]
+    ],
+    "url": "https://sl2.miraheze.org/wiki/Quick_Refresher",
+    "description": "Flip through your notes, gaining Quick Refresher (LV 15, permanent) if you don't already have it. You then gain renewed insight on a certain Mixture (randomly chosen). Furthermore, you will know if a Mystery Mixture is of a type you have studied when selecting it.\n\nWhen Prepared Mixture's effect triggers, and this skill is equipped and can be used, you gain its effects for that Mixture."
+  },
+  {
+    "name": "Restocking",
+    "title": "Restocking",
+    "class": "Chemist",
+    "type": "Utility",
+    "typeRaw": "",
+    "maxRank": "1",
+    "fp": "20",
+    "momentum": "5",
+    "range": "",
+    "power": "--",
+    "target": "Single",
+    "cooldown": "6 Round(s)",
+    "restriction": "",
+    "transcribed": false,
+    "flags": [
+      "Ally Only"
+    ],
+    "extras": [],
+    "url": "https://sl2.miraheze.org/wiki/Restocking",
+    "description": "Spend some time (and maybe money) to make sure you have everything you need.\n\nRestores 1 per-battle use of all Potion class items in your item belt. If 15+ Fanciness is available, reduces Momentum cost by 1 per 15 (up to -2 Momentum & 30 Fanciness) by spending it."
+  },
+  {
+    "name": "Chaotic Chemist",
+    "title": "Chaotic Chemist",
+    "class": "Chemist",
+    "type": "Passive",
+    "typeRaw": "",
+    "maxRank": "2",
+    "fp": "",
+    "momentum": "3",
+    "range": "",
+    "power": "--",
+    "target": "Single",
+    "cooldown": "",
+    "restriction": "",
+    "transcribed": false,
+    "flags": [
+      "N/A"
+    ],
+    "extras": [],
+    "url": "https://sl2.miraheze.org/wiki/Chaotic_Chemist",
+    "description": "You do not follow trivial things like recipes or safety guidelines. While equipped, your Mixtures become Mystery Mixtures. At the start of a new round, and when you use Create Mixture, you create a random completed Mixture. (Create Mixture will still use chemical resources, but results may vary.)\n\nOut of flasks when a new round hits? No problem! You'll just empty one out on a random nearby tile."
+  },
+  {
+    "name": "Chemist's Belt",
+    "title": "Chemist's Belt",
+    "class": "Chemist",
+    "type": "Passive",
+    "typeRaw": "",
+    "maxRank": "2",
+    "fp": "",
+    "momentum": "3",
+    "range": "",
+    "power": "--",
+    "target": "Single",
+    "cooldown": "",
+    "restriction": "",
+    "transcribed": false,
+    "flags": [
+      "N/A"
+    ],
+    "extras": [
+      [
+        "Restriction",
+        "Main Class Only"
+      ]
+    ],
+    "url": "https://sl2.miraheze.org/wiki/Chemist's_Belt",
+    "description": "What is a chemist to do when they simply can't carry everything they need for their job? Get a belt, obviously.\n\nWhile equipped, your Battle Weight increases by 10, but you gain 5 additional Item Belt slots."
+  },
+  {
+    "name": "Mad Science",
+    "title": "Mad Science",
+    "class": "Chemist",
+    "type": "Passive",
+    "typeRaw": "",
+    "maxRank": "2",
+    "fp": "",
+    "momentum": "3",
+    "range": "",
+    "power": "--",
+    "target": "Single",
+    "cooldown": "",
+    "restriction": "",
+    "transcribed": false,
+    "flags": [
+      "N/A"
+    ],
+    "extras": [
+      [
+        "Restriction",
+        "Main Class Only"
+      ]
+    ],
+    "url": "https://sl2.miraheze.org/wiki/Mad_Science",
+    "description": "Your Mystery Mixtures are guaranteed to trigger a Mixture Bonus effect, and doubles the efficacy bonus given by Mystery Unstable Mixtures. Furthermore, if you have Quick Refresher equipped and can use it, being affected by your own Mystery Mixture automatically studies it.\n\nHowever, when created and at the start of a new round, your Mixtures have a 5% chance to become unstable (+5% every time it fails to). Mad science is not without risks!"
+  },
+  {
+    "name": "Needle & Thread",
+    "title": "Needle & Thread",
+    "class": "Chemist",
+    "type": "Passive",
+    "typeRaw": "",
+    "maxRank": "2",
+    "fp": "",
+    "momentum": "3",
+    "range": "",
+    "power": "--",
+    "target": "Single",
+    "cooldown": "",
+    "restriction": "",
+    "transcribed": false,
+    "flags": [
+      "N/A"
+    ],
+    "extras": [],
+    "url": "https://sl2.miraheze.org/wiki/Needle_%26_Thread",
+    "description": "When using the Attack skill of your Bow or Gun weapon, if you have a different Strings weapon equipped, you also perform a basic attack with the Strings which deals 15% normal damage. (Does not stack with similar effects.)"
+  },
+  {
+    "name": "Prepared Mixture",
+    "title": "Prepared Mixture",
+    "class": "Chemist",
+    "type": "Passive",
+    "typeRaw": "",
+    "maxRank": "2",
+    "fp": "",
+    "momentum": "3",
+    "range": "",
+    "power": "--",
+    "target": "Single",
+    "cooldown": "",
+    "restriction": "",
+    "transcribed": false,
+    "flags": [
+      "N/A"
+    ],
+    "extras": [],
+    "url": "https://sl2.miraheze.org/wiki/Prepared_Mixture",
+    "description": "While equipped, at the start of monster battles, you begin with a Mixture. The Base will be based on the category of the first skill equipped in your skill pool, while the chemicals are based on the first 2 battle items in your item belt. (Requires Create Mixture and 2 valid battle items equipped.)\n\nIf Monoclassing Chemist, applies at the start of ANY battle."
+  },
+  {
+    "name": "Spillage",
+    "title": "Spillage",
+    "class": "Chemist",
+    "type": "Passive",
+    "typeRaw": "",
+    "maxRank": "3",
+    "fp": "",
+    "momentum": "3",
+    "range": "",
+    "power": "--",
+    "target": "Single",
+    "cooldown": "",
+    "restriction": "",
+    "transcribed": false,
+    "flags": [
+      "N/A"
+    ],
+    "extras": [],
+    "url": "https://sl2.miraheze.org/wiki/Spillage",
+    "description": "You know, like, when just stuff gets spilled.\n\nWhile equipped, when you are defeated in battle, all of your completed Mixtures fall from your control, spilling their contents on a random tile within X Range (based on Rank). The effect is the same as if you used Use Mixture on said tiles."
+  },
+  {
     "name": "Perfected Tolerance",
     "title": "Perfected Tolerance",
     "class": "Chemist",

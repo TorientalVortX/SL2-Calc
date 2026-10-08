@@ -82,12 +82,22 @@ describe('talent effects', () => {
     const effects = talentEffects({ talents: { 'capacity/depth': 5, 'pyromancy/efficiency': 4 } });
     expect(effects.maxFp).toBe(25);
     // Reported as a positive discount rather than a negative cost.
-    expect(effects.fpCostPercent).toBe(12);
+    expect(effects.fpCostDiscounts).toEqual({ 'Nerifian-domain': 12 });
   });
 
   it('maps the wiki element names onto the calculator keys', () => {
     expect(talentEffects({ talents: { 'altermancy/potency': 3 } }).elementalAttack).toEqual({ Dark: 3 });
     expect(talentEffects({ talents: { 'pyromancy/potency': 2 } }).elementalAttack).toEqual({ Fire: 2 });
+  });
+
+  it('keeps Efficiency discounts in their domain and uses the highest for shared domains', () => {
+    const effects = talentEffects({ talents: {
+      'pyromancy/efficiency': 5, 'cryomancy/efficiency': 5, 'aquamancy/efficiency': 3,
+      'enchantment/efficiency': 4, 'galdr/vocal-training': 2,
+    } });
+    expect(effects.fpCostDiscounts).toEqual({
+      'Nerifian-domain': 15, 'Aquarian-domain': 15, 'Enchant-class': 12, Song: 6,
+    });
   });
 });
 

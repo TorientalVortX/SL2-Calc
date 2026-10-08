@@ -241,8 +241,8 @@ const field = (info, name) => info.fields.find(([k]) => k.toLowerCase() === name
  */
 function parseCost(notes) {
   const joined = notes.join(' | ');
-  const momentum = joined.match(/([\d/]+)\s*M(?![a-z])/)?.[1] ?? '';
-  const fp = joined.match(/([\d/–-]+)\s*FP/)?.[1] ?? '';
+  const momentum = joined.match(/(\d+(?:\s*\/\s*\d+)*)\s*M(?![a-z])/i)?.[1]?.replace(/\s+/g, '') ?? '';
+  const fp = joined.match(/(\d+(?:\s*\/\s*\d+)*)\s*FP/i)?.[1]?.replace(/\s+/g, '') ?? '';
   return { momentum, fp };
 }
 

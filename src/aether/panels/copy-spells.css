@@ -1,0 +1,18 @@
+.copy-spells > .hint { margin: 8px 0; color: var(--text-3); }
+.copy-spells > .btn { margin-top: 8px; }
+.copy-spell { align-items: flex-start; }
+.copy-spell summary { cursor: pointer; list-style-position: inside; }
+.copy-spell__actions { display: flex; flex-wrap: wrap; gap: 4px; flex-shrink: 0; }
+.copy-spell__description { color: var(--text-3); font-size: 12px; line-height: 1.6; white-space: pre-line; overflow-wrap: anywhere; }
+.copy-spell__description p { margin: 8px 0; }
+.copy-spell__description dt { font-weight: 600; }
+.copy-spell__description dd { margin: 0 0 6px; }
+.copy-spell__description a { color: var(--text-2); }
+.copy-library > .hint { margin: 10px 0; line-height: 1.6; color: var(--text-3); }
+.copy-library > .btn { margin-bottom: 8px; }
+.copy-library__filters { flex-wrap: wrap; }
+.copy-library__filters > .search { min-width: 0; flex: 1 1 190px; }
+@media (max-width: 600px) {
+  .copy-spell.entry { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .copy-spell__actions { justify-self: end; }
+}

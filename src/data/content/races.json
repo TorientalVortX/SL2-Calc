@@ -638,7 +638,7 @@
       "luc": 1,
       "gui": 1,
       "san": 5,
-      "apt": 0,
+      "apt": 4,
       "allowedRaces": [
         "Serpentkind"
       ]

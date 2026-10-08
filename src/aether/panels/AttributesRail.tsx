@@ -93,7 +93,7 @@ export function AttributesRail({
                   key={row.key}
                   data-nav
                   data-entry={row.key}
-                  title={`${row.hint}\nOpen the card: click, or press I.`}
+                  title={`${row.hint}\nClick or press I for details.`}
                   onClick={() => open(row.key)}
                 >
                   <span className="readout__label">

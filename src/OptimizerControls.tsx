@@ -245,10 +245,6 @@ export default function OptimizerControls({ o, build }: OptimizerControlsProps) 
           </RailSelect>
         </RailField>
 
-        <div className="flex flex-col gap-1.5">
-          <RailNumber label="Main passive rank" value={o.mainRank} onChange={o.setMainRank} max={10} />
-          <RailNumber label="Sub passive rank" value={o.subRank} onChange={o.setSubRank} max={10} />
-        </div>
       </DeckSection>
 
       <DeckSection label="Chosen content">
@@ -267,7 +263,7 @@ export default function OptimizerControls({ o, build }: OptimizerControlsProps) 
         <RailCheck checked={o.searchSkills} onChange={o.setSearchSkills}>
           Choose skill ranks
           <span className="mt-0.5 block text-10 text-content-ghost">
-            {skillPointBudget(build.destiny)} points in each of the {skillPoolCount} classes this
+            {skillPointBudget(build.destiny)} base points, plus Human and class-trait bonuses, in each of the {skillPoolCount} classes this
             build reaches{build.destiny ? ', under Destiny' : ''}, and they do not pool. Scores a skill
             through its stat bonuses and its damage formula, so skills the wiki writes as
             &ldquo;based on Rank&rdquo; cannot be valued.

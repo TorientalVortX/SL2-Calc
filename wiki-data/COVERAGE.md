@@ -1,46 +1,14 @@
 ---
 title: "Coverage and known gaps"
-scraped: "2026-08-11"
+scraped: "2026-10-07"
 ---
 # Coverage and known gaps
 
-Scraped 41 classes, 953 skills and 35 Youkai on 2026-08-11.
+Scraped 41 classes, 980 skills and 35 Youkai on 2026-10-07.
 
 ## Skills the wiki names but does not document
 
-These skills appear in a class navigation box, but the linked wiki page does not exist,
-so no values could be scraped. **Do not treat these classes as fully covered** — the
-calculator has no numbers for the skills below.
-
-| Class | Category | Skill |
-| --- | --- | --- |
-| Chemist | Offensive | Eight-Pointed Weaving |
-| Chemist | Offensive | Alchemic Bullet |
-| Chemist | Offensive | Alchemic Barrage |
-| Chemist | Offensive | Forgotten Brew |
-| Chemist | Offensive | Shake Shake |
-| Chemist | Defensive | Safety Gear |
-| Chemist | Defensive | Lick Weapon |
-| Chemist | Support | Bolt Delivery |
-| Chemist | Support | Dynamic Rainshot |
-| Chemist | Support | Hasty Mixture |
-| Chemist | Support | Coat Ammunition |
-| Chemist | Support | Outsourced Collection |
-| Chemist | Support | Continuous Production |
-| Chemist | Utility | Quick Refresher |
-| Chemist | Utility | Create Mixture |
-| Chemist | Utility | Collect Ingredients |
-| Chemist | Utility | Dillution |
-| Chemist | Utility | Evaporative |
-| Chemist | Utility | Ichor Recoating |
-| Chemist | Utility | Restocking |
-| Chemist | Utility | Powder Arrows |
-| Chemist | Passive | Chemist's Belt |
-| Chemist | Passive | Prepared Mixture |
-| Chemist | Passive | Spillage |
-| Chemist | Passive | Chaotic Chemist |
-| Chemist | Passive | Mad Science |
-| Chemist | Passive | Needle & Thread |
+None. Every skill named in a class navbox has a wiki page.
 
 ## Skills per class
 
@@ -53,7 +21,7 @@ calculator has no numbers for the skills below.
 | Black Knight | 24 | 0 |
 | Bonder | 27 | 0 |
 | Boxer | 24 | 0 |
-| Chemist | 2 | 27 |
+| Chemist | 29 | 0 |
 | Curate | 22 | 0 |
 | Dancer | 21 | 0 |
 | Dark Bard | 21 | 0 |
@@ -91,5 +59,5 @@ calculator has no numbers for the skills below.
 ## Fields left blank
 
 A blank cost or power field means the wiki infobox left it blank. For Passive and Innate
-skills that is expected — they have no FP cost. A handful of active skills also genuinely
+skills that is expected, since they have no FP cost. A handful of active skills also genuinely
 cost 0 FP (for example the Magic Gunner Shell skills, which cost only momentum).

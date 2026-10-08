@@ -1,4 +1,7 @@
 import LZString from 'lz-string';
+import { migrateLegacyClassPassives } from './legacyClassPassives';
+import { normalizeSpellthiefState } from './spellthief';
+import { normalizeActiveMixtureEffects, normalizeMixturePlan } from './chemist';
 import { z } from 'zod';
 import manifestJson from '../data/game-data.json';
 import releaseJson from '../data/app-release.json';
@@ -293,8 +296,11 @@ export function normalizeBuildState(value: unknown): BuildState {
   // Read before equipment, because the upgrade ceilings depend on it.
   const world: GameWorld = value.world === 'G6' || value.world === 'Korvara' ? value.world : DEFAULT_WORLD;
   const armorName = typeof equipment.armorName === 'string' && ARMORS[equipment.armorName] ? equipment.armorName : null;
+  const savedHistory = Array.isArray(value.traits)
+    ? value.traits.map(id => typeof id === 'string' ? traitById(id)?.historyKey : undefined).find(Boolean)
+    : undefined;
 
-  return {
+  const build: BuildState = {
     race,
     subrace,
     mainClass,
@@ -303,7 +309,7 @@ export function normalizeBuildState(value: unknown): BuildState {
     selectedSubBaseClass: typeof value.selectedSubBaseClass === 'string' ? value.selectedSubBaseClass : baseClassFor(subClass),
     characterLevel: typeof value.characterLevel === 'number' ? value.characterLevel : 60,
     food: typeof value.food === 'string' && FOODS[value.food] ? value.food : 'None',
-    history: typeof value.history === 'string' && HISTORY[value.history] ? value.history : 'None',
+    history: typeof value.history === 'string' && HISTORY[value.history] ? value.history : savedHistory ?? 'None',
     addedStats: numericRecord(value.addedStats, ZERO_STATS),
     customStats: numericRecord(value.customStats, ZERO_STATS),
     customBaseStats: numericRecord(value.customBaseStats, ZERO_STATS),
@@ -313,6 +319,10 @@ export function normalizeBuildState(value: unknown): BuildState {
     legendExtend: isRecord(value.legendExtend) ? Object.fromEntries(Object.entries(value.legendExtend).map(([key, enabled]) => [key, Boolean(enabled)])) : {},
     astrology: typeof value.astrology === 'string' ? value.astrology : '',
     customHP: typeof value.customHP === 'number' ? value.customHP : 0,
+    whiteSpiritCount: typeof value.whiteSpiritCount === 'number' && Number.isFinite(value.whiteSpiritCount)
+      ? Math.max(0, Math.min(5, Math.floor(value.whiteSpiritCount))) : 0,
+    crystalCount: typeof value.crystalCount === 'number' && Number.isFinite(value.crystalCount)
+      ? Math.max(0, Math.min(45, Math.floor(value.crystalCount))) : 0,
     customFP: typeof value.customFP === 'number' ? value.customFP : 0,
     baseEvade: typeof value.baseEvade === 'number' ? value.baseEvade : 0,
     bonusEvade: typeof value.bonusEvade === 'number' ? value.bonusEvade : 0,
@@ -330,25 +340,28 @@ export function normalizeBuildState(value: unknown): BuildState {
     luminaryElement: Boolean(value.luminaryElement),
     persistenceOfNormalcy: Boolean(value.persistenceOfNormalcy),
     powerOfNormalcy: Boolean(value.powerOfNormalcy),
-    mainClassPassive: typeof value.mainClassPassive === 'number' ? value.mainClassPassive : 0,
-    subClassPassive: typeof value.subClassPassive === 'number' ? value.subClassPassive : 0,
     // Builds saved before Destiny existed were built against the 35-point
     // budget and two free trees, which is exactly Destiny off.
     destiny: Boolean(value.destiny),
-    skillRanks: {
+    skillRanks: migrateLegacyClassPassives(value, {
       main: migrateTalentSkills(
         skillRankRecord((value.skillRanks as Record<string, unknown> | undefined)?.main),
         value,
       ),
       sub: skillRankRecord((value.skillRanks as Record<string, unknown> | undefined)?.sub),
-    },
+    }),
+    mixturePlan: normalizeMixturePlan(value.mixturePlan),
+    activeMixtureEffects: normalizeActiveMixtureEffects(value.activeMixtureEffects, value.mixturePlan),
     skillConditionals: isRecord(value.skillConditionals)
       ? Object.fromEntries(Object.entries(value.skillConditionals).map(([key, on]) => [key, Boolean(on)]))
+      : {},
+    skillInputs: isRecord(value.skillInputs)
+      ? Object.fromEntries(Object.entries(value.skillInputs).filter(([, amount]) => typeof amount === 'number' && Number.isFinite(amount)).map(([key, amount]) => [key, Math.max(0, Math.floor(amount as number))]))
       : {},
     youkai: youkaiState(value.youkai),
     // Unknown ids are dropped: a trait that no longer exists cannot be shown or scored.
     traits: Array.isArray(value.traits)
-      ? [...new Set(value.traits.filter((id): id is string => typeof id === 'string' && Boolean(traitById(id))))]
+      ? [...new Set(value.traits.filter((id): id is string => typeof id === 'string' && Boolean(traitById(id)) && !traitById(id)?.historyKey))]
       : [],
     talents: talentAllocation(value.talents),
     talentConditionals: isRecord(value.talentConditionals)
@@ -409,6 +422,7 @@ export function normalizeBuildState(value: unknown): BuildState {
       accessory2: gearSlot(equipment.accessory2, NO_ACCESSORY_UPGRADE_POINTS),
     },
   };
+  return { ...build, spellthief: normalizeSpellthiefState(value.spellthief, build) };
 }
 
 /**

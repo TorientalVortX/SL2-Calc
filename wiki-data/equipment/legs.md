@@ -3,20 +3,20 @@ title: "Legs"
 slot: "4"
 kind: "Legs"
 group: "Legs"
-item_count: "41"
+item_count: "42"
 source: "https://sl2.miraheze.org/wiki/Legs"
-scraped: "2026-08-12"
+scraped: "2026-10-07"
 confidence: "strong"
 ---
 # Legs
 
-**Slot 4 — Legs.** 41 items.
+**Slot 4: Legs.** 42 items.
 
 Legs type equipment naturally covers a lot of options like shoes, which occupy the fourth slot. This equipment tends to provide small bonuses like small stat boosts or elemental resistance but also has choices that involve your Movement or increasing the effectiveness of the Kick skill.
 
 ## Quick reference
 
-Effect text is abbreviated here to keep the table scannable — follow an item's name for the full text.
+Effect text is abbreviated here to keep the table scannable; follow an item's name for the full text.
 
 | Rarity | Name | Material | Effects (abbreviated) |
 | --- | --- | --- | --- |
@@ -50,6 +50,7 @@ Effect text is abbreviated here to keep the table scannable — follow an item's
 | 3 | [Mountain Boots](#mountain-boots) | Metal | 10-30% Ice Resistance |
 | 3 | [Ogata's Waraji](#ogatas-waraji) | Cloth | +2 CEL -10% Physical damage taken if wearing an unarmored torso, but only if your main … |
 | 6 | [Quadrapedal](#quadrapedal) | Wood | If you have no Torso item equipped: -2 Momentum required to get up from Knocked Down … |
+| 7 | [Razor Talons](#razor-talons) | Metal | While Airborne, when you move into the same tile as an enemy, deal 25 armor-ignoring … |
 | 5 | [Runner's High](#runners-high) | Cloth | +2 CEL After using basic Movement to move at least 6 tiles: Gain Runner's High LV 5 for 2 … |
 | 8 | [Sanctified Shoes](#sanctified-shoes) | Cloth | Dark Water tiles only reduces your Faith by 50% (instead of 100%) while equipped. Set … |
 | 5 | [Shadow](#shadow) | Cloth | Lowers random encounters. Increases success rate of escaping from a battle. |
@@ -429,6 +430,18 @@ _A replica of a famous female swordsman's waraji, a popular form of footwear for
 _These simple looking shin guards hide the spirit of a beast within them, filling the wearer with instinctual swiftness._
 
 **Found:** Random Drops, Beast Drop Table
+
+### Razor Talons
+
+- **Rarity:** 7★
+- **Material:** Metal
+
+- While Airborne, when you move into the same tile as an enemy, deal 25 armor-ignoring Slash damage to that enemy. (Once per enemy per action.)
+- * Grants Skill: {{#tip-text: Falcon Arc | Falcon Arc Cost: 10 FP / 2M Target: Location Area: Single (Line To) Range: 2 Cooldown: 3 Round(s) Targets a flexible line to an unoccupied tile up to 2 Range away. You flip, becoming Airborne, and float along the line to that tile. If you have Razor Talons equipped, and they are enchanted with Winged, this skill has +1 Range. If you have no armor equipped, or armor that is enchanted with Winged, this skill costs -1M.}}
+
+_A pair of razor sharp falcon-like boots. They are rather impractical, unless you can somehow fly._
+
+**Found:** Random Drops, Lightning Drop Table
 
 ### Runner's High
 

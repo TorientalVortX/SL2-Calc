@@ -28,6 +28,17 @@ function baseBuild() {
 }
 
 describe('shared build evaluation', () => {
+  it('adds crystals and White Spirits to HP and FP without changing stats', () => {
+    const build = baseBuild();
+    const before = evaluateBuild(build);
+    for (const [crystalCount, whiteSpiritCount, bonus] of [[1, 0, 1], [45, 0, 45], [0, 1, 3], [0, 5, 15], [45, 5, 60]]) {
+      const after = evaluateBuild({ ...build, crystalCount, whiteSpiritCount });
+      expect(after.derived.maxHP - before.derived.maxHP).toBe(bonus);
+      expect(after.derived.fp - before.derived.fp).toBe(bonus);
+      expect(after.scaledStats).toEqual(before.scaledStats);
+    }
+    expect(evaluateBuild({ ...build, crystalCount: 0, whiteSpiritCount: 0 }).derived).toEqual(before.derived);
+  });
   it('uses current level points and main-class-only stats with monoclass doubling', () => {
     const multiclass = evaluateBuild(baseBuild());
     const monoBuild = baseBuild();

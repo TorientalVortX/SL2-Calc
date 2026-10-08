@@ -1,4 +1,5 @@
-import type { ReactNode } from 'react';
+import { useMemo, type ReactNode } from 'react';
+import { evaluateBuild } from '../../domain/buildEvaluation';
 import type { StatKey } from '../../types';
 import { elementInk, statInk } from '../../data/colors';
 import { STAT_INFO } from '../../data/stats';
@@ -37,6 +38,7 @@ interface StatCardProps {
 
 export function StatCard({ builder, stat, view, onView, onSelect, onClose }: StatCardProps) {
   const { build, evaluation, dispatch } = builder;
+  const sources = useMemo(() => evaluateBuild(build, true).statSources!, [build]);
   const info = STAT_INFO[stat];
   const parts = statBreakdown(build, evaluation, stat);
   const element = ELEMENT_FOR_STAT[stat];
@@ -199,21 +201,26 @@ export function StatCard({ builder, stat, view, onView, onSelect, onClose }: Sta
           <Part
             label="Racial line and bonuses"
             value={parts.floor}
-            hint="Your subrace's line, plus everything applied before the cap is measured: base corrections, Legend Extend, history and your star sign."
+            hint="Subrace line and pre-cap changes from base corrections, Legend Extend, history, and star sign."
           />
           <Part label="Points invested" value={parts.invested} hint="Spent from the level pool." />
-          <Part
-            label="Class, gear and elsewhere"
-            value={parts.other}
-            signed
-            hint="Everything else the raw total holds: class levels, equipment, traits, skills, food, stamps and the APT bonus."
-          />
-          <Part label="Raw total" value={parts.raw} strong hint="The three lines above, summed." />
+          <details key={stat} className="statcard__sources">
+            <summary className="readout" style={{ cursor: 'pointer' }}>
+              <span className="readout__label">Class, gear and elsewhere</span>
+              <span className="readout__value">{parts.other > 0 ? '+' : ''}{formatScaled(parts.other)}</span>
+            </summary>
+            <div style={{ paddingLeft: 16 }}>
+              {sources[stat].length ? sources[stat].map((source, index) => (
+                <Part key={index} label={source.label} value={source.value} signed hint={source.label} />
+              )) : <p className="hint">No additional sources for this stat.</p>}
+            </div>
+          </details>
+          <Part label="Raw total" value={parts.raw} strong hint="Sum of the lines above." />
           <Part
             label="Scaled"
             value={parts.scaled}
             strong
-            hint="The raw total after diminishing returns, which is the figure every formula in the game reads."
+            hint="Raw total after diminishing returns. Used by scaled-stat formulas."
           />
         </div>
       </div>

@@ -1,10 +1,11 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, type ReactNode } from 'react';
 import { TALENTS, TALENT_CATEGORIES, type SubtalentRecord, type TalentRecord } from '../../data/talents';
-import { effectiveWeaponType } from '../../domain/equipment';
+import { effectiveWeaponTypes } from '../../domain/equipment';
 import { isFrontalHitSubtalent, talentEffects } from '../../domain/talents';
 import { TALENT_POINT_BUDGET } from '../../domain/loadout';
 import { talentSpending } from '../../data/talents';
 import { SectionHead } from '../ui/Panel';
+import { NumberField } from '../ui/controls';
 import { useListNavigation } from '../hooks/useListNavigation';
 import { play } from '../state/audio';
 import type { Builder } from '../state/useBuilder';
@@ -41,7 +42,7 @@ export function TalentsSheet({ builder }: { builder: Builder }) {
   const [combatOnly, setCombatOnly] = useState(false);
   const onKeys = useListNavigation(1);
 
-  const weaponType = effectiveWeaponType(build.equipment.primaryWeapon) ?? null;
+  const weaponType = useMemo(() => effectiveWeaponTypes(build.equipment.primaryWeapon), [build.equipment.primaryWeapon]);
   const allocation = build.talents ?? {};
   const conditionals = build.talentConditionals ?? {};
 
@@ -61,7 +62,7 @@ export function TalentsSheet({ builder }: { builder: Builder }) {
     category,
     talents: TALENTS.filter(talent => {
       if (talent.categoryId !== category.id) return false;
-      if (combatOnly && !talent.subtalents.some(sub => sub.modifiers.length || sub.weaponAccess)) return false;
+      if (combatOnly && !talent.subtalents.some(sub => sub.modifiers.length || sub.weaponAccess || sub.id === 'spiritualism/possession')) return false;
       if (!needle) return true;
       return talent.name.toLowerCase().includes(needle)
         || talent.subtalents.some(sub =>
@@ -115,7 +116,7 @@ export function TalentsSheet({ builder }: { builder: Builder }) {
       <div onKeyDown={onKeys}>
         {groups.length === 0 ? (
           <div className="empty">
-            <span className="eyebrow">Nothing to show</span>
+            <span className="eyebrow">No matching talents</span>
             <span>No talent matches those filters.</span>
           </div>
         ) : groups.map(group => (
@@ -124,6 +125,7 @@ export function TalentsSheet({ builder }: { builder: Builder }) {
             {group.talents.map(talent => (
               <TalentGroup
                 key={talent.id}
+                builder={builder}
                 talent={talent}
                 spent={ranksByTalent.get(talent.id)}
                 weaponType={weaponType}
@@ -145,6 +147,7 @@ export function TalentsSheet({ builder }: { builder: Builder }) {
 
 /** One talent: its cost header, then a row per subtalent. */
 function TalentGroup({
+  builder,
   talent,
   spent,
   weaponType,
@@ -153,9 +156,10 @@ function TalentGroup({
   onRank,
   onConditional,
 }: {
+  builder: Builder;
   talent: TalentRecord;
   spent?: { ranks: number; sp: number; overAllocated: boolean };
-  weaponType: string | null;
+  weaponType: string[] | null;
   allocation: Record<string, number>;
   conditionals: Record<string, boolean>;
   onRank: (subtalent: SubtalentRecord, rank: number) => void;
@@ -186,6 +190,7 @@ function TalentGroup({
             conditionalOn={Boolean(conditionals[sub.id])}
             onRank={onRank}
             onConditional={onConditional}
+            children={sub.id === 'spiritualism/possession' ? <SpiritControls builder={builder} /> : undefined}
           />
         ))}
       </div>
@@ -201,18 +206,20 @@ function SubtalentRow({
   conditionalOn,
   onRank,
   onConditional,
+  children,
 }: {
   subtalent: SubtalentRecord;
   rank: number;
-  weaponType: string | null;
+  weaponType: string[] | null;
   conditionalOn: boolean;
   onRank: (subtalent: SubtalentRecord, rank: number) => void;
   onConditional: (subtalentId: string, on: boolean) => void;
+  children?: ReactNode;
 }) {
   // Scoped to weapons this build is not holding: still listed, still buyable
   // (a player specs into a talent before buying the weapon for it), but
   // marked, because it contributes nothing at this loadout.
-  const outOfScope = Boolean(subtalent.weapons?.length && (!weaponType || !subtalent.weapons.includes(weaponType)));
+  const outOfScope = Boolean(subtalent.weapons?.length && (!weaponType || !weaponType.some(type => subtalent.weapons!.includes(type))));
   // A frontal Hit bonus is already counted, on the frontal Hit tier: offering
   // a switch for it would suggest the sheet is holding it back.
   const frontal = isFrontalHitSubtalent(subtalent);
@@ -241,6 +248,7 @@ function SubtalentRow({
           ) : null}
         </div>
         <div className="entry__sub">{subtalent.effect}</div>
+        {children}
         {conditional && rank > 0 ? (
           <label className="entry__sub" style={{ display: 'flex', gap: '0.4rem', alignItems: 'center', cursor: 'pointer' }}>
             <input
@@ -282,6 +290,19 @@ function SubtalentRow({
   );
 }
 
+function SpiritControls({ builder }: { builder: Builder }) {
+  const { build, dispatch } = builder;
+  return <div className="grid-2" style={{ marginTop: 8 }}>
+    <NumberField label="White Spirits" value={build.whiteSpiritCount ?? 0} min={0} max={5}
+      hint={`+${(build.whiteSpiritCount ?? 0) * 3} HP and FP · Max 5`}
+      onChange={whiteSpiritCount => dispatch({ type: 'field', patch: { whiteSpiritCount: Math.floor(whiteSpiritCount) } })} />
+    <div className="field">
+      <span className="field__label">Black Spirits</span>
+      <span className="hint">TBA</span>
+    </div>
+  </div>;
+}
+
 /**
  * What the allocation is currently worth.
  *
@@ -293,7 +314,7 @@ function TalentTotals({
   weaponType,
 }: {
   effects: ReturnType<typeof talentEffects>;
-  weaponType: string | null;
+  weaponType: string[] | null;
 }) {
   const lines: string[] = [];
   if (effects.hit) lines.push(`Hit ${signed(effects.hit)}`);
@@ -306,7 +327,9 @@ function TalentTotals({
   if (effects.maxBattleWeight) lines.push(`Battle weight ${signed(effects.maxBattleWeight)}`);
   if (effects.maxFp) lines.push(`Max FP ${signed(effects.maxFp)}`);
   if (effects.fpRegen) lines.push(`FP regen ${signed(effects.fpRegen)}`);
-  if (effects.fpCostPercent) lines.push(`Spell FP cost −${effects.fpCostPercent}%`);
+  for (const [scope, discount] of Object.entries(effects.fpCostDiscounts)) {
+    if (discount) lines.push(`${scope.replace(/-/g, ' ')} FP −${discount}%`);
+  }
   if (effects.armor) lines.push(`Armor ${signed(effects.armor)}`);
   if (effects.magicArmor) lines.push(`M.Armor ${signed(effects.magicArmor)}`);
   if (effects.skillPool) lines.push(`Skill pool ${signed(effects.skillPool)}`);
@@ -319,7 +342,7 @@ function TalentTotals({
   return (
     <div className="filters">
       <span className="eyebrow">
-        In force{weaponType ? ` with a ${weaponType}` : ' (no weapon equipped)'}
+        In force{weaponType?.length ? ` with ${weaponType.join(' / ')}` : ' (no weapon equipped)'}
       </span>
       {lines.map(line => <span className="chip chip--good" key={line}>{line}</span>)}
     </div>

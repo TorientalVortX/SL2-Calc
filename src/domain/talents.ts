@@ -72,8 +72,8 @@ export interface TalentEffects {
   attackRange: number;
   maxFp: number;
   fpRegen: number;
-  /** Discount on the FP cost of the spell schools the talents cover, as a percent. */
-  fpCostPercent: number;
+  /** Highest FP discount for each domain or skill class. */
+  fpCostDiscounts: Record<string, number>;
   armor: number;
   magicArmor: number;
   skillPool: number;
@@ -84,7 +84,7 @@ export interface TalentEffects {
 
 export const NO_TALENT_EFFECTS: TalentEffects = {
   hit: 0, frontalHit: 0, critical: 0, criticalDamagePercent: 0, power: 0, scaledWeaponAtk: 0,
-  weaponWeightReduction: 0, attackRange: 0, maxFp: 0, fpRegen: 0, fpCostPercent: 0,
+  weaponWeightReduction: 0, attackRange: 0, maxFp: 0, fpRegen: 0, fpCostDiscounts: {},
   armor: 0, magicArmor: 0, skillPool: 0, statusInflictionPercent: 0, maxBattleWeight: 0,
   elementalAttack: {},
 };
@@ -141,11 +141,11 @@ export function isFrontalHitSubtalent(
  */
 export function activeTalentModifiers(
   build: TalentInput,
-  rawWeaponType?: string | null,
+  rawWeaponType?: string | string[] | null,
 ): Array<TalentModifier & { rank: number; total: number; subtalentId: string; frontal: boolean }> {
   const allocation = build.talents;
   if (!hasAllocation(allocation)) return [];
-  const weaponType = normalizeWeaponType(rawWeaponType);
+  const weaponType = Array.isArray(rawWeaponType) ? rawWeaponType.map(type => normalizeWeaponType(type)!) : normalizeWeaponType(rawWeaponType);
   const confirmed = build.talentConditionals ?? {};
   const unconditional = talentModifiers(allocation!, { weaponType });
   /*
@@ -163,11 +163,11 @@ export function activeTalentModifiers(
   }));
 }
 
-export function talentEffects(build: TalentInput, weaponType?: string | null): TalentEffects {
+export function talentEffects(build: TalentInput, weaponType?: string | string[] | null): TalentEffects {
   const modifiers = activeTalentModifiers(build, weaponType);
   if (!modifiers.length) return NO_TALENT_EFFECTS;
 
-  const effects: TalentEffects = { ...NO_TALENT_EFFECTS, elementalAttack: {} };
+  const effects: TalentEffects = { ...NO_TALENT_EFFECTS, elementalAttack: {}, fpCostDiscounts: {} };
   for (const modifier of modifiers) {
     const { total } = modifier;
     if (modifier.frontal) {
@@ -187,7 +187,11 @@ export function talentEffects(build: TalentInput, weaponType?: string | null): T
       case 'attackRange': effects.attackRange += total; break;
       case 'maxFp': effects.maxFp += total; break;
       case 'fpRegen': effects.fpRegen += total; break;
-      case 'fpCost': effects.fpCostPercent += -total; break;
+      case 'fpCost': {
+        const scope = modifier.subject.replace(/\s+(?:spell|skill) FP costs?$/i, '');
+        effects.fpCostDiscounts[scope] = Math.max(effects.fpCostDiscounts[scope] ?? 0, -total);
+        break;
+      }
       case 'armor': effects.armor += total; break;
       case 'magicArmor': effects.magicArmor += total; break;
       case 'skillPool': effects.skillPool += total; break;

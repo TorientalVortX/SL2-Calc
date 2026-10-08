@@ -5,6 +5,7 @@ import {
   traitCheckTarget,
   traitCost,
   traitEligibility,
+  historyTraitFor,
   traitsByCategory,
   uncheckedRequirements,
 } from '../../domain/traits';
@@ -30,16 +31,19 @@ export function TraitsSheet({ builder }: { builder: Builder }) {
   const onKeys = useListNavigation(1);
 
   const target = useMemo(() => traitCheckTarget(build), [build]);
-  const taken = useMemo(() => new Set(build.traits ?? []), [build.traits]);
+  const taken = useMemo(() => {
+    const ids = new Set(build.traits ?? []);
+    const history = historyTraitFor(build.history);
+    if (history) ids.add(history.id);
+    return ids;
+  }, [build.traits, build.history]);
   const needle = query.trim().toLowerCase();
   const remaining = status.traitsBudget - status.traitsSpent;
 
   const groups = useMemo(() => traitsByCategory().map(group => ({
     category: group.category,
     traits: group.traits.filter(trait => {
-      // History is chosen in Identity and hand-modelled traits already have their
-      // own control; offering them here would apply half an effect twice.
-      if (trait.historyKey || trait.handModelled) return false;
+      if (trait.handModelled && !trait.historyKey) return false;
       if (needle && !trait.name.toLowerCase().includes(needle) && !trait.effect.toLowerCase().includes(needle)) return false;
       if (!availableOnly) return true;
       return taken.has(trait.id) || traitEligibility(trait, target).eligible;
@@ -94,7 +98,7 @@ export function TraitsSheet({ builder }: { builder: Builder }) {
           </div>
         ) : groups.map(group => (
           <div className="section" key={group.category}>
-            <SectionHead aside={`${group.traits.length}`}>{group.category}</SectionHead>
+            <SectionHead aside={group.category === 'History' ? 'Choose one' : `${group.traits.length}`}>{group.category}</SectionHead>
             {group.traits.map(trait => {
               const { eligible, reasons } = traitEligibility(trait, target);
               const isTaken = taken.has(trait.id);

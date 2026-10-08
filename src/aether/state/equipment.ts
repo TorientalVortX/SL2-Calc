@@ -1,3 +1,4 @@
+import { effectiveWeaponTypes } from '../../domain/equipment';
 /**
  * The six equipment slots, as the character sheet works with them.
  *
@@ -444,8 +445,8 @@ export function equipmentOverview(
    * real once both have said no. The subclass is deliberately absent from the
    * first check: its weapon list is not proficiency.
    */
-  const allowed = mainClassAllowsWeaponType(weaponType, CLASSES[build.mainClass])
-    || talentsUnlockWeapon(build, weaponType, equipment.primaryWeapon?.rarity ?? 0);
+  const allowed = effectiveWeaponTypes(equipment.primaryWeapon).some(type => mainClassAllowsWeaponType(type, CLASSES[build.mainClass])
+    || talentsUnlockWeapon(build, type, equipment.primaryWeapon?.rarity ?? 0));
   return {
     load: equipmentLoad,
     capacity: battleWeight,

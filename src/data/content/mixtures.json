@@ -1,0 +1,1904 @@
+{
+  "source": "https://sl2.miraheze.org/wiki/Mixture_List",
+  "mixtures": [
+    {
+      "name": "Exploding Flask",
+      "type": "Cocktail",
+      "chemicals": [
+        "A",
+        "A"
+      ],
+      "element": "Fire",
+      "elementRatio": 50,
+      "baseDamage": 100,
+      "mistEfficacy": null,
+      "mistDuration": null,
+      "mistSize": null,
+      "coatEfficacy": null,
+      "allyMultiplier": 50,
+      "kickback": false,
+      "description": "A highly volatile mixture which is guaranteed to blow up when thrown. When it does, all units (including allies and even yourself) in a 3 Size Diamond take Fire + Blunt physical damage, which can critically hit.\n\nThe fuse will last for 2 rounds, so make sure you throw it before then, or else it's like to blow up on you.",
+      "effects": [],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Warming Brew",
+      "type": "Cocktail",
+      "chemicals": [
+        "A",
+        "B"
+      ],
+      "element": "Water",
+      "elementRatio": 50,
+      "baseDamage": 30,
+      "mistEfficacy": null,
+      "mistDuration": null,
+      "mistSize": null,
+      "coatEfficacy": null,
+      "allyMultiplier": 25,
+      "kickback": true,
+      "description": "A tea made to stave off the harshness of winter winds. Targets 1 tile, and if a unit is in that tile, applies an appropriate effect:\n\nAlly - They drink the tea, taking a small portion of Fire kickback damage, but they gain Ice Resistance (LV 10, 3 rounds) and are cured of Frostbite effects.\n\nEnemy - You scald them with the tea, dealing Fire + Water damage, inflicting them with Soaked (2 rounds) and may also inflict Burn (LV 10, 2 rounds).\n\nTeas are best served when brewed for the precisely proper amount of time. (Perfect Brew: Critically hits for +50% damage, or +5 LV to Ice Resistance and gain Frostbite Immunity for 3 rounds.)",
+      "effects": [
+        {
+          "name": "Frostbite",
+          "description": "Inflicts unresistible LV Ice damage every time you walk on an Ice Sheet."
+        },
+        {
+          "name": "Soaked",
+          "description": "+15% Fire Res, -10% Lightning Res. When taking Lightning damage, Soaked allies within 1 Range also take the damage. Ice and Earth damage replaces with a different effect."
+        },
+        {
+          "name": "Burn",
+          "description": "Deals unresistible Fire damage every round equal to LV. Negates bonuses to Defense."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Molotov Cocktail",
+      "type": "Cocktail",
+      "chemicals": [
+        "A",
+        "C"
+      ],
+      "element": "Fire",
+      "elementRatio": 50,
+      "baseDamage": 0,
+      "mistEfficacy": null,
+      "mistDuration": null,
+      "mistSize": null,
+      "coatEfficacy": null,
+      "allyMultiplier": 50,
+      "kickback": false,
+      "description": "A basic but effective mixture which ignites flammable liquid when thrown. Targets a 3 Size Diamond, dealing Fire physical damage to any unit in that radius, which can also inflict Burn (LV 50, 2 rounds). In that same radius (except tiles containing units), it leaves behind Active Lava (LV 20, 2 rounds) which will damage any enemy that steps on it.",
+      "effects": [
+        {
+          "name": "Burn",
+          "description": "Deals unresistible Fire damage every round equal to LV. Negates bonuses to Defense."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Gunflame Perfume",
+      "type": "Cocktail",
+      "chemicals": [
+        "A",
+        "D"
+      ],
+      "element": "N/A",
+      "elementRatio": 50,
+      "baseDamage": 30,
+      "mistEfficacy": null,
+      "mistDuration": null,
+      "mistSize": null,
+      "coatEfficacy": 100,
+      "allyMultiplier": 50,
+      "kickback": false,
+      "description": "Gunpowder lightened with chemical vapors, spreading around the air dangerously. Targets a 4 Size Crescent and creates Gunflame Perfume Mist in those tiles (LV 15, 3 rounds). Fire damage against units in the Mist has 15% Elemental Resistance Pierce; furthermore, if they take non-status, non-field Fire damage (except from Gunflame Perfume) exceeding 35, the entire cloud of the perfume ignites, dealing the same amount of Fire damage to all units caught inside of it.\n\nWhen applied via Coated Ammo, it instead inflicts Gunflame Perfume (LV 15, 2 rounds).",
+      "effects": [
+        {
+          "name": "Gunflame Perfume",
+          "description": "Fire damage VS you gains LV% Elemental Pierce (doesn't stack with Gunflame Perfume Mist). Non-status, non-field Fire damage exceeding 35 which isn't dealt by Gunflame Perfume will consume this status and deal the same amount of damage to all other units in 2 Range (except those in Safety Gear)."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Aggro Acid",
+      "type": "Cocktail",
+      "chemicals": [
+        "A",
+        "E"
+      ],
+      "element": "Acid",
+      "elementRatio": 50,
+      "baseDamage": 50,
+      "mistEfficacy": null,
+      "mistDuration": null,
+      "mistSize": null,
+      "coatEfficacy": null,
+      "allyMultiplier": 50,
+      "kickback": true,
+      "description": "Aggressive acid suitable for eating away at most matter. Targets 1 tile and deals Acid magic damage to any unit in it.\n\nFurthermore, if they have a non-monster weapon that can break equipped, they may be inflicted with Melting Weapon (LV 1, 2 rounds). Otherwise, they may be inflicted with Acidity (LV 10, 3 rounds).",
+      "effects": [
+        {
+          "name": "Melting Weapon",
+          "description": "Breakable non-monster weapons are treated as if they had the Melting curse (in addition to any other enchantments). Can be ended by swapping weapons."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Instant Freeze",
+      "type": "Cocktail",
+      "chemicals": [
+        "B",
+        "B"
+      ],
+      "element": "Ice",
+      "elementRatio": 50,
+      "baseDamage": 30,
+      "mistEfficacy": null,
+      "mistDuration": null,
+      "mistSize": null,
+      "coatEfficacy": 80,
+      "allyMultiplier": null,
+      "kickback": false,
+      "description": "A supremely cold mixture which can rapidly freeze things, as the name implies. In a 3 Size Diamond, enemies take Ice magic damage and may be inflicted with Frozen (LV 50, until your next turn); creates ice sheets (3 rounds); plant field objects are frozen; allies gain Ice Armor (LV 10, 3 rounds).\n\nMists will cause Frozen units to be affected by it until their next turn, will freeze plant objects in them at the start of a new round, and will still give allies Ice Armor but also deal 20% of the normal damage to them.",
+      "effects": [
+        {
+          "name": "Frozen",
+          "description": "Reduces Evade to 0 and prevents movement skills while active. Damage reduces LV; 0 ends status. Can struggle to reduce the LV."
+        },
+        {
+          "name": "Ice Armor",
+          "description": "Increases DEF by LV. +25% Ice Resistance, +25% Fire Weakness"
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Spark Powder",
+      "type": "Cocktail",
+      "chemicals": [
+        "B",
+        "C"
+      ],
+      "element": "Lightning",
+      "elementRatio": 50,
+      "baseDamage": 30,
+      "mistEfficacy": 80,
+      "mistDuration": null,
+      "mistSize": "Diamond (3)",
+      "coatEfficacy": 80,
+      "allyMultiplier": 50,
+      "kickback": false,
+      "description": "Powder capable of creating powerful sparks of static electricity when it moves through the air. In a 3 Size Diamond, deals Lightning magic damage and creates Spark Powder Mists.\n\nSpark Powder Mists create Static Fields (LV 15, 2 rounds) at the start of a new round. Unlike most Mists, the powder is good at being pushed around by air, making it capable of being Aero Shifted.",
+      "effects": [],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Rust Bringer",
+      "type": "Cocktail",
+      "chemicals": [
+        "B",
+        "D"
+      ],
+      "element": "Water",
+      "elementRatio": 50,
+      "baseDamage": 30,
+      "mistEfficacy": null,
+      "mistDuration": null,
+      "mistSize": null,
+      "coatEfficacy": 80,
+      "allyMultiplier": 50,
+      "kickback": false,
+      "description": "A chemically altered substance which can compromise metal with rust. In a 3 Size Diamond, it deals Water + Wind magic damage and inflicts Weakened Metal (LV 10, 2 rounds). Certain races and monsters are especially vulnerable to rust, and may be inflicted with Rusted (LV 10, 2 rounds, or LV 25, 4 rounds for monsters).",
+      "effects": [
+        {
+          "name": "Weakened Metal",
+          "description": "Durability consumption for metal weapons doubled. -LV Scaled Weapon Power for metal weapons. -LV Armor for metal torso items."
+        },
+        {
+          "name": "Rusted",
+          "description": "-LV/2% Damage Dealt, -LV Critical Evade"
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Unholy Dye",
+      "type": "Cocktail",
+      "chemicals": [
+        "B",
+        "E"
+      ],
+      "element": "Darkness",
+      "elementRatio": 50,
+      "baseDamage": 30,
+      "mistEfficacy": 80,
+      "mistDuration": 1,
+      "mistSize": "Single (3)",
+      "coatEfficacy": 80,
+      "allyMultiplier": 50,
+      "kickback": false,
+      "description": "A blasphemous mixture. In a 3 Size Diamond, deals Dark magic damage. If a Water tile is in its affected area, it will spread through it, converting them into Dark Water (2 rounds, can't be extended) and damaging any enemies on those tiles (except those already hit). This only applies on the Mixture's initial use.\n\nDamage units may be inflicted with Unholy Dye (LV 15, 2 rounds); if they are a summoned Ghost or Undead unit, they instead gain Demon Translation (LV 4, 2 rounds).",
+      "effects": [
+        {
+          "name": "Unholy Dye",
+          "description": "Dark damage VS you gains LV% Elemental Pierce."
+        },
+        {
+          "name": "Demon Translation",
+          "description": "Awakening of demonic powers. All statistics increased by 10% (min. 4). +2 Move. Damage taken reduced by 20%."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Crystalizing Mud",
+      "type": "Cocktail",
+      "chemicals": [
+        "C",
+        "C"
+      ],
+      "element": "Earth",
+      "elementRatio": 50,
+      "baseDamage": 30,
+      "mistEfficacy": 80,
+      "mistDuration": 1,
+      "mistSize": "Diamond (3)",
+      "coatEfficacy": 80,
+      "allyMultiplier": 50,
+      "kickback": false,
+      "description": "Mud mixture primed to encourage the rapid growth of crystals. In a 3 Size Diamond, it deals Earth magic damage and inflicts Crystalize (LV 1, 3 rounds) and Muddy (3 rounds). Additional effects based on unit types:\nEnemy: May also be inflicted with Crystal Growth (LV 1, 3 rounds), and inflicts Status Immunity (Crystalize Immunity) (3 rounds).\nAlly: Gain Mystic Crystal (LV 10, 3 rounds). If the unit is a summoned Carbuncle or Terrasque, also gains Crystal Resolve (LV 100, 2 rounds).",
+      "effects": [
+        {
+          "name": "Crystalize",
+          "description": "Covered in crystals, lowering Movement Speed by 1."
+        },
+        {
+          "name": "Muddy",
+          "description": "15% chance to be slip and be knocked down after using Movement. Chance increases by 15% for every tile moved beyond class base Movement speed."
+        },
+        {
+          "name": "Crystal Growth",
+          "description": "On New Round: If you have Crystalize, it bursts, dealing its damage. Regardless, afterwards, you gain Crystalize (LV 1, 2 rounds)."
+        },
+        {
+          "name": "Status Immunity (Crystalize Immunity)",
+          "description": "A temporary immunity to a status type."
+        },
+        {
+          "name": "Mystic Crystal",
+          "description": "Mimickry. Boosts all Elemental ATK by LV. Creates a Wild Mana Crystal (2 rounds) at a tile within 1 Range of you at the start of a new round."
+        },
+        {
+          "name": "Crystal Resolve",
+          "description": "+LV% damage dealt by the next Ruby Beam or Shatter Beam."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Bottled Tornado",
+      "type": "Cocktail",
+      "chemicals": [
+        "C",
+        "D"
+      ],
+      "element": "Wind",
+      "elementRatio": 50,
+      "baseDamage": 30,
+      "mistEfficacy": null,
+      "mistDuration": null,
+      "mistSize": null,
+      "coatEfficacy": null,
+      "allyMultiplier": 50,
+      "kickback": false,
+      "description": "A chaotic whirlwind trapped in a tiny flask. In a 4 Size Diamond, it deals Wind magic damage and knocks back units 3 tiles. It also creates a ticking Bottled Tornado field object (fuse = 7), which lingers on the battlefield temporarily. Every time the fuse ticks, it applies Aero Shift (7) to all objects in 3 Range of it.\n\nFurthermore, the Hit chance of all spells and ranged weapons against units within 3 Range of a Bottled Tornado is capped at 60%.",
+      "effects": [],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Fulminating Powder",
+      "type": "Cocktail",
+      "chemicals": [
+        "C",
+        "E"
+      ],
+      "element": "Light",
+      "elementRatio": 50,
+      "baseDamage": 30,
+      "mistEfficacy": 80,
+      "mistDuration": 1,
+      "mistSize": "3 Size Diamond",
+      "coatEfficacy": 80,
+      "allyMultiplier": 50,
+      "kickback": false,
+      "description": "Powder which aggressively reacts with physical force by bursting into bright, stunning lights. In a 3 Size Diamond, it bursts and deals Light + Blunt magic damage which can critically hit, and may inflict Blind (2 rounds) and Clumsy (until your next turn).\n\nWhen applied by mist, Clumsy instead lasts until the victim's next turn. When not applied by mist, the disorienting effects will spin targets around randomly.",
+      "effects": [
+        {
+          "name": "Blind",
+          "description": "Final hit chance is capped at 50%."
+        },
+        {
+          "name": "Clumsy",
+          "description": "Movement skills, aside from basic movement, are disabled."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Illing Vapor",
+      "type": "Cocktail",
+      "chemicals": [
+        "D",
+        "D"
+      ],
+      "element": null,
+      "elementRatio": null,
+      "baseDamage": null,
+      "mistEfficacy": 80,
+      "mistDuration": 10,
+      "mistSize": "Circle (2)",
+      "coatEfficacy": 100,
+      "allyMultiplier": 50,
+      "kickback": false,
+      "description": "A light mist that comes with a burning sensation, it slowly but painfully attacks organic matter. The mist will first spread out in a 2 Size Circle, acting as a ticking field object (fuse = equal to duration, 10 rounds by default). Units inside of the mist have their Poison Resistance reduced to 0% (bosses' are halved instead), and every time its fuse ticks down (when it shifts to a new unit's turn), it will deal Poison damage equal to LV (25 by default) to every unit inside of it.\n\nWhen applied via Coated Ammo, the effect differs; Instead, it will attempt to inflict Poison (LV 15, 2 rounds, only if not already Poisoned), then extend the duration of Poison and Lingering Damage the target suffers from by 1 round (max 5 rounds), then deal 25 armor-ignoring Poison bonus damage.",
+      "effects": [
+        {
+          "name": "Poison",
+          "description": "Deals 10% maximum HP damage every round, to a maximum of 3*LV damage."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Crackcloud Vial",
+      "type": "Cocktail",
+      "chemicals": [
+        "D",
+        "E"
+      ],
+      "element": "Sound",
+      "elementRatio": 50,
+      "baseDamage": 30,
+      "mistEfficacy": 80,
+      "mistDuration": 2,
+      "mistSize": "Circle (2)",
+      "coatEfficacy": 80,
+      "allyMultiplier": 50,
+      "kickback": false,
+      "description": "A mixture that summons a cloud which creates sudden, distracting bursts within it. In a 2 Size Circle, deals Sound magic damage and creates Crackloud Vial Mists (2 rounds).\n\nUnits standing inside of Crackcloud Vial Mists are treated as if they have had Hesitation LV 25 when performing basic attacks.",
+      "effects": [
+        {
+          "name": "Hesitation",
+          "description": "LV% chance to hesitate when attacking."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Deliriant Vapor",
+      "type": "Cocktail",
+      "chemicals": [
+        "E",
+        "E"
+      ],
+      "element": null,
+      "elementRatio": null,
+      "baseDamage": null,
+      "mistEfficacy": 80,
+      "mistDuration": 3,
+      "mistSize": "3 Size Circle",
+      "coatEfficacy": null,
+      "allyMultiplier": 50,
+      "kickback": false,
+      "description": "A mixture capable of producing thick fog in which even shadows seem real. In a 3 Size Circle, it creates Deliriant Vapor Mists (LV 5, 3 rounds).\n\n1. When created, and at the start of a new round, it attempts to inflict Fear (2 rounds) on anyone standing within it.\n2. When created, and at the start of a new round, if the creator of the mist is standing within it (and isn't defeated), spawns X Shadow Moshes within its bounds (X = LV, +1 for every Feared unit in it, max 10. Shadow Mobs may be replaced with Kagebunshin, Butterfly Illusions, or Spider Illusions, should the creator be capable.)\n3. When a Feared attacker in the mist would deal damage to someone who is also in the mist, some illusions created by it may intercept the attack, reducing damage slightly.",
+      "effects": [],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Hot Gravy",
+      "type": "Balm",
+      "chemicals": [
+        "A",
+        "A"
+      ],
+      "element": "Fire",
+      "elementRatio": 50,
+      "baseDamage": 30,
+      "mistEfficacy": 60,
+      "mistDuration": 1,
+      "mistSize": "Diamond (2)",
+      "coatEfficacy": 80,
+      "allyMultiplier": 25,
+      "kickback": true,
+      "description": "Exactly what it says on the flask; it's gravy, it's hot, and it smells great. Targets 1 tile and applies an effect to units in it: Target gains Hot Gravy (LV 3, 3 rounds) and takes Fire damage. Affinity is Good for allies, and Bad for enemies.\n\nGood: Increases target priority for monsters within LV Range. Attacks by monsters, or by weapons with Vampiric properties, and Bite skills may inflict the attacker with Burn (LV = LVx5, 2 rounds. Once per action). Owner can lick the gravy off.\n\nBad: Attacks by monsters, or by weapons with Vampiric properties, and Bite skills give the attacker a Chemist Healing bonus effect (once per action, stronger with Feasting enchant). Additionally, when the Bad version is applied, and monster enemy(ies) is within 2 Range of the target, 1 may be enticed by the gravy and perform an attack on the target (50% damage. Requires infliction check. Can only trigger once per round, per unit.)",
+      "effects": [
+        {
+          "name": "Hot Gravy",
+          "description": "Increases target priority for monsters within LV Range. Other effects vary on if Good or Bad affinity."
+        },
+        {
+          "name": "Burn",
+          "description": "Deals unresistible Fire damage every round equal to LV. Negates bonuses to Defense."
+        },
+        {
+          "name": "lick the gravy off",
+          "description": "Eat Gravy\n\nCost: 0 FP / 1M\n\nTarget: Ally Only\n\nArea: Single\n\nLick the gravy off of yourself, ending the effect of Hot Gravy, but also restoring HP equal its LV x 20. Furthermore, if you do not have a Food status already, you gain Well Fed (LV 3, permanent duration)."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Fungi Inoculant",
+      "type": "Balm",
+      "chemicals": [
+        "A",
+        "B"
+      ],
+      "element": "Earth",
+      "elementRatio": 50,
+      "baseDamage": 30,
+      "mistEfficacy": null,
+      "mistDuration": null,
+      "mistSize": null,
+      "coatEfficacy": 80,
+      "allyMultiplier": 25,
+      "kickback": true,
+      "description": "Biomaterial for rapid mushroom growth. Targets 1 tile and applies an effect, depending on what's in it:\nNothing: Creates an Inoculated Fungi (LV 5, 10 rounds) at that location.\nInoculated Fungi: Grows the fungi further, spawning an allied Fungusman or Hungry Fungus (LV = your level - 5). Only 1 ally spawned by the Inoculant can be active at a time.\nAlly (Mushroom Unit): If the target is not Enlarged, they recover 100 HP and become Enlarged (LV 2, permanent).\nAlly (Any): Deals Earth kickback damage. Target gains 5 Fungusbark LVs (max: 25).\nEnemy: Deals Earth damage. Target gains 1 Fungusbark LV (max: 25), and is inflicted with one of the following effects randomly: Draining Fungus, Clouding Fungus, Absorbing Fungus (LV 10, 3 rounds for all).",
+      "effects": [
+        {
+          "name": "Draining Fungus",
+          "description": "Mushrooms drain LV HP and LV/2 FP at the start of a new round (as LV protection-ignoring Earth bonus damage, ignores immunity/reflect/absorb), rejuvinating the causer. When this effect's duration expires, the mushrooms explode, dealing 50 armor-ignoring Fire bonus damage to all units in 2 Range."
+        },
+        {
+          "name": "Clouding Fungus",
+          "description": "Before the owner of this effect takes any action, LV x 10% chance to release a cloud of black spores, manifesting as Darkness tiles in 2 Range around the user."
+        },
+        {
+          "name": "Absorbing Fungus",
+          "description": "Owner of this effect has Water Immunity, but after this immunity is triggered 3 times, the mushrooms will have become so large that they will knock the owner down and deal Blunt bonus damage to them equal to (LV x 5) + half the damage prevented (effect ends after)."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Soothing Brew",
+      "type": "Balm",
+      "chemicals": [
+        "A",
+        "C"
+      ],
+      "element": "Water",
+      "elementRatio": 50,
+      "baseDamage": 30,
+      "mistEfficacy": null,
+      "mistDuration": null,
+      "mistSize": null,
+      "coatEfficacy": 80,
+      "allyMultiplier": 25,
+      "kickback": true,
+      "description": "A calming brew that soothes the mind of its worries. Targets 1 tile, and if a unit is in that tile, applies an appropriate effect:\n\nAlly - They drink the tea, taking a small portion of Dark kickback damage, but they gain Soothing Brew (LV 10, 3 rounds) with Good affinity. They are also cured of 1 Hesitation, Confusion, or Fear status effect (in that order of priority).\nPerfect Brew: +5 LV and cures all effects of those types.\n\nEnemy - You douse them with the tea, dealing Dark + Water damage, inflicting them with Soaked (2 rounds) and Soothing Brew (LV 10, 3 rounds) with Bad affinity. Cures the target of Ruled By Anger, and if the target is a non-boss monster, they may be inflicted with Pacify until your next turn. (Perfect Brew: Critically hits for +50% damage and Pacify effect guaranteed.)\n\nTeas are best served when brewed for the precisely proper amount of time.",
+      "effects": [
+        {
+          "name": "Soothing Brew",
+          "description": "Good: +LV HP/FP Regen. Can use the Meditate skill, guarantees its Urawaza effect, and changes its Momentum cost to 4+M (expires when used). Bad: -(LV/2)% damage dealt. Decreases Rage Energy by LV x 3 every round. Grants immunity to Ruled By Anger."
+        },
+        {
+          "name": "Soaked",
+          "description": "+15% Fire Res, -10% Lightning Res. When taking Lightning damage, Soaked allies within 1 Range also take the damage. Ice and Earth damage replaces with a different effect."
+        },
+        {
+          "name": "Ruled By Anger",
+          "description": "+LV SWA, -LV Armor. Cannot be reapplied while active."
+        },
+        {
+          "name": "Pacify",
+          "description": "Cannot use basic attacks or Offensive skills. Taking non-status, non-bonus damage will reduce its duration by 1 round."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Treacherous Salve",
+      "type": "Balm",
+      "chemicals": [
+        "A",
+        "D"
+      ],
+      "element": null,
+      "elementRatio": null,
+      "baseDamage": null,
+      "mistEfficacy": 60,
+      "mistDuration": 1,
+      "mistSize": "2 Size Diamond",
+      "coatEfficacy": 80,
+      "allyMultiplier": 100,
+      "kickback": false,
+      "description": "An ill-conceived 'healing' balm. Targets 1 tile and applies an effect to units in it: Target gains Treacherous Salve (LV 10, 5 rounds).\n\nAlthough this salve provides some nominal healing at first, it will quickly shift its affinity to Bad, wherein it will applying -1 to all stats, and in subsequent rounds, attempt to inflict Poison, then Burn, and then Interference (LV = same as Salve, 3 rounds. One effect per round, as listed).\n\nWhen the effect's duration expires, if the afflicted isn't defeated, they regain X HP (X = LV x 15) and Y FP (Y = LV x 5), and gain Status Resistance (LV 25, 3 rounds).",
+      "effects": [
+        {
+          "name": "Treacherous Salve",
+          "description": "+15 HP & FP Regeneration, but..."
+        },
+        {
+          "name": "Poison",
+          "description": "Deals 10% maximum HP damage every round, to a maximum of 3*LV damage."
+        },
+        {
+          "name": "Burn",
+          "description": "Deals unresistible Fire damage every round equal to LV. Negates bonuses to Defense."
+        },
+        {
+          "name": "Interference",
+          "description": "Prevents recovery of HP and FP."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Rousing Essence",
+      "type": "Balm",
+      "chemicals": [
+        "A",
+        "E"
+      ],
+      "element": null,
+      "elementRatio": null,
+      "baseDamage": null,
+      "mistEfficacy": null,
+      "mistDuration": null,
+      "mistSize": null,
+      "coatEfficacy": 80,
+      "allyMultiplier": 100,
+      "kickback": false,
+      "description": "Potent insect pheromones mixed in a balm. Targets 1 tile and applies an appropriate effect:\n\nEmpty Tile: Creates a Rousing Swarm (LV = Normal flask damage + 100). This is a ticking field object which will attract a swarm of bugs when its fuse runs out, dealing varying amounts of damage and applying certain effects to all enemies in a 2 Size Circle.\n\nFlower Tile: If no summoned Insect allies with Home Grown exist, summons 1 of a random type (Level = your level -5) and applies Home Grown to it. Otherwise, applies the above effect.\n\nHome Grown Insect: Target gains Ignite Engine (LV 120, 3 rounds).\n\nOther Units: Applies Rousing Essence (LV 20, 5 rounds).",
+      "effects": [
+        {
+          "name": "Home Grown",
+          "description": "Unit was grown in this very battle. How special."
+        },
+        {
+          "name": "Ignite Engine",
+          "description": "Grants on-hit Dark magic damage equal to LV% of the causer's Dark ATK, but also causes you to lose HP equal to 15% of your maximum per round."
+        },
+        {
+          "name": "Rousing Essence",
+          "description": "-LV Critical Evade VS Insect enemies. Increased target priority for Insect enemies in 5 Range. Rousing Swarms can critically hit you, and their damage ignores Absorb/Immunity/Reflect."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Elemental Oil",
+      "type": "Balm",
+      "chemicals": [
+        "B",
+        "B"
+      ],
+      "element": null,
+      "elementRatio": null,
+      "baseDamage": null,
+      "mistEfficacy": 60,
+      "mistDuration": 1,
+      "mistSize": "2 Size Diamond",
+      "coatEfficacy": 80,
+      "allyMultiplier": 100,
+      "kickback": false,
+      "description": "Oil infused with elemental energies. Targets 1 tile and applies an effect to units in the tile:\n\nNo Elemental: Target gains a random Elemental (LV 3, 3 rounds. Cannot be extended if target is an enemy, or if applied via Mist).\n\nHas Elemental: If target is an enemy, they take damage based on the weakness of their Elemental. Otherwise, they gain Elemental Resistance (LV 15, 3 rounds) of the element their Elemental is weak to.",
+      "effects": [],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Hydromalic Reagent",
+      "type": "Balm",
+      "chemicals": [
+        "B",
+        "C"
+      ],
+      "element": "Acid",
+      "elementRatio": 50,
+      "baseDamage": 50,
+      "mistEfficacy": null,
+      "mistDuration": null,
+      "mistSize": null,
+      "coatEfficacy": 80,
+      "allyMultiplier": 50,
+      "kickback": false,
+      "description": "Balm with a swift chemical reaction to water, so fast it can evaporate it before it touches the skin. Targets 1 tile and applies an effect:\n\nNon-Soaked Unit: Target gains Hydromalic Reagent (LV 15, 3 rounds).\n\nSoaked Unit: Reagent violently reacts, ending Soaked and dealing Water + Acid damage (which can critically hit), and inflicting Acidity (LV 5, 3 rounds). Certain water-based units, such as Jammers, always take this effect, and are always critically hit.\n\nLocation With Water Tile: Creates splash of reactivity in a 3 Size Diamond, which deals damage (-25% efficacy) to units in those tiles and converts any water tiles in them into Poison Pools (LV 15, 3 rounds).",
+      "effects": [
+        {
+          "name": "Hydromalic Reagent",
+          "description": "Provides +LV% Water Resistance and Immunity to Soaked."
+        },
+        {
+          "name": "Soaked",
+          "description": "+15% Fire Res, -10% Lightning Res. When taking Lightning damage, Soaked allies within 1 Range also take the damage. Ice and Earth damage replaces with a different effect."
+        },
+        {
+          "name": "Acidity",
+          "description": "Reduces Phys. Defense and Mag. Defense by LV%."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Stone Ointment",
+      "type": "Balm",
+      "chemicals": [
+        "B",
+        "D"
+      ],
+      "element": "Earth",
+      "elementRatio": 50,
+      "baseDamage": 30,
+      "mistEfficacy": null,
+      "mistDuration": null,
+      "mistSize": null,
+      "coatEfficacy": 80,
+      "allyMultiplier": null,
+      "kickback": false,
+      "description": "A balm that harden earth into rock. Targets 1 tile and applies an effect:\n\nAlly: Target gains Stone Ointment (LV 5, 5 rounds).\n\nEnemy: Target takes Earth damage. May be inflicted with Slow (LV 2, 2 rounds) and Muddy (LV 2, 2 rounds).\n\nEmpty Tile: Attempts to destroy Cinders, Ice Sheets, Wind Shafts, Flowers, and Water tiles in the target tile. Then, creates 3 ~ 5 Rocks (5 rounds) near that tile.",
+      "effects": [
+        {
+          "name": "Stone Ointment",
+          "description": "+(5 x Duration) Armor, Critical Evade, Scaled Weapon Attack (Fists & Natural Weapons). Can cast Isespian spell with any weapon. If Duration 4+: -1 Move, -1 range to movement skills. On New Round: If you are Muddy; cures it and +2 duration (max 10). Can use the Toss Rock skill."
+        },
+        {
+          "name": "Slow",
+          "description": "-LV Move"
+        },
+        {
+          "name": "Muddy",
+          "description": "15% chance to be slip and be knocked down after using Movement. Chance increases by 15% for every tile moved beyond class base Movement speed."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Ichorite Base",
+      "type": "Balm",
+      "chemicals": [
+        "B",
+        "E"
+      ],
+      "element": "Darkness",
+      "elementRatio": 50,
+      "baseDamage": 30,
+      "mistEfficacy": 60,
+      "mistDuration": 1,
+      "mistSize": "2 Size Diamond",
+      "coatEfficacy": 80,
+      "allyMultiplier": null,
+      "kickback": false,
+      "description": "Catalyst that creates crystals when mixed with blood. Targets 1 tile and applies an effect:\n\nAlly: Target gains Ichorite Base (LV 80, 3 rounds).\n\nEnemy: Target takes Dark damage.\n\n(Ichor Crystal)",
+      "effects": [
+        {
+          "name": "Ichorite Base",
+          "description": "Taking 30+ non-field, non-status physical damage creates an Ichor Crystal (LV = this effect's LV) at a random tile between you and your attacker (once per action)."
+        },
+        {
+          "name": "(Ichor Crystal)",
+          "description": "Ichor Crystal: Field tiles created by the effect of Ichorite Base.\n They are ticking objects with a fuse between 3 and 6 'actor changes'. When the fuse runs out, they explode and deal armor-ignoring magic damage to all enemies in a 2 Size Circle around themselves.\n Depending on the type of blood you have, they can apply additional effects:\n Normal Blood - Deals Water damage. Can apply the effect of Claret Call.\n Cursed Blood - Deals Dark damage. Can apply the effect which lowers Status Resistance.\n Golden Blood - Deals Light damage.\n Allies in the explosion radius have a chance equal to your FAI% to reduce the duration of 1 negative effect caused by an enemy by 1 round. Hazing Blood - Deals Fire or Lightning damage, which can critically hit."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Aureating Unction",
+      "type": "Balm",
+      "chemicals": [
+        "C",
+        "C"
+      ],
+      "element": null,
+      "elementRatio": null,
+      "baseDamage": null,
+      "mistEfficacy": null,
+      "mistDuration": null,
+      "mistSize": null,
+      "coatEfficacy": 80,
+      "allyMultiplier": 100,
+      "kickback": false,
+      "description": "An oil capable of spreading a golden tinge, particularly on rocks and stones. Targets 1 tile and applies an appropriate effect:\n\nField Tile: Turns certain rock-based field tiles gold.\n\nAlly: Target gains Glittering Aureate (LV 10, 5 rounds.)\n\nAny Unit: Target gains Glowing (LV 10, 3 rounds). Certain rock-based status effects may become gold. May have additional effects, if the target is made of stone or metal (5 rounds).",
+      "effects": [
+        {
+          "name": "Glittering Aureate",
+          "description": "Decreases the Hit of attackers by LV. When gaining this effect, +2 LV for each material which grants Fanciness. On New Round, if owner's Fanciness is less than 10, -1 duration."
+        },
+        {
+          "name": "Glowing",
+          "description": "Evade is reduced by LV."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Tingling Emollient",
+      "type": "Balm",
+      "chemicals": [
+        "C",
+        "D"
+      ],
+      "element": null,
+      "elementRatio": null,
+      "baseDamage": null,
+      "mistEfficacy": 60,
+      "mistDuration": 1,
+      "mistSize": "2 Size Diamond",
+      "coatEfficacy": 80,
+      "allyMultiplier": 100,
+      "kickback": false,
+      "description": "A substance which invokes numbness on contact. Targets 1 tile and applies an effect to units in it: Target gains Tingling Emollient (LV 5, 5 rounds, Good Affinity for allies & Bad for enemies) and Lingering Damage (Lightning) (LV 30, 3 rounds. LV 5 for allies).\n\nWhen applied via Coated Ammo, both effects require an infliction check.",
+      "effects": [
+        {
+          "name": "Tingling Emollient",
+          "description": "Good: Decreases physical damage taken by LV x 2%. Increases Lingering Damage taken by LV x 3%. Inflicts Interference (2 rounds) when effect ends. Bad: Decreases physical damage taken by LV x 1%. Increases Lingering Damage taken by LV x 10%. Inflicts Interference (2 rounds) when effect ends."
+        },
+        {
+          "name": "Lingering Damage (Lightning)",
+          "description": "Take damage that ignores protection every round equal to LV based on element."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Phosphorescent Cream",
+      "type": "Balm",
+      "chemicals": [
+        "C",
+        "E"
+      ],
+      "element": "Light",
+      "elementRatio": 50,
+      "baseDamage": 30,
+      "mistEfficacy": null,
+      "mistDuration": null,
+      "mistSize": null,
+      "coatEfficacy": 80,
+      "allyMultiplier": null,
+      "kickback": false,
+      "description": "Light absorbing chemicals that glow in darkness, amplified with magic reagents. Targets 1 tile and applies an effect to units in it, and also creates Light Shafts (LV 10, 3 rounds) on affected tiles:\n\nAlly: Target gains Phosphorescent Cream (Good) (LV 10, 3 rounds) and Partial Absorb (Light) (LV 25, 2 rounds).\n\nEnemy: Takes Light damage. Target gains Phosphorescent Cream (Bad) (LV 10, 3 rounds) and may be inflicted with Glowing (LV 10, 3 rounds).",
+      "effects": [
+        {
+          "name": "Phosphorescent Cream (Good)",
+          "description": "+(5+LV)% Dark Resistance. +LV Light ATK. At the start of a new round, if standing on a Light Shaft, +1 duration to this effect."
+        },
+        {
+          "name": "Partial Absorb (Light)",
+          "description": "When taking damage of the specified type, absorb LV% of it, and end this effect. (Only highest LV effect applies. Applies after most damage reductions, except elemental resist.)"
+        },
+        {
+          "name": "Phosphorescent Cream (Bad)",
+          "description": "+LV Light ATK. While you are Glowing and standing in Darkness, double its Evade penalty, and gain no Evade from Darkness."
+        },
+        {
+          "name": "Glowing",
+          "description": "Evade is reduced by LV."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Hunter's Extract",
+      "type": "Balm",
+      "chemicals": [
+        "D",
+        "D"
+      ],
+      "element": "Dark",
+      "elementRatio": 50,
+      "baseDamage": 30,
+      "mistEfficacy": null,
+      "mistDuration": null,
+      "mistSize": null,
+      "coatEfficacy": 80,
+      "allyMultiplier": null,
+      "kickback": false,
+      "description": "Tainted blood that grants the power of that which it took. Targets 1 tile and applies an effect to units in it:\n\nAlly: Gain Hunter's Extract (LV 15, 3 rounds) and Beast Blood (LV 1, 5 rounds).\n\nEnemy: Take Dark damage. Gain Beast Blood (LV 1, 5 rounds).",
+      "effects": [
+        {
+          "name": "Hunter's Extract",
+          "description": "+10 Evade. +LV% damage to Beasts. -1 Momentum cost to using Move but it gains a 1 round CD. Gain some limited effects of a Night Hunter weapon (unless one is equipped). Balm's toxicity takes hold when effect ends, inflicting Poison (LV 15, 3 rounds)."
+        },
+        {
+          "name": "Beast Blood",
+          "description": "Gain Beast racial type."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Fragrant Balsam",
+      "type": "Balm",
+      "chemicals": [
+        "D",
+        "E"
+      ],
+      "element": "Wind",
+      "elementRatio": 50,
+      "baseDamage": 30,
+      "mistEfficacy": null,
+      "mistDuration": null,
+      "mistSize": null,
+      "coatEfficacy": 80,
+      "allyMultiplier": null,
+      "kickback": false,
+      "description": "A cosmetic balm with a flowery scent. Targets 1 tile and applies an effect to units in it:\n\nAlly: Target gains Fragrant Balsam (Good) (LV 10, 5 rounds).\n\nEnemy: Takes Wind damage. Target gains Fragrant Balsam (Bad) (LV 10, 3 rounds).",
+      "effects": [
+        {
+          "name": "Fragrant Balsam (Good)",
+          "description": "+(LV/2) Wind ATK. 5+LV% Efficacy to Perfume Mixtures. +5 HP/+2 FP Regen per Charm caused by you. Inflicting Charm on a unit which you already Charmed inflicts damage equal to the old effect's LV."
+        },
+        {
+          "name": "Fragrant Balsam (Bad)",
+          "description": "+(LV/2) Wind ATK. Immunity to Sneak & Lose Sneak When Applied. Mysterious and similar effects do not hide HP/FP/status effects. Create Shade reveals location. Attackers gain +LV Hit VS you."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Persistent Soap",
+      "type": "Balm",
+      "chemicals": [
+        "E",
+        "E"
+      ],
+      "element": "Wind",
+      "elementRatio": 50,
+      "baseDamage": 30,
+      "mistEfficacy": null,
+      "mistDuration": null,
+      "mistSize": null,
+      "coatEfficacy": 80,
+      "allyMultiplier": null,
+      "kickback": false,
+      "description": "Soap that does a really good job of getting you clean, and keeping you that way. Targets 1 tile and applies an effect to a unit in it:\n\nAlly: Grants Persistent Soap (LV 10, 3 rounds) with Good affinity and cures the target of the following status effects: Jammed, Muddy, Unholy Dye, and Perfume category effects. Restores 15 Fanciness to the target.\n\nEnemy: Takes Blunt damage. If the target is Soaked, they also gain Persistent Soap with Bad affinity (LV 10, 2 rounds).",
+      "effects": [
+        {
+          "name": "Persistent Soap",
+          "description": "Good: Immunity to Jammed, Muddy, Unholy Dye, and Bad affinity Perfume category effects. Claret Call build up capped to 1 per instance. Bad: Water damage VS you gains 5+LV% Elemental Pierce. LV x 10% chance to be Knocked Down after using a Movement skill or being knocked back (once)."
+        },
+        {
+          "name": "Soaked",
+          "description": "+15% Fire Res, -10% Lightning Res. When taking Lightning damage, Soaked allies within 1 Range also take the damage. Ice and Earth damage replaces with a different effect."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Mellified Confection",
+      "type": "Medicine",
+      "chemicals": [
+        "A",
+        "A"
+      ],
+      "element": "Wind",
+      "elementRatio": 50,
+      "baseDamage": 30,
+      "mistEfficacy": null,
+      "mistDuration": null,
+      "mistSize": null,
+      "coatEfficacy": 60,
+      "allyMultiplier": null,
+      "kickback": false,
+      "description": "A honeyed 'treat' whose origins are best left undiscovered, said to cure broken bones and more. Targets 1 tile and applies an effect to units in it:\n\nAlly: Restores 8% of the target's maximum FP. Additional effects based on the stage of mellification.\n\nEnemy: Deals Wind, Acid, Water and Dark damage, and inflicts Honey Soak (LV 5, 3 rounds). At Stage 3, it can critically hit. At Stage 6, Honey Soak LV is doubled and +2 rounds duration.\n\nThis confection will mellify as new rounds pass, starting at Stage 0 and increasing by 1 every new round, up to a maximum of 6. If it is Unstable, it will instead be treated as if it were between its current Stage and Stage 5 (randomly), but when used on an ally, it also applies the Enemy effect (50% damage).",
+      "effects": [
+        {
+          "name": "Honey Soak",
+          "description": "Sticky honey has soaked you. -LV CEL. -1 Move & range to movement skills. +(LVx3)% damage taken from Insect enemies, and +1 target priority to Insect monsters in 5 Range."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Cannibalizing Stimulant",
+      "type": "Medicine",
+      "chemicals": [
+        "A",
+        "B"
+      ],
+      "element": null,
+      "elementRatio": null,
+      "baseDamage": null,
+      "mistEfficacy": 80,
+      "mistDuration": 1,
+      "mistSize": "Diamond (2)",
+      "coatEfficacy": 60,
+      "allyMultiplier": 100,
+      "kickback": false,
+      "description": "A dangerous medicine that draws excess focus from deep within. Targets 1 tile and applies an effect to units in it: Target gains Cannibalizing Stimulant (LV 1, 2 rounds).",
+      "effects": [
+        {
+          "name": "Cannibalizing Stimulant",
+          "description": "Reduces the FP cost of skills to 0, and skills with FP costs have their cooldown reduced by 1 round (min. 1). Using a skill which normally requires FP increases the LV of this status by 1. At the start of a new round, take protection-ignoring Null bonus damage equal to (LV-1) x 10, then reset LV to 1."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Aromatic Brew",
+      "type": "Medicine",
+      "chemicals": [
+        "A",
+        "C"
+      ],
+      "element": "Water",
+      "elementRatio": 50,
+      "baseDamage": 30,
+      "mistEfficacy": null,
+      "mistDuration": null,
+      "mistSize": null,
+      "coatEfficacy": 60,
+      "allyMultiplier": 25,
+      "kickback": true,
+      "description": "A fragrant tea that opens up the sinuses. Targets 1 tile, and if a unit is in that tile, applies an appropriate effect:\n\nAlly - They drink the tea, taking a small portion of Earth kickback damage, but they recover 50 HP, 30 FP, and are cured of Silence.\nPerfect Brew: +50% HP/FP recovery, and grants target Tea Time (LV 1, 2 rounds) and Silence Immunity (2 rounds).\n\nEnemy - You splash them with the tea, dealing Earth + Water damage, inflicting them with Soaked (2 rounds) (Perfect Brew: Critically hits for +50% damage.)\n\nTeas are best served when brewed for the precisely proper amount of time.",
+      "effects": [
+        {
+          "name": "Tea Time",
+          "description": "During the start of the next round that this unit gets a turn in, consume this status to grant +1 Momentum."
+        },
+        {
+          "name": "Silence Immunity",
+          "description": "A temporary immunity to a status type."
+        },
+        {
+          "name": "Soaked",
+          "description": "+15% Fire Res, -10% Lightning Res. When taking Lightning damage, Soaked allies within 1 Range also take the damage. Ice and Earth damage replaces with a different effect."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Mood Rebalancer",
+      "type": "Medicine",
+      "chemicals": [
+        "A",
+        "D"
+      ],
+      "element": null,
+      "elementRatio": null,
+      "baseDamage": null,
+      "mistEfficacy": 80,
+      "mistDuration": 1,
+      "mistSize": "Diamond (2)",
+      "coatEfficacy": 60,
+      "allyMultiplier": 100,
+      "kickback": false,
+      "description": "A mind-altering medicine that balances emotions. Targets 1 tile and applies an effect to units in it: If the target has a Fear and/or Hesitation status, reduces its duration(s) by 2 rounds, and grants Immunity (2 rounds) to it if this ends the effect(s). Otherwise, unit gains Mood Rebalancer (Vaccine) (LV 1, 5 rounds). If the target is a Corrupted or Undead enemy, it will also deal Light damage.\n\nIf the target is an empty tile instead, it will instead clear out Smokescreens, and deal damage to Corrupted and Undead enemies in its effective radius (-25% efficacy).",
+      "effects": [
+        {
+          "name": "Fear",
+          "description": "-15 Hit VS Causer"
+        },
+        {
+          "name": "Hesitation",
+          "description": "LV% chance to hesitate when attacking."
+        },
+        {
+          "name": "Mood Rebalancer (Vaccine)",
+          "description": "The next time this unit gains Fear or Hesitation, that effect immediately ends, and grants Immunity to that effect (2 rounds) to this unit; if this unit and the causer are not enemies, they also gain Motivate (Alchemy) LV 15, 2 rounds. Then this unit shouts at the enemy who inflicted it, dealing Sound magic damage to all the causer's enemies in 3 Range around them, and lowers this effect's LV by 1."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Amrita",
+      "type": "Medicine",
+      "chemicals": [
+        "A",
+        "E"
+      ],
+      "element": "Fire",
+      "elementRatio": 50,
+      "baseDamage": 30,
+      "mistEfficacy": 80,
+      "mistDuration": 1,
+      "mistSize": "Diamond (2)",
+      "coatEfficacy": 60,
+      "allyMultiplier": null,
+      "kickback": false,
+      "description": "A type of elixir associated with divinity. Targets 1 tile and applies an effect to units in it:\n\nAlly: Target gains or powers up Amrita (LV 50, permanent duration, Max LV: 1000) and restores 50 HP.\nEnemy: Target takes 50 protection-ignoring Light bonus damage, then applies or powers up Cursed Wound (LV 50, 3 rounds).",
+      "effects": [
+        {
+          "name": "Amrita",
+          "description": "+LV Maximum HP. If LV is 500 or higher, +10 to all stats. Effect ends when defeated."
+        },
+        {
+          "name": "Cursed Wound",
+          "description": "Lowers maximum HP by LV."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Anti Freeze",
+      "type": "Medicine",
+      "chemicals": [
+        "B",
+        "B"
+      ],
+      "element": null,
+      "elementRatio": null,
+      "baseDamage": null,
+      "mistEfficacy": 80,
+      "mistDuration": 1,
+      "mistSize": "Diamond (2)",
+      "coatEfficacy": 60,
+      "allyMultiplier": 100,
+      "kickback": false,
+      "description": "A medicine that shatters ice. Targets 1 tile and applies an effect to units in it: If the target has a Frostbite or Frozen status, reduces its duration by 2 rounds, and grants Immunity (2 rounds) to it if this ends the effect. Otherwise, unit gains Anti Freeze (Vaccine) (LV 1, 5 rounds). If the target is an Iceblood enemy, it will also deal Fire damage.\n\nIf the target is an empty tile instead, it will instead thaw out frozen plants, destroy Ice Sheets, and deal damage to Iceblood enemies in its effective radius (-25% efficacy).",
+      "effects": [
+        {
+          "name": "Anti Freeze (Vaccine)",
+          "description": "The next time this unit gains Frostbite or Frozen, that effect immediately ends, and grants Immunity to that effect (2 rounds) to this unit. Then shattered ice shards deal Ice magic damage to all of the causer's enemies in 3 Range (including this unit), and lowers this effect's LV by 1."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Burn Chiller",
+      "type": "Medicine",
+      "chemicals": [
+        "B",
+        "C"
+      ],
+      "element": null,
+      "elementRatio": null,
+      "baseDamage": null,
+      "mistEfficacy": 80,
+      "mistDuration": 1,
+      "mistSize": "Diamond (2)",
+      "coatEfficacy": 60,
+      "allyMultiplier": 100,
+      "kickback": false,
+      "description": "A medicine meant to treat or prevent burns. Targets 1 tile and applies an effect to units in it: If the target has a Burn status, reduces its LV by 25, and grants Burn Immunity (2 rounds) if this ends the effect. Otherwise, unit gains Burn Chiller (Vaccine) (LV 1, 5 rounds). If the target is a Fireblood enemy, it will also deal Ice damage.\n\nIf the target is an empty tile instead, it will instead snuff out Cinders, and deal damage to Fireblood enemies in its effective radius (-25% efficacy).",
+      "effects": [
+        {
+          "name": "Burn Chiller (Vaccine)",
+          "description": "The next time this unit gains Burn, that effect immediately ends, and grants Burn Immunity (2 rounds) to this unit. Then cooling water spikes deal Water magic damage to all of the causer's enemies in 3 Range (including this unit), and lowers this effect's LV by 1."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Overwhelming Perfume",
+      "type": "Medicine",
+      "chemicals": [
+        "B",
+        "D"
+      ],
+      "element": "Darkness",
+      "elementRatio": 50,
+      "baseDamage": 30,
+      "mistEfficacy": 80,
+      "mistDuration": 1,
+      "mistSize": "Diamond (2)",
+      "coatEfficacy": null,
+      "allyMultiplier": null,
+      "kickback": false,
+      "description": "A perfume extremely aggressive to the senses. Targets 1 tile and applies an effect to units in it:\n\nAlly: Target gains Overwhelming Perfume (LV 5, 3 rounds).\n\nEnemy: Deals Dark + Wind damage. May inflict Blind (3 rounds). May inflict Soaked (3 rounds). May inflict a coughing fit on the target, which breaks invocations and removes Singing. Each requires an infliction check that can critically inflict; if any do, inflicts All Resists Down (1 Hit) (LV = 5 x critical inflicts, 2 rounds).\n\nWhen applied by a Mist tile, BOTH effects are applied to all units.",
+      "effects": [
+        {
+          "name": "Overwhelming Perfume",
+          "description": "*+LVx3% Charm Status Infliction. *+LVx2 Dark ATK. *Perfume effects on this unit deal damage based on type to enemies in 2 Range at the start of a new round. *Attackers gain Hit Down (LV 5, until their next turn)."
+        },
+        {
+          "name": "Blind",
+          "description": "Final hit chance is capped at 50%."
+        },
+        {
+          "name": "Soaked",
+          "description": "+15% Fire Res, -10% Lightning Res. When taking Lightning damage, Soaked allies within 1 Range also take the damage. Ice and Earth damage replaces with a different effect."
+        },
+        {
+          "name": "Singing",
+          "description": "Lost in song, but you'll stop singing if you do anything that isn't a Bard Song skill (excluding basic skills)."
+        },
+        {
+          "name": "All Resists Down (1 Hit)",
+          "description": "Reduces all elemental resistances by LV%. Only lasts for a certain number of attacks."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Sweet Frosting",
+      "type": "Medicine",
+      "chemicals": [
+        "B",
+        "E"
+      ],
+      "element": "Ice",
+      "elementRatio": 50,
+      "baseDamage": 30,
+      "mistEfficacy": 80,
+      "mistDuration": 1,
+      "mistSize": "Diamond (2)",
+      "coatEfficacy": 60,
+      "allyMultiplier": 25,
+      "kickback": true,
+      "description": "Better used for cakes than combat, but nonetheless. Targets 1 tile and applies an effect to units in it: Target gains Sweet Frosting (LV 3, 3 rounds) and takes Ice damage. Affinity is Good for allies, and Bad for enemies.\n\nGood: Increases target priority for monsters within LV Range. Attacks by monsters, or by weapons with Vampiric properties, and Bite skills may inflict the attacker with Charm (LV = LVx5, 2 rounds. Once per action). Owner can lick the frosting off. If an Automaton unit with Sweet Seduction, gains Automaton Energy (LV 1) on new round. If unit damages an enemy with a Dance skill, they fling some of the frosting on them, applying the Bad version of this effect to the enemy until their next turn.\n\nBad: Attacks by monsters, or by weapons with Vampiric properties, and Bite skills give the attacker a Chemist Buff bonus effect (once per action, stronger with Feasting enchant).",
+      "effects": [
+        {
+          "name": "Sweet Frosting",
+          "description": "Increases target priority for monsters within LV Range. Other effects vary on if Good or Bad affinity."
+        },
+        {
+          "name": "lick the frosting off",
+          "description": "Eat Frosting\n\nCost: 0 FP / 1M\n\nTarget: Ally Only\n\nArea: Single\n\nLick the frosting off of yourself, ending the effect of Sweet Frosting, but also restoring FP equal its LV x 10. Furthermore, if you do not have a Food status already, you gain Sugar Rush (LV 3, permanent duration)."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Scar Shaper",
+      "type": "Medicine",
+      "chemicals": [
+        "C",
+        "C"
+      ],
+      "element": null,
+      "elementRatio": null,
+      "baseDamage": null,
+      "mistEfficacy": 80,
+      "mistDuration": 1,
+      "mistSize": "Diamond (2)",
+      "coatEfficacy": 60,
+      "allyMultiplier": 100,
+      "kickback": false,
+      "description": "A mixture which uses natural healing elements to protect the body by wounding it. Targets 1 tile and applies an effect to units in it: Target gains Scar Shaper (LV 15, 5 rounds).",
+      "effects": [
+        {
+          "name": "Scar Shaper",
+          "description": "15x chance to suffer wounds from damage. When damage inflicts a wound on you, automatically treat it, extend this effect's duration by 1 round, and it grants LV% damage resistance VS the damage type that inflicted it. When this effect ends, all wounds treated by it are immediately cured."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Inhibitor Inhibitor",
+      "type": "Medicine",
+      "chemicals": [
+        "C",
+        "D"
+      ],
+      "element": null,
+      "elementRatio": null,
+      "baseDamage": null,
+      "mistEfficacy": 80,
+      "mistDuration": 1,
+      "mistSize": "Diamond (2)",
+      "coatEfficacy": 60,
+      "allyMultiplier": 100,
+      "kickback": false,
+      "description": "A medicine meant to allow one's body to be influenced. Targets 1 tile and applies an effect to units in it: If the target has an Interference status, reduces its duration by 2 rounds, and grants Interference Immunity (2 rounds) if this ends the effect. Otherwise, unit gains Inhibitor Inhibitor (Vaccine) (LV 1, 5 rounds). If the target is a Spatial enemy, it will also deal Wind damage.\n\nIf the target is an empty tile instead, it will instead dismiss Static Fields, and deal damage to Spatial enemies in its effective radius (-25% efficacy).",
+      "effects": [
+        {
+          "name": "Inhibitor Inhibitor (Vaccine)",
+          "description": "The next time this unit gains Interference, that effect immediately ends, and grants Interference Immunity (2 rounds) to this unit. Then the refracted interference turns into sparks of white and black lightning that jump to units in 5 Range of the last; white jumps to allies and heals 25 (+25 per jump) HP, while black jumps to enemies (starting with this unit, if an enemy) and deals Lightning magic damage. After, lowers this effect's LV by 1."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "False Death Elixir",
+      "type": "Medicine",
+      "chemicals": [
+        "C",
+        "E"
+      ],
+      "element": null,
+      "elementRatio": null,
+      "baseDamage": null,
+      "mistEfficacy": 80,
+      "mistDuration": 1,
+      "mistSize": "Diamond (2)",
+      "coatEfficacy": 60,
+      "allyMultiplier": 100,
+      "kickback": false,
+      "description": "Mixture which creates the false impression that you have become a corpse. Targets 1 tile and applies an effect to units in it:\n\nAlly: Target gains False Death Elixir (LV 50, until your next turn or theirs if applied by Mists). Being affected by a False Death Elixir in the same round as one ended has the potential to turn it into a Real Death Elixir, as it will sap 150 HP.\n\nUsing a False Death Elixir while an enemy is in 1 Range, which then has its duration expire while you are NOT in 1 Range of an enemy, will grant Clever Twist (LV 10, 3 rounds).\n\nEnemy: Attempts to inflict the target with Knocked Down.",
+      "effects": [
+        {
+          "name": "False Death Elixir",
+          "description": "-LV% damage taken and -(LV/2)% damage dealt (except field & status damage). Monsters will not treat you as a valid target and will ignore you (most likely). Effect ends if you use ANY skill other than End Turn while in 3 Range of an enemy."
+        },
+        {
+          "name": "Clever Twist",
+          "description": "What a twist! +LV GUI, Trickery checks will always be successful."
+        },
+        {
+          "name": "Knocked Down",
+          "description": "Must spend 3M getting up during your next turn. When the effect ends, gain Knockdown Resistance for 3 rounds (except for resisted effects)."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Venom Repellant",
+      "type": "Medicine",
+      "chemicals": [
+        "D",
+        "D"
+      ],
+      "element": null,
+      "elementRatio": null,
+      "baseDamage": null,
+      "mistEfficacy": 80,
+      "mistDuration": 1,
+      "mistSize": "Diamond (2)",
+      "coatEfficacy": 60,
+      "allyMultiplier": 100,
+      "kickback": false,
+      "description": "A medicine meant to expunge venomous anomalies. Targets 1 tile and applies an effect to units in it: If the target has a Poison status, reduces its LV by 15, and grants Poison Immunity (2 rounds) if this ends the effect. Otherwise, unit gains Venom Repellant (Vaccine) (LV 1, 5 rounds). If the target is a Snakeman enemy, it will also deal Earth damage.\n\nIf the target is an empty tile instead, it will instead evaporate Poison Pools, and deal damage to Snakemen enemies in its effective radius (-25% efficacy).",
+      "effects": [
+        {
+          "name": "Venom Repellant (Vaccine)",
+          "description": "The next time this unit gains Poison, that effect immediately ends, and grants Poison Immunity (2 rounds) to this unit. Then the expelled poison bursts and deals Poison magic damage to all of the causer's enemies in 3 Range (including this unit), creates Poison Pools in the same area (LV = 15, 3 rounds), and lowers this effect's LV by 1."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Loyalty Reinforcer",
+      "type": "Medicine",
+      "chemicals": [
+        "D",
+        "E"
+      ],
+      "element": null,
+      "elementRatio": null,
+      "baseDamage": null,
+      "mistEfficacy": 80,
+      "mistDuration": 1,
+      "mistSize": "Diamond (2)",
+      "coatEfficacy": 60,
+      "allyMultiplier": 100,
+      "kickback": false,
+      "description": "A mind-affecting medicine meant to interfere with other altering substances. Targets 1 tile and applies an effect to units in it: If the target has a Confusion status, reduces its duration by 2 rounds, and grants Confusion Immunity (2 rounds) if this ends the effect. Otherwise, unit gains Loyalty Reinforcer (Vaccine) (LV 1, 5 rounds). If the target is a Possessed enemy, it will also deal Sound damage.\n\nIf the target is an empty tile instead, it will instead dismiss Intoxicating Mists, and deal damage to Possessed enemies in its effective radius (-25% efficacy).",
+      "effects": [
+        {
+          "name": "Loyalty Reinforcer (Vaccine)",
+          "description": "The next time this unit gains Confusion, that effect immediately ends, and grants Confusion Immunity (2 rounds) to this unit. Then a rush of adrenaline makes this unit wildly attack all of the causer's enemies in 3 Range (excluding this unit), dealing Blunt damage that can critically hit (25% damage), and lowers this effect's LV by 1."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Wasser des Lebens",
+      "type": "Medicine",
+      "chemicals": [
+        "E",
+        "E"
+      ],
+      "element": null,
+      "elementRatio": null,
+      "baseDamage": null,
+      "mistEfficacy": 80,
+      "mistDuration": 1,
+      "mistSize": "Diamond (2)",
+      "coatEfficacy": 60,
+      "allyMultiplier": 100,
+      "kickback": false,
+      "description": "An imitation of a substance known as the water of life. Targets 1 tile and applies an effect to units in it:\n\nAlly: If the target is at 0 HP, revives them with 100 HP and applies Wasser des Lebens (Regeneration) (LV 100, 3 rounds). Otherwise, they gain Wasser des Lebens (Revival) (LV 100, 5 rounds).\n\nEnemy: The water turns to tainted seawater. Seafaring monsters may be inflicted with Charm, other units may be inflicted with Poison. (LV 30, 3 rounds. LV halved VS boss enemies).\n\nIf the target is not Knocked Down, it requires an infliction check.",
+      "effects": [
+        {
+          "name": "Wasser des Lebens (Regeneration)",
+          "description": "When this effect's duration expires, recover LV HP. Effect is lost if you are defeated."
+        },
+        {
+          "name": "Wasser des Lebens (Revival)",
+          "description": "When defeated, revive with LV HP and this effect is consumed - you cannot gain this effect again for 5 rounds afterwards. If this effect's duration expires without it triggering, recover LV HP."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Stupendous Sudorific",
+      "type": "Mutagen",
+      "chemicals": [
+        "A",
+        "A"
+      ],
+      "element": null,
+      "elementRatio": null,
+      "baseDamage": null,
+      "mistEfficacy": 70,
+      "mistDuration": 2,
+      "mistSize": "Diamond (3)",
+      "coatEfficacy": 70,
+      "allyMultiplier": 100,
+      "kickback": false,
+      "description": "A mutagen that alters the body to produce much moisture, often as sweat. Targets 1 tile and applies an effect to units in it: Target gains Stupendous Sudorific (LV 15, 5 rounds).",
+      "effects": [
+        {
+          "name": "Stupendous Sudorific",
+          "description": "+10 Mutagen Potency. Unit gains the skill Always Wet. +LV% Grapple Resistance, but -LV% Grapple Success. Tiles the unit moves over are covered in Flooded Water (2 rounds, can't extend)."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Metabolic Stabilizer",
+      "type": "Mutagen",
+      "chemicals": [
+        "A",
+        "B"
+      ],
+      "element": null,
+      "elementRatio": null,
+      "baseDamage": null,
+      "mistEfficacy": 70,
+      "mistDuration": 2,
+      "mistSize": "Diamond (3)",
+      "coatEfficacy": 70,
+      "allyMultiplier": 100,
+      "kickback": false,
+      "description": "A mutagen that fixes the body's current state, at a cost. Targets 1 tile and applies an effect to units in it: Extends the target's beneficial status effects by 1 round, then extends their Mutagen category effects by 1 round, then inflicts them with Status Resistance Lowered (LV 25, 3 rounds).\n\nIf applied via Mist, the general beneficial effect extension is not applied.",
+      "effects": [
+        {
+          "name": "Status Resistance Lowered",
+          "description": "Lowers Status Resistance by LV%."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Evolution Drought (Ape)",
+      "type": "Mutagen",
+      "chemicals": [
+        "A",
+        "C"
+      ],
+      "element": null,
+      "elementRatio": null,
+      "baseDamage": null,
+      "mistEfficacy": 70,
+      "mistDuration": 2,
+      "mistSize": "Diamond (3)",
+      "coatEfficacy": 70,
+      "allyMultiplier": 100,
+      "kickback": false,
+      "description": "A mutagen that renders the power and agility of an ape in its recipient. Targets 1 tile and applies an effect to units in it:\n\nAlly: Target gains Evolution Drought (Ape) (LV 3, 5 rounds).\n\nEnemy: Target gains Irregular Gene (Beast) (5 rounds) and Lingering Damage (Earth) (LV 30, 5 rounds, LV x2 for non-boss monsters).\n\nIf applied via Mist, the Enemy effect is used for all units.\n\n(Primate Swing)",
+      "effects": [
+        {
+          "name": "Evolution Drought (Ape)",
+          "description": "+30 Mutagen Potency. Adds Beast race type. Provides a +LV Enhancement bonus to STR & VIT, but lowers GUI by LV. +10% Slash and Pierce Resistance, -15% Fire Resistance. Grants skill Primate Swing."
+        },
+        {
+          "name": "Irregular Gene (Beast)",
+          "description": "Adds specified racial type."
+        },
+        {
+          "name": "Lingering Damage (Earth)",
+          "description": "Take damage that ignores defenses every round equal to LV."
+        },
+        {
+          "name": "(Primate Swing)",
+          "description": "Primate Swing\n\nCost: 5 FP / 3M\n\nTarget: Enemy Only\n\nArea: Single\n\nRange: 6\n\nCooldown: 2 Round(s)\n\nTargets 2 tiles within 6 Range. Location 1 must be within 2 Range and contain a Nest, Tree field object, or a Tree-like enemy. You leap to Location 1 and swing off one of those, flying towards Location 2, where you land and deal Earth damage to all enemies in 3 Range (100% Scaled Weapon Attack, 100% Earth ATK, + Mutagen Potency, uses any weapon)."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Devilish Pyrogen",
+      "type": "Mutagen",
+      "chemicals": [
+        "A",
+        "D"
+      ],
+      "element": null,
+      "elementRatio": null,
+      "baseDamage": null,
+      "mistEfficacy": 70,
+      "mistDuration": 2,
+      "mistSize": "Diamond (3)",
+      "coatEfficacy": 70,
+      "allyMultiplier": 100,
+      "kickback": false,
+      "description": "A mutagen seeded with fiendish essence. Targets 1 tile and applies an effect to units in it:\n\nAlly: Target gains Devilish Pyrogen (LV 5, 5 rounds).\n\nEnemy: Target gains Irregular Gene (Fireblood) (5 rounds) and Lingering Damage (Fire) (LV 30, 5 rounds, LV x2 for non-boss monsters).\n\nIf applied via Mist, the Enemy effect is used for all units.\n\n(Hazing Blood)",
+      "effects": [
+        {
+          "name": "Devilish Pyrogen",
+          "description": "+15 Mutagen Potency. Adds Fireblood race type. +LV SAN, +LV% Fire Resistance. Grants the skill Hazing Blood, or if your race already possesses it, increases its damage by 50%. Either way, take 10 Fire damage when it triggers. Creates a small burst of steam when your Soaked status ends to self-inflicted Fire damage."
+        },
+        {
+          "name": "Irregular Gene (Fireblood)",
+          "description": "Adds specified racial type."
+        },
+        {
+          "name": "Lingering Damage (Fire)",
+          "description": "Take damage that ignores protection every round equal to LV based on element."
+        },
+        {
+          "name": "(Hazing Blood)",
+          "description": "Hazing Blood\n\nPassive\n\nTarget: N/A\n\nTags: Racial\n\nOni are said to be a hotblooded race, but the truth goes beyond metaphor. While Sanguine Crest is active, at the start of a new round, enemies within 2 Range take magic bonus damage equal to 5 + Sanguine Crest LV + half of the Oni's Scaled SAN. (Excluding enemies who absorb, reflect, or are immune to the damage type, Fire by default. Enemies cannot be defeated by this damage.)\n\nIf an Oni Heritage trait is selected, the damage also ignores armor."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Personality Splitter",
+      "type": "Mutagen",
+      "chemicals": [
+        "A",
+        "E"
+      ],
+      "element": null,
+      "elementRatio": null,
+      "baseDamage": null,
+      "mistEfficacy": 70,
+      "mistDuration": 2,
+      "mistSize": "Diamond (3)",
+      "coatEfficacy": 70,
+      "allyMultiplier": 100,
+      "kickback": false,
+      "description": "A mutagen designed to split certain extremes of the mind and amplify them. Targets 1 tile and applies an effect to units in it: Target gains Personality Splitter (LV 5, 5 rounds).\n\nIf the target already has Personality Splitter, its duration is extended by 3 rounds (max: 5) and its Mutagen Potency increases by 10. Applications to enemies require an infliction check.",
+      "effects": [
+        {
+          "name": "Personality Splitter",
+          "description": "+10 Mutagen Potency. At the start of a new round, shifts between 'Homicidal' and 'Pacifist' personality, and this effect's LV becomes between 5 ~ 25 (min/max values increase by 5 per 10 Mutagen Potency you have. Max LV 80)."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Dubious Entheogen",
+      "type": "Mutagen",
+      "chemicals": [
+        "B",
+        "B"
+      ],
+      "element": null,
+      "elementRatio": null,
+      "baseDamage": null,
+      "mistEfficacy": 70,
+      "mistDuration": 2,
+      "mistSize": "Diamond (3)",
+      "coatEfficacy": 70,
+      "allyMultiplier": 100,
+      "kickback": false,
+      "description": "A mutagen said to give 'divine visions'. Targets 1 tile and applies an effect to units in it:\n\nAlly: Target gains Dubious Entheogen (LV 5, 5 rounds).\n\nEnemy: Target gains Irregular Gene (Spatial) (5 rounds) and Lingering Damage (Light) (LV 30, 5 rounds, LV x2 for non-boss monsters).\n\nIf applied via Mist, the Enemy effect is used for all units.\n\n (Preordinance)",
+      "effects": [
+        {
+          "name": "Dubious Entheogen",
+          "description": "+15 Mutagen Potency. Adds Spatial race type. +LV FAI, +LV% Light Resistance. Grants the skill Preordinance and activates it every round, or if your race already possesses it, increases its LV by 5 & +1 attacks. Either way, take 10 Light damage when it triggers. Beyond Sight counts as a Prayer skill for Intervention (Devotion subtalent). May see a 'divine vision' at the start of a new round."
+        },
+        {
+          "name": "Irregular Gene (Spatial)",
+          "description": "Adds specified racial type."
+        },
+        {
+          "name": "Lingering Damage (Light)",
+          "description": "Take damage that ignores defenses every round equal to LV."
+        },
+        {
+          "name": "(Preordinance)",
+          "description": "Preordinance\n\nPassive\n\nTarget: N/A\n\nTags: Racial\n\nCapable of seeing into the future in a limited fashion, the Oracle prevents enemies from getting back attacks.\n\nAdditionally, when you enter into battle, and at the start of every 3rd Round (Round 3, Round 6, etc.), you gain Disengage LV 15 for 2 rounds, 1 attack. (This increases your Evade by LV, but expires after 1 attack.)"
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Evolution Drought (Lion)",
+      "type": "Mutagen",
+      "chemicals": [
+        "B",
+        "C"
+      ],
+      "element": null,
+      "elementRatio": null,
+      "baseDamage": null,
+      "mistEfficacy": 70,
+      "mistDuration": 2,
+      "mistSize": "Diamond (3)",
+      "coatEfficacy": 70,
+      "allyMultiplier": 100,
+      "kickback": false,
+      "description": "A mutagen that renders the pride and thunder of a lion's mane and claws. Targets 1 tile and applies an effect to units in it:\n\nAlly: Target gains Evolution Drought (Lion) (LV 3, 5 rounds).\n\nEnemy: Target gains Irregular Gene (Beast) (5 rounds) and Lingering Damage (Sound) (LV 30, 5 rounds, LV x2 for non-boss monsters).\n\nIf applied via Mist, the Enemy effect is used for all units.\n\n (Prideful Tear)",
+      "effects": [
+        {
+          "name": "Evolution Drought (Lion)",
+          "description": "+30 Mutagen Potency. Adds Beast race type. Provides a +LV Enhancement bonus to LUC & SAN, but lowers GUI by LV. +10% Ice and Wind Resistance, -15% Earth Resistance. Grants skill Prideful Tear. Allows certain Roar skills to be moved and deal damage."
+        },
+        {
+          "name": "Irregular Gene (Beast)",
+          "description": "Adds specified racial type."
+        },
+        {
+          "name": "Lingering Damage (Sound)",
+          "description": "Take damage that ignores protection every round equal to LV based on element."
+        },
+        {
+          "name": "(Prideful Tear)",
+          "description": "Prideful Tear\n\nCost: 15 FP / 3M\n\nTarget: Location\n\nArea: Triple Line (6)\n\nLaunches 3 ground-tearing, piercing projectiles in a forked pattern that travel 6 tiles, which deal Slash damage to enemies (110+Mutagen Potency% Scaled Weapon Attack, uses any weapon). If you have any Roar status effects active, attackable field objects that the projectile encounters will take 10 damage for each."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Tendril Tonic",
+      "type": "Mutagen",
+      "chemicals": [
+        "B",
+        "D"
+      ],
+      "element": null,
+      "elementRatio": null,
+      "baseDamage": null,
+      "mistEfficacy": null,
+      "mistDuration": null,
+      "mistSize": null,
+      "coatEfficacy": 70,
+      "allyMultiplier": 100,
+      "kickback": false,
+      "description": "A mutagen that creates plant growth, or stimulates it. Targets 1 tile and applies an effect based on what's in it:\n\nAlly: Target gains Tendril Tonic (LV 5, 5 rounds).\nEnemy: Target gains Irregular Gene (Plant) (5 rounds) and Lingering Damage (Pierce) (LV 30, 5 rounds, LV x2 for non-boss monsters).\n\nWater Tile: Creates a Dancing Tentacle (LV 100, 5 rounds).\nFlower: Mutates the flower to create an elemental burst of pollen, dealing field damage to enemies in 2 Range (3 if large) at the start of a new round and when applied, but sets its duration to 3 rounds.\nDruid Plant: Some plants will activate the skill Dragging Vines which targets a random enemy in 5 Range. (Timing varies, but usually applies on new round and/or when blooming). For Sweet Apples or Strawberries, enemies no longer have any chance to eat them.\nCherry Blossom: If no summoned Uprooted Treant allies with Home Grown exist, summons 1 of a random type (Level = your level -5) and applies Home Grown to it, and destroys the Cherry Blossom.\nEmpty Tile: Spawns Flowers in a 3 Size Diamond (3 rounds).\n\n (Vine Pull) (Tendril Crush) (Tendril Spin) (Unstable Tendril)",
+      "effects": [
+        {
+          "name": "Tendril Tonic",
+          "description": "+15 Mutagen Potency. Adds Plant race type. Grants the skills Vine Pull, Tendril Crush, and Tendril Spin. +1 pull to Vine Pull per 25 Mutagen Potency and apply Grapple when it pulls an enemy into 1 Range (no bonus effects). Replaces your unarmed weapon with an Unstable Tendril (which can be used under similar conditions to Mixed Martial Arts)."
+        },
+        {
+          "name": "Irregular Gene (Plant)",
+          "description": "Adds specified racial type."
+        },
+        {
+          "name": "Lingering Damage (Pierce)",
+          "description": "Take damage that ignores defenses every round equal to LV."
+        },
+        {
+          "name": "(Vine Pull)",
+          "description": "Vine Pull\n\nCost: 5 FP / 1M\n\nTarget: Enemy Only\n\nArea: Single\n\nRange: 7\n\nCooldown: 1 Round(s)\n\nLaunch vines at a target within 7 Range and pull them 3 tiles towards you."
+        },
+        {
+          "name": "(Tendril Crush)",
+          "description": "Tendril Crush\n\nCost: 5 FP / 3M\n\nTarget: Enemy Only\n\nArea: Single\n\nRange: 2\n\nCooldown: 2 Round(s)\n\nUse your tendril appendage to wrap around and crush 1 enemy in 2 Range, dealing Blunt damage. If the attack hits, inflicts the target with Thorn Wrap (LV 30, 2 rounds). Scaled Weapon Attack ratio increases based on your Mutagen Potency."
+        },
+        {
+          "name": "(Tendril Spin)",
+          "description": "Tendril Spin\n\nCost: 5 FP / 3M\n\nTarget: Enemy Only\n\nArea: Circle (2)\n\nCooldown: 2 Round(s)\n\nUse your tendril appendage in a spinning attack, dealing Blunt damage to enemies in a 2 Size Circle around you (110% Scaled Weapon Attack). Damaged enemies are knocked back 1 tile. Size increases based on your Mutagen Potency (+1 per 25, max 5)."
+        },
+        {
+          "name": "(Unstable Tendril)",
+          "description": "Unstable Tendril\n\nWorth: 50\n\nMedium Fist\n\nPower: 10\n\nCritical: 5% (110%)\n\nAccuracy: 85%\n\nAttack Range: 5\n\nWeight: 0\n\nDamage Type: Blunt\n\nDurability: 40/40\n\nRarity:\n\nTendril manifested through mutagens.\n\nItem Effects\nAlso qualifies as a Whip weapon.\n\nStat Scaling - Chaos\n40% STR\n70% APT"
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Scent of the Tyrant",
+      "type": "Mutagen",
+      "chemicals": [
+        "B",
+        "E"
+      ],
+      "element": null,
+      "elementRatio": null,
+      "baseDamage": null,
+      "mistEfficacy": null,
+      "mistDuration": null,
+      "mistSize": null,
+      "coatEfficacy": 70,
+      "allyMultiplier": 100,
+      "kickback": false,
+      "description": "A mutagen enhanced perfume that might just freeze your lungs. Targets 1 tile and applies an effect to units in it:\n\nAlly: Target gains Scent of the Tyrant (LV 5, 5 rounds).\nEnemy: Target gains Irregular Gene (Iceblood) (5 rounds) and Lingering Damage (Ice) (LV 30, 5 rounds, LV x2 for non-boss monsters).\n\nEmpty Tile: Creates an Ice Tornado (LV = Level, 3 rounds, only 1 can be active per unit).\n\n(Sudden Life Eater) (Snowshoes)",
+      "effects": [
+        {
+          "name": "Scent of the Tyrant",
+          "description": "+15 Mutagen Potency. +LV Ice ATK, -LVx2% Fire Resistance, +LVx3% Elemental Pierce (Ice). Adds Iceblood race type. Immunity to Frozen. Grants Sudden Life Eater and Snowshoes skills."
+        },
+        {
+          "name": "Irregular Gene (Iceblood)",
+          "description": "Adds specified racial type."
+        },
+        {
+          "name": "Lingering Damage (Ice)",
+          "description": "Take damage that ignores protection every round equal to LV based on element."
+        },
+        {
+          "name": "(Sudden Life Eater)",
+          "description": "Sudden Life Eater\n\nCost: 10 FP / 3M\n\nTarget: Enemy Only\n\nArea: Single\n\nRange: 3\n\nThe scent of the tyrant fills you with the speed needed to feast on a frozen enemy in 3 Range (which must have an empty tile near them). You instantly jump next to the target and deal X Ice magic damage to them (X = Target's Frozen LV x 2, limited by: min. Mutagen Potency x1.5, max. Mutagen Potency x2.5), shattering the ice around them which sends them airborne and knocks them away 5 tiles. You also recover HP equal to the damage dealt.\n\nIf the target is not defeated by this effect, this skill enters a 3 round CD."
+        },
+        {
+          "name": "(Snowshoes)",
+          "description": "Snowshoes\n\nPassive\n\nTarget: N/A\n\nBeing prepared to walk on unstable footing, the owner of this skill does not suffer reduced movement nor break Ice Sheets during Move."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Evolution Drought (Armadillo)",
+      "type": "Mutagen",
+      "chemicals": [
+        "C",
+        "C"
+      ],
+      "element": null,
+      "elementRatio": null,
+      "baseDamage": null,
+      "mistEfficacy": 70,
+      "mistDuration": 2,
+      "mistSize": "Diamond (3)",
+      "coatEfficacy": 70,
+      "allyMultiplier": 100,
+      "kickback": false,
+      "description": "A mutagen that renders the protection and patience of an armadillo. Targets 1 tile and applies an effect to units in it:\n\nAlly: Target gains Evolution Drought (Armadillo) (LV 3, 5 rounds).\n\nEnemy: Target gains Irregular Gene (Beast) (5 rounds) and Lingering Damage (Wind) (LV 30, 5 rounds, LV x2 for non-boss monsters).\n\nIf applied via Mist, the Enemy effect is used for all units.\n\n(Pinball Roll) (Ball Up)",
+      "effects": [
+        {
+          "name": "Evolution Drought (Armadillo)",
+          "description": "+30 Mutagen Potency. Adds Beast race type. Provides a +LV Enhancement bonus to DEF & WIL, but lowers CEL by LV. +10% Fire and Blunt Resistance, -15% Lightning Resistance. Grants skills Pinball Roll and Ball Up."
+        },
+        {
+          "name": "Irregular Gene (Beast)",
+          "description": "Adds specified racial type."
+        },
+        {
+          "name": "Lingering Damage (Wind)",
+          "description": "Take damage that ignores protection every round equal to LV based on element."
+        },
+        {
+          "name": "(Pinball Roll)",
+          "description": "Pinball Roll\n\nCost: 10 FP / 3M\n\nTarget: Enemy Only\n\nArea: Single\n\nRange: 6\n\nCooldown: 3 Round(s)\n\nTargets 1 enemy within 6 Range and rolls into them, dealing Blunt damage. If this unit is Guarding, damaged enemies may be inflicted with Knocked Down, and the skill can repeat up to X times (X = level / 10, min. 1) if another enemy is in Range. (Enemies can only be affected once per skill use.)"
+        },
+        {
+          "name": "(Ball Up)",
+          "description": "Ball Up\n\nCost: 0 FP / 2M\n\nTarget: Ally Only\n\nArea: Single\n\nCooldown: 1 Round(s)\n\nTake a defensive stance using the armadillo as your inspiration. Grants Guard LV 20 and accelerates the cooldown of Pinball Roll by 1 round."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Evolution Drought (Shark)",
+      "type": "Mutagen",
+      "chemicals": [
+        "C",
+        "D"
+      ],
+      "element": null,
+      "elementRatio": null,
+      "baseDamage": null,
+      "mistEfficacy": 70,
+      "mistDuration": 2,
+      "mistSize": "Diamond (3)",
+      "coatEfficacy": 70,
+      "allyMultiplier": 100,
+      "kickback": false,
+      "description": "A mutagen that renders a body suited towards diving and hunting. Targets 1 tile and applies an effect to units in it:\n\nAlly: Target gains Evolution Drought (Shark) (LV 3, 5 rounds).\n\nEnemy: Target gains Irregular Gene (Shark) (5 rounds) and Lingering Damage (Water) (LV 30, 5 rounds, LV x2 for non-boss monsters).\n\nIf applied via Mist, the Enemy effect is used for all units.\n\n(Voyager of Rough Seas) (Shallow Dive) (Shiver's Jaws)",
+      "effects": [
+        {
+          "name": "Evolution Drought (Shark)",
+          "description": "+30 Mutagen Potency. Adds Shark race type. Provides a +LV Enhancement bonus to CEL & GUI, but lowers STR by LV. +10% Water and Dark Resistance, -15% Pierce Resistance. Grants skills Voyager of Rough Seas, Shallow Dive, and Shiver's Jaws."
+        },
+        {
+          "name": "Irregular Gene (Shark)",
+          "description": "Adds specified racial type."
+        },
+        {
+          "name": "Lingering Damage (Water)",
+          "description": "Take damage that ignores protection every round equal to LV based on element."
+        },
+        {
+          "name": "(Voyager of Rough Seas)",
+          "description": "Voyager of Rough Waters\n\nPassive\n\nTarget: N/A\n\nThe owner of this skill is familiar with traversing water as easily as land. Ignore the movement penalty caused by walking on Flooded Water.\n\nAdditionally, provides +5 Hit against enemies standing on a Water tile."
+        },
+        {
+          "name": "(Shallow Dive)",
+          "description": "Shallow Dive\n\nCost: 0 FP / 3M\n\nTarget: Ally Only\n\nArea: Single\n\nCooldown: 1 Round(s)\n\nDive into the dirt, or water, or whatever is beneath you. Grants you Dive (LV 10 + 50% Mutagen Potency, 3 rounds)."
+        },
+        {
+          "name": "(Shiver's Jaws)",
+          "description": "Shiver's Fangs\n\nCost: 10 FP / 3M\n\nTarget: Enemy Only\n\nArea: Single\n\nRange: 6\n\nCooldown: 3 Round(s)\n\nCan only be used while Dive is active. Targets 1 enemy within 6 Range. This unit inflicts/powers up Hunted (LV 2, 5 duration, max LV 100 and 100 duration), and disappears. They reappear next to the target and both of them disappear, dealing Pierce damage 4 times. The user then appears near the top of the battlefield and throws the victim, knocking them back 10 tiles, which deals Blunt damage to them. Damage from this skill will always at least glance.\n\nEnds your Dive afterwards. Afterwards, all enemies except the target which are standing on Flooded Water take the effect of Samegaeshi."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Evolution Drought (Unicorn)",
+      "type": "Mutagen",
+      "chemicals": [
+        "C",
+        "E"
+      ],
+      "element": null,
+      "elementRatio": null,
+      "baseDamage": null,
+      "mistEfficacy": 70,
+      "mistDuration": 2,
+      "mistSize": "Diamond (3)",
+      "coatEfficacy": 70,
+      "allyMultiplier": 100,
+      "kickback": false,
+      "description": "A mutagen that renders a magnificent unicorn's horn on the imbiber's head. Targets 1 tile and applies an effect to units in it:\n\nAlly: Target gains Evolution Drought (Unicorn) (LV 3, 5 rounds).\n\nEnemy: Target gains Irregular Gene (Mystic) (5 rounds) and Lingering Damage (Lightning) (LV 30, 5 rounds, LV x2 for non-boss monsters).\n\nIf applied via Mist, the Enemy effect is used for all units.\n\n(Ram) (Slam Off) (Electrostatic Discharge)",
+      "effects": [
+        {
+          "name": "Evolution Drought (Unicorn)",
+          "description": "+30 Mutagen Potency. Adds Mystic race type. Provides a +LV Enhancement bonus to FAI & RES, but lowers DEF by LV. +10% Light and Lightning Resistance, -15% Dark Resistance. Grants skills Ram, Slam Off, and Electrostatic Discharge. Enhances the Ram skill's range, damage, and may change its behavior when used after Move."
+        },
+        {
+          "name": "Irregular Gene (Mystic)",
+          "description": "Adds specified racial type."
+        },
+        {
+          "name": "Lingering Damage (Lightning)",
+          "description": "Take damage that ignores protection every round equal to LV based on element."
+        },
+        {
+          "name": "(Ram)",
+          "description": "Ram\n\nCost: 0 FP / 3M\n\nTarget: Enemy Only\n\nArea: Single\n\nTags: Equip Skill\n\nRam your horns into the target, dealing Pierce damage equal to 20 + your Scaled STR. If the target is using an Unarmored torso, they take 50% more damage."
+        },
+        {
+          "name": "(Slam Off)",
+          "description": "Slam Off\n\nCost: 0 FP / 2M\n\nTarget: Ally Only\n\nArea: Single\n\nRequires you to have inflicted an enemy with Impaled. Slam them against the ground, dealing armor-ignoring Blunt damage (50% Scaled Weapon Attack), ending the Impaled effect, but knocking them to a random tile in 4 Range and inflicting Knocked Down."
+        },
+        {
+          "name": "(Electrostatic Discharge)",
+          "description": "Electrostatic Discharge\n\nCost: 25 FP / 3M\n\nTarget: Enemy Only\n\nArea: Circle (3)\n\nCooldown: 2 Round(s)\n\nThe user of this skill creates a highly charged field of static, which deals Lightning magic damage to all enemies in a 3 Size Circle around it. If the user is Mountainous, Enlarged, or a Giant, the size of the circle is increased by 1 and it can inflict Interference for 2 rounds."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Radical Gene",
+      "type": "Mutagen",
+      "chemicals": [
+        "D",
+        "D"
+      ],
+      "element": null,
+      "elementRatio": null,
+      "baseDamage": null,
+      "mistEfficacy": 70,
+      "mistDuration": 2,
+      "mistSize": "Diamond (3)",
+      "coatEfficacy": 70,
+      "allyMultiplier": 100,
+      "kickback": false,
+      "description": "A mutagen that contains the essence of an evolving lifeform. Targets 1 tile and applies an effect to units in it:\n\nAlly: If HP >= 75% Max, gains Silk Spinner (LV 2, 5 rounds) and Radical Gene #1 (Permanent).\n\nIf HP < 75% Max but > 50% Max, gains Radical Cocoon (LV 30, until next turn) and Radical Gene #2 (Permanent).\n\nIf HP <= 50% Max, gains Radical Line (LV 2, 5 rounds), 1 of Radigal's Speed, Radigal's Spines, or Radigal's Hundred Steps (LV 3, 3 rounds), and Radical Gene #3 (Permanent).\n\nEnemy: Target gains Irregular Gene (Insect) (5 rounds) and Lingering Damage (Acid) (LV 30, 5 rounds, LV x2 for non-boss monsters).\n\nIf applied via Mist, the Enemy effect is used for all units.\n\n(Quaking Metamorphosis) (Centipull)",
+      "effects": [
+        {
+          "name": "Silk Spinner",
+          "description": "+10 Mutagen Potency. Grants the skills Silk Shot and Silk Armor. LV lowers by 1 after using either of those skills."
+        },
+        {
+          "name": "Radical Gene #1",
+          "description": "Mutagen Potency +5. Using the Radical Gene mixture on yourself while you have all 3 genes changes its effect."
+        },
+        {
+          "name": "Radical Cocoon",
+          "description": "+20 Mutagen Potency. Immobilizes you. -LV% damage taken. +100 Status Resist. When this effect ends, activate the skill Quaking Metamorphosis."
+        },
+        {
+          "name": "Radical Gene #2",
+          "description": "Mutagen Potency +5. Using the Radical Gene mixture on yourself while you have all 3 genes changes its effect."
+        },
+        {
+          "name": "Radical Line",
+          "description": "+15 Mutagen Potency. Grants the skill Centipull. LV lowers by 1 after using that skill."
+        },
+        {
+          "name": "Radigal's Speed",
+          "description": "+LV Move and Immobilize Immunity. Cures Immobilize upon receiving bonus."
+        },
+        {
+          "name": "Radigal's Spines",
+          "description": "Ignore damage immunities, ignores, and reflects. +LV*10 damage to attacked field objects. +LV Attack Range and Range for Duster and Cavalry Skills. (Cavalry skills will activate Centipull on the target before they trigger their normal effects.)"
+        },
+        {
+          "name": "Radigal's Hundred Steps",
+          "description": "Field objects will not trigger for this unit."
+        },
+        {
+          "name": "Radical Gene #3",
+          "description": "Mutagen Potency +5. Using the Radical Gene mixture on yourself while you have all 3 genes changes its effect."
+        },
+        {
+          "name": "Irregular Gene (Insect)",
+          "description": "Adds specified racial type."
+        },
+        {
+          "name": "Lingering Damage (Acid)",
+          "description": "Take damage that ignores protection every round equal to LV based on element."
+        },
+        {
+          "name": "(Quaking Metamorphosis)",
+          "description": "Quaking Metamorphosis\n\nCost: 0 FP / 6M\n\nTarget: Enemy Only\n\nArea: Single\n\nRange: 1\n\nCosts 9% of maximum HP. Deals Earth damage to all enemies that ignores protection and evasion equal to the user's level."
+        },
+        {
+          "name": "(Centipull)",
+          "description": "Centipull\n\nCost: 1 FP / 1M\n\nTarget: Enemy Only\n\nArea: Single\n\nRange: 5\n\nCooldown: 1 Round(s)\n\nOnly used in Cavalry Paradigm. Blasts an enemy within 5 Range with a sticky strand of web that pulls them to an empty tile near the user."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Crimson Brew",
+      "type": "Mutagen",
+      "chemicals": [
+        "D",
+        "E"
+      ],
+      "element": "Water",
+      "elementRatio": 50,
+      "baseDamage": 30,
+      "mistEfficacy": 70,
+      "mistDuration": 2,
+      "mistSize": "Diamond (3) (100% Kickback)",
+      "coatEfficacy": 70,
+      "allyMultiplier": 25,
+      "kickback": true,
+      "description": "A mutagen mixed in a deep red tea. Targets 1 tile, and if a unit is in that tile, applies an appropriate effect:\n\nAlly: They drink the tea, taking a small portion of Dark kickback damage, but gain Crimson Brew (LV 5, 5 rounds).\nPerfect Brew: Grants target Tea Time (LV 1, 2 rounds).\n\nEnemy: You dunk them with the tea, dealing Dark + Water damage and inflicting them with Irregular Gene (Vampire) (5 rounds).\nPerfect Brew: Critically hits for +50% damage.\n\nTeas are best served when brewed for the precisely proper amount of time. If applied via Mist, the Enemy effect is used for all units.\n\n(Banquet) (Sanguine Crest) (Crest Burnout)",
+      "effects": [
+        {
+          "name": "Crimson Brew",
+          "description": "+15 Mutagen Potency. Adds Vampire race type. +LV RES, +LV% Dark Resistance. Grants the skill Banquet and causes you to recover HP when hitting an enemy with it (the first heal is strongest). If you have Sanguine Crest active, recover 15% missing HP when gaining this status and don't suffer from Crest Burnout if effect ends while this mutagen is active."
+        },
+        {
+          "name": "Tea Time",
+          "description": "During the start of the next round that this unit gets a turn in, consume this status to grant +1 Momentum."
+        },
+        {
+          "name": "Irregular Gene (Vampire)",
+          "description": "Adds specified racial type."
+        },
+        {
+          "name": "(Banquet)",
+          "description": "Banquet\n\nCost: 0 FP / 3M\n\nTarget: Enemy Only\n\nArea: Single\n\nTags: Racial\n\nCooldown: 1 Round(s)\n\nVampires feed by biting their target and draining their life essence for themself. Performs a basic attack with a special Vampire Bite weapon on a target within 1 Range. If the attack hits, the Vampire gains Essence equal to the lower of the target's VIT or the Vampire's VIT (min. 10). Additionally, if the attack hits, Sanguine Crest activates, or if it is already active, you recover HP equal to half of your character level (excluding if the attack target had Golden Blood)."
+        },
+        {
+          "name": "(Sanguine Crest)",
+          "description": "Sanguine Crest\n\nPassive\n\nTarget: N/A\n\nTags: Racial\n\nA vampire cannot generate the key Focus required to sustain their own life, but unlike others, they can absorb it from others, most directly from their blood. Upon successfully applying Banquet to an enemy, you gain a permanent status called Sanguine Crest that boosts your STR, WIL, SKI, CEL, and DEF by 2. This effect can unlock other Vampire racial abilities, but when it ends, you gain Crest Burnout LV1 for 3 rounds, reducing those same stats by its LV. (Sanguine Crest will end after the battle, but you will not receive Crest Burnout in that case.)\n\nAdditionally, you have a resource called Essence (max: 100 + Scaled SAN*2) that is filled via Banquet and is used for your other racial skills."
+        },
+        {
+          "name": "(Crest Burnout)",
+          "description": "Crest Burnout\n\nReduces STR, WIL, SKI, CEL, and DEF by LV. Cannot gain Sanguine Crest while active."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    },
+    {
+      "name": "Enlargening Elixir",
+      "type": "Mutagen",
+      "chemicals": [
+        "E",
+        "E"
+      ],
+      "element": null,
+      "elementRatio": null,
+      "baseDamage": null,
+      "mistEfficacy": 70,
+      "mistDuration": 2,
+      "mistSize": "Diamond (3)",
+      "coatEfficacy": 70,
+      "allyMultiplier": 100,
+      "kickback": false,
+      "description": "A mutagen that does exactly what it says on the label. Targets 1 tile and applies an effect to units in it:\n\nAlly: Target gains Enlargening Elixir (LV 2, 5 rounds). If the target already has this effect, it and any effects granted by it have their durations extended to 5 rounds.\n\nEnemy: Target gains Giant Gene (LV 10, 5 rounds).\n\nIf applied via Mist, the Enemy effect is used for all units.\n\n(Buster) (Body Fling) (Gotcha)",
+      "effects": [
+        {
+          "name": "Enlargening Elixir",
+          "description": "+15 Mutagen Potency. At the start of a new round, if you do not have Enlargen, gain it (LV 2, same duration) and apply or power up Crash Potion (LV 1, same duration, max LV 3). While enlarged, you gain access to the skills Buster, Body Fling and Gotcha."
+        },
+        {
+          "name": "Giant Gene",
+          "description": "Unit is treated as a Giant for certain effects. +10% Maximum HP. -LV Evade."
+        },
+        {
+          "name": "(Buster)",
+          "description": "Buster\n\nCost: 8 FP / 3M\n\nTarget: Enemy Only\n\nArea: Single\n\nRange: 1\n\nCooldown: 2 Round(s)\n\nRequires the user to have grappled an enemy. Jumps and slams the enemy into the ground, dealing a large amount of Blunt damage (with Perfect Accuracy) to them and knocking them down, but ending the grapple."
+        },
+        {
+          "name": "(Body Fling)",
+          "description": "Body Fling\n\nCost: 8 FP / 3M\n\nTarget: Enemy Only\n\nArea: Single\n\nRange: 5\n\nCooldown: 3 Round(s)\n\nRequires the user to have grappled an enemy. Tosses that enemy at a different enemy within 5 Range, dealing Blunt damage and knocking both down."
+        },
+        {
+          "name": "(Gotcha)",
+          "description": "Gotcha\n\nPassive\n\nTarget: N/A\n\nWhile not Grappling an enemy, dealing Blunt physical damage to an enemy within 1 Range has a LV% chance to automatically Grapple them."
+        }
+      ],
+      "source": "https://sl2.miraheze.org/wiki/Mixture_List"
+    }
+  ]
+}

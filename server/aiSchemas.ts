@@ -276,8 +276,8 @@ const defenseContract = z.object({
  * whole: BuildState is the entire calculator state, and the optimizer
  * normalizes what it consumes. Everything the search treats as a contract, on
  * the other hand, is validated here: this is the only place untrusted input
- * reaches the deterministic engine, and an unchecked metric name or passive
- * rank propagates into the score as silently as a valid one.
+ * reaches the deterministic engine, and an unchecked metric name propagates
+ * into the score as silently as a valid one.
  */
 export const aiOptimizationRequestSchema = z.object({
   build: z.looseObject({
@@ -303,8 +303,6 @@ export const aiOptimizationRequestSchema = z.object({
   searchMainClass: z.boolean().optional(),
   searchLoadout: loadoutAxes.partial().optional(),
   gauntletOpponentIds: z.array(z.string()).optional(),
-  assumedMainPassiveRank: z.number(),
-  assumedSubPassiveRank: z.number(),
 });
 
 /** Proves the locks schema still lists every lock the optimizer honours. */

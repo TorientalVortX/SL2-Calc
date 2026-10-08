@@ -129,11 +129,11 @@ function ReadoutBody({
             * load counted over some of the slots. The dagger note under the
             * formula is what says which, so this only has to not contradict it.
             */}
-          <span className="figure__note">
+          {(ratio || row.partial) && <span className="figure__note">
             {ratio
               ? (row.partial ? 'Partial count, see below' : 'Counted')
-              : (row.partial ? 'Character contribution only' : 'Live, from this build')}
-          </span>
+              : 'Character contribution only'}
+          </span>}
         </div>
         {ratio ? (
           <div className="figure figure--static">

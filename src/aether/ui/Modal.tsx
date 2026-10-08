@@ -40,7 +40,7 @@ export function Modal({ title, onClose, children, footer, wide, flush }: ModalPr
   useEffect(() => {
     restoreTo.current = document.activeElement as HTMLElement | null;
     const focusable = ref.current?.querySelectorAll<HTMLElement>(
-      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+      'button, summary, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
     );
     focusable?.[0]?.focus();
 
@@ -53,7 +53,7 @@ export function Modal({ title, onClose, children, footer, wide, flush }: ModalPr
       }
       if (event.key !== 'Tab') return;
       const items = ref.current?.querySelectorAll<HTMLElement>(
-        'button:not(:disabled), [href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex]:not([tabindex="-1"])',
+        'button:not(:disabled), summary, [href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex]:not([tabindex="-1"])',
       );
       if (!items?.length) return;
       const first = items[0];
