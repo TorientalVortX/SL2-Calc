@@ -166,7 +166,7 @@ export const YOUKAI_FIT_PROFILES: Record<string, YoukaiFitProfile> = {
   },
   terrasque: {
     active: fit('Shatter Beam deals Earth damage and lowers enemy DEF/RES.', ['damage:Earth', 'control:def-res-down'], { roles: ['damage', 'control'], elements: ['Earth'], intents: ['debuff', 'defense reduction'] }),
-    passive: fit('Skitterscale grants +5 Evade and +2 DEF.', ['stat:def', 'derived:evade'], { roles: ['defense', 'evade'], modeled: true }),
+    passive: fit('Skitterscale grants +5 base Evade (outside the bonus cap) and +2 DEF.', ['stat:def', 'derived:evade'], { roles: ['defense', 'evade'], modeled: true }),
     main: fit('Regrowth provides recurring HP recovery.', ['install:regrowth'], { roles: ['sustain', 'healing'], intents: ['regeneration', 'healing', 'sustain'] }),
   },
   'wind-elemental': {
@@ -222,7 +222,7 @@ export interface YoukaiOptimizationContext {
 
 export interface YoukaiNumericBonuses {
   stats: Partial<Record<StatKey, number>>;
-  derived: { evade: number; criticalEvade: number; luckStatusPercent: number; hpRegeneration: number };
+  derived: { evadeBase: number; evade: number; criticalEvade: number; luckStatusPercent: number; hpRegeneration: number };
   elementalResistance: Partial<Record<ElementKey, number>>;
   /** Blunt / Pierce / Slash, which a couple of Install skills grant. */
   physicalResistance: Partial<Record<PhysicalKey, number>>;
@@ -230,7 +230,7 @@ export interface YoukaiNumericBonuses {
 }
 
 const emptyNumeric = (): YoukaiNumericBonuses => ({
-  stats: {}, derived: { evade: 0, criticalEvade: 0, luckStatusPercent: 0, hpRegeneration: 0 },
+  stats: {}, derived: { evadeBase: 0, evade: 0, criticalEvade: 0, luckStatusPercent: 0, hpRegeneration: 0 },
   elementalResistance: {}, physicalResistance: {}, weaponPower: 0,
 });
 
@@ -250,7 +250,9 @@ const NUMERIC_EFFECTS: Record<string, NumericEffect[]> = {
   'Seal of the East': [{ kind: 'stat', key: 'cel', value: 2 }],
   'Seal of the East+': [{ kind: 'stat', key: 'cel', value: 2 }],
   'Painful Accuracy': [{ kind: 'stat', key: 'ski', value: 2 }],
-  Skitterscale: [{ kind: 'stat', key: 'def', value: 2 }, { kind: 'derived', key: 'evade', value: 5 }],
+  // Korvara rule confirmed by the user: Skitterscale is base Evade. The +10
+  // creature-only version does not apply to an installed player.
+  Skitterscale: [{ kind: 'stat', key: 'def', value: 2 }, { kind: 'derived', key: 'evadeBase', value: 5 }],
   Nightshade: [{ kind: 'stat', key: 'def', value: 2 }, { kind: 'stat', key: 'res', value: 2 }],
   'Fairy Ring': [{ kind: 'derived', key: 'luckStatusPercent', value: 10 }],
   'Positive Thinker': [{ kind: 'resistance', key: 'Dark', value: 10 }],

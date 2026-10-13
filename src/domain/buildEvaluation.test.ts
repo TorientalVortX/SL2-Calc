@@ -266,6 +266,49 @@ describe('Evade base and bonus channels', () => {
     expect(gain).toBeGreaterThan(0);
     expect(evaluateBuild(high).derived.evadeBonus).toBe(evaluateBuild(low).derived.evadeBonus);
   });
+
+  it.each([0, 48, 60])('keeps Skitterscale outside the bonus cap with %i bonus Evade', bonus => {
+    const build = baseBuild();
+    build.mainClass = 'Shapeshifter';
+    build.subClass = 'Grand Summoner';
+    build.skillRanks.main = { 'sync-mind': 2, install: 3 };
+    build.bonusEvade = bonus;
+    const before = evaluateBuild(build);
+    build.youkai = { contracted: ['terrasque'], installed: null };
+    const after = evaluateBuild(build);
+    expect(after.derived.evadeBase - before.derived.evadeBase).toBe(5);
+    expect(after.derived.evade - before.derived.evade).toBe(5);
+    expect(after.derived.evadeBonus).toBe(before.derived.evadeBonus);
+    expect(after.derived.evadeBonusWasted).toBe(before.derived.evadeBonusWasted);
+    expect(after.rawStats.def - before.rawStats.def).toBe(2);
+    expect(after.sources.evade).toContainEqual({ label: 'Youkai base Evade', value: 5, channel: 'base' });
+  });
+
+  it('requires passive access and keeps the player Skitterscale value when installed', () => {
+    const build = baseBuild();
+    build.mainClass = 'Shapeshifter';
+    build.subClass = 'Grand Summoner';
+    build.skillRanks.main = { 'sync-mind': 1, install: 3 };
+    build.youkai = { contracted: ['terrasque'], installed: null };
+    expect(evaluateBuild(build).sources.evade.some(s => s.label === 'Youkai base Evade')).toBe(false);
+    build.skillRanks.main['sync-mind'] = 2;
+    build.youkai.installed = 'terrasque';
+    expect(evaluateBuild(build).sources.evade).toContainEqual({ label: 'Youkai base Evade', value: 5, channel: 'base' });
+  });
+
+  it('does not move other Youkai Evade effects into the base channel', () => {
+    const build = baseBuild();
+    build.mainClass = 'Shapeshifter';
+    build.subClass = 'Grand Summoner';
+    build.skillRanks.main = { 'sync-mind': 2, install: 3 };
+    build.youkai = { contracted: ['terrasque', 'wind-elemental'], installed: 'wind-elemental' };
+    build.bonusEvade = 50;
+    const result = evaluateBuild(build);
+    expect(result.sources.evade).toContainEqual({ label: 'Youkai base Evade', value: 5, channel: 'base' });
+    expect(result.sources.evade).toContainEqual({ label: 'Youkai', value: 10, channel: 'bonus' });
+    expect(result.derived.evadeBonus).toBe(50);
+    expect(result.derived.evadeBonusWasted).toBe(10);
+  });
 });
 
 describe('Hit tiers', () => {
