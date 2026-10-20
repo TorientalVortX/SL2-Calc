@@ -295,6 +295,23 @@ function parseEffects(text) {
 
 /** Builds one record, or null when nothing quantified could be read. */
 function toRecord(name, description, alwaysEligible) {
+  if (name === 'Numa' && /On Battle Start/.test(description)) {
+    return { name: 'Boon of Numa',
+      description: 'After the curse expires, select your current Boon level. Grants STR equal to level and HP regeneration equal to half level. Hit bonus only applies against Sludge (full level) or Muddy (25%). Level falls with unused Momentum and Cursed/Doomed equipment. Set 0 before Boon activates.',
+      applies: 'always',
+      effects: [{ kind: 'buffStat', key: 'str', base: 0, rollMax: 100, controlLabel: 'Boon of Numa level', ulMultiplier: 0 }] };
+  }
+
+  // Salamander's cap and per-trigger increments are not standing bonuses.
+  // A battle-state slider records earned Power, defaulting to zero.
+  if (name === 'Power Stacking' && /Salamander Sword/.test(description)) {
+    return {
+      name: 'Earned Salamander Power',
+      description: description.replace(/\s+/g, ' ').trim(),
+      applies: 'always',
+      effects: [{ kind: 'derived', key: 'power', base: 0, rollMax: 100, controlLabel: 'Earned Salamander Power', ulMultiplier: 0 }],
+    };
+  }
   /*
    * A magnitude of zero that does not scale can never change anything. These
    * come from prose that happens to contain a number ("if you are reduced to 0

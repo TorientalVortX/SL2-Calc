@@ -178,7 +178,7 @@ describe('evaluateBuild with talents', () => {
     expect(after.derived.statusInfliction).toBe(Math.floor(before.derived.statusInfliction * 1.1));
   });
 
-  it('leaves a conditional talent out of the numbers until it is confirmed', () => {
+  it('resolves Steady from the equipped weapon without a redundant confirmation', () => {
     const gun = 'Handgun (Enhanced)';
     const off = evaluateBuild(buildWith(gun, { 'two-hand/steady': 5 }));
     const on = evaluateBuild({
@@ -186,7 +186,7 @@ describe('evaluateBuild with talents', () => {
       talentConditionals: { 'two-hand/steady': true },
     });
     const bare = evaluateBuild(buildWith(gun));
-    expect(off.derived.hitBonusSources).toBe(bare.derived.hitBonusSources);
+    expect(off.derived.hitBonusSources - bare.derived.hitBonusSources).toBe(10);
     expect(on.derived.hitBonusSources - bare.derived.hitBonusSources).toBe(10);
   });
 

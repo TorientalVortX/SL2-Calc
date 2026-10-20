@@ -157,7 +157,7 @@ export function readoutGroups(evaluation: BuildEvaluation): ReadoutGroup[] {
       rows: [
         { key: 'initiative', label: 'Initiative', value: d.initiative, format: 'integer', stats: ['cel'], hint: 'Base CEL: racial line plus invested points, before scaling' },
         { key: 'flanking', label: 'Flanking', value: d.flanking, format: 'integer', stats: ['gui'], hint: '5 + half of scaled GUI. Half of it is added to Hit per flanking condition met' },
-        { key: 'skillPool', label: 'Skill Pool', value: d.skillPool, format: 'integer', stats: ['gui', 'ski', 'wil'], hint: '11, +1 per 5 GUI, +1 per 5 SKI, +1 per 10 WIL, +2 for Human' },
+        { key: 'skillPool', label: 'Skill Pool', value: d.skillPool, format: 'integer', stats: ['gui', 'ski', 'wil'], hint: d.skillPool === 99 ? 'Undeniable Innovator sets the maximum to 99' : '11, +1 per 5 GUI, +1 per 5 SKI, +1 per 10 WIL, +2 for Human' },
         { key: 'youkaiCap', label: 'Youkai Cap', value: d.youkaiCap, format: 'integer', stats: ['fai'], hint: 'Base FAI ÷ 5, +5' },
         {
           key: 'battleWeight',

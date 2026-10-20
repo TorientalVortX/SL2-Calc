@@ -17,7 +17,8 @@ describe('live calculator reports', () => {
     expect(effectiveWeaponTypes(weapon)).toEqual(['Bow', 'Sword']);
     const baseline = evaluateBuild(build);
     weapon.twoHandedSkillRank = 3;
-    expect(evaluateBuild(build).primaryWeapon!.power - baseline.primaryWeapon!.power).toBe(12);
+    expect(evaluateBuild(build).primaryWeapon!.swa - baseline.primaryWeapon!.swa).toBe(12);
+    expect(evaluateBuild(build).primaryWeapon!.power).toBe(baseline.primaryWeapon!.power);
     expect(talentEffects({ talents: { 'blade-expertise/reliability': 5 } }, effectiveWeaponTypes(weapon)).hit).toBe(7.5);
     expect(talentEffects({ talents: { 'blade-expertise/reliability': 5 } }, ['Sword', 'Dagger']).hit).toBe(7.5);
   });

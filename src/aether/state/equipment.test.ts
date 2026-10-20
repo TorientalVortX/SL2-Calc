@@ -265,3 +265,16 @@ function firstGearName(group: 'hands' | 'accessory'): string {
 function firstWeaponOfType(type: string): string {
   return (WEAPONS_BY_TYPE as Record<string, Array<{ name: string }>>)[type][0].name;
 }
+
+
+describe('Salamander battle Power control', () => {
+  it('exposes a zero-default slider and applies a selected partial stack', () => {
+    let b = buildReducer(createDefaultBuild(), { type: 'equip-weapon', which: 'primaryWeapon', weaponName: 'Salamander Sword' });
+    const initial = evaluateBuild(b).primaryWeapon!.swa;
+    const control = effectsForSlot(b.equipment, 'primaryWeapon')[0].rolls[0];
+    expect(control).toMatchObject({ label: 'Earned Salamander Power', min: 0, max: 100, current: 0 });
+    b = buildReducer(b, { type: 'item-roll', key: control.key, value: 35 });
+    expect(evaluateBuild(b).primaryWeapon!.swa).toBe(initial + 35);
+    expect(effectsForSlot(b.equipment, 'primaryWeapon')[0].rolls[0].current).toBe(35);
+  });
+});

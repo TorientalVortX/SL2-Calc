@@ -4549,20 +4549,16 @@
     ],
     "Salamander Sword": [
       {
-        "name": "Power Stacking",
+        "name": "Earned Salamander Power",
         "description": "Increases the Power of Salamander Sword by 5 every time you deal Fire damage, up to a maximum of +100 Power. (Lasts for the entirety of the battle. Non-monster targets only give +2 Power.)",
         "applies": "always",
         "effects": [
           {
             "kind": "derived",
             "key": "power",
-            "base": 100,
-            "ulMultiplier": 0
-          },
-          {
-            "kind": "derived",
-            "key": "power",
-            "base": 2,
+            "base": 0,
+            "rollMax": 100,
+            "controlLabel": "Earned Salamander Power",
             "ulMultiplier": 0
           }
         ]
@@ -9935,10 +9931,19 @@
     ],
     "Numa": [
       {
-        "name": "Numa",
-        "description": "On Battle Start: Gain Curse of Numa LV 30 for 2 rounds.",
-        "applies": "reference",
-        "effects": []
+        "name": "Boon of Numa",
+        "description": "After the curse expires, select your current Boon level. Grants STR equal to level and HP regeneration equal to half level. Hit bonus only applies against Sludge (full level) or Muddy (25%). Level falls with unused Momentum and Cursed/Doomed equipment. Set 0 before Boon activates.",
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "buffStat",
+            "key": "str",
+            "base": 0,
+            "rollMax": 100,
+            "controlLabel": "Boon of Numa level",
+            "ulMultiplier": 0
+          }
+        ]
       },
       {
         "name": "Numa",

@@ -164,6 +164,12 @@ function ReadoutBody({
 
       <Provenance evaluation={evaluation} rowKey={entry.kind === 'readout' ? entry.row.key : ''} />
 
+      {row.key === 'fp' && <div className="section">
+        <SectionHead>FP contributions</SectionHead>
+        {evaluation.sources.fp.map(source => <div className="provenance__row" key={source.label}>
+          <span>{source.label}</span><span>{signed(source.value)}</span>
+        </div>)}
+      </div>}
       <Sources
         stats={row.stats}
         evaluation={evaluation}

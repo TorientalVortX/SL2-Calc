@@ -22,6 +22,8 @@ Optimizer policy: exclude Devil's Tome from automatic weapon generation unless t
 
 ## Weapon evaluation
 
+Maintainer correction, 2026-10-19: **Coastal Squall's spell-power bonuses do not apply to Youkai spells.** Do not credit these bonuses when selecting a weapon for damaging Youkai Evokes. A direct increase to the actual user's elemental ATK is a distinct effect and feeds their supplied 250% elemental-ATK formula normally. Confidence: direct player confirmation for Coastal Squall's exclusion.
+
 Source: `src/domain/weaponCalculation.ts`. Confidence: `calculator-verified`.
 
 The calculator combines base values, material, parts, enchantment, qualities, upgrade level, sentimentality, configured scaling, and eligible two-handed bonuses. Weight modifiers are applied before the final floor. Mutation can change effective weapon type for rarities 1–8 according to the local mapping; 9-star weapons are not mutated.

@@ -21,6 +21,7 @@ import {
 import { RACES, RACE_RESISTANCES, SUBRACES } from '../data/races';
 import { CLASSES, CLASS_HIERARCHY } from '../data/classes';
 import { ASTROLOGY_PLANETS, FOODS, HISTORY, LEGEND_EXTEND, PLANET_ELEMENTS } from '../data/bonuses';
+import { isShield } from '../data/gear';
 import { ARMORS } from '../data/armors';
 import { armorMaterialModifier, armorQualityModifier, otherMaterialModifier } from './armorMaterials';
 import { armorEnchantmentEffect, enchantmentEffectForSlot } from './armorEnchantments';
@@ -28,7 +29,7 @@ import modifierData from '../data/content/weapon-modifiers.json';
 import { calculateDiminishingReturns, calculateRisingGameBonus, calculateYoukaiCap } from './calculations';
 import { skillBonuses, skillsForClassSlots, type SkillBonuses } from './skills';
 import { mergeSkillRanks } from './skillDamage';
-import { installedBaseStats } from './youkai';
+import { installedBaseStats, installedAffinityStats } from './youkai';
 import { youkaiNumericBonuses } from './youkaiOptimization';
 import { itemBonuses } from './itemEffects';
 import { setPiecesEquipped } from './itemSets';
@@ -317,7 +318,10 @@ export function evaluateBuild(build: BuildState, includeStatSources = false): Bu
    * worth nothing to an axe build. Conditional subtalents count only once the
    * build has confirmed them, the same opt-in `skillConditionals` uses.
    */
-  const talents = talentEffects(build, effectiveWeaponTypes(build.equipment.primaryWeapon));
+  // Grip is resolved once from actual equipment below. Legacy controls are a
+  // fallback only; manually enabled talent conditions must not add it twice.
+  const talents = { ...talentEffects({ ...build, talents: { ...build.talents,
+    'two-hand/full-swing': 0, 'two-hand/steady': 0 } }, effectiveWeaponTypes(build.equipment.primaryWeapon)) };
   const armor = build.equipment.armorName ? ARMORS[build.equipment.armorName] ?? null : null;
   const armorConditional = calculateArmorConditionals(armor, build.equipment.armorConditionalBonuses);
   /*
@@ -410,6 +414,7 @@ export function evaluateBuild(build: BuildState, includeStatSources = false): Bu
    * from the override and keep their original values, as Install specifies.
    */
   const installedStats = build.youkai?.installed ? installedBaseStats(build.youkai, mergedSkillRanks) : null;
+  const installedAffinity = build.youkai ? installedAffinityStats(build.youkai, mergedSkillRanks) : {};
   const racialFor = (stat: StatKey) => installedStats?.[stat] ?? subrace[stat] ?? 0;
   const baseFor = (stat: StatKey) => racialFor(stat) + (build.customBaseStats[stat] ?? 0) + karakuri[stat] + (leBonus[stat] ?? 0) + (mixtureBonuses.baseStats?.[stat] ?? 0);
   const additionFor = (stat: StatKey) => {
@@ -428,7 +433,7 @@ export function evaluateBuild(build: BuildState, includeStatSources = false): Bu
       + (gearBonus.stats[stat] ?? 0)
       + (traits[stat] ?? 0)
       + (skills.stats[stat] ?? 0) - (skills.buffStats[stat] ?? 0)
-      + (youkaiBonuses.stats[stat] ?? 0);
+      + (youkaiBonuses.stats[stat] ?? 0) + (installedAffinity[stat] ?? 0);
   };
 
   const aptDragon = 0;
@@ -490,7 +495,7 @@ export function evaluateBuild(build: BuildState, includeStatSources = false): Bu
     }
   }
   for (const stat of STAT_KEYS) {
-    const bonus = (mixtureBonuses.stats?.[stat] ?? 0) + (skills.buffStats[stat] ?? 0);
+    const bonus = (mixtureBonuses.stats?.[stat] ?? 0) + (skills.buffStats[stat] ?? 0) + (items.derived[`buff:${stat}`] ?? 0);
     scaledStats[stat] += bonus;
     rawStats[stat] += bonus;
   }
@@ -578,6 +583,24 @@ export function evaluateBuild(build: BuildState, includeStatSources = false): Bu
   if (food.fpPercent) fp = Math.floor(fp * (1 + food.fpPercent / 100));
   if (history.fpPercent) fp = Math.floor(fp * (1 + history.fpPercent / 100));
 
+  const fpSources: DerivedSource[] = compactSources([
+    { label: 'Scaled WIL', value: Math.floor(scaledStats.wil * 5), channel: 'base' },
+    { label: 'Scaled SAN', value: Math.floor(scaledStats.san * 2), channel: 'base' },
+    { label: 'Scaled FAI', value: Math.floor(scaledStats.fai * 3), channel: 'base' },
+    { label: 'Crystals', value: crystalVitals, channel: 'base' },
+    { label: 'White Spirits', value: spiritVitals, channel: 'base' },
+    { label: 'Food, history and manual FP', value: build.customFP + (food.fp ?? 0) + (history.fp ?? 0), channel: 'base' },
+    { label: 'Torso', value: (armor?.statBonuses?.fp ?? 0) + armorConditional.fp + armorMaterial.fp + armorEnchant.fp, channel: 'base' },
+    { label: 'Item effects', value: items.derived.fp ?? 0, channel: 'base' },
+    { label: 'Hands upgrades', value: handsPoints.fp, channel: 'base' },
+    ...((gearSlots ?? []).flatMap(slot => slot?.itemName ? [{ label: `${slot.itemName}: ${slot.material ?? 'None'} material`, value: otherMaterialModifier(slot.material).fp, channel: 'base' as const }] : [])),
+    { label: 'Gear enchantments', value: gearBonus.fp - (gearSlots ?? []).reduce((sum, slot) => sum + (slot?.itemName ? otherMaterialModifier(slot.material).fp : 0), 0), channel: 'base' },
+    { label: 'Skills', value: skills.derived.fp ?? 0, channel: 'base' },
+    { label: 'Talents (Capacity: Depth)', value: talents.maxFp, channel: 'base' },
+  ]);
+  const remainingFP = fp - fpSources.reduce((sum, source) => sum + source.value, 0);
+  if (remainingFP) fpSources.push({ label: 'Racial, Warwalk and percentage modifiers', value: remainingFP, channel: 'base' });
+
   const raceResistance = raceResistances(build, scaledStats);
   const elementalAttack = emptyElements();
   const elementalResistance = emptyElements();
@@ -635,7 +658,20 @@ export function evaluateBuild(build: BuildState, includeStatSources = false): Bu
   }
 
   const armorPoints = resolveArmorUpgradePoints(build.equipment);
-  const weaponBase = evaluateWeapon(build.equipment.primaryWeapon, scaledStats, armorConditional.critical, build.traits);
+  const weaponConfig = build.equipment.primaryWeapon;
+  const weaponBase = evaluateWeapon(weaponConfig ? { ...weaponConfig, twoHandedSkillRank: 0 } : undefined, scaledStats, armorConditional.critical, build.traits);
+  const gripTypes = effectiveWeaponTypes(weaponConfig);
+  const gripAllowed = !usingOffHand && !isShield(equippedHands?.itemName);
+  const fullSwingRank = build.talents?.['two-hand/full-swing'] ?? weaponConfig?.twoHandedSkillRank ?? 0;
+  const steadyRank = build.talents?.['two-hand/steady'] ?? weaponConfig?.twoHandedSkillRank ?? 0;
+  if (weaponBase && gripAllowed) {
+    if (gripTypes.some(type => ['Sword', 'Axe', 'Spear', 'Polearm'].includes(type)))
+      talents.scaledWeaponAtk += fullSwingRank * 2 * (weaponBase.weight >= 20 ? 2 : 1);
+    if (gripTypes.includes('Gun')) {
+      const rifle = findWeaponByName(weaponConfig?.selectedWeaponName)?.subtype?.toLowerCase() === 'rifle';
+      talents.hit += steadyRank * 2 * (rifle ? 2 : 1);
+    }
+  }
   /*
    * Attacker Hit at each positional tier.
    *
@@ -803,7 +839,7 @@ export function evaluateBuild(build: BuildState, includeStatSources = false): Bu
     /** Bonus Hit the cap leaves for Honor on a frontal attack. */
     honorHeadroom: Math.floor(attack.honorHeadroom),
     frontalHitBonus: talents.frontalHit,
-    skillPool: 11 + Math.floor(scaledStats.gui / 5) + Math.floor(scaledStats.ski / 5) + Math.floor(scaledStats.wil / 10) + (race?.human || subrace.human ? 2 : 0) + talents.skillPool + (skills.derived.skillPool ?? 0),
+    skillPool: build.traits?.includes('undeniable-innovator') ? 99 : 11 + Math.floor(scaledStats.gui / 5) + Math.floor(scaledStats.ski / 5) + Math.floor(scaledStats.wil / 10) + (race?.human || subrace.human ? 2 : 0) + talents.skillPool + (skills.derived.skillPool ?? 0),
     battleWeight,
     armor: (armor?.armor ?? 0) + armorPoints.armor + armorMaterial.armor + armorEnchant.armor + armorQuality.armor + (items.derived.armor ?? 0) + gearBonus.armor + talents.armor + (skills.derived.armor ?? 0),
     magicArmor: (armor?.magicArmor ?? 0) + armorPoints.magicArmor + armorMaterial.magicArmor + armorEnchant.magicArmor + armorQuality.magicArmor + (items.derived.magicArmor ?? 0) + gearBonus.magicArmor + talents.magicArmor + (skills.derived.magicArmor ?? 0),
@@ -871,10 +907,12 @@ export function evaluateBuild(build: BuildState, includeStatSources = false): Bu
       if (mergedSkillRanks[skill.id]) add(`Skill: ${skill.name}`, skillBonuses([skill], mergedSkillRanks, build.skillConditionals, skillWeaponTypes, { ...skillContext, scaledStats }).stats);
     }
     add('Youkai bonuses', youkaiBonuses.stats);
+    add('Installed Affinity (max +1)', installedAffinity);
     add('Dragon King set', { str: dragonKingPieces * 3 });
     add('Dragon Queen set', { wil: dragonQueenPieces * 3 });
     add('Aptitude bonus (owned scaled APT / 6)', line(stat => stat === 'apt' ? 0 : aptitudeBonus));
     add('Stat buffs', build.statBuffs ?? {});
+    add('Item status buffs', line(stat => items.derived[`buff:${stat}`] ?? 0));
     add('Evolution Drought base stats', mixtureBonuses.baseStats ?? {});
     add('Active mixture effects', mixtureBonuses.stats ?? {});
     if (build.hpPercent <= 50) {
@@ -895,7 +933,7 @@ export function evaluateBuild(build: BuildState, includeStatSources = false): Bu
     elementalAttack,
     elementalResistance,
     physicalResistance,
-    sources: { hit: hitSources, evade: evadeSources },
+    sources: { hit: hitSources, evade: evadeSources, fp: fpSources },
     primaryWeapon,
   };
 }

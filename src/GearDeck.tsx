@@ -258,14 +258,14 @@ export default function GearDeck({
                           const current = clampRoll(valueSpec, rolls[rollKey]);
                           return (
                             <label key={rollKey} className="flex items-center gap-2 text-10 text-content-faint">
-                              <span className="w-20 shrink-0">{channelLabel(valueSpec.key)} roll</span>
+                              <span className="w-20 shrink-0">{valueSpec.controlLabel ?? `${channelLabel(valueSpec.key)} roll`}</span>
                               <input
                                 type="range"
                                 min={valueSpec.base}
                                 max={valueSpec.rollMax}
                                 step={1}
                                 value={current}
-                                aria-label={`${item.name} ${channelLabel(valueSpec.key)} roll`}
+                                aria-label={valueSpec.controlLabel ?? `${item.name} ${channelLabel(valueSpec.key)} roll`}
                                 onChange={event => onRollsChange({ ...rolls, [rollKey]: Number(event.target.value) })}
                                 className="flex-1"
                               />

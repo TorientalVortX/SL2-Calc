@@ -13,7 +13,7 @@ import type { ArmorUpgradePoints, ElementKey, ResistKey, StatKey, WeaponUpgradeP
 import content from '../data/content/item-effects.json';
 
 export interface ItemEffectValue {
-  kind: 'stat' | 'derived' | 'elementalAttack' | 'resistance';
+  kind: 'stat' | 'buffStat' | 'derived' | 'elementalAttack' | 'resistance';
   key: string;
   base: number;
   /** Multiplied by the piece's UL. Zero for a flat bonus. */
@@ -26,6 +26,8 @@ export interface ItemEffectValue {
    * the bottom of the range and the default.
    */
   rollMax?: number;
+  /** Label for a manually selected battle-state value rather than an item roll. */
+  controlLabel?: string;
 }
 
 export interface ItemEffect {
@@ -154,7 +156,10 @@ export function bonusesForItem(
     effect.effects.forEach((value, valueIndex) => {
       const amount = valueAtUL(value, ul, rolls[itemRollKey(itemName, index, valueIndex)]);
       if (!amount) return;
-      if (value.kind === 'stat') {
+      if (value.kind === 'buffStat') {
+        const key = `buff:${value.key}`;
+        into.derived[key] = (into.derived[key] ?? 0) + amount;
+      } else if (value.kind === 'stat') {
         const key = value.key as StatKey;
         into.stats[key] = (into.stats[key] ?? 0) + amount;
       } else if (value.kind === 'elementalAttack') {

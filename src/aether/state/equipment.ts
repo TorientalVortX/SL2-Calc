@@ -404,7 +404,7 @@ export function effectsForSlot(equipment: BuildEquipmentState, slot: SlotId): Sl
       const key = itemRollKey(summary.name!, index, valueIndex);
       return [{
         key,
-        label: `${value.key.toUpperCase()} ${value.base}–${value.rollMax}`,
+        label: value.controlLabel ?? `${value.key.toUpperCase()} ${value.base}–${value.rollMax}`,
         min: value.base,
         max: value.rollMax,
         current: rolls[key] ?? value.base,

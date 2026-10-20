@@ -202,7 +202,7 @@ export function EffectControls({ builder, slot }: { builder: Builder; slot: Slot
             ) : (
               <div className="effect__static">
                 <span className={`chip ${entry.effect.applies === 'always' ? 'chip--good' : ''}`}>
-                  {entry.effect.applies === 'always' ? 'active' : 'text'}
+                  {entry.effect.effects.some(value => value.controlLabel) ? 'battle state' : entry.effect.applies === 'always' ? 'active' : 'text'}
                 </span>
                 <span>{entry.effect.description}</span>
               </div>
@@ -217,7 +217,7 @@ export function EffectControls({ builder, slot }: { builder: Builder; slot: Slot
                   min={roll.min}
                   max={roll.max}
                   value={roll.current}
-                  aria-label={`Rolled value for ${roll.label}`}
+                  aria-label={roll.label}
                   onChange={event => dispatch({ type: 'item-roll', key: roll.key, value: Number(event.target.value) })}
                 />
                 <span className="num roll__value">{roll.current}</span>
@@ -328,11 +328,11 @@ export function WeaponTuning({ builder, which }: { builder: Builder; which: 'pri
         </div>
         <div className="grid-2" style={{ marginTop: 6 }}>
           <SelectField
-            label="Two-handed rank"
+            label="Legacy grip rank (talent rank takes priority)"
             value={String(config.twoHandedSkillRank)}
             options={[0, 1, 2, 3, 4, 5].map(rank => ({ value: String(rank), label: String(rank) }))}
             onChange={value => patch({ twoHandedSkillRank: Number(value) })}
-            title="Swords, axes and spears gain Power; guns gain Hit. Doubled at weight 20 or more."
+            title="Fallback for builds without Full Swing or Steady talents. Never stacks with their learned rank. Shields and off-hand weapons disable the bonus."
           />
           <SelectField
             label="Rarity"

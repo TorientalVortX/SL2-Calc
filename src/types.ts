@@ -1116,6 +1116,7 @@ export interface DerivedSource {
 
 /** Itemised provenance for the derived figures that sum many sources. */
 export interface DerivedSources {
+  fp: DerivedSource[];
   hit: DerivedSource[];
   evade: DerivedSource[];
 }

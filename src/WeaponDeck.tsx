@@ -9,6 +9,7 @@ import {
   resolveUpgradePoints,
   upgradePointsSpent,
   type StatRecord,
+  type BuildEvaluation,
   type GameWorld,
   type WeaponConfig,
   type WeaponUpgradePoints,
@@ -78,6 +79,7 @@ const selectClass =
   'w-full rounded-7 border border-edge bg-surface-raised px-3 py-2 text-13 text-content outline-none focus:border-edge-emphasis';
 
 export interface WeaponDeckProps {
+  resolved?: BuildEvaluation['primaryWeapon'];
   config: WeaponConfig | undefined;
   onChange: (config: WeaponConfig) => void;
   stats: StatRecord;
@@ -102,6 +104,8 @@ export interface WeaponDeckProps {
   traitIds?: string[];
   /** Which world the build is played in: G6 raises every upgrade ceiling by one. */
   world?: GameWorld;
+  earnedPower?: number;
+  onEarnedPowerChange?: (value: number) => void;
 }
 
 /**
@@ -110,7 +114,7 @@ export interface WeaponDeckProps {
  * Results come from `evaluateWeaponSlot`, the same assembly the build evaluation
  * uses, so this screen can never disagree with the rest of the app.
  */
-export default function WeaponDeck({ config, onChange, stats, extraCritChance = 0, allowComparison = true, title, traitIds = [], world }: WeaponDeckProps) {
+export default function WeaponDeck({ config, onChange, stats, extraCritChance = 0, allowComparison = true, title, traitIds = [], world, earnedPower = 0, onEarnedPowerChange, resolved }: WeaponDeckProps) {
   const weaponsOfType = useMemo(
     () => (config ? WEAPONS_BY_TYPE[config.weaponType as keyof typeof WEAPONS_BY_TYPE] ?? [] : []),
     [config],
@@ -168,7 +172,7 @@ export default function WeaponDeck({ config, onChange, stats, extraCritChance = 
   const scalingTotal = SCALING_STATS.reduce((sum, stat) => sum + effective[stat], 0);
   const printedTotal = SCALING_STATS.reduce((sum, stat) => sum + (config.customScaling[stat] ?? 0), 0);
   const spent = upgradePointsSpent(points);
-  const result = evaluateWeaponSlot(config, stats, extraCritChance, traitIds);
+  const result = evaluateWeaponSlot(config.selectedWeaponName === 'Salamander Sword' ? { ...config, basePower: config.basePower + Math.max(0, Math.min(100, earnedPower)) } : config, stats, extraCritChance, traitIds);
   const weapon = weaponsOfType.find(w => w.name === config.selectedWeaponName);
 
   const patch = (next: Partial<WeaponConfig>) => onChange({ ...config, ...next });
@@ -190,6 +194,14 @@ export default function WeaponDeck({ config, onChange, stats, extraCritChance = 
         </div>
       </div>
 
+      {config.selectedWeaponName === 'Salamander Sword' && onEarnedPowerChange && (
+        <Field label={`Earned Salamander Power: +${earnedPower}`}>
+          <input type="range" min={0} max={100} step={1} value={earnedPower}
+            aria-label="Earned Salamander Power"
+            onChange={event => onEarnedPowerChange(Number(event.target.value))} />
+          <span className="text-11 text-content-faint">Starts at 0. Each Fire damage tick grants +5 against monsters or +2 against other targets, capped at +100.</span>
+        </Field>
+      )}
       <section className="rounded-11 border border-edge bg-surface-bar p-4">
         <div className="mb-3 flex items-baseline justify-between gap-3">
           <DeckLabel className="text-info">Slot A</DeckLabel>
@@ -259,7 +271,7 @@ export default function WeaponDeck({ config, onChange, stats, extraCritChance = 
               {ENCHANTMENTS.map(m => <option key={m} value={m}>{m}</option>)}
             </select>
           </Field>
-          <Field label="2H rank">
+          <Field label="Legacy grip rank (talent rank takes priority)">
             <input
               type="number"
               min={0}
@@ -536,13 +548,15 @@ export default function WeaponDeck({ config, onChange, stats, extraCritChance = 
       )}
 
       <p className="sr-only" aria-live="polite">
-        Scaled weapon attack {result.swa}
+        Scaled weapon attack {resolved?.swa ?? result.swa}
       </p>
     </div>
   );
 }
 
 export interface WeaponResultRailProps {
+  resolved?: BuildEvaluation['primaryWeapon'];
+  earnedPower?: number;
   config: WeaponConfig | undefined;
   stats: StatRecord;
   extraCritChance?: number;
@@ -555,11 +569,16 @@ export interface WeaponResultRailProps {
 }
 
 /** "Scaled weapon attack" plus the full result table, the Weapon tab's right rail. */
-export function WeaponResultRail({ config, stats, extraCritChance = 0, traitIds = [] }: WeaponResultRailProps) {
+export function WeaponResultRail({ config, stats, extraCritChance = 0, traitIds = [], earnedPower = 0, resolved }: WeaponResultRailProps) {
   if (!config) {
     return <p className="text-11 text-content-faint">Equip a weapon to see its resolved stats.</p>;
   }
-  const r = evaluateWeaponSlot(config, stats, extraCritChance, traitIds);
+  const r = evaluateWeaponSlot(config.selectedWeaponName === 'Salamander Sword' ? { ...config, basePower: config.basePower + Math.max(0, Math.min(100, earnedPower)) } : config, stats, extraCritChance, traitIds);
+  if (resolved) Object.assign(r, {
+    power: resolved.power, swa: resolved.swa, crit: `${resolved.critical}%`,
+    hit: `${resolved.hit}%`, weight: resolved.weight, critDamageMod: resolved.criticalDamage,
+    critSwa: Math.floor(resolved.swa * resolved.criticalDamage / 100),
+  });
   // Slot B is evaluated through the same assembly, so the columns are comparable
   // by construction rather than by two parallel implementations. Traits reach both,
   // or a comparison would attribute a trait's scaling to one weapon and not the other.

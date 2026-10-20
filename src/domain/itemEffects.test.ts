@@ -44,6 +44,14 @@ describe('UL-scaled magnitudes', () => {
 });
 
 describe('item effect data', () => {
+  it('uses earned Salamander Power, defaults to zero and clamps to 0?100', () => {
+    const value = weaponEffects('Salamander Sword')[0].effects[0];
+    expect(value).toMatchObject({ base: 0, rollMax: 100 });
+    expect(itemBonuses({ weaponName: 'Salamander Sword', conditionals: { 'Salamander Sword:0': true } }).derived.power ?? 0).toBe(0);
+    for (const [selected, expected] of [[0, 0], [15, 15], [42, 42], [100, 100], [-5, 0], [150, 100]]) {
+      expect(itemBonuses({ weaponName: 'Salamander Sword', rolls: { 'Salamander Sword:0:0': selected } }).derived.power ?? 0).toBe(expected);
+    }
+  });
   it('parses a UL-scaled weapon passive', () => {
     // Blind Bright: "Increases Light ATK by UL/2. (Doesn't stack.)"
     const effects = weaponEffects('Blind Bright');

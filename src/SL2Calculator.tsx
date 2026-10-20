@@ -311,6 +311,9 @@ export default function SL2Calculator() {
                   {gearSlot === 'weapon' ? (
                     <WeaponDeck
                       config={weaponConfig}
+                      resolved={buildEvaluation.primaryWeapon}
+                      earnedPower={gearLoadout.itemRolls?.['Salamander Sword:0:0'] ?? 0}
+                      onEarnedPowerChange={value => setGearLoadout({ ...gearLoadout, itemRolls: { ...gearLoadout.itemRolls, 'Salamander Sword:0:0': value } })}
                       onChange={setWeaponConfig}
                       stats={stats}
                       extraCritChance={conditionalCriticalBonus}
@@ -592,6 +595,9 @@ export default function SL2Calculator() {
                 {gearSlot === 'weapon' ? (
                   <WeaponDeck
                     config={weaponConfig}
+                      resolved={buildEvaluation.primaryWeapon}
+                      earnedPower={gearLoadout.itemRolls?.['Salamander Sword:0:0'] ?? 0}
+                      onEarnedPowerChange={value => setGearLoadout({ ...gearLoadout, itemRolls: { ...gearLoadout.itemRolls, 'Salamander Sword:0:0': value } })}
                     onChange={setWeaponConfig}
                     stats={stats}
                     extraCritChance={conditionalCriticalBonus}
@@ -722,6 +728,8 @@ export default function SL2Calculator() {
                   */
                 gearSlot === 'weapon' || (gearSlot === 'hands' && slot3Mode === 'offHandWeapon') ? (
                   <WeaponResultRail
+                    resolved={gearSlot === 'weapon' ? buildEvaluation.primaryWeapon : undefined}
+                    earnedPower={gearSlot === 'weapon' ? gearLoadout.itemRolls?.['Salamander Sword:0:0'] ?? 0 : 0}
                     config={gearSlot === 'weapon' ? weaponConfig : (gearLoadout.offHandWeapon as WeaponConfig | undefined)}
                     stats={stats}
                     extraCritChance={conditionalCriticalBonus}

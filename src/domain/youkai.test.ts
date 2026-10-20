@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { parseBuildFile } from './buildPersistence';
-import { evaluateBuild } from './buildEvaluation';
+import { evaluateBuild, STAT_KEYS } from './buildEvaluation';
 import {
   INSTALL_PRESERVED_STATS,
   YOUKAI,
@@ -9,6 +9,7 @@ import {
   evokedSlots,
   grantedYoukaiSkills,
   installedBaseStats,
+  installedAffinityStats,
   conflictingYoukaiFamilies,
   contractYoukai,
   normalizeYoukaiState,
@@ -225,11 +226,37 @@ describe('install', () => {
     for (const line of lines) expect(line).toEqual(lines[0]);
   });
 
-  it('applies Affinity to the installed racial line, capped at +1', () => {
-    const plain = installedBaseStats({ contracted: ['byakko'], installed: 'byakko' }, {})!;
-    const affine = installedBaseStats({ contracted: ['byakko'], installed: 'byakko' }, { 'affinity-beast': 5 })!;
-    expect(affine.str).toBe((plain.str ?? 0) + 1);
+  it('keeps Affinity out of the replacement racial bases', () => {
+    const state = { contracted: ['asrai'], installed: 'asrai' };
+    expect(installedBaseStats(state, { 'affinity-fairy': 5 })).toEqual(installedBaseStats(state, {}));
+    expect(installedAffinityStats(state, { 'affinity-fairy': 5 }))
+      .toEqual(Object.fromEntries(STAT_KEYS.map(stat => [stat, 1])));
+    expect(installedAffinityStats(state, { 'affinity-beast': 5 })).toEqual({});
+    expect(installedAffinityStats({ ...state, installed: null }, { 'affinity-fairy': 5 })).toEqual({});
+    expect(installedAffinityStats({ ...state, contracted: [] }, { 'affinity-fairy': 5 })).toEqual({});
   });
+
+  it.each(['asrai', 'seiryuu', 'suzaku', 'lilu', 'sazae-oni', 'terrasque'])(
+    'adds one to every raw stat for installed %s without changing allocation or capacity', id => {
+      const build = summonerBuild();
+      build.race = 'Other'; build.subrace = 'Redtail';
+      build.mainClass = 'Shapeshifter'; build.subClass = 'Shinobi';
+      // A bonus APT point must not cross the owned-APT 5->6 threshold.
+      build.addedStats.apt = 5;
+      build.youkai = { contracted: [id], installed: id };
+      build.skillRanks = { main: { install: 1 }, sub: {} };
+      const before = evaluateBuild(build);
+      build.skillRanks.main[`affinity-${youkaiById(id)!.race.toLowerCase()}`] = 5;
+      const after = evaluateBuild(build, true);
+      for (const stat of STAT_KEYS) {
+        expect(after.rawStats[stat] - before.rawStats[stat]).toBe(1);
+        expect(after.statSources?.[stat]).toContainEqual({ label: 'Installed Affinity (max +1)', value: 1 });
+      }
+      expect(after.pointsSpent).toBe(before.pointsSpent);
+      expect(after.maxInvestedStats).toEqual(before.maxInvestedStats);
+      expect(after.derived.youkaiCap).toBe(before.derived.youkaiCap);
+    },
+  );
 
   it('applies the complete Daisangen package to an installed Dragon', () => {
     const plain = installedBaseStats({ contracted: ['chun'], installed: 'chun' }, { 'sync-mind': 2 })!;

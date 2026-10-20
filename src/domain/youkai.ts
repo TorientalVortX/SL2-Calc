@@ -269,8 +269,8 @@ export function grantedYoukaiSkills(state: YoukaiState, ranks: SkillRanks): Gran
  * Redtail's 3, so substituting that made Install a +53 racial swing that also
  * dragged the diminishing-returns soft cap up with it.
  *
- * Affinity still applies, capped at +1, because Install says so outright:
- * "Affinity statistical boosts are effective for you (max +1)."
+ * Affinity is a separate bonus to all stats, not part of this racial
+ * replacement. See installedAffinityStats.
  */
 export function installedBaseStats(
   state: YoukaiState,
@@ -280,7 +280,7 @@ export function installedBaseStats(
   if (!youkai || !state.contracted.includes(youkai.id)) return null;
   const line = youkaiRaceBaseStats(youkai.race);
   if (!line) return null;
-  const stats = withAffinity(line, affinityRank(youkai.race, ranks, true));
+  const stats = { ...line };
   const daisangenIds = ['chun', 'haku', 'hatsu'];
   const hasDaisangen = daisangenIds.every(id => state.contracted.includes(id))
     && ((ranks['sync-mind'] ?? 0) >= 2 || daisangenIds.includes(youkai.id));
@@ -291,6 +291,20 @@ export function installedBaseStats(
   }
   for (const stat of INSTALL_PRESERVED_STATS) delete stats[stat];
   return stats;
+}
+
+/**
+ * Installed Affinity grants up to +1 to ALL stats, including zero-valued stats
+ * and FAI/SAN/APT. Preserving those racial bases does not exclude their bonuses.
+ * Kept separate from racial replacement so it cannot raise soft caps, qualify
+ * for traits, or increase the owned-APT threshold.
+ */
+export function installedAffinityStats(state: YoukaiState, ranks: SkillRanks): Partial<StatRecord> {
+  const youkai = youkaiById(state.installed);
+  if (!youkai || !state.contracted.includes(youkai.id)) return {};
+  const bonus = affinityRank(youkai.race, ranks, true);
+  if (!bonus) return {};
+  return Object.fromEntries(STAT_KEYS.map(stat => [stat, bonus])) as Partial<StatRecord>;
 }
 
 /** Whether a build can install: it needs the Install skill and a contracted Youkai. */
