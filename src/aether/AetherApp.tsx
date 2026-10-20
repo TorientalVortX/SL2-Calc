@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import PwaUpdatePrompt from '../PwaUpdatePrompt';
 import type { StatKey } from '../types';
 import { Backdrop } from './ui/Backdrop';
 import { Masthead, type DialogName } from './ui/Masthead';
@@ -207,6 +208,8 @@ export function AetherApp() {
           {builder.notice.text}
         </div>
       ) : null}
+
+      <PwaUpdatePrompt beforeRefresh={builder.flushDraft} />
 
       {/* Mounted over a sheet that is already built, so entering costs nothing. */}
       {intro ? <AetherIntro mode={intro} onDone={finishIntro} /> : null}

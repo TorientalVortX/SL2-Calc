@@ -85,6 +85,7 @@ export interface Builder {
   loadSlot: (id: string) => void;
   deleteSlot: (id: string) => void;
   exportJSON: () => string;
+  flushDraft: () => void;
   importJSON: (text: string) => void;
   downloadJSON: () => void;
   notice: Notice | null;
@@ -225,6 +226,10 @@ export function useBuilder(): Builder {
     }, 400);
     return () => window.clearTimeout(timer);
   }, [build, buildName]);
+
+  const flushDraft = useCallback(() => {
+    localStorage.setItem(STORAGE.draft, JSON.stringify(createBuildFile(buildName, build)));
+  }, [buildName, build]);
 
   const notify = useCallback((tone: Notice['tone'], text: string) => {
     setNotice({ id: Date.now(), tone, text });
@@ -378,6 +383,7 @@ export function useBuilder(): Builder {
     loadSlot,
     deleteSlot,
     exportJSON,
+    flushDraft,
     importJSON,
     downloadJSON,
     notice,

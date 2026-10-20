@@ -16,3 +16,12 @@
 
 /sw.js
   Cache-Control: public, max-age=0, must-revalidate
+
+/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/classic.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/aether.html
+  Cache-Control: public, max-age=0, must-revalidate
