@@ -35,6 +35,8 @@ describe('incoming damage', () => {
     // 200 × 0.73 × 0.70 − 45 = 57.2
     expect(incomingDamage({ ...NO_HIT, amount: 200, guardMomentum: 3 }, defender).taken).toBe(57);
     expect(guardedEvade(40, 3)).toBe(28);
+    // Confirmed in game: the Evade cost is a share of current Evade, so 6 Momentum is −60%.
+    expect(guardedEvade(50, 6)).toBe(20);
   });
 
   it('skips Armor for armor-ignoring hits and everything for protection-ignoring ones', () => {
