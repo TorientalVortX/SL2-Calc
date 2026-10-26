@@ -330,7 +330,6 @@ export function evaluateBuild(build: BuildState, includeStatSources = false): Bu
       + (youkaiBonuses.stats[stat] ?? 0) + (installedAffinity[stat] ?? 0);
   };
 
-  const aptDragon = 0;
   // Only owned APT counts toward the every-6 threshold; bonus APT (traits, gear) raises the stat but not the threshold.
   const investedApt = (build.addedStats.apt ?? 0) + (astrologyStat === 'apt' ? 1 : 0);
   const scaledApt = calculateDiminishingReturns({
@@ -340,7 +339,7 @@ export function evaluateBuild(build: BuildState, includeStatSources = false): Bu
     customStat: build.customStats.apt ?? 0,
     aptitudeBonus: 0,
     monoclassModifier,
-    dragonBonus: aptDragon,
+    dragonBonus: 0,
   });
   const aptitudeBonus = Math.max(0, Math.floor(scaledApt / 6));
   const rawStats = emptyStats();

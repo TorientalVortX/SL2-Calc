@@ -235,6 +235,14 @@ describe('install', () => {
     expect(complete.vit).toBe(plain.vit);
   });
 
+  it('holds Daisangen through Sync-Mind 2 or by installing one of the three', () => {
+    const trio = ['chun', 'haku', 'hatsu', 'seiryuu'];
+    const alone = (id: string) => installedBaseStats({ contracted: [id], installed: id }, {})!.str ?? 0;
+    expect(installedBaseStats({ contracted: trio, installed: 'chun' }, {})!.str).toBe(alone('chun') + 2);
+    expect(installedBaseStats({ contracted: trio, installed: 'seiryuu' }, {})!.str).toBe(alone('seiryuu'));
+    expect(installedBaseStats({ contracted: trio, installed: 'seiryuu' }, { 'sync-mind': 2 })!.str).toBe(alone('seiryuu') + 2);
+  });
+
   it('keeps the summon on its level 60 line', () => {
     expect(youkaiStats(youkaiById('byakko')!, {}).str).toBe(56);
   });

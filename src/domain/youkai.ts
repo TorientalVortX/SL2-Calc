@@ -175,6 +175,14 @@ export function grantedYoukaiSkills(state: YoukaiState, ranks: SkillRanks): Gran
   return granted;
 }
 
+const DAISANGEN_IDS = ['chun', 'haku', 'hatsu'];
+const DAISANGEN_DRAGON_BONUS = 2;
+
+function daisangenComplete(state: YoukaiState, ranks: SkillRanks, installedId: string): boolean {
+  const passivesHeld = (ranks['sync-mind'] ?? 0) >= 2 || DAISANGEN_IDS.includes(installedId);
+  return passivesHeld && DAISANGEN_IDS.every(id => state.contracted.includes(id));
+}
+
 /** Install substitutes the Youkai's race line (Seiryuu gives the Dragon line), not the creature's own stats. */
 export function installedBaseStats(
   state: YoukaiState,
@@ -185,12 +193,9 @@ export function installedBaseStats(
   const line = youkaiRaceBaseStats(youkai.race);
   if (!line) return null;
   const stats = { ...line };
-  const daisangenIds = ['chun', 'haku', 'hatsu'];
-  const hasDaisangen = daisangenIds.every(id => state.contracted.includes(id))
-    && ((ranks['sync-mind'] ?? 0) >= 2 || daisangenIds.includes(youkai.id));
-  if (hasDaisangen && youkai.race === 'Dragon') {
+  if (youkai.race === 'Dragon' && daisangenComplete(state, ranks, youkai.id)) {
     for (const stat of STAT_KEYS) {
-      if (stat !== 'vit' && typeof stats[stat] === 'number' && (stats[stat] ?? 0) > 0) stats[stat] = (stats[stat] ?? 0) + 2;
+      if (stat !== 'vit' && (stats[stat] ?? 0) > 0) stats[stat] = (stats[stat] ?? 0) + DAISANGEN_DRAGON_BONUS;
     }
   }
   for (const stat of INSTALL_PRESERVED_STATS) delete stats[stat];
