@@ -2,7 +2,6 @@ import LZString from 'lz-string';
 import { migrateLegacyClassPassives } from './legacyClassPassives';
 import { normalizeSpellthiefState } from './spellthief';
 import { normalizeActiveMixtureEffects, normalizeMixturePlan } from './chemist';
-import { z } from 'zod';
 import manifestJson from '../data/game-data.json';
 import releaseJson from '../data/app-release.json';
 import { ARMORS } from '../data/armors';
@@ -24,6 +23,8 @@ import type {
   SkillRanks,
   StampRecord,
   StatRecord,
+  WeaponConfig,
+  WeaponSlotConfig,
   WeaponUpgradePoints,
   YoukaiState,
 } from '../types';
@@ -104,59 +105,59 @@ const youkaiState = (value: unknown): YoukaiState => {
   return normalizeYoukaiState({ contracted, installed });
 };
 
-const savedNumber = (fallback: number) => z.number().catch(fallback);
-const savedName = (fallback: string) => z.string().catch(fallback);
-// Zod's unknown schema rejects an absent key, so `.catch` is needed for saves predating a flag.
-const savedFlag = z.unknown().transform(Boolean).catch(false);
+const savedNumber = (value: unknown, fallback: number) => (typeof value === 'number' && Number.isFinite(value) ? value : fallback);
+const savedName = (value: unknown, fallback: string) => (typeof value === 'string' ? value : fallback);
 
-const weaponSlotShape = {
-  selectedWeaponName: z.string().nullable().catch(null),
-  weaponType: savedName(''),
-  basePower: savedNumber(0),
-  baseCrit: savedNumber(0),
-  baseHit: savedNumber(0),
-  baseWeight: savedNumber(0),
-  baseCritDamage: savedNumber(0),
-  material: savedName('None'),
-  part1: savedName('None'),
-  part2: savedName('None'),
-  part3: savedName('None'),
-  enchantment: savedName('None'),
-  // `upgradePoints` must stay undefined when absent so `resolveUpgradePoints` can map a legacy `upgradeLevel`.
-  upgradeLevel: savedNumber(0),
-  upgradePoints: z.object({
-    power: savedNumber(0),
-    critical: savedNumber(0),
-    accuracy: savedNumber(0),
-    durability: savedNumber(0),
-  }).optional().catch(undefined),
-  rarity: savedNumber(0),
-  powerQuality: savedFlag,
-  critQuality: savedFlag,
-  hitQuality: savedFlag,
-  weightPlus: savedFlag,
-  weightMinus: savedFlag,
-  sentimentality: savedFlag,
-  twoHandedSkillRank: savedNumber(0),
-  customScaling: z.unknown().transform(value => numericRecord(value, ZERO_STATS)).catch(() => ({ ...ZERO_STATS })),
-} as const;
-
-const withResolvedUpgrades = <T extends { upgradeLevel: number; upgradePoints?: WeaponUpgradePoints }>(config: T) =>
-  ({ ...config, upgradeLevel: 0, upgradePoints: resolveUpgradePoints(config) });
-
-const weaponSlotSchema = z.object(weaponSlotShape).transform(withResolvedUpgrades);
-
-const weaponConfigSchema = z.object({
-  ...weaponSlotShape,
-  comparisonMode: z.boolean().optional().catch(undefined),
-  /** "Slot B" of the side-by-side comparison, not an off-hand. */
-  secondaryWeapon: weaponSlotSchema.optional().catch(undefined),
-}).transform(withResolvedUpgrades);
-
-function savedWeapon<Output>(schema: { safeParse: (value: unknown) => { success: true; data: Output } | { success: false } }, value: unknown): Output | undefined {
+// Left undefined when absent so `resolveUpgradePoints` can map a legacy `upgradeLevel`.
+function savedUpgradePoints(value: unknown): WeaponUpgradePoints | undefined {
   if (!isRecord(value)) return undefined;
-  const parsed = schema.safeParse(value);
-  return parsed.success ? parsed.data : undefined;
+  return {
+    power: savedNumber(value.power, 0),
+    critical: savedNumber(value.critical, 0),
+    accuracy: savedNumber(value.accuracy, 0),
+    durability: savedNumber(value.durability, 0),
+  };
+}
+
+function savedWeaponSlot(value: unknown): WeaponSlotConfig | undefined {
+  if (!isRecord(value)) return undefined;
+  const slot = {
+    selectedWeaponName: typeof value.selectedWeaponName === 'string' ? value.selectedWeaponName : null,
+    weaponType: savedName(value.weaponType, ''),
+    basePower: savedNumber(value.basePower, 0),
+    baseCrit: savedNumber(value.baseCrit, 0),
+    baseHit: savedNumber(value.baseHit, 0),
+    baseWeight: savedNumber(value.baseWeight, 0),
+    baseCritDamage: savedNumber(value.baseCritDamage, 0),
+    material: savedName(value.material, 'None'),
+    part1: savedName(value.part1, 'None'),
+    part2: savedName(value.part2, 'None'),
+    part3: savedName(value.part3, 'None'),
+    enchantment: savedName(value.enchantment, 'None'),
+    upgradeLevel: savedNumber(value.upgradeLevel, 0),
+    upgradePoints: savedUpgradePoints(value.upgradePoints),
+    rarity: savedNumber(value.rarity, 0),
+    powerQuality: Boolean(value.powerQuality),
+    critQuality: Boolean(value.critQuality),
+    hitQuality: Boolean(value.hitQuality),
+    weightPlus: Boolean(value.weightPlus),
+    weightMinus: Boolean(value.weightMinus),
+    sentimentality: Boolean(value.sentimentality),
+    twoHandedSkillRank: savedNumber(value.twoHandedSkillRank, 0),
+    customScaling: numericRecord(value.customScaling, ZERO_STATS),
+  };
+  return { ...slot, upgradeLevel: 0, upgradePoints: resolveUpgradePoints(slot) };
+}
+
+function savedWeaponConfig(value: unknown): WeaponConfig | undefined {
+  const slot = savedWeaponSlot(value);
+  if (!slot || !isRecord(value)) return undefined;
+  return {
+    ...slot,
+    comparisonMode: typeof value.comparisonMode === 'boolean' ? value.comparisonMode : undefined,
+    // Comparison "Slot B", not an off-hand.
+    secondaryWeapon: savedWeaponSlot(value.secondaryWeapon),
+  };
 }
 
 function baseClassFor(className: string): string {
@@ -296,9 +297,9 @@ export function normalizeBuildState(value: unknown): BuildState {
         : undefined,
       armorMaterial: typeof equipment.armorMaterial === 'string' ? equipment.armorMaterial : undefined,
       armorEnchantment: typeof equipment.armorEnchantment === 'string' ? equipment.armorEnchantment : undefined,
-      primaryWeapon: withWeaponCeilings(savedWeapon(weaponConfigSchema, equipment.primaryWeapon), world),
+      primaryWeapon: withWeaponCeilings(savedWeaponConfig(equipment.primaryWeapon), world),
       hands: gearSlot(equipment.hands, NO_HANDS_UPGRADE_POINTS),
-      offHandWeapon: withWeaponCeilings(savedWeapon(weaponSlotSchema, equipment.offHandWeapon), world),
+      offHandWeapon: withWeaponCeilings(savedWeaponSlot(equipment.offHandWeapon), world),
       legs: gearSlot(equipment.legs, NO_LEGS_UPGRADE_POINTS),
       accessory1: gearSlot(equipment.accessory1, NO_ACCESSORY_UPGRADE_POINTS),
       accessory2: gearSlot(equipment.accessory2, NO_ACCESSORY_UPGRADE_POINTS),

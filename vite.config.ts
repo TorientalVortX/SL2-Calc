@@ -1,12 +1,23 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
-import gameData from './src/data/game-data.json'
-import packageJson from './package.json'
-
-const cacheNamespace = `sl2-${packageJson.version}-${gameData.dataVersion}`
 
 export default defineConfig({
+  build: {
+    rolldownOptions: {
+      output: {
+        // Stable chunks so a release only re-downloads what changed. skills-text stays lazy; app-release changes every release.
+        codeSplitting: {
+          groups: [
+            { name: 'react', test: /node_modules[\\/](react|react-dom|scheduler)[\\/]/ },
+            { name: 'game-data', test: /src[\\/]data[\\/](armors\.json|content[\\/](?!skills-text\.json)[^\\/]+\.json)$/ },
+            // Shared with the lazy intro scene; on its own so app releases don't rehash the three.js chunk.
+            { name: 'crest', test: /src[\\/]aether[\\/]intro[\\/]crest\.ts$/ },
+          ],
+        },
+      },
+    },
+  },
   plugins: [
     react(),
     VitePWA({
@@ -27,7 +38,8 @@ export default defineConfig({
         ],
       },
       workbox: {
-        cacheId: cacheNamespace,
+        // Kept stable across releases so unchanged hashed assets are reused instead of re-downloaded.
+        cacheId: 'sl2',
         cleanupOutdatedCaches: true,
         navigateFallback: '/index.html',
         globPatterns: ['**/*.{js,css,html,json,svg,woff,woff2}'],
@@ -35,7 +47,7 @@ export default defineConfig({
           {
             urlPattern: ({ request }) => request.mode === 'navigate',
             handler: 'NetworkFirst',
-            options: { cacheName: `${cacheNamespace}-pages`, networkTimeoutSeconds: 3 },
+            options: { cacheName: 'sl2-pages', networkTimeoutSeconds: 3 },
           },
         ],
       },
