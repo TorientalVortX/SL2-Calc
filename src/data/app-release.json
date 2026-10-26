@@ -1,21 +1,14 @@
 {
   "schemaVersion": 1,
-  "version": "0.9.0",
-  "releasedAt": "2026-10-08",
-  "headline": "Chemist mixtures, battle effects, and updated build controls.",
+  "version": "0.9.1",
+  "releasedAt": "2026-10-26",
+  "headline": "Build cards, link previews, and the classic calculator retired.",
   "notes": [
-    "Added Chemist mixtures: all 60 recipes, flask planning, wiki descriptions, status tooltips and controls for supported ally effects.",
-    "Chemist mixture power now uses the Chemist class level and the stat for its mixture type: GUI, DEF, FAI or APT. Unholy Dye uses B + E.",
-    "Skills now have Details with wiki descriptions, formulas, rank values, costs and requirements. Damage formulas use the build's referenced stats, weapon ATK and elemental ATK.",
-    "Added controls for supported battle effects, with fields for stacks, resource counts and element choices. Each Bard song has one Active toggle for all its bonuses.",
-    "Temporary skill stat boosts keep their full value after diminishing returns. Temporary Evade uses the bonus cap; Dodger remains base Evade.",
-    "Skill Power bonuses now reach Scaled Weapon ATK. Supported resistance, critical damage and FP bonuses reach the build totals.",
-    "Chaos Reflex now shows Max LV by rank. Its Active control shows the Evade bonus from the entered LV.",
-    "Added a Spellthief spell library for saved cards and prepared copies, with descriptions, requirements and capacity. Cards use their normal maximum rank.",
-    "Moved History into Traits. Only one can be selected, and it is free for Human-category races. History stats count toward trait requirements without changing racial base stats.",
-    "Added Crystals beside Level in Identity: +1 HP and FP each, up to 45.",
-    "Added Spirits to Talents. White Spirits grant +3 HP and FP each, up to five. Black Spirits are marked TBA.",
-    "Crystal, White Spirit and skill input counts are kept in saves, imports and share links.",
-    "Simplified Aether's wording, helper text and decorative styling while preserving wiki text. Removed the redundant build note from readout cards."
+    "Added Copy build card and Save card to Import / Export. The card is an image of the build for posting where links don't preview.",
+    "Links to the site now preview with a screenshot of the sheet. New app icon, and the installed app is now called Aether Codex.",
+    "The classic calculator is retired. Old /classic and /aether.html links open the sheet, and share links keep their build.",
+    "The light theme no longer flashes dark while the page loads.",
+    "RES and Dark text are easier to read on the dark theme.",
+    "Updates now download only what changed. The first update after this one downloads everything once."
   ]
 }
