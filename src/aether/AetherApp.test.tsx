@@ -99,3 +99,26 @@ describe('incoming damage', () => {
     expect(taken()).toBe(String(incomingDamage({ ...NO_HIT, amount: 400, guardMomentum: 2 }, evaluation).taken));
   });
 });
+
+describe('glancing and parries', () => {
+  it('applies a ranked parry skill and a glancing blow to the chosen hit', async () => {
+    const { user } = renderApp();
+    const dialog = await importBuild(user, showcaseBuild);
+    await user.click(within(dialog).getByRole('button', { name: 'Close Esc' }));
+    const evaluation = evaluateBuild(parseBuildFile(showcaseBuild).build);
+
+    await user.click(screen.getByRole('button', { name: 'Simulate' }));
+    const card = screen.getByRole('dialog', { name: /Incoming damage/ });
+    const damage = within(card).getByRole('spinbutton', { name: 'Damage per hit' });
+    await user.clear(damage);
+    await user.type(damage, '400');
+    await user.selectOptions(within(card).getByRole('combobox', { name: 'Parry skill' }), 'stalemate');
+    expect((within(card).getByRole('spinbutton', { name: 'Parry chance %' }) as HTMLInputElement).value).toBe('40');
+    await user.selectOptions(within(card).getByRole('combobox', { name: 'Hit 1' }), 'glance');
+    await user.click(within(card).getByRole('checkbox', { name: 'Parried' }));
+
+    const taken = within(card).getByText('Taken').parentElement!.querySelector('.figure__value')!.textContent;
+    const expected = incomingDamage({ ...NO_HIT, amount: 400, parryReductionPercent: 50, outcomes: [{ result: 'glance', parried: true }] }, evaluation).taken;
+    expect(taken).toBe(String(expected));
+  });
+});
