@@ -9,6 +9,7 @@
     "smoke:aether": "node scripts/aether-smoke.mjs",
     "audit:mobile": "node scripts/aether-mobile-audit.mjs",
     "flow:mobile": "node scripts/aether-mobile-flow.mjs",
+    "render:preview": "node scripts/render-social-preview.mjs",
     "validate:data": "node scripts/validate-data.mjs",
     "scrape:wiki": "node scripts/scrape-wiki.mjs",
     "scrape:mixtures": "node scripts/refresh-mixtures.mjs",

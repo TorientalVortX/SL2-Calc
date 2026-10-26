@@ -1,6 +1,6 @@
-# SL2 Calculator Suite
+# Aether Codex
 
-A static, installable character builder for Sigrogana Legend 2. The Aether Codex sheet at the site root covers race, classes, attributes, equipment, skills, traits, talents, racials, Youkai and mixtures, with every derived figure computed live from validated game data. It works offline, keeps local saves, and shares builds through private URL fragments.
+A static, installable character builder for Sigrogana Legend 2. The sheet covers race, classes, attributes, equipment, skills, traits, talents, racials, Youkai and mixtures, with every derived figure computed live from validated game data. It works offline, keeps local saves, and shares builds through private URL fragments.
 
 ## Local development
 

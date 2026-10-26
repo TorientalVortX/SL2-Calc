@@ -59,7 +59,7 @@ export default class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, info: ErrorInfo) {
-    console.error('SL2 Calculator crashed', error, info);
+    console.error('Aether Codex crashed', error, info);
   }
 
   copyDiagnostics = async () => {

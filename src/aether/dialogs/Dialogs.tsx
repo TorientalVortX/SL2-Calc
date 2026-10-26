@@ -143,10 +143,7 @@ export function SavesDialog({ builder, onClose }: { builder: Builder; onClose: (
 
 /* ------------------------------------------------------------------ transfer */
 
-/**
- * Import and export, sharing the calculator's own build file format: a build
- * exported here opens in the original SL2 Calculator and the other way round.
- */
+/** Import and export, in `buildPersistence`'s schema-v1 build file format. */
 export function TransferDialog({ builder, onClose }: { builder: Builder; onClose: () => void }) {
   const { exportJSON, importJSON, downloadJSON, notify, shareLink, shareCode } = builder;
   const [text, setText] = useState(() => exportJSON());

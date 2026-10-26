@@ -23,12 +23,11 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'prompt',
-      includeAssets: ['icon.svg', 'maskable-icon.svg', 'social-preview.svg'],
+      includeAssets: ['icon.svg', 'maskable-icon.svg'],
       manifest: {
-        name: 'SL2 Calculator Suite',
-        short_name: 'SL2 Calc',
-        description: 'Offline character, weapon, armor, and stat calculator for Sigrogana Legend 2.',
-        // The Codex's palette, since it is what `start_url` now opens.
+        name: 'Aether Codex',
+        short_name: 'Aether Codex',
+        description: 'Offline character builder for Sigrogana Legend 2.',
         theme_color: '#05070b',
         background_color: '#04060a',
         display: 'standalone',

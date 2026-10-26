@@ -19,7 +19,8 @@ function Crest() {
       <defs>
         {/* The theme's own gold, so the crest darkens onto vellum with everything
             else rather than staying a pale ghost on it. */}
-        <linearGradient id="crest-gold" x1="0" y1="0" x2="0" y2="1">
+        {/* User space, not bounding box: the flat side bars have zero height and would not paint. */}
+        <linearGradient id="crest-gold" gradientUnits="userSpaceOnUse" x1="0" y1="2" x2="0" y2="30">
           <stop offset="0%" stopColor="var(--gold-100)" />
           <stop offset="55%" stopColor="var(--gold-400)" />
           <stop offset="100%" stopColor="var(--bronze)" />
