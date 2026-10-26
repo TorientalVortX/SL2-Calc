@@ -5,7 +5,7 @@ import { otherMaterialModifier } from '../armorMaterials';
 import { enchantmentEffectForSlot } from '../armorEnchantments';
 import { itemBonuses } from '../itemEffects';
 import { skillBonuses, skillsForClassSlots } from '../skills';
-import { traitById, traitStatBonuses } from '../traits';
+import { sanguineCrestStats, traitById, traitStatBonuses } from '../traits';
 import { GEAR_ENCHANT_SLOTS, type EvaluationInputs } from './inputs';
 import type { StatsResult } from './stats';
 import { STAT_KEYS } from './shared';
@@ -33,7 +33,7 @@ export function statProvenance(inputs: EvaluationInputs, stats: StatsResult): No
   add('Installed Youkai: racial stat replacement', line(stat => racialFor(stat) - (subrace[stat] ?? 0)));
   add(`Food: ${build.food}`, food.stats);
   add('Stamps', build.stamps);
-  add('Sanguine Crest', line(stat => build.sanguineCrest && ['str', 'wil', 'ski', 'cel', 'def'].includes(stat) && ['Oni', 'Vampire'].includes(build.subrace) ? 2 : 0));
+  add('Sanguine Crest', sanguineCrestStats(build));
   add('Power of Normalcy', line(stat => build.powerOfNormalcy && stat !== 'apt' && CLASS_HIERARCHY[build.mainClass]?.baseClass && CLASS_HIERARCHY[build.subClass]?.baseClass ? (monoclassModifier === 2 ? 8 : 4) : 0));
   add('Rising Game', rising);
   add(`Torso: ${build.equipment.armorName}`, armor?.statBonuses ?? {});
@@ -57,7 +57,7 @@ export function statProvenance(inputs: EvaluationInputs, stats: StatsResult): No
     add(`${label} / ${slot.material}`, otherMaterialModifier(slot.material).stats);
     add(`${label} / ${slot.enchantment}`, enchantmentEffectForSlot(slot.enchantment, GEAR_ENCHANT_SLOTS[index]).stats);
   });
-  for (const id of build.traits ?? []) add(`Trait: ${traitById(id)?.name ?? id}`, traitStatBonuses([id]));
+  for (const id of build.traits ?? []) add(`Trait: ${traitById(id)?.name ?? id}`, traitStatBonuses([id], build.traitConditionals));
   for (const skill of skillsForClassSlots(build.mainClass, build.subClass)) {
     if (mergedSkillRanks[skill.id]) add(`Skill: ${skill.name}`, skillBonuses([skill], mergedSkillRanks, build.skillConditionals, skillWeaponTypes, { ...skillContext, scaledStats }).stats);
   }

@@ -143,7 +143,7 @@ export function gatherInputs(build: BuildState) {
     : EMPTY_SKILL_BONUSES;
   const karakuri = karakuriBonus(build);
   // History traits are skipped inside `traitStatBonuses`; the `history` field already grants them.
-  const traits = traitStatBonuses(build.traits ?? []);
+  const traits = traitStatBonuses(build.traits ?? [], build.traitConditionals);
   // Grip talents are resolved from the equipped weapon in the offense stage, so they are zeroed here.
   const talents = talentEffects({ ...build, talents: { ...build.talents,
     'two-hand/full-swing': 0, 'two-hand/steady': 0 } }, effectiveWeaponTypes(build.equipment.primaryWeapon));

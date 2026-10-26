@@ -3,6 +3,7 @@ import { CLASS_HIERARCHY } from '../../data/classes';
 import { calculateDiminishingReturns } from '../calculations';
 import { skillBonuses } from '../skills';
 import { installedAffinityStats, installedBaseStats } from '../youkai';
+import { sanguineCrestStats } from '../traits';
 import { calculateRedtailFortune } from '../derivedCalculations';
 import type { EvaluationInputs } from './inputs';
 import { STAT_KEYS, emptyStats } from './shared';
@@ -29,9 +30,10 @@ export function resolveStats(inputs: EvaluationInputs) {
   const installedAffinity = build.youkai ? installedAffinityStats(build.youkai, mergedSkillRanks) : {};
   const racialFor = (stat: StatKey) => installedStats?.[stat] ?? subrace[stat] ?? 0;
   const baseFor = (stat: StatKey) => racialFor(stat) + (build.customBaseStats[stat] ?? 0) + karakuri[stat] + (leBonus[stat] ?? 0) + (mixtureBonuses.baseStats?.[stat] ?? 0);
+  const sanguineCrest = sanguineCrestStats(build);
   const additionFor = (stat: StatKey) => {
     const stamp = stat in build.stamps ? build.stamps[stat as keyof typeof build.stamps] ?? 0 : 0;
-    const sanguine = build.sanguineCrest && ['str', 'wil', 'ski', 'cel', 'def'].includes(stat) && (build.subrace === 'Oni' || build.subrace === 'Vampire') ? 2 : 0;
+    const sanguine = sanguineCrest[stat] ?? 0;
     let normalcy = 0;
     if (build.powerOfNormalcy && stat !== 'apt') {
       const mainBase = CLASS_HIERARCHY[build.mainClass]?.baseClass;

@@ -12,6 +12,6 @@
     "Fixed items that gave Armor from text like \"30 armor-ignoring damage\", including Creeping Darkness and Tetra Dragon Fang.",
     "Bonuses shared across a list now apply to every stat in it: Heart of the Lion, Sunken Silk Bow and Hankyu.",
     "Tetra Dragon Fang and Tetra Gauntlet now follow the crystal you pick: Fire, Ice, Earth or Wind.",
-    "Little Cheese and Oni Heritage no longer add stats that only apply in battle or through Sanguine Crest."
+    "Little Cheese's +4 WIL/GUI is now switched on under the trait, and Oni Heritage adds its +2 STR or LUC to an active Sanguine Crest."
   ]
 }

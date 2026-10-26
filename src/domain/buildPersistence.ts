@@ -268,6 +268,9 @@ export function normalizeBuildState(value: unknown): BuildState {
     talentConditionals: isRecord(value.talentConditionals)
       ? Object.fromEntries(Object.entries(value.talentConditionals).map(([key, on]) => [key, Boolean(on)]))
       : {},
+    traitConditionals: isRecord(value.traitConditionals)
+      ? Object.fromEntries(Object.entries(value.traitConditionals).filter(([id, on]) => on && traitById(id)).map(([id]) => [id, true]))
+      : {},
     elementalATKAdjustments: numericRecord(value.elementalATKAdjustments, ZERO_ELEMENTS),
     elementalRESAdjustments: numericRecord(value.elementalRESAdjustments, ZERO_ELEMENTS),
     equipment: {

@@ -270,6 +270,8 @@ export interface BuildData {
   /** Keyed by `talent/subtalent`; a talent's rank is the sum of its subtalent ranks. */
   talents?: Record<string, number>;
   talentConditionals?: Record<string, boolean>;
+  /** Taken traits whose battle-state bonus is switched on, by trait id. */
+  traitConditionals?: Record<string, boolean>;
   elementalATKAdjustments: ElementalRecord;
   elementalRESAdjustments: ElementalRecord;
   version: string;

@@ -112,6 +112,7 @@ export type BuildAction =
   | { type: 'mixture-effect-toggle'; name: string; effect: string }
   | { type: 'copy-spell'; id: string; action: CopySpellAction }
   | { type: 'trait'; id: string; taken: boolean }
+  | { type: 'trait-conditional'; id: string; on: boolean }
   | { type: 'traits-clear' }
   | { type: 'subtalent-rank'; subtalentId: string; rank: number }
   | { type: 'talent-conditional'; subtalentId: string; on: boolean }
@@ -268,7 +269,15 @@ export function buildReducer(build: BuildState, action: BuildAction): BuildState
       const taken = new Set(build.traits ?? []);
       if (action.taken) taken.add(action.id);
       else taken.delete(action.id);
-      return { ...build, traits: [...taken] };
+      const traitConditionals = { ...(build.traitConditionals ?? {}) };
+      if (!action.taken) delete traitConditionals[action.id];
+      return { ...build, traits: [...taken], traitConditionals };
+    }
+    case 'trait-conditional': {
+      const traitConditionals = { ...(build.traitConditionals ?? {}) };
+      if (action.on) traitConditionals[action.id] = true;
+      else delete traitConditionals[action.id];
+      return { ...build, traitConditionals };
     }
     case 'subtalent-rank': {
       const talents = setSubtalentRank(build.talents, action.subtalentId, action.rank);
@@ -287,7 +296,7 @@ export function buildReducer(build: BuildState, action: BuildAction): BuildState
       return { ...build, talents: {}, talentConditionals: {} };
 
     case 'traits-clear':
-      return { ...build, traits: [], history: 'None' };
+      return { ...build, traits: [], traitConditionals: {}, history: 'None' };
 
     // Stats are re-clamped after equipping: a granted stat raises the floor and lowers the invested cap.
     case 'equip-weapon':

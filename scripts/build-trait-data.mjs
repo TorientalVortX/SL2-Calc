@@ -58,21 +58,24 @@ function taggedRows(markdown) {
   return rows;
 }
 
-// A bonus gated on battle state or granted through another effect is not a standing stat.
-const SITUATIONAL = /\b(?:while|when|if|as long as|for \d+ rounds?|additional)\b/i;
+// Battle-state bonuses become a toggle; "an additional +2" boosts another effect, which models it.
+const SITUATIONAL = /\b(?:while|when|if|as long as|for \d+ rounds?)\b/i;
+const BOOSTS_ANOTHER_EFFECT = /\badditional\b/i;
 const LIST_SEPARATOR = String.raw`\s*(?:,\s*and|,|and|/)\s*`;
 
 function parseStatBonuses(effect) {
-  const bonuses = {};
+  const standing = {};
+  const situational = {};
   const pattern = new RegExp(String.raw`([+-]\d+)\s*(${STAT_PATTERN})((?:${LIST_SEPARATOR}(?:${STAT_PATTERN})\b)*)\b`, 'gi');
   for (const sentence of effect.split(/(?<=[.!?])\s+/)) {
-    if (SITUATIONAL.test(sentence)) continue;
+    if (BOOSTS_ANOTHER_EFFECT.test(sentence)) continue;
+    const into = SITUATIONAL.test(sentence) ? situational : standing;
     for (const match of sentence.matchAll(pattern)) {
       const keys = [match[2], ...match[3].split(new RegExp(LIST_SEPARATOR)).filter(Boolean)];
-      for (const key of keys.map((word) => word.toLowerCase())) bonuses[key] = (bonuses[key] ?? 0) + Number(match[1]);
+      for (const key of keys.map((word) => word.toLowerCase())) into[key] = (into[key] ?? 0) + Number(match[1]);
     }
   }
-  return bonuses;
+  return { standing, situational };
 }
 
 const unresolvedRaces = [];
@@ -181,6 +184,7 @@ for (const { section, subsection, cells } of rows) {
   ids.add(id);
 
   const category = (section ?? 'Traits').replace(/\s*Traits?$/i, '');
+  const bonuses = parseStatBonuses(effect);
   traits.push({
     id,
     name,
@@ -196,7 +200,8 @@ for (const { section, subsection, cells } of rows) {
     ...(id.startsWith('blood-binding-') ? { handModelled: true } : {}),
     group: subsection ?? null,
     effect,
-    statBonuses: parseStatBonuses(effect),
+    statBonuses: bonuses.standing,
+    ...(Object.keys(bonuses.situational).length ? { situationalStatBonuses: bonuses.situational } : {}),
     requirements: parseRequirements(requirements),
   });
 }
