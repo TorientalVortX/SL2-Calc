@@ -1,5 +1,5 @@
-import type { StatKey, WeaponUpgradePoints } from '../../types';
-import { NO_ARMOR_QUALITY, resolveArmorUpgradePoints, resolveUpgradePoints } from '../../types';
+import type { StatKey, TetraAlignment, WeaponUpgradePoints } from '../../types';
+import { NO_ARMOR_QUALITY, TETRA_ALIGNMENTS, resolveArmorUpgradePoints, resolveUpgradePoints } from '../../types';
 import { ARMORS } from '../../data/armors';
 import { statInk } from '../../data/colors';
 import modifierData from '../../data/content/weapon-modifiers.json';
@@ -11,6 +11,7 @@ import {
 } from '../../domain/armorMaterials';
 import { ARMOR_ENCHANTMENT_NAMES, enchantmentNamesForSlot, type EnchantSlot } from '../../domain/armorEnchantments';
 import { findWeaponByName, scalingForWeapon } from '../../domain/equipment';
+import { TETRA_PAIRS, gearEffects, isTetraItem } from '../../domain/itemEffects';
 import { SCALING_TAG_LABEL, effectiveScaling, scalingTagsFor } from '../../domain/weaponScaling';
 import { armorUpgradeCaps, clampUpgradePoint, weaponUpgradeCaps } from '../../domain/upgradeCaps';
 import {
@@ -468,6 +469,17 @@ export function GearTuning({ builder, slot, slotId }: { builder: Builder; slot: 
               <span className="hint">The wiki gives accessories no enchantment slot.</span>
             </div>
           )}
+          {isTetraItem(gearEffects(state.itemName)) ? (
+            <SelectField
+              label="Tetra crystal"
+              value={state.tetra ?? 'Fire'}
+              options={TETRA_ALIGNMENTS.map(alignment => ({
+                value: alignment,
+                label: `${alignment} · ${TETRA_PAIRS[alignment].stat.toUpperCase()} · ${TETRA_PAIRS[alignment].status}`,
+              }))}
+              onChange={tetra => dispatch({ type: 'gear-patch', slot, patch: { tetra: tetra as TetraAlignment } })}
+            />
+          ) : null}
         </div>
       </div>
 

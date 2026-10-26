@@ -122,7 +122,7 @@ export type BuildAction =
   | { type: 'weapon-patch'; which: 'primaryWeapon' | 'offHandWeapon'; patch: Partial<WeaponConfig> }
   | { type: 'armor-patch'; patch: { armorMaterial?: string; armorEnchantment?: string; armorQuality?: ArmorQuality } }
   | { type: 'armor-upgrade'; patch: Partial<ArmorUpgradePoints> }
-  | { type: 'gear-patch'; slot: GearSlotId; patch: Partial<{ material: string; enchantment: string; upgradePoints: Record<string, number> }> }
+  | { type: 'gear-patch'; slot: GearSlotId; patch: Parameters<typeof patchGear>[2] }
   | { type: 'armor-conditional'; key: string; on: boolean }
   | { type: 'item-conditional'; key: string; on: boolean }
   | { type: 'item-roll'; key: string; value: number }

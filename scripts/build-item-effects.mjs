@@ -134,41 +134,44 @@ const PATTERNS = [
   new RegExp(String.raw`\(?(${MAGNITUDE})\)?\s+(${CHANNELS})\b(?!-)`, 'gi'),
 ];
 
+const LIST_SEPARATOR = String.raw`\s*(?:,\s*and|,|and|/)\s*`;
+const CHANNEL_LIST = String.raw`(${CHANNELS})((?:${LIST_SEPARATOR}(?:${CHANNELS})\b)+)`;
+// One magnitude shared by a channel list: "STR and WIL by 2", "+5 Evade/Armor", "+2 STR, WIL, DEF, and RES".
+const SHARED_LISTS = [
+  { pattern: String.raw`Increases?\s+(?:your\s+)?${CHANNEL_LIST}\s+by\s+\(?(${MAGNITUDE})\)?`, magnitude: 3, first: 1 },
+  { pattern: String.raw`\(?(${MAGNITUDE})\)?\s+${CHANNEL_LIST}\b(?!-)`, magnitude: 1, first: 2 },
+];
+
 // A description matched by the first order is not re-scanned by the second.
 function parseEffects(text) {
-  // A shared magnitude may be written after both channels ("STR and WIL by
-  // 2") or before slash-separated channels ("+5 Evade/Armor").
   const shared = [];
-  const increasePair = new RegExp(String.raw`Increases?\s+(?:your\s+)?(${CHANNELS})\s+(?:and|/)\s+(${CHANNELS})\s+by\s+\(?(${MAGNITUDE})\)?`, 'gi');
-  for (const match of text.matchAll(increasePair)) {
-    const magnitude = parseMagnitude(match[3]);
-    for (const word of [match[1], match[2]]) {
-      const channel = resolveChannel(word);
-      if (channel && magnitude) shared.push({ ...channel, ...magnitude });
+  const covered = [];
+  for (const { pattern, magnitude: at, first } of SHARED_LISTS) {
+    for (const match of text.matchAll(new RegExp(pattern, 'gi'))) {
+      const magnitude = parseMagnitude(match[at]);
+      const words = [match[first], ...match[first + 1].split(new RegExp(LIST_SEPARATOR)).filter(Boolean)];
+      for (const word of words) {
+        const channel = resolveChannel(word);
+        if (channel && magnitude && !isRecovery(text, match.index, channel, match.index + match[0].length)) shared.push({ ...channel, ...magnitude });
+      }
+      covered.push([match.index, match.index + match[0].length]);
     }
   }
-  const prefixPair = new RegExp(String.raw`\(?(${MAGNITUDE})\)?\s+(${CHANNELS})\s*/\s*(${CHANNELS})\b`, 'gi');
-  for (const match of text.matchAll(prefixPair)) {
-    const magnitude = parseMagnitude(match[1]);
-    for (const word of [match[2], match[3]]) {
-      const channel = resolveChannel(word);
-      if (channel && magnitude && !isRecovery(text, match.index, channel, match.index + match[0].length)) shared.push({ ...channel, ...magnitude });
-    }
-  }
-  if (shared.length) return shared;
+  const inList = (index) => covered.some(([start, end]) => index >= start && index < end);
 
   for (const [index, pattern] of PATTERNS.entries()) {
     pattern.lastIndex = 0;
     const found = [];
     for (const match of text.matchAll(pattern)) {
+      if (inList(match.index)) continue;
       const [channelWord, magnitudeWord] = index < 2 ? [match[1], match[2]] : [match[2], match[1]];
       const channel = resolveChannel(channelWord);
       const magnitude = parseMagnitude(magnitudeWord);
       if (channel && magnitude && !isRecovery(text, match.index, channel, match.index + match[0].length)) found.push({ ...channel, ...magnitude });
     }
-    if (found.length) return found;
+    if (found.length) return [...shared, ...found];
   }
-  return [];
+  return shared;
 }
 
 function toRecord(name, description, alwaysEligible) {
@@ -189,9 +192,13 @@ function toRecord(name, description, alwaysEligible) {
       effects: [{ kind: 'derived', key: 'power', base: 0, rollMax: 100, controlLabel: 'Earned Salamander Power', ulMultiplier: 0 }],
     };
   }
+  // Tetra lines name Fire's pairing (Fire, STR); the calculator remaps them to the chosen crystal.
+  const tetra = /\(Tetra\)/.test(description);
+  const text = tetra ? description.replace(/\bElemental ATK\b/, 'Fire ATK').replace(/(\d+)\s+Stat\b/, '$1 STR') : description;
   // Zero non-scaling magnitudes come from incidental numbers ("if you are reduced to 0 HP").
-  const effects = [...parseEffects(description), ...parseResistances(description), ...parseAllStats(description)]
-    .filter((value) => value.base !== 0 || value.ulMultiplier !== 0 || value.rollMax);
+  const effects = [...parseEffects(text), ...parseResistances(text), ...parseAllStats(text)]
+    .filter((value) => value.base !== 0 || value.ulMultiplier !== 0 || value.rollMax)
+    .map((value) => (tetra ? { ...value, tetra: true } : value));
   // A trailing chance clause is a separate effect (Armor of Eyes: "Increases Hit by UL/2, UL% chance to ...").
   const magnitudeClause = description
     // A disabling exception does not make a normally-active bonus opt-in.

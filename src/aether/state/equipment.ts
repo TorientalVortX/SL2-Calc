@@ -7,6 +7,7 @@ import type {
   GearItem,
   HandsSlotState,
   LegsSlotState,
+  TetraAlignment,
   Weapon,
   WeaponConfig,
   WeaponSlotConfig,
@@ -274,7 +275,7 @@ export function equipGear(
 export function patchGear(
   equipment: BuildEquipmentState,
   slot: GearSlotId,
-  patch: Partial<{ material: string; enchantment: string; upgradePoints: Record<string, number> }>,
+  patch: Partial<{ material: string; enchantment: string; tetra: TetraAlignment; upgradePoints: Record<string, number> }>,
 ): BuildEquipmentState {
   const current = equipment[slot];
   if (!current) return equipment;

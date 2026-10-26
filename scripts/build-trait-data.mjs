@@ -45,7 +45,7 @@ function taggedRows(markdown) {
   const rows = [];
   let section = null;
   let subsection = null;
-  for (const line of markdown.split('\n')) {
+  for (const line of markdown.split(/\r?\n/)) {
     const h2 = /^##\s+(.+)$/.exec(line);
     if (h2) { section = h2[1].trim(); subsection = null; continue; }
     const h3 = /^###\s+(.+)$/.exec(line);
@@ -58,12 +58,19 @@ function taggedRows(markdown) {
   return rows;
 }
 
+// A bonus gated on battle state or granted through another effect is not a standing stat.
+const SITUATIONAL = /\b(?:while|when|if|as long as|for \d+ rounds?|additional)\b/i;
+const LIST_SEPARATOR = String.raw`\s*(?:,\s*and|,|and|/)\s*`;
+
 function parseStatBonuses(effect) {
   const bonuses = {};
-  const pattern = new RegExp(`([+-]\\d+)\\s*(${STAT_PATTERN})\\b`, 'gi');
-  for (const match of effect.matchAll(pattern)) {
-    const key = match[2].toLowerCase();
-    bonuses[key] = (bonuses[key] ?? 0) + Number(match[1]);
+  const pattern = new RegExp(String.raw`([+-]\d+)\s*(${STAT_PATTERN})((?:${LIST_SEPARATOR}(?:${STAT_PATTERN})\b)*)\b`, 'gi');
+  for (const sentence of effect.split(/(?<=[.!?])\s+/)) {
+    if (SITUATIONAL.test(sentence)) continue;
+    for (const match of sentence.matchAll(pattern)) {
+      const keys = [match[2], ...match[3].split(new RegExp(LIST_SEPARATOR)).filter(Boolean)];
+      for (const key of keys.map((word) => word.toLowerCase())) bonuses[key] = (bonuses[key] ?? 0) + Number(match[1]);
+    }
   }
   return bonuses;
 }

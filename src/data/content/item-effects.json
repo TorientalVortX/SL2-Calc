@@ -768,6 +768,12 @@
             "key": "evade",
             "base": 10,
             "ulMultiplier": 0
+          },
+          {
+            "kind": "derived",
+            "key": "criticalEvade",
+            "base": 10,
+            "ulMultiplier": 0
           }
         ]
       }
@@ -1081,6 +1087,18 @@
           {
             "kind": "derived",
             "key": "power",
+            "base": 5,
+            "ulMultiplier": 0
+          },
+          {
+            "kind": "derived",
+            "key": "hit",
+            "base": 5,
+            "ulMultiplier": 0
+          },
+          {
+            "kind": "derived",
+            "key": "critical",
             "base": 5,
             "ulMultiplier": 0
           }
@@ -7415,7 +7433,8 @@
             "kind": "resistance",
             "key": "Fire",
             "base": 10,
-            "ulMultiplier": 0
+            "ulMultiplier": 0,
+            "tetra": true
           }
         ]
       },
@@ -9506,6 +9525,24 @@
             "key": "str",
             "base": 2,
             "ulMultiplier": 0
+          },
+          {
+            "kind": "stat",
+            "key": "wil",
+            "base": 2,
+            "ulMultiplier": 0
+          },
+          {
+            "kind": "stat",
+            "key": "def",
+            "base": 2,
+            "ulMultiplier": 0
+          },
+          {
+            "kind": "stat",
+            "key": "res",
+            "base": 2,
+            "ulMultiplier": 0
           }
         ]
       }
@@ -10805,14 +10842,30 @@
       {
         "name": "Tetra Dragon Fang",
         "description": "+3 Stat (Tetra)",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "stat",
+            "key": "str",
+            "base": 3,
+            "ulMultiplier": 0,
+            "tetra": true
+          }
+        ]
       },
       {
         "name": "Tetra Dragon Fang",
         "description": "+3 Elemental ATK (Tetra)",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "elementalAttack",
+            "key": "Fire",
+            "base": 3,
+            "ulMultiplier": 0,
+            "tetra": true
+          }
+        ]
       },
       {
         "name": "Tetra Dragon Fang",

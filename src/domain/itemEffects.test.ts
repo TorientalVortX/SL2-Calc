@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import type { TetraAlignment } from '../types';
 import {
   armorEffects,
   armorUL,
@@ -109,7 +110,7 @@ describe('item effect data', () => {
   });
 
   it('does not read "N armor-ignoring damage" as an Armor bonus', () => {
-    expect(gearEffects('Tetra Dragon Fang').flatMap(effect => effect.effects)).toEqual([]);
+    expect(gearEffects('Tetra Dragon Fang').flatMap(effect => effect.effects).map(value => value.key)).not.toContain('armor');
     expect(weaponEffects('Creeping Darkness').flatMap(effect => effect.effects)).toEqual([]);
   });
 
@@ -126,9 +127,31 @@ describe('item effect data', () => {
     expect(exclusiveRivals(itemConditionalKey('Heart of the Lion', 0))).toEqual([]);
   });
 
+  it('gives every channel of a shared-magnitude list its bonus', () => {
+    const values = (effects: ReturnType<typeof gearEffects>) => effects.flatMap(effect => effect.effects).map(value => [value.key, value.base]);
+    expect(values(gearEffects('Heart of the Lion'))).toEqual([['str', 2], ['wil', 2], ['def', 2], ['res', 2]]);
+    expect(values(weaponEffects('Sunken Silk Bow').slice(0, 1))).toEqual([['power', 5], ['hit', 5], ['critical', 5]]);
+    expect(values(weaponEffects('Hankyu').slice(1, 2))).toEqual([['evade', 10], ['criticalEvade', 10]]);
+  });
+
   it('returns nothing for an unknown item', () => {
     expect(weaponEffects('Not A Weapon')).toEqual([]);
     expect(armorEffects(null)).toEqual([]);
+  });
+});
+
+describe('Tetra items', () => {
+  const fang = (tetra?: TetraAlignment) => itemBonuses({ gear: [{ itemName: 'Tetra Dragon Fang', upgradePoints: {}, tetra }] });
+
+  it('defaults to the Fire crystal, as the wiki writes them', () => {
+    expect(fang()).toMatchObject({ stats: { str: 3 }, elementalAttack: { Fire: 3 } });
+  });
+
+  it('moves the stat and element to the chosen crystal', () => {
+    expect(fang('Ice')).toMatchObject({ stats: { ski: 3 }, elementalAttack: { Ice: 3 } });
+    expect(fang('Wind').stats).toEqual({ cel: 3 });
+    const gauntlet = itemBonuses({ gear: [{ itemName: 'Tetra Gauntlet', upgradePoints: {}, tetra: 'Earth' }] });
+    expect(gauntlet.resistances).toEqual({ Earth: 10 });
   });
 });
 

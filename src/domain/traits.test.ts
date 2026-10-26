@@ -236,13 +236,10 @@ describe('trait stat bonuses', () => {
     expect(traitStatBonuses([history.id])).toEqual({});
   });
 
-  it('feeds a taken trait into the build stats', () => {
-    const trait = TRAITS.find(t => !t.handModelled && Object.keys(t.statBonuses).length === 1)!;
-    const [stat, value] = Object.entries(trait.statBonuses)[0] as [string, number];
-    const base = build();
-    const before = evaluateBuild(base).rawStats[stat as 'str'];
-    base.traits = [trait.id];
-    expect(evaluateBuild(base).rawStats[stat as 'str']).toBe(before + value);
+  it('leaves out bonuses that depend on battle state or another effect', () => {
+    for (const id of ['little-cheese', 'oni-heritage-red', 'oni-heritage-blue']) {
+      expect(TRAITS.find(t => t.id === id)?.statBonuses).toEqual({});
+    }
   });
 });
 

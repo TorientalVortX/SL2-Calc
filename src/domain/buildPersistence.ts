@@ -32,6 +32,7 @@ import {
   NO_ACCESSORY_UPGRADE_POINTS,
   NO_HANDS_UPGRADE_POINTS,
   NO_LEGS_UPGRADE_POINTS,
+  TETRA_ALIGNMENTS,
   resolveUpgradePoints,
 } from '../types';
 import { emptyYoukaiState, normalizeYoukaiState, youkaiById } from './youkai';
@@ -321,6 +322,7 @@ function gearSlot<Points extends object>(
     itemName: typeof value.itemName === 'string' ? value.itemName : null,
     material: typeof value.material === 'string' ? value.material : undefined,
     enchantment: typeof value.enchantment === 'string' ? value.enchantment : undefined,
+    tetra: TETRA_ALIGNMENTS.find(alignment => alignment === value.tetra),
     upgradePoints,
   };
 }

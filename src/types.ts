@@ -361,11 +361,16 @@ export const NO_HANDS_UPGRADE_POINTS: HandsUpgradePoints = { hit: 0, fp: 0 };
 export const NO_LEGS_UPGRADE_POINTS: LegsUpgradePoints = { hp: 0, evade: 0 };
 export const NO_ACCESSORY_UPGRADE_POINTS: AccessoryUpgradePoints = { fortune: 0, greed: 0 };
 
+/** The crystal a Tetra item is aligned to; absent means Fire, the wiki's default. */
+export type TetraAlignment = 'Fire' | 'Ice' | 'Earth' | 'Wind';
+export const TETRA_ALIGNMENTS: TetraAlignment[] = ['Fire', 'Ice', 'Earth', 'Wind'];
+
 /** `material` resolves through the material's `Other` profile, not its armour one. */
 export interface GearSlotState<Points> {
   itemName: string | null;
   material?: string;
   enchantment?: string;
+  tetra?: TetraAlignment;
   upgradePoints: Points;
 }
 
