@@ -112,6 +112,12 @@ export function SkillCard({ skill, evaluation, builder, rank, onRank, onClose, o
           {onSimulate && rank > 0 && <button type="button" className="btn btn--ghost" onClick={onSimulate}>Simulate against a target</button>}
         </section>}
 
+        {skill.basicAttack && onSimulate && rank > 0 && <section className="section">
+          <SectionHead>Power</SectionHead>
+          <p className="hint">Deals a basic attack, so it crits with your weapon’s crit damage and GUI.</p>
+          <button type="button" className="btn btn--ghost" onClick={onSimulate}>Simulate against a target</button>
+        </section>}
+
         {facts.length > 0 && <dl className="skill-card__facts">
           {facts.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}
         </dl>}

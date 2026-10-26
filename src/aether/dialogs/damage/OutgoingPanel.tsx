@@ -5,7 +5,7 @@ import { ELEMENT_KEYS } from '../../../domain/buildEvaluation';
 import { NO_HIT, type DamageClass, type DamageType, type IncomingHit } from '../../../domain/damage';
 import { findWeaponByName } from '../../../domain/equipment';
 import {
-  OPEN_TARGET, attackBase, critDamageFor, defaultDamage, expectedOutgoing, outgoingDamage, powerMultiplier,
+  OPEN_TARGET, attackBase, critDamageFor, defaultDamage, expectedOutgoing, outgoingDamage, powerMultiplier, riderFor,
   type FlatBonus, type Target,
 } from '../../../domain/outgoing';
 import { SKILLS, mergeSkillRanks, skillById } from '../../../domain/skills';
@@ -16,6 +16,7 @@ import type { Builder } from '../../state/useBuilder';
 import { CLASS_OPTIONS, OutcomeGrid, STEPS_HINT, StepRows, TYPE_OPTIONS, percent, tenth } from './shared';
 
 const LIGHTNING_CRITICAL_PERCENT = 25;
+const NO_BONUS: FlatBonus = { amount: 0, ignores: 'none' };
 
 const IGNORE_OPTIONS: Array<{ value: FlatBonus['ignores']; label: string }> = [
   { value: 'none', label: 'Normal' },
@@ -50,7 +51,7 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
   }));
   const [percents, setPercents] = useState<number[]>([]);
   const [lightning, setLightning] = useState(false);
-  const [flat, setFlat] = useState<FlatBonus>({ amount: 0, ignores: 'none' });
+  const [flat, setFlat] = useState<FlatBonus>(() => riderFor(skill, rank) ?? NO_BONUS);
   const [target, setTarget] = useState<Target>(OPEN_TARGET);
   const [greatAccuracy, setGreatAccuracy] = useState(false);
   const [ignoresEvasion, setIgnoresEvasion] = useState(false);
@@ -62,27 +63,34 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
     setElements({});
     const next = id ? skillById(id) ?? null : null;
     set({ ...defaultDamage(next, {}, weaponType), critDamagePercent: critDamageFor(next, evaluation) });
+    setFlat(riderFor(next, next ? ranks[next.id] ?? 1 : 0) ?? NO_BONUS);
   };
   const pickElement = (index: number, element: ElementKey) => {
     const next = { ...elements, [index]: element };
     setElements(next);
     set({ type: defaultDamage(skill, next, weaponType).type });
   };
+  const ownResistance = (type: DamageType) => (!type ? 0 : (PHYSICAL_KEYS as readonly string[]).includes(type)
+    ? evaluation.physicalResistance[type as PhysicalKey]
+    : evaluation.elementalResistance[type as ElementKey]);
   const copyOwnDefenses = () => {
-    const type = hit.type;
-    const resistance = !type ? 0 : (PHYSICAL_KEYS as readonly string[]).includes(type)
-      ? evaluation.physicalResistance[type as PhysicalKey]
-      : evaluation.elementalResistance[type as ElementKey];
     const { physicalDefense, magicalDefense, armor, magicArmor, evade, criticalEvade } = evaluation.derived;
-    setTarget({ physicalDefense, magicalDefense, armor, magicArmor, resistance, evade, criticalEvade });
+    setTarget({
+      physicalDefense, magicalDefense, armor, magicArmor, evade, criticalEvade,
+      resistance: ownResistance(hit.type),
+      bonusResistance: ownResistance(flat.type ?? null),
+    });
   };
 
   const base = attackBase(skill, rank, evaluation, elements);
   const allPercents = lightning ? [...percents, LIGHTNING_CRITICAL_PERCENT] : percents;
-  const dealt = outgoingDamage(hit, base.amount, allPercents, flat, target);
-  const expected = expectedOutgoing(hit, base.amount, allPercents, flat, target, {
-    hit: weapon?.hit ?? 0, critical: weapon?.critical ?? 0, greatAccuracy, ignoresEvasion,
+  const attackerHit = (weapon?.hit ?? 0) + base.hit;
+  const attackerCritical = (weapon?.critical ?? 0) + base.critical;
+  const dealt = outgoingDamage(hit, base, allPercents, flat, target);
+  const expected = expectedOutgoing(hit, base, allPercents, flat, target, {
+    hit: attackerHit, critical: attackerCritical, greatAccuracy, ignoresEvasion,
   });
+  const riderType = flat.type && flat.type !== hit.type ? flat.type : null;
   const choosable = (skill?.scaling ?? []).flatMap((term, index) => (term.source === 'element' && (term.alternateElement || !term.element)
     ? [{ index, choices: term.alternateElement ? [term.element!, term.alternateElement] : ELEMENT_KEYS }]
     : []));
@@ -117,6 +125,11 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
             <span>{term.amount === null ? '—' : tenth(term.amount)}</span>
           </div>
         ))}
+        {base.hit || base.critical ? (
+          <p className="hint">
+            {[base.hit ? `Hit ${base.hit > 0 ? '+' : ''}${base.hit}` : '', base.critical ? `Critical +${base.critical}` : ''].filter(Boolean).join(' · ')} from the skill.
+          </p>
+        ) : null}
       </div>
 
       <div className="grid-fields">
@@ -174,7 +187,10 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
             onChange={ignores => setFlat(current => ({ ...current, ignores: ignores as FlatBonus['ignores'] }))}
           />
         </div>
-        <p className="hint">On-hit bonus damage, such as Tetra Dragon Fang’s 30. It is not raised by crits or damage modifiers.</p>
+        <p className="hint">
+          {flat.type ? `${flat.damageClass === 'magical' ? 'Magic' : 'Physical'} ${flat.type} damage from the skill. ` : ''}
+          On-hit bonus damage, such as Tetra Dragon Fang’s 30. It is not raised by crits or damage modifiers.
+        </p>
       </div>
 
       <div className="section">
@@ -185,6 +201,9 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
           <NumberField label="Armor" value={target.armor} max={999} onChange={armor => aim({ armor })} />
           <NumberField label="Magic Armor" value={target.magicArmor} max={999} onChange={magicArmor => aim({ magicArmor })} />
           <NumberField label={`${hit.type ?? 'Type'} resistance %`} value={target.resistance} min={-200} max={100} onChange={resistance => aim({ resistance })} />
+          {riderType ? (
+            <NumberField label={`${riderType} resistance %`} value={target.bonusResistance} min={-200} max={100} onChange={bonusResistance => aim({ bonusResistance })} />
+          ) : null}
           <NumberField label="Evade" value={target.evade} max={999} onChange={evade => aim({ evade })} />
           <NumberField label="Critical Evade" value={target.criticalEvade} max={999} onChange={criticalEvade => aim({ criticalEvade })} />
         </div>
@@ -201,7 +220,7 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
         <div className="figure figure--static">
           <span className="eyebrow">Expected per attack</span>
           <span className="figure__value">{tenth(expected.expected)}</span>
-          <span className="figure__note">With your Hit {weapon?.hit ?? 0} and Critical {weapon?.critical ?? 0}</span>
+          <span className="figure__note">With Hit {attackerHit} and Critical {attackerCritical}</span>
         </div>
       </div>
 
@@ -224,7 +243,7 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
             <StepRows
               steps={dealt.bonus.steps}
               instances={dealt.bonus.instances}
-              damageClass={flat.ignores === 'protection' ? 'protection-ignoring' : hit.damageClass}
+              damageClass={flat.ignores === 'protection' ? 'protection-ignoring' : flat.damageClass ?? hit.damageClass}
               label="Bonus"
               start="Bonus damage"
             />

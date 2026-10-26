@@ -104,11 +104,26 @@ export interface Skill {
   requires?: Array<{ id: string; rank: number }>;
   /** `BuildData` models this skill as its own field, so its effects are skipped to avoid double counting. */
   handModelled?: boolean;
-  /** The skill's damage is a basic attack ("performs a basic attack on the target"). */
-  basicAttack?: boolean;
+  /** The skill's damage is a basic attack ("performs a basic attack on the target"), with these changes. */
+  basicAttack?: BasicAttackProfile;
   inputs?: Array<{ key: string; label: string; min: number; max: number; default: number; maxByRank?: number[]; maxRankSource?: string; choices?: Array<{ value: number; label: string }> }>;
   battleNote?: string;
   battleRules?: Array<{ description: string; url: string }>;
+}
+
+export interface BasicAttackProfile {
+  hitByRank?: number[];
+  criticalByRank?: number[];
+  /** Added to the attack after damage modifiers and before the crit. */
+  bonusDamageByRank?: number[];
+  /** Bonus damage equal to this share of the user's missing HP (Ether Invitation). */
+  missingHpPercent?: number;
+  /** The attack deals this share of its normal damage (Quick and Wild). */
+  damagePercent?: number;
+  damageClass?: 'magical';
+  type?: ElementKey | PhysicalKey;
+  /** Separate on-hit bonus damage with its own class and type (Snake Shot's Acid). */
+  rider?: { bonusByRank: number[] | null; damageClass: 'physical' | 'magical'; type: ElementKey | PhysicalKey; ignores: 'none' | 'armor' | 'protection' };
 }
 
 export interface SkillText {

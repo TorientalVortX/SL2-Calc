@@ -251,6 +251,54 @@ const CONDITION_MARKERS = new RegExp(
 const PASSIVE_MARKERS = /\bpassively (increases|grants|boosts)\b|\bincreases your (base )?\w+\b/i;
 
 // Defaults to conditional: only explicit passive phrasing with no conditional wording earns `always`.
+// What a basic-attack skill changes about the attack, from its rank table and its wording.
+// Rates that need battle state ("+1/2/3 per square") or another number ("60%" of weight) are left to the user.
+function basicAttackProfile(entry, maxRank) {
+  const text = (entry.description ?? '').replace(/\s+/g, ' ');
+  const extras = new Map((entry.extras ?? []).map(([label, value]) => [String(label).toLowerCase().replace(/:$/, ''), String(value)]));
+  const ranked = (label, sign = 1) => {
+    const value = extras.get(label);
+    if (!value || /\bper\b|%/i.test(value)) return null;
+    return parseRankList(value, maxRank)?.map((n) => sign * Math.abs(n)) ?? null;
+  };
+  const sameEachRank = (n) => Array.from({ length: maxRank }, () => n);
+  const profile = {};
+
+  const hit = ranked('hit bonus') ?? ranked('bonus hit/critical') ?? ranked('hit penalty', -1);
+  const flatPenalty = /with a (\d+)% penalty to Hit/i.exec(text);
+  if (hit) profile.hitByRank = hit;
+  else if (flatPenalty) profile.hitByRank = sameEachRank(-Number(flatPenalty[1]));
+
+  const critical = ranked('critical bonus') ?? ranked('bonus hit/critical');
+  if (critical) profile.criticalByRank = critical;
+
+  const perRank = /bonus to damage equal to (\d+)\s*\*\s*Rank/i.exec(text);
+  const bonus = ranked('bonus damage');
+  if (bonus) profile.bonusDamageByRank = bonus;
+  else if (perRank) profile.bonusDamageByRank = Array.from({ length: maxRank }, (_, i) => Number(perRank[1]) * (i + 1));
+
+  const missingHp = /bonus damage equal to (\d+)% of your missing HP/i.exec(text);
+  if (missingHp) profile.missingHpPercent = Number(missingHp[1]);
+
+  const reduced = /deals only (\d+)% of its normal damage|basic attack that deals (\d+)% damage/i.exec(text);
+  if (reduced) profile.damagePercent = Number(reduced[1] ?? reduced[2]);
+
+  if (/(?:deals|does) magic damage/i.test(text)) profile.damageClass = 'magical';
+  const typed = /deals (\w+) physical damage/i.exec(text);
+  if (typed) profile.type = typed[1] === 'Darkness' ? 'Dark' : typed[1];
+
+  return Object.keys(profile).length ? profile : null;
+}
+
+// Riders the wording can't carry in a general pattern.
+const BASIC_ATTACK_RIDERS = {
+  // "the target takes armor-ignoring acid magic bonus damage" at the "Poison Level/Acid Damage" values.
+  'Snake Shot': (maxRank, extras) => ({
+    bonusByRank: parseRankList(new Map(extras).get('Poison Level/Acid Damage'), maxRank),
+    damageClass: 'magical', type: 'Acid', ignores: 'armor',
+  }),
+};
+
 // "Performs a basic attack on the target": its damage is a basic attack's, crit and all.
 // A skill with its own scaling only adds one on the side (Shinken, Infernal Summon).
 function performsBasicAttack(entry, scaling) {
@@ -366,7 +414,12 @@ for (const entry of raw) {
     effects,
     requiresRaw: parseRequirements(entry.extras),
     ...(HAND_MODELLED.has(entry.name) ? { handModelled: true } : {}),
-    ...(performsBasicAttack(entry, scaling) ? { basicAttack: true } : {}),
+    ...(performsBasicAttack(entry, scaling) ? {
+      basicAttack: {
+        ...basicAttackProfile(entry, maxRank),
+        ...(BASIC_ATTACK_RIDERS[entry.name] ? { rider: BASIC_ATTACK_RIDERS[entry.name](maxRank, entry.extras ?? []) } : {}),
+      },
+    } : {}),
     text: {
       id,
       range: entry.range || null,
