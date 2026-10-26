@@ -13,9 +13,6 @@ const REPORT = process.argv.includes('--report');
 const ELEMENTS = ['Fire', 'Ice', 'Wind', 'Earth', 'Dark', 'Water', 'Light', 'Lightning', 'Acid', 'Sound'];
 const STATS = ['str', 'wil', 'cel', 'ski', 'def', 'res', 'vit', 'fai', 'luc', 'gui', 'san', 'apt'];
 
-// "Darkness" is a distinct in-game damage type, not "Dark"; it gets a null element.
-const UNMODELLED_SOURCES = ['Darkness', 'Elemental', 'Rage Energy', 'Max HP'];
-
 // The wiki is inconsistent about "%" and separators ("100/120//180%", "50/60/70/80/90/%").
 // A single value applies to every rank.
 function parseRankList(text, maxRank) {

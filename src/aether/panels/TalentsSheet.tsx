@@ -21,7 +21,7 @@ export function TalentsSheet({ builder }: { builder: Builder }) {
   const allocation = build.talents ?? {};
   const conditionals = build.talentConditionals ?? {};
 
-  const { totalRanks, totalSp, perTalent } = useMemo(() => talentSpending(allocation), [allocation]);
+  const { totalRanks, totalSp, perTalent } = useMemo(() => talentSpending(build.talents ?? {}), [build.talents]);
   const ranksByTalent = useMemo(
     () => new Map(perTalent.map(entry => [entry.talent.id, entry])),
     [perTalent],

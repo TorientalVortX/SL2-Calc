@@ -31,7 +31,6 @@ export function ArmoryDialog({ builder, slot, onClose }: { builder: Builder; slo
   const listRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     listRef.current?.querySelector('.entry.is-taken')?.scrollIntoView({ block: 'center' });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slot]);
 
   const needle = query.trim().toLowerCase();

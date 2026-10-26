@@ -1,4 +1,4 @@
-import { useEffect, useRef, type ReactNode } from 'react';
+import { useEffect, useLayoutEffect, useRef, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { Corners } from './Panel';
 import { play } from '../state/audio';
@@ -17,7 +17,7 @@ export function Modal({ title, onClose, children, footer, wide, flush }: ModalPr
   const restoreTo = useRef<HTMLElement | null>(null);
   // Held in a ref so callers' inline-arrow `onClose` doesn't re-run the mount effect and steal focus.
   const closeRef = useRef(onClose);
-  closeRef.current = onClose;
+  useLayoutEffect(() => { closeRef.current = onClose; });
 
   useEffect(() => {
     restoreTo.current = document.activeElement as HTMLElement | null;

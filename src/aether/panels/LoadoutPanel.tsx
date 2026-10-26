@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Panel } from '../ui/Panel';
 import { play } from '../state/audio';
 import type { Builder } from '../state/useBuilder';
@@ -16,13 +16,10 @@ import type { LoadoutSheet } from '../state/build';
 type Sheet = LoadoutSheet;
 
 export function LoadoutPanel({ builder }: { builder: Builder }) {
-  const [sheet, setSheet] = useState<Sheet>('gear');
+  const [picked, setSheet] = useState<Sheet>('gear');
   const { status, build, evaluation } = builder;
   const hasChemist = build.mainClass === 'Chemist' || build.subClass === 'Chemist';
-
-  useEffect(() => {
-    if (!hasChemist && sheet === 'mixtures') setSheet('skills');
-  }, [hasChemist, sheet]);
+  const sheet: Sheet = !hasChemist && picked === 'mixtures' ? 'skills' : picked;
 
   const youkaiCap = evaluation.derived.youkaiCap;
 
@@ -34,7 +31,7 @@ export function LoadoutPanel({ builder }: { builder: Builder }) {
     talents: `${status.talentsSpent}/${status.talentsBudget}`,
     racials: String(build.subrace),
     youkai: `${build.youkai.contracted.length}/${youkaiCap}`,
-  }), [status, build.subrace, build.equipment, build.youkai.contracted.length, youkaiCap]);
+  }), [status, build, youkaiCap]);
 
   const overSkills = status.skillPools.some(pool => pool.overspent);
   const overMixtures = (build.mixturePlan?.length ?? 0) > mixtureFlaskCapacity(build);
