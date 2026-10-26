@@ -81,6 +81,15 @@ describe('build persistence', () => {
     expect(reloaded.equipment.accessory2?.tetra).toBeUndefined();
   });
 
+  it('round trips switched-on item effects', () => {
+    const build = parseBuildFile(JSON.stringify(legacy)).build;
+    build.equipment.hands = { itemName: 'Metallic Magic Gauntlet', upgradePoints: { hit: 0, fp: 0 } };
+    build.equipment.itemConditionalBonuses = { 'Metallic Magic Gauntlet:5': true, 'Metallic Magic Gauntlet:2': false };
+
+    const reloaded = parseBuildFile(JSON.stringify(createBuildFile('Shielded', build))).build;
+    expect(reloaded.equipment.itemConditionalBonuses).toEqual({ 'Metallic Magic Gauntlet:5': true });
+  });
+
   it('round trips the rolls chosen for ranged item bonuses', () => {
     const build = parseBuildFile(JSON.stringify(legacy)).build;
     build.equipment.accessory1 = { itemName: 'Bunny Ears', upgradePoints: { fortune: 0, greed: 0 } };

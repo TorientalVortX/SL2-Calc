@@ -283,6 +283,9 @@ export function normalizeBuildState(value: unknown): BuildState {
           evade: Number(equipment.armorUpgradePoints.evade) || 0,
         }, armorName, world)
         : undefined,
+      itemConditionalBonuses: isRecord(equipment.itemConditionalBonuses)
+        ? Object.fromEntries(Object.entries(equipment.itemConditionalBonuses).filter(([, on]) => on).map(([key]) => [key, true]))
+        : undefined,
       itemRolls: isRecord(equipment.itemRolls)
         ? Object.fromEntries(
           Object.entries(equipment.itemRolls)
