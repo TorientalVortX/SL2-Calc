@@ -26,6 +26,10 @@ export interface ItemEffect {
   effects: ItemEffectValue[];
   /** Switching it on ends the item's other exclusive effects (the Magical Gauntlet's shields). */
   exclusive?: boolean;
+  /** The skill this line belongs to, when the item grants one. */
+  grants?: string;
+  /** The skill's "Grants Skill" header or its cost line; neither carries a bonus. */
+  role?: 'skill' | 'cost';
 }
 
 const WEAPON_EFFECTS = content.weapons as Record<string, ItemEffect[]>;

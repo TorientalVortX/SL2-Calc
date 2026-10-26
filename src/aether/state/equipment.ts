@@ -351,6 +351,40 @@ export function effectsForSlot(equipment: BuildEquipmentState, slot: SlotId): Sl
   }));
 }
 
+export interface GrantedSkill {
+  name: string;
+  cost: string | null;
+  itemName: string;
+  slot: SlotId;
+  parts: SlotEffect[];
+}
+
+export type EffectGroup = { kind: 'effect'; entry: SlotEffect } | { kind: 'skill'; skill: GrantedSkill };
+
+/** Gathers each granted skill's header, cost and text lines into one entry; other effects stay as they are. */
+export function groupSlotEffects(entries: SlotEffect[], slot: SlotId): EffectGroup[] {
+  const groups: EffectGroup[] = [];
+  for (const entry of entries) {
+    const name = entry.effect.grants;
+    if (!name) {
+      groups.push({ kind: 'effect', entry });
+      continue;
+    }
+    const last = groups[groups.length - 1];
+    const open = last?.kind === 'skill' && last.skill.name === name && entry.effect.role !== 'skill' ? last.skill : null;
+    const skill = open ?? { name, cost: null, itemName: entry.itemName, slot, parts: [] };
+    if (!open) groups.push({ kind: 'skill', skill });
+    if (entry.effect.role === 'cost') skill.cost = entry.effect.description;
+    else if (entry.effect.role !== 'skill') skill.parts.push(entry);
+  }
+  return groups;
+}
+
+export function grantedSkills(equipment: BuildEquipmentState): GrantedSkill[] {
+  return SLOTS.flatMap(({ id }) => groupSlotEffects(effectsForSlot(equipment, id), id)
+    .flatMap(group => (group.kind === 'skill' ? [group.skill] : [])));
+}
+
 export interface EquipmentOverview {
   /** Weapon plus torso: the only two slots the wiki gives a weight. */
   load: number;

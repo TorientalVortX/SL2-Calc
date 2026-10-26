@@ -6,7 +6,7 @@ import { CLASSES } from '../../data/classes';
 import { GEAR_BY_GROUP } from '../../data/gear';
 import { WEAPONS_BY_TYPE } from '../../data/weapons';
 import { buildReducer, createDefaultBuild } from './build';
-import { SLOTS, effectsForSlot, equipmentOverview, slotSummary, weaponChoices } from './equipment';
+import { SLOTS, effectsForSlot, equipmentOverview, grantedSkills, slotSummary, weaponChoices } from './equipment';
 
 const armed = () => buildReducer(createDefaultBuild(), {
   type: 'equip-weapon', which: 'primaryWeapon', weaponName: 'Engraved Katana',
@@ -239,6 +239,28 @@ describe('Magical Gauntlet shields', () => {
     build = buildReducer(build, { type: 'item-conditional', key: 'Metallic Magic Gauntlet:5', on: true });
     expect(build.equipment.itemConditionalBonuses).toMatchObject({ 'Metallic Magic Gauntlet:2': false, 'Metallic Magic Gauntlet:5': true });
     expect(def()).toBe(base + 8);
+  });
+});
+
+describe('granted skills', () => {
+  it('gathers each skill’s name, cost and text from the equipped items', () => {
+    let build = buildReducer(createDefaultBuild(), { type: 'equip-gear', slot: 'hands', itemName: 'Metallic Magic Gauntlet' });
+    build = buildReducer(build, { type: 'equip-gear', slot: 'accessory1', itemName: 'Ash-Kissed Malas' });
+    const skills = grantedSkills(build.equipment);
+    expect(skills.map(skill => [skill.name, skill.cost, skill.slot])).toEqual([
+      ['Magic Shield', '3 Momentum, 5 FP', 'slot3'],
+      ['Metallic Aegis', '3 Momentum, 5 FP', 'slot3'],
+      ['Magical Aegis', '3 Momentum, 5 FP', 'slot3'],
+      ['Goren Bakudan', '3M, 15 FP, 1 Round CD', 'accessory1'],
+    ]);
+    expect(skills[1].parts.map(part => part.conditionalKey)).toEqual(['Metallic Magic Gauntlet:5']);
+    expect(skills[3].parts.map(part => part.effect.description)[1]).toBe('Furinkazan: Gain 1 Fire Mark.');
+  });
+
+  it('leaves an item’s other effects out of its skills', () => {
+    const build = buildReducer(createDefaultBuild(), { type: 'equip-gear', slot: 'accessory1', itemName: 'Ash-Kissed Malas' });
+    const other = effectsForSlot(build.equipment, 'accessory1').filter(entry => !entry.effect.grants);
+    expect(other.map(entry => entry.effect.description)).toEqual(['+2 STR']);
   });
 });
 

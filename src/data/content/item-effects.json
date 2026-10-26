@@ -223,7 +223,8 @@
         "name": "Bloodlet",
         "description": "Sacrifice life essence in the form of 15 HP to the Baphomet Offering, removing Baphomet's Hunger and reapplying Baphomet's Strength. (Yes, it works even if you don't have blood.)",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Bloodlet"
       },
       {
         "name": "Maou",
@@ -265,7 +266,8 @@
         "name": "Charge Weapon",
         "description": "Rev your weapon and fill it with focus, increasing its Charge, to a maximum of level 3. When you hit with a weapon that can consume Weapon Charges, the damage you deal with that attack will increase by 50% per level. (Weapon Charges will expire after 5 rounds.)",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Charge Weapon"
       },
       {
         "name": "Elite Engine",
@@ -1508,7 +1510,8 @@
         "name": "Rising Sun",
         "description": "Rising Sun: 2M, 15 FP, 2 Round CD. Consumes 3 Sun Crests. Targets 1 unoccupied tile within 3 Range. Reappear at target location, when you do, become Airborne and deal 30 armor-ignoring Fire bonus damage to all enemies in 2 Range Circle. All damaged enemies are inflicted with Glowing LV 10 until your next turn.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Rising Sun"
       },
       {
         "name": "Muddle",
@@ -1542,7 +1545,8 @@
         "name": "Puppet Assault",
         "description": "Targets 2 tiles in 6 Range. Location 1 must contain an enemy with String Attached LV 2+ (caused by you), and Location 2 must contain a different enemy. You puppeteer the first enemy, who takes 3 steps towards the second. Then, the first enemy is forced to attack the second with their main hand weapon (75% damage, or 100% if String Attached was LV4+). Afterwards, your strings detach from the first target.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Puppet Assault"
       }
     ],
     "Tsukikage": [
@@ -1562,7 +1566,8 @@
         "name": "Moon Reflection",
         "description": "Rising Sun: 2M, 15FP, 2 Round Cooldown. Consumes 3 Moon Crests. Targets 1 unoccupied tile within 3 Range. Appear at location, gain Sneak until next turn and Night Shade (LV15, 2 attacks, 3 rounds).",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Moon Reflection"
       },
       {
         "name": "Muddle",
@@ -1632,7 +1637,8 @@
         "name": "Luckiness Dance",
         "description": "Begins a rhythmic foreign dance which boosts the SKI and LUC of all party members in the current battle by Atlaua's Abaniko's UL/2 (min. 1) for 3 rounds.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Luckiness Dance"
       }
     ],
     "Dancing Shiv": [
@@ -1715,7 +1721,8 @@
         "name": "Guard Skill",
         "description": "Grants skill: Guard. Guard does not deplete the Schwarz Sturm gauge.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Guard Skill"
       }
     ],
     "Brawler's Glove (Enhanced)": [
@@ -1844,7 +1851,8 @@
         "name": "Guard Skill",
         "description": "Grants Skill: Guard (1+ Momentum, 0FP) - Raise your shield and protect yourself from enemy attacks. Consumes all remaining Momentum, but until your next action, all damage you take is reduced by (Momentum consumed * 10)%.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Guard Skill"
       },
       {
         "name": "Tonfa Block",
@@ -1890,7 +1898,8 @@
         "name": "Elevator",
         "description": "Walk The Dog: 3M, 10 FP, 1 round CD. Can only be used if the Special Strike 'Around The World' is not on cooldown. Targets a 5 Size Line in front of you. Spin your yoyo on the ground and move forward, until you encounter a dense tile or an enemy. For each tile you move through, increases the activation chance of your Around The World Special Strike by 6%. Afterwards, if you encountered an enemy, you will activate Tricky Yoyo's basic attack skill on them. Elevator: 1M. Can only be used if the Special Strike 'Around The World' is not on cooldown. Spin your yoyo, angling the string so that it moves upwards. Not only a visually impressive defiance of gravity, but one that straightens the string out, restoring 5 durability and increasing the chance of its next Special Strike activation by 15%.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Elevator"
       }
     ],
     "Bear Claws": [
@@ -1925,7 +1934,8 @@
         "name": "Charge Weapon",
         "description": "Grants Skill: Charge Weapon (3 Momentum, 5 FP) - Rev your weapon and fill it with focus, increasing its Charge, to a maximum of level 3. When you hit with a weapon that can consume Weapon Charges, the damage you deal with that attack will increase by 50% per level. (Weapon Charges will expire after 5 rounds.)",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Charge Weapon"
       },
       {
         "name": "Weapon Charge Consumption",
@@ -1965,13 +1975,15 @@
         "name": "Weight Strike",
         "description": "Has a special secondary attack called 'Weight Strike', and grants access to the 'Spin Kusarigami' skill. Weight Strike: 3M, Basic attack that deals Blunt Damage.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Weight Strike"
       },
       {
         "name": "Spin Kusarigami",
         "description": "Spin Kusarigami: 1M, Puts Weight Strike on 1 round CD, but the next time you attack with it and it hits, you pull the target 3 tiles towards you. Afterwards, if they are within 1 Range of you, you automatically apply the Grapple skill to them.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Spin Kusarigami"
       }
     ],
     "Magical Comet": [
@@ -2091,7 +2103,8 @@
         "name": "Freezing Round",
         "description": "Grants Skill: Freezing Round (3 Momentum, 10 FP) - Spin your weapon, Fenri, around your body and let it tear into all enemies within 1 Range of you, dealing Ice physical damage equal to 100% of Scaled Weapon Attack to them.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Freezing Round"
       }
     ],
     "Ymir": [
@@ -2237,7 +2250,8 @@
         "name": "Charge Weapon",
         "description": "Rev your weapon and fill it with focus, increasing its Charge, to a maximum of level 3. When you hit with a weapon that can consume Weapon Charges, the damage you deal with that attack will increase by 50% per level. (Weapon Charges will expire after 5 rounds.)",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Charge Weapon"
       },
       {
         "name": "Elite Engine",
@@ -2358,7 +2372,8 @@
         "name": "Double Dao",
         "description": "Fire both Yin and Yang at a target enemy within 3 Range, alternating between Light and Darkness damage, over 4 shots. The total damage dealt is equal to 100% Darkness ATK + 100% Light ATK + 50% of the total Scaled Weapon ATK of both weapons. In addition, both guns gain 2 additional attack rounds for 2 rounds.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Double Dao"
       }
     ],
     "Yin": [
@@ -2384,7 +2399,8 @@
         "name": "Double Dao",
         "description": "Fire both Yin and Yang at a target enemy within 3 Range, alternating between Light and Darkness damage, over 4 shots. The total damage dealt is equal to 100% Darkness ATK + 100% Light ATK + 50% of the total Scaled Weapon ATK of both weapons. In addition, both guns gain 2 additional attack rounds for 2 rounds.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Double Dao"
       }
     ],
     "Blaster Trumpet": [
@@ -2432,7 +2448,8 @@
             "base": 20,
             "ulMultiplier": 0
           }
-        ]
+        ],
+        "grants": "Crusader Charge"
       },
       {
         "name": "Divine Bunker",
@@ -2445,7 +2462,8 @@
             "base": 15,
             "ulMultiplier": 0
           }
-        ]
+        ],
+        "grants": "Divine Bunker"
       }
     ],
     "Tarnell": [
@@ -2805,7 +2823,8 @@
         "name": "Charge Weapon",
         "description": "Rev your weapon and fill it with focus, increasing its Charge, to a maximum of level 3. When you hit with a weapon that can consume Weapon Charges, the damage you deal with that attack will increase by 50% per level. (Weapon Charges will expire after 5 rounds.)",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Charge Weapon"
       },
       {
         "name": "Elite Engine",
@@ -3051,7 +3070,8 @@
         "name": "Deploy Talis (Amethyst)",
         "description": "Creates (or moves, if already active) a Amethyst talis at target location within 5 Range. While active, the talis becomes the center point for Isesip spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Deploy Talis (Amethyst)"
       }
     ],
     "Aquamarine-Head Staff": [
@@ -3078,7 +3098,8 @@
         "name": "Deploy Talis (Sapphire)",
         "description": "Creates (or moves, if already active) a Sapphire talis at target location within 5 Range. While active, the talis becomes the center point for Aquarian spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Deploy Talis (Sapphire)"
       }
     ],
     "Cariaite-Head Staff": [
@@ -3132,7 +3153,8 @@
         "name": "Deploy Talis (Diamond)",
         "description": "Creates (or moves, if already active) a Diamond talis at target location within 5 Range. While active, the talis becomes the center point for Mercalan spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Deploy Talis (Diamond)"
       }
     ],
     "Emerald-Head Staff": [
@@ -3159,7 +3181,8 @@
         "name": "Deploy Talis (Emerald)",
         "description": "Creates (or moves, if already active) a Emerald talis at target location within 5 Range. While active, the talis becomes the center point for Sylphid spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Deploy Talis (Emerald)"
       }
     ],
     "Fortunite-Head Staff": [
@@ -3282,7 +3305,8 @@
         "name": "Deploy Talis (Onyx)",
         "description": "Creates (or moves, if already active) a Onyx talis at target location within 5 Range. While active, the talis becomes the center point for Huggesoan spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Deploy Talis (Onyx)"
       }
     ],
     "Red Argus": [
@@ -3331,7 +3355,8 @@
         "name": "Reaping Petals",
         "description": "Performs a basic attack with the Roaring Rose by firing a bullet-like wrapping of petals at a target within 5 Range. (Roaring Rose has an increased distance before it is affected by Farshot Penalty, so fire away.)",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Reaping Petals"
       },
       {
         "name": "Cunning Rose",
@@ -3371,7 +3396,8 @@
         "name": "Deploy Talis (Ruby)",
         "description": "Creates (or moves, if already active) a Ruby talis at target location within 5 Range. While active, the talis becomes the center point for Nerifian spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Deploy Talis (Ruby)"
       }
     ],
     "Sapphire-Head Staff": [
@@ -3398,7 +3424,8 @@
         "name": "Deploy Talis (Sapphire)",
         "description": "Creates (or moves, if already active) a Sapphire talis at target location within 5 Range. While active, the talis becomes the center point for Aquarian spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Deploy Talis (Sapphire)"
       }
     ],
     "Tetraite-Head Staff": [
@@ -3445,7 +3472,8 @@
         "name": "Deploy Talis (Topaz)",
         "description": "Creates (or moves, if already active) a Topaz talis at target location within 5 Range. While active, the talis becomes the center point for Nature spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Deploy Talis (Topaz)"
       }
     ],
     "Eternal Servitude": [
@@ -3459,7 +3487,8 @@
         "name": "Adon Graxis",
         "description": "This skill requires a Rank D Invocation. Cannot be used before Round 2. Unleashes pure darkness on the battlefield, tainting all enemies with curses and knocking them down. (All Lv5, duration 3: Noshka's Famine, Crippling Muysig, Frailty of Credwa, Fellel's Fumble, Plisfa's Masochism)",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Adon Graxis"
       }
     ],
     "Fellgrant Drinker": [
@@ -3494,7 +3523,8 @@
         "name": "Gryphon Tempest",
         "description": "Whildly spin your Grypon Wing whip around you, kicking up a storm in a 3 Size Circle. Deals Wind magic damage around you, which can critically hit (can activate Gryphon Wing's On Critical effect, but only once per skill use). Creates an Air Shaft at your location for 3 rounds. If you have Grypon Storm, this skill gains additional effects based on its LV: LV5+: If you have an unsummoned Hippogriph (and can summon it), summons it to a tile near you. LV10+: +1 Circle Size. Chance to inflict Lingering Wind Damage LV X (X = Gryphon Storm LV) for 2 rounds.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Gryphon Tempest"
       }
     ],
     "Hundred-Reflection Spear": [
@@ -3630,19 +3660,22 @@
         "name": "Flight",
         "description": "This unit, having wings, is capable of flight. While Airborne, this unit will hover when using Movement, allowing them to avoid field hazards and traps on the ground.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Flight"
       },
       {
         "name": "Gain Air",
         "description": "Leap into the air and hover briefly with your wings, giving you the Airborne status.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Gain Air"
       },
       {
         "name": "Winged Spearstrike",
         "description": "Tosses your Winged Spear in a line, reducing its durability by 2, where it will travel up to 6 Range away. If it hits an enemy, it will deal Wind magic damage to them equal to 125% of Wind ATK + UL*2.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Winged Spearstrike"
       }
     ],
     "Longsword (Enhanced)": [
@@ -3794,7 +3827,8 @@
             "base": 5,
             "ulMultiplier": 0
           }
-        ]
+        ],
+        "grants": "Unravel Strike"
       }
     ],
     "Rapier of Resent": [
@@ -3935,7 +3969,8 @@
         "name": "Charge Weapon",
         "description": "Grants Skill: Charge Weapon (3 Momentum, 5 FP) - Rev your weapon and fill it with focus, increasing its Charge, to a maximum of level 3. When you hit with a weapon that can consume Weapon Charges, the damage you deal with that attack will increase by 50% per level. (Weapon Charges will expire after 5 rounds.)",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Charge Weapon"
       },
       {
         "name": "Elite Engine",
@@ -3949,7 +3984,8 @@
         "name": "Flip Blade",
         "description": "Grants Skill: Flip Blade (0M, 0 FP, 1 Round CD) - Turn your Sakabatou around, changing which side you're using. Grants or removes Flipped Blade (permanent duration). Flipped Blade: Your Sakabatou weapons deal Slash damage.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Flip Blade"
       },
       {
         "name": "Killing Is A Choice",
@@ -4035,7 +4071,8 @@
         "name": "Kamiya Guard",
         "description": "1+M, 0 FP, 2 Round CD A special self-defense technique. Consume all of your remaining Momentum and gain Swift Guard LV X (X = 8 x Momentum consumed), as you take a stance with the Kamiya. If you consume at least 4 Momentum this way, you also prepare the Kamiya Counter (until your next turn), a special retaliation strike that aims for the target's knees or other form of mobility. Kamiya Counter: Perform a counter attack (50% damage) when an enemy in 1 Range attacks you (except from behind), which will inflict Clumsy until the attacker's next turn if it hits. Doesn't stack with other counter attacks and takes priority over them.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Kamiya Guard"
       }
     ],
     "Kouenjin": [
@@ -4530,7 +4567,8 @@
         "name": "Everblue",
         "description": "Targets a tile up to 8 Range away that contains an enemy or plant special tile. Creates Ice Sheets in the line along from your current location to that tile, which last 3 rounds. Plant special tiles are frozen and turn into dense ice statues. If an enemy is the target and they are a Plant, they are inflicted with Frozen LV 10 for 2 rounds, but this skill enters a 3 round cooldown.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Everblue"
       }
     ],
     "Spectre Sword": [
@@ -4726,7 +4764,8 @@
         "name": "Charge Weapon",
         "description": "Rev your weapon and fill it with focus, increasing its Charge, to a maximum of level 3. When you hit with a weapon that can consume Weapon Charges, the damage you deal with that attack will increase by 50% per level. (Weapon Charges will expire after 5 rounds.)",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Charge Weapon"
       },
       {
         "name": "Weapon Charge Consumption",
@@ -4978,7 +5017,8 @@
         "name": "Custom Spell",
         "description": "Grants access to a custom spell in battle. The spell will deal magic damage to units it targets equal to the scaling of this weapon, plus 100% of your Elem ATK of the same element. By installing Spell Seeds into this tome's customization slots, their effects will also be applied, generally to the targets of the spell. This special tome can be modified with Spell Seeds to give its spell additional effects. You can right-click this item and select 'set-style-mode' to change the effect of style seeds to display on enemies, yourself, or the location(s) you target.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Custom Spell"
       }
     ],
     "Forgrint": [
@@ -4986,7 +5026,8 @@
         "name": "Transform to Spear",
         "description": "Grants a skill that can change this weapon into a Spear (or back into a Tome).",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Transform to Spear"
       },
       {
         "name": "Fallenharn",
@@ -5000,7 +5041,8 @@
         "name": "Transform to Sword",
         "description": "Grants a skill that can change this weapon into a Sword (or back into a Tome).",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Transform to Sword"
       },
       {
         "name": "Swordsmith Rain",
@@ -5059,7 +5101,8 @@
         "name": "Transform to Axe",
         "description": "Grants a skill that can change this weapon into an Axe (or back into a Tome).",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Transform to Axe"
       },
       {
         "name": "Spirit Trip",
@@ -5073,7 +5116,8 @@
         "name": "Screamer",
         "description": "Have the Screaming Tome bite your hand, causing you to take 10% (20% if not your main hand weapon) of your maximum HP as unresistable Piercing damage. In exchange, the magical bite will remove any Silence you are suffering (ignoring any effects that would prevent its curing), letting you yelp in pain.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Screamer"
       }
     ],
     "Aquaphobia": [
@@ -5100,7 +5144,8 @@
         "name": "Frozen Fear",
         "description": "Creates (or moves, if already active) a Frozen Fear at target location within 5 Range. While active, the Frozen Fear becomes the center point for Aquarian spells you cast (excluding movement skills). You can use this skill on your current location to destroy your Frozen Fear. (Destroying it will restore 2 Momentum.)",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Frozen Fear"
       }
     ],
     "Balrog": [
@@ -5360,7 +5405,9 @@
         "name": "Grants Contract of Blood skill",
         "description": "Grants Contract of Blood skill",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Contract of Blood",
+        "role": "skill"
       }
     ],
     "Dragon King's Armor": [
@@ -6296,25 +6343,31 @@
         "name": "Ash-Kissed Malas",
         "description": "Grants Skill: Goren Bakudan",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Goren Bakudan",
+        "role": "skill"
       },
       {
         "name": "Ash-Kissed Malas",
         "description": "3M, 15 FP, 1 Round CD",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Goren Bakudan",
+        "role": "cost"
       },
       {
         "name": "Ash-Kissed Malas",
         "description": "Kenpo. Create an explosion from your fist in close proximity to an enemy within 1 Range, dealing damage split between Fire and your Fist's damage type to all enemies in 2 Range of them (+1 Range per Fire Mark). If the initial target is Grappled, the damage they take has Great Accuracy.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Goren Bakudan"
       },
       {
         "name": "Ash-Kissed Malas",
         "description": "Furinkazan: Gain 1 Fire Mark.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Goren Bakudan"
       }
     ],
     "Bands of Skill": [
@@ -6624,13 +6677,17 @@
         "name": "Bradan Glove",
         "description": "Grants Skill: Lick Thumb",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Lick Thumb",
+        "role": "skill"
       },
       {
         "name": "Bradan Glove",
         "description": "2 Momentum, 30 FP, 5 Round Cooldown",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Lick Thumb",
+        "role": "cost"
       },
       {
         "name": "Bradan Glove",
@@ -6643,7 +6700,8 @@
             "base": 50,
             "ulMultiplier": 0
           }
-        ]
+        ],
+        "grants": "Lick Thumb"
       }
     ],
     "Burning Bracers": [
@@ -6797,25 +6855,31 @@
         "name": "Dew-Drenched Charm",
         "description": "Grants Skill: Kaiyo Hosshin",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Kaiyo Hosshin",
+        "role": "skill"
       },
       {
         "name": "Dew-Drenched Charm",
         "description": "3M, 15 FP, 1 Round CD",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Kaiyo Hosshin",
+        "role": "cost"
       },
       {
         "name": "Dew-Drenched Charm",
         "description": "Kenpo. Manifest a clone of water that performs a basic attack with your Fist weapon on a target within 12 Range (with no Farshot Penalty), dealing Water damage. In order to do so, the target must be within 1 Range of a water-based field tile, or Soaked.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Kaiyo Hosshin"
       },
       {
         "name": "Dew-Drenched Charm",
         "description": "Furinkazan: Gain 1 Forest Mark.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Kaiyo Hosshin"
       }
     ],
     "Dragon King Gauntlet": [
@@ -6995,13 +7059,17 @@
         "name": "Magic Gauntlet",
         "description": "Grants Skill: Magic Shield",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Magic Shield",
+        "role": "skill"
       },
       {
         "name": "Magic Gauntlet",
         "description": "3 Momentum, 5 FP",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Magic Shield",
+        "role": "cost"
       },
       {
         "name": "Magic Gauntlet",
@@ -7021,7 +7089,8 @@
             "ulMultiplier": 0
           }
         ],
-        "exclusive": true
+        "exclusive": true,
+        "grants": "Magic Shield"
       }
     ],
     "Metal Gauntlet": [
@@ -7072,13 +7141,17 @@
         "name": "Metallic Magic Gauntlet",
         "description": "Grants Skill: Magic Shield",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Magic Shield",
+        "role": "skill"
       },
       {
         "name": "Metallic Magic Gauntlet",
         "description": "3 Momentum, 5 FP",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Magic Shield",
+        "role": "cost"
       },
       {
         "name": "Metallic Magic Gauntlet",
@@ -7098,19 +7171,24 @@
             "ulMultiplier": 0
           }
         ],
-        "exclusive": true
+        "exclusive": true,
+        "grants": "Magic Shield"
       },
       {
         "name": "Metallic Magic Gauntlet",
         "description": "Grants Skill: Metallic Aegis",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Metallic Aegis",
+        "role": "skill"
       },
       {
         "name": "Metallic Magic Gauntlet",
         "description": "3 Momentum, 5 FP",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Metallic Aegis",
+        "role": "cost"
       },
       {
         "name": "Metallic Magic Gauntlet",
@@ -7124,19 +7202,24 @@
             "ulMultiplier": 0
           }
         ],
-        "exclusive": true
+        "exclusive": true,
+        "grants": "Metallic Aegis"
       },
       {
         "name": "Metallic Magic Gauntlet",
         "description": "Grants Skill: Magical Aegis",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Magical Aegis",
+        "role": "skill"
       },
       {
         "name": "Metallic Magic Gauntlet",
         "description": "3 Momentum, 5 FP",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Magical Aegis",
+        "role": "cost"
       },
       {
         "name": "Metallic Magic Gauntlet",
@@ -7150,7 +7233,8 @@
             "ulMultiplier": 0
           }
         ],
-        "exclusive": true
+        "exclusive": true,
+        "grants": "Magical Aegis"
       }
     ],
     "Nihilist": [
@@ -7185,19 +7269,24 @@
         "name": "Ninja Kote",
         "description": "Grants Skill: Mozu Otoshi",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Mozu Otoshi",
+        "role": "skill"
       },
       {
         "name": "Ninja Kote",
         "description": "3 Momentum, 3 FP, 1 Round Cooldown",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Mozu Otoshi",
+        "role": "cost"
       },
       {
         "name": "Ninja Kote",
         "description": "The flying ninja slam technique of rumor. Can only target an enemy you are grappling within 1 Range. You jump with your grappled target into the air, then fall down, slamming them head-first into the ground, dealing Blunt physical damage that can critically hit (equal to 100% of SWA of your weapon), and knocking them away 3 tiles. If the damage was a critical hit, there is also a status-infliction based chance they'll be Knocked Down. Damage inflicted by this skill cannot be parried, nor evaded.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Mozu Otoshi"
       }
     ],
     "Nullstone Gauntlet": [
@@ -7289,25 +7378,31 @@
         "name": "Sand-Polished Band",
         "description": "Grants Skill: Riseki Yoroi",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Riseki Yoroi",
+        "role": "skill"
       },
       {
         "name": "Sand-Polished Band",
         "description": "3M, 15 FP, 1 Round CD",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Riseki Yoroi",
+        "role": "cost"
       },
       {
         "name": "Sand-Polished Band",
         "description": "Kenpo. Targets 1 enemy in 1 Range (or 1 enemy you have Magnetized in 3 Range, who is pulled to you) and performs a shattering fist strike, dealing damage split between Earth and your Fist's damage type. If it hits, the target is inflicted with Wear Down (LV 10, 2 rounds).",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Riseki Yoroi"
       },
       {
         "name": "Sand-Polished Band",
         "description": "Furinkazan: Gain 1 Mountain Mark.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Riseki Yoroi"
       }
     ],
     "Sayakensa": [
@@ -7408,19 +7503,24 @@
         "name": "Spy Wristwatch",
         "description": "Grants Skill: Poison Dart",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Poison Dart",
+        "role": "skill"
       },
       {
         "name": "Spy Wristwatch",
         "description": "3 Momentum, 0 FP",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Poison Dart",
+        "role": "cost"
       },
       {
         "name": "Spy Wristwatch",
         "description": "Fires a small dart at a target, inflicting 5 unresistable Pierce damage and LV1 Poison for 3 Rounds without fail (unless they're immune to it, of course.)",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Poison Dart"
       }
     ],
     "Tetra Gauntlet": [
@@ -7703,19 +7803,24 @@
         "name": "Lion Shield",
         "description": "Grants Skill: Lion's Roar",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Lion's Roar",
+        "role": "skill"
       },
       {
         "name": "Lion Shield",
         "description": "3 Momentum, 15 FP",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Lion's Roar",
+        "role": "cost"
       },
       {
         "name": "Lion Shield",
         "description": "Unleash a mighty roar. Increases the user's STR by 2 (+1 per 5 character levels) for 3 rounds. Enemies in range may also be Feared for 2 rounds.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Lion's Roar"
       }
     ],
     "Magnetic Shield": [
@@ -7878,13 +7983,16 @@
         "name": "Accellia",
         "description": "Grants Skill: Charge Weapon",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Charge Weapon",
+        "role": "skill"
       },
       {
         "name": "Accellia",
         "description": "Rev your weapon and fill it with focus, increasing its Charge, to a maximum of level 3. When you hit with a weapon that can consume Weapon Charges, the damage you deal with that attack will increase by 50% per level. (Weapon Charges will expire after 5 rounds, but can persist through multiple battles.)",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Charge Weapon"
       },
       {
         "name": "Accellia",
@@ -8164,13 +8272,16 @@
         "name": "Fox Paw",
         "description": "Grants Skill: Firefall",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Firefall",
+        "role": "skill"
       },
       {
         "name": "Fox Paw",
         "description": "Boosts the duration of Cinder tiles created by Firefall by UL/6.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Firefall"
       },
       {
         "name": "Fox Paw",
@@ -8364,19 +8475,24 @@
         "name": "Marching Band Shoes",
         "description": "Grants Skill: Marching Band",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Marching Band",
+        "role": "skill"
       },
       {
         "name": "Marching Band Shoes",
         "description": "Passive",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Marching Band",
+        "role": "cost"
       },
       {
         "name": "Marching Band Shoes",
         "description": "While toggled on, if you have any March talent ranks, once per round after you use a Song skill: You move up to X tiles forward in the direction you are facing, and recover X HP & FP. (X = March talent rank. Max of 5 for steps.) This effect will not trigger if you cannot use movement skills.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Marching Band"
       }
     ],
     "Mercury": [
@@ -8490,9 +8606,26 @@
       },
       {
         "name": "Razor Talons",
-        "description": "* Grants Skill: {{#tip-text: Falcon Arc | Falcon Arc Cost: 10 FP / 2M Target: Location Area: Single (Line To) Range: 2 Cooldown: 3 Round(s) Targets a flexible line to an unoccupied tile up to 2 Range away. You flip, becoming Airborne, and float along the line to that tile. If you have Razor Talons equipped, and they are enchanted with Winged, this skill has +1 Range. If you have no armor equipped, or armor that is enchanted with Winged, this skill costs -1M.}}",
+        "description": "Grants Skill: Falcon Arc",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Falcon Arc",
+        "role": "skill"
+      },
+      {
+        "name": "Razor Talons",
+        "description": "10 FP / 2M, 3 Round Cooldown",
+        "applies": "reference",
+        "effects": [],
+        "grants": "Falcon Arc",
+        "role": "cost"
+      },
+      {
+        "name": "Razor Talons",
+        "description": "Targets a flexible line to an unoccupied tile up to 2 Range away. You flip, becoming Airborne, and float along the line to that tile. If you have Razor Talons equipped, and they are enchanted with Winged, this skill has +1 Range. If you have no armor equipped, or armor that is enchanted with Winged, this skill costs -1M.",
+        "applies": "reference",
+        "effects": [],
+        "grants": "Falcon Arc"
       }
     ],
     "Runner's High": [
@@ -8904,19 +9037,24 @@
         "name": "Camera Hat",
         "description": "Grants Skill: Camera Flash",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Camera Flash",
+        "role": "skill"
       },
       {
         "name": "Camera Hat",
         "description": "3 Momentum, 0 FP",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Camera Flash",
+        "role": "cost"
       },
       {
         "name": "Camera Hat",
         "description": "Surprise your enemy with a flash from your camera hat, dealing 5 unresistible Light damage to them. There is also a 10% chance that they will be Blinded for 2 rounds. Weaknesses and resistances the target has to Light are added to the chance.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Camera Flash"
       }
     ],
     "Cat Mask": [
@@ -8943,13 +9081,16 @@
         "name": "Cat Mask",
         "description": "Grants Skill: Steal",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Steal",
+        "role": "skill"
       },
       {
         "name": "Cat Mask",
         "description": "Take something from another for yourself! But only the good things. And only status effects. At a chance equal to your Scaled CEL + a bonus based on Rank, you can take up to 1 beneficial status effect from the target for yourself.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Steal"
       }
     ],
     "Chaos Dice": [
@@ -8965,19 +9106,24 @@
         "name": "Circle Ring",
         "description": "Grants Skill: Circle Nine",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Circle Nine",
+        "role": "skill"
       },
       {
         "name": "Circle Ring",
         "description": "3 Momentum, 19FP, 9 Round Cooldown",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Circle Nine",
+        "role": "cost"
       },
       {
         "name": "Circle Ring",
         "description": "Prove to everyone you're not an idiot by dealing 99% of your Ice ATK as bonus armor-ignoring Ice damage to all enemies in a 3 range Circle. You also gain Absorb Ice (Limited) for 9 Rounds.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Circle Nine"
       }
     ],
     "Crow's Feather": [
@@ -9248,13 +9394,17 @@
         "name": "Est Lestrada",
         "description": "Grants Skill: Forbidden Charge",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Forbidden Charge",
+        "role": "skill"
       },
       {
         "name": "Est Lestrada",
         "description": "3 Momentum, 30FP, 5 Round Cooldown",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Forbidden Charge",
+        "role": "cost"
       },
       {
         "name": "Est Lestrada",
@@ -9267,7 +9417,8 @@
             "base": -15,
             "ulMultiplier": 0
           }
-        ]
+        ],
+        "grants": "Forbidden Charge"
       }
     ],
     "Fake Badge": [
@@ -9342,19 +9493,24 @@
         "name": "Goat Lord's Helmet",
         "description": "Grants Skill: Ram",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Ram",
+        "role": "skill"
       },
       {
         "name": "Goat Lord's Helmet",
         "description": "3 Momentum, 0FP",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Ram",
+        "role": "cost"
       },
       {
         "name": "Goat Lord's Helmet",
         "description": "Ram your horns into the target, dealing Pierce damage equal to 20 + your Scaled STR. If the target is using an Unarmored torso, they take 50% more damage.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Ram"
       }
     ],
     "Goldie Fox Autograph": [
@@ -10028,19 +10184,24 @@
         "name": "Pirate Eyepatch",
         "description": "Grants Skill: Discard Eyepatch",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Discard Eyepatch",
+        "role": "skill"
       },
       {
         "name": "Pirate Eyepatch",
         "description": "0M, 0 FP, 10 Round CD",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Discard Eyepatch",
+        "role": "cost"
       },
       {
         "name": "Pirate Eyepatch",
         "description": "Throw off your eyepatch, unequipping the first Eyepatch accessory equipped.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Discard Eyepatch"
       }
     ],
     "Pluto Badge": [
@@ -10346,19 +10507,24 @@
         "name": "Ring of the Knight",
         "description": "Grants Skill: Guard",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Guard",
+        "role": "skill"
       },
       {
         "name": "Ring of the Knight",
         "description": "1+ Momentum, 0FP",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Guard",
+        "role": "cost"
       },
       {
         "name": "Ring of the Knight",
         "description": "Raise your shield and protect yourself from enemy attacks. Consumes all remaining Momentum, but until your next action, all damage you take is reduced by (Momentum consumed * 10)%.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Guard"
       }
     ],
     "Ring of Thorns": [
@@ -10480,19 +10646,24 @@
         "name": "Saya",
         "description": "Grants Skill: Sheath Sword (Saya)",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Sheath Sword (Saya)",
+        "role": "skill"
       },
       {
         "name": "Saya",
         "description": "3M, 5 FP",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Sheath Sword (Saya)",
+        "role": "cost"
       },
       {
         "name": "Saya",
         "description": "Katana skill. Targets 1 tile in 5 Range. Sheath your katana and prepare a Quick Draw (LV 1), which triggers a counter-attack when an enemy would perform a basic attack on you. If there was an enemy on the tile you selected, you inflict them with Watchful Eye (1 round).",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Sheath Sword (Saya)"
       }
     ],
     "Sayakana": [
@@ -10623,19 +10794,24 @@
         "name": "Skyburn",
         "description": "Grants Skill: Burn Up",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Burn Up",
+        "role": "skill"
       },
       {
         "name": "Skyburn",
         "description": "1 Momentum, 0FP",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Burn Up",
+        "role": "cost"
       },
       {
         "name": "Skyburn",
         "description": "Catch the hot air in your wings, gaining Airborne status and taking 5 unresistable Fire damage.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Burn Up"
       },
       {
         "name": "Skyburn",
@@ -10759,19 +10935,24 @@
         "name": "Spirit Jar",
         "description": "Grants Skill: Spiriteater",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Spiriteater",
+        "role": "skill"
       },
       {
         "name": "Spirit Jar",
         "description": "3 Momentum, 0FP",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Spiriteater",
+        "role": "cost"
       },
       {
         "name": "Spirit Jar",
         "description": "Devour all the spirits in the Spirit Jar, restoring HP and FP equal to (8 + Spirits)% of your maximum, and reducing the duration of one random negative status you have by 1.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "grants": "Spiriteater"
       }
     ],
     "Spirit Mirror": [

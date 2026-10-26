@@ -248,12 +248,49 @@ function withoutStructuredDuplicates(record, structured, structuredElements = ne
   return effects.length ? { ...record, effects } : { ...record, applies: 'reference', effects: [] };
 }
 
+const SKILL_HEADER = /^\*?\s*Grants (?:Skill:\s*([^.]+?)\.?|([^.]+?) skill)$/i;
+const SKILL_COST_LINE = /^(?:Passive|\d+\+?\s*(?:M|Momentum|FP)\b[^.]*)$/i;
+
+// A granted skill is written as "Grants Skill: X", an optional cost line, then its text; Kenpo adds a "Furinkazan:" line.
+function skillRoles(lines) {
+  let skill = null;
+  let stage = null;
+  return lines.map((line) => {
+    const header = SKILL_HEADER.exec(line.trim());
+    if (header) {
+      skill = (header[1] ?? header[2]).trim();
+      stage = 'header';
+      return { grants: skill, role: 'skill' };
+    }
+    if (skill && stage === 'header' && SKILL_COST_LINE.test(line.trim())) {
+      stage = 'cost';
+      return { grants: skill, role: 'cost' };
+    }
+    if (skill && (stage === 'header' || stage === 'cost')) {
+      stage = 'text';
+      return { grants: skill };
+    }
+    if (skill && stage === 'text' && /^Furinkazan:/i.test(line.trim())) return { grants: skill };
+    skill = null;
+    return {};
+  });
+}
+
+// Headers and cost lines carry no bonus: "10 FP / 2M" is what the skill spends.
+function withSkillRole(record, tag) {
+  if (!tag.grants) return record;
+  return tag.role ? { ...record, applies: 'reference', effects: [], ...tag } : { ...record, ...tag };
+}
+
 const weapons = {};
 for (const file of (await readdir(CONTENT)).filter((f) => /^weapons-.+\.json$/.test(f))) {
   for (const weapon of JSON.parse(await readFile(path.join(CONTENT, file), 'utf8'))) {
     const records = (weapon.specials ?? [])
       // Only a Passive is a standing bonus; the rest fire on a trigger.
-      .map((special) => toRecord(special.name ?? special.type, special.description ?? '', special.type === 'Passive'))
+      .map((special) => {
+        const record = toRecord(special.name ?? special.type, special.description ?? '', special.type === 'Passive');
+        return special.type === 'GrantsSkill' ? { ...record, grants: special.name } : record;
+      })
       .filter((record) => record.effects.length || record.description);
     if (records.length) weapons[weapon.name] = records;
   }
@@ -272,8 +309,9 @@ for (const list of Object.values(JSON.parse(await readFile(ARMORS, 'utf8')))) {
       : null;
     if (detail) records.push(detail);
     const detailValues = new Set(detail?.effects.map(valueSignature) ?? []);
-    for (const special of armor.specialEffects ?? []) {
-      const record = withoutStructuredDuplicates(toRecord(special, special, false), structured, structuredElements);
+    const roles = skillRoles(armor.specialEffects ?? []);
+    for (const [index, special] of (armor.specialEffects ?? []).entries()) {
+      const record = withSkillRole(withoutStructuredDuplicates(toRecord(special, special, false), structured, structuredElements), roles[index]);
       // `specialEffects` summarizes `details`; do not offer the same magnitude twice.
       const effects = record.effects.filter((value) => !detailValues.has(valueSignature(value)));
       records.push(effects.length ? { ...record, effects } : { ...record, applies: 'reference', effects: [] });
@@ -288,8 +326,9 @@ for (const list of Object.values(JSON.parse(await readFile(GEAR, 'utf8')))) {
   for (const item of list) {
     const records = [];
     const seen = new Set();
-    for (const line of item.specialEffects ?? []) {
-      const record = toRecord(item.name, line, true);
+    const roles = skillRoles(item.specialEffects ?? []);
+    for (const [index, line] of (item.specialEffects ?? []).entries()) {
+      const record = withSkillRole(toRecord(item.name, line, true), roles[index]);
       if (!record.effects.length && !record.description) continue;
       // Two lines can state the same bonus; offer it once.
       const fresh = record.effects.filter((value) => !seen.has(valueSignature(value)));
