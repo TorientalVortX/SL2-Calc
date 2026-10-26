@@ -1,12 +1,8 @@
 import type { BuildState, SpellthiefState } from '../types';
 import { classPairLegal, mergeSkillRanks, skillById } from './skills';
 
-/** Class spells indexed from spell Domain entries in skills-text.json, plus
- * Fulgur of Flight, explicitly described there as a Druid spell. This includes
- * spells with weapon, resource and class requirements: being a card does not
- * waive those requirements. Never search descriptions for the word "spell" to
- * grant access: passives and theft actions also mention spells.
- * Youkai Evokes have a separate catalog and are never admitted here. */
+/** Spell Domain entries from skills-text.json, plus Fulgur of Flight (described there as a Druid spell).
+ * Youkai Evokes are a separate catalog and never admitted. */
 export const COPY_SPELL_IDS = [
   'acid-rain', 'aero-of-disaster', 'aero-of-kindness', 'agile-androcobra', 'air-pressure',
   'akihono-tobitoro', 'altera', 'arashi-sanseiken', 'astral-belt', 'asura-fist',
@@ -57,7 +53,6 @@ export function normalizeSpellthiefState(value: unknown, build: BuildState): Spe
   const ids = (list: unknown): string[] => Array.isArray(list)
     ? [...new Set(list.filter((id): id is string => typeof id === 'string' && allowed.has(id)))] : [];
   const equipped = ids(source.equipped);
-  // Unprepared copies become reserve cards; edits never silently destroy the collection.
   const cards = [...new Set([...ids(source.cards), ...equipped])];
   const cap = copySpellCapacity(build);
   return { cards, equipped: cap ? equipped.slice(-cap) : [] };
@@ -69,7 +64,7 @@ export function settleSpellthief(build: BuildState): BuildState {
 
 export type CopySpellAction = 'steal' | 'store' | 'prepare' | 'unprepare' | 'forget';
 export function changeCopySpell(build: BuildState, id: string, action: CopySpellAction): BuildState {
-  if (!allowed.has(id)) return build; // Includes forged imports/actions for Youkai Evokes.
+  if (!allowed.has(id)) return build;
   const state = normalizeSpellthiefState(build.spellthief, build);
   const cap = copySpellCapacity(build);
   if (action === 'steal' && !cap) return build;
@@ -85,9 +80,7 @@ export function changeCopySpell(build: BuildState, id: string, action: CopySpell
   return { ...build, spellthief: { cards, equipped } };
 }
 
-/** User-confirmed calculator rule: all spell cards use the spell's normal
- * maximum rank, independent of learned ranks, class pairing or Destiny.
- * This changes neither the Spell Snatch capacity nor casting restrictions. */
+/** User-confirmed rule: spell cards use the spell's max rank regardless of learned ranks, class pairing or Destiny. */
 export function copySpellRank(_build: BuildState, id: string): number {
   const skill = allowed.has(id) ? skillById(id) : undefined;
   return skill?.maxRank ?? 0;

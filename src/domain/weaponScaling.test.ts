@@ -4,11 +4,8 @@ import { evaluateWeaponSlot } from './buildEvaluation';
 import { weaponToConfig, findWeaponByName } from './equipment';
 import type { StatRecord, WeaponConfig } from '../types';
 
-/** Finesse: the common two-tag shape, 70% main / 30% secondary. */
 const FINESSE = { str: 70, ski: 30 };
-/** Basic: one tag at 100%. */
 const BASIC = { str: 100 };
-/** A weapon whose main stat is not STR, for the Mastery rule. */
 const GUILE = { gui: 70, ski: 30 };
 
 const stats: StatRecord = {
@@ -37,11 +34,7 @@ describe('the main scaling stat', () => {
 });
 
 describe('Mundane', () => {
-  /*
-   * "Removes all scaling tags from the weapon, except for purely negative ones."
-   * The calculator used to ignore this outright, so a Mundane weapon returned
-   * exactly the same SWA as an unenchanted one.
-   */
+  // "Removes all scaling tags from the weapon, except for purely negative ones."
   it('strips every positive tag', () => {
     const result = applyScalingTags(FINESSE, ['Mundane']);
     expect(result.str).toBe(0);
@@ -64,10 +57,7 @@ describe('Mundane', () => {
 });
 
 describe('Alterated', () => {
-  /*
-   * Percentage points, not a relative cut: a Finesse weapon's 70 becomes 60, not
-   * 63. See the module docstring for why.
-   */
+  // Percentage points, not a relative cut: 70 becomes 60, not 63.
   it('takes ten points off the main stat only', () => {
     const result = applyScalingTags(FINESSE, ['Alterated']);
     expect(result.str).toBe(60);
@@ -81,11 +71,7 @@ describe('Alterated', () => {
     }
   });
 
-  /*
-   * A reduction floors at zero rather than inverting the stat. Unreachable from
-   * weapon data (the lowest main scaling in the dataset is 40%) but reachable
-   * through the manual scaling override.
-   */
+  // Unreachable from weapon data (lowest main scaling is 40%) but reachable via the manual override.
   it('floors the reduction at zero instead of going negative', () => {
     expect(applyScalingTags({ str: 5 }, ['Alterated']).str).toBe(0);
     expect(applyScalingTags({ str: 20 }, ['Magical']).str).toBe(0);
@@ -106,11 +92,7 @@ describe('Magical', () => {
     expect(result.wil).toBe(40);
   });
 
-  /*
-   * Its only source is Arcane Tattoo (Fist), which enhances the *unarmed* weapon.
-   * No unarmed weapon exists in the dataset, so the tag is unreachable in
-   * practice. The transform is here so it works the moment one is added.
-   */
+  // Arcane Tattoo (Fist) enhances the unarmed weapon, which the dataset doesn't have yet.
   it('is granted by the Arcane Tattoo (Fist) trait', () => {
     expect(scalingTagsFor({ enchantment: 'None', part1: 'None', part2: 'None', part3: 'None' }, ['arcane-tattoo-fist']))
       .toContain('Magical');
@@ -118,10 +100,7 @@ describe('Magical', () => {
 });
 
 describe('Short Body', () => {
-  /*
-   * "Gains Shortbow weapon type and primary scaling stat is changed to STR."
-   * Repointed, not duplicated: the part changes which stat is read.
-   */
+  // "Gains Shortbow weapon type and primary scaling stat is changed to STR."
   it('moves the primary tag onto STR', () => {
     const result = applyScalingTags({ ski: 100 }, ['ShortBody']);
     expect(result.str).toBe(100);
@@ -135,10 +114,7 @@ describe('Short Body', () => {
     expect(result.ski).toBe(30);
   });
 
-  /*
-   * The reachable case: Crossbow and Howling Handshot are the dataset's two
-   * SKI-primary bows, and Short Body is a bow part.
-   */
+  // Crossbow and Howling Handshot are the dataset's two SKI-primary bows.
   it('repoints a real SKI-primary bow onto STR', () => {
     const crossbow = findWeaponByName('Crossbow')!;
     const printed = effectiveScaling(weaponToConfig(crossbow));
@@ -170,17 +146,12 @@ describe('Mastery of Weapon Arts', () => {
     expect(applyScalingTags(BASIC, ['MasteryOfWeaponArts']).str).toBe(100);
   });
 
-  /*
-   * Asked last, so it reads the main stat *after* the other tags have moved it.
-   * Short Body makes a SKI weapon STR-primary, which disqualifies it from Mastery.
-   */
   it('reads the main stat after Short Body has moved it', () => {
     const result = applyScalingTags({ ski: 100 }, ['ShortBody', 'MasteryOfWeaponArts']);
     expect(result.str).toBe(100);
   });
 
   it('applies once Mundane has removed the STR tag', () => {
-    // Nothing scales after Mundane, so the main stat is not STR and Mastery pays.
     const result = applyScalingTags(BASIC, ['Mundane', 'MasteryOfWeaponArts']);
     expect(result.str).toBe(15);
   });

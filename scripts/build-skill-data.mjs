@@ -1,55 +1,23 @@
-/**
- * Turns the scraped wiki corpus into the calculator's skill dataset.
- *
- *   wiki-data/raw/skills.json  ->  src/data/content/skills.json
- *
- * The wiki writes its numbers as prose ("100/110/120% Scaled WPN ATK",
- * "13/15/17/19/21 FP"). Parsing that at runtime would put string handling in the
- * damage path, so every value is resolved to arrays indexed by rank here, at
- * build time, and the app only ever reads numbers.
- *
- *   node scripts/build-skill-data.mjs           # write the dataset
- *   node scripts/build-skill-data.mjs --report  # also print what did not parse
- *
- * Parsing is deliberately conservative: anything this script cannot read with
- * confidence is left out of the structured fields and preserved verbatim in
- * `powerRaw` / `extras`, so an unrecognised format shows up as a missing effect
- * rather than a wrong number.
- */
+// Usage: node scripts/build-skill-data.mjs [--report]  -> src/data/content/skills.json
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { applyBattleEffects } from './skill-battle-effects.mjs';
 
 const IN = path.resolve('wiki-data/raw/skills.json');
-/** Mechanics: read by the damage and stat paths, so it loads with the app. */
+// Mechanics load with the app; prose is fetched on demand by the Skills dialog.
 const OUT = path.resolve('src/data/content/skills.json');
-/** Prose: only the Skills dialog needs it, so it is fetched on demand. */
 const OUT_TEXT = path.resolve('src/data/content/skills-text.json');
 const REPORT = process.argv.includes('--report');
 
-/* ------------------------------------------------------------------ tokens */
-
-/** Elements the calculator models. `ElementKey` in src/types.ts. */
+// Mirrors `ElementKey` in src/types.ts.
 const ELEMENTS = ['Fire', 'Ice', 'Wind', 'Earth', 'Dark', 'Water', 'Light', 'Lightning', 'Acid', 'Sound'];
 const STATS = ['str', 'wil', 'cel', 'ski', 'def', 'res', 'vit', 'fai', 'luc', 'gui', 'san', 'apt'];
 
-/**
- * Damage sources the wiki names but the calculator has no element for.
- * "Darkness" is a distinct damage type in game and must NOT be folded into
- * "Dark". It is recorded with a null element so it never scores as Dark.
- */
+// "Darkness" is a distinct in-game damage type, not "Dark"; it gets a null element.
 const UNMODELLED_SOURCES = ['Darkness', 'Elemental', 'Rage Energy', 'Max HP'];
 
-/* ------------------------------------------------------------------ numbers */
-
-/**
- * Reads a per-rank number list.
- *
- * The wiki uses "/" between ranks and is inconsistent about "%" placement and
- * stray separators ("100/120//180%", "50/60/70/80/90/%"). A single value means
- * the skill uses it at every rank, so it is broadcast to `maxRank` entries.
- * Returns null when nothing numeric is present.
- */
+// The wiki is inconsistent about "%" and separators ("100/120//180%", "50/60/70/80/90/%").
+// A single value applies to every rank.
 function parseRankList(text, maxRank) {
   if (text == null) return null;
   const parts = String(text)
@@ -63,24 +31,12 @@ function parseRankList(text, maxRank) {
 
   const ranks = Math.max(1, maxRank || values.length);
   if (values.length === 1) return Array.from({ length: ranks }, () => values[0]);
-  // A list longer than maxRank means the wiki and the infobox disagree; keep the
-  // wiki's list rather than silently truncating a real value.
+  // Longer than maxRank means the wiki and infobox disagree; keep the wiki's list.
   if (values.length >= ranks) return values;
-  // Short list: the last value carries to the remaining ranks.
   return Array.from({ length: ranks }, (_, i) => values[Math.min(i, values.length - 1)]);
 }
 
-/**
- * Applies a rank list's leading sign to the values behind it.
- *
- * The wiki states the sign once at the front: "-2/4/6" is -2/-4/-6, and
- * "+10/20/30" is all positive. Read literally, the first form yields a penalty
- * at rank 1 that turns into a bonus at rank 2, which is how Frailty of Credwa
- * and Noshka's Famine came out backwards.
- *
- * Only applied when no later entry carries its own sign, so a genuinely mixed
- * list is left exactly as written.
- */
+// The wiki states the sign once: "-2/4/6" is -2/-4/-6. Left alone when a later entry has its own sign.
 function applyLeadingSign(raw, values) {
   if (!values) return values;
   const parts = String(raw).split('/').map((part) => part.trim()).filter(Boolean);
@@ -94,15 +50,7 @@ const parseInteger = (text) => {
   return match ? Number(match[0]) : null;
 };
 
-/* -------------------------------------------------------------------- power */
-
-/**
- * Splits a power string into its additive terms.
- *
- * The wiki separates terms with "+", "," or "&". All mean "and also". Slashes
- * inside a term are rank separators, not term separators, so the split has to
- * happen before any per-rank parsing.
- */
+// Terms split on "+", "," or "&"; slashes inside a term are rank separators.
 function splitTerms(power) {
   return power
     .replace(/\s+/g, ' ')
@@ -111,19 +59,12 @@ function splitTerms(power) {
     .filter(Boolean);
 }
 
-/**
- * Classifies one power term and pulls out its per-rank percentages.
- *
- * Returns null when the term carries no recognisable damage source, which is
- * common: many "Power" fields describe an effect ("Knockdown enemy") rather
- * than a formula.
- */
+// Many "Power" fields describe an effect ("Knockdown enemy") rather than a formula.
 function parseTerm(term, maxRank) {
   const numbers = /[\d.]+(?:\s*[%]?\s*\/+\s*[\d.]*%?)*/.exec(term);
   const percentByRank = numbers ? parseRankList(numbers[0], maxRank) : null;
   const text = term.toLowerCase();
 
-  // Weapon attack, across every spelling the wiki uses.
   if (/scaled\s*(wpn|weapon)|weapon\s*scaled/.test(text)) {
     return percentByRank ? { source: 'weapon', label: 'Scaled Weapon ATK', percentByRank } : null;
   }
@@ -150,19 +91,15 @@ function parseTerm(term, maxRank) {
     return { source: 'element', element: null, label: 'Elemental ATK', percentByRank, unmodelled: 'Elemental' };
   }
 
-  // A raw stat contribution, e.g. "100% STR".
   const statMatch = new RegExp(`\\b(${STATS.join('|')})\\b`).exec(text);
   if (statMatch && percentByRank && /%/.test(term)) {
     return { source: 'stat', stat: statMatch[1], label: statMatch[1].toUpperCase(), percentByRank };
   }
 
-  // Flat damage added on top of the scaled terms. Recorded for completeness; it
-  // has no percentage, so it never feeds the percentage-based optimizer model.
   if (/\b(base|bonus)\s*(dmg|damage)\b/.test(text) && percentByRank && !/%/.test(term)) {
     return { source: 'flat', label: /base/.test(text) ? 'Base damage' : 'Bonus damage', percentByRank };
   }
 
-  // Healing, so a support skill's numbers are not silently dropped. Never damage.
   if (/\bheal\b/.test(text) && percentByRank && !/%/.test(term)) {
     return { source: 'heal', label: 'Heal', percentByRank };
   }
@@ -170,7 +107,6 @@ function parseTerm(term, maxRank) {
   return null;
 }
 
-/** Structured scaling for a skill, or null when the power field is not a formula. */
 function parsePower(power, maxRank) {
   if (!power || /^-+$/.test(power.trim())) return { scaling: null, unparsed: [] };
   const terms = [];
@@ -183,14 +119,7 @@ function parsePower(power, maxRank) {
   return { scaling: terms.length ? terms : null, unparsed };
 }
 
-/* ------------------------------------------------------------------ effects */
-
-/**
- * Extras whose value is a straightforward per-rank bonus to something the
- * calculator already tracks. Everything outside this table stays unmodelled:
- * the long tail of 290-odd extra labels is mostly prose, and guessing at it
- * would put invented numbers into the stat totals.
- */
+// The ~290 other extra labels are mostly prose and stay unmodelled.
 const DERIVED_EFFECTS = {
   'hit bonus': 'hit',
   'critical bonus': 'critical',
@@ -203,15 +132,7 @@ const DERIVED_EFFECTS = {
   'status resistance bonus': 'statusResistance',
 };
 
-/**
- * Words the wiki uses for each stat, in bonus labels like "Wil Bonus" or
- * "STR/SKI Bonus". Both the abbreviation and the full name appear.
- *
- * "Defense" and "Resistance" read like derived values but the skills carrying
- * them say plainly that they raise the stat (Iron Wall "passively increases
- * your DEF"), and "Skill" is the SKI stat, as Honed Shot's "increases SKI
- * passively" confirms.
- */
+// "Defense"/"Resistance" raise the stat (Iron Wall "passively increases your DEF"); "Skill" is SKI.
 const STAT_WORDS = {
   str: 'str', strength: 'str',
   wil: 'wil', will: 'wil',
@@ -227,35 +148,11 @@ const STAT_WORDS = {
   apt: 'apt', aptitude: 'apt',
 };
 
-/**
- * Words that frame a label as a modifier rather than a raw quantity, and which
- * direction it moves in.
- *
- * The distinction carries weight. "Hit Penalty: 25/20/15" is a real, parseable
- * -25/-20/-15 to Hit; reading it as a bonus would invert six skills.
- */
+// "Hit Penalty: 25/20/15" is -25/-20/-15 to Hit; reading it as a bonus inverts six skills.
 const FRAMING = /\b(bonus|boost|increase[sd]?|penalty|penalties|reduction|reduce[sd]?)\b/g;
 const NEGATIVE_FRAMING = /\b(penalty|penalties|reduction|reduce[sd]?)\b/;
 
-/**
- * Channels a label may name when it carries no framing word at all.
- *
- * Narrower than `DERIVED_BARE` on purpose. An unframed "DEF/RES" or "STR/WIL" is
- * unambiguous, but an unframed "Damage" is the damage the skill deals, not a
- * bonus to a damage channel, so `damage` is deliberately absent here while
- * remaining valid in "Damage Bonus".
- */
-/**
- * Elemental attack labels: "Fire ATK Bonus", "Water ATK Increase", the bare
- * "Dark ATK" inside "Hit/Evade/Dark ATK".
- *
- * A flat addition to one element's attack, which is exactly what the damage
- * model multiplies a skill's elemental percentage against, so these are worth
- * having. Deliberately keyed by the calculator's `ElementKey` spelling.
- *
- * "Elem ATK" is absent: Install Element Boost's element depends on the installed
- * Youkai, so there is no single element to credit.
- */
+// "Elem ATK" is absent: Install Element Boost's element depends on the installed Youkai.
 const ELEMENT_ATK = Object.fromEntries(
   ELEMENTS.map((element) => [`${element.toLowerCase()} atk`, element]),
 );
@@ -271,20 +168,7 @@ const UNFRAMED_CHANNELS = {
   'status resistance': 'statusResistance',
 };
 
-/**
- * Reads a label into the channels it moves, and the direction.
- *
- * The wiki writes these many ways: "Wil Bonus", "STR/WIL Bonus", "SKI and CEL
- * Bonus", "Power/Hit/Critical Bonus", "Bonus Hit", "Hit Penalty", and sometimes
- * with no framing word at all ("DEF/RES", "STR/WIL"). They are all a list of
- * channels, so the framing is stripped and what remains must match the
- * whitelists entirely.
- *
- * Rejecting the whole label on any unrecognised token is what keeps this honest:
- * "Bonus Stats" never says which stats, "Elemental Resistance Bonus" names a
- * channel with no single field, and "Shell Power" is a mechanic the calculator
- * does not model. All contribute nothing rather than a guess.
- */
+// Any unrecognised token rejects the whole label ("Bonus Stats", "Elemental Resistance Bonus", "Shell Power").
 function parseBonusLabel(label) {
   const cleaned = label.toLowerCase().replace(/\(.*?\)/g, ' ').replace(/[:.]/g, ' ');
   const framed = FRAMING.test(cleaned);
@@ -310,7 +194,6 @@ function parseBonusLabel(label) {
   return effects;
 }
 
-/** Derived channels named without the word "bonus" attached, e.g. "Bonus Hit". */
 const DERIVED_BARE = {
   hit: 'hit',
   critical: 'critical',
@@ -325,14 +208,7 @@ const DERIVED_BARE = {
   'status resistance': 'statusResistance',
 };
 
-/**
- * Reads a "Required" extra into the skills it depends on.
- *
- * The wiki writes these as "<Skill Name> rank N", occasionally two separated by
- * a comma ("Spark Drive rank 1, Overcharge rank 1"). Names are resolved to ids
- * after the whole corpus is read, because an id is only known once duplicate
- * names have been disambiguated.
- */
+// The wiki writes "<Skill Name> rank N", sometimes two separated by a comma.
 function parseRequirements(extras) {
   const required = [];
   for (const [label, value] of extras ?? []) {
@@ -345,14 +221,7 @@ function parseRequirements(extras) {
   return required;
 }
 
-/**
- * Skills whose effect the calculator computes with a bespoke rule.
- *
- * The wiki states these as prose rather than a parseable bonus (Rising Game
- * scales with how much HP is missing, the rest change max HP by a percentage or a
- * per-rank amount), so `evaluateBuild` reads their rank directly. They are marked
- * here so `skillBonuses` skips them and the same bonus is not applied twice.
- */
+// Computed by bespoke rules in `evaluateBuild`; marked so `skillBonuses` does not apply them twice.
 const HAND_MODELLED = new Set([
   'Pain Tolerance',
   'Rising Game',
@@ -364,88 +233,47 @@ const HAND_MODELLED = new Set([
   'Power of Normalcy',
 ]);
 
-// These wiki pages describe permanent stat bonuses alongside conditional
-// secondary effects (or flavour mentioning "against" / "when"). Those clauses
-// must not turn the innate stat bonus into a combat toggle.
+// These pages pair permanent stat bonuses with conditional side effects that must not make them toggles.
 const PERMANENT_STAT_SKILLS = new Set([
   "Dark Bard's Pledge", 'Exposure Tolerance', 'Illuminating Sol', 'Warding Light',
 ]);
-// The rank headings are absent, but the bonus tables and Piety's rank-five
-// capstone explicitly establish these caps in the scraped source pages.
+// No rank headings on these pages; the bonus tables and Piety's rank-five capstone establish the caps.
 const STAT_SKILL_RANK_CAPS = { Piety: 5, 'Illuminating Sol': 3 };
 
-/**
- * Wording that makes a bonus situational rather than permanent: a stance, a
- * weapon requirement, a timed buff, a reaction to being hit.
- */
 const CONDITION_MARKERS = new RegExp(
   [
-    /\b(when|while|if|upon|after|against|unless|during)\b/, // timing and triggers
-    /\bfor \d+ rounds?\b|\bnext attack\b|\bfor that attack\b/, // timed buffs
-    /\bequipped\b|\bwith \w+ weapons?\b|\bat least\b|\bthat have\b/, // gear requirements
-    /\b(sword|axe|bow|dagger|fist|gun|spear|tome|shield|katana|polearm|staff)s?\b/, // named weapon types
+    /\b(when|while|if|upon|after|against|unless|during)\b/,
+    /\bfor \d+ rounds?\b|\bnext attack\b|\bfor that attack\b/,
+    /\bequipped\b|\bwith \w+ weapons?\b|\bat least\b|\bthat have\b/,
+    /\b(sword|axe|bow|dagger|fist|gun|spear|tome|shield|katana|polearm|staff)s?\b/,
     /\bper \w+\b/, // scales with something unmodelled
   ].map((r) => r.source).join('|'),
   'i',
 );
 
-/** Wording that marks a bonus as permanently applied. */
 const PASSIVE_MARKERS = /\bpassively (increases|grants|boosts)\b|\bincreases your (base )?\w+\b/i;
 
-/**
- * Decides whether a skill's bonus is always on or situational.
- *
- * This defaults to `conditional`, because most bonuses on the wiki are gated on
- * something the calculator cannot see (position, a prepared shot, a weapon type,
- * a buff window). Only an explicit passive phrasing with no conditional wording
- * earns `always`; those are the ones safe to add straight into a build's totals.
- * Conditional bonuses still ship with their numbers. They are opt-in toggles,
- * exactly like the existing armor conditional bonuses.
- */
+// Defaults to conditional: only explicit passive phrasing with no conditional wording earns `always`.
 function classifyEffect(description, category) {
-  /*
-   * A "if at max Rank, X is further increased by +1" clause does not make the
-   * bonus situational: the per-rank list already carries it, which is why these
-   * skills read +1/2/3/4/6 rather than +1/2/3/4/5. Stripping it first stops an
-   * otherwise permanent passive being written off as conditional.
-   */
+  // "If at max Rank, X is further increased by +1" is already in the per-rank list (+1/2/3/4/6).
   const text = String(description ?? '').replace(/\b(if\s+)?at max rank[^.]*\.?/gi, ' ');
   const passiveClass = category === 'Passive' || category === 'Innate';
   const conditional = CONDITION_MARKERS.test(text);
   return {
-    /** Stat bonuses trust the label, which names the stat outright. */
     stat: passiveClass && !conditional ? 'always' : 'conditional',
-    /** Derived channels need the prose to say the bonus is permanent. */
     derived: passiveClass && !conditional && PASSIVE_MARKERS.test(text) ? 'always' : 'conditional',
-    /*
-     * Elemental attack takes the same strict rule. Every skill currently
-     * carrying one is a cast buff that lasts a few rounds (the Evoker's four
-     * elementals, Blotch), so they ship as opt-in toggles rather than being
-     * folded into a build's permanent totals.
-     */
+    // Every elemental ATK skill today is a timed cast buff (the Evoker's four elementals, Blotch).
     element: passiveClass && !conditional && PASSIVE_MARKERS.test(text) ? 'always' : 'conditional',
   };
 }
 
-/**
- * Conservative per-rank effects for a skill.
- *
- * Only two shapes are trusted: an extra whose label maps to a tracked derived
- * stat, and an explicit "+N STAT" in an extra value. Anything else is left for
- * a human to read in `extras`.
- */
 function parseEffects(extras, maxRank, applies, description = '') {
   const effects = [];
   for (const [rawLabel, value] of extras ?? []) {
     if (!value) continue;
     const label = rawLabel.trim().toLowerCase();
 
-    /*
-     * A bare "Stat Bonus" does not say which stats it raises, but the skills
-     * carrying it spell them out in the body ("Stat Bonuses: DEF, RES, VIT").
-     * Only the stat names the calculator knows are taken; anything else in that
-     * list, such as Armor or Scaled Weapon Attack, is left alone.
-     */
+    // A bare "Stat Bonus" names its stats in the body ("Stat Bonuses: DEF, RES, VIT").
     if (label === 'stat bonus' && /^[+\-\d/.\s%]+$/.test(value.trim())) {
       const named = /stat bonuses?:\s*([^.\n]+)/i.exec(description)?.[1] ?? '';
       const stats = named
@@ -459,26 +287,14 @@ function parseEffects(extras, maxRank, applies, description = '') {
 
     const channels = parseBonusLabel(rawLabel);
     if (channels) {
-      // Only a purely numeric value is a flat bonus. Any prose makes it
-      // conditional ("+1/2/3 per square" scales with distance and "5/10/15 +
-      // 50% caster's Scaled LUC" has a second term), and applying either as a
-      // flat bonus would overstate the build.
-      /*
-       * A percentage is a different quantity from a flat elemental bonus ("Dark
-       * ATK: 10/20/30/40/50%" scales the element, it does not add to it), and
-       * the calculator has nowhere to put the former. Rejected rather than
-       * added as if it were flat.
-       */
+      // Prose makes a value conditional ("+1/2/3 per square"); a % elemental value ("Dark ATK: 10/20/30/40/50%")
+      // scales the element and has nowhere to go.
       if (channels.some((channel) => channel.kind === 'element') && value.includes('%')) continue;
       if (/^[+\-\d/.\s%]+$/.test(value.trim())) {
         const valueByRank = applyLeadingSign(value, parseRankList(value, maxRank));
         if (valueByRank) {
           for (const { sign, ...channel } of channels) {
-            /*
-             * A penalty is usually written unsigned ("Hit Penalty: 25/20/15"),
-             * so the sign comes from the label. When the wiki already wrote the
-             * minus, `Math.abs` stops the two negatives cancelling.
-             */
+            // Penalties are usually unsigned ("Hit Penalty: 25/20/15"); `Math.abs` covers the ones that are not.
             const signed = sign < 0 ? valueByRank.map((n) => -Math.abs(n)) : valueByRank;
             effects.push({ ...channel, valueByRank: signed, applies: applies[channel.kind] });
           }
@@ -494,8 +310,6 @@ function parseEffects(extras, maxRank, applies, description = '') {
   }
   return effects;
 }
-
-/* -------------------------------------------------------------------- build */
 
 const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
@@ -546,10 +360,8 @@ for (const entry of raw) {
     momentum: parseInteger(entry.momentum),
     scaling,
     effects,
-    // Resolved to ids below, once every name is known.
     requiresRaw: parseRequirements(entry.extras),
     ...(HAND_MODELLED.has(entry.name) ? { handModelled: true } : {}),
-    // Display-only fields; split out below.
     text: {
       id,
       range: entry.range || null,
@@ -569,14 +381,7 @@ for (const entry of raw) {
   skills.push(skill);
 }
 
-/*
- * Second pass: turn required skill *names* into ids.
- *
- * Deferred to here because an id is only settled once duplicate names have been
- * disambiguated with a class suffix. A name that resolves to more than one skill
- * is left unresolved and reported rather than guessed at: a prerequisite
- * pointing at the wrong skill would reject legal builds.
- */
+// Ambiguous names stay unresolved: a wrong prerequisite would reject legal builds.
 const idsByName = new Map();
 for (const skill of skills) {
   const key = skill.name.toLowerCase();
@@ -610,8 +415,6 @@ skills.sort((a, b) => a.name.localeCompare(b.name));
 const text = skills.map((s) => s.text);
 for (const s of skills) delete s.text;
 
-// Written minified: this is generated data nobody hand-edits, and the mechanics
-// file is parsed on every page load.
 await writeFile(OUT, `${JSON.stringify({ skills })}\n`, 'utf8');
 await writeFile(OUT_TEXT, `${JSON.stringify({ text })}\n`, 'utf8');
 

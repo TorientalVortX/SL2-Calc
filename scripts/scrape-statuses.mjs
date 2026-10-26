@@ -1,20 +1,5 @@
-/**
- * Scrapes the SL2 wiki's status-effect catalog into `wiki-data/`.
- *
- * The wiki keeps per-status content on one hub page (`Status Effects`) as
- * sortable wikitables grouped by category, rather than one page per status the
- * way skills and classes work. So this fetches a single page of wikitext
- * through the MediaWiki API (via a real browser, because Cloudflare rejects
- * bare HTTP; see scrape-races.mjs for the pattern this borrows) and parses the
- * tables into rows.
- *
- *   node scripts/scrape-statuses.mjs             # normal run, cache honoured
- *   node scripts/scrape-statuses.mjs --refresh   # ignore the cache
- *
- * Outputs:
- *   wiki-data/raw/statuses.json         parsed rows, one per status
- *   wiki-data/mechanics/status-effects.md  human-readable summary
- */
+// Usage: node scripts/scrape-statuses.mjs [--refresh]  -> wiki-data/raw/statuses.json, wiki-data/mechanics/status-effects.md
+// Fetched through a real browser because Cloudflare rejects bare HTTP.
 import { chromium } from 'playwright';
 import { mkdir, writeFile, readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
@@ -26,8 +11,6 @@ const RAW = path.resolve('wiki-data/raw');
 const MECHANICS = path.resolve('wiki-data/mechanics');
 const CACHE = path.resolve('.wiki-cache');
 const REFRESH = process.argv.includes('--refresh');
-
-/* ------------------------------------------------------------------ browser */
 
 await mkdir(CACHE, { recursive: true });
 const STATE = path.join(CACHE, 'cf-state.json');
@@ -85,9 +68,6 @@ async function api(params, cacheKey) {
   throw new Error('Gave up: the wiki is rate limiting every request.');
 }
 
-/* ------------------------------------------------------------------- parse */
-
-/** Strips wiki markup down to plain text: links, bold/italic, templates. */
 function plain(text) {
   return text
     .replace(/\[\[([^\]|]*)\|([^\]]*)\]\]/g, '$2')
@@ -99,18 +79,11 @@ function plain(text) {
     .trim();
 }
 
-/** Every `[[link]]` target in a fragment, for cross-referencing. */
 function linksIn(text) {
   return [...text.matchAll(/\[\[([^\]|]*)(?:\|[^\]]*)?\]\]/g)].map(match => match[1].trim());
 }
 
-/**
- * Parses `== Section ==` headings and the wikitable rows inside each.
- *
- * Rows are `|-` separated; the header row uses `!`. A row's cells arrive as
- * `| Name || Description || Notes` (sometimes with the cells on their own
- * lines), so cells are re-joined per row before splitting on `||`.
- */
+// Cells arrive as `| Name || Description || Notes`, sometimes on their own lines; re-join per row before splitting.
 function parseSections(wikitext) {
   const sections = [];
   let current = { title: 'Introduction', body: [] };
@@ -152,8 +125,6 @@ function parseSections(wikitext) {
     return { title: section.title, intro, rows };
   }).filter(section => section.rows.length || section.intro);
 }
-
-/* --------------------------------------------------------------------- run */
 
 console.log(`Fetching "${PAGE_TITLE}" wikitext…`);
 const data = await api(

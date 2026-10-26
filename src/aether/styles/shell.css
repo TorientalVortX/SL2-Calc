@@ -1,0 +1,110 @@
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--void);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button { cursor: pointer; }
+
+::selection {
+  background: rgb(var(--gold-rgb) / 0.3);
+  color: var(--gold-100);
+}
+
+.scroll {
+  overflow-y: auto;
+  /* Not `contain`: a pinned sidebar at its end should hand the wheel to the page. */
+  scrollbar-width: thin;
+  scrollbar-color: var(--scroll-thumb) transparent;
+}
+.scroll::-webkit-scrollbar { width: 9px; }
+.scroll::-webkit-scrollbar-track { background: var(--scroll-track); }
+.scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--gold-500), var(--bronze));
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  border-radius: 6px;
+}
+.scroll::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--gold-400), var(--gold-500));
+  background-clip: padding-box;
+}
+
+:focus-visible {
+  outline: 1px solid var(--aether);
+  outline-offset: 1px;
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: var(--wash-base);
+}
+
+.shell {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-rows: auto auto auto;
+  /* An fr grid's min-content is widest column x track count (1319px at 900px), which auto would adopt. */
+  grid-template-columns: minmax(0, 1fr);
+  min-height: 100%;
+  padding: 10px 14px 14px;
+  gap: 10px;
+}
+
+.shell__body {
+  display: grid;
+  grid-template-columns: minmax(272px, 320px) minmax(0, 1fr) minmax(300px, 372px);
+  gap: 10px;
+  min-height: 0;
+  /* Grid items keep min-width: auto, so without this the body cannot shrink below that min-content. */
+  min-width: 0;
+  align-items: start;
+}
+
+.column {
+  display: grid;
+  gap: 10px;
+  min-height: 0;
+  min-width: 0;
+}
+
+.column--left,
+.column--right {
+  position: sticky;
+  top: 10px;
+  max-height: calc(100vh - 24px);
+}
+
+.column--left { grid-template-rows: auto minmax(0, 1fr); }
+.column--right { grid-template-rows: minmax(0, 1fr); }
+
+.column--center { grid-template-rows: auto auto; }

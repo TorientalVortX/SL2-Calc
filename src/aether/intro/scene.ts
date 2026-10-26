@@ -1,16 +1,3 @@
-/**
- * The aether swarm: a GPU point cloud that gathers out of the dark and settles
- * onto the crest.
- *
- * Every particle knows where it starts and where it belongs, and the whole
- * animation is one uniform sweeping from 0 to 1: no per-frame CPU work beyond
- * setting three floats. That is what lets it run twenty thousand motes at 60fps
- * while React renders the rest of the intro beside it.
- *
- * Everything is drawn additively with no post-processing pass. Bloom is faked by
- * oversized soft sprites and a CSS glow behind the canvas, which costs nothing
- * and cannot fail on a machine that dislikes framebuffers.
- */
 import {
   AdditiveBlending,
   BufferAttribute,
@@ -26,16 +13,7 @@ import { sampleCrest } from './crest';
 export interface IntroScene {
   /** `gather` 0→1 draws the swarm in; `burst` 0→1 throws it outward on exit. */
   setProgress(gather: number, burst: number): void;
-  /**
-   * Where the drawn crest actually is on screen, in CSS pixels.
-   *
-   * The swarm and the SVG crest have to be the same size *and* concentric, or the
-   * line art lands inside a larger ring of motes and the illusion that one
-   * solidifies into the other collapses. Rather than deriving the SVG's placement
-   * from the camera, the camera's output is fitted to whatever the SVG measured,
-   * which means the stylesheet stays free to clamp the size and to sit the crest
-   * off-centre to make room for the title, with the swarm following.
-   */
+  /** The camera is fitted to the SVG's measured rect, so the stylesheet stays free to size and place the crest. */
   setCrestRect(rect: { size: number; centerX: number; centerY: number }): void;
   render(elapsed: number): void;
   resize(): void;
@@ -131,13 +109,7 @@ const FRAGMENT = /* glsl */`
   }
 `;
 
-/**
- * Builds the scene, or returns null when WebGL is unavailable.
- *
- * A null return is a supported outcome, not an error: the intro's own markup
- * carries the crest and the type, so losing the swarm costs atmosphere and
- * nothing else.
- */
+/** Null when WebGL is unavailable; the intro's markup still carries the crest. */
 export function createIntroScene(canvas: HTMLCanvasElement): IntroScene | null {
   let renderer: WebGLRenderer;
   try {
@@ -146,8 +118,7 @@ export function createIntroScene(canvas: HTMLCanvasElement): IntroScene | null {
     return null;
   }
 
-  // Capped: the effect is soft by design and gains nothing from a 4K backing
-  // store, while the fill cost of additive points is real.
+  // Capped: additive point fill is costly and the soft effect gains nothing from a 4K backing store.
   const pixelRatio = Math.min(window.devicePixelRatio || 1, 1.75);
   renderer.setPixelRatio(pixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight, false);
@@ -156,7 +127,6 @@ export function createIntroScene(canvas: HTMLCanvasElement): IntroScene | null {
   const camera = new PerspectiveCamera(CAMERA_FOV, window.innerWidth / window.innerHeight, 0.1, 100);
   camera.position.z = 4.4;
 
-  // Scaled to the viewport so the crest fills a phone and a monitor alike.
   const count = window.innerWidth < 900 ? 9000 : 20000;
   const targets = sampleCrest(count);
 
@@ -168,15 +138,11 @@ export function createIntroScene(canvas: HTMLCanvasElement): IntroScene | null {
   for (let index = 0; index < count; index += 1) {
     const i3 = index * 3;
 
-    // A little scatter off the line, so the crest reads as drawn in light rather
-    // than as a wire.
     const spread = 0.012;
     targets[i3] += (Math.random() - 0.5) * spread;
     targets[i3 + 1] += (Math.random() - 0.5) * spread;
     targets[i3 + 2] += (Math.random() - 0.5) * 0.05;
 
-    // Origins on a thick shell around the crest, biased behind it so the swarm
-    // sweeps toward the camera as it gathers.
     const theta = Math.random() * Math.PI * 2;
     const phi = Math.acos(2 * Math.random() - 1);
     const radius = 4.5 + Math.random() * 5.5;
@@ -212,23 +178,14 @@ export function createIntroScene(canvas: HTMLCanvasElement): IntroScene | null {
   });
 
   const points = new Points(geometry, material);
-  // The bounding sphere is computed from the scattered start positions, which
-  // are far larger than the settled crest; frustum culling would then pop the
-  // whole cloud out of view as it converges.
+  // Bounds come from the scattered start positions; culling would pop the cloud out as it converges.
   points.frustumCulled = false;
   scene.add(points);
 
   let gather = 0;
   let crest: { size: number; centerX: number; centerY: number } | null = null;
 
-  /**
-   * Scales and positions the cloud so it lands exactly over the drawn crest.
-   *
-   * Recomputed per frame because the camera is still dollying: without this the
-   * push-in would swell the crest away from the SVG on top of it. What the dolly
-   * is left doing is shifting the parallax of the motes still on their way in,
-   * which is the part of it worth keeping.
-   */
+  /** Per frame, or the camera dolly would swell the swarm away from the SVG. */
   const fitToCrest = () => {
     if (!crest) return;
     const halfFov = (CAMERA_FOV / 2) * (Math.PI / 180);
@@ -255,8 +212,6 @@ export function createIntroScene(canvas: HTMLCanvasElement): IntroScene | null {
     },
     render(elapsed) {
       material.uniforms.uTime.value = elapsed;
-      // A slow push in, which does more for the sense of arrival than any amount
-      // of particle motion.
       camera.position.z = 5.8 - gather * 1.4;
       camera.lookAt(0, 0, 0);
       fitToCrest();

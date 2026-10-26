@@ -11,6 +11,30 @@ The notes for the current release are held in
 `APP_VERSION` and the in-app dialog read. `npm run validate:data` fails if that
 file and `package.json` disagree about the version.
 
+## 0.9.1 — 2026-10-26
+
+Build cards, link previews, and the classic calculator retired.
+
+### Added
+
+- **Build cards.** Copy build card and Save card in Import / Export make an
+  image of the build, in the current theme, for posting where links don't
+  preview.
+- **Link previews.** Links to the site show a screenshot of the sheet.
+
+### Changed
+
+- The classic calculator and its optimizer are retired. `/classic` and
+  `/aether.html` redirect to the sheet and keep any shared build.
+- The installed app is called Aether Codex and has a new icon.
+- RES and Dark ink is lighter on the dark theme so it is readable.
+- Updates download only changed files. The first update after 0.9.1
+  downloads everything once.
+
+### Fixed
+
+- The light theme no longer flashes dark on load.
+
 ## 0.9.0 — 2026-10-08
 
 Chemist mixtures, battle effects, and a pass through Aether's controls and wording.
@@ -124,4 +148,4 @@ open up.
 
 - Source-level editorial pass across 155 files: prose and comment style,
   removal of comments that only restated the code, and deletion of unused
-  decorative CSS. No logic changed. See [`review.md`](review.md).
+  decorative CSS. No logic changed.

@@ -1,14 +1,3 @@
-/**
- * The per-slot control panels of the armory.
- *
- * Split from the dialog shell because each slot kind tunes a different thing (a
- * weapon has parts and scaling, a torso has armour tracks, and slots 3 to 6 have
- * two tracks and an effect list) while the shell around them (search, item list,
- * footer) is identical.
- *
- * Nothing here computes a bonus. Every control writes a field that
- * `evaluateBuild` already reads.
- */
 import type { StatKey, WeaponUpgradePoints } from '../../types';
 import { NO_ARMOR_QUALITY, resolveArmorUpgradePoints, resolveUpgradePoints } from '../../types';
 import { ARMORS } from '../../data/armors';
@@ -46,42 +35,20 @@ const ENCHANTMENTS = Object.keys(modifierData.enchantments as Record<string, unk
 const asGroups = (record: Record<string, string[]>) =>
   Object.entries(record).map(([label, options]) => ({ label, options }));
 
-/**
- * The same list with an explicit "no material" choice in front.
- *
- * The weapon modifier data ships a `Basic` group holding `None`; the armour and
- * `Other` material tables do not, so without this the empty state would render
- * through the grouped select's unknown-value fallback and read as a data error.
- */
+/** The armour and `Other` material tables lack the weapon data's `Basic`/`None` group. */
 const withNone = (groups: Array<{ label: string; options: string[] }>) =>
   [{ label: 'Basic', options: ['None'] }, ...groups];
-
-/* ------------------------------------------------------------ upgrade tracks */
 
 interface TrackProps {
   label: string;
   value: number;
   onChange: (value: number) => void;
-  /**
-   * The channel's ceiling, when one is recorded.
-   *
-   * `null` or absent means no sourced ceiling. The channel is then bounded only
-   * by `TYPO_CEILING`, which is a guard against a slipped keypress rather than a
-   * rule about the game.
-   */
   cap?: number | null;
 }
 
 /** Not a game rule: an upper bound so a slipped keypress cannot store 9999. */
 const TYPO_CEILING = 99;
 
-/**
- * One upgrade channel.
- *
- * Where a ceiling is known the spend reads `3 / 8` and the stepper stops there;
- * where none is recorded it reads as a bare number, so an uncapped channel is
- * visibly uncapped rather than looking like a cap nobody hit.
- */
 function Track({ label, value, onChange, cap = null }: TrackProps) {
   const ceiling = cap ?? TYPO_CEILING;
   const commit = (next: number) => onChange(clampUpgradePoint(next, ceiling));
@@ -121,15 +88,6 @@ function Track({ label, value, onChange, cap = null }: TrackProps) {
   );
 }
 
-/**
- * What a chosen material, part or enchantment does.
- *
- * The dropdowns named the choice and showed nothing about it, so comparing two
- * meant picking one, reading the rail three panels away, picking the other and
- * reading it again. `empty` distinguishes "this record has no numeric effect the
- * calculator models" from "you have not chosen anything", which are different
- * answers and were previously both a blank space.
- */
 function ModifierParts({ title, parts, description, empty }: {
   title: string;
   parts: ModifierPart[];
@@ -164,17 +122,6 @@ function Tracks({ children, ul }: { children: React.ReactNode; ul: number }) {
   );
 }
 
-/* -------------------------------------------------------------- item effects */
-
-/**
- * Effect lines for the equipped item, with a toggle for each conditional and a
- * control for each rolled range.
- *
- * `always` lines are listed but not toggleable. They are already counted, and a
- * switch that cannot be turned off is a lie. `reference` lines carry no numbers
- * at all and are marked as such rather than hidden, so the sheet accounts for
- * every line the wiki prints.
- */
 export function EffectControls({ builder, slot }: { builder: Builder; slot: SlotId }) {
   const { build, dispatch } = builder;
   const effects = effectsForSlot(build.equipment, slot);
@@ -230,8 +177,6 @@ export function EffectControls({ builder, slot }: { builder: Builder; slot: Slot
   );
 }
 
-/* -------------------------------------------------------------------- weapon */
-
 export function WeaponTuning({ builder, which }: { builder: Builder; which: 'primaryWeapon' | 'offHandWeapon' }) {
   const { build, dispatch } = builder;
   const config = build.equipment[which];
@@ -242,10 +187,6 @@ export function WeaponTuning({ builder, which }: { builder: Builder; which: 'pri
   const setPoints = (change: Partial<WeaponUpgradePoints>) => patch({ upgradePoints: { ...points, ...change } });
   const source = findWeaponByName(config.selectedWeaponName);
   const weaponCaps = weaponUpgradeCaps(build.world);
-  /*
-   * The crafted choices that carry numbers. `None` is skipped rather than shown as
-   * an empty row. An unfilled slot is not a modifier with no effect.
-   */
   const weaponModifiers = ([
     ['material', config.material, (modifierData.materials as Record<string, SummarisableWeaponModifier>)[config.material]],
     ['enchantment', config.enchantment, (modifierData.enchantments as Record<string, SummarisableWeaponModifier>)[config.enchantment]],
@@ -255,11 +196,6 @@ export function WeaponTuning({ builder, which }: { builder: Builder; which: 'pri
   ] as const)
     .filter(([, name]) => name && name !== 'None')
     .map(([key, name, record]) => ({ key, name, parts: summarizeWeaponModifier(record) }));
-  /*
-   * What the weapon actually scales off, and why it differs from the inputs below.
-   * The reason is named rather than just the numbers: "rewritten to nothing" is
-   * alarming without "by the Mundane enchantment" beside it.
-   */
   const effective = effectiveScaling(config, build.traits);
   const tags = scalingTagsFor(config, build.traits);
   const scalingRewritten = STAT_KEYS.some(stat => effective[stat as StatKey] !== (config.customScaling[stat as StatKey] ?? 0));
@@ -294,11 +230,6 @@ export function WeaponTuning({ builder, which }: { builder: Builder; which: 'pri
             />
           ))}
         </div>
-        {/*
-          * Every crafted choice, each named beside what it does. Parts are listed
-          * individually rather than summed: three slots that each read `+2 Power`
-          * is a different thing to know than one line reading `+6`.
-          */}
         {weaponModifiers.map(({ key, name, parts }) => (
           <ModifierParts
             key={key}
@@ -368,12 +299,7 @@ export function WeaponTuning({ builder, which }: { builder: Builder; which: 'pri
             </label>
           ))}
         </div>
-        {/*
-          * These inputs edit the weapon's *printed* tags. An enchantment, a part
-          * or a trait can rewrite them before they reach SWA (Mundane strips them
-          * outright), so the effective table is stated whenever it differs, or the
-          * editor would look broken next to a rail that disagrees with it.
-          */}
+        {/* Enchantments, parts and traits can rewrite the printed tags (Mundane strips them), so the effective table is stated. */}
         {scalingRewritten && (
           <p className="hint" style={{ padding: '6px 2px 0' }}>
             Rewritten in play to{' '}
@@ -392,16 +318,13 @@ export function WeaponTuning({ builder, which }: { builder: Builder; which: 'pri
   );
 }
 
-/* --------------------------------------------------------------------- torso */
-
 export function ArmorTuning({ builder }: { builder: Builder }) {
   const { build, dispatch } = builder;
   const armor = build.equipment.armorName ? ARMORS[build.equipment.armorName] : null;
   if (!armor) return null;
 
   const points = resolveArmorUpgradePoints(build.equipment);
-  // Per armour class: the three classes spend the same total across the channels
-  // in a different order, so the ceilings move with the torso rather than the item.
+  // The three armour classes spread the same total differently, so caps follow the torso type.
   const caps = armorUpgradeCaps(armor.type, build.world);
   const materialParts = summarizeArmorMaterial(build.equipment.armorMaterial);
   const quality = build.equipment.armorQuality ?? NO_ARMOR_QUALITY;
@@ -423,7 +346,7 @@ export function ArmorTuning({ builder }: { builder: Builder }) {
           <SelectField
             label="Enchantment"
             value={build.equipment.armorEnchantment ?? 'None'}
-            // The list already leads with `None`; prepending another duplicated it.
+            // The list already leads with `None`.
             options={ARMOR_ENCHANTMENT_NAMES.map(name => ({ value: name, label: name }))}
             onChange={armorEnchantment => dispatch({ type: 'armor-patch', patch: { armorEnchantment } })}
           />
@@ -455,10 +378,7 @@ export function ArmorTuning({ builder }: { builder: Builder }) {
             </Toggle>
           ))}
         </div>
-        {/*
-          * The net of the tags, since Lightweight and Heavy cancel: two toggles
-          * lit and no weight change would otherwise look like a bug.
-          */}
+        {/* Lightweight and Heavy cancel, so the net is shown. */}
         <ModifierParts title="Net" parts={qualityParts} empty="No quality tags." />
       </div>
 
@@ -498,8 +418,6 @@ export function ArmorTuning({ builder }: { builder: Builder }) {
     </>
   );
 }
-
-/* ------------------------------------------------------------- slots 3 to 6 */
 
 const ENCHANT_SLOT: Record<GearSlotId, EnchantSlot | null> = {
   hands: 'Hands',

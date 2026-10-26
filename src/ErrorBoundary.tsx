@@ -1,14 +1,4 @@
-/**
- * The crash screen, wrapped around the whole Codex in `aether/main.tsx`.
- *
- * Styled inline against `aether.css`'s tokens rather than with classes. A render
- * fault can come from anywhere, including whatever paints the sheet, so the one
- * screen whose job is to survive that does not depend on a stylesheet loading or
- * on a class the crashed tree defined.
- *
- * It also carries the theme correctly by construction: every colour is a token,
- * and the light palette redefines the same names.
- */
+// Styled inline with token fallbacks so the crash screen survives a stylesheet failure.
 import { Component, type CSSProperties, type ErrorInfo, type ReactNode } from 'react';
 import { APP_VERSION, GAME_DATA_MANIFEST } from './domain/buildPersistence';
 
@@ -59,7 +49,7 @@ export default class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, info: ErrorInfo) {
-    console.error('SL2 Calculator crashed', error, info);
+    console.error('Aether Codex crashed', error, info);
   }
 
   copyDiagnostics = async () => {

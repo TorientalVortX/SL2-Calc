@@ -1,9 +1,7 @@
 import { skillById } from './skills';
 import type { SkillRanks } from '../types';
 
-// Import-only compatibility for the removed class-panel sliders. All live
-// bonuses now come from skills. Bard's obsolete SAN slider has no corresponding
-// skill in the current catalog and must not recreate an unsupported bonus.
+// Import-only migration for the removed class-panel sliders. Bard's SAN slider has no matching skill and is dropped.
 const LEGACY_SKILLS: Record<string, string> = {
   Arbalest: 'honed-shot',
   'Black Knight': 'iron-wall',

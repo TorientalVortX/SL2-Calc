@@ -1,28 +1,5 @@
-/**
- * Scrapes equipment for all six character slots into `wiki-data/equipment/`.
- *
- *   Slot 1     Primary weapon
- *   Slot 2     Armor
- *   Slot 3     Hands (or a secondary weapon instead)
- *   Slot 4     Legs
- *   Slots 5-6  Accessories
- *
- *   node scripts/scrape-equipment.mjs --discover   # list the index pages, ~3 requests
- *   node scripts/scrape-equipment.mjs              # full run
- *   node scripts/scrape-equipment.mjs --refresh    # ignore the cache
- *
- * The wiki has no equipment categories, so items cannot be discovered the way
- * races were. Instead every item lives in a big table on one index page per
- * equipment kind ("Swords", "Heavy Armor", "Legs"), and each of those tables is
- * built from one of three templates. Asking which pages transclude those three
- * templates is what produces the page list: a page added to the wiki later is
- * picked up without editing this script, and is reported rather than skipped.
- *
- * Like `scrape-races.mjs` this goes through the MediaWiki API for wikitext, and
- * for the same reason: the rendered tables lose the `<!-- Name -->` comments that
- * label each cell, and one batched API call is far kinder to Cloudflare than a
- * dozen rendered page loads.
- */
+// Usage: node scripts/scrape-equipment.mjs [--discover] [--refresh]  -> wiki-data/equipment/
+// The wiki has no equipment categories; index pages are found by what transcludes the three table templates.
 import { chromium } from 'playwright';
 import { mkdir, writeFile, readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
@@ -39,25 +16,13 @@ const REFRESH = process.argv.includes('--refresh');
 /** The API caps `titles` at 50 for anonymous callers. */
 const BATCH = 50;
 
-/**
- * The three table templates every equipment index page is built from. The shape
- * decides which columns a row has, so it is carried through to the parser.
- */
 const TABLE_TEMPLATES = {
   'Template:WeaponTable': 'weapon',
   'Template:ArmorTable': 'armor',
   'Template:AccessoryTable': 'accessory',
 };
 
-/**
- * Which equipment slot each index page feeds.
- *
- * Several pages transclude `AccessoryTable` without being equipment at all
- * (crafting materials, catalysts, star graphs), and "Item List New" is an
- * aggregate of everything. Anything transcluding a table template but missing
- * here is reported at the end of the run rather than silently dropped, so a new
- * equipment page shows up as a prompt to extend this map.
- */
+// Several non-equipment pages transclude `AccessoryTable` (materials, catalysts, star graphs); "Item List New" aggregates all.
 const SLOTS = {
   // Slot 1, and optionally slot 3 as a secondary weapon.
   Swords: { slot: 1, kind: 'Weapon', group: 'Sword' },
@@ -68,35 +33,18 @@ const SLOTS = {
   Bows: { slot: 1, kind: 'Weapon', group: 'Bow' },
   Daggers: { slot: 1, kind: 'Weapon', group: 'Dagger' },
   Tomes: { slot: 1, kind: 'Weapon', group: 'Tome' },
-  // Slot 2.
   Unarmored: { slot: 2, kind: 'Armor', group: 'Unarmored' },
   'Light Armor': { slot: 2, kind: 'Armor', group: 'Light' },
   'Heavy Armor': { slot: 2, kind: 'Armor', group: 'Heavy' },
   // Slot 3. Shields are a subtype of Hands, on their own page.
   Hands: { slot: 3, kind: 'Hands', group: 'Hands' },
   Shields: { slot: 3, kind: 'Hands', group: 'Shield' },
-  // Slot 4.
   Legs: { slot: 4, kind: 'Legs', group: 'Legs' },
-  // Slots 5 and 6.
   Accessories: { slot: 5, kind: 'Accessory', group: 'Accessory' },
 };
 
-/**
- * Pages that modify equipment rather than filling a slot.
- *
- * A material's effect depends on what it is applied to, and the wiki writes that
- * as separate clauses in one Details cell: `Weapon:`, `Armor:` and `Other:`.
- * **`Other:` is the hands, legs and accessory profile**; the one the calculator
- * needs for slots 3-6 and the one nothing in `src/data` currently carries.
- *
- * Material class matters mechanically: a piece of equipment belongs to one class
- * and cannot take a material from another. The class names follow the headings on
- * the Item Materials index, which is also what `armor-modifiers.json` already
- * uses, so the two line up without translation.
- *
- * "Item Materials" itself is skipped: it holds the prose, then transcludes these
- * four pages, so scraping it would duplicate every material and lose the class.
- */
+// Material effects are `Weapon:`, `Armor:` and `Other:` clauses; `Other:` is the hands/legs/accessory profile.
+// "Item Materials" is skipped: it transcludes these four pages, so it would duplicate every material.
 const MATERIAL_PAGES = {
   Hard: 'Hard',
   Wood: 'Woods',
@@ -107,7 +55,6 @@ const MATERIAL_PAGES = {
 /** Catalysts apply enchantments; the slots they accept are named per catalyst. */
 const CATALYST_PAGES = ['Catalysts'];
 
-/** Slot label for the index, keyed by the slot number in SLOTS. */
 const SLOT_LABELS = {
   1: 'Slot 1: Primary weapon (or slot 3 as a secondary)',
   2: 'Slot 2: Armor',
@@ -116,16 +63,8 @@ const SLOT_LABELS = {
   5: 'Slots 5 & 6: Accessories',
 };
 
-/* ------------------------------------------------------------------ browser */
-
-/*
- * Headed, with the automation flag off.
- *
- * Cloudflare fingerprints headless Chromium and parks it on an unsolvable "Just
- * a moment..." interstitial forever. A headed browser without the automation
- * marker solves the challenge normally and is issued a clearance cookie, which is
- * persisted so later runs start already cleared.
- */
+// Cloudflare parks headless Chromium on an endless "Just a moment..." page; headed without the
+// automation flag passes, and the clearance cookie is persisted.
 await mkdir(CACHE, { recursive: true });
 const STATE = path.join(CACHE, 'cf-state.json');
 const browser = await chromium.launch({
@@ -138,7 +77,6 @@ const context = await browser.newContext({
 });
 const page = await context.newPage();
 
-/** Waits out a Cloudflare interstitial, returning true once real content shows. */
 async function clearChallenge() {
   if (!/Just a moment|Checking your connection/i.test(await page.title())) return true;
   try {
@@ -152,12 +90,7 @@ async function clearChallenge() {
 
 let blockedUntil = 0;
 
-/**
- * Calls the MediaWiki API and returns parsed JSON.
- *
- * Navigating rather than fetching is what gets past Cloudflare; the response is
- * JSON rendered into a `<pre>`, so the text content is the payload.
- */
+// Navigating rather than fetching gets past Cloudflare; the JSON is rendered into a `<pre>`.
 async function api(params, cacheKey) {
   const file = path.join(CACHE, `api-${createHash('sha1').update(cacheKey).digest('hex').slice(0, 16)}.json`);
   if (!REFRESH) {
@@ -197,9 +130,6 @@ async function api(params, cacheKey) {
   throw new Error('Gave up: the wiki is rate limiting every request.');
 }
 
-/* ----------------------------------------------------------------- discover */
-
-/** Index pages, as `title -> shape`, from what transcludes each table template. */
 async function discover() {
   const found = new Map();
   for (const [template, shape] of Object.entries(TABLE_TEMPLATES)) {
@@ -210,8 +140,7 @@ async function discover() {
     const pages = data.query?.pages?.[0]?.transcludedin ?? [];
     console.log(`  ${template} -> ${pages.length} pages`);
     for (const { title } of pages) {
-      // "Item List New" repeats every table on one page; scraping it would
-      // duplicate every item and attribute none of them to a slot.
+      // "Item List New" repeats every table; scraping it duplicates every item without a slot.
       if (title === 'Item List New') continue;
       found.set(title, shape);
     }
@@ -219,9 +148,6 @@ async function discover() {
   return found;
 }
 
-/* -------------------------------------------------------------------- fetch */
-
-/** Wikitext for many pages at once, keyed by title. Missing pages are skipped. */
 async function fetchWikitext(titles) {
   const pages = new Map();
   for (let i = 0; i < titles.length; i += BATCH) {
@@ -240,9 +166,6 @@ async function fetchWikitext(titles) {
   return pages;
 }
 
-/* -------------------------------------------------------------------- parse */
-
-/** Strips wiki markup down to readable prose. */
 const plain = (text) =>
   String(text ?? '')
     .replace(/<!--[\s\S]*?-->/g, '')
@@ -255,30 +178,18 @@ const plain = (text) =>
     .replace(/\s+/g, ' ')
     .trim();
 
-/** Escapes what would break a markdown table cell. */
 const cell = (s) => String(s ?? '').replace(/\|/g, '\\|').replace(/\n+/g, ' ').trim();
 
 const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
-/**
- * The heading anchor a markdown renderer will generate for `text`.
- *
- * Not the same rule as `slug`: renderers *drop* punctuation rather than
- * replacing it, so "Boulder's Ring" anchors as `boulders-ring`. Running it
- * through `slug` instead yields `boulder-s-ring` and every link to an item whose
- * name has an apostrophe (of which there are many) silently breaks.
- */
+// Renderers drop punctuation rather than replace it: "Boulder's Ring" anchors as `boulders-ring`, unlike `slug`.
 const anchor = (s) =>
   String(s).toLowerCase().replace(/[^\w\s-]/g, '').trim().replace(/\s+/g, '-');
 
 /** `<!-- Magic Armor -->` and `<!-- Crit Dmg -->` collapse to one lookup key. */
 const key = (label) => label.toLowerCase().replace(/[^a-z0-9]/g, '');
 
-/**
- * Column comment -> field name. The wiki writes several of these more than one
- * way ("Crit Dmg" / "Critical Damage", "Subtype" / "Sub Type"), so both spellings
- * map to the same field rather than the alternate silently becoming an extra.
- */
+// The wiki spells some columns two ways ("Crit Dmg"/"Critical Damage", "Subtype"/"Sub Type").
 const COLUMNS = {
   rarity: 'rarity',
   name: 'name',
@@ -299,14 +210,12 @@ const COLUMNS = {
   location: 'location',
 };
 
-/** Which fields each table shape is expected to carry, for the coverage report. */
 const SHAPE_FIELDS = {
   weapon: ['rarity', 'name', 'range', 'power', 'accuracy', 'critRate', 'critDamage', 'weight', 'scaling', 'details', 'location'],
   armor: ['rarity', 'name', 'armor', 'magicArmor', 'evade', 'weight', 'details', 'location'],
   accessory: ['rarity', 'name', 'details', 'location'],
 };
 
-/** Fields to read as plain numbers. `8★`, `80%` and `-2` all reduce cleanly. */
 const NUMERIC = new Set(['rarity', 'range', 'power', 'accuracy', 'critRate', 'critDamage', 'weight', 'armor', 'magicArmor', 'evade']);
 
 const num = (raw) => {
@@ -314,25 +223,13 @@ const num = (raw) => {
   return match ? Number(match[0]) : null;
 };
 
-/**
- * Splits one page's table body into rows of `field -> raw wikitext`.
- *
- * Every cell is introduced by an HTML comment naming its column, which is the
- * only reliable delimiter: a bare `|` split would cut through `[[link|text]]`
- * and through the templates that appear inside Details. Rows are separated by a
- * `|-` on its own line.
- *
- * The pipe after a comment sometimes sits on the following line, so the value
- * simply runs from the comment to the next comment or the end of the row.
- */
+// Each cell starts with an HTML comment naming its column, the only reliable delimiter (a bare `|` splits links).
+// The pipe after a comment sometimes sits on the next line.
 function parseRows(wikitext) {
-  // The rows are everything outside the page's <noinclude> blocks: one at the
-  // top holding the prose and the table header, one at the bottom closing the
-  // table. Both exist so the page can be transcluded whole into "Item List New".
+  // Rows are everything outside the <noinclude> blocks (prose and header on top, table close at the bottom).
   const body = wikitext.replace(/<noinclude>[\s\S]*?<\/noinclude>/gi, '');
 
   const rows = [];
-  // The first chunk is whatever preceded the first `|-`, which is not a row.
   for (const chunk of body.split(/^\s*\|-\s*$/m).slice(1)) {
     const fields = {};
     const unknown = [];
@@ -354,16 +251,7 @@ function parseRows(wikitext) {
 /** A line that is nothing but italics, the wiki's flavour text. */
 const ITALIC_ONLY = /^\s*(?:<i>[\s\S]*<\/i>|''[\s\S]*'')\s*$/i;
 
-/**
- * Pulls a Details cell apart into its labelled fields, its effect lines and its
- * flavour text.
- *
- * The cell is one `<br>`-separated run mixing three different things: labels the
- * wiki writes explicitly (`'''Material:''' Cloth`), the item's actual effects,
- * and a closing italic sentence of flavour. Only the explicitly labelled parts
- * are lifted out. Everything else stays as written, and `raw` keeps the original
- * so nothing here is lossy.
- */
+// Only explicitly labelled parts (`'''Material:''' Cloth`) are lifted out; `raw` keeps the original.
 function parseDetails(raw) {
   const text = String(raw ?? '').trim();
   const out = { material: '', damageType: '', subtype: '', effects: [], flavour: '', raw: text };
@@ -396,67 +284,40 @@ function parseDetails(raw) {
   return out;
 }
 
-/**
- * Splits a Details cell on its bolded `'''Label:'''` clauses.
- *
- * Text before the first label, and any line following one that is not itself a
- * label, belongs to the clause it sits under: several materials qualify a
- * profile on a second line ("Reduces the cost of Aquarian domain spells by 2").
- * Bolded labels that are not in `labels` are left alone, so an effect written as
- * `'''On Battle Start:'''` inside a clause does not split it.
- */
+// An unlabelled line belongs to the clause above ("Reduces the cost of Aquarian domain spells by 2").
+// Bold labels not in `labels` (`'''On Battle Start:'''`) do not split.
 function parseClauses(raw, labels) {
   const text = String(raw ?? '').trim();
   const out = { flavour: '', raw: text };
 
-  // The trailing italic sentence is flavour, never part of a clause.
   const body = text.replace(/<i>([\s\S]*?)<\/i>\s*$/i, (_, f) => {
     out.flavour = plain(f);
     return '';
   });
 
-  /*
-   * The trailing `([^']*?)` is not decoration. Several catalysts fold a
-   * sub-label into the same bold span (`'''Enchant Info: Weapon:'''`), and a
-   * pattern that demanded `'''` straight after the colon simply failed to match
-   * those, silently spilling the whole clause into the previous one.
-   */
+  // Some catalysts fold a sub-label into the bold span (`'''Enchant Info: Weapon:'''`).
   const pattern = new RegExp(`'''\\s*(${labels.join('|')})\\s*:?\\s*([^']*?)'''\\s*:?`, 'gi');
   const marks = [...body.matchAll(pattern)];
   for (let i = 0; i < marks.length; i++) {
     const start = marks[i].index + marks[i][0].length;
     const end = i + 1 < marks.length ? marks[i + 1].index : body.length;
-    // The sub-label belongs to the clause's text, not to its name.
     const value = plain(`${marks[i][2] ?? ''} ${body.slice(start, end)}`);
     const field = key(marks[i][1]);
-    // A label repeated in one cell (rare) appends rather than overwrites.
     out[field] = out[field] ? `${out[field]} ${value}` : value;
   }
   return out;
 }
 
-/**
- * A material's three effect profiles, plus the two extra clauses the wiki uses.
- *
- * `all` is an *additional* effect that applies in every role, not a replacement
- * for the three profiles: every material carrying one also has its own `Weapon`
- * or `Armor` clause. It is kept as its own field so a consumer can decide to
- * append it, rather than being folded into all three here. `macabre` is an
- * element tag carried by Remains.
- */
+// `all` applies in every role on top of the material's own clauses; `macabre` is an element tag carried by Remains.
 const parseMaterial = (raw) => parseClauses(raw, ['Weapon', 'Armor', 'Other', 'All', 'Macabre']);
 
-/** A catalyst names the slots it can enchant and what the enchantment does. */
 const parseCatalyst = (raw) => parseClauses(raw, ['Can Enchant', 'Enchant Info']);
 
-/** The Location cell is a bullet list of where the item comes from. */
 const parseLocation = (raw) =>
   String(raw ?? '')
     .split('\n')
     .map((line) => plain(line.replace(/^\s*\*+\s*/, '')))
     .filter(Boolean);
-
-/* --------------------------------------------------------------------- main */
 
 console.log('→ discovering equipment index pages');
 const discovered = await discover();
@@ -494,8 +355,6 @@ const wikitext = await fetchWikitext([
 ]);
 console.log(`  ${wikitext.size} pages returned content`);
 
-/* ------------------------------------------------------------------- parse */
-
 const pages = [];
 const items = [];
 const problems = [];
@@ -522,8 +381,7 @@ for (const [title, shape] of scrapeable) {
     for (const field of expected) {
       if (field === 'name' || field === 'details' || field === 'location') continue;
       const raw = fields[field];
-      // A blank cell is a real answer (the wiki left it out); an absent column is
-      // not, so the two stay distinguishable as null vs undefined further down.
+      // A blank cell (null) is the wiki leaving it out; an absent column stays undefined.
       if (raw === undefined) continue;
       item[field] = NUMERIC.has(field) ? num(raw) : plain(raw);
     }
@@ -537,7 +395,6 @@ for (const [title, shape] of scrapeable) {
     return item;
   });
 
-  // The page's own prose, above the table, explains what the slot is for.
   const intro = plain((content.split(/^==/m)[0] ?? '').replace(/<noinclude>/i, ''));
 
   pages.push({ title, shape, slot, kind, group, intro, items: parsed });
@@ -545,9 +402,6 @@ for (const [title, shape] of scrapeable) {
   console.log(`  ${String(parsed.length).padStart(4)}  ${title}`);
 }
 
-/* ------------------------------------------------- materials and catalysts */
-
-/** Rows off a modifier page, with `parse` applied to each Details cell. */
 function parseModifierPage(title, parse) {
   const content = wikitext.get(title);
   if (!content) {
@@ -563,7 +417,6 @@ function parseModifierPage(title, parse) {
   }));
 }
 
-/** Renders a material's Other column: its own profile, plus any `All` clause. */
 const otherColumn = (m) =>
   [m.other, m.all ? `_All:_ ${m.all}` : ''].filter(Boolean).join(' ') || '—';
 
@@ -573,8 +426,7 @@ for (const title of materialPages) {
     id: `material:${slug(MATERIAL_PAGES[title])}:${slug(m.name)}`,
     materialClass: MATERIAL_PAGES[title],
     ...m,
-    // `All:` stands in for the three profiles rather than adding to them, so a
-    // consumer that only reads `other` would silently miss those materials.
+    // Without the `All:` clause, a consumer that reads only `other` would miss those materials.
     appliesToAll: Boolean(m.all),
   }));
   materials.push(...rows);
@@ -602,14 +454,11 @@ for (const m of materials) {
   if (!m.other && !m.all) problems.push({ page: m.page, item: m.name, note: 'no Other/All profile stated' });
 }
 for (const c of catalysts) {
-  // A catalyst with neither clause is a remover ("wipes away any beneficial
-  // enchantments"), which is a real kind of catalyst rather than a parse miss.
+  // A catalyst with neither clause is a remover ("wipes away any beneficial enchantments"), not a parse miss.
   if (!c.slots.length && c.enchantInfo) {
     problems.push({ page: c.page, item: c.name, note: 'has Enchant Info but no Can Enchant slots' });
   }
 }
-
-/* -------------------------------------------------------------------- emit */
 
 await mkdir(OUT, { recursive: true });
 await mkdir(RAW, { recursive: true });
@@ -620,15 +469,7 @@ const sourceUrl = (title) => `${WIKI}/wiki/${title.replace(/ /g, '_')}`;
 const frontmatter = (obj) =>
   ['---', ...Object.entries(obj).filter(([, v]) => v != null && v !== '').map(([k, v]) => `${k}: ${JSON.stringify(String(v))}`), '---'].join('\n');
 
-/**
- * A scannable one-line abbreviation for the quick-reference table.
- *
- * Accessory-shaped tables have no stat columns to tabulate (the effect text is
- * all there is), and some items carry several hundred words of it. Cutting on a
- * word boundary and marking the cut keeps the table readable without it reading
- * as something the wiki actually says; the full text is in the Items section
- * directly below, and `raw` in the JSON sidecar is never abbreviated.
- */
+// Some accessory effect texts run to several hundred words; `raw` in the JSON sidecar is never abbreviated.
 function summarise(text, max = 90) {
   const s = String(text ?? '').trim();
   if (s.length <= max) return s;
@@ -637,7 +478,6 @@ function summarise(text, max = 90) {
   return `${(space > max * 0.6 ? cut.slice(0, space) : cut).replace(/[\s,;:.]+$/, '')} …`;
 }
 
-/** The quick-reference columns worth tabulating for each table shape. */
 const TABLE_COLUMNS = {
   weapon: [
     ['Rarity', (i) => i.rarity], ['Name', (i) => `[${i.name}](#${anchor(i.name)})`], ['Range', (i) => i.range],
@@ -714,8 +554,6 @@ for (const p of pages) {
   await writeFile(path.join(OUT, `${slug(p.title)}.md`), body.replace(/\n{3,}/g, '\n\n').trimEnd() + '\n', 'utf8');
 }
 
-// ---- materials -----------------------------------------------------------
-
 const byClass = new Map();
 for (const m of materials) {
   if (!byClass.has(m.materialClass)) byClass.set(m.materialClass, []);
@@ -773,8 +611,6 @@ await writeFile(
   'utf8',
 );
 
-// ---- catalysts -----------------------------------------------------------
-
 if (catalysts.length) {
   const sorted = [...catalysts].sort((a, b) => a.name.localeCompare(b.name));
   await writeFile(
@@ -820,8 +656,6 @@ if (catalysts.length) {
     'utf8',
   );
 }
-
-// ---- index ---------------------------------------------------------------
 
 const bySlot = new Map();
 for (const p of pages) {
@@ -884,13 +718,9 @@ await writeFile(
   'utf8',
 );
 
-// ---- machine-readable sidecar -------------------------------------------
-
 await writeFile(path.join(RAW, 'equipment.json'), JSON.stringify(items, null, 2), 'utf8');
 await writeFile(path.join(RAW, 'item-materials.json'), JSON.stringify(materials, null, 2), 'utf8');
 await writeFile(path.join(RAW, 'catalysts.json'), JSON.stringify(catalysts, null, 2), 'utf8');
-
-/* ----------------------------------------------------------------- report */
 
 console.log(`\n✓ ${items.length} items across ${pages.length} pages → ${path.relative(process.cwd(), OUT)}`);
 for (const [slot, group] of [...bySlot.entries()].sort((a, b) => a[0] - b[0])) {

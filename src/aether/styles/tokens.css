@@ -1,0 +1,167 @@
+:root {
+  --void: #04060a;
+  --ink-900: #070a10;
+  --ink-800: #0b0f17;
+  --ink-700: #10151f;
+  --ink-600: #161c28;
+  --ink-500: #1e2532;
+
+  --gold-100: #f6ecd2;
+  --gold-200: #e9d8ab;
+  --gold-300: #d8c088;
+  --gold-400: #c0a262;
+  --gold-500: #9d824a;
+  --bronze: #6f5a31;
+
+  --aether: #86dced;
+  --aether-dim: rgba(134, 220, 237, 0.32);
+  --glow-gold: rgba(216, 192, 136, 0.28);
+
+  --alert: #e3705d;
+  --alert-dim: rgba(227, 112, 93, 0.16);
+  --alert-text: #f0a99b;
+  --alert-deep: #9c4436;
+  --affirm: #8fd6a0;
+
+  --text: #e6e9f0;
+  --text-2: #a6b0c2;
+  --text-3: #707a8d;
+  --text-4: #4b5468;
+
+  --edge: rgba(200, 170, 106, 0.22);
+  --edge-soft: rgba(200, 170, 106, 0.12);
+  --edge-hard: rgba(200, 170, 106, 0.4);
+  --hairline: rgba(255, 255, 255, 0.055);
+
+  --tint-rgb: 255 255 255;
+  --gold-rgb: 216 192 136;
+  --alert-rgb: 227 112 93;
+  --affirm-rgb: 143 214 160;
+
+  --nav-top: rgba(20, 25, 34, 0.98);
+  --nav-bottom: rgba(9, 12, 18, 0.98);
+  --modal-top: rgba(20, 26, 37, 0.98);
+  --modal-bottom: rgba(7, 10, 16, 0.99);
+  --notice-top: rgba(26, 33, 45, 0.97);
+  --notice-bottom: rgba(9, 12, 18, 0.97);
+  --pool-top: rgba(28, 35, 47, 0.6);
+  --pool-bottom: rgba(8, 11, 17, 0.5);
+  --btn-ghost: rgba(0, 0, 0, 0.28);
+  --btn-primary-top: rgba(157, 130, 74, 0.5);
+  --btn-primary-hover-top: rgba(192, 162, 98, 0.6);
+  --btn-active-top: rgba(157, 130, 74, 0.35);
+  --glyph-top: rgba(255, 255, 255, 0.06);
+  --glyph-bottom: rgba(0, 0, 0, 0.4);
+
+  --well: rgba(0, 0, 0, 0.45);
+  --channel: rgba(0, 0, 0, 0.55);
+  --figure-bg: rgba(0, 0, 0, 0.35);
+  --tick: rgba(255, 255, 255, 0.11);
+  --pip-off: rgba(255, 255, 255, 0.09);
+  --hatch-a: rgba(255, 255, 255, 0.22);
+  --hatch-b: rgba(255, 255, 255, 0.05);
+  --scroll-thumb: rgba(157, 130, 74, 0.5);
+  --scroll-track: rgba(0, 0, 0, 0.3);
+
+  --fill-edge: rgba(255, 255, 255, 0.35);
+
+  --scrim: rgba(2, 4, 7, 0.72);
+
+  --wash-base: linear-gradient(180deg, #070a11 0%, #04060a 45%, #05070c 100%);
+
+  --font-display: 'Barlow Condensed', 'Barlow', system-ui, sans-serif;
+  --font-body: 'Barlow', system-ui, -apple-system, sans-serif;
+  --font-num: 'JetBrains Mono', ui-monospace, monospace;
+
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --nav-h: 37px;
+
+  --shadow-panel: 0 5px 18px -12px rgba(0, 0, 0, 0.7);
+  --shadow-modal: 0 40px 90px -30px rgba(0, 0, 0, 1);
+  --shadow-notice: 0 22px 50px -22px rgba(0, 0, 0, 1);
+  --shadow-nav: 0 6px 18px -12px rgba(0, 0, 0, 0.9);
+
+  color-scheme: dark;
+}
+
+:root[data-theme='light'] {
+  --void: #dcd6c8;
+  --ink-900: #efeae0;
+  --ink-800: #f2eee5;
+  --ink-700: #f6f2ea;
+  --ink-600: #f9f6f0;
+  --ink-500: #fdfbf7;
+
+  /* `--gold-100` is still the most emphatic, which on vellum is the darkest. */
+  --gold-100: #45300f;
+  --gold-200: #66481a;
+  --gold-300: #855f26;
+  --gold-400: #9d7634;
+  --gold-500: #ad8b46;
+  --bronze: #c6a970;
+
+  --aether: #0d7288;
+  --aether-dim: rgba(13, 114, 136, 0.3);
+  --glow-gold: rgba(140, 104, 40, 0.3);
+
+  --alert: #ad3722;
+  --alert-dim: rgba(173, 55, 34, 0.1);
+  --alert-text: #8a2c1a;
+  --alert-deep: #7d2415;
+  --affirm: #2b7549;
+
+  --text: #262a32;
+  --text-2: #494f5c;
+  --text-3: #666c7b;
+  --text-4: #8a8f9d;
+
+  --edge: rgba(122, 92, 44, 0.34);
+  --edge-soft: rgba(122, 92, 44, 0.2);
+  --edge-hard: rgba(122, 92, 44, 0.56);
+  --hairline: rgba(52, 44, 28, 0.13);
+
+  --tint-rgb: 54 45 28;
+  --gold-rgb: 140 104 40;
+  --alert-rgb: 173 55 34;
+  --affirm-rgb: 43 117 73;
+
+  --nav-top: rgba(255, 253, 249, 0.98);
+  --nav-bottom: rgba(240, 234, 223, 0.98);
+  --modal-top: rgba(255, 254, 250, 0.99);
+  --modal-bottom: rgba(244, 239, 230, 0.99);
+  --notice-top: rgba(255, 253, 248, 0.98);
+  --notice-bottom: rgba(242, 236, 224, 0.98);
+  --pool-top: rgba(255, 253, 249, 0.7);
+  --pool-bottom: rgba(236, 230, 218, 0.6);
+  --btn-ghost: rgba(255, 255, 255, 0.5);
+  --btn-primary-top: rgba(178, 143, 74, 0.34);
+  --btn-primary-hover-top: rgba(178, 143, 74, 0.5);
+  --btn-active-top: rgba(178, 143, 74, 0.26);
+  --glyph-top: rgba(255, 255, 255, 0.9);
+  --glyph-bottom: rgba(214, 205, 187, 0.7);
+
+  --well: rgba(255, 255, 255, 0.82);
+  --channel: rgba(96, 80, 50, 0.15);
+  --figure-bg: rgba(255, 255, 255, 0.62);
+  --tick: rgba(96, 80, 50, 0.22);
+  --pip-off: rgba(96, 80, 50, 0.2);
+  --hatch-a: rgba(72, 60, 38, 0.3);
+  --hatch-b: rgba(72, 60, 38, 0.08);
+  --scroll-thumb: rgba(150, 118, 58, 0.55);
+  --scroll-track: rgba(96, 80, 50, 0.09);
+
+  --fill-edge: rgba(66, 54, 34, 0.22);
+
+  --scrim: rgba(58, 48, 32, 0.52);
+
+  --wash-base: linear-gradient(180deg, #e7e1d4 0%, #dcd6c8 45%, #d7d0c1 100%);
+
+  --shadow-panel: 0 5px 18px -12px rgba(58, 46, 26, 0.4);
+  --shadow-modal: 0 40px 80px -28px rgba(48, 38, 22, 0.6);
+  --shadow-notice: 0 22px 50px -24px rgba(58, 46, 26, 0.4);
+  --shadow-nav: 0 6px 18px -12px rgba(58, 46, 26, 0.3);
+
+  color-scheme: light;
+}

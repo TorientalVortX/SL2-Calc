@@ -5,7 +5,7 @@ by `scripts/scrape-wiki.mjs`. Regenerate with `npm run scrape:wiki` — the scri
 this whole directory, so `git diff` shows exactly what changed on the wiki.
 
 These files are the reference values the calculator should agree with. Unlike
-`optimizer-knowledge/` (personal notes, evidence-only), everything here is transcribed
+`reference/mechanics/` (research notes, evidence-only), everything here is transcribed
 from the wiki without interpretation.
 
 ## Layout

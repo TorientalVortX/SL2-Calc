@@ -4,34 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#05070b">
-    <title>Aether Codex — SL2 Character Builder</title>
+    <title>Aether Codex | SL2 Character Builder</title>
     <meta name="description" content="Sigrogana Legend 2 character builder: class, attribute, skill and trait planning with live derived stats.">
-    <meta property="og:title" content="Aether Codex — SL2 Character Builder">
+    <meta property="og:title" content="Aether Codex | SL2 Character Builder">
     <meta property="og:description" content="Plan SL2 characters with live derived stats, skills, traits and racials.">
     <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sl2-calc.pages.dev/">
+    <meta property="og:image" content="https://sl2-calc.pages.dev/social-preview.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="The Aether Codex character sheet with an Amalgama Ghost / Black Knight build loaded.">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="canonical" href="https://sl2-calc.pages.dev/">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <!--
-      The theme, put on the document before anything is painted.
-
-      This has to run here rather than in the app: the stylesheet below decides
-      the page's colour the moment it parses, which is long before the module
-      bundle executes, so a reader on the light theme would watch the sheet open
-      dark and then flip. The key is the one `state/theme.ts` writes; the two
-      have to stay in step, and the version suffix is what makes a change safe.
-    -->
-    <script>
-      try {
-        if (localStorage.getItem('sl2:aether:theme:v1') === 'light') {
-          document.documentElement.setAttribute('data-theme', 'light');
-        }
-      } catch (error) { /* private browsing; the dark default stands */ }
-    </script>
-    <!-- Painted before any stylesheet loads. Without it the first frame of a
-         cold load is white, which is a poor way to open a dark cinematic. -->
+    <!-- External because the CSP (script-src 'self') blocks inline scripts. -->
+    <script src="/theme-init.js"></script>
+    <!-- Paints the background before the stylesheet loads; colours kept in step with --void. -->
     <style>
       html, body { margin: 0; background: #04060a; }
-      /* Kept in step with `--void` in each theme, by eye: this is only ever on
-         screen for the moment before the real stylesheet arrives. */
       html[data-theme='light'], html[data-theme='light'] body { background: #dcd6c8; }
     </style>
 </head>

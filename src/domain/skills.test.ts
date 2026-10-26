@@ -3,9 +3,10 @@ import { parseBuildFile } from './buildPersistence';
 import { evaluateBuild } from './buildEvaluation';
 import { findWeaponByName, weaponToConfig } from './equipment';
 import { CLASS_HIERARCHY } from '../data/classes';
-import { mergeSkillRanks, skillDamageAtRank, skillDamageProfile, skillFormulaBreakdown } from './skillDamage';
+import { skillFormulaBreakdown } from './skillDamage';
 import {
   SKILLS,
+  mergeSkillRanks,
   fpCostAtRank,
   skillBonuses,
   skillById,
@@ -72,8 +73,7 @@ describe('skill dataset', () => {
   });
 
   it('never assigns an element the calculator cannot score', () => {
-    // Darkness and generic "Elemental" damage are real but unattributable; they
-    // must stay null rather than being folded into Dark.
+    // Darkness and generic "Elemental" damage can't be attributed to a scored element.
     for (const skill of SKILLS) {
       for (const term of skill.scaling ?? []) {
         if (term.unmodelled) expect(term.element ?? null).toBeNull();
@@ -92,7 +92,6 @@ describe('skill dataset', () => {
   it('keeps a promoted class and its base class in separate pools', () => {
     const pools = skillPoolsForClass('Ghost');
     expect(pools.map(pool => [pool.className, pool.role])).toEqual([['Ghost', 'class'], ['Duelist', 'base']]);
-    // A skill belongs to exactly one pool, so no row can appear twice.
     expect(pools[0].skills.every(skill => skill.classes.includes('Ghost'))).toBe(true);
     expect(pools[1].skills.every(skill => !skill.classes.includes('Ghost'))).toBe(true);
     const ids = pools.flatMap(pool => pool.skills.map(skill => skill.id));
@@ -106,7 +105,6 @@ describe('skill dataset', () => {
   });
 
   it('never mixes one class slot into another slot pool', () => {
-    // Ghost promotes from Duelist; Soldier is unrelated and must not appear.
     const ghostIds = new Set(skillPoolsForClass('Ghost').flatMap(pool => pool.skills.map(s => s.id)));
     const soldierIds = skillPoolsForClass('Soldier').flatMap(pool => pool.skills.map(s => s.id));
     expect(soldierIds.some(id => ghostIds.has(id))).toBe(false);
@@ -164,8 +162,7 @@ describe('skill bonuses', () => {
     expect(dodger?.effects[0]?.applies).toBe('always');
 
     const backstab = skillById('backstab');
-    // Backstab needs a dagger and a position behind the target, so it must not
-    // count on its own.
+    // Backstab needs a dagger and a position behind the target.
     expect(backstab?.effects.every(effect => effect.applies === 'conditional')).toBe(true);
 
     const skills = [dodger!, backstab!];
@@ -177,9 +174,6 @@ describe('skill bonuses', () => {
   });
 
   it('counts a shared skill once when both slots reach it', () => {
-    // A monoclass build has the same class twice, and any two classes promoted
-    // from one base share that base's skills. Concatenating the two trees would
-    // apply every shared bonus twice.
     const mono = skillsForClassSlots('Rogue', 'Rogue');
     expect(new Set(mono.map(s => s.id)).size).toBe(mono.length);
     const shared = skillsForClassSlots('Ghost', 'Kensei');
@@ -197,28 +191,24 @@ describe('skill bonuses', () => {
   });
 
   it('reads a "<stat> Bonus" label as the stat it names', () => {
-    // "Defense Bonus" and "Wil Bonus" are stats, not derived channels, and both
-    // skills say they raise them passively.
     expect(skillById('iron-wall')!.effects).toEqual([
       { kind: 'stat', key: 'def', valueByRank: [1, 2, 3, 4, 6], applies: 'always' },
     ]);
     expect(skillById('spiritual-domination')!.effects).toEqual([
       { kind: 'stat', key: 'wil', valueByRank: [1, 2, 3, 4, 6], applies: 'always' },
     ]);
-    // A multi-stat label splits into one effect per stat.
     expect(skillById('discipline')!.effects.map(e => e.key)).toEqual(['ski', 'cel']);
   });
 
   it('treats an "at max rank" clause as part of the rank list, not a condition', () => {
-    // These read +1/2/3/4/6 precisely because rank 5 already includes the bonus,
-    // so the clause must not demote the whole skill to situational.
+    // Wiki values already fold the max-rank bonus into rank 5.
     for (const id of ['honed-shot', 'pure-genius', 'spiritual-domination']) {
       expect(skillById(id)!.effects[0]).toMatchObject({ applies: 'always', valueByRank: [1, 2, 3, 4, 6] });
     }
   });
 
   it('keeps a timed buff situational even when it names stats', () => {
-    // Invigoration lasts 3 rounds, so its STR/WIL bonus is not permanent.
+    // Invigoration lasts 3 rounds.
     const invigoration = skillById('invigoration')!;
     expect(invigoration.effects.map(e => e.key)).toEqual(['str', 'wil']);
     expect(invigoration.effects.every(e => e.applies === 'conditional')).toBe(true);
@@ -240,9 +230,7 @@ describe('skill bonuses', () => {
   });
 
   it('explains why a skill leaves the stat block alone', () => {
-    // An attack: its numbers are damage, not a passive bonus.
     expect(inertReason(skillById('sanguine-star')!)).toMatch(/damage it deals/);
-    // A bonus the calculator does track.
     expect(inertReason(skillById('dodger')!)).toBeNull();
   });
 
@@ -321,31 +309,6 @@ describe('skill damage', () => {
     expect(skillFormulaBreakdown(skillById('altera')!, 1, evaluation, { 0: 'Dark' })?.subtotal).toBe(48);
     expect(skillFormulaBreakdown(skillById('dodger')!, 1, evaluation)).toBeNull();
     expect(skillFormulaBreakdown(skillById('altera')!, 0, evaluation)).toBeNull();
-  });
-
-  it('splits a formula into weapon and elemental percentages', () => {
-    const skill = skillById('sanguine-star')!;
-    const entry = skillDamageAtRank(skill, 3);
-    expect(entry).toMatchObject({ swaPercent: 120, elementalAttackPercent: 0, element: null });
-    expect(entry?.unscoredTerms).toEqual([]);
-  });
-
-  it('reports damage it cannot attribute instead of scoring it', () => {
-    const unattributable = SKILLS.find(skill => skill.scaling?.some(term => term.unmodelled));
-    expect(unattributable).toBeDefined();
-    const entry = skillDamageAtRank(unattributable!, 1);
-    if (entry) expect(entry.unscoredTerms.length).toBeGreaterThan(0);
-  });
-
-  it('returns nothing for a skill that deals no modellable damage', () => {
-    expect(skillDamageAtRank(skillById('dodger')!, 1)).toBeNull();
-    expect(skillDamageAtRank(skillById('sanguine-star')!, 0)).toBeNull();
-  });
-
-  it('orders a profile by total scaling and skips unknown ids', () => {
-    const profile = skillDamageProfile({ 'sanguine-star': 5, 'not-a-skill': 3, dodger: 1 });
-    expect(profile.map(entry => entry.skillId)).toEqual(['sanguine-star']);
-    expect(profile[0].swaPercent).toBe(140);
   });
 
   it('merges both class slots, keeping the higher rank', () => {

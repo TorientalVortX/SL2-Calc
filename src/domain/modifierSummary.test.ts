@@ -9,11 +9,6 @@ import {
 const text = (parts: Array<{ label: string; value: string }>) => parts.map(part => `${part.value} ${part.label}`);
 
 describe('summarising a torso material', () => {
-  /*
-   * The pair from the reported screenshot: both were chosen from a dropdown that
-   * said nothing about either, so comparing them meant reading the rail three
-   * panels away twice.
-   */
   it('reads out Breezecloth', () => {
     expect(text(summarizeArmorMaterial('Breezecloth'))).toEqual(['+5 Evade', '+5% Wind Res.', '-2 Weight']);
   });
@@ -28,10 +23,6 @@ describe('summarising a torso material', () => {
     expect(summarizeArmorMaterial(undefined)).toEqual([]);
   });
 
-  /*
-   * Distinct from "nothing chosen": a material the dataset knows but which carries
-   * no numbers on a torso. The interface says so rather than rendering a blank.
-   */
   it('is empty for a material with no modelled torso effect', () => {
     expect(summarizeArmorMaterial('Cloth')).toEqual([]);
   });
@@ -59,10 +50,6 @@ describe('summarising a torso enchantment', () => {
 });
 
 describe('which way a part reads', () => {
-  /*
-   * Weight is the one inversion: carrying more of it is the cost. Everything else
-   * follows its sign, so a negative Evade reads as bad and a positive one as good.
-   */
   it('treats less weight as a gain and more as a cost', () => {
     expect(summarizeModifier({ weight: -2 })[0].tone).toBe('good');
     expect(summarizeModifier({ weight: 2 })[0].tone).toBe('bad');

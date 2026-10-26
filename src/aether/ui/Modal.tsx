@@ -8,32 +8,14 @@ interface ModalProps {
   onClose: () => void;
   children: ReactNode;
   footer?: ReactNode;
-  /** Two-column dialogs (the armory) need more than the reading-width default. */
   wide?: boolean;
-  /** Replaces the body's own scrolling when the content manages its own panes. */
   flush?: boolean;
 }
 
-/**
- * A framed dialog with Escape-to-close and a focus trap.
- *
- * The trap is a plain Tab wrap over the dialog's focusable elements rather than
- * an inert-based one: the sheet behind stays rendered, and this keeps keyboard
- * focus from walking back into it while the dialog is open.
- */
 export function Modal({ title, onClose, children, footer, wide, flush }: ModalProps) {
   const ref = useRef<HTMLDivElement>(null);
   const restoreTo = useRef<HTMLElement | null>(null);
-  /*
-   * The live `onClose`, held in a ref so the effect below can run on mount alone.
-   *
-   * It used to depend on `onClose`, which every caller writes as an inline arrow:
-   * a new identity on each render of the sheet. So the effect tore down and set
-   * up again after every keystroke, and its opening `focus()` fired each time:
-   * focus jumped back to the Close button whenever a dialog changed the build,
-   * which made the number fields in Advanced impossible to type into and the stat
-   * card's slider impossible to hold.
-   */
+  // Held in a ref so callers' inline-arrow `onClose` doesn't re-run the mount effect and steal focus.
   const closeRef = useRef(onClose);
   closeRef.current = onClose;
 
@@ -75,15 +57,7 @@ export function Modal({ title, onClose, children, footer, wide, flush }: ModalPr
     // Mount only: this sets the opening focus and restores it on the way out.
   }, []);
 
-  /*
-   * Portalled to the body rather than rendered in place.
-   *
-   * The armory opens from inside a panel that owns a scroll region, and a
-   * `position: fixed` scrim nested in one is laid out against that ancestor
-   * instead of the viewport: the dialog came out half-height and pinned to the
-   * bottom of the panel. A portal removes the question entirely, and is what a
-   * modal wants regardless of where it is opened from.
-   */
+  // Portalled: a fixed scrim inside a scroll-owning panel lays out against that panel, not the viewport.
   return createPortal(
     <div
       className="scrim"

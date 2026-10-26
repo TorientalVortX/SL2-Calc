@@ -4,8 +4,6 @@ dist/
 Thumbs.db
 builds/
 community-builds/
-docs/
-optimizer-knowledge/
 
 # Logs
 logs/
@@ -58,4 +56,3 @@ coverage/
 
 # Gameplay logs and personal build notes
 /docs/
-/optimizer-knowledge/08-combat-results/test-server-learning-*.md

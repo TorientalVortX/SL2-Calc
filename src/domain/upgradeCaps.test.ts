@@ -2,12 +2,6 @@ import { describe, expect, it } from 'vitest';
 import { DEFAULT_WORLD, armorUpgradeCaps, clampUpgradePoint, formatUpgradeSpend, weaponUpgradeCaps } from './upgradeCaps';
 
 describe('armour upgrade caps', () => {
-  /*
-   * The sourced table. The three classes spend the same 16 points across the three
-   * channels in a different order, which is why Heavy's Evade ceiling could not be
-   * interpolated when only the Evade column was known; it is a rotation, not a
-   * slope.
-   */
   it('caps every channel per armour class', () => {
     expect(armorUpgradeCaps('Heavy')).toMatchObject({ armor: 8, magicArmor: 5, evade: 3 });
     expect(armorUpgradeCaps('Light')).toMatchObject({ armor: 5, magicArmor: 7, evade: 4 });
@@ -21,12 +15,10 @@ describe('armour upgrade caps', () => {
     }
   });
 
-  /* A torso has three channels. Durability is a weapon track, not an armour one. */
   it('has no durability channel', () => {
     expect(Object.keys(armorUpgradeCaps('Heavy')).sort()).toEqual(['armor', 'evade', 'magicArmor']);
   });
 
-  /* An unknown class must read as "unknown" rather than being guessed at. */
   it('caps nothing when the armour class is unknown', () => {
     expect(armorUpgradeCaps(undefined, 'G6')).toEqual({ armor: null, magicArmor: null, evade: null });
   });
@@ -45,11 +37,6 @@ describe('weapon upgrade caps', () => {
 });
 
 describe('the world bonus', () => {
-  /*
-   * G6 and Korvara are separate worlds, not item grades: the wiki writes trait
-   * effects as "G6: … Korvara: …" and marks items "G6 Only". G6 raises every
-   * recorded ceiling by one.
-   */
   it('raises every recorded armour ceiling by one in G6', () => {
     expect(armorUpgradeCaps('Unarmored', 'G6')).toMatchObject({ armor: 4, magicArmor: 6, evade: 9 });
     expect(armorUpgradeCaps('Heavy', 'G6')).toMatchObject({ armor: 9, magicArmor: 6, evade: 4 });
@@ -64,11 +51,6 @@ describe('the world bonus', () => {
     expect(weaponUpgradeCaps('Korvara').power).toBe(5);
   });
 
-  /*
-   * Korvara by default: G6 is the more permissive world, so defaulting there would
-   * let a Korvara build quietly hold a spend it cannot have. The safe direction for
-   * a default is the stricter one.
-   */
   it('defaults to the stricter world', () => {
     expect(DEFAULT_WORLD).toBe('Korvara');
     expect(armorUpgradeCaps('Light')).toEqual(armorUpgradeCaps('Light', 'Korvara'));
@@ -92,11 +74,7 @@ describe('spending against a cap', () => {
     expect(clampUpgradePoint(-1, null)).toBe(0);
   });
 
-  /*
-   * These values come from number inputs, and an emptied field parses as `NaN`.
-   * `Math.max(0, NaN)` is `NaN`, which would be stored on the build and travel
-   * into every derived figure that reads the slot.
-   */
+  // An emptied number input parses as NaN.
   it('lands a non-finite input on zero rather than propagating it', () => {
     expect(clampUpgradePoint(Number.NaN, 8)).toBe(0);
     expect(clampUpgradePoint(Number.NaN, null)).toBe(0);

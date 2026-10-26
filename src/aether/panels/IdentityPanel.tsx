@@ -10,13 +10,6 @@ import type { Builder } from '../state/useBuilder';
 
 const LEVELS = Array.from({ length: 60 }, (_, index) => 60 - index);
 
-/**
- * Who the character is, before any points are spent.
- *
- * Race and subrace set the stat floor every allocation sits on top of, so this
- * panel sits above the class browser rather than beside it: changing a subrace
- * re-clamps the whole sheet, and the ordering makes that cause visible.
- */
 export function IdentityPanel({ builder }: { builder: Builder }) {
   const { build, dispatch } = builder;
 

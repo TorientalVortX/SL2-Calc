@@ -11,9 +11,8 @@ import {
 
 describe('UL resolution', () => {
   it('sums every upgrade channel', () => {
-    // "Upgrade points spent on that piece", so all channels count.
+    // Wiki: "Upgrade points spent on that piece".
     expect(weaponUL({ power: 5, critical: 5, accuracy: 5, durability: 0 })).toBe(15);
-    // Three channels on a torso: it has no durability track.
     expect(armorUL({ armor: 3, magicArmor: 2, evade: 1 })).toBe(6);
   });
 
@@ -137,8 +136,7 @@ describe('summing item bonuses', () => {
   });
 
   it('leaves conditional effects out until switched on', () => {
-    // Hankyu's "When you are two-handing this weapon, it gains +10 Power…" is
-    // quantified, but gated on how it is held.
+    // Hankyu: "When you are two-handing this weapon, it gains +10 Power…"
     const weapon = ['Hankyu', 'Baphomet Offering', 'Nighthunt']
       .map(name => ({ name, effects: weaponEffects(name) }))
       .find(entry => entry.effects.some(e => e.applies === 'conditional' && e.effects.length));

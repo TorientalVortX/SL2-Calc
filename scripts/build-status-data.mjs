@@ -1,39 +1,17 @@
-/**
- * Turns the scraped status-effect catalog into the calculator's status dataset.
- *
- *   wiki-data/raw/statuses.json  ->  src/data/content/statuses.json
- *                                ->  optimizer-knowledge/01-core-mechanics/status-effects-catalog.md
- *
- * The wiki writes each status as prose. Only claims the text states plainly are
- * lifted into structured fields: racial infliction immunities, the post-recovery
- * immunity window, protection-ignoring and per-round damage markers, and which
- * status a Hex locks against curing. Everything else stays as description text
- * rather than being turned into numbers the source does not support.
- *
- * The knowledge markdown is generated here so the AI planner's local corpus
- * always matches the dataset the calculator ships; it carries an auto-generated
- * header pointing back at this script.
- *
- *   node scripts/build-status-data.mjs
- *   node scripts/build-status-data.mjs --report
- */
+// Usage: node scripts/build-status-data.mjs [--report]
+// -> src/data/content/statuses.json and reference/mechanics/status-effects-catalog.md
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 const IN = path.resolve('wiki-data/raw/statuses.json');
 const RACES_IN = path.resolve('src/data/content/races.json');
 const OUT = path.resolve('src/data/content/statuses.json');
-const KNOWLEDGE_OUT = path.resolve('optimizer-knowledge/01-core-mechanics/status-effects-catalog.md');
+const KNOWLEDGE_OUT = path.resolve('reference/mechanics/status-effects-catalog.md');
 const REPORT = process.argv.includes('--report');
 
 const raw = JSON.parse(await readFile(IN, 'utf8'));
 
-/*
- * Immunity subjects are resolved against the calculator's own race list, the
- * same rule build-trait-data.mjs uses: a name the calculator has never heard of
- * must stay visible as prose rather than silently becoming a dead check. The
- * unresolved ones here are monster races (Snakemen, Drowned Woman).
- */
+// Unresolved subjects stay prose rather than dead checks; those here are monster races (Snakemen, Drowned Woman).
 const raceData = JSON.parse(await readFile(RACES_IN, 'utf8'));
 const KNOWN_RACES = new Set([...Object.keys(raceData.races), ...Object.keys(raceData.subraces)]);
 
@@ -81,8 +59,6 @@ const payload = {
 };
 await writeFile(OUT, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
 
-/* -------------------------------------------------- knowledge base markdown */
-
 const categories = raw.sections.filter(section => section.rows.length);
 const withImmunities = statuses.filter(status => status.immuneRaces.length || status.otherImmune?.length);
 const knowledge = [
@@ -119,7 +95,7 @@ const knowledge = [
 await writeFile(KNOWLEDGE_OUT, `${knowledge}\n`, 'utf8');
 
 console.log(`Wrote ${statuses.length} statuses across ${categories.length} categories to src/data/content/statuses.json`);
-console.log(`Wrote optimizer-knowledge/01-core-mechanics/status-effects-catalog.md`);
+console.log(`Wrote reference/mechanics/status-effects-catalog.md`);
 if (REPORT) {
   for (const status of withImmunities) {
     console.log(`  immunity: ${status.name} <- ${[...status.immuneRaces, ...(status.otherImmune ?? [])].join(', ')}`);

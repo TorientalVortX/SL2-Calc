@@ -11,15 +11,7 @@ const DICE_COLORS: Array<{ value: 'red' | 'green' | 'yellow'; label: string }> =
   { value: 'yellow', label: 'Yellow: Evade & Crit Evade' },
 ];
 
-/**
- * Racial skills for the chosen subrace.
- *
- * Almost none of the 101 racial skills carry a parseable number (their effects
- * are conditional prose), so this sheet is honest about the split: the handful
- * the calculator models get a live control, and the rest are listed as reference
- * rather than given a toggle that would do nothing. An empty list is a real
- * answer for a subrace with no racial skills, not a filter that is too strict.
- */
+/** Almost none of the 101 racial skills carry a parseable number, so most are listed as reference only. */
 export function RacialsSheet({ builder }: { builder: Builder }) {
   const { build, dispatch } = builder;
   const skills = racialSkillsFor(build.subrace);

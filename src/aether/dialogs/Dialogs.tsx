@@ -4,11 +4,9 @@ import { SectionHead } from '../ui/Panel';
 import { play } from '../state/audio';
 import { APP_RELEASE, APP_VERSION, GAME_DATA_MANIFEST } from '../../domain/buildPersistence';
 import { TEMPLATES } from '../state/build';
+import { buildCardModel, renderBuildCard } from '../state/buildCard';
 import type { Builder } from '../state/useBuilder';
 
-/* ----------------------------------------------------------------- templates */
-
-/** Starting spreads, read from the game dataset rather than invented here. */
 export function TemplatesDialog({ builder, onClose }: { builder: Builder; onClose: () => void }) {
   const { dispatch, setBuildName, notify } = builder;
 
@@ -60,8 +58,6 @@ export function TemplatesDialog({ builder, onClose }: { builder: Builder; onClos
     </Modal>
   );
 }
-
-/* --------------------------------------------------------------------- saves */
 
 export function SavesDialog({ builder, onClose }: { builder: Builder; onClose: () => void }) {
   const { saves, saveAs, overwrite, loadSlot, deleteSlot, buildName } = builder;
@@ -141,12 +137,6 @@ export function SavesDialog({ builder, onClose }: { builder: Builder; onClose: (
   );
 }
 
-/* ------------------------------------------------------------------ transfer */
-
-/**
- * Import and export, sharing the calculator's own build file format: a build
- * exported here opens in the original SL2 Calculator and the other way round.
- */
 export function TransferDialog({ builder, onClose }: { builder: Builder; onClose: () => void }) {
   const { exportJSON, importJSON, downloadJSON, notify, shareLink, shareCode } = builder;
   const [text, setText] = useState(() => exportJSON());
@@ -161,10 +151,7 @@ export function TransferDialog({ builder, onClose }: { builder: Builder; onClose
     }
   };
 
-  /*
-   * A link, not a file. The fragment carries the whole build compressed, which is
-   * how the original calculator shares one, so a link made here opens there.
-   */
+  // The fragment carries the whole build compressed; it never reaches the server.
   const copyLink = async () => {
     const result = shareLink();
     if ('error' in result) {
@@ -191,6 +178,37 @@ export function TransferDialog({ builder, onClose }: { builder: Builder; onClose
     } catch {
       notify('bad', 'Clipboard blocked. Use the JSON below.');
     }
+  };
+
+  const renderCard = () => renderBuildCard(
+    buildCardModel(builder.build, builder.evaluation, builder.buildName, builder.status),
+    GAME_DATA_MANIFEST.dataVersion,
+  );
+
+  const saveCard = async (png: Promise<Blob>, message = 'Build card saved.') => {
+    try {
+      const url = URL.createObjectURL(await png);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `${builder.buildName.trim().replace(/[^\w-]+/g, '-').replace(/^-+|-+$/g, '') || 'build'}.png`;
+      link.click();
+      window.setTimeout(() => URL.revokeObjectURL(url), 0);
+      notify('good', message);
+    } catch {
+      notify('bad', 'Could not draw the build card.');
+    }
+  };
+
+  // Safari only allows the write if it starts inside the click, so the PNG is handed over as a promise.
+  const copyCard = () => {
+    const png = renderCard();
+    if (typeof ClipboardItem === 'undefined' || !navigator.clipboard?.write) {
+      void saveCard(png, 'This browser cannot copy images, so the card was saved instead.');
+      return;
+    }
+    navigator.clipboard.write([new ClipboardItem({ 'image/png': png })])
+      .then(() => notify('good', 'Build card copied.'))
+      .catch(() => saveCard(png, 'Clipboard blocked, so the card was saved instead.'));
   };
 
   const readFile = async (file: File | undefined) => {
@@ -222,13 +240,22 @@ export function TransferDialog({ builder, onClose }: { builder: Builder; onClose
           Copy build code
         </button>
         <span className="hint" style={{ flex: 1, minWidth: 140 }}>
-          Share links open in Aether or the classic calculator.
+          Anyone with the link opens this exact build.
+        </span>
+      </div>
+      <div className="inline" style={{ gap: 6, padding: '0 0 11px', flexWrap: 'wrap' }}>
+        <button type="button" className="btn" onClick={copyCard}>Copy build card</button>
+        <button type="button" className="btn btn--ghost btn--icon" onClick={() => void saveCard(renderCard())}>
+          Save card
+        </button>
+        <span className="hint" style={{ flex: 1, minWidth: 140 }}>
+          An image of the build, for posting where links do not preview.
         </span>
       </div>
 
       <SectionHead aside="schema v1">File</SectionHead>
       <p className="hint" style={{ margin: '2px 0 9px' }}>
-        Paste build JSON or open a <span className="num">.json</span> file. Aether uses the same format as the classic calculator.
+        Paste build JSON or open a <span className="num">.json</span> file.
       </p>
       <textarea
         className="code scroll"
@@ -248,9 +275,6 @@ export function TransferDialog({ builder, onClose }: { builder: Builder; onClose
   );
 }
 
-/* ----------------------------------------------------------------- shortcuts */
-
-/** Every shortcut the sheet answers to, grouped by what it acts on. */
 const SHORTCUTS: Array<{ group: string; rows: Array<[keys: string[], what: string]> }> = [
   {
     group: 'Attributes',
@@ -310,16 +334,6 @@ export function ShortcutsDialog({ onClose }: { onClose: () => void }) {
   );
 }
 
-/* ----------------------------------------------------------------- changelog */
-
-/**
- * What this release and the current dataset changed.
- *
- * Both lists are here because the badge that opens this dialog carries both
- * numbers, and they move for different reasons: the app notes say what the sheet
- * can do, the data notes say how current its numbers are. A build saved before
- * either kind of change is worth re-reading after one.
- */
 export function ChangesDialog({ onClose }: { onClose: () => void }) {
   return (
     <Modal title="What's new" onClose={onClose}>
@@ -348,16 +362,6 @@ export function ChangesDialog({ onClose }: { onClose: () => void }) {
   );
 }
 
-/* --------------------------------------------------------------- shared build */
-
-/**
- * A build arriving by link, offered rather than applied.
- *
- * A dialog because accepting replaces the sheet: an inline banner is easy to click
- * past, and the visitor's own unsaved work is behind it. The dataset the link was
- * made against is named when it differs from this one: the numbers move when the
- * data does, and a stale link is worth knowing about before loading it.
- */
 export function SharedBuildDialog({ builder, onClose }: { builder: Builder; onClose: () => void }) {
   const { pendingShare, acceptShare, dismissShare } = builder;
   if (!pendingShare) return null;

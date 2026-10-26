@@ -14,18 +14,13 @@ const armed = () => buildReducer(createDefaultBuild(), {
 
 describe('weapon categories', () => {
   it('translates between the weapon and class vocabularies', () => {
-    // The two lists disagree on three of the eight names; these are those three.
     expect(weaponCategory('Polearm')).toBe('Spears');
     expect(weaponCategory('Fist')).toBe('Fist');
     expect(weaponCategory('Sword')).toBe('Swords');
     expect(weaponCategory(undefined)).toBeNull();
   });
 
-  /*
-   * Only the main class grants weapons. A subclass supplies skills, so a Mage
-   * subclass does not put a Tome in a Soldier's hands. The route to one is an
-   * Adaptation talent, checked separately and capped by rarity.
-   */
+  // A subclass grants skills, not weapons; Adaptation talents are the other route.
   it('gates a weapon on the main class alone', () => {
     expect(mainClassAllowsWeaponType('Sword', CLASSES.Soldier)).toBe(true);
     expect(mainClassAllowsWeaponType('Tome', CLASSES.Soldier)).toBe(false);
@@ -34,9 +29,7 @@ describe('weapon categories', () => {
 
   it('names a weapon the subclass lists and the main class does not', () => {
     expect(subClassOnlyWeaponType('Tome', CLASSES.Soldier, CLASSES.Mage)).toBe(true);
-    // Already free from the main class, so there is nothing to explain.
     expect(subClassOnlyWeaponType('Sword', CLASSES.Soldier, CLASSES.Mage)).toBe(false);
-    // On neither list: refused, but not because of the subclass.
     expect(subClassOnlyWeaponType('Tome', CLASSES.Soldier, CLASSES.Soldier)).toBe(false);
   });
 
@@ -51,7 +44,6 @@ describe('equipping', () => {
     const config = build.equipment.primaryWeapon!;
     expect(config.selectedWeaponName).toBe('Engraved Katana');
     expect(config.weaponType).toBe('Sword');
-    // Scaling comes from the item, summed across every entry it lists.
     expect(config.customScaling.str).toBeGreaterThan(0);
     expect(resolveUpgradePoints(config)).toEqual({ power: 0, critical: 0, accuracy: 0, durability: 0 });
   });
@@ -92,8 +84,6 @@ describe('slot 3 exclusivity', () => {
       type: 'equip-weapon', which: 'offHandWeapon', weaponName: 'Engraved Katana',
     });
     expect(equippedSlot3(build.equipment)).toBe('offHandWeapon');
-    // The hands entry is removed, not merely shadowed: otherwise unequipping the
-    // weapon would silently bring back a piece the player never re-equipped.
     expect(build.equipment.hands).toBeUndefined();
   });
 
@@ -138,7 +128,6 @@ describe('slot summaries and overview', () => {
   });
 
   it('flags a weapon the main class cannot wield', () => {
-    // A Soldier reaches Swords, Axes and Spears, never a Tome.
     const build = buildReducer(createDefaultBuild(), {
       type: 'equip-weapon', which: 'primaryWeapon', weaponName: firstWeaponOfType('Tome'),
     });
@@ -150,8 +139,6 @@ describe('slot summaries and overview', () => {
   });
 
   it('does not let a subclass legalise a weapon the main class lacks', () => {
-    // Mage lists Tomes and Soldier does not. Under the old "either slot" rule
-    // this read as legal; a subclass grants skills, not proficiency.
     const armedWithTome = buildReducer(createDefaultBuild(), {
       type: 'equip-weapon', which: 'primaryWeapon', weaponName: firstWeaponOfType('Tome'),
     });
@@ -162,7 +149,6 @@ describe('slot summaries and overview', () => {
     );
     expect(build.mainClass).toBe('Soldier');
     expect(overview.restrictedWeapon).toBe('Tome');
-    // And the refusal knows to explain itself, rather than looking like a bug.
     expect(overview.restrictedBySubClassOnly).toBe(true);
     const tomeRow = weaponChoices(build.mainClass, build.subClass, build).find(choice => choice.group === 'Tome');
     expect(tomeRow?.restriction).toContain('a subclass grants no weapons');
@@ -185,7 +171,7 @@ describe('slot summaries and overview', () => {
     const armedWithTome = buildReducer(createDefaultBuild(), {
       type: 'equip-weapon', which: 'primaryWeapon', weaponName: firstWeaponOfType('Tome'),
     });
-    // Fluency's Adaptation opens Tomes to Rarity SR x 2 whatever the classes say.
+    // Fluency's Adaptation opens Tomes to Rarity SR x 2.
     const build = buildReducer(armedWithTome, {
       type: 'subtalent-rank', subtalentId: 'fluency/adaptation', rank: 5,
     });
@@ -202,7 +188,6 @@ describe('slot summaries and overview', () => {
     const opened = weaponChoices(soldier.mainClass, soldier.subClass, { talents: { 'fluency/adaptation': 1 } });
     const tomes = (list: ReturnType<typeof weaponChoices>) => list.filter(choice => choice.group === 'Tome');
     expect(tomes(blocked).every(choice => choice.restriction)).toBe(true);
-    // One rank reaches Rarity 2, and no further: the ceiling is the point.
     const legal = tomes(opened).filter(choice => !choice.restriction);
     expect(legal.length).toBeGreaterThan(0);
     expect(legal.length).toBeLessThan(tomes(opened).length);
@@ -235,7 +220,7 @@ describe('item effects', () => {
     const build = armed();
     const conditional = effectsForSlot(build.equipment, 'primaryWeapon')
       .find(entry => entry.effect.applies === 'conditional');
-    if (!conditional) return; // This weapon states none; nothing to assert.
+    if (!conditional) return;
     const before = evaluateBuild(build);
     const after = evaluateBuild(buildReducer(build, {
       type: 'item-conditional', key: conditional.conditionalKey, on: true,
@@ -256,8 +241,6 @@ describe('clearing', () => {
   });
 });
 
-/* The gear dataset is generated, so tests name items by position rather than by a
-   hard-coded string that a regeneration could rename out from under them. */
 function firstGearName(group: 'hands' | 'accessory'): string {
   return group === 'hands' ? GEAR_BY_GROUP.Hands[0].name : GEAR_BY_GROUP.Accessory[0].name;
 }
@@ -265,7 +248,6 @@ function firstGearName(group: 'hands' | 'accessory'): string {
 function firstWeaponOfType(type: string): string {
   return (WEAPONS_BY_TYPE as Record<string, Array<{ name: string }>>)[type][0].name;
 }
-
 
 describe('Salamander battle Power control', () => {
   it('exposes a zero-default slider and applies a selected partial stack', () => {

@@ -122,11 +122,7 @@ describe('trait eligibility', () => {
     expect(traitEligibility(free, noStats).eligible).toBe(true);
   });
 
-  /*
-   * The Human eyes chain names its race only in an aside, "(Human Only)", and
-   * its prerequisite trait rather than a "Human Race" clause. Read literally
-   * that is no requirement at all, which put Human traits on every race.
-   */
+  // The Human eyes chain says "(Human Only)" in an aside, not a "Human Race" clause.
   it('gates a racial trait whose race is stated as an aside', () => {
     const divineEyes = traitById('divine-eyes')!;
     expect(divineEyes.requirements.races).toEqual(['Human']);
@@ -159,14 +155,13 @@ describe('trait eligibility', () => {
     expect(traitEligibility(deadlyDuo, oni).eligible).toBe(false);
   });
 
-  /* "Lupine, Felidae, Grimalkin or Shaitan Race": the comma entries were lost. */
+  // Wiki: "Lupine, Felidae, Grimalkin or Shaitan Race".
   it('keeps every race of a comma-separated list', () => {
     const sharpClaws = traitById('sharp-claws')!;
     expect(sharpClaws.requirements.races).toEqual(['Lupine', 'Felidae', 'Grimalkin', 'Shaitan']);
     expect(traitEligibility(sharpClaws, { ...noStats, subrace: 'Lupine' }).eligible).toBe(true);
   });
 
-  /* "Non-Corrupted Race" was read as *requiring* Corrupted. */
   it('reads a Non-X race clause as an exclusion', () => {
     const lovelyFace = traitById('lovely-face')!;
     const stats = { wil: 10, gui: 15 };
@@ -175,18 +170,13 @@ describe('trait eligibility', () => {
     expect(traitEligibility(lovelyFace, shaitan).eligible).toBe(false);
   });
 
-  /* The wiki writes "Agile Mechanation"; the calculator's race is "Mechanation AGILE". */
+  // The wiki writes "Agile Mechanation".
   it('resolves race names to the calculator’s own spelling', () => {
     const booster = traitById('agile-accel-booster')!;
     expect(traitEligibility(booster, { ...noStats, race: 'Other', subrace: 'Mechanation AGILE' }).eligible).toBe(true);
   });
 });
 
-/*
- * The wiki states a stat minimum in three shapes. Only "15 FAI" used to parse,
- * so every trait written the other two ways carried no requirement at all and
- * never locked: Undeniable Toughness offered itself to a 1 VIT character.
- */
 describe('stat minimums, however the wiki writes them', () => {
   it.each([
     ['80+ VIT, 30+ STR, 30+ WIL', 'undeniable-toughness', { vit: 80, str: 30, wil: 30 }],
@@ -206,18 +196,12 @@ describe('stat minimums, however the wiki writes them', () => {
   it('leaves no trait stating a stat it does not check', () => {
     const stated = /(\d+)\s*\+?\s*(?:Base\s+)?(str|wil|ski|cel|def|res|vit|fai|luc|gui|san|apt)\b/gi;
     const missed = TRAITS.filter(trait => {
-      // An either-or clause is exempt: its stat half is deliberately not enforced.
       const raw = trait.requirements.alternatives.reduce((text, clause) => text.replace(clause, ''), trait.requirements.raw);
       return [...raw.matchAll(stated)].some(m => trait.requirements.stats[m[2].toLowerCase() as 'str'] === undefined);
     });
     expect(missed.map(t => t.id)).toEqual([]);
   });
 
-  /*
-   * The other direction: a minimum offered as one of several alternatives is not
-   * a minimum, and enforcing the half the build models would lock out a
-   * character who qualifies through the half it does not.
-   */
   it('does not enforce a stat offered as an alternative', () => {
     const entertainer = traitById('ghost-entertainer')!;
     expect(entertainer.requirements.raw).toContain('or');
@@ -237,8 +221,6 @@ describe('trait stat bonuses', () => {
   it('sums flat bonuses from the taken traits', () => {
     const withStats = TRAITS.filter(t => !t.handModelled && Object.keys(t.statBonuses).length).slice(0, 3);
     const total = traitStatBonuses(withStats.map(t => t.id));
-    // Summed, not compared per trait: some traits carry a penalty, so a total
-    // can legitimately be lower than any one contributor.
     const expected: Record<string, number> = {};
     for (const trait of withStats) {
       for (const [stat, value] of Object.entries(trait.statBonuses)) {

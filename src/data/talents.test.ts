@@ -15,8 +15,7 @@ import {
 
 describe('talent catalog', () => {
   it('carries the full scraped catalog with provenance', () => {
-    // 40 talents in 6 categories as of the 2026-08-31 scrape; the floor guards
-    // against the parser silently dropping a section of the hub page.
+    // 40 talents in 6 categories as of the 2026-08-31 scrape.
     expect(TALENTS.length).toBeGreaterThanOrEqual(40);
     expect(TALENT_CATEGORIES.length).toBe(6);
     expect(TALENTS.flatMap(talent => talent.subtalents).length).toBeGreaterThanOrEqual(135);
@@ -74,9 +73,7 @@ describe('talent modifiers', () => {
     const allocation = { 'blade-expertise/reliability': 4 };
     expect(talentStatTotals(allocation, { weaponType: 'Sword' }).flat.hit).toBe(6);
     expect(talentStatTotals(allocation, { weaponType: 'Dagger' }).flat.hit).toBe(6);
-    // Scoped to blades, so an axe build gets nothing from it.
     expect(talentStatTotals(allocation, { weaponType: 'Axe' }).flat.hit).toBeUndefined();
-    // And with no weapon named, only unscoped modifiers count.
     expect(talentStatTotals(allocation).flat.hit).toBeUndefined();
   });
 
@@ -102,7 +99,6 @@ describe('talent modifiers', () => {
   });
 
   it('excludes effects that land on the target rather than the character', () => {
-    // Dizzy drains the enemy's FP; it must never read as the build's own FP.
     const applied = talentModifiers({ 'unarmed-combat/dizzy': 5 }, { weaponType: 'Fist', includeConditional: true });
     expect(applied).toEqual([]);
     expect(subtalentById('unarmed-combat/dizzy')?.modifiers[0].appliesTo).toBe('enemy');
@@ -125,8 +121,7 @@ describe('talent spending', () => {
       'blade-expertise/adaptation': 5,
       'capacity/depth': 5,
     });
-    // Blade Expertise's 15 subpoints at 1.5 SP a rank buy 10 ranks; Capacity's
-    // 5 subpoints at 1 SP a rank buy 5. The two units differ.
+    // Blade Expertise bills 1.5 SP a rank, Capacity 1.
     expect(totalRanks).toBe(15);
     expect(totalSp).toBe(20);
     expect(perTalent.find(entry => entry.talent.id === 'blade-expertise')).toMatchObject({ ranks: 10, sp: 15, overAllocated: false });
@@ -134,8 +129,6 @@ describe('talent spending', () => {
   });
 
   it('flags a talent pushed past its rank cap instead of trimming it', () => {
-    // Capacity's subtalents can hold 13 points between them at 1 SP a rank,
-    // past the 10 ranks the talent itself caps out at.
     const { perTalent } = talentSpending({
       'capacity/depth': 5,
       'capacity/absorption': 3,

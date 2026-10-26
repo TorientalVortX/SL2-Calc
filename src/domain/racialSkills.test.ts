@@ -6,8 +6,7 @@ const SUBRACES = Object.keys(racesContent.subraces);
 
 describe('racial skill dataset', () => {
   it('covers every subrace that has a wiki race page', () => {
-    // The seven Youkai "subraces" are Youkai types, not playable races with a
-    // page of their own; they are covered by youkai.json instead.
+    // The seven Youkai "subraces" have no race page; youkai.json covers them.
     const youkaiTypes = ['Avian', 'Mystic', 'Plant', 'Night', 'Dragon', 'Beast', 'Fairy'];
     const uncovered = SUBRACES.filter(s => !youkaiTypes.includes(s) && racialSkillsFor(s).length === 0);
     expect(uncovered).toEqual([]);
@@ -21,8 +20,7 @@ describe('racial skill dataset', () => {
   });
 
   it('expands a wiki race group to all of its subraces', () => {
-    // "Any Human" covers all thirteen Human nationalities, none of which has
-    // racial skills of its own.
+    // "Any Human" covers all thirteen Human nationalities.
     const profession = racialSkillById('profession')!;
     expect(profession.grantedTo).toBe('Any Human');
     expect(profession.subraces).toContain('Imperialist');
@@ -31,7 +29,6 @@ describe('racial skill dataset', () => {
   });
 
   it('splits a skill written for several races', () => {
-    // "Felidae, Grimalkin" is two races, not one bucket.
     const golden = RACIAL_SKILLS.find(s => s.grantedTo === 'Felidae, Grimalkin');
     expect(golden).toBeDefined();
     expect(golden!.subraces).toEqual(expect.arrayContaining(['Felidae', 'Grimalkin']));
@@ -61,8 +58,6 @@ describe('modelled controls', () => {
   it('marks the rest as reference only', () => {
     const modelled = RACIAL_SKILLS.filter(s => modelledControl(s));
     expect(modelled.length).toBe(Object.keys(MODELLED).length);
-    // The overwhelming majority carry no calculator effect, which is the point:
-    // the wiki gives them no numbers to model.
     expect(RACIAL_SKILLS.length - modelled.length).toBeGreaterThan(80);
   });
 

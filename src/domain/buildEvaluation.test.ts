@@ -1,19 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import { parseBuildFile } from './buildPersistence';
-import { evaluateBuild, metricValue } from './buildEvaluation';
-import { metricKeys } from '../optimizerMetrics';
+import { evaluateBuild } from './buildEvaluation';
 import { SUBRACES } from '../data/races';
 import { ARMORS } from '../data/armors';
 import { HISTORY } from '../data/bonuses';
 import { findWeaponByName, weaponToConfig } from './equipment';
 
-/**
- * The fixture with a weapon in hand.
- *
- * `baseBuild` goes through the legacy-payload branch of `parseBuildFile`, which
- * hardcodes empty equipment: correct, since v0.5 files predate it, but it means
- * any assertion about `primaryWeapon` is vacuous unless the weapon is added here.
- */
+// baseBuild parses a legacy payload, which drops equipment.
 function armedBuild() {
   const build = baseBuild();
   build.equipment.primaryWeapon = weaponToConfig(findWeaponByName('Longsword')!);
@@ -60,12 +53,7 @@ describe('shared build evaluation', () => {
     build.equipment.armorName = "Dragon King's Armor";
     const result = evaluateBuild(build);
     expect(result.scaledStats.apt).toBeGreaterThan(0);
-    /*
-     * Dragon King's Armor is one piece of the Dragon King set, which is now
-     * counted from the loadout rather than from a number typed into Advanced.
-     * Equipping it therefore adds its +3 raw STR on its own; before, the armour
-     * contributed nothing at all unless the count was also filled in by hand.
-     */
+    // Dragon King's Armor counts as one set piece: +3 raw STR.
     const bare = evaluateBuild({ ...build, equipment: { ...build.equipment, armorName: null } });
     expect(result.rawStats.str - bare.rawStats.str).toBe(3);
     expect(result.scaledStats.str).toBeGreaterThan(result.rawStats.str - 6);
@@ -124,7 +112,6 @@ describe('armour upgrade points', () => {
     expect(after.derived.armor - before.derived.armor).toBe(2);
     expect(after.derived.magicArmor - before.derived.magicArmor).toBe(1);
     expect(after.derived.evade - before.derived.evade).toBe(3);
-    // Durability is not a derived build stat, so it must not leak into evade etc.
     expect(after.derived.armorWeight).toBe(before.derived.armorWeight);
   });
 
@@ -163,15 +150,8 @@ describe('armour upgrade points', () => {
 });
 
 describe('post-softcap stat buffs', () => {
-  /*
-   * `customStats` is spent before diminishing returns, so a build parked past
-   * its softcap keeps only a fraction of it. That is right for a stat an item
-   * grants and wrong for a buff. There was no channel that behaved like a status
-   * effect, so builds around borrowed stats could not be measured at all.
-   */
   it('lands whole, where the pre-softcap channel does not', () => {
     const past = baseBuild();
-    // Far enough past the softcap that a point buys well under a whole point.
     past.addedStats.san = 60;
 
     const plain = evaluateBuild(past);
@@ -189,11 +169,6 @@ describe('post-softcap stat buffs', () => {
     expect(buffed.rawStats.cel - plain.rawStats.cel).toBe(7);
   });
 
-  /*
-   * Bonus APT raises the stat but must not push the "+1 to everything per 6 APT"
-   * threshold: the same rule the evaluation already applies to APT from a trait
-   * or a piece of equipment.
-   */
   it('does not let buffed APT buy the aptitude threshold', () => {
     const build = baseBuild();
     const plain = evaluateBuild(build);
@@ -207,7 +182,6 @@ describe('post-softcap stat buffs', () => {
     const build = baseBuild();
     const plain = evaluateBuild(build);
     const buffed = evaluateBuild({ ...build, statBuffs: { ...build.customStats, vit: 10 } });
-    // 10 HP per scaled VIT.
     expect(buffed.derived.maxHP - plain.derived.maxHP).toBe(100);
   });
 
@@ -218,12 +192,7 @@ describe('post-softcap stat buffs', () => {
 });
 
 describe('Evade base and bonus channels', () => {
-  /*
-   * The community Evade page names Sarashi Gi's +12 as a passive Evade buff that
-   * "counts toward the +50 cap", and Dodger / Equipment Extras as base Evade that
-   * does not. Every source used to land in one uncapped sum, so a build could
-   * report Evade no character can reach.
-   */
+  // Community Evade page: Sarashi Gi's +12 counts toward the +50 cap; Dodger and Equipment Extras do not.
   function gi(bonusEvade: number) {
     const build = baseBuild();
     build.equipment.armorName = 'Sarashi Gi';
@@ -319,7 +288,6 @@ describe('Hit tiers', () => {
     return evaluateBuild(build);
   }
 
-  /** The same build, with Chivalry's Smite bought to the given rank. */
   function smiting(rank: number) {
     const build = baseBuild();
     build.addedStats.ski = 20;
@@ -328,10 +296,6 @@ describe('Hit tiers', () => {
     return evaluateBuild(build).derived;
   }
 
-  /*
-   * Flanking was computed, displayed and scored as a metric, but nothing ever
-   * converted it into Hit, so the GUI behind it had no modelled consequence.
-   */
   it('turns the Flanking stat into Hit at half per condition', () => {
     const result = armed();
     const flanking = result.derived.flanking;
@@ -350,24 +314,13 @@ describe('Hit tiers', () => {
     expect(highGain).toBeGreaterThan(lowGain);
   });
 
-  /*
-   * Armed deliberately. `baseBuild` parses a legacy payload, and that path drops
-   * equipment entirely, so this assertion behind an `if (result.primaryWeapon)`
-   * never ran, and neither did the SWA-versus-Power one below it.
-   */
   it('reports the base tier as the weapon Hit figure', () => {
     const result = evaluateBuild(armedBuild());
     expect(result.primaryWeapon).toBeDefined();
     expect(result.derived.hitTiers.base).toBe(result.primaryWeapon?.hit);
   });
 
-  /*
-   * The workbook's flat "Honor Hit bonus (max SR) 15" is Chivalry's Smite at
-   * rank 5: 3 Hit a rank, gated on attacking from the target's front. It was
-   * hard-coded because the wiki had not documented talents yet, which meant
-   * every build got it whether or not it had bought the talent, and a build
-   * that had bought it collected the same bonus twice.
-   */
+  // The workbook's "Honor Hit bonus (max SR) 15" is Smite rank 5: 3 Hit a rank, frontal only.
   it('gives no frontal bonus to a build without the talent that grants it', () => {
     expect(armed().derived.frontalHitBonus).toBe(0);
     expect(armed().derived.honorHeadroom).toBe(0);
@@ -384,9 +337,6 @@ describe('Hit tiers', () => {
   it('keeps the frontal bonus off every tier the target is not being faced from', () => {
     const bare = armed().derived;
     const withSmite = smiting(5);
-    // Base and both flanked tiers are positions Smite does not cover, so the
-    // frontal tier is the only one that may move, and the general bonus
-    // channel, which feeds all four, must not see it at all.
     expect(withSmite.hitTiers.base).toBe(bare.hitTiers.base);
     expect(withSmite.hitTiers.flank1).toBe(bare.hitTiers.flank1);
     expect(withSmite.hitTiers.flank2).toBe(bare.hitTiers.flank2);
@@ -394,38 +344,7 @@ describe('Hit tiers', () => {
   });
 });
 
-describe('metric resolution', () => {
-  /*
-   * `derived` stopped being uniformly numeric when `hitTiers` was added, so the
-   * `metricValue` fallback now type-checks rather than trusting the index. This
-   * pins that every metric the optimizer can be given still resolves to a real
-   * number: a metric that silently returned 0 would read as a build scoring
-   * nothing on it rather than as a wiring mistake.
-   */
-  it('resolves every optimization metric to a finite number', () => {
-    const evaluation = evaluateBuild(baseBuild());
-    for (const metric of metricKeys) {
-      const value = metricValue(evaluation, metric);
-      expect(Number.isFinite(value), `${metric} did not resolve to a number`).toBe(true);
-    }
-  });
-
-  it('resolves the SWA metric to the weapon SWA, distinct from Power', () => {
-    const evaluation = evaluateBuild(armedBuild());
-    expect(evaluation.primaryWeapon).toBeDefined();
-    expect(metricValue(evaluation, 'weaponSwa')).toBe(evaluation.primaryWeapon?.swa);
-    expect(metricValue(evaluation, 'weaponPower')).toBe(evaluation.primaryWeapon?.power);
-    // The point of the split: with stat scaling in play they cannot be equal.
-    expect(metricValue(evaluation, 'weaponSwa')).toBeGreaterThan(metricValue(evaluation, 'weaponPower'));
-  });
-});
-
 describe('itemised Hit and Evade sources', () => {
-  /*
-   * The property that makes a breakdown trustworthy: the named parts add up to
-   * the figure being explained. A breakdown that nearly reconciles is worse than
-   * none, because it invites the reader to trust it.
-   */
   function reconciles(build: ReturnType<typeof baseBuild>) {
     const evaluation = evaluateBuild(build);
     const sum = (channel: 'base' | 'bonus', key: 'hit' | 'evade') => evaluation.sources[key]
@@ -457,10 +376,6 @@ describe('itemised Hit and Evade sources', () => {
     expect(sum('bonus', 'hit')).toBe(evaluation.derived.hitBonusSources);
   });
 
-  /*
-   * When the cap bites, the bonus sources deliberately over-sum the applied
-   * figure; that difference is the whole point of showing them.
-   */
   it('lets the bonus list exceed what the cap applies', () => {
     const build = baseBuild();
     build.equipment.armorName = 'Sarashi Gi';
@@ -501,12 +416,6 @@ describe('itemised Hit and Evade sources', () => {
 });
 
 describe('armorEvade is a diagnostic, not a model input', () => {
-  /*
-   * `armorEvade` deliberately mixes channels: it answers "what is the equipment
-   * worth". Feeding it back in as *base* Evade smuggles conditional and item
-   * effects past the +50 bonus cap, which is exactly what the Hit-chance screen
-   * did when it seeded its mirrored target from the wrong field.
-   */
   function withConditionalGi() {
     const build = baseBuild();
     build.equipment.armorName = 'Sarashi Gi';
@@ -557,10 +466,6 @@ describe('torso quality tags in the evaluation', () => {
     expect(tagged.derived.magicArmor - plain.derived.magicArmor).toBe(2);
   });
 
-  /*
-   * Good Fit is part of the torso's own statline, so it lands in the uncapped base
-   * channel rather than competing with buffs for the +50 bonus ceiling.
-   */
   it('puts Good Fit in the uncapped Evade channel', () => {
     const { plain, tagged } = withQuality({ goodFit: true });
     expect(tagged.derived.evadeBase - plain.derived.evadeBase).toBe(4);

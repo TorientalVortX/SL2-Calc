@@ -37,11 +37,9 @@ describe('armour materials', () => {
   });
 
   it('reads the Armor segment, not the Weapon one', () => {
-    // Boulder's wiki row is "Weapon: +10 Power, +10 Critical, -5 Accuracy, +25
-    // Weight / Armor: +7 Armor, +7 Magic Armor, -10 Evade, +25 Weight".
+    // Boulder's wiki row: "Weapon: +10 Power, +10 Critical, ... / Armor: +7 Armor, +7 Magic Armor, -10 Evade, +25 Weight".
     const boulder = armorMaterialModifier('Boulder');
     expect(boulder).toMatchObject({ armor: 7, magicArmor: 7, evade: -10, weight: 25 });
-    // The weapon-side Power and Critical must not leak across.
     expect(boulder.critical).toBe(0);
   });
 
@@ -53,8 +51,6 @@ describe('armour materials', () => {
   });
 
   it('offers the Cloth family, which is armour-only', () => {
-    // Cloth never appeared before: the list was derived from the weapon table and
-    // no cloth material can be crafted into a weapon.
     expect(ARMOR_MATERIAL_CATEGORIES.Cloth?.length).toBe(22);
     expect(ARMOR_MATERIAL_NAMES).toContain('Demonsilk');
     expect(ARMOR_MATERIAL_NAMES).toContain('Chainmail Section');
@@ -68,8 +64,6 @@ describe('armour materials', () => {
   });
 
   it('keeps the hands/legs/accessory profile out of the armour one', () => {
-    // The `other` profile is nested on the generated record. Reading the armour
-    // side must drop it rather than carry a stray copy of the other values.
     expect(armorMaterialModifier('Arctic Gold')).not.toHaveProperty('other');
     expect(Object.values(ARMOR_MATERIAL_MODIFIERS).every(m => !(m && 'other' in m))).toBe(true);
   });
@@ -81,8 +75,7 @@ describe('hands, legs and accessory materials', () => {
   });
 
   it('reads the Other segment, not the Armor one', () => {
-    // Arctic Gold is "Armor: +1 Armor, +1 Weight, +5% Ice Resistance" but only
-    // "Other: +5% Ice Resistance", so a pair of boots gets the resistance alone.
+    // Arctic Gold is "Armor: +1 Armor, +1 Weight, +5% Ice Resistance" but only "Other: +5% Ice Resistance".
     const arcticGold = otherMaterialModifier('Arctic Gold');
     expect(arcticGold.resistances).toEqual({ Ice: 5 });
     expect(arcticGold.armor).toBe(0);
@@ -90,27 +83,22 @@ describe('hands, legs and accessory materials', () => {
   });
 
   it('resolves to nothing for a material the wiki gives no Other clause', () => {
-    // Boulder is a heavy armour material: "Other: No effect." Borrowing its
-    // armour values would invent +7 Armor on a ring.
+    // Boulder: "Other: No effect."
     expect(otherMaterialModifier('Boulder')).toBe(NO_ARMOR_MATERIAL);
     expect(OTHER_MATERIAL_NAMES).not.toContain('Boulder');
   });
 
   it('reaches paper accessories, which armour materials do not', () => {
-    // The Chapters family crafts tomes and paper accessories such as the
-    // Protective Charm, so it appears here but never in the armour list.
     expect(ARMOR_MATERIAL_CATEGORIES.Chapters).toBeUndefined();
     expect(OTHER_MATERIAL_CATEGORIES.Chapters?.length).toBeGreaterThan(0);
   });
 
   it('is a strictly different list from the armour one', () => {
     expect(OTHER_MATERIAL_NAMES).not.toEqual(ARMOR_MATERIAL_NAMES);
-    // Cloth reaches both, so the two lists overlap without being equal.
     expect(OTHER_MATERIAL_NAMES).toContain('Demonsilk');
   });
 
   it('lists every offered material with a real modifier', () => {
-    // Nothing in the picker should silently resolve to no change.
     for (const name of ARMOR_MATERIAL_NAMES) {
       expect(ARMOR_MATERIAL_MODIFIERS[name], `${name} is offered but has no modifier`).toBeDefined();
     }
@@ -141,8 +129,7 @@ describe('armour enchantments', () => {
   });
 
   it('takes the torso figure when a bonus differs per slot', () => {
-    // Warding is "Armor: +5 Resistance. Legs: +3 Resistance". Those are
-    // alternatives, not a sum, so it must be 5 rather than 8.
+    // Warding is "Armor: +5 Resistance. Legs: +3 Resistance".
     expect(armorEnchantmentEffect('Warding').stats).toEqual({ res: 5 });
   });
 
@@ -231,7 +218,6 @@ describe('armour effects reach the build', () => {
     const build = armoredBuild();
     const before = evaluateBuild(build).derived.statusResistance;
     build.equipment.armorEnchantment = 'Warding';
-    // RES affects magical defense; the separate "Both" clause adds status resistance.
     expect(evaluateBuild(build).derived.statusResistance).toBe(before + 10);
   });
 
@@ -252,10 +238,6 @@ describe('armour effects reach the build', () => {
 });
 
 describe('torso quality tags', () => {
-  /*
-   * The armour equivalent of the weapon quality flags, and modelled the same way:
-   * independent booleans, with Lightweight and Heavy as the one exclusive pair.
-   */
   it('grants each tag its stated bonus', () => {
     expect(armorQualityModifier({ ...NO_ARMOR_QUALITY, solid: true }).armor).toBe(2);
     expect(armorQualityModifier({ ...NO_ARMOR_QUALITY, polished: true }).magicArmor).toBe(2);

@@ -1,5 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" fill="#020617"/>
-  <rect x="72" y="72" width="368" height="368" rx="80" fill="#0f172a" stroke="#22d3ee" stroke-width="12"/>
-  <text x="256" y="292" text-anchor="middle" font-family="monospace" font-size="150" font-weight="700" fill="#a78bfa">SL2</text>
+  <defs>
+    <linearGradient id="g" gradientUnits="userSpaceOnUse" x1="0" y1="2" x2="0" y2="30">
+      <stop offset="0" stop-color="#f6ecd2"/>
+      <stop offset=".55" stop-color="#c0a262"/>
+      <stop offset="1" stop-color="#6f5a31"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" fill="#04060a"/>
+  <g transform="translate(256 256) scale(12.5) translate(-16 -16)">
+    <g fill="none" stroke="url(#g)" stroke-linejoin="round">
+      <path d="M16 2 L28 16 L16 30 L4 16 Z" stroke-width="1.2"/>
+      <path d="M16 7 L23.5 16 L16 25 L8.5 16 Z" stroke-width=".8" opacity=".7"/>
+      <path d="M4 16 H1 M28 16 H31" stroke-width=".8" opacity=".6"/>
+    </g>
+    <path d="M16 11.5 L19.5 16 L16 20.5 L12.5 16 Z" fill="url(#g)" opacity=".85"/>
+  </g>
 </svg>

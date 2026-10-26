@@ -1,20 +1,4 @@
-/**
- * The derived-stat readout, grouped for display.
- *
- * Almost every number is taken straight off `evaluateBuild`. Hit, Critical and
- * Crit Damage are the exceptions, and they change meaning depending on whether a
- * weapon is equipped:
- *
- * - **With a weapon**, `evaluateBuild` reports all three complete
- *   (`calculateWeaponSlot` folds the character's own SKI/LUC/GUI terms into
- *   them), so they are shown as-is.
- * - **Without one**, there is no attack to report, so the rail falls back to the
- *   character-side stat terms alone and marks them with a dagger. That is a base a
- *   weapon adds to, not a full attack roll.
- *
- * The fallbacks are composed exactly the way the weapon path composes them, so
- * equipping a weapon never makes a number jump by a rounding step.
- */
+/** Without a weapon, Hit, Critical and Crit Damage fall back to the character-side terms, composed as the weapon path does. */
 import type { BuildEvaluation, BuildState, ElementKey, StatKey } from '../../types';
 import { ELEMENT_KEYS } from '../../domain/buildEvaluation';
 import { STAT_HARD_CAP } from './build';
@@ -26,23 +10,12 @@ export interface ReadoutRow {
   label: string;
   value: number;
   format: ReadoutFormat;
-  /** Shown on hover: where the number comes from. */
   hint: string;
-  /**
-   * The stats the row reads, for the card's "reads from" list.
-   *
-   * Written out rather than parsed from `hint`, and covered by a test that holds
-   * the two together: a formula's prose and the stats it names have to agree, and
-   * prose is not a data structure. Empty for a row no stat feeds, such as Armor.
-   */
+  /** Written out rather than parsed from `hint`; a test holds the two together. */
   stats: StatKey[];
-  /** True when the value is a character-side base a weapon or item adds to. */
   partial?: boolean;
-  /** What the dagger means on this row. The rail's footnote is built from these. */
   note?: string;
-  /** The denominator of a `ratio` row, such as weight capacity. */
   secondary?: number;
-  /** Renders the value in the alert colour: currently only over-capacity weight. */
   warn?: boolean;
 }
 
@@ -57,17 +30,7 @@ export function baseHit(evaluation: BuildEvaluation): number {
   return Math.floor(evaluation.scaledStats.ski * 2);
 }
 
-/**
- * Character-side Critical: `+0.5 per scaled SKI` and `+1 per scaled LUC`.
- *
- * Each term is floored on its own, which is how `calculateWeaponSlot` composes
- * the same two terms. Flooring their sum instead would read one higher whenever
- * both carried a fraction, and the number would then drop by one the moment a
- * weapon was equipped.
- *
- * STR also grants `+0.4 Critical`, but only for a weapon whose primary scaling
- * is STR, so it belongs to the weapon rather than to the character.
- */
+/** Each term floored on its own, as `calculateWeaponSlot` does, so equipping a weapon never drops it by one. */
 export function baseCritical(evaluation: BuildEvaluation): number {
   return Math.floor(evaluation.scaledStats.ski / 2) + Math.floor(evaluation.scaledStats.luc);
 }
@@ -77,12 +40,6 @@ export function critDamageBonus(evaluation: BuildEvaluation): number {
   return Math.floor(evaluation.scaledStats.gui);
 }
 
-/**
- * The two dagger footnotes.
- *
- * Named here because both the rail and the card show them, and neither of those
- * should be the place they are written down.
- */
 const WEAPON_NOTE = 'Character contribution only. Equip a weapon for the full Hit, Critical and critical modifier.';
 const WEIGHT_NOTE = 'Weight counts the weapon and torso; the wiki publishes none for slots 3–6.';
 
@@ -168,8 +125,7 @@ export function readoutGroups(evaluation: BuildEvaluation): ReadoutGroup[] {
           stats: ['str'],
           warn: d.battleWeightRemaining < 0,
           note: WEIGHT_NOTE,
-          // Only the weapon and torso carry a published weight, so this is a
-          // partial load and says so rather than implying the whole loadout.
+          // Only the weapon and torso carry a published weight.
           partial: true,
           hint: 'Weapon and torso weight against a capacity of scaled STR + 5. Slots 3–6 have no published weight.',
         },
@@ -189,7 +145,6 @@ export interface ElementalRow {
   element: ElementKey;
   attack: number;
   resistance: number;
-  /** The stat this element's attack scales from; uppercased where it is shown. */
   stat: StatKey;
 }
 
@@ -198,12 +153,6 @@ const ELEMENT_SOURCE: Record<ElementKey, StatKey> = {
   Water: 'vit', Light: 'fai', Lightning: 'luc', Acid: 'gui', Sound: 'san',
 };
 
-/**
- * The element a stat powers, read the other way round for the stat card.
- *
- * Inverted from the one table rather than written out twice: WIL and APT power no
- * element, and a second literal would be the place that eventually disagrees.
- */
 export const ELEMENT_FOR_STAT = Object.fromEntries(
   Object.entries(ELEMENT_SOURCE).map(([element, stat]) => [stat, element as ElementKey]),
 ) as Partial<Record<StatKey, ElementKey>>;
@@ -218,13 +167,9 @@ export function elementalRows(evaluation: BuildEvaluation): ElementalRow[] {
 }
 
 export interface StatBreakdown {
-  /** Everything the stat has before a point is spent, as its cap implies. */
   floor: number;
-  /** Points allocated from the level pool. */
   invested: number;
-  /** How many points this stat can still take under the hard cap. */
   cap: number;
-  /** Class levels, gear, traits, food, APT, the rest of the raw total. */
   other: number;
   raw: number;
   scaled: number;
@@ -232,16 +177,7 @@ export interface StatBreakdown {
   returns: number;
 }
 
-/**
- * One stat, split into the four figures that explain its total.
- *
- * The aggregate is computed from the evaluated totals. The stat dialog requests
- * the evaluator's optional statSources to expand that aggregate into named rows.
- *
- * The floor comes from the cap rather than from the racial line, because the cap
- * is measured against the same pre-allocation total: subrace, base corrections,
- * Legend Extend, history and the star sign pick.
- */
+/** The floor comes from the cap, which is measured against the same pre-allocation total. */
 export function statBreakdown(
   build: BuildState,
   evaluation: BuildEvaluation,
@@ -263,13 +199,7 @@ export function statBreakdown(
   };
 }
 
-/**
- * The manual ATK / RES adjustment on one element, as a readable summary.
- *
- * The rail shows the finished figure, which means an adjustment is invisible in
- * it, and an unexplained number in a readout is worse than no number. Returns an
- * empty string when nothing is adjusted, so it doubles as the flag's condition.
- */
+/** Empty when nothing is adjusted, so it doubles as the condition. */
 export function elementAdjustment(build: BuildState, element: ElementKey): string {
   const attack = build.elementalATKAdjustments[element] ?? 0;
   const resistance = build.elementalRESAdjustments[element] ?? 0;
@@ -290,5 +220,4 @@ export function formatReadout(value: number, format: ReadoutFormat): string {
   }
 }
 
-/** Scaled stats carry a fraction from diminishing returns; show at most one decimal. */
 export { formatScaled } from '../../statFormat';

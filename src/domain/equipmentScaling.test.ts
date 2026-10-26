@@ -11,7 +11,6 @@ const byName = (name: string): Weapon => {
 
 describe('scalingForWeapon', () => {
   it('sums every scaling entry rather than reading only the first', () => {
-    // Amplifyia scales two ways at once; the game adds them.
     const amplifyia = byName('Amplifyia');
     expect(amplifyia.scaling.length).toBe(2);
 
@@ -39,13 +38,6 @@ describe('scalingForWeapon', () => {
     expect(Object.keys(scaling).sort()).toEqual(
       ['apt', 'cel', 'def', 'fai', 'gui', 'luc', 'res', 'san', 'ski', 'str', 'vit', 'wil'],
     );
-  });
-
-  it('lets an explicit override replace a stat instead of adding to it', () => {
-    const scaling = scalingForWeapon(byName('Amplifyia'), { wil: 10 });
-    expect(scaling.wil).toBe(10);
-    // Stats the override does not mention still come from the summed entries.
-    expect(scaling.luc).toBe(70);
   });
 
   it('agrees with the data for every multi-entry weapon', () => {

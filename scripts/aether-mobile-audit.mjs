@@ -1,14 +1,4 @@
-/**
- * Walks the Aether Codex at a phone viewport (Galaxy S25, 360x780 CSS px) and
- * reports the things that only go wrong there: horizontal overflow, tap targets
- * too small for a thumb, text below a readable size, and dialogs wider than the
- * screen they open on.
- *
- * Usage: node scripts/aether-mobile-audit.mjs [--url=...] [--width=360] [--height=780] [--shots=dir]
- *
- * Complements `aether-smoke.mjs`, which renders one desktop view over CDP. This
- * one drives its own Playwright Chromium so it can emulate touch and a phone DPR.
- */
+// Usage: node scripts/aether-mobile-audit.mjs [--url=...] [--width=360] [--height=780] [--shots=dir] [--desktop]
 import { chromium, devices } from 'playwright';
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
@@ -23,11 +13,8 @@ const width = Number(flag('width', 360));
 const height = Number(flag('height', 780));
 const shotDir = flag('shots', 'mobile-audit');
 const only = flag('only', null);
-/* Same tour with a mouse and a desktop viewport, to check a phone fix did not
-   land on the layout it was fenced away from. */
 const desktop = process.argv.includes('--desktop');
 
-/** Minimum comfortable thumb target. Below this we note it; below 28 loudly. */
 const TAP_MIN = 36;
 const TEXT_MIN = 10;
 
@@ -41,26 +28,20 @@ const context = await browser.newContext({
   deviceScaleFactor: desktop ? 1 : 3,
   isMobile: !desktop,
   hasTouch: !desktop,
-  // Skips the overture, which is motion and nothing else, and keeps shots stable.
   reducedMotion: 'reduce',
 });
 
 const consoleErrors = [];
 const page = await context.newPage();
 
-/*
- * `isMobile` and `hasTouch` do not move the `pointer` and `hover` media features,
- * which is what a stylesheet actually asks when it wants to know whether it is
- * talking to a thumb. A real S25 reports coarse-and-hoverless, so say so.
- */
+// Playwright's isMobile/hasTouch don't set the pointer/hover media features; a real S25 reports coarse.
 const cdp = await context.newCDPSession(page);
 if (!desktop) await cdp.send('Emulation.setEmulatedMedia', {
   features: [
     { name: 'pointer', value: 'coarse' },
     { name: 'hover', value: 'none' },
     { name: 'any-pointer', value: 'coarse' },
-    // Restated because this call replaces the whole feature list, and dropping it
-    // would put the overture back in front of every screenshot.
+    // This call replaces the whole feature list, so reduced motion has to be restated.
     { name: 'prefers-reduced-motion', value: 'reduce' },
   ],
 });
@@ -70,8 +51,6 @@ page.on('pageerror', error => consoleErrors.push(String(error)));
 await page.goto(pageUrl, { waitUntil: 'load' });
 await page.waitForSelector('.shell', { timeout: 15000 });
 await page.waitForTimeout(800);
-
-/* ----------------------------------------------------------------- probes */
 
 const overflowProbe = viewportWidth => {
   const offenders = [];
@@ -140,8 +119,7 @@ const textProbe = textMin => {
     if (!direct) continue;
     const style = getComputedStyle(node);
     if (style.display === 'none' || style.visibility === 'hidden') continue;
-    // A node inside a hidden ancestor still computes its own display, so ask the
-    // layout instead of the cascade.
+    // A node inside a hidden ancestor still computes its own display; ask the layout.
     if (!node.getClientRects().length) continue;
     const size = parseFloat(style.fontSize);
     if (size >= textMin) continue;
@@ -189,8 +167,6 @@ async function audit(view, { shot = true } = {}) {
   return overflow;
 }
 
-/* ------------------------------------------------------------------ tour */
-
 const tap = async (locator, label) => {
   try {
     await locator.first().scrollIntoViewIfNeeded({ timeout: 2000 });
@@ -212,7 +188,6 @@ const want = name => !only || name.includes(only);
 
 if (want('masthead')) await audit('01-masthead-top');
 
-// The whole page, scrolled through: where stacked-column problems show up.
 if (want('scroll')) {
   const pageHeight = await page.evaluate(() => document.documentElement.scrollHeight);
   console.log(`\n  document height: ${pageHeight}px (${(pageHeight / height).toFixed(1)} screens)`);
@@ -224,7 +199,6 @@ if (want('scroll')) {
   await page.evaluate(() => window.scrollTo(0, 0));
 }
 
-// The loadout sheets: gear, skills, traits, racials, youkai.
 if (want('loadout')) {
   for (const sheet of ['Gear', 'Skills', 'Traits', 'Racials', 'Youkai']) {
     const tab = page.locator('button').filter({ hasText: new RegExp(`^\\s*${sheet}`, 'i') });
@@ -232,7 +206,6 @@ if (want('loadout')) {
   }
 }
 
-// The armory: the widest dialog, and a two-pane one.
 if (want('armory')) {
   await tap(page.locator('button').filter({ hasText: /^\s*Gear/i }), 'Gear tab');
   const slotRow = page.locator('.slot, .slotrow, .gear__row, .sheet__row').first();
@@ -242,7 +215,6 @@ if (want('armory')) {
   }
 }
 
-// Dialogs from the masthead.
 if (want('dialogs')) {
   for (const [label, name] of [['Templates', 'templates'], ['Builds', 'saves'], ['Advanced', 'advanced'], ['Import', 'transfer']]) {
     await page.evaluate(() => window.scrollTo(0, 0));
@@ -254,7 +226,6 @@ if (want('dialogs')) {
   }
 }
 
-// A stat card and a readout card: the two a phone user opens most.
 if (want('cards')) {
   await page.evaluate(() => window.scrollTo(0, 0));
   if (await tap(page.locator('.stat__name').first(), 'stat name')) {

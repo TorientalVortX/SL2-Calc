@@ -15,17 +15,7 @@ import { CopySpells } from './CopySpells';
 import { SkillCard } from '../dialogs/SkillCard';
 import { SkillEffects } from './SkillEffects';
 
-/**
- * The skill sheet, one section per class the build can spend points in.
- *
- * Points do not pool across classes, so each section carries its own allowance
- * and its own overspend state. A build can be within its total and still
- * illegal, and showing only a total would hide that.
- *
- * A skill is charged to exactly one class (`skillPoolClassFor`), and written to
- * whichever slot's tree reaches it; `setSkillRankForClassSlots` mirrors the rank
- * when both slots do, which is what makes a shared base class read as one sheet.
- */
+/** Points don't pool across classes; `setSkillRankForClassSlots` mirrors a rank when both slots' trees reach it. */
 export function SkillsSheet({ builder }: { builder: Builder }) {
   const { build, status, dispatch } = builder;
   const [query, setQuery] = useState('');

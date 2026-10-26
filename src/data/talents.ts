@@ -1,35 +1,22 @@
 import talentData from './content/talents.json';
 
-/**
- * The talent catalog, scraped from the wiki's `Talents` page.
- *
- * A talent holds ranks, bought one whole rank at a time, and each rank makes
- * `floor(rank * spPerRank)` SP available to spend on that talent's own
- * subtalents, one subtalent rank per SP. So a subtalent rank is not a talent
- * rank: the talent's rank count is whatever its subtalents have spent rounded
- * *up* to the cheapest rank that could afford it, since a rank is bought whole
- * or not at all. A subtalent's numbers are written against `SR` (its own
- * current rank), so everything structured here is per-rank and has to be
- * multiplied by the invested rank to mean anything.
- */
+/** Each whole talent rank buys `floor(rank * spPerRank)` SP; each subtalent rank (`SR`) costs one SP.
+ *  Subtalent numbers are per SR. */
 export interface TalentModifier {
-  /** The calculator stat this changes; see `TalentStat`. */
   stat: TalentStat;
-  /** For `elementAtk`, which element's attack power moves. */
+  /** For `elementAtk`. */
   element?: string | null;
   direction: 'increase' | 'reduce';
-  /** Amount per subtalent rank. */
   perRank: number;
   unit: 'flat' | 'percent';
-  /** The wiki's own phrase for what changes, kept for display and auditing. */
+  /** The wiki's own phrase for what changes. */
   subject: string;
-  /** Whether the change lands on you or on the target you hit. */
   appliesTo: 'self' | 'enemy';
-  /** Weapon types the change is scoped to; absent means it always applies. */
+  /** Absent means it always applies. */
   weapons?: string[];
   /** Subtypes the wiki singles out, e.g. Rifle for a Gun-scoped bonus. */
   weaponSubtypes?: string[];
-  /** True when the wiki gates the effect on a stance, facing, or time of day. */
+  /** The wiki gates the effect on a stance, facing, or time of day. */
   conditional: boolean;
 }
 
@@ -84,7 +71,6 @@ export const TALENT_PROVENANCE = {
   confidence: talentData.confidence,
 };
 
-/** Ranks invested in each subtalent, keyed by subtalent id. */
 export type TalentAllocation = Record<string, number>;
 
 const TALENT_BY_ID = new Map(TALENTS.map(talent => [talent.id, talent]));
@@ -100,7 +86,6 @@ export function subtalentById(id: string): SubtalentRecord | undefined {
   return SUBTALENT_BY_ID.get(id)?.sub;
 }
 
-/** The rank actually in force: what was allocated, clamped to the subtalent's cap. */
 function effectiveRank(id: string, allocation: TalentAllocation): number {
   const entry = SUBTALENT_BY_ID.get(id);
   if (!entry) return 0;
@@ -109,21 +94,11 @@ function effectiveRank(id: string, allocation: TalentAllocation): number {
   return Math.min(Math.floor(rank), entry.sub.maxSr);
 }
 
-/**
- * Subpoints spent per talent, in both units.
- *
- * A subtalent rank costs one SP, so the SP a talent's subtalents have consumed
- * is just their ranks summed. The talent's own rank count is not that sum: a
- * rank is bought whole, and a rank buys `spPerRank` SP of subtalent spending,
- * so the rank count is the fewest whole ranks that could afford the SP spent,
- * `ceil(sp / spPerRank)`. Anything over the talent's `maxRanks` is
- * over-allocated and reported rather than silently trimmed.
- */
+/** Talent ranks are bought whole, so a talent's rank is `ceil(sp / spPerRank)`. */
 export function talentSpending(allocation: TalentAllocation): {
   perTalent: Array<{ talent: TalentRecord; ranks: number; sp: number; overAllocated: boolean }>;
-  /** Ranks bought across every talent: the figure the point budget bounds. */
+  /** The figure the point budget bounds. */
   totalRanks: number;
-  /** What those ranks cost in SP. Per-talent, so it is not one rate. */
   totalSp: number;
 } {
   const spByTalent = new Map<string, number>();
@@ -145,14 +120,7 @@ export function talentSpending(allocation: TalentAllocation): {
   };
 }
 
-/**
- * The highest weapon Rarity each Adaptation rank unlocks, by weapon type.
- *
- * This is access a class roster does not grant: Adaptation lets a character
- * equip any weapon of its type at or below the cap regardless of class, so it is
- * checked alongside `mainClassAllowsWeaponType`, not instead of it, and it is
- * the main class alone that grants a weapon for free.
- */
+/** Adaptation unlocks a weapon type up to a Rarity regardless of class; checked alongside `mainClassAllowsWeaponType`. */
 export function weaponRarityUnlocks(allocation: TalentAllocation): Record<string, number> {
   const unlocks: Record<string, number> = {};
   for (const { sub } of SUBTALENT_BY_ID.values()) {
@@ -166,10 +134,7 @@ export function weaponRarityUnlocks(allocation: TalentAllocation): Record<string
   return unlocks;
 }
 
-/**
- * Whether talents alone let this character equip a weapon of the given type and
- * rarity. False only means talents do not grant it; the class may still.
- */
+/** False only means talents do not grant it; the class may still. */
 export function talentsAllowWeapon(
   weaponType: string | null | undefined,
   rarity: number,
@@ -180,26 +145,16 @@ export function talentsAllowWeapon(
 }
 
 export interface TalentModifierOptions {
-  /** Restrict to modifiers that apply to this weapon type; omit for unscoped only. */
+  /** Omit for unscoped modifiers only. */
   weaponType?: string | string[] | null;
-  /** Include modifiers the wiki gates on a stance, facing, or time of day. */
   includeConditional?: boolean;
 }
 
-/** A modifier applies when it is unscoped, or scoped to the weapon in hand. */
 function inScope(modifier: TalentModifier, weaponType?: string | string[] | null): boolean {
   if (!modifier.weapons?.length) return true;
   return weaponType ? (Array.isArray(weaponType) ? weaponType : [weaponType]).some(type => modifier.weapons!.includes(type)) : false;
 }
 
-/**
- * Every modifier in force for an allocation, with its per-rank amount already
- * multiplied by the invested rank.
- *
- * Enemy-facing effects (Dizzy's FP drain) are excluded: they are not a bonus to
- * this character's sheet. Conditional ones are excluded unless asked for, so a
- * displayed total never quietly assumes a stance the build may not be in.
- */
 export function talentModifiers(
   allocation: TalentAllocation,
   options: TalentModifierOptions = {},
@@ -219,12 +174,6 @@ export function talentModifiers(
   return applied;
 }
 
-/**
- * Modifier totals per stat, signed so a reduction is negative.
- *
- * Flat and percent modifiers are summed separately because they are not
- * interchangeable: `hit` is flat points, `fpCost` is a percentage discount.
- */
 export function talentStatTotals(
   allocation: TalentAllocation,
   options: TalentModifierOptions = {},

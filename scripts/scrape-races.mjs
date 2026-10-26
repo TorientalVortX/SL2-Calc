@@ -1,23 +1,5 @@
-/**
- * Scrapes race and racial-skill data from the SL2 wiki into `wiki-data/races/`.
- *
- * Unlike `scrape-wiki.mjs`, which renders one browser page per article, this goes
- * through the MediaWiki API and asks for up to 50 pages of wikitext per request.
- * A full race sweep costs a handful of requests rather than a hundred, which
- * matters because the wiki sits behind Cloudflare and starts issuing 429
- * challenges under load.
- *
- * The API is still reached through a real browser: Cloudflare rejects bare HTTP
- * requests outright because they cannot solve its JavaScript challenge.
- *
- *   node scripts/scrape-races.mjs --discover   # list candidate pages, ~3 requests
- *   node scripts/scrape-races.mjs              # full run
- *   node scripts/scrape-races.mjs --refresh    # ignore the cache
- *
- * Wikitext rather than rendered HTML is deliberate: a race's numbers live in its
- * infobox template parameters, which is exactly what the source gives us, and it
- * avoids a second request per page to expand them.
- */
+// Usage: node scripts/scrape-races.mjs [--discover] [--refresh]  -> wiki-data/races/
+// Batches pages per MediaWiki API call: the wiki's Cloudflare starts issuing 429 challenges under load.
 import { chromium } from 'playwright';
 import { mkdir, writeFile, readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
@@ -31,13 +13,10 @@ const CACHE = path.resolve('.wiki-cache');
 const DISCOVER_ONLY = process.argv.includes('--discover');
 const REFRESH = process.argv.includes('--refresh');
 
-/** Requests per batch. The API caps `titles` at 50 for anonymous callers. */
+// The API caps `titles` at 50 for anonymous callers.
 const BATCH = 50;
 
-/**
- * Subraces the calculator already models, used as a fallback fetch list when
- * category discovery comes up short. Mechanation's four loadouts share one page.
- */
+// Fallback when category discovery comes up short. Mechanation's four loadouts share one page.
 const KNOWN_SUBRACES = [
   'Imperialist', 'Chataran', 'Karatynn', 'Onigan', 'Tannite', 'Lispoolian', 'Hyoyan',
   'Alstalsian', 'Dormehan', 'Telegradian', 'Geladynian', 'Meiaquarise', 'Duyuein',
@@ -52,16 +31,8 @@ const KNOWN_SUBRACES = [
 /** Race group pages, which usually carry the shared racial skills. */
 const RACE_GROUPS = ['Human', 'Homunculi', 'Serpentkind', 'Corrupted', 'Kaelensia', 'Ancients', 'Races', 'Race'];
 
-/* ------------------------------------------------------------------ browser */
-
-/*
- * Headed, with the automation flag off.
- *
- * Cloudflare fingerprints headless Chromium and parks it on an unsolvable "Just
- * a moment..." interstitial forever. A headed browser without the automation
- * marker solves the challenge normally and is issued a clearance cookie, which is
- * persisted so later runs start already cleared.
- */
+// Cloudflare parks headless Chromium on an endless "Just a moment..." page; headed without the
+// automation flag passes, and the clearance cookie is persisted.
 await mkdir(CACHE, { recursive: true });
 const STATE = path.join(CACHE, 'cf-state.json');
 const browser = await chromium.launch({
@@ -74,7 +45,6 @@ const context = await browser.newContext({
 });
 const page = await context.newPage();
 
-/** Waits out a Cloudflare interstitial, returning true once real content shows. */
 async function clearChallenge() {
   if (!/Just a moment|Checking your connection/i.test(await page.title())) return true;
   try {
@@ -88,12 +58,7 @@ async function clearChallenge() {
 
 let blockedUntil = 0;
 
-/**
- * Calls the MediaWiki API and returns parsed JSON.
- *
- * Navigating rather than fetching is what gets past Cloudflare; the response is
- * JSON rendered into a `<pre>`, so the text content is the payload.
- */
+// Navigating rather than fetching gets past Cloudflare; the JSON is rendered into a `<pre>`.
 async function api(params, cacheKey) {
   const file = path.join(CACHE, `api-${createHash('sha1').update(cacheKey).digest('hex').slice(0, 16)}.json`);
   if (!REFRESH) {
@@ -133,9 +98,6 @@ async function api(params, cacheKey) {
   throw new Error('Gave up: the wiki is rate limiting every request.');
 }
 
-/* ----------------------------------------------------------------- discover */
-
-/** Category members, or an empty list when the category does not exist. */
 async function categoryMembers(category) {
   const data = await api(
     { action: 'query', list: 'categorymembers', cmtitle: `Category:${category}`, cmlimit: '500' },
@@ -152,16 +114,12 @@ async function discover() {
     for (const title of members) found.set(title, `Category:${category}`);
   }
 
-  // Whatever the categories miss, the calculator's own roster covers.
   for (const title of [...RACE_GROUPS, ...KNOWN_SUBRACES]) {
     if (!found.has(title)) found.set(title, 'known roster');
   }
   return found;
 }
 
-/* -------------------------------------------------------------------- fetch */
-
-/** Wikitext for many pages at once, keyed by title. Missing pages are skipped. */
 async function fetchWikitext(titles) {
   const pages = new Map();
   for (let i = 0; i < titles.length; i += BATCH) {
@@ -186,14 +144,6 @@ async function fetchWikitext(titles) {
   return pages;
 }
 
-/* ------------------------------------------------------------------- parse */
-
-/**
- * Pulls `{{Template|key = value|...}}` blocks out of wikitext.
- *
- * Brace depth is tracked so a template nested inside a parameter does not end the
- * outer one early.
- */
 function parseTemplates(wikitext) {
   const templates = [];
   for (let i = 0; i < wikitext.length - 1; i++) {
@@ -210,7 +160,6 @@ function parseTemplates(wikitext) {
     }
     if (end <= i) continue;
     const body = wikitext.slice(i + 2, end - 2);
-    // Split on top-level pipes only.
     const parts = [];
     let buffer = '';
     let nest = 0;
@@ -237,7 +186,6 @@ function parseTemplates(wikitext) {
   return templates;
 }
 
-/** Strips wiki markup down to readable prose. */
 const plain = (text) => String(text ?? '')
   .replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, '$2')
   .replace(/\[\[([^\]]+)\]\]/g, '$1')
@@ -246,8 +194,6 @@ const plain = (text) => String(text ?? '')
   .replace(/\{\{[^}]*\}\}/g, '')
   .replace(/\s+/g, ' ')
   .trim();
-
-/* -------------------------------------------------------------------- main */
 
 const discovered = await discover();
 console.log(`\n${discovered.size} candidate pages`);
@@ -274,7 +220,6 @@ for (const [title, content] of wikitext) {
   records.push({
     title,
     templates: templates.map((t) => ({ name: t.name, params: t.params })),
-    // Section headings give a quick read on what each page actually documents.
     sections: [...content.matchAll(/^==+\s*(.+?)\s*==+$/gm)].map((m) => m[1].trim()),
     wikitext: content,
   });
@@ -282,16 +227,9 @@ for (const [title, content] of wikitext) {
 
 await writeFile(path.join(RAW, 'races-wikitext.json'), JSON.stringify(records, null, 2), 'utf8');
 
-/* ------------------------------------------------------------------- emit */
-
 const STAT_ORDER = ['STR', 'WIL', 'SKI', 'CEL', 'DEF', 'RES', 'VIT', 'FAI', 'LUC', 'GUI', 'SAN', 'APT'];
 
-/**
- * Base stats from a race page's `==Stats==` wikitable.
- *
- * The table is a header row of stat names followed by a `'''Base'''` row of
- * numbers, so the two are zipped rather than matched by position alone.
- */
+// A header row of stat names followed by a `'''Base'''` row.
 function parseStats(wikitext) {
   const row = /\|\s*'''Base'''\s*\|\|([^\n]+)/.exec(wikitext);
   if (!row) return null;
@@ -307,13 +245,7 @@ function parseStats(wikitext) {
 
 const skillTitles = new Set(await categoryMembers('Racial skills'));
 
-/*
- * Race pages, by structure rather than by category alone.
- *
- * `Category:Races` is missing at least one real race (Lupine), so a page also
- * counts as a race when it carries a group navbox and a base stat table and is
- * not itself a skill, which is what every race page looks like.
- */
+// `Category:Races` misses at least one real race (Lupine), so race pages are also detected by structure.
 const raceTitles = new Set(await categoryMembers('Races'));
 for (const record of records) {
   if (skillTitles.has(record.title) || raceTitles.has(record.title)) continue;
@@ -324,11 +256,7 @@ for (const record of records) {
   }
 }
 
-/*
- * Race groups, read from the navbox each race page transcludes: a page carrying
- * `{{HumansLL}}` is a Human. Skill pages transclude the same navbox, so the
- * members are filtered back down to pages that are actually races.
- */
+// Race groups come from the navbox each race page transcludes (`{{HumansLL}}`); skill pages transclude it too.
 const GROUP_TEMPLATES = {
   HumansLL: 'Human',
   KaelensiaLL: 'Kaelensia',
@@ -339,7 +267,6 @@ const GROUP_TEMPLATES = {
   OtherLL: 'Other Races',
 };
 
-/** Group name -> the races in it, excluding the group's own index page. */
 const groupMembers = new Map();
 for (const record of records) {
   if (!raceTitles.has(record.title)) continue;
@@ -351,19 +278,13 @@ for (const record of records) {
   }
 }
 
-/**
- * Turns a skill's race field into the races it actually applies to.
- *
- * The wiki writes three shapes here and only the first was being handled:
- * a single race ("Lupine"), several at once ("Felidae, Grimalkin"), and a whole
- * group ("Any Human", "All Homunculi"), which every race in that group gets.
- */
+// The wiki writes one race ("Lupine"), several ("Felidae, Grimalkin") or a group ("Any Human", "All Homunculi").
 function resolveRaces(raceText) {
   const resolved = new Set();
   for (const part of String(raceText).split(/,|\/|\band\b/)) {
     const name = part.trim().replace(/^(any|all)\s+/i, '').trim();
     if (!name) continue;
-    // "Any Human" and "All Homunculi" name a group; singular/plural both appear.
+    // Singular and plural group names both appear.
     const group = [...groupMembers.keys()].find(
       (g) => g.toLowerCase() === name.toLowerCase() || `${g.toLowerCase()}s` === name.toLowerCase(),
     );
@@ -385,9 +306,7 @@ for (const record of records) {
     racialSkills.push({
       name: box.params.sname ?? record.title,
       title: record.title,
-      /** As written on the wiki, e.g. "Any Human" or "Felidae, Grimalkin". */
       race,
-      /** Every race that actually gets it, with groups expanded. */
       races: resolveRaces(race),
       passive: box.name === 'Passivebox',
       maxRank: box.params.maxrank ? Number(box.params.maxrank) : null,
@@ -395,7 +314,6 @@ for (const record of records) {
       momentum: box.params.mocost ?? null,
       range: box.params.range ?? null,
       target: box.params.ttype ?? null,
-      // Everything else the box carries, so nothing is silently dropped.
       extras: Object.entries(box.params)
         .filter(([key]) => !/^(sname|stype|sourcetext|maxrank|fpcost|mocost|range|ttype|ttype_image|spec\d+(text)?)$/.test(key))
         .map(([key, value]) => [key, plain(value)]),
@@ -481,8 +399,6 @@ console.log(`  ${races.filter((r) => r.stats).length} races with a parsed base s
 console.log(`  ${racialSkills.filter((s) => !s.race).length} skills without a race attribution`);
 console.log(`  -> ${path.relative(process.cwd(), OUT)}/*.md, raw/races.json, raw/racial-skills.json`);
 
-// A survey of what came back, so the next pass can parse against real shapes
-// rather than a guess at the template names.
 const templateCounts = {};
 for (const record of records) {
   for (const template of record.templates) templateCounts[template.name] = (templateCounts[template.name] ?? 0) + 1;

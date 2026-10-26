@@ -1,23 +1,5 @@
-/**
- * Scrapes the SL2 wiki's talent catalog into `wiki-data/`.
- *
- * Like statuses, the whole catalog lives on one hub page (`Talents`) rather
- * than one page per talent. The page is laid out as `== Category ==` sections,
- * each opening with a sortable summary table (talent, SP per rank, max ranks,
- * max SP) and then one `=== Talent ===` subsection per talent whose wikitable
- * lists its subtalents (name, max SR, effect).
- *
- * The wikitext is fetched through the MediaWiki API driven by a real browser,
- * because Cloudflare rejects bare HTTP requests; see scrape-races.mjs for the
- * pattern this borrows.
- *
- *   node scripts/scrape-talents.mjs             # normal run, cache honoured
- *   node scripts/scrape-talents.mjs --refresh   # ignore the cache
- *
- * Outputs:
- *   wiki-data/raw/talents.json          parsed categories → talents → subtalents
- *   wiki-data/mechanics/talents.md      human-readable summary
- */
+// Usage: node scripts/scrape-talents.mjs [--refresh]  -> wiki-data/raw/talents.json, wiki-data/mechanics/talents.md
+// Fetched through a real browser because Cloudflare rejects bare HTTP.
 import { chromium } from 'playwright';
 import { mkdir, writeFile, readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
@@ -29,8 +11,6 @@ const RAW = path.resolve('wiki-data/raw');
 const MECHANICS = path.resolve('wiki-data/mechanics');
 const CACHE = path.resolve('.wiki-cache');
 const REFRESH = process.argv.includes('--refresh');
-
-/* ------------------------------------------------------------------ browser */
 
 await mkdir(CACHE, { recursive: true });
 const STATE = path.join(CACHE, 'cf-state.json');
@@ -88,9 +68,6 @@ async function api(params, cacheKey) {
   throw new Error('Gave up: the wiki is rate limiting every request.');
 }
 
-/* ------------------------------------------------------------------- parse */
-
-/** Strips wiki markup down to plain text: links, bold/italic, templates, HTML. */
 function plain(text) {
   return String(text ?? '')
     .replace(/\[\[([^\]|]*)\|([^\]]*)\]\]/g, '$2')
@@ -104,19 +81,11 @@ function plain(text) {
     .trim();
 }
 
-/** Every `[[link]]` target in a fragment, for cross-referencing. */
 function linksIn(text) {
   return [...String(text ?? '').matchAll(/\[\[([^\]|]*)(?:\|[^\]]*)?\]\]/g)].map(match => match[1].trim());
 }
 
-/**
- * `| style="text-align: center;" | 5` → `5`.
- *
- * A wikitable cell is `attributes | content`. Attributes never contain a bare
- * `|`, so the first `|` splits them off, but only when the head actually looks
- * like attributes, or an effect containing a piped `[[link|text]]` would be
- * truncated.
- */
+// Only split attributes off when the head looks like them, or a piped `[[link|text]]` effect is truncated.
 function cellContent(text) {
   const split = text.indexOf('|');
   if (split !== -1) {
@@ -126,13 +95,7 @@ function cellContent(text) {
   return text.trim();
 }
 
-/**
- * Splits one wikitable into rows of raw cell strings.
- *
- * Rows are separated by `|-`; within a row each cell is either its own `|` line
- * or one of several joined by `||`. A line that starts with neither `|` nor `!`
- * continues the previous cell.
- */
+// A line starting with neither `|` nor `!` continues the previous cell.
 function tableRows(table) {
   const rows = [];
   let current = null;
@@ -155,7 +118,6 @@ function tableRows(table) {
   return rows.map(row => row.map(cellContent));
 }
 
-/** Every `{| ... |}` table in a chunk of wikitext, in document order. */
 function tablesIn(body) {
   return [...body.matchAll(/\{\|[\s\S]*?(?:\n\|\}|$)/g)].map(match => match[0]);
 }
@@ -165,12 +127,7 @@ const number = (text) => {
   return match ? Number(match[0]) : null;
 };
 
-/**
- * Walks the page into `== Category ==` → `=== Talent ===` sections.
- *
- * Everything before the first heading is the page intro; a category's own body
- * (before its first talent) holds the summary table.
- */
+// Before the first heading is the intro; a category's body before its first talent holds the summary table.
 function splitSections(wikitext) {
   const intro = [];
   const categories = [];
@@ -217,8 +174,7 @@ function parseCatalog(wikitext) {
 
   const parsed = categories.map(category => {
     const categoryBody = category.body.join('\n');
-    // The category's summary table repeats each talent's cost; kept so the
-    // per-talent cost line can be cross-checked rather than trusted blindly.
+    // The summary table repeats each talent's cost; kept to cross-check the per-talent line.
     const summary = tablesIn(categoryBody).flatMap(tableRows)
       .filter(row => row.length >= 4 && plain(row[0]))
       .map(row => ({
@@ -254,8 +210,6 @@ function parseCatalog(wikitext) {
   return { intro: plain(intro), categories: parsed };
 }
 
-/* --------------------------------------------------------------------- run */
-
 console.log(`Fetching "${PAGE_TITLE}" wikitext…`);
 const data = await api(
   { action: 'query', prop: 'revisions', rvprop: 'content', rvslots: 'main', titles: PAGE_TITLE },
@@ -273,8 +227,7 @@ const talents = categories.flatMap(category => category.talents);
 const subtalentCount = talents.reduce((sum, talent) => sum + talent.subtalents.length, 0);
 console.log(`Parsed ${talents.length} talents (${subtalentCount} subtalents) across ${categories.length} categories.`);
 
-// A talent with no subtalents, or a cost the summary table disagrees with, means
-// the page layout moved under us: surface it rather than shipping a hole.
+// No subtalents or a cost mismatch means the page layout moved; surface it.
 for (const category of categories) {
   const summaryByName = new Map(category.summary.map(row => [row.talent, row]));
   for (const talent of category.talents) {

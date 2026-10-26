@@ -10,32 +10,7 @@ import { useListNavigation } from '../hooks/useListNavigation';
 import { play } from '../state/audio';
 import type { Builder } from '../state/useBuilder';
 
-/**
- * The talent sheet.
- *
- * A talent is bought in whole ranks, each making `spPerRank` SP available, and
- * that SP is what its subtalents spend one rank at a time. So the only thing
- * actually edited here is a subtalent's rank, and the talent's own rank is the
- * fewest whole ranks that could afford its subtalents' SP, which is why the
- * rank track sits on the subtalent row and the talent header only reports.
- * Spending is shown in SP, because that is the currency the wiki costs a rank
- * in, against the point budget the level gives.
- *
- * Two things are marked rather than hidden:
- *
- *   **A weapon-scoped subtalent that does not match the weapon in hand.** Blade
- *   Expertise's Hit is real, and worth nothing to this build until it holds a
- *   sword. Showing it greyed says that; hiding it would make the sheet look
- *   like the talent does not exist.
- *
- *   **A conditional subtalent.** Two-Hand's Steady needs an empty off-hand, which
- *   the sheet cannot see, so it carries its own switch and stays out of the
- *   totals until the build confirms it, the same opt-in the skills sheet uses.
- *
- * The exception is a frontal Hit bonus. Smite is the Hit model's own `front`
- * tier rather than a buff beside it, so it is counted there and carries no
- * switch: a switch would imply the sheet was withholding it.
- */
+/** Only subtalent ranks are edited; a talent's rank is the fewest whole ranks whose SP covers them. */
 export function TalentsSheet({ builder }: { builder: Builder }) {
   const { build, dispatch } = builder;
   const [query, setQuery] = useState('');
@@ -52,9 +27,7 @@ export function TalentsSheet({ builder }: { builder: Builder }) {
     [perTalent],
   );
 
-  // What the current allocation is actually worth, with the weapon in hand and
-  // the conditionals the build has confirmed: the same call `evaluateBuild`
-  // makes, so the summary here cannot disagree with the rail.
+  // The same call `evaluateBuild` makes, so this summary cannot disagree with the rail.
   const effects = useMemo(() => talentEffects(build, weaponType), [build, weaponType]);
 
   const needle = query.trim().toLowerCase();
@@ -88,9 +61,6 @@ export function TalentsSheet({ builder }: { builder: Builder }) {
           onChange={event => setQuery(event.target.value)}
           aria-label="Search talents"
         />
-        {/* Ranks against the budget, because ranks are what a character has 65
-            of. The SP those cost is a second figure at a rate that differs per
-            talent, so it rides alongside rather than replacing the count. */}
         <span className={`chip ${totalRanks > TALENT_POINT_BUDGET ? 'chip--alert' : 'chip--gold'}`}>
           {totalRanks} / {TALENT_POINT_BUDGET} ranks
         </span>
@@ -145,7 +115,6 @@ export function TalentsSheet({ builder }: { builder: Builder }) {
   );
 }
 
-/** One talent: its cost header, then a row per subtalent. */
 function TalentGroup({
   builder,
   talent,
@@ -198,7 +167,6 @@ function TalentGroup({
   );
 }
 
-/** A subtalent: the rank track, the wiki's effect text, and its own switches. */
 function SubtalentRow({
   subtalent,
   rank,
@@ -216,12 +184,9 @@ function SubtalentRow({
   onConditional: (subtalentId: string, on: boolean) => void;
   children?: ReactNode;
 }) {
-  // Scoped to weapons this build is not holding: still listed, still buyable
-  // (a player specs into a talent before buying the weapon for it), but
-  // marked, because it contributes nothing at this loadout.
+  // Still buyable: players spec a talent before buying the weapon for it.
   const outOfScope = Boolean(subtalent.weapons?.length && (!weaponType || !weaponType.some(type => subtalent.weapons!.includes(type))));
-  // A frontal Hit bonus is already counted, on the frontal Hit tier: offering
-  // a switch for it would suggest the sheet is holding it back.
+  // Smite is the Hit model's own `front` tier and already counted, so it gets no switch.
   const frontal = isFrontalHitSubtalent(subtalent);
   const conditional = !frontal && subtalent.modifiers.some(modifier => modifier.conditional);
   return (
@@ -239,8 +204,7 @@ function SubtalentRow({
               {subtalent.weaponAccess.weaponType} ≤ R{rank * subtalent.weaponAccess.rarityPerRank}
             </span>
           ) : null}
-          {/* Skipped on an Adaptation row: the access chip beside it already
-              names the weapon type, and two chips clip the name at phone width. */}
+          {/* Adaptation's access chip already names the weapon; two chips clip the name at phone width. */}
           {subtalent.weapons?.length && !subtalent.weaponAccess ? (
             <span className="chip" title={outOfScope ? 'The equipped weapon is not one of these' : 'Applies to the weapon in hand'}>
               {subtalent.weapons.join(' · ')}
@@ -264,8 +228,6 @@ function SubtalentRow({
         ) : null}
       </div>
       <div className="entry__rank">
-        {/* `.step` rather than a ghost button: it is the sheet's own rank
-            control, and it is the one the phone tier grows to a thumb. */}
         <button
           type="button"
           className="step"
@@ -303,12 +265,6 @@ function SpiritControls({ builder }: { builder: Builder }) {
   </div>;
 }
 
-/**
- * What the allocation is currently worth.
- *
- * Only non-zero lines, for the same reason `compactSources` drops empty ones: a
- * column of zeroes is a worse explanation than three real numbers.
- */
 function TalentTotals({
   effects,
   weaponType,

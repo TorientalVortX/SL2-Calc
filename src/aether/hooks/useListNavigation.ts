@@ -1,17 +1,7 @@
 import { useCallback, type KeyboardEvent } from 'react';
 import { play } from '../state/audio';
 
-/**
- * Arrow-key / WASD movement between the focusable items of a list.
- *
- * Attached to the container rather than each item, so a panel's rows stay plain
- * buttons and remain in the normal tab order. Items opt in with `data-nav`,
- * which lets a container hold controls that should not be walked through (a
- * search box, a header action) without them joining the list.
- *
- * `columns` makes the same handler work for a grid: vertical movement steps by a
- * row rather than by one item.
- */
+/** Items opt in with `data-nav`; `columns` makes vertical movement step by a row. */
 export function useListNavigation(columns = 1) {
   return useCallback((event: KeyboardEvent<HTMLElement>) => {
     const key = event.key.toLowerCase();
@@ -20,7 +10,6 @@ export function useListNavigation(columns = 1) {
     const jump = key === 'home' || key === 'end';
     if (!back && !forward && !jump) return;
 
-    // Typing in a field must never be hijacked into navigation.
     const active = document.activeElement;
     if (active instanceof HTMLInputElement || active instanceof HTMLTextAreaElement || active instanceof HTMLSelectElement) return;
 

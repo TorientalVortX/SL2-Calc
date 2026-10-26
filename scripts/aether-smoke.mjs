@@ -1,12 +1,5 @@
-/**
- * Renders the Aether Codex page in an already-running Chromium/Edge instance
- * over CDP, reports console errors, and writes a screenshot.
- *
- * Usage: node scripts/aether-smoke.mjs [cdpPort] [out.png] [width] [height] [--click=selector]
- *
- * Kept alongside `browser-smoke.mjs`, which does the same job for the original
- * calculator. Both assume the browser was started with --remote-debugging-port.
- */
+// Usage: node scripts/aether-smoke.mjs [cdpPort] [out.png] [width] [height] [--click=selector]
+// The browser must already be running with --remote-debugging-port.
 import { writeFile } from 'node:fs/promises';
 
 const port = process.argv[2] ?? '9224';
@@ -22,9 +15,7 @@ const urlArgument = process.argv.find(argument => argument.startsWith('--url='))
 const pageUrl = urlArgument ? urlArgument.slice(6) : 'http://127.0.0.1:5199/';
 
 const targets = await (await fetch(`http://127.0.0.1:${port}/json`)).json();
-// Prefer a tab already on the page. Otherwise open one: an internal page such as
-// edge://newtab refuses a CDP attach, so navigating an existing tab is not a
-// reliable fallback.
+// Internal pages such as edge://newtab refuse a CDP attach, so open a new tab rather than navigate one.
 const target = targets.find(candidate => candidate.type === 'page' && candidate.url.includes('aether'))
   ?? await (await fetch(`http://127.0.0.1:${port}/json/new?${pageUrl}`, { method: 'PUT' })).json();
 if (!target?.webSocketDebuggerUrl) throw new Error('Could not obtain a CDP page target.');

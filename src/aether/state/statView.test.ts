@@ -3,8 +3,7 @@ import { readStatView, writeStatView, STAT_VIEW_LABEL } from './statView';
 
 describe('stat view preference', () => {
   it('falls back to scaled when storage cannot be read', () => {
-    // No `localStorage` in the test environment at all, which is the same shape of
-    // failure as a browser refusing it in private mode.
+    // The suite runs in plain node, with no localStorage.
     expect(readStatView()).toBe('scaled');
     expect(() => writeStatView('raw')).not.toThrow();
   });
@@ -20,7 +19,6 @@ describe('stat view preference', () => {
       expect(readStatView()).toBe('raw');
       writeStatView('scaled');
       expect(readStatView()).toBe('scaled');
-      // Anything else stored under the key is not a view; scaled is the default.
       store.set([...store.keys()][0], 'sideways');
       expect(readStatView()).toBe('scaled');
     } finally {

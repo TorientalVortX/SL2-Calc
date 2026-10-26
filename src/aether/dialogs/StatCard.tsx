@@ -12,26 +12,11 @@ import { ELEMENT_FOR_STAT, formatScaled, statBreakdown } from '../state/readout'
 import { STAT_VIEW_LABEL, type StatView } from '../state/statView';
 import type { Builder } from '../state/useBuilder';
 
-/**
- * One attribute's card: what it is, what it does, and where its number came from.
- *
- * The row's `title` tooltip said most of this already, and on a touch screen it
- * said none of it; there is no hover, so a third of the sheet's explanation was
- * unreachable on the device most likely to need it. So it is a dialog: reachable
- * by tap, by **I** on a focused row, and it carries the controls too rather than
- * only prose. A player who opens it to read what SAN does can spend into it and
- * step through the other eleven without going back to the grid.
- *
- * The Raw / Scaled switch is here as well as in the panel header on purpose. The
- * question "is that before or after diminishing returns" is asked at the moment
- * the number is being read, which is exactly when this card is open.
- */
 interface StatCardProps {
   builder: Builder;
   stat: StatKey;
   view: StatView;
   onView: (view: StatView) => void;
-  /** Steps to another attribute without closing, for the prev/next controls. */
   onSelect: (stat: StatKey) => void;
   onClose: () => void;
 }
@@ -87,12 +72,6 @@ export function StatCard({ builder, stat, view, onView, onSelect, onClose }: Sta
           : <span className="chip chip--gold">At the {STAT_HARD_CAP} cap</span>}
       </div>
 
-      {/*
-        * The two figures side by side, each also being the switch for the grid
-        * behind. Showing both here and one there is not an inconsistency: the card
-        * is where one number is read closely, and the grid is where twelve are
-        * compared, which needs them all in the same unit.
-        */}
       <div className="figures" role="radiogroup" aria-label="Which total the attribute grid shows">
         <Figure
           label="Raw"
@@ -248,7 +227,6 @@ export function StatCard({ builder, stat, view, onView, onSelect, onClose }: Sta
   );
 }
 
-/** One of the two headline figures, which doubles as the grid's unit switch. */
 function Figure({
   label,
   value,
@@ -278,7 +256,6 @@ function Figure({
   );
 }
 
-/** A line of the breakdown. Uses the rail's readout row so the two read alike. */
 function Part({
   label,
   value,

@@ -3,52 +3,26 @@ import { CREST, pathData } from './crest';
 import type { IntroScene } from './scene';
 import { play, playSwell } from '../state/audio';
 
-/**
- * The opening cinematic.
- *
- * Structure, and why it is shaped this way: the whole sequence is one rAF clock
- * reading a table of act boundaries, not a chain of `setTimeout`s. That makes
- * skipping, replaying and the short returning-visitor cut the same code path
- * (each is just a different table), and it means the WebGL swarm and the DOM
- * typography can never drift out of step, because both are driven from the one
- * elapsed time.
- *
- * React state changes at most five times over the whole run, at act boundaries.
- * Everything continuous happens in the loop: the swarm through shader uniforms,
- * the type and the crest through CSS animations keyed to those act classes.
- */
-
 export type IntroMode = 'full' | 'short';
 
 interface Timeline {
   /** The swarm's gather sweep, in ms. */
   gatherFrom: number;
   gatherTo: number;
-  /** When the crest strokes begin drawing. */
   sigilAt: number;
-  /** When the crest lands: the flash and the chord. */
   flashAt: number;
   titleAt: number;
   promptAt: number;
-  /** When it enters on its own, if nothing is pressed. */
   autoAt: number;
-  /** How long the outward burst and fade take. */
   exitMs: number;
 }
 
 const TIMELINES: Record<IntroMode, Timeline> = {
-  // First visit: the whole overture.
   full: {
     gatherFrom: 450, gatherTo: 3600,
     sigilAt: 2850, flashAt: 4050, titleAt: 4250, promptAt: 5500,
     autoAt: 7900, exitMs: 1050,
   },
-  /*
-   * Every visit after: the crest snaps together, flares, and the sheet opens.
-   * A seven-second overture is a pleasure once and a toll thereafter, so this
-   * one is short enough to read as a page transition rather than as a wait,
-   * and there is no prompt, because it never pauses for one.
-   */
   short: {
     gatherFrom: 0, gatherTo: 450,
     sigilAt: 0, flashAt: 450, titleAt: 360, promptAt: Infinity,
@@ -67,8 +41,6 @@ export function AetherIntro({ mode, onDone }: { mode: IntroMode; onDone: () => v
 
   const timeline = TIMELINES[mode];
 
-  // The page must not scroll behind the curtain. It leaves a live scrollbar
-  // down the side of an otherwise full-bleed cinematic.
   useEffect(() => {
     const previous = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -76,21 +48,12 @@ export function AetherIntro({ mode, onDone }: { mode: IntroMode; onDone: () => v
   }, []);
 
   useEffect(() => {
-    /*
-     * Three is loaded on demand, which keeps about 600KB off the sheet's critical
-     * path and out of the download entirely for anyone who has asked for reduced
-     * motion, since they never mount this component.
-     *
-     * The timeline does not wait for it. Every value is derived from elapsed time
-     * rather than accumulated frame by frame, so a swarm that arrives 200ms late
-     * simply appears at the position it should already be in, and the first act
-     * is a dark screen regardless.
-     */
+    // Three (~600KB) loads on demand. The timeline reads elapsed time, so a late swarm
+    // simply appears where it should already be.
     let scene: IntroScene | null = null;
     let disposed = false;
 
-    // Measured rather than derived, so the stylesheet stays in charge of how big
-    // the crest is and where it sits.
+    // Measured so the stylesheet stays in charge of the crest's size and position.
     const measureCrest = () => {
       const rect = crestRef.current?.getBoundingClientRect();
       if (!rect?.width) return;
@@ -129,7 +92,6 @@ export function AetherIntro({ mode, onDone }: { mode: IntroMode; onDone: () => v
     const loop = (now: number) => {
       const elapsed = now - start;
 
-      // Acts only ever move forward, and each transition is one React render.
       const next = elapsed >= timeline.promptAt ? 4
         : elapsed >= timeline.titleAt ? 3
           : elapsed >= timeline.sigilAt ? 2
@@ -174,8 +136,7 @@ export function AetherIntro({ mode, onDone }: { mode: IntroMode; onDone: () => v
     window.addEventListener('resize', onResize);
 
     return () => {
-      // Set before disposing: the dynamic import may still be in flight, and its
-      // callback must not build a scene for a component that is already gone.
+      // Set first: the dynamic import may still be in flight and must not build a scene after unmount.
       disposed = true;
       cancelAnimationFrame(frame);
       window.removeEventListener('resize', onResize);
@@ -186,7 +147,6 @@ export function AetherIntro({ mode, onDone }: { mode: IntroMode; onDone: () => v
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode]);
 
-  // Any key, any click. The intro is a curtain, not a gate.
   const enter = useCallback(() => enterRef.current(), []);
   useEffect(() => {
     const onKey = () => enter();
@@ -225,8 +185,7 @@ export function AetherIntro({ mode, onDone }: { mode: IntroMode; onDone: () => v
 
         <div className="intro__flash" />
 
-        {/* Placed clear of the crest rather than flowing beneath it: the crest is
-            centred on the viewport, because the swarm that forms it is. */}
+        {/* Kept clear of the crest, which is centred on the viewport because the swarm is. */}
         <div className="intro__text">
         <h1 className="intro__title" aria-label={TITLE}>
           {[...TITLE].map((character, index) => (

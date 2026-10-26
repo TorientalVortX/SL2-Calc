@@ -12,14 +12,12 @@ interface MastheadProps {
   onReplayIntro: () => void;
 }
 
-/** The application crest: a faceted diamond, drawn rather than imported. */
 function Crest() {
   return (
     <svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true">
       <defs>
-        {/* The theme's own gold, so the crest darkens onto vellum with everything
-            else rather than staying a pale ghost on it. */}
-        <linearGradient id="crest-gold" x1="0" y1="0" x2="0" y2="1">
+        {/* User space, not bounding box: the flat side bars have zero height and would not paint. */}
+        <linearGradient id="crest-gold" gradientUnits="userSpaceOnUse" x1="0" y1="2" x2="0" y2="30">
           <stop offset="0%" stopColor="var(--gold-100)" />
           <stop offset="55%" stopColor="var(--gold-400)" />
           <stop offset="100%" stopColor="var(--bronze)" />
@@ -40,7 +38,6 @@ export function Masthead({ builder, onOpen, onReplayIntro }: MastheadProps) {
   return (
     <header className="masthead">
       <Corners />
-      {/* The crest is also the way back to the opening sequence. */}
       <button
         type="button"
         className="masthead__mark"
@@ -53,7 +50,6 @@ export function Masthead({ builder, onOpen, onReplayIntro }: MastheadProps) {
 
       <span className="masthead__titles">
         <span className="masthead__title">Aether Codex</span>
-        {/* The version is a route, not a label; the release and data notes are behind it. */}
         <button
           type="button"
           className="masthead__subtitle masthead__subtitle--link"
@@ -101,7 +97,6 @@ export function Masthead({ builder, onOpen, onReplayIntro }: MastheadProps) {
 
         <span className="masthead__divider" />
 
-        {/* The sheet is keyboard-first and said so only in its README until now. */}
         <button
           type="button"
           className="btn btn--ghost btn--icon"
@@ -112,10 +107,6 @@ export function Masthead({ builder, onOpen, onReplayIntro }: MastheadProps) {
           <span className="keycap">?</span>
         </button>
 
-        {/* Reports the theme in force rather than the one it would move to: the
-            two marks are a moon and a sun, and either reads as a promise or as a
-            statement depending on which way round you take it. The title is what
-            settles it. */}
         <button
           type="button"
           className="btn btn--ghost btn--icon"

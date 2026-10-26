@@ -8,14 +8,6 @@ import { SLOTS, equipmentOverview, slotSummary, type SlotId } from '../state/equ
 import type { Builder } from '../state/useBuilder';
 import { ArmoryDialog } from '../dialogs/ArmoryDialog';
 
-/**
- * The six equipment slots, as a rail.
- *
- * A row is a summary and a way in. The actual choosing happens in the armory,
- * because an item list plus that slot's material, enchantment, upgrade tracks and
- * effect toggles is more than a row's worth of space and would crush the sheet if
- * it were inline.
- */
 export function GearSheet({ builder }: { builder: Builder }) {
   const { build, evaluation, dispatch } = builder;
   const [open, setOpen] = useState<SlotId | null>(null);
@@ -132,7 +124,6 @@ export function GearSheet({ builder }: { builder: Builder }) {
   );
 }
 
-/** Empties one slot, routed to whichever action owns it. */
 function unequip(
   dispatch: Builder['dispatch'],
   slot: SlotId,

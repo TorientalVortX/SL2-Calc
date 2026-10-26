@@ -18,10 +18,6 @@ describe('youkai contracts', () => {
     expect(build.youkai.contracted).not.toContain('suzaku');
   });
 
-  /*
-   * The rule that makes a naive `push` wrong: a family holds one form, so taking
-   * the ascended Suzaku has to replace the base rather than sit beside it.
-   */
   it('replaces a base form with its ascended form', () => {
     let build = contract(summoner(), 'suzaku');
     build = contract(build, 'suzaku-ascended');
@@ -64,17 +60,11 @@ describe('youkai contracts', () => {
 });
 
 describe('install', () => {
-  /*
-   * Install substitutes the *race's* base line, not the summon's own stats.
-   * Byakko's level 60 STR is 56 against a Beast line in the single digits, so
-   * using the creature's numbers would make Install a fifty-point racial swing.
-   */
   it('substitutes the race line, and only once Install is ranked', () => {
     let build = contract(summoner(), 'byakko');
     build = buildReducer(build, { type: 'youkai-install', id: 'byakko' });
     const beastLine = youkaiRaceBaseStats('Beast')!;
     const evaluation = evaluateBuild(build);
-    // The Imperialist STR line is 4; the Beast line replaces it.
     expect(beastLine.str).toBeDefined();
     expect(evaluation.rawStats.str).not.toBe(evaluateBuild(summoner()).rawStats.str);
   });
@@ -83,7 +73,6 @@ describe('install', () => {
     let build = contract(summoner(), 'byakko');
     build = buildReducer(build, { type: 'youkai-install', id: 'byakko' });
     const line = youkaiRaceBaseStats('Beast')!;
-    // These three are preserved by Install and so must be absent from the override.
     for (const stat of ['fai', 'san', 'apt'] as const) {
       const installed = evaluateBuild(build).rawStats[stat];
       const bare = evaluateBuild(summoner()).rawStats[stat];

@@ -9,7 +9,6 @@ interface ToggleProps {
   disabled?: boolean;
 }
 
-/** A diamond checkbox. The mark fills and glows when the option is on. */
 export function Toggle({ on, onChange, children, hint, disabled }: ToggleProps) {
   return (
     <button
@@ -63,16 +62,13 @@ export function SelectField({ label, value, options, onChange, title }: SelectFi
 interface GroupedSelectProps {
   label: string;
   value: string;
-  /** Rendered as `<optgroup>`s, which is how the modifier data is already keyed. */
   groups: Array<{ label: string; options: string[] }>;
   onChange: (value: string) => void;
   title?: string;
 }
 
-/** A select whose options come pre-grouped, for materials, parts and the like. */
 export function GroupedSelect({ label, value, groups, onChange, title }: GroupedSelectProps) {
-  // A saved build can name a material the current dataset no longer groups; it is
-  // added back so selecting something else is a choice rather than a silent reset.
+  // A saved build can name a material the dataset no longer groups; it stays selectable.
   const known = groups.some(group => group.options.includes(value));
   return (
     <label className="field" title={title}>
@@ -104,7 +100,6 @@ interface StepperProps {
   label: string;
 }
 
-/** A −/value/+ control for small bounded numbers such as passive ranks. */
 export function Stepper({ value, min, max, onChange, label }: StepperProps) {
   const step = (delta: number) => {
     const next = Math.max(min, Math.min(max, value + delta));
@@ -131,17 +126,10 @@ interface NumberFieldProps {
   min?: number;
   max?: number;
   title?: string;
-  /** Shown under the field, for a cap or a unit the label cannot carry. */
   hint?: string;
 }
 
-/**
- * A labelled number field for the open-ended overrides.
- *
- * Committed on change but clamped rather than rejected, and an empty field reads
- * as the minimum instead of NaN. These are correction fields, and a build that
- * silently took `NaN` for its custom HP would poison every derived figure.
- */
+/** Clamped rather than rejected, and empty reads as the minimum, so NaN never reaches the build. */
 export function NumberField({ label, value, onChange, min = 0, max, title, hint }: NumberFieldProps) {
   return (
     <label className="field" title={title}>

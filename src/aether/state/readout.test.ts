@@ -22,7 +22,7 @@ const soldier = TEMPLATES.find(template => template.id === 'soldier')!;
 describe('readout derivations', () => {
   it('derives Hit and Critical from the stat terms the wiki states', () => {
     const evaluation = evaluateBuild(soldier.build);
-    // 2 Hit per scaled SKI; 0.5 per scaled SKI and 1 per scaled LUC for Critical.
+    // Wiki: 2 Hit per scaled SKI; 0.5 per scaled SKI and 1 per scaled LUC for Critical.
     expect(baseHit(evaluation)).toBe(Math.floor(evaluation.scaledStats.ski * 2));
     expect(baseCritical(evaluation)).toBe(
       Math.floor(evaluation.scaledStats.ski / 2) + Math.floor(evaluation.scaledStats.luc),
@@ -30,12 +30,6 @@ describe('readout derivations', () => {
     expect(critDamageBonus(evaluation)).toBe(Math.floor(evaluation.scaledStats.gui));
   });
 
-  /*
-   * The whole point of flooring each Critical term separately: equipping a weapon
-   * must not make the number jump. `calculateWeaponSlot` adds the same two terms
-   * to the weapon's own critical, so the gearless figure has to be composed the
-   * same way or the two readouts disagree by a rounding step.
-   */
   it('keeps the gearless Critical consistent with the weapon path', () => {
     const armed = buildReducer(soldier.build, {
       type: 'equip-weapon', which: 'primaryWeapon', weaponName: 'Engraved Katana',
@@ -43,8 +37,6 @@ describe('readout derivations', () => {
     const bare = evaluateBuild(soldier.build);
     const withWeapon = evaluateBuild(armed);
     const weaponOwnCritical = withWeapon.primaryWeapon!.critical - baseCritical(bare);
-    // What is left after removing the character's share is the weapon's own, which
-    // must be a whole number. A fractional remainder would mean double rounding.
     expect(Number.isInteger(weaponOwnCritical)).toBe(true);
     expect(withWeapon.primaryWeapon!.hit).toBe(
       baseHit(bare) + (withWeapon.primaryWeapon!.hit - baseHit(bare)),
@@ -67,7 +59,7 @@ describe('readout derivations', () => {
       .flatMap(group => group.rows)
       .filter(row => row.partial)
       .map(row => row.key);
-    // Weight is always partial: only the weapon and torso have a published one.
+    // Only the weapon and torso have a published weight.
     expect(partial.sort()).toEqual(['battleWeight', 'critDamage', 'critical', 'hit']);
   });
 
@@ -79,7 +71,6 @@ describe('readout derivations', () => {
     const partial = rows.filter(row => row.partial).map(row => row.key);
     expect(partial).toEqual(['battleWeight']);
     expect(rows.map(row => row.key)).toContain('power');
-    // The rail must show the evaluation's own figures, not the gearless fallback.
     const evaluation = evaluateBuild(armed);
     expect(rows.find(row => row.key === 'hit')?.value).toBe(evaluation.primaryWeapon!.hit);
     expect(rows.find(row => row.key === 'critical')?.value).toBe(evaluation.primaryWeapon!.critical);
@@ -90,7 +81,6 @@ describe('readout derivations', () => {
     expect(rows).toHaveLength(10);
     expect(rows.map(row => row.element)).toContain('Sound');
     expect(rows.every(row => Number.isFinite(row.attack) && Number.isFinite(row.resistance))).toBe(true);
-    // The card offers this stat as a route, so it has to be a key and not a label.
     expect(rows.every(row => STAT_KEYS.includes(row.stat))).toBe(true);
     expect(rows.find(row => row.element === 'Wind')?.stat).toBe('cel');
   });
@@ -113,12 +103,6 @@ describe('what a derived row says it reads', () => {
     ...readoutGroups(evaluateBuild(armed)).flatMap(group => group.rows),
   ];
 
-  /*
-   * The card lists a row's stats from `stats`, and the same card prints `hint` as
-   * the formula. Two hand-written descriptions of one formula drift, and the way
-   * they drift is silent: a row goes on claiming SKI in prose after its stats list
-   * has moved on. So the abbreviations in the prose and the list have to match.
-   */
   it('names in prose exactly the stats it lists', () => {
     const abbreviations = new Set(STAT_KEYS.map(stat => stat.toUpperCase()));
     for (const row of allRows) {
@@ -135,7 +119,6 @@ describe('what a derived row says it reads', () => {
     for (const row of allRows) {
       expect(Boolean(row.note), `${row.key} note`).toBe(Boolean(row.partial));
     }
-    // And the rail builds one footnote out of them, so there are only ever two.
     const notes = new Set(allRows.filter(row => row.partial).map(row => row.note));
     expect(notes.size).toBe(2);
   });
@@ -157,7 +140,6 @@ describe('stat breakdown', () => {
     for (const stat of ['str', 'wil', 'ski', 'apt'] as const) {
       const parts = statBreakdown(soldier.build, evaluation, stat);
       expect(parts.floor + parts.invested + parts.other).toBe(parts.raw);
-      // The floor is read off the cap, so the two must still describe one ceiling.
       expect(parts.floor + parts.cap).toBe(STAT_HARD_CAP);
       expect(parts.invested).toBe(soldier.build.addedStats[stat]);
       expect(parts.returns).toBeCloseTo(parts.scaled - parts.raw, 10);
@@ -167,7 +149,6 @@ describe('stat breakdown', () => {
   it('reports what diminishing returns take off a heavily invested stat', () => {
     const heavy = buildReducer(createDefaultBuild(), { type: 'stat', stat: 'str', value: 76 });
     const parts = statBreakdown(heavy, evaluateBuild(heavy), 'str');
-    // Well past the soft cap, so scaled must sit below raw rather than at it.
     expect(parts.raw).toBeGreaterThan(60);
     expect(parts.returns).toBeLessThan(0);
     expect(parts.scaled).toBeLessThan(parts.raw);
@@ -176,7 +157,6 @@ describe('stat breakdown', () => {
   it('names the element each stat powers, and only for the ten that power one', () => {
     expect(ELEMENT_FOR_STAT.str).toBe('Fire');
     expect(ELEMENT_FOR_STAT.san).toBe('Sound');
-    // WIL and APT feed no element; the card must not invent one for them.
     expect(ELEMENT_FOR_STAT.wil).toBeUndefined();
     expect(ELEMENT_FOR_STAT.apt).toBeUndefined();
     expect(Object.keys(ELEMENT_FOR_STAT)).toHaveLength(10);
@@ -207,7 +187,7 @@ describe('build reducer', () => {
     let build = createDefaultBuild();
     build = buildReducer(build, { type: 'stat', stat: 'def', value: 76 });
     expect(build.addedStats.def).toBe(76);
-    // Chataran has a DEF line of 8, so 76 no longer fits under the cap.
+    // Chataran has a DEF line of 8.
     const moved = buildReducer(build, { type: 'subrace', subrace: 'Chataran' });
     expect(moved.addedStats.def).toBe(72);
   });

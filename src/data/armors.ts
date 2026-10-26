@@ -1,12 +1,6 @@
 import type { Armor } from '../types';
 import armorData from './armors.json';
 
-/**
- * The armor catalogue, keyed by name.
- *
- * `armors.json` groups items by armor type and leaves `type` off each record,
- * so the type is folded back in here as the groups are flattened.
- */
 export const ARMORS: Record<string, Armor> = {};
 
 Object.entries(armorData as Record<string, Omit<Armor, 'type'>[]>).forEach(([type, armors]) => {

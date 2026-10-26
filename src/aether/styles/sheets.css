@@ -1,0 +1,222 @@
+.card {
+  position: relative;
+  display: grid;
+  gap: 2px;
+  padding: 8px 10px;
+  background: rgb(var(--tint-rgb) / 0.025);
+  border: 1px solid var(--hairline);
+  border-radius: 2px;
+  text-align: left;
+  color: var(--text-2);
+  transition: all 0.2s var(--ease);
+  overflow: hidden;
+}
+
+.card:hover {
+  border-color: var(--edge);
+  color: var(--text);
+}
+
+.card.is-selected {
+  border-color: rgb(var(--gold-rgb) / 0.45);
+  background: rgb(var(--gold-rgb) / 0.1);
+  color: var(--gold-100);
+}
+
+.card.is-disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+.card.is-disabled:hover { transform: none; border-color: var(--hairline); box-shadow: none; }
+
+.card__head {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+.card__head .chip { flex: none; }
+
+.card__name {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font-display);
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.card--base {
+  border-color: rgb(var(--gold-rgb) / 0.28);
+  background: linear-gradient(180deg, rgb(var(--gold-rgb) / 0.07), transparent);
+}
+.card--base .card__name { font-size: 14.5px; letter-spacing: 0.08em; }
+
+.card--promoted {
+  border-left: 2px solid rgb(var(--gold-rgb) / 0.22);
+}
+
+.card__meta {
+  font-family: var(--font-num);
+  font-size: 10px;
+  color: var(--text-4);
+  letter-spacing: 0.02em;
+  overflow-wrap: anywhere;
+}
+
+.card__desc {
+  font-size: 11.5px;
+  color: var(--text-3);
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
+
+/* Also used on a button (the armory list), hence the UA resets. */
+.entry {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 6px 9px 6px 11px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  transition: all 0.18s var(--ease);
+}
+.entry:hover { background: rgb(var(--tint-rgb) / 0.035); border-color: var(--hairline); }
+.entry.is-taken {
+  background: linear-gradient(90deg, rgb(var(--gold-rgb) / 0.12), transparent 70%);
+  border-color: rgb(var(--gold-rgb) / 0.22);
+  box-shadow: inset 2px 0 0 var(--gold-400);
+}
+.entry.is-blocked { opacity: 0.45; }
+
+.entry--skill .entry__name { flex-wrap: wrap; white-space: normal; }
+.skill-details {
+  padding: 3px 6px;
+  border: 1px solid var(--edge-soft);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--gold-200);
+  font: inherit;
+  font-size: 11px;
+}
+.skill-details:hover { border-color: var(--edge-hard); }
+.skill-details:focus-visible { outline: 1px solid var(--gold-400); outline-offset: 2px; }
+.skill-card { overflow-wrap: anywhere; }
+.skill-card__rank { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 12px 0; }
+.skill-card__prose, .skill-card__power { white-space: pre-line; line-height: 1.6; color: var(--text-2); }
+.skill-card__power { padding: 10px; border: 1px solid var(--hairline); background: var(--well); font-size: 12px; }
+.skill-card__facts { display: grid; gap: 7px; font-size: 12px; }
+.skill-card__facts > div { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 12px; }
+.skill-card__facts dt { color: var(--text-3); }
+.skill-card__facts dd { margin: 0; white-space: pre-line; color: var(--text-2); }
+.skill-card__ranks { width: 100%; border-collapse: collapse; font-size: 12px; }
+.skill-card__ranks th, .skill-card__ranks td { padding: 8px 7px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--hairline); }
+.skill-card__ranks thead { color: var(--text-3); }
+.skill-card__ranks tbody th { width: 85px; font-weight: 400; }
+.skill-card__ranks .is-current { background: rgb(var(--gold-rgb) / 0.1); color: var(--gold-100); }
+.skill-card__source { color: var(--gold-200); font-size: 12px; }
+.skill-card__calculation { padding: 10px; border: 1px solid var(--hairline); background: var(--well); }
+.skill-card__calculation .field { margin-bottom: 10px; }
+.skill-card__calculation .select { width: 100%; }
+.skill-card__total { padding-top: 8px; border-top: 1px solid var(--edge-soft); }
+.skill-card__total dd, .skill-card__rank-power { color: var(--gold-200); }
+.skill-card__rank-power { margin-top: 5px; }
+.skill-effects { display: grid; gap: 6px; }
+.skill-effects__values { display: block; margin-top: 3px; color: var(--text-3); font-size: 11px; white-space: normal; }
+.skill-effects .field { max-width: 240px; }
+@media (pointer: coarse) { .skill-details { min-height: 32px; } }
+
+.entry--group { display: block; padding-bottom: 2px; }
+.entry--group:hover { background: transparent; border-color: transparent; }
+.entry--group > .entry__main > .entry--sub {
+  margin-top: 4px;
+  margin-left: 10px;
+  padding-left: 9px;
+  border-left: 1px solid var(--hairline);
+  border-radius: 0 2px 2px 0;
+}
+.entry--sub .entry__sub { -webkit-line-clamp: 3; }
+.entry.is-muted .entry__name,
+.entry.is-muted .entry__sub { color: var(--text-4); }
+.entry.is-muted:not(.is-taken) { opacity: 0.62; }
+
+.entry__main { min-width: 0; }
+
+.entry__name {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.entry__name .chip {
+  font-size: 8.5px;
+  padding: 1px 5px;
+  color: var(--text-4);
+  border-color: transparent;
+  background: rgb(var(--tint-rgb) / 0.04);
+}
+.entry__name .chip--gold {
+  color: var(--gold-300);
+  background: rgb(var(--gold-rgb) / 0.09);
+}
+.entry.is-blocked .entry__name { color: var(--text-3); }
+
+.entry__sub {
+  font-size: 11px;
+  color: var(--text-4);
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.entry__rank {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex: none;
+}
+
+.rank-pips {
+  display: flex;
+  gap: 2px;
+}
+.rank-pip {
+  width: 4px;
+  height: 11px;
+  background: var(--pip-off);
+  border-radius: 1px;
+  transition: all 0.24s var(--ease-out);
+}
+.rank-pip.is-on {
+  background: var(--gold-300);
+  box-shadow: 0 0 7px -1px var(--gold-300);
+}
+
+.rank-value {
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  font-size: 12px;
+  color: var(--text-3);
+  min-width: 32px;
+  text-align: right;
+}
+.entry.is-taken .rank-value { color: var(--gold-200); }
