@@ -1,0 +1,290 @@
+/* --------------------------------------------------------------- controls */
+
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--ink-600);
+  border: 1px solid var(--edge-soft);
+  border-radius: 2px;
+  font-family: var(--font-display);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-2);
+  white-space: nowrap;
+  /* The cross-app route is an anchor wearing this class, and a link's underline
+     would be the only one in the masthead. */
+  text-decoration: none;
+  transition:
+    color 0.18s var(--ease),
+    border-color 0.18s var(--ease),
+    box-shadow 0.24s var(--ease),
+    transform 0.14s var(--ease);
+}
+
+.btn:hover {
+  color: var(--gold-100);
+  border-color: var(--edge-hard);
+}
+.btn:active { transform: translateY(1px); }
+
+.btn--ghost {
+  background: var(--btn-ghost);
+  border-color: transparent;
+}
+.btn--ghost:hover { border-color: var(--edge-soft); }
+
+.btn--primary {
+  background: var(--btn-primary-top);
+  border-color: var(--edge-hard);
+  color: var(--gold-100);
+}
+.btn--primary:hover {
+  background: var(--btn-primary-hover-top);
+}
+
+.btn--danger:hover {
+  color: var(--alert);
+  border-color: rgb(var(--alert-rgb) / 0.4);
+}
+
+.btn.is-active {
+  color: var(--gold-100);
+  border-color: var(--edge-hard);
+  background: var(--btn-active-top);
+}
+
+.btn--icon {
+  padding: 6px 8px;
+  letter-spacing: 0;
+}
+
+/* Small square stepper used by stat and rank controls. */
+.step {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  flex: none;
+  background: rgb(var(--tint-rgb) / 0.04);
+  border: 1px solid var(--hairline);
+  border-radius: 2px;
+  color: var(--text-3);
+  font-family: var(--font-num);
+  font-size: 13px;
+  line-height: 1;
+  transition: all 0.16s var(--ease);
+}
+.step:hover:not(:disabled) {
+  background: rgb(var(--gold-rgb) / 0.16);
+  border-color: var(--edge-hard);
+  color: var(--gold-100);
+}
+.step:disabled { opacity: 0.28; cursor: not-allowed; }
+
+.field {
+  display: grid;
+  gap: 3px;
+}
+
+.field__label {
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.select,
+.input {
+  width: 100%;
+  padding: 6px 9px;
+  background: var(--well);
+  border: 1px solid var(--edge-soft);
+  border-radius: 2px;
+  color: var(--text);
+  font-size: 13px;
+  transition: border-color 0.18s var(--ease), box-shadow 0.24s var(--ease);
+}
+.select:hover,
+.input:hover { border-color: var(--edge); }
+.select:focus,
+.input:focus {
+  outline: none;
+  border-color: var(--gold-400);
+  box-shadow: 0 0 0 1px rgb(var(--gold-rgb) / 0.18), 0 0 20px -6px var(--glow-gold);
+}
+.select option { background: var(--ink-700); color: var(--text); }
+
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 6px 9px;
+  background: rgb(var(--tint-rgb) / 0.02);
+  border: 1px solid transparent;
+  border-radius: 2px;
+  color: var(--text-2);
+  font-size: 12.5px;
+  text-align: left;
+  transition: all 0.18s var(--ease);
+}
+.toggle:hover {
+  background: rgb(var(--tint-rgb) / 0.05);
+  border-color: var(--hairline);
+  color: var(--text);
+}
+.toggle.is-on {
+  color: var(--gold-100);
+  border-color: rgb(var(--gold-rgb) / 0.24);
+  background: linear-gradient(90deg, rgb(var(--gold-rgb) / 0.13), transparent);
+}
+
+/* The mark itself: an empty diamond that fills when on. */
+.toggle__mark {
+  position: relative;
+  width: 13px;
+  height: 13px;
+  flex: none;
+  border: 1px solid var(--edge-hard);
+  transform: rotate(45deg);
+  transition: all 0.22s var(--ease-out);
+}
+.toggle__mark::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  background: var(--gold-200);
+  transform: scale(0);
+  opacity: 0;
+  transition: transform 0.22s var(--ease-out), opacity 0.18s var(--ease);
+}
+.toggle.is-on .toggle__mark {
+  border-color: var(--gold-200);
+  box-shadow: 0 0 10px -1px var(--glow-gold);
+}
+.toggle.is-on .toggle__mark::after { transform: scale(1); opacity: 1; }
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 7px;
+  background: rgb(var(--tint-rgb) / 0.05);
+  border: 1px solid var(--hairline);
+  border-radius: 2px;
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  white-space: nowrap;
+}
+.chip--gold { color: var(--gold-200); border-color: var(--edge); background: rgb(var(--gold-rgb) / 0.09); }
+.chip--alert { color: var(--alert); border-color: rgb(var(--alert-rgb) / 0.35); background: var(--alert-dim); }
+.chip--good { color: var(--affirm); border-color: rgb(var(--affirm-rgb) / 0.3); background: rgb(var(--affirm-rgb) / 0.08); }
+
+/*
+ * What a chosen material, part or enchantment does, under the select that chose
+ * it. A row per choice: its name, then its effects as chips, then the wiki's own
+ * wording where the mechanic is prose rather than a number.
+ */
+.modifier-parts {
+  display: grid;
+  grid-template-columns: minmax(84px, auto) minmax(0, 1fr);
+  align-items: baseline;
+  gap: 4px 10px;
+  padding: 5px 2px 0;
+}
+.modifier-parts__title {
+  font-family: var(--font-display);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  white-space: nowrap;
+}
+.modifier-parts__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.modifier-parts__prose {
+  grid-column: 2;
+  padding: 0;
+  line-height: 1.45;
+}
+
+/* --------------------------------------------------------------- tab strip */
+
+.tabs {
+  display: flex;
+  gap: 2px;
+  align-items: stretch;
+  min-width: 0;
+}
+
+.tab {
+  position: relative;
+  min-width: 0;
+  padding: 5px 10px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid transparent;
+  font-family: var(--font-display);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  white-space: nowrap;
+  transition: color 0.18s var(--ease), border-color 0.2s var(--ease);
+}
+.tab:hover { color: var(--text); }
+
+/* Two words in a header that already carries a counter and a button. */
+.tabs--mini .tab {
+  padding: 3px 7px;
+  font-size: 10px;
+  letter-spacing: 0.13em;
+}
+.tab.is-active {
+  color: var(--gold-100);
+  border-bottom-color: var(--gold-300);
+  text-shadow: 0 0 14px rgb(var(--gold-rgb) / 0.4);
+}
+/* Holds a class name, which can be "Shapeshifter" or "Aquamancer". Capped and
+   ellipsised so the tab strip can never widen the panel past its column. */
+.tab__count {
+  display: inline-block;
+  max-width: 96px;
+  margin-left: 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: bottom;
+  font-family: var(--font-num);
+  font-size: 10px;
+  color: var(--text-4);
+}
+
+/*
+ * In a narrow panel the two class names cannot both fit beside the title, and
+ * truncating them to "Shapeshif…" twice tells the reader nothing. They are
+ * dropped instead: the masthead names the class pair, and the sheet below shows
+ * the selection.
+ */
+/* Measured, not guessed: two class names at 320px need about 370px of header,
+   so the sidebar's panel drops them. The masthead names the pair regardless. */
+@container (max-width: 380px) {
+  .tab__count { display: none; }
+  .tab { padding: 5px 12px; }
+}
+.tab.is-active .tab__count { color: var(--gold-400); }

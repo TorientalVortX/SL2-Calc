@@ -406,7 +406,7 @@ ui/                 panel frame, modal, animated numbers, backdrop, section nav
 panels/             the sheets
 dialogs/            templates, saves, transfer, advanced, shared builds, armory,
                     one attribute's card, one derived figure's card
-aether.css          the whole design system
+aether.css          the design system's import order; the rules live in styles/
 ```
 
 Modals are portalled to `document.body`. The armory opens from inside a panel

@@ -1,0 +1,68 @@
+/* --------------------------------------------------------------- section nav */
+
+/*
+ * Off entirely on a viewport wide enough to pin the sidebars: there is nothing to
+ * navigate while every panel is already reachable. Turned on by the stacking
+ * breakpoints below.
+ */
+.sectionnav { display: none; }
+
+.sectionnav__item {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 8px 6px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  color: var(--text-4);
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.18s var(--ease), border-color 0.18s var(--ease);
+}
+
+.sectionnav__item:hover { color: var(--text-2); }
+
+.sectionnav__item.is-active {
+  color: var(--gold-200);
+  border-bottom-color: var(--gold-400);
+}
+
+/* ------------------------------------------------------- shortcuts, changes */
+
+.keyrow {
+  display: grid;
+  grid-template-columns: 118px minmax(0, 1fr);
+  align-items: baseline;
+  gap: 10px;
+  padding: 4px 9px;
+}
+
+.keyrow__keys {
+  display: flex;
+  gap: 3px;
+  justify-content: flex-end;
+}
+
+.keyrow__what {
+  font-size: 11.5px;
+  line-height: 1.4;
+  color: var(--text-3);
+}
+
+.changes {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 6px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--text-2);
+}
+.changes li::marker { color: var(--gold-500); }

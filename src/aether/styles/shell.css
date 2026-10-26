@@ -1,0 +1,146 @@
+/* -------------------------------------------------------------------- base */
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--void);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  /* The shell sizes itself to the viewport when it can; when the panels need
+     more room than that, the page scrolls rather than clipping them. */
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button { cursor: pointer; }
+
+::selection {
+  background: rgb(var(--gold-rgb) / 0.3);
+  color: var(--gold-100);
+}
+
+/* Scrollbars, kept thin and metallic rather than default grey. */
+.scroll {
+  overflow-y: auto;
+  /* Deliberately not `contain`: when a pinned sidebar reaches its end the wheel
+     should carry on scrolling the page rather than stopping dead. */
+  scrollbar-width: thin;
+  scrollbar-color: var(--scroll-thumb) transparent;
+}
+.scroll::-webkit-scrollbar { width: 9px; }
+.scroll::-webkit-scrollbar-track { background: var(--scroll-track); }
+.scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--gold-500), var(--bronze));
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  border-radius: 6px;
+}
+.scroll::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--gold-400), var(--gold-500));
+  background-clip: padding-box;
+}
+
+/* Focus is always visible; the sheet is fully keyboard navigable. */
+:focus-visible {
+  outline: 1px solid var(--aether);
+  outline-offset: 1px;
+}
+
+/* --------------------------------------------------------------- backdrop */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: var(--wash-base);
+}
+
+/* ------------------------------------------------------------------- shell */
+
+/*
+ * The page is the scroll surface.
+ *
+ * This started as a fixed frame with every panel scrolling inside itself, which
+ * looked right and read badly: the wheel did something different depending on
+ * which of three regions the pointer happened to be over, and nothing at all
+ * over the gaps between them. Now there is one scroll (the document), and the
+ * side columns are pinned so the class browser and the derived rail stay put
+ * while the sheet in the middle moves.
+ */
+.shell {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  /* Masthead, the narrow-viewport section nav, then the body. The nav row
+     collapses to nothing when the nav itself is display:none. */
+  grid-template-rows: auto auto auto;
+  /* One column that is allowed to be narrower than its content. Sizing a grid by
+     `fr` gives it a min-content width of the widest column times the track count
+     (1319px at a 900px viewport) and an `auto` track here would have adopted it
+     and taken the whole page into a horizontal scroll. */
+  grid-template-columns: minmax(0, 1fr);
+  min-height: 100%;
+  padding: 10px 14px 14px;
+  gap: 10px;
+}
+
+.shell__body {
+  display: grid;
+  grid-template-columns: minmax(272px, 320px) minmax(0, 1fr) minmax(300px, 372px);
+  gap: 10px;
+  min-height: 0;
+  /* The other half of the rule above: a grid item keeps `min-width: auto`, so
+     without this the body refuses to shrink below that same inflated min-content
+     and overflows the column that was just told it may be narrower. */
+  min-width: 0;
+  /* Columns size to their own content instead of stretching to the tallest, so a
+     long loadout sheet does not drag the sidebars down with it. */
+  align-items: start;
+}
+
+.column {
+  display: grid;
+  gap: 10px;
+  min-height: 0;
+  min-width: 0;
+}
+
+/*
+ * Pinned sidebars, capped to the viewport. Each one's last panel is the flexible
+ * row, so it scrolls inside itself only when the sidebar genuinely overflows.
+ */
+.column--left,
+.column--right {
+  position: sticky;
+  top: 10px;
+  max-height: calc(100vh - 24px);
+}
+
+.column--left { grid-template-rows: auto minmax(0, 1fr); }
+.column--right { grid-template-rows: minmax(0, 1fr); }
+
+/* The centre is the part that scrolls with the page, so both of its panels are
+   sized by their content and neither scrolls on its own. */
+.column--center { grid-template-rows: auto auto; }

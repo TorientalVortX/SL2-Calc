@@ -1,0 +1,280 @@
+/* ------------------------------------------------------------ stat allocation */
+
+.stat-grid {
+  display: grid;
+  gap: 2px;
+}
+
+.stat-head-row { display: grid; }
+/* Two class selectors so this beats `.stat-head { display: grid }`, which is
+   declared further down the file. */
+.stat-head.stat-head--second { display: none; }
+
+/*
+ * Two columns of six once the centre column is wide enough.
+ *
+ * This halves the attribute panel's height, which is the whole point: the panel
+ * is content-sized, so every row it saves goes straight to the loadout sheet
+ * below it rather than to empty space.
+ */
+@media (min-width: 1400px) {
+  .stat-grid,
+  .stat-head-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 18px;
+  }
+  .stat-head.stat-head--second { display: grid; }
+}
+
+.stat {
+  position: relative;
+  display: grid;
+  grid-template-columns: 13px minmax(58px, 76px) auto minmax(90px, 1fr) 46px;
+  align-items: center;
+  gap: 9px;
+  padding: 3px 10px 3px 9px;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  transition: background-color 0.18s var(--ease), border-color 0.18s var(--ease), box-shadow 0.24s var(--ease);
+}
+
+/* Column captions, so each row does not have to repeat them. */
+.stat-head {
+  display: grid;
+  grid-template-columns: 13px minmax(58px, 76px) auto minmax(90px, 1fr) 46px;
+  gap: 9px;
+  padding: 0 10px 4px 9px;
+  font-family: var(--font-display);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-4);
+}
+.stat-head span:nth-child(3) { text-align: center; }
+.stat-head span:nth-child(5) { text-align: right; }
+
+.stat:hover {
+  background: rgb(var(--tint-rgb) / 0.035);
+  border-color: var(--hairline);
+}
+
+.stat.is-focused,
+.stat:focus-within {
+  background: linear-gradient(90deg, rgb(var(--gold-rgb) / 0.12), rgb(var(--gold-rgb) / 0.02) 70%, transparent);
+  border-color: rgb(var(--gold-rgb) / 0.26);
+  box-shadow: inset 2px 0 0 var(--gold-300);
+}
+
+/* The row itself is the tab stop, so its ring would double the highlight. */
+.stat:focus { outline: none; }
+
+/* Element-coloured gem; its colour is set per stat from the game palette. */
+.stat__gem {
+  width: 9px;
+  height: 9px;
+  transform: rotate(45deg);
+  background: currentColor;
+  box-shadow: 0 0 9px -1px currentColor;
+  opacity: 0.9;
+}
+
+/* The button that opens the stat card. Styled as the label it replaced, with the
+   underline the only thing announcing it is more than a label. */
+.stat__name {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0;
+  min-width: 0;
+  /* Stretched to the row rather than sized to the two words in it: on a phone the
+     abbreviation alone is a 30px-wide target, and this is the only way to the
+     card there. */
+  align-self: stretch;
+  min-height: 27px;
+  padding: 0;
+  background: none;
+  border: none;
+  text-align: left;
+}
+.stat__name:hover .stat__abbr,
+.stat__name:focus-visible .stat__abbr {
+  color: var(--gold-100);
+  text-decoration: underline;
+  text-decoration-color: var(--gold-500);
+  text-underline-offset: 2px;
+}
+.stat__name:focus-visible { outline: none; }
+.stat__abbr {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text);
+  line-height: 1.1;
+}
+.stat__full {
+  font-size: 9px;
+  color: var(--text-4);
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stat__stepper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.stat__input {
+  width: 42px;
+  padding: 2px 4px;
+  background: var(--well);
+  border: 1px solid var(--hairline);
+  border-radius: 2px;
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  font-size: 13px;
+  text-align: center;
+  color: var(--text);
+  transition: all 0.18s var(--ease);
+  -moz-appearance: textfield;
+}
+.stat__input::-webkit-outer-spin-button,
+.stat__input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.stat__input:hover { border-color: var(--edge); }
+.stat__input:focus {
+  outline: none;
+  border-color: var(--gold-400);
+  color: var(--gold-100);
+  box-shadow: 0 0 16px -6px var(--glow-gold);
+}
+.stat__input.is-capped { color: var(--gold-200); }
+
+/* Track. Doubles as a drag surface for allocating points.
+   The ticks are every 20 of the 80-point hard cap, so a bar can be read as a
+   value and not only as a proportion. */
+.stat__track {
+  position: relative;
+  height: 9px;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 calc(25% - 1px), var(--tick) calc(25% - 1px) 25%),
+    var(--channel);
+  border: 1px solid var(--hairline);
+  border-radius: 1px;
+  cursor: ew-resize;
+  overflow: hidden;
+  touch-action: none;
+  transition: border-color 0.18s var(--ease);
+}
+.stat:hover .stat__track,
+.stat:focus-within .stat__track { border-color: var(--edge); }
+
+.stat__fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, var(--fill-edge), currentColor);
+  box-shadow: 0 0 12px -2px currentColor;
+  transition: width 0.28s var(--ease-out), left 0.28s var(--ease-out);
+}
+
+/* Where the racial floor sits, under the invested points. */
+.stat__base {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--hatch-a) 0 1px,
+    var(--hatch-b) 1px 4px
+  );
+  transition: width 0.28s var(--ease-out);
+}
+
+.stat__scaled {
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  font-size: 14px;
+  text-align: right;
+  color: var(--gold-100);
+  letter-spacing: -0.02em;
+}
+/* Raw is the plainer figure and reads as one, so a column of them cannot be
+   mistaken for the scaled column at a glance. */
+.stat__scaled.is-raw { color: var(--text-2); }
+
+/* The card's track is a control in its own right, so it is worth touching. */
+.stat__track--lg {
+  height: 22px;
+  margin: 2px 0 9px;
+  border-radius: 2px;
+}
+.stat__track--lg:focus-visible {
+  outline: none;
+  border-color: var(--gold-400);
+  box-shadow: 0 0 18px -6px var(--glow-gold);
+}
+
+/* The remaining-points readout above the grid. */
+.pool {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 12px;
+  margin-bottom: 7px;
+  background: linear-gradient(180deg, var(--pool-top), var(--pool-bottom));
+  border: 1px solid var(--edge-soft);
+  border-radius: 2px;
+  transition: border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+.pool.is-over {
+  border-color: rgb(var(--alert-rgb) / 0.45);
+  box-shadow: inset 0 0 30px -12px rgb(var(--alert-rgb) / 0.6);
+  animation: alert-pulse 2.4s ease-in-out infinite;
+}
+.pool.is-spent {
+  border-color: rgb(var(--affirm-rgb) / 0.3);
+}
+
+.pool__value {
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  font-size: 27px;
+  line-height: 1;
+  font-weight: 500;
+  color: var(--gold-100);
+  text-shadow: 0 0 24px rgb(var(--gold-rgb) / 0.35);
+  transition: color 0.3s var(--ease);
+}
+.pool.is-over .pool__value {
+  color: var(--alert);
+  text-shadow: 0 0 24px rgb(var(--alert-rgb) / 0.45);
+}
+
+.pool__meter {
+  position: relative;
+  flex: 1;
+  height: 5px;
+  background: var(--channel);
+  border: 1px solid var(--hairline);
+  border-radius: 1px;
+  overflow: hidden;
+}
+.pool__meter i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: linear-gradient(90deg, var(--gold-500), var(--gold-200));
+  box-shadow: 0 0 14px -2px var(--glow-gold);
+  transition: width 0.4s var(--ease-out), background 0.3s var(--ease);
+}
+.pool.is-over .pool__meter i {
+  background: linear-gradient(90deg, var(--alert-deep), var(--alert));
+  box-shadow: 0 0 14px -2px rgb(var(--alert-rgb) / 0.7);
+}
