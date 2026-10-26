@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useReducer, useState } from 'react';
 import type { BuildEvaluation, BuildState, SaveSlotV1 } from '../../types';
 import { evaluateBuild } from '../../domain/buildEvaluation';
 import {
@@ -139,7 +139,7 @@ function newId(): string {
 }
 
 export function useBuilder(): Builder {
-  const draft = useRef(readDraft()).current;
+  const [draft] = useState(readDraft);
   const [build, rawDispatch] = useReducer(buildReducer, draft?.build ?? createDefaultBuild());
   const [buildName, setBuildName] = useState(draft?.name ?? 'New Character');
   const [saves, setSaves] = useState<SaveSlotV1[]>(readSaves);

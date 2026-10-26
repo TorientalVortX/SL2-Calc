@@ -22,26 +22,26 @@ interface SkillCardProps {
 }
 
 export function SkillCard({ skill, evaluation, builder, rank, onRank, onClose }: SkillCardProps) {
-  const [text, setText] = useState<SkillText | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [failed, setFailed] = useState(false);
   const [attempt, setAttempt] = useState(0);
+  const request = `${skill.id}:${attempt}`;
+  const [result, setResult] = useState<{ request: string; text: SkillText | null; failed: boolean } | null>(null);
+  const current = result?.request === request ? result : null;
+  const text = current?.text ?? null;
+  const loading = !current;
+  const failed = current?.failed ?? false;
   const [elements, setElements] = useState<Partial<Record<number, ElementKey>>>({});
   const shownRank = Math.max(1, rank);
   const formula = text ? skillFormulaBreakdown(skill, shownRank, evaluation, elements, text.powerRaw) : null;
 
   useEffect(() => {
     let live = true;
-    setText(null);
-    setLoading(true);
-    setFailed(false);
     loadSkillText().then(entries => {
-      if (live) { setText(entries.get(skill.id) ?? null); setLoading(false); }
+      if (live) setResult({ request, text: entries.get(skill.id) ?? null, failed: false });
     }).catch(() => {
-      if (live) { setFailed(true); setLoading(false); }
+      if (live) setResult({ request, text: null, failed: true });
     });
     return () => { live = false; };
-  }, [skill.id, attempt]);
+  }, [request, skill.id]);
 
   const facts: Array<[string, string]> = [];
   const fp = fpCostAtRank(skill, shownRank);

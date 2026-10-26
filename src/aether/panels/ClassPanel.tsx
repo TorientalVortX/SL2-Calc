@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import type { StatKey } from '../../types';
 import { CLASSES } from '../../data/classes';
 import { destinyAllowsClassPair } from '../../domain/skills';
@@ -20,9 +20,10 @@ export function ClassPanel({ builder }: { builder: Builder }) {
 
   const [slot, setSlot] = useState<ClassSlot>('main');
   const activeClass = slot === 'main' ? build.mainClass : build.subClass;
-  const [family, setFamily] = useState(() => familyOf(activeClass).base);
-
-  useEffect(() => setFamily(familyOf(activeClass).base), [activeClass]);
+  // A browsed family lasts until the slot's class changes, then falls back to that class's family.
+  const [browsed, setBrowsed] = useState<{ forClass: string; family: string } | null>(null);
+  const family = browsed?.forClass === activeClass ? browsed.family : familyOf(activeClass).base;
+  const setFamily = (next: string) => setBrowsed({ forClass: activeClass, family: next });
 
   const onFamilyKeys = useListNavigation(1);
   const onClassKeys = useListNavigation(2);
