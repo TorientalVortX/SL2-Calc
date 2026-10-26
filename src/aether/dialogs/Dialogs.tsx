@@ -4,6 +4,7 @@ import { SectionHead } from '../ui/Panel';
 import { play } from '../state/audio';
 import { APP_RELEASE, APP_VERSION, GAME_DATA_MANIFEST } from '../../domain/buildPersistence';
 import { TEMPLATES } from '../state/build';
+import { buildCardModel, renderBuildCard } from '../state/buildCard';
 import type { Builder } from '../state/useBuilder';
 
 /* ----------------------------------------------------------------- templates */
@@ -187,6 +188,37 @@ export function TransferDialog({ builder, onClose }: { builder: Builder; onClose
     }
   };
 
+  const renderCard = () => renderBuildCard(
+    buildCardModel(builder.build, builder.evaluation, builder.buildName, builder.status),
+    GAME_DATA_MANIFEST.dataVersion,
+  );
+
+  const saveCard = async (png: Promise<Blob>, message = 'Build card saved.') => {
+    try {
+      const url = URL.createObjectURL(await png);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `${builder.buildName.trim().replace(/[^\w-]+/g, '-').replace(/^-+|-+$/g, '') || 'build'}.png`;
+      link.click();
+      window.setTimeout(() => URL.revokeObjectURL(url), 0);
+      notify('good', message);
+    } catch {
+      notify('bad', 'Could not draw the build card.');
+    }
+  };
+
+  // Safari only allows the write if it starts inside the click, so the PNG is handed over as a promise.
+  const copyCard = () => {
+    const png = renderCard();
+    if (typeof ClipboardItem === 'undefined' || !navigator.clipboard?.write) {
+      void saveCard(png, 'This browser cannot copy images, so the card was saved instead.');
+      return;
+    }
+    navigator.clipboard.write([new ClipboardItem({ 'image/png': png })])
+      .then(() => notify('good', 'Build card copied.'))
+      .catch(() => saveCard(png, 'Clipboard blocked, so the card was saved instead.'));
+  };
+
   const readFile = async (file: File | undefined) => {
     if (!file) return;
     const contents = await file.text();
@@ -217,6 +249,15 @@ export function TransferDialog({ builder, onClose }: { builder: Builder; onClose
         </button>
         <span className="hint" style={{ flex: 1, minWidth: 140 }}>
           Anyone with the link opens this exact build.
+        </span>
+      </div>
+      <div className="inline" style={{ gap: 6, padding: '0 0 11px', flexWrap: 'wrap' }}>
+        <button type="button" className="btn" onClick={copyCard}>Copy build card</button>
+        <button type="button" className="btn btn--ghost btn--icon" onClick={() => void saveCard(renderCard())}>
+          Save card
+        </button>
+        <span className="hint" style={{ flex: 1, minWidth: 140 }}>
+          An image of the build, for posting where links do not preview.
         </span>
       </div>
 
