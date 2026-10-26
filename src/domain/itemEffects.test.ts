@@ -2,6 +2,8 @@ import { describe, expect, it } from 'vitest';
 import {
   armorEffects,
   armorUL,
+  exclusiveRivals,
+  gearEffects,
   itemBonuses,
   itemConditionalKey,
   valueAtUL,
@@ -104,6 +106,24 @@ describe('item effect data', () => {
   it('does not duplicate armor magnitudes already handled by structured data', () => {
     expect(armorEffects('Blackheart').flatMap(effect => effect.effects)).toEqual([]);
     expect(armorEffects('Sarashi Gi').flatMap(effect => effect.effects)).toEqual([]);
+  });
+
+  it('does not read "N armor-ignoring damage" as an Armor bonus', () => {
+    expect(gearEffects('Tetra Dragon Fang').flatMap(effect => effect.effects)).toEqual([]);
+    expect(weaponEffects('Creeping Darkness').flatMap(effect => effect.effects)).toEqual([]);
+  });
+
+  it('makes a buff that lasts some rounds opt-in', () => {
+    expect(gearEffects('Heart of the Lion')[0].applies).toBe('conditional');
+    const shields = gearEffects('Metallic Magic Gauntlet').filter(effect => effect.effects.length);
+    expect(shields.map(effect => effect.applies)).toEqual(['conditional', 'conditional', 'conditional']);
+  });
+
+  it('switches off the gauntlet’s other shields when one is switched on', () => {
+    expect(exclusiveRivals(itemConditionalKey('Metallic Magic Gauntlet', 5))).toEqual([
+      itemConditionalKey('Metallic Magic Gauntlet', 2), itemConditionalKey('Metallic Magic Gauntlet', 8),
+    ]);
+    expect(exclusiveRivals(itemConditionalKey('Heart of the Lion', 0))).toEqual([]);
   });
 
   it('returns nothing for an unknown item', () => {

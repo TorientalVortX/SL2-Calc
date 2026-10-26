@@ -1,6 +1,7 @@
 import type { ArmorQuality, ArmorUpgradePoints, BuildState, StatKey, WeaponConfig } from '../../types';
 import { evaluateBuild } from '../../domain/buildEvaluation';
 import { normalizeBuildState } from '../../domain/buildPersistence';
+import { exclusiveRivals } from '../../domain/itemEffects';
 import { traitById } from '../../domain/traits';
 import { changeCopySpell, settleSpellthief, type CopySpellAction } from '../../domain/spellthief';
 import { planMixture, removePlannedMixture, toggleMixtureEffect } from '../../domain/chemist';
@@ -329,7 +330,11 @@ export function buildReducer(build: BuildState, action: BuildAction): BuildState
         ...build,
         equipment: {
           ...build.equipment,
-          itemConditionalBonuses: { ...(build.equipment.itemConditionalBonuses ?? {}), [action.key]: action.on },
+          itemConditionalBonuses: {
+            ...(build.equipment.itemConditionalBonuses ?? {}),
+            ...(action.on ? Object.fromEntries(exclusiveRivals(action.key).map(key => [key, false])) : {}),
+            [action.key]: action.on,
+          },
         },
       });
 

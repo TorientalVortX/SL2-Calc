@@ -20,6 +20,8 @@ export interface ItemEffect {
   /** `conditional` is gated on something the calculator cannot see; `reference` carries no numbers. */
   applies: 'always' | 'conditional' | 'reference';
   effects: ItemEffectValue[];
+  /** Switching it on ends the item's other exclusive effects (the Magical Gauntlet's shields). */
+  exclusive?: boolean;
 }
 
 const WEAPON_EFFECTS = content.weapons as Record<string, ItemEffect[]>;
@@ -80,6 +82,15 @@ const NO_ROLLS: Record<string, number> = Object.freeze({});
 
 export function itemConditionalKey(itemName: string, index: number): string {
   return `${itemName}:${index}`;
+}
+
+export function exclusiveRivals(conditionalKey: string): string[] {
+  const at = conditionalKey.lastIndexOf(':');
+  const itemName = conditionalKey.slice(0, at);
+  const index = Number(conditionalKey.slice(at + 1));
+  const effects = GEAR_EFFECTS[itemName] ?? WEAPON_EFFECTS[itemName] ?? ARMOR_EFFECTS[itemName] ?? [];
+  if (!effects[index]?.exclusive) return [];
+  return effects.flatMap((effect, other) => (effect.exclusive && other !== index ? [itemConditionalKey(itemName, other)] : []));
 }
 
 export function bonusesForItem(

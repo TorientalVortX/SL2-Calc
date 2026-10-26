@@ -25,6 +25,17 @@ describe('parry skills', () => {
     expect(chance('eviter')).toBeNull();
   });
 
+  it('offers the shields of an equipped Magical Gauntlet', () => {
+    const build = { ...withRanks({}), equipment: { ...withRanks({}).equipment, hands: { itemName: 'Metallic Magic Gauntlet', upgradePoints: {} } } };
+    const options = parryOptions(build as BuildState, { scaledStats: { ...stats, res: 16 } });
+    expect(options.map(option => [option.id, option.chance, option.reductionPercent])).toEqual([
+      ['magic-shield', 25 + 30 / 4 + 16 / 4, 25],
+      ['metallic-aegis', 25 + 15, 35],
+      ['magical-aegis', 25 + 8, 35],
+    ]);
+    expect(options.find(option => option.id === 'metallic-aegis')?.classes).toEqual(['physical']);
+  });
+
   it('reports Yomidori and Mighty Wall bonuses at their ranks', () => {
     expect(parryChanceBonuses(withRanks({ yomidori: 2, 'mighty-wall': 3 }))).toEqual([
       { name: 'Yomidori (attacker already hit you this turn)', percent: 7 },

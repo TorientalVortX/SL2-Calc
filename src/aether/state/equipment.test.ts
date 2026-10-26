@@ -230,6 +230,18 @@ describe('item effects', () => {
   });
 });
 
+describe('Magical Gauntlet shields', () => {
+  it('keeps only one shield active at a time', () => {
+    let build = buildReducer(createDefaultBuild(), { type: 'equip-gear', slot: 'hands', itemName: 'Metallic Magic Gauntlet' });
+    const def = () => evaluateBuild(build).scaledStats.def;
+    const base = def();
+    build = buildReducer(build, { type: 'item-conditional', key: 'Metallic Magic Gauntlet:2', on: true });
+    build = buildReducer(build, { type: 'item-conditional', key: 'Metallic Magic Gauntlet:5', on: true });
+    expect(build.equipment.itemConditionalBonuses).toMatchObject({ 'Metallic Magic Gauntlet:2': false, 'Metallic Magic Gauntlet:5': true });
+    expect(def()).toBe(base + 8);
+  });
+});
+
 describe('clearing', () => {
   it('empties every slot without touching the character', () => {
     let build = armed();

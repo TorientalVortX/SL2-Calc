@@ -130,7 +130,8 @@ const PATTERNS = [
   new RegExp(String.raw`Increases?\s+(?:your\s+)?(${CHANNELS})\b[\s\S]*?\b(?:up\s+to\s+)?(?:a\s+)?maximum\s+(?:of\s+)?\(?(${MAGNITUDE})\)?`, 'gi'),
   // Allows a targeting phrase: "Increases Evade against enemies within 1 Range by UL."
   new RegExp(String.raw`Increases?\s+(?:your\s+)?(${CHANNELS})\b[^.!?]*?\bby\s+\(?(${MAGNITUDE})\)?`, 'gi'),
-  new RegExp(String.raw`\(?(${MAGNITUDE})\)?\s+(${CHANNELS})\b`, 'gi'),
+  // "30 armor-ignoring damage" is not an Armor bonus.
+  new RegExp(String.raw`\(?(${MAGNITUDE})\)?\s+(${CHANNELS})\b(?!-)`, 'gi'),
 ];
 
 // A description matched by the first order is not re-scanned by the second.
@@ -196,12 +197,14 @@ function toRecord(name, description, alwaysEligible) {
     // A disabling exception does not make a normally-active bonus opt-in.
     .replace(/,\s*except when\b[^.]*\.?/gi, '.')
     .replace(/\bUL%\s+chance\b.*$/i, '');
-  const conditional = CONDITION.test(magnitudeClause) || /for \d+ attacks? this round/i.test(description);
+  // A buff that lasts N rounds was switched on in battle; it is not a standing bonus.
+  const conditional = CONDITION.test(magnitudeClause) || /for \d+ (?:attacks? this round|rounds?)\b/i.test(description);
   return {
     name,
     description: description.replace(/\s+/g, ' ').trim(),
     applies: !effects.length ? 'reference' : (conditional || !alwaysEligible) ? 'conditional' : 'always',
     effects,
+    ...(effects.length && /\bends? (?:that|other) effects?\b/i.test(description) ? { exclusive: true } : {}),
   };
 }
 

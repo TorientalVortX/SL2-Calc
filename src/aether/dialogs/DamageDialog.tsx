@@ -68,9 +68,10 @@ export function DamageDialog({ builder, onClose }: { builder: Builder; onClose: 
   const parries = parryOptions(build, evaluation);
   const bonuses = parryChanceBonuses(build);
   const parry = parries.find(option => option.id === parryId);
-  const baseReduction = parry ? parry.reductionPercent : parryId === 'custom' ? customReduction : 0;
+  const parryFits = !parry?.classes || parry.classes.includes(hit.damageClass);
+  const baseReduction = !parryFits ? 0 : parry ? parry.reductionPercent : parryId === 'custom' ? customReduction : 0;
   const parryReductionPercent = zugzwang ? baseReduction / 2 : baseReduction;
-  const parryChance = parryId ? (chanceOverride ?? parry?.chance ?? 0) : 0;
+  const parryChance = parryId && parryFits ? (chanceOverride ?? parry?.chance ?? 0) : 0;
   const pickParry = (id: string) => { setParryId(id); setChanceOverride(null); };
 
   const outcomes = Array.from({ length: hit.hits }, (_, index): HitOutcome => hit.outcomes[index] ?? { result: 'hit', parried: false, critical: false });
@@ -134,6 +135,7 @@ export function DamageDialog({ builder, onClose }: { builder: Builder; onClose: 
           <>
             <Toggle on={zugzwang} onChange={setZugzwang}>Attacker has Zugzwang (parry reduction halved)</Toggle>
             {parry ? <p className="hint">−{parry.reductionPercent}% when it fires. Chance: {parry.chanceRule}. Parries {parry.appliesTo}.</p> : null}
+            {parryFits ? null : <p className="hint">{parry?.name} can’t parry {hit.damageClass} damage.</p>}
             {bonuses.length ? <p className="hint">Add when it applies: {bonuses.map(bonus => `${bonus.name} +${bonus.percent}%`).join(', ')}.</p> : null}
           </>
         ) : null}

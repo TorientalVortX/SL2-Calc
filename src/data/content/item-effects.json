@@ -442,15 +442,8 @@
       {
         "name": "Sky's Call",
         "description": "Requires Substitute Wind ATK to be active. Consumes the status by the weapon, deals 20 armor-ignoring Wind Kickback Damage to you, curing Glowing effects you suffer from, and deals Wind magic damage ignores Reflect, Immunity, and Absorb) equal to 100% of Ramarg's Scaled Weapon Attack + 100% of the Substitute Wind ATK from its effect to all enemies in a 3 Size Circle around you. You and all damaged enemies are knocked airborne. 3 round CD.",
-        "applies": "conditional",
-        "effects": [
-          {
-            "kind": "derived",
-            "key": "armor",
-            "base": 20,
-            "ulMultiplier": 0
-          }
-        ]
+        "applies": "reference",
+        "effects": []
       }
     ],
     "Citizen Slaughterer": [
@@ -1240,15 +1233,8 @@
       {
         "name": "Spider Illusion",
         "description": "Whenever one of your item effects reduces Glowing statuses or Light Shafts to 0 duration or less, creates a Spider Illusion at a nearby tile, which will approach enemies and deal 25 armor-ignoring Dark magic damage to them.",
-        "applies": "always",
-        "effects": [
-          {
-            "kind": "derived",
-            "key": "armor",
-            "base": 25,
-            "ulMultiplier": 0
-          }
-        ]
+        "applies": "reference",
+        "effects": []
       }
     ],
     "Nullifying Dirk": [
@@ -1483,15 +1469,8 @@
       {
         "name": "Warmth",
         "description": "Requires Substitute Ice ATK to be active. Consumes the status caused by the weapon, deals 20 armor-ignoring Ice Kickback damage to you, curing Frostbite effects you suffer from, and creating a wave of warmth that spreads out in a 3 Size Circle around you. In that circle, ice statues, ice sheets, frozen plants, and Frozen & Frostbitten allies thaw out. All allies also recover HP equal to 100% of the Substituted Ice ATK.",
-        "applies": "conditional",
-        "effects": [
-          {
-            "kind": "derived",
-            "key": "armor",
-            "base": 20,
-            "ulMultiplier": 0
-          }
-        ]
+        "applies": "reference",
+        "effects": []
       }
     ],
     "Hikage": [
@@ -1510,15 +1489,8 @@
       {
         "name": "Rising Sun",
         "description": "Rising Sun: 2M, 15 FP, 2 Round CD. Consumes 3 Sun Crests. Targets 1 unoccupied tile within 3 Range. Reappear at target location, when you do, become Airborne and deal 30 armor-ignoring Fire bonus damage to all enemies in 2 Range Circle. All damaged enemies are inflicted with Glowing LV 10 until your next turn.",
-        "applies": "conditional",
-        "effects": [
-          {
-            "kind": "derived",
-            "key": "armor",
-            "base": 30,
-            "ulMultiplier": 0
-          }
-        ]
+        "applies": "reference",
+        "effects": []
       },
       {
         "name": "Muddle",
@@ -1607,15 +1579,8 @@
       {
         "name": "Fire Damage",
         "description": "Inflicts 30 armor-ignoring Fire damage to all enemies in 2 Range.",
-        "applies": "conditional",
-        "effects": [
-          {
-            "kind": "derived",
-            "key": "armor",
-            "base": 30,
-            "ulMultiplier": 0
-          }
-        ]
+        "applies": "reference",
+        "effects": []
       },
       {
         "name": "Ignition",
@@ -1973,15 +1938,8 @@
       {
         "name": "Air Explosion",
         "description": "Triggers after the attack hits an enemy. Knocks the target airborne, deals 35 armor-ignoring Wind magic bonus damage to them, and applies an Aero Shift (5) effect to all tiles in 5 Range.",
-        "applies": "conditional",
-        "effects": [
-          {
-            "kind": "derived",
-            "key": "armor",
-            "base": 35,
-            "ulMultiplier": 0
-          }
-        ]
+        "applies": "reference",
+        "effects": []
       }
     ],
     "Kusarigami": [
@@ -2052,15 +2010,8 @@
       {
         "name": "Guiding Flame",
         "description": "Helrenroka's Potential Skill. Ninjutsu. Requires Substitute Fire ATK to be active. Invoke a fiery ninja art, dealing 20 armor-ignoring Fire Kickback damage to you, curing Blind effects you suffer from, and creating a burst of Fire around you that damages all enemies in a 3 Size Circle for Fire magic damage (can critically hit for +25% damage, ignores Reflect, Immunity, and Absorb) equal to 100% of Helrenroka's Scaled Weapon Attack + 100% of the Substitute Fire ATK from its effect. Damaged enemies are inflicted with Glowing LV 10 (3 rounds). 2 round CD. Furinkazan: Gain 1 Fire Mark.",
-        "applies": "conditional",
-        "effects": [
-          {
-            "kind": "derived",
-            "key": "armor",
-            "base": 20,
-            "ulMultiplier": 0
-          }
-        ]
+        "applies": "reference",
+        "effects": []
       }
     ],
     "Shredder Replica": [
@@ -2489,15 +2440,8 @@
       {
         "name": "Lockdown",
         "description": "1 Momentum, 10 FP Requires Substitute Earth ATK to be active. Consumes the status caused by the weapon, deals 20 armor-ignoring Earth Kickback damage to you, inflict you with Immobilize and Unmoving until your next turn, and grants you Lockdown (LV = higher of 50% Substituted Earth ATK or Tarnell's UL, 3 rounds). (Lockdown - Increases Tarnell's Power by LV when you cannot use movement skills.) 3 round CD.",
-        "applies": "conditional",
-        "effects": [
-          {
-            "kind": "derived",
-            "key": "armor",
-            "base": 20,
-            "ulMultiplier": 0
-          }
-        ]
+        "applies": "reference",
+        "effects": []
       }
     ],
     "Black Zepia": [
@@ -4342,15 +4286,8 @@
       {
         "name": "Death Ant Shriek",
         "description": "Song skill. Requires Substitute Sound ATK to be active. Consumes the status caused by the weapon, deals 20 armor-ignoring Sound Kickback damage to you, and accelerates any Silence effect you're suffering from by 1 round. Additionally grants you Larveget's Cursed Wail (LV = 35% of Substituted Sound ATK, min. 5, 5 rounds). (Larveget's Cursed Wail - -10% Status Resistance. Enemies who attack you take armor-ignoring Sound magic bonus damage equal to LV and apply or power up Cursed Wound by LV (3 rounds). Triggers only once per action.)",
-        "applies": "conditional",
-        "effects": [
-          {
-            "kind": "derived",
-            "key": "armor",
-            "base": 20,
-            "ulMultiplier": 0
-          }
-        ]
+        "applies": "reference",
+        "effects": []
       }
     ],
     "Narcus": [
@@ -7050,8 +6987,8 @@
       },
       {
         "name": "Magic Gauntlet",
-        "description": "Charges your gauntlet with focus, creating a shield of energy that increases your DEF and RES by 4 for 4 rounds. This will also end other effects caused by the Magical Gauntlet.",
-        "applies": "always",
+        "description": "Charges your gauntlet with focus, creating a shield of energy that increases your DEF and RES by 4 for 5 rounds, and lets you parry any damage (25% + 25% DEF + 25% RES chance, 25% reduction). Switching to it from another effect of the Magical Gauntlet costs 0 Momentum and ends that effect.",
+        "applies": "conditional",
         "effects": [
           {
             "kind": "stat",
@@ -7065,7 +7002,8 @@
             "base": 4,
             "ulMultiplier": 0
           }
-        ]
+        ],
+        "exclusive": true
       }
     ],
     "Metal Gauntlet": [
@@ -7126,8 +7064,8 @@
       },
       {
         "name": "Metallic Magic Gauntlet",
-        "description": "Charges your gauntlet with focus, creating a shield of energy that increases your DEF and RES by 4 for 4 rounds. This will also end other effects caused by the Magical Gauntlet.",
-        "applies": "always",
+        "description": "Charges your gauntlet with focus, creating a shield of energy that increases your DEF and RES by 4 for 5 rounds, and lets you parry any damage (25% + 25% DEF + 25% RES chance, 25% reduction). Switching to it from another effect of the Magical Gauntlet costs 0 Momentum and ends that effect.",
+        "applies": "conditional",
         "effects": [
           {
             "kind": "stat",
@@ -7141,7 +7079,8 @@
             "base": 4,
             "ulMultiplier": 0
           }
-        ]
+        ],
+        "exclusive": true
       },
       {
         "name": "Metallic Magic Gauntlet",
@@ -7151,14 +7090,14 @@
       },
       {
         "name": "Metallic Magic Gauntlet",
-        "description": "3 Momentum, 20 FP",
+        "description": "3 Momentum, 5 FP",
         "applies": "reference",
         "effects": []
       },
       {
         "name": "Metallic Magic Gauntlet",
-        "description": "Charges your gauntlet with focus, creating a shield of energy that increases your DEF by 8 for 4 rounds. This will also end other effects caused by the Magical Gauntlet.",
-        "applies": "always",
+        "description": "Charges your gauntlet with focus, creating a shield of energy that increases your DEF by 8 for 5 rounds, and lets you parry physical damage (25% + 50% DEF chance, 35% reduction). Switching to it from another effect of the Magical Gauntlet costs 0 Momentum and ends that effect.",
+        "applies": "conditional",
         "effects": [
           {
             "kind": "stat",
@@ -7166,7 +7105,8 @@
             "base": 8,
             "ulMultiplier": 0
           }
-        ]
+        ],
+        "exclusive": true
       },
       {
         "name": "Metallic Magic Gauntlet",
@@ -7176,15 +7116,23 @@
       },
       {
         "name": "Metallic Magic Gauntlet",
-        "description": "3 Momentum, 20 FP",
+        "description": "3 Momentum, 5 FP",
         "applies": "reference",
         "effects": []
       },
       {
         "name": "Metallic Magic Gauntlet",
-        "description": "Charges your gauntlet with focus, creating a shield of energy that increases your RES by 4 for 4 rounds. This will also end other effects caused by the Magical Gauntlet.",
-        "applies": "reference",
-        "effects": []
+        "description": "Charges your gauntlet with focus, creating a shield of energy that increases your RES by 8 for 5 rounds, and lets you parry magical damage (25% + 50% RES chance, 35% reduction). Switching to it from another effect of the Magical Gauntlet costs 0 Momentum and ends that effect.",
+        "applies": "conditional",
+        "effects": [
+          {
+            "kind": "stat",
+            "key": "res",
+            "base": 8,
+            "ulMultiplier": 0
+          }
+        ],
+        "exclusive": true
       }
     ],
     "Nihilist": [
@@ -8518,15 +8466,8 @@
       {
         "name": "Razor Talons",
         "description": "While Airborne, when you move into the same tile as an enemy, deal 25 armor-ignoring Slash damage to that enemy. (Once per enemy per action.)",
-        "applies": "conditional",
-        "effects": [
-          {
-            "kind": "derived",
-            "key": "armor",
-            "base": 25,
-            "ulMultiplier": 0
-          }
-        ]
+        "applies": "reference",
+        "effects": []
       },
       {
         "name": "Razor Talons",
@@ -9299,7 +9240,7 @@
       {
         "name": "Est Lestrada",
         "description": "Draw out the power of the Est Lestrada, activating Charge Weapon 3 times. However, such power comes at a cost, inflicting yourself with -15 Hit and Blind for 10 rounds.",
-        "applies": "always",
+        "applies": "conditional",
         "effects": [
           {
             "kind": "derived",
@@ -9558,7 +9499,7 @@
       {
         "name": "Heart of the Lion",
         "description": "On Battle Start: For 3 rounds, you gain +2 STR, WIL, DEF, and RES, as well as Status Immunity (Fear).",
-        "applies": "always",
+        "applies": "conditional",
         "effects": [
           {
             "kind": "stat",
@@ -10876,15 +10817,8 @@
       {
         "name": "Tetra Dragon Fang",
         "description": "Upon triggering a Special Strike, inflicts the target of it with Elemental Pierce (Element) for 3 rounds (2 rounds for bosses), and then deal 30 armor-ignoring Element bonus magic damage to them. (Tetra)",
-        "applies": "always",
-        "effects": [
-          {
-            "kind": "derived",
-            "key": "armor",
-            "base": 30,
-            "ulMultiplier": 0
-          }
-        ]
+        "applies": "reference",
+        "effects": []
       },
       {
         "name": "Tetra Dragon Fang",
