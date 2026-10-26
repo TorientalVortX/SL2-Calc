@@ -9,6 +9,7 @@ export type HitResult = 'hit' | 'glance' | 'evaded';
 export interface HitOutcome {
   result: HitResult;
   parried: boolean;
+  critical: boolean;
 }
 
 export interface IncomingHit {
@@ -17,14 +18,13 @@ export interface IncomingHit {
   hits: number;
   damageClass: DamageClass;
   type: DamageType;
-  critical: boolean;
   critDamagePercent: number;
   armorIgnoring: boolean;
   guardMomentum: number;
   otherReductionPercent: number;
   /** Reduction of the defender's parry skill when it fires, already halved for Zugzwang. */
   parryReductionPercent: number;
-  /** One per hit; missing entries are plain hits. */
+  /** One per hit; missing entries are plain hits. Each hit rolls its own crit. */
   outcomes: HitOutcome[];
 }
 
@@ -36,9 +36,7 @@ export interface DamageStep {
   total: number;
 }
 
-export interface DamageInstance {
-  result: HitResult;
-  parried: boolean;
+export interface DamageInstance extends HitOutcome {
   /** Armor or Magic Armor spent on this hit from the attack's pool. */
   absorbed: number;
   taken: number;
@@ -56,7 +54,7 @@ export const GUARD_PERCENT_PER_MOMENTUM = 10;
 export const GLANCE_REDUCTION_PERCENT = 60;
 
 export const NO_HIT: IncomingHit = {
-  amount: 100, hits: 1, damageClass: 'physical', type: null, critical: false, critDamagePercent: 150,
+  amount: 100, hits: 1, damageClass: 'physical', type: null, critDamagePercent: 150,
   armorIgnoring: false, guardMomentum: 0, otherReductionPercent: 0, parryReductionPercent: 0, outcomes: [],
 };
 
@@ -74,10 +72,20 @@ function hitCount(hit: IncomingHit): number {
   return Math.max(1, Math.floor(hit.hits));
 }
 
-function outcomeFactor(result: HitResult, parried: boolean, parryReductionPercent: number): number {
-  if (result === 'evaded') return 0;
-  return (result === 'glance' ? reduce(GLANCE_REDUCTION_PERCENT) : 1) * (parried ? reduce(parryReductionPercent) : 1);
+const PLAIN_HIT: HitOutcome = { result: 'hit', parried: false, critical: false };
+
+function outcomeSteps(outcome: HitOutcome, hit: IncomingHit): Array<{ label: string; factor: number }> {
+  if (outcome.result === 'evaded') return [{ label: 'Evaded', factor: 0 }];
+  const steps = [
+    { label: 'Critical', factor: outcome.critical ? hit.critDamagePercent / 100 : 1 },
+    { label: 'Glancing', factor: outcome.result === 'glance' ? reduce(GLANCE_REDUCTION_PERCENT) : 1 },
+    { label: 'Parried', factor: outcome.parried ? reduce(hit.parryReductionPercent) : 1 },
+  ];
+  return steps.filter(step => step.factor !== 1);
 }
+
+const outcomeFactor = (outcome: HitOutcome, hit: IncomingHit) =>
+  outcomeSteps(outcome, hit).reduce((product, step) => product * step.factor, 1);
 
 /** The reductions every hit of the attack shares, and the Armor pool they draw from. */
 function sharedReductions(hit: IncomingHit, defender: Defenses) {
@@ -91,10 +99,6 @@ function sharedReductions(hit: IncomingHit, defender: Defenses) {
     steps.push({ label, factor, total });
   };
 
-  if (hit.critical) {
-    total *= hit.critDamagePercent / 100;
-    steps.push({ label: 'Critical', factor: hit.critDamagePercent / 100, total });
-  }
   if (hit.damageClass !== 'protection-ignoring') {
     const physical = hit.damageClass === 'physical';
     multiply(physical ? 'Physical Defense' : 'Magical Defense', physical ? defender.derived.physicalDefense : defender.derived.magicalDefense);
@@ -118,15 +122,21 @@ export function incomingDamage(hit: IncomingHit, defender: Defenses): IncomingDa
   let pool = armorPool;
   const instances: DamageInstance[] = [];
   for (let index = 0; index < hitCount(hit); index++) {
-    const { result, parried } = hit.outcomes[index] ?? { result: 'hit', parried: false };
-    const damage = perHit * outcomeFactor(result, parried && result !== 'evaded', hit.parryReductionPercent);
+    const given = hit.outcomes[index] ?? PLAIN_HIT;
+    const outcome = given.result === 'evaded' ? { ...PLAIN_HIT, result: given.result } : given;
+    const damage = perHit * outcomeFactor(outcome, hit);
     const absorbed = Math.min(pool, damage);
     pool -= absorbed;
-    instances.push({ result, parried: parried && result !== 'evaded', absorbed, taken: Math.max(0, Math.floor(damage - absorbed)) });
+    instances.push({ ...outcome, absorbed, taken: Math.max(0, Math.floor(damage - absorbed)) });
   }
   const only = instances.length === 1 ? instances[0] : null;
-  if (only && only.result === 'hit' && !only.parried && only.absorbed) {
-    steps.push({ label: hit.damageClass === 'magical' ? 'Magic Armor' : 'Armor', flat: only.absorbed, total: perHit - only.absorbed });
+  if (only && only.result !== 'evaded') {
+    let total = perHit;
+    for (const step of outcomeSteps(only, hit)) {
+      total *= step.factor;
+      steps.push({ ...step, total });
+    }
+    if (only.absorbed) steps.push({ label: hit.damageClass === 'magical' ? 'Magic Armor' : 'Armor', flat: only.absorbed, total: total - only.absorbed });
   }
   return { steps, instances, taken: instances.reduce((sum, instance) => sum + instance.taken, 0) };
 }
@@ -138,6 +148,7 @@ export interface AttackOdds {
   greatAccuracy: boolean;
   ignoresEvasion: boolean;
   parryChancePercent: number;
+  critChancePercent: number;
 }
 
 export interface ExpectedDamage {
@@ -158,21 +169,28 @@ export function rollOdds(odds: AttackOdds) {
 export function expectedDamage(hit: IncomingHit, defender: Defenses, odds: AttackOdds): ExpectedDamage {
   const { perHit, armorPool } = sharedReductions(hit, defender);
   const rolls = rollOdds(odds);
-  const parry = Math.max(0, Math.min(1, odds.parryChancePercent / 100));
-  const states: Array<{ probability: number; factor: number }> = [
-    { probability: rolls.hit * (1 - parry), factor: outcomeFactor('hit', false, hit.parryReductionPercent) },
-    { probability: rolls.hit * parry, factor: outcomeFactor('hit', true, hit.parryReductionPercent) },
-    { probability: rolls.glance * (1 - parry), factor: outcomeFactor('glance', false, hit.parryReductionPercent) },
-    { probability: rolls.glance * parry, factor: outcomeFactor('glance', true, hit.parryReductionPercent) },
-    { probability: rolls.evaded, factor: 0 },
-  ].filter(state => state.probability > 0);
+  const chance = (percent: number) => (on: boolean) => {
+    const p = Math.max(0, Math.min(1, percent / 100));
+    return on ? p : 1 - p;
+  };
+  const parry = chance(odds.parryChancePercent);
+  const crit = chance(odds.critChancePercent);
+  const states = [{ probability: rolls.evaded, factor: 0 }];
+  for (const result of ['hit', 'glance'] as const) {
+    for (const parried of [false, true]) {
+      for (const critical of [false, true]) {
+        states.push({ probability: rolls[result] * parry(parried) * crit(critical), factor: outcomeFactor({ result, parried, critical }, hit) });
+      }
+    }
+  }
 
+  const live = states.filter(state => state.probability > 0);
   let pools = new Map<number, number>([[armorPool, 1]]);
   let expected = 0;
   for (let index = 0; index < hitCount(hit); index++) {
     const next = new Map<number, number>();
     for (const [pool, weight] of pools) {
-      for (const state of states) {
+      for (const state of live) {
         const damage = perHit * state.factor;
         const absorbed = Math.min(pool, damage);
         const probability = weight * state.probability;

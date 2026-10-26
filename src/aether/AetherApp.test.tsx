@@ -101,7 +101,7 @@ describe('incoming damage', () => {
 });
 
 describe('glancing and parries', () => {
-  it('applies a ranked parry skill and a glancing blow to the chosen hit', async () => {
+  it('applies a ranked parry skill, a glancing blow and a crit to the chosen hit', async () => {
     const { user } = renderApp();
     const dialog = await importBuild(user, showcaseBuild);
     await user.click(within(dialog).getByRole('button', { name: 'Close Esc' }));
@@ -116,9 +116,10 @@ describe('glancing and parries', () => {
     expect((within(card).getByRole('spinbutton', { name: 'Parry chance %' }) as HTMLInputElement).value).toBe('40');
     await user.selectOptions(within(card).getByRole('combobox', { name: 'Hit 1' }), 'glance');
     await user.click(within(card).getByRole('checkbox', { name: 'Parried' }));
+    await user.click(within(card).getByRole('checkbox', { name: 'Crit' }));
 
     const taken = within(card).getByText('Taken').parentElement!.querySelector('.figure__value')!.textContent;
-    const expected = incomingDamage({ ...NO_HIT, amount: 400, parryReductionPercent: 50, outcomes: [{ result: 'glance', parried: true }] }, evaluation).taken;
+    const expected = incomingDamage({ ...NO_HIT, amount: 400, parryReductionPercent: 50, outcomes: [{ result: 'glance', parried: true, critical: true }] }, evaluation).taken;
     expect(taken).toBe(String(expected));
   });
 });

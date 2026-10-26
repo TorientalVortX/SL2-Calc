@@ -8,6 +8,9 @@ const defender = {
   physicalResistance: { Blunt: 0, Pierce: 0, Slash: 10 },
 };
 
+const outcomes = (...list: Array<[HitOutcome['result'], boolean?, boolean?]>): HitOutcome[] =>
+  list.map(([result, parried = false, critical = false]) => ({ result, parried, critical }));
+
 describe('incoming damage', () => {
   it('multiplies the percentage reductions, then subtracts Armor', () => {
     const result = incomingDamage({ ...NO_HIT, amount: 200, type: 'Slash' }, defender);
@@ -26,9 +29,17 @@ describe('incoming damage', () => {
     expect(incomingDamage({ ...NO_HIT, amount: 200, damageClass: 'magical', type: 'Dark' }, defender).taken).toBe(138);
   });
 
-  it('applies the critical multiplier before any reduction', () => {
-    // 200 × 1.5 × 0.73 − 45 = 174
-    expect(incomingDamage({ ...NO_HIT, amount: 200, critical: true }, defender).taken).toBe(174);
+  it('applies the critical multiplier before Armor', () => {
+    // 200 × 0.73 × 1.5 − 45 = 174
+    const result = incomingDamage({ ...NO_HIT, amount: 200, outcomes: outcomes(['hit', false, true]) }, defender);
+    expect(result.taken).toBe(174);
+    expect(result.steps.map(step => step.label)).toEqual(['Incoming', 'Physical Defense', 'Critical', 'Armor']);
+  });
+
+  it('rolls crits per hit, so only the critical hits of an attack are multiplied', () => {
+    const open = { ...defender, derived: { ...defender.derived, physicalDefense: 0, armor: 0 } };
+    const result = incomingDamage({ ...NO_HIT, amount: 100, hits: 3, outcomes: outcomes(['hit'], ['hit', false, true], ['glance', false, true]) }, open);
+    expect(result.instances.map(instance => instance.taken)).toEqual([100, 150, 60]);
   });
 
   it('adds 10% reduction per Momentum spent on Guard', () => {
@@ -61,7 +72,6 @@ describe('incoming damage', () => {
   });
 });
 
-const outcomes = (...list: Array<[HitOutcome['result'], boolean?]>): HitOutcome[] => list.map(([result, parried = false]) => ({ result, parried }));
 
 describe('glancing blows and parries', () => {
   it('takes 60% less from a glancing blow', () => {
@@ -85,7 +95,7 @@ describe('glancing blows and parries', () => {
 
 describe('expected damage', () => {
   const open = { ...defender, derived: { physicalDefense: 0, magicalDefense: 0, armor: 0, magicArmor: 0 } };
-  const odds = { attackerHit: 100, defenderEvade: 50, greatAccuracy: false, ignoresEvasion: false, parryChancePercent: 0 };
+  const odds = { attackerHit: 100, defenderEvade: 50, greatAccuracy: false, ignoresEvasion: false, parryChancePercent: 0, critChancePercent: 0 };
 
   it('splits each hit into hit, glance and evade from Hit against Evade', () => {
     // 50% to hit; a miss rerolls, so 25% glance and 25% evaded.
@@ -103,17 +113,20 @@ describe('expected damage', () => {
 
   it('agrees with enumerating every outcome of a multi-hit attack', () => {
     const hit = { ...NO_HIT, amount: 60, hits: 3, parryReductionPercent: 50 };
-    const withParry = { ...odds, parryChancePercent: 40 };
-    const rolls = rollOdds(withParry);
-    const choices: Array<[HitOutcome, number]> = [
-      [{ result: 'hit', parried: false }, rolls.hit * 0.6], [{ result: 'hit', parried: true }, rolls.hit * 0.4],
-      [{ result: 'glance', parried: false }, rolls.glance * 0.6], [{ result: 'glance', parried: true }, rolls.glance * 0.4],
-      [{ result: 'evaded', parried: false }, rolls.evaded],
-    ];
+    const chances = { ...odds, parryChancePercent: 40, critChancePercent: 25 };
+    const rolls = rollOdds(chances);
+    const choices: Array<[HitOutcome, number]> = [[{ result: 'evaded', parried: false, critical: false }, rolls.evaded]];
+    for (const result of ['hit', 'glance'] as const) {
+      for (const [parried, parryOdds] of [[false, 0.6], [true, 0.4]] as const) {
+        for (const [critical, critOdds] of [[false, 0.75], [true, 0.25]] as const) {
+          choices.push([{ result, parried, critical }, rolls[result] * parryOdds * critOdds]);
+        }
+      }
+    }
     let brute = 0;
     for (const a of choices) for (const b of choices) for (const c of choices) {
       brute += a[1] * b[1] * c[1] * incomingDamage({ ...hit, outcomes: [a[0], b[0], c[0]] }, defender).taken;
     }
-    expect(expectedDamage(hit, defender, withParry).expected).toBeCloseTo(brute, 9);
+    expect(expectedDamage(hit, defender, chances).expected).toBeCloseTo(brute, 9);
   });
 });

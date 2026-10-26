@@ -3,7 +3,7 @@ import { PHYSICAL_KEYS } from '../../types';
 import { ELEMENT_KEYS } from '../../domain/buildEvaluation';
 import {
   NO_HIT, expectedDamage, guardedEvade, incomingDamage,
-  type DamageClass, type DamageInstance, type DamageType, type HitResult, type IncomingHit,
+  type DamageClass, type DamageInstance, type DamageType, type HitOutcome, type HitResult, type IncomingHit,
 } from '../../domain/damage';
 import { parryChanceBonuses, parryOptions } from '../../domain/parry';
 import { Modal } from '../ui/Modal';
@@ -36,9 +36,18 @@ function stepValue(factor?: number, flat?: number): string {
   return factor === undefined ? '' : `×${factor.toFixed(2)}`;
 }
 
+function OutcomeCheck({ label, checked, onChange }: { label: string; checked: boolean; onChange: (checked: boolean) => void }) {
+  return (
+    <label className="hint" style={{ display: 'flex', gap: '0.4rem', alignItems: 'center', cursor: 'pointer' }}>
+      <input type="checkbox" checked={checked} onChange={event => onChange(event.target.checked)} />
+      {label}
+    </label>
+  );
+}
+
 function instanceNote(instance: DamageInstance, armorName: string): string {
   if (instance.result === 'evaded') return 'evaded';
-  const parts = [instance.result === 'glance' ? 'glancing' : '', instance.parried ? 'parried' : '',
+  const parts = [instance.critical ? 'critical' : '', instance.result === 'glance' ? 'glancing' : '', instance.parried ? 'parried' : '',
     instance.absorbed ? `−${Math.round(instance.absorbed * 10) / 10} ${armorName}` : `${armorName} spent`];
   return parts.filter(Boolean).join(', ');
 }
@@ -51,6 +60,7 @@ export function DamageDialog({ builder, onClose }: { builder: Builder; onClose: 
   const [chanceOverride, setChanceOverride] = useState<number | null>(null);
   const [zugzwang, setZugzwang] = useState(false);
   const [attackerHit, setAttackerHit] = useState(150);
+  const [critChance, setCritChance] = useState(0);
   const [greatAccuracy, setGreatAccuracy] = useState(false);
   const [ignoresEvasion, setIgnoresEvasion] = useState(false);
   const set = (patch: Partial<IncomingHit>) => setHit(current => ({ ...current, ...patch }));
@@ -63,15 +73,15 @@ export function DamageDialog({ builder, onClose }: { builder: Builder; onClose: 
   const parryChance = parryId ? (chanceOverride ?? parry?.chance ?? 0) : 0;
   const pickParry = (id: string) => { setParryId(id); setChanceOverride(null); };
 
-  const outcomes = Array.from({ length: hit.hits }, (_, index) => hit.outcomes[index] ?? { result: 'hit' as const, parried: false });
-  const setOutcome = (index: number, patch: Partial<(typeof outcomes)[number]>) =>
+  const outcomes = Array.from({ length: hit.hits }, (_, index): HitOutcome => hit.outcomes[index] ?? { result: 'hit', parried: false, critical: false });
+  const setOutcome = (index: number, patch: Partial<HitOutcome>) =>
     set({ outcomes: outcomes.map((outcome, at) => (at === index ? { ...outcome, ...patch } : outcome)) });
 
   const resolved = { ...hit, parryReductionPercent };
   const { steps, instances, taken } = incomingDamage(resolved, evaluation);
   const evade = guardedEvade(evaluation.derived.evade, hit.guardMomentum);
   const expected = expectedDamage(resolved, evaluation, {
-    attackerHit, defenderEvade: evade, greatAccuracy, ignoresEvasion, parryChancePercent: parryChance,
+    attackerHit, defenderEvade: evade, greatAccuracy, ignoresEvasion, parryChancePercent: parryChance, critChancePercent: critChance,
   });
   const maxHP = evaluation.derived.maxHP;
   const armorName = hit.damageClass === 'magical' ? 'Magic Armor' : 'Armor';
@@ -83,12 +93,9 @@ export function DamageDialog({ builder, onClose }: { builder: Builder; onClose: 
         <SelectField label="Class" value={hit.damageClass} options={CLASS_OPTIONS} onChange={value => set({ damageClass: value as DamageClass })} />
         <SelectField label="Type" value={hit.type ?? ''} options={TYPE_OPTIONS} onChange={value => set({ type: (value || null) as DamageType })} />
         <NumberField label="Other reduction %" value={hit.otherReductionPercent} max={100} onChange={otherReductionPercent => set({ otherReductionPercent })} />
+        <NumberField label="Crit damage %" value={hit.critDamagePercent} min={100} max={1000} onChange={critDamagePercent => set({ critDamagePercent })} />
       </div>
       <div className="inline" style={{ gap: 12, flexWrap: 'wrap', margin: '10px 0' }}>
-        <Toggle on={hit.critical} onChange={critical => set({ critical })}>Critical</Toggle>
-        {hit.critical ? (
-          <NumberField label="Crit damage %" value={hit.critDamagePercent} min={100} max={1000} onChange={critDamagePercent => set({ critDamagePercent })} />
-        ) : null}
         <Toggle on={hit.armorIgnoring} onChange={armorIgnoring => set({ armorIgnoring })}>Ignores Armor</Toggle>
         <span className="inline" style={{ gap: 6 }}>
           <span className="field__label">Hits</span>
@@ -143,11 +150,11 @@ export function DamageDialog({ builder, onClose }: { builder: Builder; onClose: 
                 options={RESULT_OPTIONS}
                 onChange={value => setOutcome(index, { result: value as HitResult })}
               />
-              {parryId && outcome.result !== 'evaded' ? (
-                <label className="hint" style={{ display: 'flex', gap: '0.4rem', alignItems: 'center', cursor: 'pointer', marginTop: 4 }}>
-                  <input type="checkbox" checked={outcome.parried} onChange={event => setOutcome(index, { parried: event.target.checked })} />
-                  Parried
-                </label>
+              {outcome.result !== 'evaded' ? (
+                <div className="inline" style={{ gap: 10, flexWrap: 'nowrap', marginTop: 4 }}>
+                  <OutcomeCheck label="Crit" checked={outcome.critical} onChange={critical => setOutcome(index, { critical })} />
+                  {parryId ? <OutcomeCheck label="Parried" checked={outcome.parried} onChange={parried => setOutcome(index, { parried })} /> : null}
+                </div>
               ) : null}
             </div>
           ))}
@@ -173,11 +180,13 @@ export function DamageDialog({ builder, onClose }: { builder: Builder; onClose: 
         <SectionHead>Expected</SectionHead>
         <div className="inline" style={{ gap: 12, flexWrap: 'wrap', marginBottom: 6 }}>
           <NumberField label="Attacker Hit" value={attackerHit} max={999} onChange={setAttackerHit} />
+          <NumberField label="Attacker Crit %" value={critChance} max={100} onChange={setCritChance} />
           <Toggle on={greatAccuracy} onChange={setGreatAccuracy}>Great Accuracy</Toggle>
           <Toggle on={ignoresEvasion} onChange={setIgnoresEvasion}>Ignores Evasion</Toggle>
         </div>
         <p className="hint">
           Each hit against {evade} Evade: {percent(expected.hitChance)} lands, {percent(expected.glanceChance)} glances, {percent(expected.evadeChance)} evaded
+          {critChance ? `; ${critChance}% crit` : ''}
           {parryId ? `; ${Math.round(parryChance * 10) / 10}% parried when it connects` : ''}.
         </p>
       </div>
@@ -190,14 +199,14 @@ export function DamageDialog({ builder, onClose }: { builder: Builder; onClose: 
             <span>{Math.round(step.total * 10) / 10}</span>
           </div>
         ))}
-        {instances.length > 1 || instances[0].result !== 'hit' || instances[0].parried ? instances.map((instance, index) => (
+        {instances.length > 1 || instances[0].result === 'evaded' ? instances.map((instance, index) => (
           <div className="provenance__row" key={index}>
             <span>Hit {index + 1} <span className="dim">{instanceNote(instance, armorName)}</span></span>
             <span>{instance.taken}</span>
           </div>
         )) : null}
         <p className="hint" style={{ marginTop: 8 }}>
-          Percentage reductions, glancing (−60%) and parries multiply together, then Armor or Magic Armor is subtracted. Armor is one pool per attack, used up hit by hit. Each hit is rounded down.
+          Percentage reductions, crits, glancing (−60%) and parries multiply together, then Armor or Magic Armor is subtracted. Armor is one pool per attack, used up hit by hit. Each hit is rounded down.
         </p>
       </div>
     </Modal>
