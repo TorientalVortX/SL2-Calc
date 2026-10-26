@@ -13,6 +13,7 @@ import { play } from '../state/audio';
 import type { Builder } from '../state/useBuilder';
 import { CopySpells } from './CopySpells';
 import { SkillCard } from '../dialogs/SkillCard';
+import { DamageDialog } from '../dialogs/DamageDialog';
 import { SkillEffects } from './SkillEffects';
 import { GrantedSkillCard } from './ItemEffects';
 import { SLOTS, grantedSkills } from '../state/equipment';
@@ -23,6 +24,7 @@ export function SkillsSheet({ builder }: { builder: Builder }) {
   const [query, setQuery] = useState('');
   const [takenOnly, setTakenOnly] = useState(false);
   const [selected, setSelected] = useState<Skill | null>(null);
+  const [simulating, setSimulating] = useState<Skill | null>(null);
   const onKeys = useListNavigation(1);
 
   const ranks = useMemo(() => mergeSkillRanks(build.skillRanks), [build.skillRanks]);
@@ -150,8 +152,10 @@ export function SkillsSheet({ builder }: { builder: Builder }) {
           rank={ranks[selected.id] ?? 0}
           onRank={rank => setRank(selected, rank)}
           onClose={() => setSelected(null)}
+          onSimulate={() => { setSelected(null); setSimulating(selected); }}
         />
       )}
+      {simulating && <DamageDialog builder={builder} initialSkillId={simulating.id} onClose={() => setSimulating(null)} />}
     </>
   );
 }

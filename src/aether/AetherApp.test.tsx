@@ -123,3 +123,25 @@ describe('glancing and parries', () => {
     expect(taken).toBe(String(expected));
   });
 });
+
+describe('outgoing damage', () => {
+  it('runs a basic attack and a damage modifier against a target', async () => {
+    const { user } = renderApp();
+    const dialog = await importBuild(user, showcaseBuild);
+    await user.click(within(dialog).getByRole('button', { name: 'Close Esc' }));
+    const evaluation = evaluateBuild(parseBuildFile(showcaseBuild).build);
+
+    await user.click(screen.getByRole('button', { name: 'Simulate' }));
+    await user.click(screen.getByRole('button', { name: 'outgoing' }));
+    const card = screen.getByRole('dialog', { name: /Outgoing damage/ });
+    const dealt = () => within(card).getByText('Dealt').parentElement!.querySelector('.figure__value')!.textContent;
+    const swa = evaluation.primaryWeapon!.swa;
+    expect(dealt()).toBe(String(Math.floor(swa)));
+
+    await user.click(within(card).getByRole('button', { name: 'Add modifier' }));
+    const armor = within(card).getByRole('spinbutton', { name: 'Armor' });
+    await user.clear(armor);
+    await user.type(armor, '20');
+    expect(dealt()).toBe(String(Math.floor(swa * 1.1 - 20)));
+  });
+});

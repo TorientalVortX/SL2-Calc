@@ -19,9 +19,10 @@ interface SkillCardProps {
   rank: number;
   onRank: (rank: number) => void;
   onClose: () => void;
+  onSimulate?: () => void;
 }
 
-export function SkillCard({ skill, evaluation, builder, rank, onRank, onClose }: SkillCardProps) {
+export function SkillCard({ skill, evaluation, builder, rank, onRank, onClose, onSimulate }: SkillCardProps) {
   const [attempt, setAttempt] = useState(0);
   const request = `${skill.id}:${attempt}`;
   const [result, setResult] = useState<{ request: string; text: SkillText | null; failed: boolean } | null>(null);
@@ -108,6 +109,7 @@ export function SkillCard({ skill, evaluation, builder, rank, onRank, onClose }:
             </div>
           </dl>
           <p className="hint">Before defenses and criticals. Extra effects aren’t included.</p>
+          {onSimulate && rank > 0 && <button type="button" className="btn btn--ghost" onClick={onSimulate}>Simulate against a target</button>}
         </section>}
 
         {facts.length > 0 && <dl className="skill-card__facts">
