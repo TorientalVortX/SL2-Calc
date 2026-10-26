@@ -382,7 +382,6 @@ for (const [group, filename] of Object.entries(FILES)) {
       ...(rounds ? { rounds: Number(rounds) } : {}),
       scaling,
       ...(specials.length ? { specials } : {}),
-      ...(previous?.optimizationPolicy ? { optimizationPolicy: previous.optimizationPolicy } : {}),
       description: item.details.flavour || previous?.description || '',
       location: item.location.length ? item.location : (previous?.location ?? []),
     };

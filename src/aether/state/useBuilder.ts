@@ -133,10 +133,7 @@ function readSaves(): SaveSlotV1[] {
 }
 
 /**
- * A build offered in the URL fragment.
- *
- * The same `#build=` links the original calculator writes, so a link shared from
- * either front end opens in either. Read once at mount and never applied
+ * A build offered in the URL fragment. Read once at mount and never applied
  * automatically: a link that silently replaced the sheet would discard work.
  */
 function readSharedBuild(): PendingShare | null {

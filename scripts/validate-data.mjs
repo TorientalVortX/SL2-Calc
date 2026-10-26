@@ -56,15 +56,6 @@ for (const filename of weaponFiles) {
         if (typeof amount !== 'number' || amount < 0) fail(`${location}.scaling[${scalingIndex}].${key}`, 'expected a non-negative number');
       }
     });
-    if (weapon?.optimizationPolicy !== undefined) {
-      const policy = weapon.optimizationPolicy;
-      if (!isRecord(policy)) fail(`${location}.optimizationPolicy`, 'expected an object');
-      else {
-        if (!['allowed', 'explicit-opt-in'].includes(policy.automaticRecommendation)) fail(`${location}.optimizationPolicy.automaticRecommendation`, 'expected allowed or explicit-opt-in');
-        if (typeof policy.restriction !== 'string' || !policy.restriction.trim()) fail(`${location}.optimizationPolicy.restriction`, 'expected a non-empty string');
-        if (policy.optInTerms !== undefined && (!Array.isArray(policy.optInTerms) || policy.optInTerms.some((term) => typeof term !== 'string' || !term.trim()))) fail(`${location}.optimizationPolicy.optInTerms`, 'expected non-empty strings');
-      }
-    }
   });
 }
 
@@ -183,30 +174,6 @@ for (const [baseName, hierarchy] of Object.entries(classes.hierarchy ?? {})) {
   }
 }
 
-const optimizerProfiles = await readJson('optimizer-profiles.json');
-if (optimizerProfiles.schemaVersion !== 1) fail('optimizer-profiles.json.schemaVersion', 'only schema version 1 is supported');
-const profileIds = new Set();
-for (const [index, profile] of (optimizerProfiles.profiles ?? []).entries()) {
-  const location = `optimizer-profiles.json.profiles[${index}]`;
-  if (!profile?.id || typeof profile.id !== 'string') fail(`${location}.id`, 'expected a stable ID');
-  else if (profileIds.has(profile.id)) fail(`${location}.id`, `duplicate profile ID "${profile.id}"`);
-  else profileIds.add(profile.id);
-  if (!races.races?.[profile.race]) fail(`${location}.race`, `unknown race "${profile.race}"`);
-  if (!races.subraces?.[profile.subrace]) fail(`${location}.subrace`, `unknown subrace "${profile.subrace}"`);
-  else if (Array.isArray(races.subraces[profile.subrace].allowedRaces) && !races.subraces[profile.subrace].allowedRaces.includes(profile.race)) fail(`${location}.race`, `subrace "${profile.subrace}" does not allow race "${profile.race}"`);
-  if (!classes.classes?.[profile.primaryClass] && profile.enabled !== false) fail(`${location}.primaryClass`, `unknown enabled primary class "${profile.primaryClass}"`);
-  if (!classes.classes?.[profile.secondaryClass]) fail(`${location}.secondaryClass`, `unknown secondary class "${profile.secondaryClass}"`);
-  if (profile.enabled === false && !profile.unavailableReason) fail(`${location}.unavailableReason`, 'disabled profiles must explain why they are unavailable');
-  validateStatRecord(profile.scaledStatTargets, `${location}.scaledStatTargets`, true);
-  if (!Array.isArray(profile.priorityStats)) fail(`${location}.priorityStats`, 'expected an array');
-  else for (const stat of profile.priorityStats) if (!STAT_KEYS.has(stat)) fail(`${location}.priorityStats`, `unsupported stat key "${stat}"`);
-  if (!isRecord(profile.weapon?.scaling)) fail(`${location}.weapon.scaling`, 'expected an object');
-  else for (const [stat, amount] of Object.entries(profile.weapon.scaling)) {
-    if (!SCALING_KEYS.has(stat)) fail(`${location}.weapon.scaling.${stat}`, 'unsupported scaling key');
-    if (typeof amount !== 'number' || !Number.isFinite(amount) || amount < 0) fail(`${location}.weapon.scaling.${stat}`, 'expected a non-negative finite number');
-  }
-}
-
 const statusCatalog = await readJson('statuses.json');
 if (statusCatalog.schemaVersion !== 1) fail('statuses.json.schemaVersion', 'only schema version 1 is supported');
 const statusIds = new Set();
@@ -284,26 +251,6 @@ for (const [index, talent] of (talentCatalog.talents ?? []).entries()) {
 }
 for (const key of ['pointsFromLevels', 'legendExtensionPoints', 'maxRanksPerTalent']) {
   if (!Number.isInteger(talentCatalog.budget?.[key]) || talentCatalog.budget[key] <= 0) fail(`talents.json.budget.${key}`, 'expected a positive integer');
-}
-
-const optimizerKnowledge = await readJson('optimizer-knowledge.json');
-if (optimizerKnowledge.schemaVersion !== 1) fail('optimizer-knowledge.json.schemaVersion', 'only schema version 1 is supported');
-for (const [index, archetype] of (optimizerKnowledge.archetypes ?? []).entries()) {
-  const location = `optimizer-knowledge.json.archetypes[${index}]`;
-  if (!archetype?.id || typeof archetype.id !== 'string') fail(`${location}.id`, 'expected a stable ID');
-  if (!['tank', 'evade', 'bruiser', 'hybrid', 'glass'].includes(archetype?.defensePlan)) fail(`${location}.defensePlan`, 'unsupported defense plan');
-}
-for (const [index, evidence] of (optimizerKnowledge.classPairEvidence ?? []).entries()) {
-  const location = `optimizer-knowledge.json.classPairEvidence[${index}]`;
-  if (!classes.classes?.[evidence.mainClass]) fail(`${location}.mainClass`, `unknown class "${evidence.mainClass}"`);
-  if (!classes.classes?.[evidence.subClass]) fail(`${location}.subClass`, `unknown class "${evidence.subClass}"`);
-  if (!profileIds.has(evidence.profileId)) fail(`${location}.profileId`, `unknown profile "${evidence.profileId}"`);
-  if (!Array.isArray(evidence.tags) || evidence.tags.some((tag) => typeof tag !== 'string')) fail(`${location}.tags`, 'expected an array of strings');
-}
-for (const [index, rule] of (optimizerKnowledge.rules ?? []).entries()) {
-  const location = `optimizer-knowledge.json.rules[${index}]`;
-  if (!rule?.id || typeof rule.id !== 'string') fail(`${location}.id`, 'expected a stable ID');
-  if (!rule?.statement || typeof rule.statement !== 'string') fail(`${location}.statement`, 'expected a statement');
 }
 
 const bonuses = await readJson('bonuses.json');
@@ -611,4 +558,4 @@ if (errors.length) {
 }
 
 console.log(`App v${release.version} · data ${manifest.dataVersion}`);
-console.log(`Data valid: ${weaponCount} weapons, ${armorCount} armors, ${gearCount} gear items, ${setCount} equipment sets, ${skillIds.size} skills, ${racialIds.size} racial skills, ${Object.keys(armorModifiers.materials).length} armor materials, ${Object.keys(armorModifiers.enchantments).length} armor enchantments, ${youkaiIds.size} youkai, ${Object.keys(races.subraces).length} subraces, ${Object.keys(classes.classes).length} classes, ${optimizerProfiles.profiles.length} optimizer profiles (${optimizerProfiles.profiles.filter((profile) => profile.enabled).length} enabled), ${statusIds.size} status effects, ${talentIds.size} talents (${subtalentIds.size} subtalents), and ${optimizerKnowledge.classPairEvidence.length} optimizer evidence records.`);
+console.log(`Data valid: ${weaponCount} weapons, ${armorCount} armors, ${gearCount} gear items, ${setCount} equipment sets, ${skillIds.size} skills, ${racialIds.size} racial skills, ${Object.keys(armorModifiers.materials).length} armor materials, ${Object.keys(armorModifiers.enchantments).length} armor enchantments, ${youkaiIds.size} youkai, ${Object.keys(races.subraces).length} subraces, ${Object.keys(classes.classes).length} classes, ${statusIds.size} status effects, and ${talentIds.size} talents (${subtalentIds.size} subtalents).`);

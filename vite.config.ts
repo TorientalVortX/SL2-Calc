@@ -10,23 +10,11 @@ const cacheNamespace = `sl2-${packageJson.version}-${gameData.dataVersion}`
 const entry = (file: string) => fileURLToPath(new URL(file, import.meta.url))
 
 export default defineConfig({
-  server: {
-    proxy: {
-      '/api/optimizer-ai': 'http://127.0.0.1:8787',
-      '/api/optimizer-health': 'http://127.0.0.1:8787',
-    },
-  },
   build: {
-    /*
-     * Two front ends over one domain layer. The Aether Codex is the front door at
-     * `/`; the original calculator stays reachable at `/classic.html` but is no
-     * longer linked to from anywhere. `aether.html` is kept as a redirect so links
-     * and bookmarks written while the Codex lived there still arrive.
-     */
+    // `aether.html` redirects bookmarks from when the Codex lived there.
     rollupOptions: {
       input: {
         main: entry('index.html'),
-        classic: entry('classic.html'),
         aether: entry('aether.html'),
       },
     },
@@ -77,8 +65,5 @@ export default defineConfig({
    */
   optimizeDeps: {
     include: ['three'],
-  },
-  css: {
-    postcss: './postcss.config.js',
   },
 })

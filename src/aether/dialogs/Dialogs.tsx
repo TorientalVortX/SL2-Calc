@@ -161,10 +161,7 @@ export function TransferDialog({ builder, onClose }: { builder: Builder; onClose
     }
   };
 
-  /*
-   * A link, not a file. The fragment carries the whole build compressed, which is
-   * how the original calculator shares one, so a link made here opens there.
-   */
+  // The fragment carries the whole build compressed; it never reaches the server.
   const copyLink = async () => {
     const result = shareLink();
     if ('error' in result) {
@@ -222,13 +219,13 @@ export function TransferDialog({ builder, onClose }: { builder: Builder; onClose
           Copy build code
         </button>
         <span className="hint" style={{ flex: 1, minWidth: 140 }}>
-          Share links open in Aether or the classic calculator.
+          Anyone with the link opens this exact build.
         </span>
       </div>
 
       <SectionHead aside="schema v1">File</SectionHead>
       <p className="hint" style={{ margin: '2px 0 9px' }}>
-        Paste build JSON or open a <span className="num">.json</span> file. Aether uses the same format as the classic calculator.
+        Paste build JSON or open a <span className="num">.json</span> file.
       </p>
       <textarea
         className="code scroll"

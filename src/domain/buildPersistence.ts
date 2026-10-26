@@ -20,7 +20,6 @@ import type {
   ElementalRecord,
   GameDataManifest,
   GearSlotState,
-  SaveSlotV1,
   SharePayloadV1,
   SkillRanks,
   StampRecord,
@@ -62,39 +61,6 @@ export const APP_RELEASE = releaseJson as AppRelease;
 /** Read from `app-release.json` so the notes and the badge can never disagree. */
 export const APP_VERSION = APP_RELEASE.version;
 export const GAME_DATA_MANIFEST = manifestJson as GameDataManifest;
-export const STORAGE_KEYS = {
-  preferences: 'sl2:prefs:v1',
-  draft: 'sl2:draft:v1',
-  saves: 'sl2:saves:v1',
-} as const;
-
-export interface UserPreferences {
-  showIntro: boolean;
-  uiSounds: boolean;
-}
-
-export function loadPreferences(): UserPreferences {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEYS.preferences);
-    if (stored) {
-      const parsed: unknown = JSON.parse(stored);
-      if (isRecord(parsed)) return {
-        showIntro: parsed.showIntro !== false,
-        uiSounds: parsed.uiSounds !== false,
-      };
-    }
-    return {
-      showIntro: localStorage.getItem('sl2_skip_intro') !== '1',
-      uiSounds: localStorage.getItem('sl2_ui_sounds') !== '0',
-    };
-  } catch {
-    return { showIntro: true, uiSounds: true };
-  }
-}
-
-export function savePreferences(preferences: UserPreferences): void {
-  localStorage.setItem(STORAGE_KEYS.preferences, JSON.stringify(preferences));
-}
 
 const MAX_SHARE_LENGTH = 20_000;
 const MAX_DECOMPRESSED_LENGTH = 100_000;
@@ -503,35 +469,4 @@ export function decodeSharePayload(encoded: string): SharePayloadV1 {
   const parsed: unknown = JSON.parse(json);
   if (!isRecord(parsed) || parsed.schemaVersion !== 1 || !isRecord(parsed.build)) throw new Error('Unsupported shared build format.');
   return { schemaVersion: 1, dataVersion: String(parsed.dataVersion ?? ''), buildName: String(parsed.buildName ?? 'Shared Build'), build: normalizeBuildState(parsed.build) };
-}
-
-export function loadRecoveryDraft(): BuildFileV1 | null {
-  const value = localStorage.getItem(STORAGE_KEYS.draft);
-  return value ? parseBuildFile(value) : null;
-}
-
-export function saveRecoveryDraft(buildName: string, build: BuildState): void {
-  localStorage.setItem(STORAGE_KEYS.draft, JSON.stringify(createBuildFile(buildName, build)));
-}
-
-export function discardRecoveryDraft(): void {
-  localStorage.removeItem(STORAGE_KEYS.draft);
-}
-
-export function loadSaveSlots(): SaveSlotV1[] {
-  const value = localStorage.getItem(STORAGE_KEYS.saves);
-  if (!value) return [];
-  const parsed: unknown = JSON.parse(value);
-  if (!Array.isArray(parsed)) throw new Error('Saved build list is corrupted.');
-  return parsed.filter(isRecord).map((slot) => ({
-    id: String(slot.id),
-    name: String(slot.name),
-    createdAt: String(slot.createdAt),
-    updatedAt: String(slot.updatedAt),
-    build: normalizeBuildState(slot.build),
-  }));
-}
-
-export function persistSaveSlots(slots: SaveSlotV1[]): void {
-  localStorage.setItem(STORAGE_KEYS.saves, JSON.stringify(slots));
 }

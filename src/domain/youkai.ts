@@ -84,7 +84,7 @@ export function ascendedYoukaiFor(youkaiOrId: Youkai | string): Youkai | undefin
 }
 
 /**
- * Canonicalizes contracts from UI, persistence, and optimizer candidates.
+ * Canonicalizes contracts from the UI and from persistence.
  * Unknown ids are dropped and an ascended form always replaces its base. If the
  * base was installed, the install follows the upgrade.
  */

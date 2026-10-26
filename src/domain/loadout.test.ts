@@ -11,24 +11,14 @@ import {
   classPairLegal,
   conditionalKey,
   destinyAllowsClassPair,
-  mergeSkillRanks,
   skillPointBudget,
   skillPoolSpends,
 } from './skills';
 import { TRAITS, traitCheckTarget } from './traits';
-import { youkaiById } from './youkai';
 import {
   canContractYoukai,
-  canSwapInstall,
-  eligibleTraits,
-  loadoutBudget,
-  loadoutOf,
-  loadoutViolations,
-  optimizeLoadout,
-  resolveLoadoutAxes,
   skillViolations,
-  summarizeLoadout,
-  withLoadout,
+  youkaiViolations,
 } from './loadout';
 
 function build(overrides: Record<string, unknown> = {}): BuildState {
@@ -207,7 +197,7 @@ describe('loadout legality', () => {
   it('reports an over-cap Youkai roster and an unsupported Install', () => {
     const state = build();
     state.youkai = { contracted: ['apus', 'byakko', 'suzaku'], installed: 'byakko' };
-    const problems = loadoutViolations(state, 1);
+    const problems = youkaiViolations(state, 1);
     expect(problems.some(problem => problem.includes('cap of 1'))).toBe(true);
     expect(problems.some(problem => problem.includes('Install skill is unranked'))).toBe(true);
   });
@@ -216,7 +206,7 @@ describe('loadout legality', () => {
     const state = build();
     state.youkai = { contracted: ['apus'], installed: 'apus' };
     state.skillRanks = { main: { install: 1, 'sync-mind': 1, 'the-contract': 1 }, sub: {} };
-    expect(loadoutViolations(state, 8)).toEqual([]);
+    expect([...skillViolations(state), ...youkaiViolations(state, 8)]).toEqual([]);
   });
 
   it('rejects a skill whose prerequisite is unranked', () => {
@@ -234,161 +224,11 @@ describe('loadout legality', () => {
   it('rejects a skill the class pair cannot reach and a spend over budget', () => {
     const state = build({ mainClass: 'Soldier', subClass: 'Soldier' });
     state.skillRanks = { main: { 'sync-mind': 2 }, sub: {} };
-    expect(loadoutViolations(state, 0).some(problem => problem.includes('not reachable'))).toBe(true);
+    expect(skillViolations(state).some(problem => problem.includes('not reachable'))).toBe(true);
   });
 
   it('only lets a Summoner-tree build contract', () => {
     expect(canContractYoukai(build({ mainClass: 'Shapeshifter', subClass: 'Ghost' }), baseClassOf)).toBe(true);
     expect(canContractYoukai(build({ mainClass: 'Soldier', subClass: 'Ghost' }), baseClassOf)).toBe(false);
-  });
-
-  it('offers only traits the build currently qualifies for', () => {
-    const oni = build();
-    oni.subrace = 'Oni';
-    const human = build();
-    expect(eligibleTraits(oni)).toContain('oni-heritage-red');
-    expect(eligibleTraits(human)).not.toContain('oni-heritage-red');
-    // History traits are applied through the build's `history` field, so buying
-    // one here would apply half of it.
-    expect(eligibleTraits(human).some(id => id.startsWith('history-'))).toBe(false);
-  });
-});
-
-describe('loadout search', () => {
-  it('keeps every axis untouched when none is enabled', () => {
-    const state = build();
-    const chosen = optimizeLoadout(state, () => 1, {
-      axes: resolveLoadoutAxes(undefined),
-      budget: loadoutBudget(state, 8),
-      baseClassOf,
-    });
-    expect(chosen).toEqual(loadoutOf(state));
-  });
-
-  it('buys Install as one move, because no step of it pays on its own', () => {
-    // A contract alone moves no number, an unranked Install does nothing, and
-    // Install with nothing contracted does nothing. Only the combination scores,
-    // so a search that took improving single steps could never reach it.
-    const state = build();
-    const score = (loadout: ReturnType<typeof loadoutOf>) =>
-      evaluateBuild(withLoadout(state, loadout)).scaledStats.ski;
-
-    const chosen = optimizeLoadout(state, score, {
-      axes: { traits: false, skills: true, youkai: true },
-      budget: loadoutBudget(state, 4),
-      baseClassOf,
-    });
-
-    expect(chosen.youkai.installed).not.toBeNull();
-    expect(chosen.youkai.contracted).toContain(chosen.youkai.installed);
-    expect(chosen.skillRanks.main.install ?? chosen.skillRanks.sub.install).toBeGreaterThanOrEqual(1);
-    expect(score(chosen)).toBeGreaterThan(score(loadoutOf(state)));
-    // The whole chain, not just Install: Sync-Mind and The Contract come with it.
-    expect(loadoutViolations(withLoadout(state, chosen), 4)).toEqual([]);
-    const ranks = mergeSkillRanks(chosen.skillRanks);
-    expect(ranks['sync-mind']).toBeGreaterThanOrEqual(1);
-    expect(ranks['the-contract']).toBeGreaterThanOrEqual(1);
-  });
-
-  it('only treats Chaotic Form as available when it is actually ranked', () => {
-    // Chaotic Form installs whoever you Evoke, so a Shapeshifter wears every
-    // race it holds, breadth. A plain Summoner installs once and wants depth.
-    const shifter = build({ mainClass: 'Shapeshifter', subClass: 'Grand Summoner' });
-    const plain = build({ mainClass: 'Grand Summoner', subClass: 'Grand Summoner' });
-    expect(canSwapInstall(shifter)).toBe(false);
-    expect(canSwapInstall(plain)).toBe(false);
-    shifter.skillRanks.main['chaotic-form'] = 1;
-    expect(canSwapInstall(shifter)).toBe(true);
-
-    const chosen = optimizeLoadout(
-      shifter,
-      loadout => evaluateBuild(withLoadout(shifter, loadout)).scaledStats.str,
-      { axes: { traits: false, skills: true, youkai: true }, budget: loadoutBudget(shifter, 6), baseClassOf },
-    );
-    const races = new Set(chosen.youkai.contracted.map(id => youkaiById(id)!.race));
-    expect(chosen.youkai.contracted.length).toBeGreaterThan(1);
-    expect(races.size).toBeGreaterThan(1);
-    expect(summarizeLoadout(withLoadout(shifter, chosen), 6).canSwapInstall).toBe(true);
-  });
-
-  it('uses unique ascended contract families and leaves unsupported capacity open', () => {
-    const state = build();
-    const chosen = optimizeLoadout(
-      state,
-      loadout => {
-        const evaluation = evaluateBuild(withLoadout(state, loadout));
-        return evaluation.scaledStats.str + evaluation.scaledStats.ski + evaluation.scaledStats.def;
-      },
-      { axes: { traits: false, skills: true, youkai: true }, budget: loadoutBudget(state, 12), baseClassOf },
-    );
-    const families = chosen.youkai.contracted.map(id => youkaiById(id)!.baseFormId ?? id);
-    expect(new Set(families).size).toBe(families.length);
-    expect(chosen.youkai.contracted).toContain('byakko-ascended');
-    expect(chosen.youkai.contracted).not.toContain('byakko');
-    expect(chosen.youkai.contracted.length).toBeLessThan(12);
-  });
-
-  it('preserves existing contracts while adding only improving choices', () => {
-    const state = build();
-    state.youkai = { contracted: ['apus'], installed: null };
-    const chosen = optimizeLoadout(
-      state,
-      loadout => evaluateBuild(withLoadout(state, loadout)).scaledStats.ski,
-      { axes: { traits: false, skills: true, youkai: true }, budget: loadoutBudget(state, 8), baseClassOf },
-    );
-    expect(chosen.youkai.contracted).toContain('apus');
-  });
-
-  it('will not spend skill points on Install when the skill axis is off', () => {
-    // An axis left off means "keep what I chose". Buying the Install rank anyway
-    // would spend from a budget the user never opened.
-    const state = build();
-    const chosen = optimizeLoadout(
-      state,
-      loadout => evaluateBuild(withLoadout(state, loadout)).scaledStats.ski,
-      { axes: { traits: false, skills: false, youkai: true }, budget: loadoutBudget(state, 4), baseClassOf },
-    );
-    expect(chosen.youkai.installed).toBeNull();
-    expect(chosen.skillRanks).toEqual(loadoutOf(state).skillRanks);
-  });
-
-  it('installs on an existing Install rank even with the skill axis off', () => {
-    const state = build();
-    state.skillRanks = { main: { install: 1 }, sub: {} };
-    const chosen = optimizeLoadout(
-      state,
-      loadout => evaluateBuild(withLoadout(state, loadout)).scaledStats.ski,
-      { axes: { traits: false, skills: false, youkai: true }, budget: loadoutBudget(state, 4), baseClassOf },
-    );
-    expect(chosen.youkai.installed).not.toBeNull();
-    expect(chosen.skillRanks).toEqual(loadoutOf(state).skillRanks);
-  });
-
-  it('never exceeds the Youkai cap it is given', () => {
-    const state = build();
-    const chosen = optimizeLoadout(state, loadout => evaluateBuild(withLoadout(state, loadout)).scaledStats.str, {
-      axes: { traits: false, skills: false, youkai: true },
-      budget: loadoutBudget(state, 3),
-      baseClassOf,
-    });
-    expect(chosen.youkai.contracted.length).toBeLessThanOrEqual(3);
-    expect(loadoutViolations(withLoadout(state, chosen), 3)).toEqual([]);
-  });
-
-  it('summarizes each class\'s allowance separately', () => {
-    const state = build({ destiny: true, mainClass: 'Summoner', subClass: 'Grand Summoner' });
-    state.skillRanks = { main: { 'sync-mind': 2 }, sub: {} };
-    const summary = summarizeLoadout(state, 6);
-    expect(summary.destiny).toBe(true);
-    expect(summary.skillPointsSpent).toBe(2);
-    // Two classes at the Destiny allowance each, reported per class and summed.
-    expect(summary.skillPools.map(pool => pool.className).sort()).toEqual(['Grand Summoner', 'Summoner']);
-    expect(summary.skillPools.every(pool => pool.budget === SKILL_POINTS_PER_CLASS_DESTINY + 2)).toBe(true);
-    expect(summary.skillPointBudget).toBe(2 * (SKILL_POINTS_PER_CLASS_DESTINY + 2));
-    expect(summary.skillPools.find(pool => pool.className === 'Summoner')?.spent).toBe(2);
-    expect(summary.skillPools.find(pool => pool.className === 'Grand Summoner')?.spent).toBe(0);
-    expect(summary.skills).toEqual([
-      { id: 'sync-mind', name: 'Sync-Mind', rank: 2, maxRank: 2, pool: 'Summoner' },
-    ]);
   });
 });

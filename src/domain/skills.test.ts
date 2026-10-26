@@ -3,9 +3,10 @@ import { parseBuildFile } from './buildPersistence';
 import { evaluateBuild } from './buildEvaluation';
 import { findWeaponByName, weaponToConfig } from './equipment';
 import { CLASS_HIERARCHY } from '../data/classes';
-import { mergeSkillRanks, skillDamageAtRank, skillDamageProfile, skillFormulaBreakdown } from './skillDamage';
+import { skillFormulaBreakdown } from './skillDamage';
 import {
   SKILLS,
+  mergeSkillRanks,
   fpCostAtRank,
   skillBonuses,
   skillById,
@@ -321,31 +322,6 @@ describe('skill damage', () => {
     expect(skillFormulaBreakdown(skillById('altera')!, 1, evaluation, { 0: 'Dark' })?.subtotal).toBe(48);
     expect(skillFormulaBreakdown(skillById('dodger')!, 1, evaluation)).toBeNull();
     expect(skillFormulaBreakdown(skillById('altera')!, 0, evaluation)).toBeNull();
-  });
-
-  it('splits a formula into weapon and elemental percentages', () => {
-    const skill = skillById('sanguine-star')!;
-    const entry = skillDamageAtRank(skill, 3);
-    expect(entry).toMatchObject({ swaPercent: 120, elementalAttackPercent: 0, element: null });
-    expect(entry?.unscoredTerms).toEqual([]);
-  });
-
-  it('reports damage it cannot attribute instead of scoring it', () => {
-    const unattributable = SKILLS.find(skill => skill.scaling?.some(term => term.unmodelled));
-    expect(unattributable).toBeDefined();
-    const entry = skillDamageAtRank(unattributable!, 1);
-    if (entry) expect(entry.unscoredTerms.length).toBeGreaterThan(0);
-  });
-
-  it('returns nothing for a skill that deals no modellable damage', () => {
-    expect(skillDamageAtRank(skillById('dodger')!, 1)).toBeNull();
-    expect(skillDamageAtRank(skillById('sanguine-star')!, 0)).toBeNull();
-  });
-
-  it('orders a profile by total scaling and skips unknown ids', () => {
-    const profile = skillDamageProfile({ 'sanguine-star': 5, 'not-a-skill': 3, dodger: 1 });
-    expect(profile.map(entry => entry.skillId)).toEqual(['sanguine-star']);
-    expect(profile[0].swaPercent).toBe(140);
   });
 
   it('merges both class slots, keeping the higher rank', () => {

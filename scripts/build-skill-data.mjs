@@ -156,8 +156,7 @@ function parseTerm(term, maxRank) {
     return { source: 'stat', stat: statMatch[1], label: statMatch[1].toUpperCase(), percentByRank };
   }
 
-  // Flat damage added on top of the scaled terms. Recorded for completeness; it
-  // has no percentage, so it never feeds the percentage-based optimizer model.
+  // Flat damage added on top of the scaled terms, at face value rather than as a percentage.
   if (/\b(base|bonus)\s*(dmg|damage)\b/.test(text) && percentByRank && !/%/.test(term)) {
     return { source: 'flat', label: /base/.test(text) ? 'Base damage' : 'Bonus damage', percentByRank };
   }

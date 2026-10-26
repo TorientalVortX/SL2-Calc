@@ -21,7 +21,7 @@ function armedBuild() {
   const state = build();
   const weapon = findWeaponByName('Longsword');
   if (!weapon) throw new Error('fixture weapon missing');
-  state.equipment.primaryWeapon = weaponToConfig(weapon, {});
+  state.equipment.primaryWeapon = weaponToConfig(weapon);
   return state;
 }
 

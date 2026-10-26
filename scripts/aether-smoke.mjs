@@ -3,9 +3,7 @@
  * over CDP, reports console errors, and writes a screenshot.
  *
  * Usage: node scripts/aether-smoke.mjs [cdpPort] [out.png] [width] [height] [--click=selector]
- *
- * Kept alongside `browser-smoke.mjs`, which does the same job for the original
- * calculator. Both assume the browser was started with --remote-debugging-port.
+ * Assumes the browser was started with --remote-debugging-port.
  */
 import { writeFile } from 'node:fs/promises';
 

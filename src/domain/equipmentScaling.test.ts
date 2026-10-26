@@ -41,13 +41,6 @@ describe('scalingForWeapon', () => {
     );
   });
 
-  it('lets an explicit override replace a stat instead of adding to it', () => {
-    const scaling = scalingForWeapon(byName('Amplifyia'), { wil: 10 });
-    expect(scaling.wil).toBe(10);
-    // Stats the override does not mention still come from the summed entries.
-    expect(scaling.luc).toBe(70);
-  });
-
   it('agrees with the data for every multi-entry weapon', () => {
     const multi = ALL_WEAPONS.filter(weapon => weapon.scaling.length > 1);
     expect(multi.length).toBeGreaterThan(0);

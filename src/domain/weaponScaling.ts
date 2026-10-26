@@ -150,8 +150,8 @@ export function applyScalingTags(base: Partial<ScalingTable>, tags: ScalingTag[]
 /**
  * A weapon's scaling as actually used, after every tag-rewriting effect.
  *
- * The single entry point, so the weapon workspace, the build evaluation and the
- * optimizer cannot disagree about what a Mundane weapon scales off.
+ * The single entry point, so the armory and the build evaluation cannot
+ * disagree about what a Mundane weapon scales off.
  */
 export function effectiveScaling(config: WeaponConfig, traitIds: string[] = []): ScalingTable {
   return applyScalingTags(config.customScaling, scalingTagsFor(config, traitIds));

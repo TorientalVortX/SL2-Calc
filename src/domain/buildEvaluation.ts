@@ -27,10 +27,9 @@ import { armorMaterialModifier, armorQualityModifier, otherMaterialModifier } fr
 import { armorEnchantmentEffect, enchantmentEffectForSlot } from './armorEnchantments';
 import modifierData from '../data/content/weapon-modifiers.json';
 import { calculateDiminishingReturns, calculateRisingGameBonus, calculateYoukaiCap } from './calculations';
-import { skillBonuses, skillsForClassSlots, type SkillBonuses } from './skills';
-import { mergeSkillRanks } from './skillDamage';
+import { mergeSkillRanks, skillBonuses, skillsForClassSlots, type SkillBonuses } from './skills';
 import { installedBaseStats, installedAffinityStats } from './youkai';
-import { youkaiNumericBonuses } from './youkaiOptimization';
+import { youkaiNumericBonuses } from './youkaiBonuses';
 import { itemBonuses } from './itemEffects';
 import { setPiecesEquipped } from './itemSets';
 import { traitStatBonuses, traitById } from './traits';
@@ -73,10 +72,8 @@ function sumSources(sources: DerivedSource[], channel: DerivedSource['channel'])
 export const ELEMENT_KEYS: ElementKey[] = ['Fire', 'Ice', 'Wind', 'Earth', 'Dark', 'Water', 'Light', 'Lightning', 'Acid', 'Sound'];
 
 /*
- * `evaluateBuild` runs on the order of a hundred thousand times per optimizer
- * search, and the overwhelming majority of those builds have no skills ranked and
- * nothing installed. These shared constants and the allocation-free emptiness
- * check keep that common case free of per-call garbage.
+ * `evaluateBuild` runs on every edit, and most builds have no skills ranked and
+ * nothing installed. These shared constants keep that common case allocation-free.
  */
 const EMPTY_SKILL_BONUSES: SkillBonuses = { stats: {}, buffStats: {}, derived: {}, elemental: {}, elementalResistance: {} };
 const EMPTY_RANKS: SkillRanks = {};
@@ -131,8 +128,7 @@ interface GearBonus {
 }
 
 /*
- * Shared and frozen because the overwhelming majority of builds the optimizer
- * evaluates have nothing in slots 3-6, and this path must not allocate for them.
+ * Shared and frozen so a build with nothing in slots 3-6 allocates nothing here.
  */
 const NO_GEAR_BONUS: GearBonus = Object.freeze({
   evade: 0, hp: 0, fp: 0, armor: 0, magicArmor: 0, critical: 0, criticalEvade: 0,
@@ -353,9 +349,8 @@ export function evaluateBuild(build: BuildState, includeStatSources = false): Bu
   const usingOffHand = equippedSlot3(build.equipment) === 'offHandWeapon';
   const equippedHands = usingOffHand ? undefined : build.equipment.hands;
   /*
-   * Left undefined when the build has nothing in slots 3-6, which is the case for
-   * almost every build the optimizer evaluates. Allocating the array regardless
-   * put four-element garbage on the hot path.
+   * Left undefined when the build has nothing in slots 3-6, so the empty case
+   * allocates nothing.
    */
   const gearSlots = equippedHands || build.equipment.legs || build.equipment.accessory1 || build.equipment.accessory2
     ? [equippedHands, build.equipment.legs, build.equipment.accessory1, build.equipment.accessory2]
@@ -860,7 +855,7 @@ export function evaluateBuild(build: BuildState, includeStatSources = false): Bu
     luckStatusPercent: fortune.luckStatusPercent + youkaiBonuses.derived.luckStatusPercent,
   };
 
-  // Resolve provenance only for the stat dialog, keeping optimizer evaluations cheap.
+  // Resolve provenance only for the stat dialog; every other evaluation skips it.
   const statSources: BuildEvaluation['statSources'] = includeStatSources
     ? Object.fromEntries(STAT_KEYS.map(stat => [stat, [] as Array<{ label: string; value: number }>])) as NonNullable<BuildEvaluation['statSources']>
     : undefined;
@@ -936,22 +931,4 @@ export function evaluateBuild(build: BuildState, includeStatSources = false): Bu
     sources: { hit: hitSources, evade: evadeSources, fp: fpSources },
     primaryWeapon,
   };
-}
-
-export function metricValue(evaluation: BuildEvaluation, metric: import('../types').OptimizationMetric): number {
-  if (STAT_KEYS.includes(metric as StatKey)) return evaluation.scaledStats[metric as StatKey];
-  if (metric === 'weaponPower') return evaluation.primaryWeapon?.power ?? 0;
-  if (metric === 'weaponSwa') return evaluation.primaryWeapon?.swa ?? 0;
-  if (metric === 'weaponHit') return evaluation.primaryWeapon?.hit ?? 0;
-  if (metric === 'weaponCritical') return evaluation.primaryWeapon?.critical ?? 0;
-  if (metric === 'weaponCriticalDamage') return evaluation.primaryWeapon?.criticalDamage ?? 0;
-  const elementalMetrics = {
-    fireAttack: 'Fire', iceAttack: 'Ice', windAttack: 'Wind', earthAttack: 'Earth', darkAttack: 'Dark',
-    waterAttack: 'Water', lightAttack: 'Light', lightningAttack: 'Lightning', acidAttack: 'Acid', soundAttack: 'Sound',
-  } as const;
-  if (metric in elementalMetrics) return evaluation.elementalAttack[elementalMetrics[metric as keyof typeof elementalMetrics]];
-  // `derived` is no longer uniformly numeric (`hitTiers` is a record), so the
-  // fallback checks rather than trusting the index.
-  const value = evaluation.derived[metric as keyof BuildEvaluation['derived']];
-  return typeof value === 'number' ? value : 0;
 }

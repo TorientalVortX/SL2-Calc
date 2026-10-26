@@ -19,7 +19,7 @@ import type { Builder } from '../state/useBuilder';
  *
  * Requirements are read off base stats (racial line plus invested points, with
  * no APT or equipment), which is the rule the wiki states and the same one
- * `traitCheckTarget` gives the optimizer. A trait already taken is never hidden
+ * `traitCheckTarget` applies. A trait already taken is never hidden
  * when its requirement stops being met: it stays visible and marked, because
  * moving a point out of STR is exactly how a build breaks, and the sheet has to
  * show that rather than quietly drop the row.

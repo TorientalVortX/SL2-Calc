@@ -213,11 +213,8 @@ export function itemBonuses(input: {
   const weapons = weaponEffects(input.weaponName);
   const armors = armorEffects(input.armorName);
   /*
-   * Deliberately allocation-free until something is actually equipped.
-   *
-   * `evaluateBuild` runs on the order of a hundred thousand times per optimizer
-   * search and almost none of those builds carry gear, so the empty case walks
-   * the slots with a plain loop rather than building intermediate arrays.
+   * Deliberately allocation-free until something is actually equipped: the empty
+   * case walks the slots with a plain loop rather than building intermediate arrays.
    */
   const gear = input.gear;
   let hasGear = false;

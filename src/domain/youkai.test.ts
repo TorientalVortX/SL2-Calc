@@ -17,7 +17,7 @@ import {
   youkaiRaceBaseStats,
   youkaiStats,
 } from './youkai';
-import { evaluateYoukaiRosterFit, missingYoukaiOptimizationProfiles, youkaiNumericBonuses } from './youkaiOptimization';
+import { youkaiNumericBonuses } from './youkaiBonuses';
 import { findWeaponByName, weaponToConfig } from './equipment';
 
 function summonerBuild() {
@@ -56,10 +56,6 @@ describe('youkai dataset', () => {
     ]);
     for (const youkai of ascended) expect(youkaiById(youkai.baseFormId)?.race).toBe(youkai.race);
   });
-
-  it('has optimization metadata for every Youkai kit', () => {
-    expect(missingYoukaiOptimizationProfiles()).toEqual([]);
-  });
 });
 
 describe('contract families', () => {
@@ -78,7 +74,7 @@ describe('contract families', () => {
   });
 });
 
-describe('youkai optimization effects', () => {
+describe('youkai skill bonuses', () => {
   it('gates actives and passives at the real Sync-Mind ranks', () => {
     const build = summonerBuild();
     build.youkai = { contracted: ['sazae-oni'], installed: null };
@@ -134,17 +130,6 @@ describe('youkai optimization effects', () => {
     expect(bonuses.stats.def).toBe(2);
     expect(bonuses.stats.res).toBe(2);
     expect(bonuses.derived.luckStatusPercent).toBe(20);
-  });
-
-  it('requires evidence for situational skills', () => {
-    const build = summonerBuild();
-    build.youkai = { contracted: ['hippogriph'], installed: null };
-    build.skillRanks = { main: { 'sync-mind': 2 }, sub: {} };
-    const none = evaluateYoukaiRosterFit(build, {}, new Set());
-    expect(none.reasons.get('hippogriph')).toBeUndefined();
-    build.equipment.primaryWeapon = weaponToConfig(findWeaponByName("Brawler's Glove")!);
-    const fist = evaluateYoukaiRosterFit(build, {}, new Set());
-    expect(fist.reasons.get('hippogriph')?.some(reason => reason.skillName === 'Talon Claw')).toBe(true);
   });
 });
 

@@ -153,9 +153,8 @@ export type TraitCheckTarget = Pick<BuildState, 'race' | 'subrace' | 'mainClass'
  * `rawStats`, which folds in equipment, class and APT. The wiki is explicit that
  * "bonuses from APT or items will not contribute" to a trait requirement.
  *
- * Lives here rather than in the dialog because the optimizer rewrites
- * `addedStats` freely, and it has to test eligibility by exactly the same rule
- * the trait screen shows.
+ * Lives here rather than in the sheet so `traitViolations` tests eligibility by
+ * exactly the same rule the trait screen shows.
  */
 export function traitCheckTarget(build: BuildState): TraitCheckTarget {
   const subrace = SUBRACES[build.subrace];

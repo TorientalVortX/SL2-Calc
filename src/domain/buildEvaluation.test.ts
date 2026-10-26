@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { parseBuildFile } from './buildPersistence';
-import { evaluateBuild, metricValue } from './buildEvaluation';
-import { metricKeys } from '../optimizerMetrics';
+import { evaluateBuild } from './buildEvaluation';
 import { SUBRACES } from '../data/races';
 import { ARMORS } from '../data/armors';
 import { HISTORY } from '../data/bonuses';
@@ -391,32 +390,6 @@ describe('Hit tiers', () => {
     expect(withSmite.hitTiers.flank1).toBe(bare.hitTiers.flank1);
     expect(withSmite.hitTiers.flank2).toBe(bare.hitTiers.flank2);
     expect(withSmite.hitBonusSources).toBe(bare.hitBonusSources);
-  });
-});
-
-describe('metric resolution', () => {
-  /*
-   * `derived` stopped being uniformly numeric when `hitTiers` was added, so the
-   * `metricValue` fallback now type-checks rather than trusting the index. This
-   * pins that every metric the optimizer can be given still resolves to a real
-   * number: a metric that silently returned 0 would read as a build scoring
-   * nothing on it rather than as a wiring mistake.
-   */
-  it('resolves every optimization metric to a finite number', () => {
-    const evaluation = evaluateBuild(baseBuild());
-    for (const metric of metricKeys) {
-      const value = metricValue(evaluation, metric);
-      expect(Number.isFinite(value), `${metric} did not resolve to a number`).toBe(true);
-    }
-  });
-
-  it('resolves the SWA metric to the weapon SWA, distinct from Power', () => {
-    const evaluation = evaluateBuild(armedBuild());
-    expect(evaluation.primaryWeapon).toBeDefined();
-    expect(metricValue(evaluation, 'weaponSwa')).toBe(evaluation.primaryWeapon?.swa);
-    expect(metricValue(evaluation, 'weaponPower')).toBe(evaluation.primaryWeapon?.power);
-    // The point of the split: with stat scaling in play they cannot be equal.
-    expect(metricValue(evaluation, 'weaponSwa')).toBeGreaterThan(metricValue(evaluation, 'weaponPower'));
   });
 });
 

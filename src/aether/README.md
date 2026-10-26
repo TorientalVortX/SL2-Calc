@@ -1,26 +1,21 @@
 # Aether Codex
 
-A Final Fantasy XIV inspired character sheet for Sigrogana Legend 2, built as a
-second front end over the calculator's existing domain layer.
+A Final Fantasy XIV inspired character sheet for Sigrogana Legend 2, built over
+the calculator's domain layer. It is the site's only front end; the original
+classic calculator was retired in 0.9.x and `/classic` now redirects here.
 
 ```bash
-npm run dev:aether     # http://127.0.0.1:5173/aether.html
-npm run build          # emits dist/index.html and dist/aether.html
+npm run dev:aether     # http://127.0.0.1:5173/
+npm run build          # emits dist/index.html and the dist/aether.html redirect
 ```
-
-The original calculator still lives at `/`. Both pages ship from one Vite build.
 
 ## Why it reuses the domain layer
 
 Not a single stat formula lives in `src/aether`. Every number on screen comes from
-`evaluateBuild`, the same pure function the optimizer runs a hundred thousand
-times per search, and legality comes from `domain/skills`, `domain/traits` and
-`domain/loadout`. Two consequences worth knowing:
-
-- A build exported here opens in the original calculator and the other way round —
-  both use `buildPersistence`'s schema-v1 file.
-- Fixing a formula fixes it in both front ends. This directory is presentation and
-  interaction only.
+`evaluateBuild`, a pure function, and legality comes from `domain/skills`,
+`domain/traits` and `domain/loadout`. Builds are saved, exported and shared as
+`buildPersistence`'s schema-v1 file. This directory is presentation and
+interaction only; formulas belong in `src/domain`.
 
 The deliberate exceptions are documented at the top of `state/readout.ts`. **Hit**,
 **Critical** and **Crit Damage** are properties of an attack rather than of a
@@ -362,17 +357,13 @@ Three additions cover the cases where that stops being true:
 - **Legality problems are routes.** Each line above the loadout sheets is a button
   onto the sheet that can fix it, tagged where the violations are collected rather
   than guessed from their prose.
-- **Both front ends link to each other.** `Calculator ↗` in the masthead, `Aether ↗`
-  in the original's header bar. One build file and one share-link format serve
-  both, and until now whichever page you opened was the only one you could reach.
 
 ## Sharing
 
 Three routes out, and one in:
 
-- **A link.** `Copy share link` puts the whole build in the URL fragment, in the
-  same `#build=` format the original calculator writes — so a link made in either
-  front end opens in either.
+- **A link.** `Copy share link` puts the whole build in the `#build=` URL
+  fragment, so it never reaches the server.
 - **A code**, for pasting where a URL will not go.
 - **A file**, schema v1, as before.
 
@@ -415,7 +406,7 @@ ui/                 panel frame, modal, animated numbers, backdrop, section nav
 panels/             the sheets
 dialogs/            templates, saves, transfer, advanced, shared builds, armory,
                     one attribute's card, one derived figure's card
-aether.css          the whole design system; no Tailwind dependency
+aether.css          the whole design system
 ```
 
 Modals are portalled to `document.body`. The armory opens from inside a panel
@@ -428,10 +419,6 @@ a fresh identity on each render of the sheet — so the effect tore down and set
 again after every edit, and its opening `focus()` fired each time. Any dialog that
 changes the build threw focus back to its Close button as you used it. If you add
 a dependency to that effect, this is what comes back.
-
-`aether.css` is deliberately standalone. The original calculator is a Tailwind
-build, and sharing a token layer between the two would have coupled a visual
-experiment to a shipping interface.
 
 ## Checking it
 
