@@ -1,17 +1,3 @@
-/**
- * Build model for the Aether Codex character builder.
- *
- * Everything numeric here is delegated: `evaluateBuild` owns the stat scaling and
- * every derived value, `skills`/`traits` own the legality rules, and
- * `buildPersistence` owns the file format. This module is only the set of legal
- * edits a player can make from the character sheet, plus the pruning each edit
- * drags in behind it.
- *
- * The pruning is the reason these are not plain `setState` calls. Changing a class
- * can orphan skill ranks that are no longer reachable, and changing a race can
- * orphan a subrace: leaving either in place produces a build the game would reject
- * while the sheet still reads as valid.
- */
 import type { ArmorQuality, ArmorUpgradePoints, BuildState, StatKey, WeaponConfig } from '../../types';
 import { evaluateBuild } from '../../domain/buildEvaluation';
 import { normalizeBuildState } from '../../domain/buildPersistence';
@@ -42,27 +28,17 @@ import {
 
 export const STAT_KEYS: StatKey[] = ['str', 'wil', 'ski', 'cel', 'def', 'res', 'vit', 'fai', 'luc', 'gui', 'san', 'apt'];
 
-/** Long names for the twelve stats, matching the wiki's `statInfo` titles. */
 export const STAT_NAMES: Record<StatKey, string> = {
   str: 'Strength', wil: 'Will', ski: 'Skill', cel: 'Celerity',
   def: 'Defense', res: 'Resistance', vit: 'Vitality', fai: 'Faith',
   luc: 'Luck', gui: 'Guile', san: 'Sanctity', apt: 'Aptitude',
 };
 
-/** The hard ceiling on a single stat's base total, enforced by `evaluateBuild`. */
 export const STAT_HARD_CAP = 80;
 
 export type ClassSlot = 'main' | 'sub';
 
-/**
- * The loadout sheets, named where both the panel and the status can see them.
- *
- * The panel owns the tab strip, but a legality problem has to say which sheet it
- * belongs to, and that is decided where the violations are collected.
- */
 export type LoadoutSheet = 'gear' | 'skills' | 'mixtures' | 'traits' | 'talents' | 'racials' | 'youkai';
-
-/* --------------------------------------------------------------- construction */
 
 export function createDefaultBuild(): BuildState {
   return normalizeBuildState({
@@ -82,12 +58,7 @@ export interface TemplateEntry {
   build: BuildState;
 }
 
-/**
- * The starting templates, read from `rules.json` rather than restated here.
- *
- * The dataset stores the spread under `stats`, which is the `addedStats` field of
- * a build; the points the character has invested, not their totals.
- */
+/** `rules.json` stores the spread under `stats`: invested `addedStats`, not totals. */
 export const TEMPLATES: TemplateEntry[] = Object.entries(
   TEMPLATE_BUILDS as Record<string, Record<string, unknown>>,
 ).map(([id, template]) => ({
@@ -98,11 +69,8 @@ export const TEMPLATES: TemplateEntry[] = Object.entries(
   build: normalizeBuildState({ ...template, addedStats: template.stats }),
 }));
 
-/* ---------------------------------------------------------------- class model */
-
 export interface ClassFamily {
   base: string;
-  /** The base class plus every promotion available from it. */
   members: string[];
 }
 
@@ -122,8 +90,6 @@ export function subracesFor(race: string): string[] {
 }
 
 export const RACE_NAMES = Object.keys(RACES);
-
-/* -------------------------------------------------------------------- actions */
 
 export type BuildAction =
   | { type: 'replace'; build: BuildState }
@@ -165,17 +131,10 @@ export type BuildAction =
   | { type: 'youkai-clear' }
   | { type: 'field'; patch: Partial<BuildState> };
 
-/** The per-stat ceiling on invested points, as `evaluateBuild` computes it. */
 export function investedCaps(build: BuildState): Record<StatKey, number> {
   return evaluateBuild(build).maxInvestedStats;
 }
 
-/**
- * Drops skill ranks the new class pair can no longer reach.
- *
- * Kept as a filter over the reachable pool rather than a wholesale reset so a
- * player retuning one slot does not lose the other slot's sheet.
- */
 function pruneSkills(build: BuildState): BuildState {
   const reachable = new Set(skillsForClassSlots(build.mainClass, build.subClass).map(skill => skill.id));
   const filter = (ranks: Record<string, number>) =>
@@ -186,7 +145,6 @@ function pruneSkills(build: BuildState): BuildState {
   };
 }
 
-/** Updates the class-family selections after a class change. */
 function settleClasses(build: BuildState): BuildState {
   const next: BuildState = {
     ...build,
@@ -226,8 +184,7 @@ export function buildReducer(build: BuildState, action: BuildAction): BuildState
       let next: BuildState = action.slot === 'main'
         ? { ...build, mainClass: action.className, ...(monoclass ? { subClass: action.className } : {}) }
         : { ...build, subClass: action.className };
-      // Destiny confines a character to one family, so a pair that breaks it is
-      // resolved by pulling the other slot along rather than saving an illegal build.
+      // Destiny confines a character to one family, so the other slot is pulled along.
       if (next.destiny && !destinyAllowsClassPair(next.mainClass, next.subClass)) {
         next = action.slot === 'main'
           ? { ...next, subClass: action.className }
@@ -314,8 +271,7 @@ export function buildReducer(build: BuildState, action: BuildAction): BuildState
     }
     case 'subtalent-rank': {
       const talents = setSubtalentRank(build.talents, action.subtalentId, action.rank);
-      // A subtalent dropped to zero takes its conditional switch with it, or the
-      // switch would still be on when the rank came back.
+      // A zeroed subtalent drops its conditional switch, or the switch would be on when the rank returns.
       const conditionals = { ...(build.talentConditionals ?? {}) };
       if (!talents[action.subtalentId]) delete conditionals[action.subtalentId];
       return { ...build, talents, talentConditionals: conditionals };
@@ -332,11 +288,7 @@ export function buildReducer(build: BuildState, action: BuildAction): BuildState
     case 'traits-clear':
       return { ...build, traits: [], history: 'None' };
 
-    /*
-     * Equipment. Each case delegates the slot rules to `state/equipment.ts` and
-     * only re-clamps stats afterwards, because a piece granting a stat raises the
-     * non-allocated floor and so lowers how much may be invested on top of it.
-     */
+    // Stats are re-clamped after equipping: a granted stat raises the floor and lowers the invested cap.
     case 'equip-weapon':
       return clampAllStats({
         ...build,
@@ -393,18 +345,12 @@ export function buildReducer(build: BuildState, action: BuildAction): BuildState
     case 'equipment-clear':
       return clampAllStats({ ...build, equipment: clearEquipment() });
 
-    /*
-     * Youkai. Contracting goes through `contractYoukai` rather than pushing onto
-     * the list, because a family holds one form at a time: taking an ascended
-     * Youkai replaces the base it grew from, and carries the install across if
-     * that base was the one installed.
-     */
+    // A family holds one form at a time; `contractYoukai` replaces the base and carries its install across.
     case 'youkai-contract': {
       const youkai = action.contracted
         ? contractYoukai(build.youkai, action.id)
         : normalizeYoukaiState({
           contracted: build.youkai.contracted.filter(id => id !== action.id),
-          // Releasing the installed Youkai has to clear the install with it.
           installed: build.youkai.installed === action.id ? null : build.youkai.installed,
         });
       return clampAllStats({ ...build, youkai });
@@ -421,8 +367,7 @@ export function buildReducer(build: BuildState, action: BuildAction): BuildState
 
     case 'field': {
       const next = { ...build, ...action.patch };
-      // Turning Destiny on can invalidate the current pair; collapse to monoclass
-      // on the main class's family, which is always legal.
+      // Destiny can invalidate the pair; monoclass on the main class's family is always legal.
       if (next.destiny && !destinyAllowsClassPair(next.mainClass, next.subClass)) {
         return settleClasses({ ...next, subClass: next.mainClass });
       }
@@ -434,13 +379,6 @@ export function buildReducer(build: BuildState, action: BuildAction): BuildState
   }
 }
 
-/**
- * Re-clamps every invested stat against its cap.
- *
- * Needed after any edit that changes the non-allocated part of a stat: a subrace
- * with a higher racial line lowers how much may be invested on top of it, and the
- * points already there would otherwise sit above the hard cap.
- */
 function clampAllStats(build: BuildState): BuildState {
   const caps = investedCaps(build);
   const addedStats = { ...build.addedStats };

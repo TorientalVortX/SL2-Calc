@@ -26,11 +26,7 @@ describe('weapon slot calculation', () => {
     expect(calculateWeaponSlot(input).twoHandedPowerBonus).toBe(12);
   });
 
-  /*
-   * Regression: spears were the one two-handed type that never paid out. Weapon
-   * data spells the type `Polearm` while the two-handed rule was written against
-   * `Spear`, so swords and axes worked and every spear silently scored zero.
-   */
+  // Weapon data spells the type `Polearm`; the two-handed rule was written against `Spear`.
   it('pays the two-handed power bonus to both spellings of a spear', () => {
     const polearm = calculateWeaponSlot({ ...input, weaponType: 'Polearm', effectiveWeaponType: 'Polearm' });
     const spear = calculateWeaponSlot({ ...input, weaponType: 'Spear', effectiveWeaponType: 'Spear' });
@@ -45,10 +41,7 @@ describe('weapon slot calculation', () => {
     expect(dagger.twoHandedPowerBonus).toBe(0);
   });
 
-  /*
-   * Regression: Fated reads "all weapon parameters improve by 3", and improving
-   * Weight means lowering it. It was stored as +3 and made its weapon heavier.
-   */
+  // Fated: "all weapon parameters improve by 3", and improving Weight means lowering it.
   it('never reports negative weight once reducers stack', () => {
     const light = calculateWeaponSlot({
       ...input,
@@ -63,11 +56,7 @@ describe('weapon slot calculation', () => {
 });
 
 describe('SWA is not Power', () => {
-  /*
-   * `SWA = Power + Stat Percentages * 1.5`. Power and SWA were the same field,
-   * which meant stat scaling was reported as the weapon's own Power and every
-   * percentage-of-SWA coefficient was applied to the wrong quantity.
-   */
+  // `SWA = Power + Stat Percentages * 1.5`.
   it('reports Power without stat scaling and SWA with it', () => {
     const result = calculateWeaponSlot(input);
     expect(result.swa).toBe(result.power + input.scalingContribution);
@@ -98,10 +87,6 @@ describe('SWA is not Power', () => {
 });
 
 describe('SWA stat scaling', () => {
-  /*
-   * The listed percentages are not what lands in the SWA sum: a weapon that
-   * reads 70% / 40% behaves as 105% / 60%.
-   */
   it('multiplies the listed scaling percentages', () => {
     const stats = { str: 60, ski: 40 };
     expect(scaledStatContribution(stats, { str: 70, ski: 40 })).toBe(Math.floor(60 * 1.05 + 40 * 0.6));
@@ -132,9 +117,6 @@ describe('weapon upgrade points', () => {
   });
 
   it('reproduces the legacy blanket upgrade level exactly', () => {
-    // `upgradeLevel: N` used to add N to power, crit and hit alike. The migration
-    // maps it to N in each of those channels, so an existing build's stats must
-    // come out identical.
     const migrated = calculateWeaponSlot({
       ...input,
       upgradePoints: { power: 3, critical: 3, accuracy: 3, durability: 0 },
@@ -160,8 +142,6 @@ describe('upgrade point migration helpers', () => {
   });
 
   it('ignores an upgrade budget left in an older build file', () => {
-    // Budgets were removed; a file that still carries one must load unchanged
-    // rather than having its points clamped to it.
     const points = { power: 6, critical: 4, accuracy: 3, durability: 2 };
     const legacy = { upgradePoints: points, upgradeBudget: 5 };
     expect(resolveUpgradePoints(legacy)).toBe(points);

@@ -1,22 +1,12 @@
-/* ------------------------------------------------------------ stat allocation */
-
 .stat-grid {
   display: grid;
   gap: 2px;
 }
 
 .stat-head-row { display: grid; }
-/* Two class selectors so this beats `.stat-head { display: grid }`, which is
-   declared further down the file. */
+/* Two classes to beat the later `.stat-head { display: grid }`. */
 .stat-head.stat-head--second { display: none; }
 
-/*
- * Two columns of six once the centre column is wide enough.
- *
- * This halves the attribute panel's height, which is the whole point: the panel
- * is content-sized, so every row it saves goes straight to the loadout sheet
- * below it rather than to empty space.
- */
 @media (min-width: 1400px) {
   .stat-grid,
   .stat-head-row {
@@ -38,7 +28,6 @@
   transition: background-color 0.18s var(--ease), border-color 0.18s var(--ease), box-shadow 0.24s var(--ease);
 }
 
-/* Column captions, so each row does not have to repeat them. */
 .stat-head {
   display: grid;
   grid-template-columns: 13px minmax(58px, 76px) auto minmax(90px, 1fr) 46px;
@@ -66,10 +55,8 @@
   box-shadow: inset 2px 0 0 var(--gold-300);
 }
 
-/* The row itself is the tab stop, so its ring would double the highlight. */
 .stat:focus { outline: none; }
 
-/* Element-coloured gem; its colour is set per stat from the game palette. */
 .stat__gem {
   width: 9px;
   height: 9px;
@@ -79,8 +66,6 @@
   opacity: 0.9;
 }
 
-/* The button that opens the stat card. Styled as the label it replaced, with the
-   underline the only thing announcing it is more than a label. */
 .stat__name {
   display: flex;
   flex-direction: column;
@@ -88,9 +73,6 @@
   justify-content: center;
   gap: 0;
   min-width: 0;
-  /* Stretched to the row rather than sized to the two words in it: on a phone the
-     abbreviation alone is a 30px-wide target, and this is the only way to the
-     card there. */
   align-self: stretch;
   min-height: 27px;
   padding: 0;
@@ -156,9 +138,7 @@
 }
 .stat__input.is-capped { color: var(--gold-200); }
 
-/* Track. Doubles as a drag surface for allocating points.
-   The ticks are every 20 of the 80-point hard cap, so a bar can be read as a
-   value and not only as a proportion. */
+/* Ticks every 20 of the 80-point hard cap. */
 .stat__track {
   position: relative;
   height: 9px;
@@ -184,7 +164,6 @@
   transition: width 0.28s var(--ease-out), left 0.28s var(--ease-out);
 }
 
-/* Where the racial floor sits, under the invested points. */
 .stat__base {
   position: absolute;
   top: 0;
@@ -206,11 +185,8 @@
   color: var(--gold-100);
   letter-spacing: -0.02em;
 }
-/* Raw is the plainer figure and reads as one, so a column of them cannot be
-   mistaken for the scaled column at a glance. */
 .stat__scaled.is-raw { color: var(--text-2); }
 
-/* The card's track is a control in its own right, so it is worth touching. */
 .stat__track--lg {
   height: 22px;
   margin: 2px 0 9px;
@@ -222,7 +198,6 @@
   box-shadow: 0 0 18px -6px var(--glow-gold);
 }
 
-/* The remaining-points readout above the grid. */
 .pool {
   display: flex;
   align-items: center;

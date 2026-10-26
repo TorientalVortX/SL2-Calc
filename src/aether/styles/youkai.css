@@ -1,10 +1,3 @@
-/* ----------------------------------------------------------- youkai skills */
-
-/*
- * A Youkai skill card. Wider text measure than an equipment effect line because
- * these carry full rules text, and a left rule rather than a fill so a list of
- * six reads as a list rather than as six competing panels.
- */
 .yskill {
   display: grid;
   gap: 4px;
@@ -59,8 +52,6 @@
   color: var(--text-3);
 }
 
-/* The twelve-stat line on a Youkai card: four columns, so it stays two rows in a
-   reading-width dialog. */
 .ystats {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -79,8 +70,6 @@
 @media (max-width: 520px) {
   .ystats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 
-  /* On a phone the dialog *is* the interface for as long as it is open; 24px of
-     scrim on each side is a tenth of the screen spent on framing it. */
   .scrim { padding: 9px; }
   .modal { max-height: 94vh; }
   .modal__head { padding: 11px 12px 9px; }

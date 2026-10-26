@@ -1,14 +1,4 @@
-/**
- * Drives the Aether Codex with a thumb at a phone viewport and asserts the flows
- * a phone user actually needs: get to a panel, spend a point, equip something,
- * open a card, and close a dialog.
- *
- * Where `aether-mobile-audit.mjs` measures the layout, this one uses it: several
- * of the fixes it covers were unreachable rather than merely cramped, which a
- * geometry report alone does not catch.
- *
- * Usage: node scripts/aether-mobile-flow.mjs [--url=...] [--width=360] [--height=780]
- */
+// Usage: node scripts/aether-mobile-flow.mjs [--url=...] [--width=360] [--height=780]
 import { chromium, devices } from 'playwright';
 import { readFile } from 'node:fs/promises';
 
@@ -37,8 +27,7 @@ const problems = [];
 page.on('pageerror', error => problems.push(`page error: ${error}`));
 page.on('console', message => { if (message.type() === 'error') problems.push(`console: ${message.text()}`); });
 
-// Playwright's `isMobile` does not move the pointer/hover media features, and the
-// sheet asks them before it hides its keyboard prose. A real S25 answers coarse.
+// Playwright's isMobile doesn't set the pointer/hover media features; a real S25 reports coarse.
 const cdp = await context.newCDPSession(page);
 await cdp.send('Emulation.setEmulatedMedia', {
   features: [
@@ -151,8 +140,6 @@ await step('skill details show wiki text and allow rank changes by touch', async
   if (await row.locator('.rank-value').innerText() !== before) throw new Error('opening details changed the skill rank');
 });
 
-/* Every dialog, checked for the one failure a phone cannot recover from: a Close
-   button off the side of the screen, on a device with no Esc key. */
 for (const [label, name] of [['Templates', 'templates'], ['Builds', 'saved builds'], ['Advanced', 'advanced'], ['Import', 'import / export']]) {
   await step(`the ${name} dialog fits the screen and closes by touch`, async () => {
     await page.evaluate(() => window.scrollTo(0, 0));

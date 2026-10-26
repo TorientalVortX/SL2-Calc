@@ -11,7 +11,6 @@ const byName = (name: string): Weapon => {
 
 describe('scalingForWeapon', () => {
   it('sums every scaling entry rather than reading only the first', () => {
-    // Amplifyia scales two ways at once; the game adds them.
     const amplifyia = byName('Amplifyia');
     expect(amplifyia.scaling.length).toBe(2);
 

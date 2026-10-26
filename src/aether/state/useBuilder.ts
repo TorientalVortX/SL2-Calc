@@ -1,12 +1,3 @@
-/**
- * The builder's single source of truth: one build, its evaluation, and the
- * saved-slot store around them.
- *
- * The build is the only state that matters. Every number on screen is derived
- * from it by `evaluateBuild`, memoised so the twelve-stat panel, the loadout
- * sheets and the attribute rail all read one evaluation per edit rather than
- * recomputing it each.
- */
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import type { BuildEvaluation, BuildState, SaveSlotV1 } from '../../types';
 import { evaluateBuild } from '../../domain/buildEvaluation';
@@ -39,31 +30,21 @@ export interface Notice {
   text: string;
 }
 
-/** A build carried in the URL, waiting for the visitor to accept or refuse it. */
 export interface PendingShare {
   buildName: string;
   build: BuildState;
-  /** The dataset the link was made against, which may not be this one. */
   dataVersion: string;
 }
 
-/**
- * A legality problem, tagged with the sheet that can fix it.
- *
- * The domain returns prose; which sheet owns each line is knowable only from
- * which producer emitted it, so the tag is applied here rather than guessed from
- * the text downstream.
- */
+/** Tagged here, where the producer is known, since the domain returns prose. */
 export interface Violation {
   sheet: LoadoutSheet;
   text: string;
 }
 
-/** Budget counters shown next to each loadout sheet's heading. */
 export interface LoadoutStatus {
   traitsSpent: number;
   traitsBudget: number;
-  /** Ranks bought across all talents, against the 65 a character has. */
   talentsSpent: number;
   talentsBudget: number;
   skillPools: ReturnType<typeof skillPoolSpends>;
@@ -95,13 +76,10 @@ export interface Builder {
   theme: Theme;
   setTheme: (value: Theme) => void;
   version: string;
-  /** A build offered by the URL, or null. See `acceptShare` / `dismissShare`. */
   pendingShare: PendingShare | null;
   acceptShare: () => void;
   dismissShare: () => void;
-  /** The current build as a shareable URL, or an error explaining why not. */
   shareLink: () => { url: string } | { error: string };
-  /** The compressed payload on its own, for pasting where a URL will not go. */
   shareCode: () => string;
 }
 
@@ -123,7 +101,6 @@ function readSaves(): SaveSlotV1[] {
           build: normalizeBuildState(record.build),
         }];
       } catch {
-        // One unreadable slot must not take the whole list with it.
         return [];
       }
     });
@@ -132,10 +109,7 @@ function readSaves(): SaveSlotV1[] {
   }
 }
 
-/**
- * A build offered in the URL fragment. Read once at mount and never applied
- * automatically: a link that silently replaced the sheet would discard work.
- */
+/** Never applied automatically: a link that silently replaced the sheet would discard work. */
 function readSharedBuild(): PendingShare | null {
   try {
     const encoded = new URLSearchParams(window.location.hash.slice(1)).get('build');
@@ -143,7 +117,6 @@ function readSharedBuild(): PendingShare | null {
     const payload = decodeSharePayload(encoded);
     return { buildName: payload.buildName, build: payload.build, dataVersion: payload.dataVersion };
   } catch {
-    // A truncated or foreign link is not worth an error dialog on first paint.
     return null;
   }
 }
@@ -179,11 +152,10 @@ export function useBuilder(): Builder {
     setAudioEnabled(sound);
     try {
       localStorage.setItem(STORAGE.prefs, JSON.stringify({ sound }));
-    } catch { /* private browsing; the preference simply does not persist */ }
+    } catch { /* private browsing */ }
   }, [sound]);
 
-  // The attribute goes on `<html>`, outside the tree, so this runs on the first
-  // render too rather than only on a change.
+  // The attribute is on `<html>`, outside the tree, so this also runs on first render.
   useEffect(() => {
     applyTheme(theme);
     writeTheme(theme);
@@ -201,8 +173,6 @@ export function useBuilder(): Builder {
       skillPools: pools,
       skillsSpent: pools.reduce((total, pool) => total + pool.spent, 0),
       skillsBudget: pools.reduce((total, pool) => total + pool.budget, 0),
-      // The Youkai cap is a derived stat, so it is read off the evaluation rather
-      // than recomputed here.
       violations: [
         ...traitViolations(build).map(text => ({ sheet: 'traits' as const, text })),
         ...talentViolations(build).map(text => ({ sheet: 'talents' as const, text })),
@@ -213,13 +183,12 @@ export function useBuilder(): Builder {
     };
   }, [build, evaluation.derived.youkaiCap]);
 
-  // Autosaved so a reload does not lose the sheet. Debounced because stat
-  // allocation fires on every keypress and drag frame.
+  // Debounced: stat allocation fires on every keypress and drag frame.
   useEffect(() => {
     const timer = window.setTimeout(() => {
       try {
         localStorage.setItem(STORAGE.draft, JSON.stringify(createBuildFile(buildName, build)));
-      } catch { /* over quota or blocked; the session still works */ }
+      } catch { /* over quota or blocked */ }
     }, 400);
     return () => window.clearTimeout(timer);
   }, [build, buildName]);
@@ -314,19 +283,11 @@ export function useBuilder(): Builder {
     notify('good', 'Build exported.');
   }, [exportJSON, buildName, notify]);
 
-  /* -------------------------------------------------------------------- share */
-
-  /**
-   * Take the URL's build, and take the link out of the URL with it.
-   *
-   * The fragment is cleared on both paths: a share link left in the address bar
-   * would re-offer the same build on every reload, and would overwrite the
-   * visitor's own work if they reloaded after editing.
-   */
+  /** Cleared on both paths, or a reload would re-offer the build over the visitor's edits. */
   const clearShareFragment = useCallback(() => {
     try {
       window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
-    } catch { /* a sandboxed frame may refuse; the offer is dismissed regardless */ }
+    } catch { /* sandboxed frames may refuse */ }
     setPendingShare(null);
   }, []);
 

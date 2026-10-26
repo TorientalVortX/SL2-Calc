@@ -1,11 +1,4 @@
-/**
- * Menu sound effects, synthesised rather than shipped.
- *
- * Four short cues, built from oscillators and a decaying gain envelope, so the
- * app carries no audio assets and works offline. The context is created on the
- * first cue rather than at import: browsers refuse to start one before a user
- * gesture, and a suspended context created eagerly would stay suspended.
- */
+/** The context is created on the first cue: browsers refuse to start one before a user gesture. */
 
 export type Cue = 'move' | 'select' | 'confirm' | 'back' | 'deny' | 'sigil';
 
@@ -32,8 +25,6 @@ const CUES: Record<Cue, Voice[]> = {
   ],
   back: [{ from: 520, to: 330, duration: 0.11, gain: 0.06, type: 'triangle' }],
   deny: [{ from: 220, to: 180, duration: 0.16, gain: 0.07, type: 'sawtooth' }],
-  // The intro's crest landing: a root, its fifth and its octave, struck together
-  // and left to ring. Long enough to carry the title reveal that follows it.
   sigil: [
     { from: 392, to: 392, duration: 1.8, gain: 0.09, type: 'triangle' },
     { from: 587.33, to: 587.33, duration: 1.6, gain: 0.06, type: 'sine', delay: 0.02 },
@@ -42,19 +33,12 @@ const CUES: Record<Cue, Voice[]> = {
   ],
 };
 
-/** Where the on/off preference lives. Owned here so nothing else has to know. */
 export const AUDIO_PREFS_KEY = 'sl2:aether:prefs:v1';
 
 let context: AudioContext | null = null;
 let master: GainNode | null = null;
 
-/*
- * Read at module load rather than waiting to be told.
- *
- * The intro plays its swell from a child effect, which React runs *before* the
- * parent effect that would otherwise have pushed the stored preference down,
- * so a returning visitor with sound on got a silent overture.
- */
+// Read at load: the intro's swell runs in a child effect, before a parent effect could push the preference down.
 let enabled = (() => {
   try {
     return JSON.parse(localStorage.getItem(AUDIO_PREFS_KEY) ?? '{}').sound === true;
@@ -74,8 +58,7 @@ function ensureContext(): AudioContext | null {
     master.connect(context.destination);
     return context;
   } catch {
-    // No audio device, or the browser refused the context. Silence is a fine
-    // outcome for decorative sound; nothing else in the app depends on it.
+    // No audio device, or the context was refused; the sound is decorative.
     return null;
   }
 }
@@ -89,14 +72,7 @@ export function isAudioEnabled(): boolean {
   return enabled;
 }
 
-/**
- * The intro's rising pad: two slightly detuned voices under a slow low-pass
- * sweep, so the swell brightens as the swarm gathers rather than just getting
- * louder.
- *
- * Returns a stop function. Nothing else in the app holds a note open, so the
- * caller owns the lifetime; an intro that is skipped has to be able to cut it.
- */
+/** Returns a stop function so a skipped intro can cut the note. */
 export function playSwell(duration: number): () => void {
   if (!enabled) return () => undefined;
   const ctx = ensureContext();

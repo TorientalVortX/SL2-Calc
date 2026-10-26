@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react';
 
-/** The four gold corner brackets every framed surface carries. */
 export function Corners() {
   return (
     <>
@@ -14,12 +13,9 @@ export function Corners() {
 
 interface PanelProps {
   title: string;
-  /** Anchor for the narrow-viewport section nav to jump to. */
   id?: string;
-  /** Rendered at the right of the title bar: counters, tabs, small actions. */
   meta?: ReactNode;
   children: ReactNode;
-  /** Panels own their scroll region so the shell itself never scrolls. */
   scroll?: boolean;
   className?: string;
 }

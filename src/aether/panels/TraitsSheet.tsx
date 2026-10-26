@@ -14,16 +14,7 @@ import { useListNavigation } from '../hooks/useListNavigation';
 import { play } from '../state/audio';
 import type { Builder } from '../state/useBuilder';
 
-/**
- * The trait sheet.
- *
- * Requirements are read off base stats (racial line plus invested points, with
- * no APT or equipment), which is the rule the wiki states and the same one
- * `traitCheckTarget` applies. A trait already taken is never hidden
- * when its requirement stops being met: it stays visible and marked, because
- * moving a point out of STR is exactly how a build breaks, and the sheet has to
- * show that rather than quietly drop the row.
- */
+/** Requirements read base stats only (racial line plus invested, no APT or gear), per the wiki. */
 export function TraitsSheet({ builder }: { builder: Builder }) {
   const { build, status, dispatch } = builder;
   const [query, setQuery] = useState('');
@@ -149,7 +140,6 @@ export function TraitsSheet({ builder }: { builder: Builder }) {
   );
 }
 
-/** The stat grant a trait carries, shown inline so the list is comparable. */
 function statChips(trait: Trait) {
   const entries = Object.entries(trait.statBonuses) as Array<[StatKey, number]>;
   if (!entries.length) return null;

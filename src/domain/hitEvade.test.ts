@@ -10,17 +10,7 @@ import {
   targetEvade,
 } from './hitEvade';
 
-/*
- * The community workbook's default column, which is the one worked example the
- * model can be checked against end to end. A copy is in `reference/hitEvade/`.
- *
- * Attacker: scaled SKI 1, scaled GUI 1, weapon Hit 80.
- * Target:   scaled CEL 1, Unarmored, no armour Evade.
- *
- * The sheet reports base Hit 82, base Evade 7, and hit chances of 75 / 90 / 77.75
- * / 80.5 for base / front / flank-1 / flank-2. Every number below is read off the
- * sheet rather than derived here, so this test fails if the ordering drifts.
- */
+// Expected values are read off the community workbook's default column (copy in reference/hitEvade/).
 const SHEET_ATTACKER = {
   // 2 x scaled SKI (2) + weapon Hit (80). One weapon is off, so no Hand Hit.
   baseHit: 2 * 1 + 80,
@@ -55,7 +45,6 @@ describe('the community sheet worked example', () => {
     expect(odds.allHit).toBeCloseTo(0.75);
     expect(odds.allGlance).toBeCloseTo(0.9375);
 
-    // The flank-1 row, whose numbers are the least round in the sheet.
     const flank = instanceOdds(77.75, 1);
     expect(flank.anyHit).toBeCloseTo(0.7775);
     expect(flank.anyGlance).toBeCloseTo(0.95049375);
@@ -63,11 +52,6 @@ describe('the community sheet worked example', () => {
 });
 
 describe('attacker Hit ordering', () => {
-  /*
-   * The bonus multiplier reads the pre-bonus total, never the running total, so
-   * Bonus Hit cannot compound on itself. Getting this backwards inflates every
-   * build carrying a bonus multiplier.
-   */
   it('takes the bonus multiplier off the pre-bonus total', () => {
     const result = attackerHit({ ...SHEET_ATTACKER, bonusMultiplier: 0.5 });
     expect(result.bonusHit).toBe(41);
@@ -79,10 +63,6 @@ describe('attacker Hit ordering', () => {
     expect(result.bonusHit).toBe(BONUS_HIT_CAP);
   });
 
-  /*
-   * Honor is paid out of the remaining cap rather than added on top of it, so a
-   * build already at +50 Bonus Hit gains nothing from attacking frontally.
-   */
   it('pays Honor out of the remaining bonus cap', () => {
     const roomy = attackerHit(SHEET_ATTACKER);
     expect(roomy.honorHeadroom).toBe(15);
@@ -101,7 +81,6 @@ describe('attacker Hit ordering', () => {
   });
 
   it('adds the field modifier to base, outside the bonus cap', () => {
-    // 20 field Hit on top of an already-capped bonus channel still lands whole.
     const capped = attackerHit({ ...SHEET_ATTACKER, hitBuffs: 500, fieldModifier: 20 });
     const withoutField = attackerHit({ ...SHEET_ATTACKER, hitBuffs: 500 });
     expect(capped.byTier.base - withoutField.byTier.base).toBe(20);
@@ -121,10 +100,6 @@ describe('attacker Hit ordering', () => {
     expect(overcapped.byTier.base).toBe(maxed.byTier.base);
   });
 
-  /*
-   * Flanking had no consequence at all before this: the stat was computed,
-   * displayed and scored, but nothing converted it into Hit.
-   */
   it('grants half the Flanking stat per condition met', () => {
     const result = attackerHit({ ...SHEET_ATTACKER, flanking: 20 });
     expect(result.byTier.flank1 - result.byTier.base).toBe(10);
@@ -137,10 +112,7 @@ describe('target Evade ordering', () => {
     expect(targetEvade({ ...SHEET_TARGET, evadeBuffs: 500 }).bonusEvade).toBe(BONUS_EVADE_CAP);
   });
 
-  /*
-   * Field Evade is a *bonus* modifier: unlike field Hit, which is base and
-   * uncapped. The sheet is explicit about the asymmetry.
-   */
+  // The sheet makes field Evade a bonus modifier but field Hit a base one.
   it('counts field Evade toward the cap, unlike field Hit', () => {
     expect(targetEvade({ ...SHEET_TARGET, evadeBuffs: 45, fieldBuffs: 45 }).bonusEvade)
       .toBe(BONUS_EVADE_CAP);
@@ -177,11 +149,6 @@ describe('resolution', () => {
     expect(hitChance(200, 0, false)).toBe(MAXIMUM_HIT_CHANCE);
   });
 
-  /*
-   * The workbook's Hit-versus-Evade cell can read 160 against a low-Evade target,
-   * because it only clamps where it converts a chance into a probability. That is
-   * a margin, not a chance. The caller shows the raw difference beside it.
-   */
   it('never reports more than certainty', () => {
     expect(hitChance(100, -500)).toBe(MAXIMUM_HIT_CHANCE);
     expect(hitChance(101, 0)).toBe(MAXIMUM_HIT_CHANCE);
@@ -195,10 +162,6 @@ describe('resolution', () => {
 });
 
 describe('multi-instance odds', () => {
-  /*
-   * Two instances at 50%: one or more lands 75% of the time, both land 25%, and
-   * "half or more" is the same as "one or more" because half of two is one.
-   */
   it('spreads across instances', () => {
     const odds = instanceOdds(50, 2);
     expect(odds.anyHit).toBeCloseTo(0.75);
@@ -222,22 +185,15 @@ describe('multi-instance odds', () => {
     }
   });
 
-  /*
-   * The source workbook writes this threshold as `BINOMDIST((n/2) - 1, ...)`, and
-   * Excel truncates that argument, so at three instances it reports the odds of
-   * *one* hit under a column labelled "Half+". Rounding up is a deliberate
-   * divergence, and it agrees with the sheet everywhere the sheet is right.
-   */
+  // The workbook's BINOMDIST((n/2) - 1, ...) truncates, so its "Half+" at n=3 is really one hit.
   it('rounds the half-or-more threshold up at odd instance counts', () => {
     // 2 of 3 at 50%: three ways to get exactly two, one way to get three.
     expect(instanceOdds(50, 3).halfHit).toBeCloseTo(0.5);
     expect(instanceOdds(50, 3).halfHit).toBeLessThan(instanceOdds(50, 3).anyHit);
-    // 3 of 5 at 50% is symmetric about the middle.
     expect(instanceOdds(50, 5).halfHit).toBeCloseTo(0.5);
   });
 
   it('still agrees with the sheet at even counts and at one', () => {
-    // n=1 and n=2 both need one hit, which is what the sheet computes.
     expect(instanceOdds(50, 1).halfHit).toBeCloseTo(instanceOdds(50, 1).anyHit);
     expect(instanceOdds(50, 2).halfHit).toBeCloseTo(0.75);
     // n=4 needs two, matching `BINOMDIST(1, 4, p)`.

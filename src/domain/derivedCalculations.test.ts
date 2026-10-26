@@ -28,12 +28,6 @@ describe('derived character calculations', () => {
 });
 
 describe('vitals cannot go negative', () => {
-  /*
-   * Reachable through a large enough debuff or manual override: a post-softcap
-   * VIT buff of -400 drove Max HP to about -3900, and every readout downstream
-   * (current HP included) then reported a nonsense quantity rather than a very
-   * fragile character.
-   */
   const health = {
     vit: -400, san: 0, strengthHpBase: 0, pointsSpent: 0, homunculi: false, giantGene: false,
     fortitude: false, painToleranceRank: 0, warwalk: false, endurance: false,

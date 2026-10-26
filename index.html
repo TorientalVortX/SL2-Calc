@@ -17,14 +17,11 @@
     <meta name="twitter:card" content="summary_large_image">
     <link rel="canonical" href="https://sl2-calc.pages.dev/">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <!-- Sets the theme before first paint. External because the CSP (script-src 'self') blocks inline scripts. -->
+    <!-- External because the CSP (script-src 'self') blocks inline scripts. -->
     <script src="/theme-init.js"></script>
-    <!-- Painted before any stylesheet loads. Without it the first frame of a
-         cold load is white, which is a poor way to open a dark cinematic. -->
+    <!-- Paints the background before the stylesheet loads; colours kept in step with --void. -->
     <style>
       html, body { margin: 0; background: #04060a; }
-      /* Kept in step with `--void` in each theme, by eye: this is only ever on
-         screen for the moment before the real stylesheet arrives. */
       html[data-theme='light'], html[data-theme='light'] body { background: #dcd6c8; }
     </style>
 </head>

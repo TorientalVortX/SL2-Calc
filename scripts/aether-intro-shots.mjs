@@ -1,14 +1,4 @@
-/**
- * Captures the opening cinematic at a list of timestamps.
- *
- * The intro is a timeline, so a single screenshot says almost nothing about it.
- * This clears the "already seen" flag, reloads, and grabs a frame at each
- * requested moment measured from the reload, which is the only way to review an
- * animation without watching it.
- *
- * Usage:
- *   node scripts/aether-intro-shots.mjs <port> <outDir> <url> [ms,ms,ms...]
- */
+// Usage: node scripts/aether-intro-shots.mjs <port> <outDir> <url> [ms,ms,ms...] [--keep-seen]
 import { mkdir, writeFile } from 'node:fs/promises';
 
 const port = process.argv[2] ?? '9224';
@@ -64,12 +54,9 @@ await request('Runtime.enable');
 await request('Page.enable');
 await request('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: 1, mobile: false });
 
-// Land on the page first so the origin exists, then clear the seen-flag so the
-// full overture plays rather than the short returning-visitor cut.
+// Navigate first: localStorage needs the origin before the seen-flag can be cleared.
 await request('Page.navigate', { url: pageUrl });
 await wait(2500);
-// `--keep-seen` leaves the flag in place, which is how the short returning-visitor
-// cut gets reviewed.
 if (!process.argv.includes('--keep-seen')) {
   await request('Runtime.evaluate', { expression: 'localStorage.removeItem("sl2:aether:intro:v1")' });
 }
@@ -89,7 +76,6 @@ for (const mark of marks) {
   console.log(`captured ${mark}ms -> ${path}`);
 }
 
-// And the unveiling: enter, then catch the sheet arriving behind the curtain.
 await request('Runtime.evaluate', { expression: 'document.querySelector(".intro")?.click()' });
 for (const offset of [220, 700, 1500]) {
   await wait(offset === 220 ? 220 : 480);

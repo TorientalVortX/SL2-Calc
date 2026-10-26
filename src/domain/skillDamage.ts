@@ -1,4 +1,3 @@
-// Splits a skill's Power formula into weapon, element and stat terms for the skill card.
 import type { BuildEvaluation, ElementKey, Skill } from '../types';
 import { valueAtRank } from './skills';
 

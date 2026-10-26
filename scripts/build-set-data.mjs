@@ -1,23 +1,4 @@
-/**
- * Builds the equipment set bonuses the calculator applies.
- *
- *   wiki-data/raw/equipment.json  ->  src/data/content/item-sets.json
- *
- * A set is a group of items that grant extra bonuses once enough of them are
- * worn together, at thresholds the wiki writes as `2+:`, `3+:`, `5+:`.
- *
- * Two things make this parseable. Every member repeats the *whole* threshold
- * table, so the bonuses can be read from whichever member states them most
- * completely rather than stitched together. And membership is stated on the item
- * rather than in a set index, so the members fall out of the same pass.
- *
- * The wiki scrape is the only complete source: `armors.json` keeps the set name
- * but truncates the thresholds ("Set: Unassuming Adventurer."), and sets span
- * weapons, armour and slots 3-6 alike.
- *
- *   node scripts/build-set-data.mjs
- *   node scripts/build-set-data.mjs --report   # show every threshold parsed
- */
+// Usage: node scripts/build-set-data.mjs [--report]  -> src/data/content/item-sets.json
 import { readdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
@@ -25,39 +6,17 @@ const SOURCE = path.resolve('wiki-data/raw/equipment.json');
 const OUT = path.resolve('src/data/content/item-sets.json');
 const REPORT = process.argv.includes('--report');
 
-/*
- * The wiki writes the set line at least three ways:
- *
- *   '''Set:''' Unassuming Adventurer
- *   <u>Set: '''Gunsmoke Spiritual'''</u>
- *   Set: Black-Forged Pact.
- *
- * so the markup is stripped before the name is read rather than trying to spell
- * every variant in one pattern.
- */
+// The wiki writes the set line several ways ("'''Set:''' X", "<u>Set: '''X'''</u>", "Set: X."), so markup is stripped first.
 const SET_NAME = /Set:\s*([^<.\n]+)/i;
 
-/**
- * Trims a captured set name back to just the name.
- *
- * The leading quotes go first: the wiki writes `Set:''' Like a Dragon`, closing
- * the bold on the label itself, so a cut that looked for markup found it at
- * position zero and returned nothing.
- */
+// The wiki writes `Set:''' Like a Dragon`, closing the bold on the label, so leading quotes go first.
 function setNameOf(captured) {
   const cleaned = String(captured).replace(/^\s*'+\s*/, '');
   const cut = cleaned.search(/'''|\s+\d+\s*\+|\s+[-–—]\s/);
   return strip(cut === -1 ? cleaned : cleaned.slice(0, cut)).replace(/\s*[-–—:]\s*$/, '');
 }
 
-/**
- * `2+ …` up to the next threshold or the end of the text.
- *
- * Run against stripped text, because the separator is written at least three
- * ways (`2+:`, `'''2+:'''`, `'''2+''' -`), and the markup sits in different
- * places in each. Stripping first turns all of them into `2+` followed by a
- * colon or a dash, which is one pattern instead of three.
- */
+// The separator is written `2+:`, `'''2+:'''` or `'''2+''' -`; run against stripped text.
 const THRESHOLD = /(\d+)\s*\+\s*[:\-–—]?\s*([\s\S]*?)(?=\d+\s*\+\s*[:\-–—]|$)/g;
 
 const strip = (text) => String(text ?? '')
@@ -68,15 +27,7 @@ const strip = (text) => String(text ?? '')
   .replace(/\s+/g, ' ')
   .trim();
 
-/**
- * Every item the calculator can actually equip, from all three of its sources.
- *
- * Membership cannot come from the wiki scrape alone. `Tsukikage` names the
- * Hayabusa set in the calculator's own weapon data but is absent from the
- * scraped Swords page, so a scrape-only pass records a two-piece set with one
- * member. A set that could never activate. Thresholds still come from the
- * scrape, which is the only place that states them in full.
- */
+// `Tsukikage` names the Hayabusa set in the weapon data but is absent from the scraped Swords page.
 async function appDataItems() {
   const all = [];
   const armors = JSON.parse(await readFile(path.resolve('src/data/armors.json'), 'utf8'));
@@ -96,7 +47,6 @@ async function appDataItems() {
 
 const items = JSON.parse(await readFile(SOURCE, 'utf8'));
 
-/** setName -> { members, thresholds } */
 const sets = new Map();
 const problems = [];
 
@@ -113,14 +63,7 @@ for (const item of items) {
     set.members.push({ name: item.name, kind: item.kind });
   }
 
-  /*
-   * Thresholds are read from the part of the text after the set line, so an
-   * item that happens to mention a number earlier does not contribute one.
-   *
-   * The flavour sentence is dropped first. It is the trailing italic, and
-   * without removing it the last threshold swallows it. When the wiki wraps the
-   * table in `<small>` that block is used on its own, which is tighter still.
-   */
+  // The trailing italic flavour sentence is dropped, or the last threshold swallows it.
   const afterSet = raw.slice(raw.search(SET_NAME)).replace(/<i>[\s\S]*?<\/i>\s*$/i, '');
   const table = /<small>([\s\S]*?)(?:<\/small>|$)/i.exec(afterSet)?.[1] ?? afterSet;
   const plain = strip(table);
@@ -130,38 +73,19 @@ for (const item of items) {
     const count = Number(match[1]);
     const description = match[2].trim();
     if (!description) continue;
-    /*
-     * Members disagree in how much they quote (some cut the table short), so
-     * the longest description for a threshold wins rather than the first seen.
-     */
+    // Members quote the table to different lengths, so the longest description wins.
     const existing = set.thresholds.get(count);
     if (!existing || description.length > existing.length) set.thresholds.set(count, description);
   }
 
-  /*
-   * Not every set is a threshold table. Dragon King and Dragon Queen state one
-   * rule that scales with how many pieces are worn ("Increases total Strength by
-   * 5% … for each Dragon King item equipped") with no `2+` anywhere. Kept as
-   * prose so the bonus is at least shown rather than dropped for not fitting.
-   */
+  // Dragon King/Queen state one per-piece scaling rule with no `2+`; kept as prose.
   if (!/\d+\s*\+/.test(plain) && plain && (!set.note || plain.length > set.note.length)) {
     set.note = plain;
   }
 }
 
-/*
- * Second pass: members the wiki scrape could not see.
- *
- * The calculator equips weapons and armour from its own data, which sometimes
- * carries an item the scraped page does not: `Tsukikage` names Hayabusa there
- * but is absent from the scraped Swords page, leaving a two-piece set with one
- * member and no way to ever complete it.
- *
- * These only ever *join* a set that the wiki already defined. Their text is
- * stored flattened, with none of the breaks that bound a name, so letting them
- * introduce names produced entries like "Dragon King Increases total Strength
- * by 5%…". Matching against known names instead keeps that impossible.
- */
+// Calculator-only members may only join sets the wiki defined; their flattened text
+// otherwise yields names like "Dragon King Increases total Strength by 5%".
 for (const item of await appDataItems()) {
   if (!/Set:/i.test(item.text)) continue;
   const named = [...sets.keys()].find((name) => item.text.toLowerCase().includes(name.toLowerCase()));
@@ -172,14 +96,7 @@ for (const item of await appDataItems()) {
   }
 }
 
-/*
- * Members the calculator has no item for.
- *
- * The wiki lists pieces the app's own data does not carry, "Yin (Gilded)",
- * "Dragon Gi", and counting them inflates a set's size, so a threshold looks
- * reachable when the last piece cannot be equipped at all. They are dropped and
- * named in the report rather than quietly left in.
- */
+// Wiki members the app has no item for ("Yin (Gilded)", "Dragon Gi") are dropped so thresholds stay honest.
 const equippable = new Set([
   ...(await appDataItems()).map((item) => item.name),
   ...Object.values(JSON.parse(await readFile(path.resolve('src/data/content/gear.json'), 'utf8')))
@@ -200,10 +117,7 @@ for (const [name, set] of [...sets].sort(([a], [b]) => a.localeCompare(b))) {
     .map(([count, description]) => ({ count, description }));
 
   if (!thresholds.length && !set.note) problems.push(`${name}: ${set.members.length} members but no bonus text parsed`);
-  /*
-   * A threshold asking for more pieces than the set has is unreachable, which
-   * usually means the wiki lists a member this scrape did not pick up.
-   */
+  // Usually means the wiki lists a member this scrape did not pick up.
   for (const threshold of thresholds) {
     if (threshold.count > set.members.length) {
       problems.push(`${name}: needs ${threshold.count} but only ${set.members.length} members are known`);
@@ -213,7 +127,6 @@ for (const [name, set] of [...sets].sort(([a], [b]) => a.localeCompare(b))) {
   output[name] = {
     members: set.members.map((member) => member.name).sort(),
     thresholds,
-    // Prose for a set whose bonus is not a threshold table.
     ...(set.note && !thresholds.length ? { note: set.note } : {}),
   };
 }

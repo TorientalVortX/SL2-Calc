@@ -1,10 +1,4 @@
-/* --------------------------------------------------------------- section nav */
-
-/*
- * Off entirely on a viewport wide enough to pin the sidebars: there is nothing to
- * navigate while every panel is already reachable. Turned on by the stacking
- * breakpoints below.
- */
+/* Shown by the stacking breakpoints in responsive.css. */
 .sectionnav { display: none; }
 
 .sectionnav__item {
@@ -33,8 +27,6 @@
   color: var(--gold-200);
   border-bottom-color: var(--gold-400);
 }
-
-/* ------------------------------------------------------- shortcuts, changes */
 
 .keyrow {
   display: grid;

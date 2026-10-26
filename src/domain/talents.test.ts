@@ -15,7 +15,6 @@ import {
   talentsUnlockWeapon,
 } from './talents';
 
-/** A build holding the named weapon, so weapon-scoped talents have something to scope to. */
 function buildWith(weaponName: string | null, talents: Record<string, number> = {}): BuildState {
   const base = createDefaultBuild();
   const weapon = weaponName ? findWeaponByName(weaponName) : null;
@@ -45,27 +44,21 @@ describe('talent effects', () => {
   });
 
   it('reads a Mutation weapon by the type it turned into', () => {
-    // Mutation writes Polearm as "Spear"; both name one weapon type to a talent.
+    // Mutation writes Polearm as "Spear".
     const talents = { 'polearm-expertise/balance': 4 };
     expect(talentEffects({ talents }, 'Spear').weaponWeightReduction).toBe(6);
     expect(talentEffects({ talents }, 'Polearm').weaponWeightReduction).toBe(6);
   });
 
   it('holds conditional subtalents back until the build confirms them', () => {
-    // Steady is conditional on carrying nothing in the off-hand, which the sheet
-    // cannot see, so it waits for the build to say so.
+    // Steady needs an empty off-hand, which the sheet cannot see.
     const talents = { 'two-hand/steady': 5 };
     expect(talentEffects({ talents }, 'Gun').hit).toBe(0);
     expect(talentEffects({ talents, talentConditionals: { 'two-hand/steady': true } }, 'Gun').hit).toBe(10);
-    // A confirmation on a talent with no rank buys nothing.
     expect(talentEffects({ talents: {}, talentConditionals: { 'two-hand/steady': true } }, 'Gun').hit).toBe(0);
   });
 
-  /*
-   * Smite is the Hit model's own frontal term, not a buff beside it. It is
-   * reported separately so `evaluateBuild` can pay it into the `front` tier,
-   * where the workbook already had it hard-coded at Smite's max rank.
-   */
+  // The workbook hard-codes Smite's max rank into the front tier.
   it('reports a frontal Hit bonus apart from the general Hit channel', () => {
     const effects = talentEffects({ talents: { 'chivalry/smite': 5 } });
     expect(effects.frontalHit).toBe(15);
@@ -81,7 +74,6 @@ describe('talent effects', () => {
   it('separates flat totals from the percentages they are not comparable with', () => {
     const effects = talentEffects({ talents: { 'capacity/depth': 5, 'pyromancy/efficiency': 4 } });
     expect(effects.maxFp).toBe(25);
-    // Reported as a positive discount rather than a negative cost.
     expect(effects.fpCostDiscounts).toEqual({ 'Nerifian-domain': 12 });
   });
 
@@ -190,12 +182,6 @@ describe('evaluateBuild with talents', () => {
     expect(on.derived.hitBonusSources - bare.derived.hitBonusSources).toBe(10);
   });
 
-  /*
-   * The bug this pins: the Hit workbook hard-codes a flat 15 frontal bonus,
-   * which is Smite at max rank. Routing the talent through the general Hit
-   * channel as well meant a build that bought Smite collected it twice on a
-   * frontal attack, and collected it at all on tiers where it does not apply.
-   */
   it('pays Smite into the frontal tier only, and exactly once', () => {
     const bare = evaluateBuild(buildWith('Longsword')).derived;
     const smiting = evaluateBuild(buildWith('Longsword', { 'chivalry/smite': 5 })).derived;
@@ -213,8 +199,7 @@ describe('the talent budget', () => {
   });
 
   it('counts ranks rather than the SP those ranks cost', () => {
-    // Chivalry bills 2 SP a rank and Capacity 1, so the same 5 ranks cost
-    // different SP depending on which talent they are spent in.
+    // Chivalry bills 2 SP a rank, Capacity 1.
     const cheap = talentSpending({ 'capacity/depth': 5 });
     const dear = talentSpending({ 'chivalry/honor': 5, 'chivalry/smite': 5 });
     expect(cheap.totalRanks).toBe(dear.totalRanks);
@@ -225,8 +210,6 @@ describe('the talent budget', () => {
   it('reports an overspend and a talent past its rank cap separately', () => {
     const build = createDefaultBuild();
     expect(talentViolations({ ...build, talents: { 'capacity/depth': 5 } })).toEqual([]);
-    // Capacity's subtalents can hold 13 points between them at 1 SP a rank,
-    // past the 10 ranks the talent itself caps out at.
     const over = talentViolations({
       ...build,
       talents: {
@@ -240,12 +223,7 @@ describe('the talent budget', () => {
 
   it('flags a build past 65 ranks in ranks, not SP', () => {
     const build = createDefaultBuild();
-    /*
-     * One subtalent from each of enough talents to pass 65, filled to its own
-     * cap, which differs per subtalent, so the allocation is accumulated rather
-     * than assumed. Spread across talents on purpose: this has to be the budget
-     * complaining, not a single talent's ten-rank cap.
-     */
+    // One subtalent per talent, so it's the budget that complains, not a talent's ten-rank cap.
     const allocation: Record<string, number> = {};
     let ranks = 0;
     for (const talent of TALENTS) {

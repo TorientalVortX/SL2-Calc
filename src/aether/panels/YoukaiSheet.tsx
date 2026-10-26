@@ -26,28 +26,11 @@ import { play } from '../state/audio';
 import { STAT_KEYS } from '../state/build';
 import type { Builder } from '../state/useBuilder';
 
-/**
- * Youkai contracts and Install.
- *
- * Two rules shape the sheet, and both come from the domain rather than from here:
- *
- * - **One form per family.** An ascended Youkai replaces the base it grew from,
- *   so contracting either resolves through `contractYoukai` instead of being
- *   pushed onto the list.
- * - **Install substitutes the race's base stat line, not the creature's.** A
- *   Byakko's own level 60 STR is 56 against a Redtail's 3; using it would make
- *   Install a fifty-point racial swing. The preview below shows the line that is
- *   actually applied.
- *
- * Contracting is a Summoner-tree activity. A build with no Summoner slot keeps
- * whatever contracts it already had (they are not deleted), but cannot add more.
- */
+/** One form per family; Install substitutes the race's base stat line, not the Youkai's. */
 export function YoukaiSheet({ builder }: { builder: Builder }) {
   const { build, evaluation, dispatch } = builder;
   const [query, setQuery] = useState('');
   const [race, setRace] = useState<string | null>(null);
-  // Which Youkai's skill card is open. A dialog rather than a third column: the
-  // three skills carry full rules text, and the sheet already owns its width.
   const [inspecting, setInspecting] = useState<string | null>(null);
   const onKeys = useListNavigation(1);
 
@@ -113,8 +96,6 @@ export function YoukaiSheet({ builder }: { builder: Builder }) {
           New contracts require Summoner or a promotion in either class slot. Existing contracts stay saved.
         </div>
       ) : null}
-
-      {/* Cap and legality problems are surfaced once, by the panel above every sheet. */}
 
       <div className="inline" style={{ gap: 4, paddingBottom: 8 }}>
         <button
@@ -205,12 +186,7 @@ export function YoukaiSheet({ builder }: { builder: Builder }) {
         </div>
       ) : null}
 
-      {/*
-        * What the Summoner personally holds, as opposed to what is contracted.
-        * This is the question the contract list cannot answer: Sync-Mind decides
-        * which slots come across, so two identical rosters can grant nothing and
-        * six skills. Kept above the roster because it is the sheet's payload.
-        */}
+      {/* Sync-Mind decides which slots come across, so identical rosters can grant nothing or six skills. */}
       {contracted.length ? (
         <div className="section">
           <SectionHead aside={`${granted.length}`}>Skills you hold</SectionHead>
@@ -252,19 +228,10 @@ export function YoukaiSheet({ builder }: { builder: Builder }) {
             </div>
             {list.map(youkai => {
               const has = contracted.includes(youkai.id);
-              /*
-               * `ascendedYoukaiFor` resolves the *family's* ascended form, so
-               * asking it about an already-ascended Youkai returns that Youkai
-               * itself. Only a base form can be said to ascend into something.
-               */
+              // `ascendedYoukaiFor` returns an already-ascended Youkai itself, so only base forms ask.
               const ascended = youkai.baseFormId ? undefined : ascendedYoukaiFor(youkai.id);
               const full = !has && contracted.length >= cap;
-              /*
-               * A focusable group rather than one big button, because the row now
-               * carries two actions: contracting, and opening the skill card. A
-               * button cannot nest a button, and the skills are the reason most
-               * players open this sheet at all.
-               */
+              // A group rather than a button: it carries two actions, and a button cannot nest a button.
               return (
                 <div
                   key={youkai.id}
@@ -286,8 +253,6 @@ export function YoukaiSheet({ builder }: { builder: Builder }) {
                       event.preventDefault();
                       toggle(youkai);
                     }
-                    // The key the row advertises in its tooltip, so the skill card
-                    // can be opened without leaving the keyboard for the mouse.
                     if (event.key.toLowerCase() === 'i') {
                       event.preventDefault();
                       play('select');
@@ -311,7 +276,6 @@ export function YoukaiSheet({ builder }: { builder: Builder }) {
                       aria-label={`Skills of ${youkai.name}`}
                       title={`${youkai.name}'s three skills, or press I`}
                       onClick={event => {
-                        // The row toggles a contract; inspecting must not.
                         event.stopPropagation();
                         play('select');
                         setInspecting(youkai.id);
@@ -344,14 +308,6 @@ export function YoukaiSheet({ builder }: { builder: Builder }) {
   );
 }
 
-/**
- * One Youkai skill, stated in full.
- *
- * Youkai skills are the only skills in the game a character can hold without the
- * skill sheet knowing about them, so every card names its own source: which
- * Youkai it came from and what lent it, otherwise a Summoner reading the sheet
- * cannot tell an Evoke they have from one they merely could have.
- */
 function SkillCard({
   skill,
   held,
@@ -397,13 +353,6 @@ function SkillCard({
   );
 }
 
-/**
- * A single Youkai's card: its stat line and all three of its skills.
- *
- * Every skill is listed, held or not, with the requirement that would grant it.
- * Hiding the ungranted two would answer "what do I have" while destroying the
- * more useful question: what a rank of Sync-Mind or an Install would buy.
- */
 function YoukaiCard({
   youkai,
   ranks,
@@ -451,11 +400,6 @@ function YoukaiCard({
         <SectionHead aside={`${youkai.skills.length}`}>Skills</SectionHead>
         <div className="stack--tight">
           {youkai.skills.map(skill => {
-            /*
-             * Held is a live fact about this build; the source beside it is the
-             * standing requirement. They differ exactly when a rank is missing,
-             * which is the case worth reading.
-             */
             const held = evoked.has(skill.slot) || installed;
             return (
               <SkillCard
@@ -476,12 +420,6 @@ function YoukaiCard({
   );
 }
 
-/**
- * What Install actually substitutes.
- *
- * Shown because the swap is easy to misread: it is the *race's* base line, with
- * FAI, SAN and APT preserved from the character, not the summon's own stats.
- */
 function InstallPreview({ builder }: { builder: Builder }) {
   const { build } = builder;
   const youkai = youkaiById(build.youkai.installed);
@@ -506,7 +444,6 @@ function InstallPreview({ builder }: { builder: Builder }) {
   );
 }
 
-/** A compact stat line for a Youkai row: the stats it actually has. */
 function statSummary(stats: Partial<Record<StatKey, number>>): string {
   const parts = STAT_KEYS
     .filter(stat => (stats[stat] ?? 0) > 0)

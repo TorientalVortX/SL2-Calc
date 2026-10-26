@@ -53,32 +53,18 @@ import {
 
 export const STAT_KEYS: StatKey[] = ['str', 'wil', 'ski', 'cel', 'def', 'res', 'vit', 'fai', 'luc', 'gui', 'san', 'apt'];
 
-/**
- * Drops the sources a build does not have.
- *
- * A list padded with zeroes is a worse explanation than a short one: the reader
- * has to scan fifteen rows to find the three that matter. Written as a filter on
- * a full literal rather than conditional pushes so the set of possible sources
- * stays readable in one place.
- */
 function compactSources(sources: DerivedSource[]): DerivedSource[] {
   return sources.filter(source => source.value !== 0);
 }
 
-/** The one place a source list becomes a number, so list and total cannot drift. */
 function sumSources(sources: DerivedSource[], channel: DerivedSource['channel']): number {
   return sources.reduce((total, source) => (source.channel === channel ? total + source.value : total), 0);
 }
 export const ELEMENT_KEYS: ElementKey[] = ['Fire', 'Ice', 'Wind', 'Earth', 'Dark', 'Water', 'Light', 'Lightning', 'Acid', 'Sound'];
 
-/*
- * `evaluateBuild` runs on every edit, and most builds have no skills ranked and
- * nothing installed. These shared constants keep that common case allocation-free.
- */
 const EMPTY_SKILL_BONUSES: SkillBonuses = { stats: {}, buffStats: {}, derived: {}, elemental: {}, elementalResistance: {} };
 const EMPTY_RANKS: SkillRanks = {};
 
-/** True when a record has at least one key, without allocating a key array. */
 function hasAnyKey(record: Record<string, unknown> | undefined): boolean {
   if (!record) return false;
   for (const _key in record) return true;
@@ -107,13 +93,6 @@ function karakuriBonus(build: BuildState): StatRecord {
   return { ...result, ...(values[build.karakuriYoukai] ?? {}) };
 }
 
-/**
- * What the hands, legs and accessory slots add through their material and
- * enchantment, summed across every filled slot.
- *
- * Shaped like the armour modifiers so the totals drop into the same places they
- * do, rather than each slot being threaded through separately.
- */
 interface GearBonus {
   evade: number;
   hp: number;
@@ -127,15 +106,11 @@ interface GearBonus {
   resistances: Partial<Record<ResistKey, number>>;
 }
 
-/*
- * Shared and frozen so a build with nothing in slots 3-6 allocates nothing here.
- */
 const NO_GEAR_BONUS: GearBonus = Object.freeze({
   evade: 0, hp: 0, fp: 0, armor: 0, magicArmor: 0, critical: 0, criticalEvade: 0,
   statusResistance: 0, stats: Object.freeze({}), resistances: Object.freeze({}),
 }) as GearBonus;
 
-/** Which enchantment profile each slot of `gearSlots` reads. */
 const GEAR_ENCHANT_SLOTS = ['Hands', 'Legs', 'Accessory', 'Accessory'] as const;
 
 function sumGearModifiers(slots: Array<{ itemName: string | null; material?: string; enchantment?: string } | undefined>): GearBonus {
@@ -146,8 +121,6 @@ function sumGearModifiers(slots: Array<{ itemName: string | null; material?: str
   for (let index = 0; index < slots.length; index += 1) {
     const slot = slots[index];
     if (!slot?.itemName) continue;
-    // A material on one of these slots resolves through its `Other` profile, and
-    // an enchantment through the profile for this slot specifically.
     const sources = [
       otherMaterialModifier(slot.material),
       enchantmentEffectForSlot(slot.enchantment, GEAR_ENCHANT_SLOTS[index]),
@@ -160,7 +133,6 @@ function sumGearModifiers(slots: Array<{ itemName: string | null; material?: str
       total.magicArmor += source.magicArmor;
       total.critical += source.critical;
       total.criticalEvade += source.criticalEvade;
-      // Only the enchantment shape carries this one; a material never does.
       total.statusResistance += (source as { statusResistance?: number }).statusResistance ?? 0;
       for (const [stat, value] of Object.entries(source.stats)) {
         total.stats[stat as StatKey] = (total.stats[stat as StatKey] ?? 0) + (value ?? 0);
@@ -197,13 +169,6 @@ function raceResistances(build: BuildState, stats: StatRecord): ElementalRecord 
   return base;
 }
 
-/**
- * Full weapon slot result for a config. Every field `calculateWeaponSlot`
- * produces, not just the handful the build evaluation keeps.
- *
- * Exported so the Weapon workspace can render its result table from exactly the
- * same input assembly the build evaluation uses, rather than rebuilding it.
- */
 export function evaluateWeaponSlot(config: WeaponConfig, stats: StatRecord, extraCritChance = 0, traitIds: string[] = []) {
   const materials = modifierData.materials as Record<string, WeaponModifier>;
   const parts = modifierData.parts as Record<string, WeaponModifier>;
@@ -211,14 +176,9 @@ export function evaluateWeaponSlot(config: WeaponConfig, stats: StatRecord, extr
   const material = materials[config.material] ?? materials.None;
   const selectedParts = [config.part1, config.part2, config.part3].map(part => parts[part] ?? parts.None);
   const enchantment = enchantments[config.enchantment] ?? enchantments.None;
-  /*
-   * The scaling actually in play, not the weapon's printed tags: an enchantment,
-   * a part or a trait can rewrite them. See `domain/weaponScaling.ts`.
-   */
   const scaling = effectiveScaling(config, traitIds);
   const scalingContribution = scaledStatContribution(stats, scaling);
-  // Not routed through `scaledStatContribution`: the STR-primary critical bonus
-  // reads the listed percentage, not the SWA-multiplied one.
+  // The STR-primary critical bonus reads the listed percentage, not the SWA-multiplied one.
   const strScalingContribution = Math.floor(stats.str * (scaling.str ?? 0) / 100);
   const maxScaling = Math.max(...STAT_KEYS.map(stat => scaling[stat] ?? 0));
   const hasPrimaryStrScaling = (scaling.str ?? 0) > 0 && scaling.str === maxScaling;
@@ -280,20 +240,10 @@ export function evaluateBuild(build: BuildState, includeStatSources = false): Bu
   const history = HISTORY[build.history] ?? HISTORY.None ?? { stats: {}, description: '' };
   const food = FOODS[build.food] ?? FOODS.None ?? { stats: {}, hp: 0, fp: 0, description: '' };
   const astrologyStat = build.astrology ? ASTROLOGY_PLANETS[build.astrology] : undefined;
-  /*
-   * Skill bonuses come from both class slots. Only effects the dataset marks
-   * `always`, plus situational ones the user has switched on, are counted.
-   */
   const hasSkillRanks = hasAnyKey(build.skillRanks?.main) || hasAnyKey(build.skillRanks?.sub);
   const mergedSkillRanks = hasSkillRanks ? mergeSkillRanks(build.skillRanks) : EMPTY_RANKS;
   const youkaiBonuses = youkaiNumericBonuses(build, mergedSkillRanks);
-  /*
-   * Four class skills carry effects the wiki states as prose rather than a
-   * parseable bonus, so they are computed by hand from their rank rather than
-   * through `skillBonuses`. Their rank is the one in the Skills sheet. They used
-   * to have their own controls under Talents, which meant the same skill could be
-   * set to two different ranks in two places.
-   */
+  // The wiki states these four skills' effects only as prose, so they are computed by hand from rank.
   const rising = calculateRisingGameBonus(build.hpPercent, mergedSkillRanks['rising-game'] ?? 0);
   const painToleranceRank = mergedSkillRanks['pain-tolerance'] ?? 0;
   const hasFortitude = (mergedSkillRanks.fortitude ?? 0) >= 1;
@@ -306,52 +256,21 @@ export function evaluateBuild(build: BuildState, includeStatSources = false): Bu
     ? skillBonuses(availableSkills, mergedSkillRanks, build.skillConditionals, skillWeaponTypes, skillContext)
     : EMPTY_SKILL_BONUSES;
   const karakuri = karakuriBonus(build);
-  /* Traits the build has bought. History traits are skipped inside
-     `traitStatBonuses` because the `history` field already grants them. */
+  // History traits are skipped inside `traitStatBonuses`; the `history` field already grants them.
   const traits = traitStatBonuses(build.traits ?? []);
-  /*
-   * Talents, scoped to the weapon actually in hand: Blade Expertise's Hit is
-   * worth nothing to an axe build. Conditional subtalents count only once the
-   * build has confirmed them, the same opt-in `skillConditionals` uses.
-   */
-  // Grip is resolved once from actual equipment below. Legacy controls are a
-  // fallback only; manually enabled talent conditions must not add it twice.
+  // Grip talents are resolved from the equipped weapon below, so they are zeroed here to avoid counting twice.
   const talents = { ...talentEffects({ ...build, talents: { ...build.talents,
     'two-hand/full-swing': 0, 'two-hand/steady': 0 } }, effectiveWeaponTypes(build.equipment.primaryWeapon)) };
   const armor = build.equipment.armorName ? ARMORS[build.equipment.armorName] ?? null : null;
   const armorConditional = calculateArmorConditionals(armor, build.equipment.armorConditionalBonuses);
-  /*
-   * Hoisted above `additionFor`: materials and enchantments grant stats as well
-   * as armour values, so they have to be known before the stat totals are built.
-   */
   const armorMaterial = armorMaterialModifier(build.equipment.armorMaterial);
   const armorQuality = armorQualityModifier(build.equipment.armorQuality);
   const armorEnchant = armorEnchantmentEffect(build.equipment.armorEnchantment);
-  /*
-   * Per-item effects, several of which scale with UL (the upgrade points spent
-   * on that piece), so they cannot be resolved until the upgrade spend is known.
-   */
-  /*
-   * Slots 3 to 6. Slot 3 is exclusive: a build using an off-hand weapon has no
-   * hands piece, so the hands entry is skipped rather than both being counted.
-   */
-  /*
-   * Dragon King and Dragon Queen, counted from what is equipped.
-   *
-   * Both were a number the user typed into Advanced, which could claim four
-   * pieces when only three King and two Queen items exist and never checked that
-   * any of them were worn. Now that sets know their own membership the count is
-   * simply read off the loadout.
-   */
   const dragonKingPieces = setPiecesEquipped(build.equipment, 'Dragon King');
   const dragonQueenPieces = setPiecesEquipped(build.equipment, 'Dragon Queen');
 
   const usingOffHand = equippedSlot3(build.equipment) === 'offHandWeapon';
   const equippedHands = usingOffHand ? undefined : build.equipment.hands;
-  /*
-   * Left undefined when the build has nothing in slots 3-6, so the empty case
-   * allocates nothing.
-   */
   const gearSlots = equippedHands || build.equipment.legs || build.equipment.accessory1 || build.equipment.accessory2
     ? [equippedHands, build.equipment.legs, build.equipment.accessory1, build.equipment.accessory2]
     : undefined;
@@ -361,29 +280,15 @@ export function evaluateBuild(build: BuildState, includeStatSources = false): Bu
     weaponPoints: build.equipment.primaryWeapon ? resolveUpgradePoints(build.equipment.primaryWeapon) : undefined,
     armorPoints: resolveArmorUpgradePoints(build.equipment),
     gear: gearSlots,
-    // Armor item effects share the armor conditional controls. Weapon item
-    // effects retain their separate optional map for forward compatibility.
     conditionals: {
       ...build.equipment.armorConditionalBonuses,
       ...(build.equipment.itemConditionalBonuses ?? {}),
     },
     rolls: build.equipment.itemRolls,
   });
-  /*
-   * What the four slots add beyond their item effects: the crafting material,
-   * resolved through its `Other` profile rather than its armour one, and the
-   * enchantment, resolved per slot. Accessories take a material but the wiki
-   * gives them no enchantment slot of their own, so only hands and legs are
-   * enchanted here.
-   */
   const gearBonus = gearSlots ? sumGearModifiers(gearSlots) : NO_GEAR_BONUS;
 
-  /*
-   * Upgrade tracks. Each point is worth +1 of its stat, and these slots have no
-   * durability track. Hands buys Hit on the main weapon and Max FP; legs buys
-   * Max HP and Evade. Accessory points go to Fortune and Greed, which are drop
-   * rate qualities rather than combat stats and so move nothing here.
-   */
+  // Accessory upgrade points buy Fortune and Greed (drop rates), so only hands and legs matter here.
   const handsPoints = usingOffHand ? NO_HANDS_UPGRADE_POINTS : build.equipment.hands?.upgradePoints ?? NO_HANDS_UPGRADE_POINTS;
   const legsPoints = build.equipment.legs?.upgradePoints ?? NO_LEGS_UPGRADE_POINTS;
 
@@ -396,18 +301,12 @@ export function evaluateBuild(build: BuildState, includeStatSources = false): Bu
 
   const maxInvestedStats = emptyStats();
   for (const stat of STAT_KEYS) {
-    // Deliberately the true subrace line, not the installed one: Install is a
-    // combat transformation, while this cap governs how many points a player may
-    // allocate, which they do out of combat, as themselves.
+    // True subrace, not installed: Install is a combat transformation and doesn't move the allocation cap.
     const preCap = (subrace[stat] ?? 0) + (build.customBaseStats[stat] ?? 0) + (leBonus[stat] ?? 0) + (history.stats[stat] ?? 0) + (astrologyStat === stat ? 1 : 0);
     maxInvestedStats[stat] = Math.max(0, 80 - preCap);
   }
 
-  /*
-   * Install replaces the Summoner's racial base stats with the Youkai's, so the
-   * subrace line is substituted rather than added to. FAI, SAN and APT are absent
-   * from the override and keep their original values, as Install specifies.
-   */
+  // Install replaces racial base stats with the Youkai's; FAI, SAN and APT keep their originals.
   const installedStats = build.youkai?.installed ? installedBaseStats(build.youkai, mergedSkillRanks) : null;
   const installedAffinity = build.youkai ? installedAffinityStats(build.youkai, mergedSkillRanks) : {};
   const racialFor = (stat: StatKey) => installedStats?.[stat] ?? subrace[stat] ?? 0;
@@ -432,20 +331,7 @@ export function evaluateBuild(build: BuildState, includeStatSources = false): Bu
   };
 
   const aptDragon = 0;
-  /*
-   * APT that counts toward the "every 6 grants +1 to every other stat" rule.
-   *
-   * Only APT the character actually owns: the racial line, points spent on it,
-   * the class's per-level share, a custom base and the astrology pick. Bonus APT
-   * (from a trait or a piece of equipment) raises the stat but does **not** push
-   * the threshold, so `Bands of the Chimera` cannot hand a build sitting at 35
-   * APT a free +1 to all twelve.
-   *
-   * Deliberately not `additionFor('apt')`, which folds in every bonus source in
-   * the game and was what made that happen.
-   */
-  // `baseFor` already carries the custom base and Legend Extend, so this is only
-  // the allocated share: points spent, plus the astrology pick.
+  // Only owned APT counts toward the every-6 threshold; bonus APT (traits, gear) raises the stat but not the threshold.
   const investedApt = (build.addedStats.apt ?? 0) + (astrologyStat === 'apt' ? 1 : 0);
   const scaledApt = calculateDiminishingReturns({
     racialStat: baseFor('apt'),
@@ -474,13 +360,7 @@ export function evaluateBuild(build: BuildState, includeStatSources = false): Bu
     });
   }
 
-  /*
-   * Post-softcap buffs, applied before anything reads the stat line.
-   *
-   * Deliberately outside `calculateDiminishingReturns`: these are statuses, not
-   * allocation, so the softcap does not get to shave them. They also do not feed
-   * the aptitude threshold, which is computed above from owned APT only.
-   */
+  // Status buffs apply after the softcap and don't feed the aptitude threshold.
   if (build.statBuffs) {
     for (const stat of STAT_KEYS) {
       const buff = build.statBuffs[stat] ?? 0;
@@ -524,11 +404,6 @@ export function evaluateBuild(build: BuildState, includeStatSources = false): Bu
   if (dragonQueenPieces > 0) scaledStats.wil = Math.floor(scaledStats.wil * (1 + 0.05 * dragonQueenPieces));
   if (hasSkillRanks) skills = skillBonuses(availableSkills, mergedSkillRanks, build.skillConditionals, skillWeaponTypes, { ...skillContext, scaledStats });
 
-  /*
-   * The Redtail's dice scale off Scaled SAN, so they are resolved once the stat
-   * block is final and then spent into Hit/Critical, Evade/Critical Evade, or
-   * the luck-status channel depending on the colour showing.
-   */
   const fortune = calculateRedtailFortune({
     subrace: build.subrace,
     diceColor: build.redtailDiceColor,
@@ -611,10 +486,7 @@ export function evaluateBuild(build: BuildState, includeStatSources = false): Bu
       manualAdjustment: build.elementalATKAdjustments[element]
         + (armorMaterial.elementalAttack[element] ?? 0) + (armorEnchant.elementalAttack[element] ?? 0)
         + (items.elementalAttack[element] ?? 0)
-        // Flat elemental attack from ranked skills: the Evoker's Galren,
-        // Kraken, Nerhaven and Redgull, and Call Storm's Water bonus.
         + (skills.elemental[element] ?? 0)
-        // And from the elemental talents' Potency line.
         + (talents.elementalAttack[element] ?? 0)
         + (mixtureBonuses.elementalAttack?.[element] ?? 0),
       subrace: build.subrace,
@@ -632,15 +504,6 @@ export function evaluateBuild(build: BuildState, includeStatSources = false): Bu
     });
   }
 
-  /*
-   * Blunt / Pierce / Slash. Resisted like an element and written like one, so
-   * every source states them the same way: the armour's own map, its material
-   * and enchantment, whatever slots 3-6 add, and item text such as Half-Plate's
-   * "+5% Pierce and Slash Resistance".
-   *
-   * Unlike the elemental version there is no race, Youkai or San term: nothing
-   * grants physical resistance except equipment.
-   */
   const physicalResistance = { Blunt: 0, Pierce: 0, Slash: 0 };
   for (const type of PHYSICAL_KEYS) {
     physicalResistance[type] = (armor?.resistances?.[type] ?? 0)
@@ -667,27 +530,8 @@ export function evaluateBuild(build: BuildState, includeStatSources = false): Bu
       talents.hit += steadyRank * 2 * (rifle ? 2 : 1);
     }
   }
-  /*
-   * Attacker Hit at each positional tier.
-   *
-   * `primaryWeapon.hit` is the base tier (no Honor, no flanking), which is what
-   * it has always reported. The tiers are what makes the Flanking stat mean
-   * anything: it was computed, displayed and scored, but nothing ever converted
-   * it into Hit.
-   */
   const flanking = FLANKING_BASE + FLANKING_PER_GUI * scaledStats.gui;
-  /*
-   * `weaponBase.hit` is already `2 x scaled SKI + weapon Accuracy`, so it is the
-   * base channel whole. Hand Hit joins it there; the sheet puts it in base, and
-   * it is already gated on having no off-hand equipped. Skill, item and Redtail
-   * Hit are buffs, so they go through the capped bonus channel.
-   */
-  /*
-   * The weapon's Hit arrives already composed (`2 x scaled SKI` folded into its
-   * Accuracy by `calculateWeaponSlot`), so the two terms are reported separately
-   * here and the weapon line carries only what is left. Splitting them any other
-   * way would double-count SKI.
-   */
+  // Weapon Hit already includes 2x scaled SKI. Hand Hit is base per the Hit sheet; skill, item and Redtail Hit are capped bonus.
   const skiHit = Math.floor(scaledStats.ski * HIT_PER_SKI);
   const hitSources: DerivedSource[] = compactSources([
     { label: 'Scaled SKI', value: skiHit, channel: 'base', stat: 'ski' },
@@ -700,13 +544,7 @@ export function evaluateBuild(build: BuildState, includeStatSources = false): Bu
   ]);
   const hitBaseSources = sumSources(hitSources, 'base');
   const hitBonusSources = sumSources(hitSources, 'bonus');
-  /*
-   * Smite is the model's frontal bonus, not a second one beside it. The Hit
-   * workbook hard-codes that term at 15 (Smite at rank 5) because it predates
-   * the wiki documenting talents, so the build's real rank is passed instead of
-   * being added to the general channel where it would land on tiers the target
-   * is not being faced from and stack against the term it already is.
-   */
+  // The Hit workbook hard-codes the frontal (Smite) term at 15, i.e. rank 5; pass the build's real value instead.
   const attack = attackerHit({
     baseHit: hitBaseSources,
     hitBuffs: hitBonusSources,
@@ -714,45 +552,20 @@ export function evaluateBuild(build: BuildState, includeStatSources = false): Bu
     flanking,
   });
 
-  /*
-   * Skill bonuses to Power, Hit and Critical land on the weapon rather than the
-   * character, because that is what the wiki describes them as modifying. Added
-   * after the weapon is evaluated so they do not feed back into its scaling.
-   */
+  // The wiki describes skill Power/Hit/Critical as weapon modifiers; added after evaluation so they skip scaling.
   const primaryWeapon = weaponBase && {
     ...weaponBase,
     power: weaponBase.power + (skills.derived.power ?? 0) + (items.derived.power ?? 0) + youkaiBonuses.weaponPower + talents.power,
-    // Two-Hand's Full Swing and Astrology's Tactics raise Scaled Weapon ATK
-    // rather than the weapon's printed Power, which is a different term.
+    // Full Swing and Tactics raise Scaled Weapon ATK, not the weapon's printed Power.
     swa: weaponBase.swa + talents.scaledWeaponAtk + (skills.derived.swa ?? 0)
       + (skills.derived.power ?? 0) + (items.derived.power ?? 0) + youkaiBonuses.weaponPower + talents.power,
-    // The base tier: no Honor, no flanking, the same thing this field has always
-    // reported, but with the bonus sources now passed through the +50 cap.
     hit: Math.floor(attack.byTier.base),
     critical: weaponBase.critical + (skills.derived.critical ?? 0) + (items.derived.critical ?? 0) + fortune.critical + talents.critical,
-    // Critical Damage is a percentage, and the talent states percentage points.
     criticalDamage: weaponBase.criticalDamage + talents.criticalDamagePercent + (skills.derived.criticalDamage ?? 0),
-    // Balance sheds weight from the weapon itself, never below nothing.
     weight: Math.max(0, weaponBase.weight - talents.weaponWeightReduction),
   };
-  /*
-   * Evade, split into the channel the +50 cap governs and the channel it does not.
-   *
-   * These used to be one uncapped sum, which let a build report Evade no
-   * character can reach. The split follows what the community Evade page and the
-   * Hit/Evade workbook agree on: an item's own printed Evade, a material or
-   * enchantment that alters that statline, upgrade points (Equipment Extras),
-   * and Dodger are *base* and uncapped; a passive Evade buff or an item *effect*
-   * (Sarasha Gi's +12 is the wiki's own example) is *bonus* and capped.
-   *
-   * See `domain/hitEvade.ts` for the ordering, and the knowledge base entry for
-   * which assignments are sourced versus inferred.
-   */
-  /*
-   * Itemised rather than summed inline, so a readout can name what it is showing.
-   * `sumSources` is the only thing that turns these back into a number, which is
-   * what keeps the list and the total from drifting apart.
-   */
+  // Per the community Evade page and Hit/Evade workbook: printed item Evade, materials, upgrades and Dodger are
+  // uncapped base; passive buffs and item effects (e.g. Sarasha Gi's +12) are bonus, capped at +50.
   const evadeSources: DerivedSource[] = compactSources([
     { label: 'Scaled CEL', value: Math.floor(scaledStats.cel * EVADE_PER_CEL), channel: 'base', stat: 'cel' },
     { label: 'Base Evade override', value: build.baseEvade, channel: 'base' },
@@ -778,8 +591,6 @@ export function evaluateBuild(build: BuildState, includeStatSources = false): Bu
   const evadeBonusSources = sumSources(evadeSources, 'bonus');
   const ownEvade = targetEvade({ baseEvade: evadeBaseSources, evadeBuffs: evadeBonusSources });
 
-  // Packrat's Hauler raises the carrying cap; the Balance talents lighten the
-  // weapon instead, which `primaryWeapon.weight` already reflects.
   const battleWeight = Math.floor(scaledStats.str) + 5 + talents.maxBattleWeight + (skills.derived.battleWeight ?? 0);
   const armorWeight = Math.floor(((armor?.weight ?? 0) + armorMaterial.weight + armorEnchant.weight + armorQuality.weight) * armorEnchant.weightMod);
   const equipmentLoad = (primaryWeapon?.weight ?? 0) + armorWeight;
@@ -794,15 +605,10 @@ export function evaluateBuild(build: BuildState, includeStatSources = false): Bu
     physicalDefense: Math.floor(scaledStats.def * 0.9) + (skills.derived.physicalDefense ?? 0) + (skills.derived.defensiveKnowledge ?? 0),
     magicalDefense: Math.floor(scaledStats.res * 0.9) + (skills.derived.magicalDefense ?? 0),
     evade: Math.floor(ownEvade.total),
-    /** The uncapped channel, reported so the split is visible rather than implied. */
     evadeBase: Math.floor(ownEvade.preBonus),
-    /** The capped channel, after the +50 ceiling. */
     evadeBonus: Math.floor(ownEvade.bonusEvade),
-    /** Bonus Evade the build has bought but the cap is throwing away. */
     evadeBonusWasted: Math.max(0, Math.floor(evadeBonusSources - ownEvade.bonusEvade)),
     criticalEvade: Math.floor(scaledStats.fai + scaledStats.luc) + armorMaterial.criticalEvade + armorEnchant.criticalEvade + fortune.criticalEvade + (skills.derived.criticalEvade ?? 0) + youkaiBonuses.derived.criticalEvade + gearBonus.criticalEvade,
-    // Whimsy is a percentage of the whole figure rather than flat points, so it
-    // multiplies the total instead of joining the sum.
     statusInfliction: Math.floor(
       (Math.floor(scaledStats.ski * 2 + scaledStats.wil) + (skills.derived.statusInfliction ?? 0))
       * (1 + talents.statusInflictionPercent / 100),
@@ -813,40 +619,27 @@ export function evaluateBuild(build: BuildState, includeStatSources = false): Bu
       build.mainClass === 'Shapeshifter' || build.subClass === 'Shapeshifter',
       build.race === 'Chimera' || build.subrace === 'Chimera'),
     initiative: racialFor('cel') + build.addedStats.cel + build.customBaseStats.cel + (astrologyStat === 'cel' ? 1 : 0),
-    // FAI is one of the stats Install preserves, so this stays on the subrace line.
+    // Install preserves FAI, so this stays on the subrace line.
     youkaiCap: calculateYoukaiCap((subrace.fai ?? 0) + build.customBaseStats.fai + build.addedStats.fai + (leBonus.fai ?? 0) + (astrologyStat === 'fai' ? 1 : 0)),
     flanking: Math.floor(flanking),
-    /** Attacker Hit by positional tier. `hitTiers.base` matches the weapon's Hit. */
     hitTiers: {
       base: Math.floor(attack.byTier.base),
       front: Math.floor(attack.byTier.front),
       flank1: Math.floor(attack.byTier.flank1),
       flank2: Math.floor(attack.byTier.flank2),
     },
-    /** The uncapped Hit channel: weapon Accuracy, 2x scaled SKI, and Hand Hit. */
     hitBase: Math.floor(attack.preBonus),
-    /** Bonus Hit sources before the cap, so the figure stays composable. */
     hitBonusSources,
-    /** Bonus Hit after the +50 cap. */
     hitBonusApplied: Math.floor(attack.bonusHit),
-    /** Bonus Hit the cap is throwing away. */
     hitBonusWasted: Math.max(0, Math.floor(hitBonusSources - attack.bonusHit)),
-    /** Bonus Hit the cap leaves for Honor on a frontal attack. */
     honorHeadroom: Math.floor(attack.honorHeadroom),
     frontalHitBonus: talents.frontalHit,
     skillPool: build.traits?.includes('undeniable-innovator') ? 99 : 11 + Math.floor(scaledStats.gui / 5) + Math.floor(scaledStats.ski / 5) + Math.floor(scaledStats.wil / 10) + (race?.human || subrace.human ? 2 : 0) + talents.skillPool + (skills.derived.skillPool ?? 0),
     battleWeight,
     armor: (armor?.armor ?? 0) + armorPoints.armor + armorMaterial.armor + armorEnchant.armor + armorQuality.armor + (items.derived.armor ?? 0) + gearBonus.armor + talents.armor + (skills.derived.armor ?? 0),
     magicArmor: (armor?.magicArmor ?? 0) + armorPoints.magicArmor + armorMaterial.magicArmor + armorEnchant.magicArmor + armorQuality.magicArmor + (items.derived.magicArmor ?? 0) + gearBonus.magicArmor + talents.magicArmor + (skills.derived.magicArmor ?? 0),
-    /*
-     * Everything the torso and gear contribute, across both channels: a
-     * diagnostic of "what is the equipment worth", not a channel figure. It
-     * deliberately mixes base and bonus, so it must never be fed back into the
-     * model as a base input: doing that smuggles bonus Evade past the +50 cap.
-     * Use `evadeBase` / `evadeBonus` for that.
-     */
+    // Mixes base and bonus Evade; never feed it back as a base input or bonus Evade escapes the +50 cap.
     armorEvade: (armor?.evade ?? 0) + armorPoints.evade + armorMaterial.evade + armorEnchant.evade + armorQuality.evade + armorConditional.evade + (items.derived.evade ?? 0),
-    /** The torso and gear share of the uncapped channel, safe to model with. */
     armorEvadeBase: (armor?.evade ?? 0) + armorPoints.evade + armorMaterial.evade + armorEnchant.evade + armorQuality.evade,
     armorWeight,
     equipmentLoad,
@@ -855,7 +648,6 @@ export function evaluateBuild(build: BuildState, includeStatSources = false): Bu
     luckStatusPercent: fortune.luckStatusPercent + youkaiBonuses.derived.luckStatusPercent,
   };
 
-  // Resolve provenance only for the stat dialog; every other evaluation skips it.
   const statSources: BuildEvaluation['statSources'] = includeStatSources
     ? Object.fromEntries(STAT_KEYS.map(stat => [stat, [] as Array<{ label: string; value: number }>])) as NonNullable<BuildEvaluation['statSources']>
     : undefined;

@@ -14,16 +14,6 @@ import {
 import type { Builder } from '../state/useBuilder';
 import { ArmorTuning, GearTuning, WeaponTuning } from './armoryTuning';
 
-/**
- * The armory: pick an item for one slot, then tune it.
- *
- * Two panes rather than a wizard, because choosing and tuning are the same task:
- * a player comparing two swords wants the upgrade tracks they have already set to
- * still be there when they switch back.
- *
- * Slot 3 is the one that needs a mode switch: it takes a hands piece *or* an
- * off-hand weapon, and the choice of which changes the whole item list.
- */
 export function ArmoryDialog({ builder, slot, onClose }: { builder: Builder; slot: SlotId; onClose: () => void }) {
   const { build, evaluation, dispatch } = builder;
   const descriptor = SLOTS.find(entry => entry.id === slot)!;
@@ -37,14 +27,7 @@ export function ArmoryDialog({ builder, slot, onClose }: { builder: Builder; slo
   const summary = slotSummary(build.equipment, slot);
   const choices = useMemo(() => choicesForSlot(slot, mode, build), [slot, mode, build]);
 
-  /*
-   * Bring the equipped item into view when the dialog opens.
-   *
-   * The accessory list is 115 rows and the weapon list 339; without this, opening
-   * a filled slot shows the top of the list and the current item is nowhere on
-   * screen. Deliberately on open only: re-running it on every selection would
-   * pull the list out from under the pointer as items are tried.
-   */
+  // On open only: re-running on selection would pull the list out from under the pointer.
   const listRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     listRef.current?.querySelector('.entry.is-taken')?.scrollIntoView({ block: 'center' });
@@ -162,8 +145,6 @@ export function ArmoryDialog({ builder, slot, onClose }: { builder: Builder; slo
                       <span className="entry__name">
                         {choice.name}
                         {choice.restriction ? <span className="chip" title={choice.restriction}>restricted</span> : null}
-                        {/* A weapon the main class does not list, made legal by a
-                            talent; without this the row looks like a failed check. */}
                         {choice.unlockedBy ? (
                           <span className="chip chip--gold" title={`${choice.unlockedBy} opens this weapon regardless of class`}>
                             {choice.unlockedBy}

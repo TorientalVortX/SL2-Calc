@@ -14,43 +14,21 @@ import {
   type ReadoutRow,
 } from '../state/readout';
 
-/**
- * One entry of the derived rail, as the card can open it.
- *
- * The rail holds two kinds of line and both were hover-only, so both are here
- * rather than only the twenty that were easier. They share a card because they
- * answer the same question (what is this number, and what moves it), and the
- * difference between them is which figures the top of the card carries.
- */
 export type RailEntry =
   | { kind: 'readout'; key: string; label: string; group: string; row: ReadoutRow }
   | { kind: 'element'; key: string; label: string; row: ElementalRow };
 
 interface ReadoutCardProps {
   entry: RailEntry;
-  /** Every rail entry in rail order, for stepping through them. */
   entries: RailEntry[];
   build: BuildState;
   evaluation: BuildEvaluation;
   onSelect: (key: string) => void;
   onClose: () => void;
-  /** Opens the attribute card for a stat this value reads from. */
   onInspectStat: (stat: StatKey) => void;
-  /** Routes to the manual ATK / RES adjusters in the Advanced dialog. */
   onAdjust?: () => void;
 }
 
-/**
- * A derived value's card: the figure, the formula behind it, and the attributes
- * it reads.
- *
- * The rail's `title` tooltips carried the formulas, which meant they carried them
- * on a desktop and nowhere else. They also dead-ended: knowing Max HP is ten times
- * scaled VIT is the moment you want to be looking at VIT, and a tooltip cannot
- * take you there. So every stat named here is a button through to that attribute's
- * card, and taking one closes this card rather than stacking a second dialog over
- * it. One thing is being read at a time.
- */
 export function ReadoutCard({
   entry,
   entries,
@@ -123,12 +101,6 @@ function ReadoutBody({
         <div className="figure figure--static is-active">
           <span className="eyebrow">{ratio ? 'Carried' : 'Current'}</span>
           <span className="figure__value">{formatReadout(row.value, ratio ? 'integer' : row.format)}</span>
-          {/*
-            * A partial figure means two different things depending on the row: a
-            * character-side term a weapon adds to, or (for the one ratio row) a
-            * load counted over some of the slots. The dagger note under the
-            * formula is what says which, so this only has to not contradict it.
-            */}
           {(ratio || row.partial) && <span className="figure__note">
             {ratio
               ? (row.partial ? 'Partial count, see below' : 'Counted')
@@ -180,13 +152,6 @@ function ReadoutBody({
   );
 }
 
-/**
- * Which rail rows carry an itemised source list, and which channels each shows.
- *
- * A total row shows both channels, because the split is what explains the total.
- * A bonus row shows only its own: listing base sources under "Bonus Evade" reads
- * as a claim that scaled CEL is part of Bonus Evade, which it is not.
- */
 const PROVENANCE_ROWS: Record<string, {
   key: 'hit' | 'evade';
   channels: Array<'base' | 'bonus'>;
@@ -202,19 +167,7 @@ function signed(value: number): string {
   return `${value > 0 ? '+' : ''}${value}`;
 }
 
-/**
- * Where a derived figure comes from, source by source.
- *
- * Two lists rather than one, because the split is the thing worth seeing: base
- * sources are uncapped, and bonus sources compete for a shared +50 ceiling. A
- * build at that ceiling is choosing between the effects in the second list
- * whether it knows it or not, so they are shown together with what the cap is
- * discarding.
- *
- * `evaluateBuild` guarantees these reconcile (a test holds the itemised sums
- * against the reported figures), so the totals here are the same numbers the rail
- * shows rather than a second calculation of them.
- */
+/** Bonus sources share a +50 ceiling; base sources are uncapped. */
 function Provenance({ evaluation, rowKey }: { evaluation: BuildEvaluation; rowKey: string }) {
   const config = PROVENANCE_ROWS[rowKey];
   if (!config) return null;
@@ -353,7 +306,6 @@ function ElementBody({
             For a flat ATK or RES the calculator has no field for: a buff, a consumable, an item
             it does not model.
           </p>
-          {/* Wrapped, so the button is its own width rather than the section's. */}
           <div className="inline">
             <button
               type="button"
@@ -369,7 +321,6 @@ function ElementBody({
   );
 }
 
-/** The attributes a figure reads, each a route to that attribute's own card. */
 function Sources({
   stats,
   evaluation,

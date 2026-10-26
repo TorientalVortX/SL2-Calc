@@ -16,7 +16,7 @@ function build() {
   })).build;
 }
 
-/** The hands Hit track lands on the main weapon, so one has to be equipped. */
+// The hands Hit track lands on the main weapon.
 function armedBuild() {
   const state = build();
   const weapon = findWeaponByName('Longsword');
@@ -27,15 +27,7 @@ function armedBuild() {
 
 describe('gear fixtures', () => {
   it('names only items that exist', () => {
-    /*
-     * Every item these tests equip, checked against the real data.
-     *
-     * Nothing else here fails when a name is wrong: upgrade points, materials
-     * and enchantments all resolve against the slot rather than the item, so a
-     * typo or a name lifted from a mockup passes silently while testing much
-     * less than it appears to. Three of these were placeholders before this
-     * check existed.
-     */
+    // Upgrades, materials and enchantments resolve by slot, so a wrong name here fails silently.
     const equipped = [
       'Blue Seal', 'Bunny Ears', 'Ring of Focus', 'Ring of Life', 'Blood Jewel',
       'Bands of the Crocodile', 'Magic Gauntlet', 'Archery Gloves',
@@ -66,7 +58,7 @@ describe('slot 3-6 item effects', () => {
   });
 
   it('raises max FP from an accessory that grants it', () => {
-    // Ring of Focus is "+40 FP". This is the channel that did not exist before.
+    // Ring of Focus is "+40 FP".
     const state = build();
     const before = evaluateBuild(state).derived.fp;
     state.equipment.accessory1 = { itemName: 'Ring of Focus', upgradePoints: NO_ACCESSORY_UPGRADE_POINTS };
@@ -89,11 +81,7 @@ describe('slot 3-6 item effects', () => {
   });
 
   it('defaults a ranged bonus to the bottom of its range, never a penalty', () => {
-    /*
-     * Bunny Ears is "+2-4 CEL": per-item RNG, so an unconfigured build takes the
-     * floor rather than assuming a good roll. The upper bound used to be read as
-     * the number -4, so equipping a bonus *lowered* the stat by 4.
-     */
+    // Bunny Ears is "+2-4 CEL".
     const state = build();
     const before = evaluateBuild(state).rawStats.cel;
     state.equipment.accessory1 = { itemName: 'Bunny Ears', upgradePoints: NO_ACCESSORY_UPGRADE_POINTS };
@@ -109,7 +97,6 @@ describe('slot 3-6 item effects', () => {
   });
 
   it('holds a roll inside its range', () => {
-    // A hand-edited or stale file cannot claim a roll the item cannot have.
     const state = build();
     const before = evaluateBuild(state).rawStats.cel;
     state.equipment.accessory1 = { itemName: 'Bunny Ears', upgradePoints: NO_ACCESSORY_UPGRADE_POINTS };
@@ -149,7 +136,6 @@ describe('slot 3-6 upgrade tracks', () => {
     const before = evaluateBuild(state);
     state.equipment.hands = { itemName: 'Archery Gloves', upgradePoints: { hit: 4, fp: 3 } };
     const after = evaluateBuild(state);
-    // One point is worth +1, the same rate as the weapon and armour tracks.
     expect((after.primaryWeapon?.hit ?? 0) - (before.primaryWeapon?.hit ?? 0)).toBe(4);
     expect(after.derived.fp - before.derived.fp).toBe(3);
   });
@@ -165,12 +151,6 @@ describe('slot 3-6 upgrade tracks', () => {
   });
 
   it('ignores an off-hand build’s stale hands entry', () => {
-    /*
-     * Equipping a second weapon displaces the hands piece. A hands entry left
-     * behind by that switch must contribute nothing at all (not its upgrade
-     * points and not its item effects), so the build reads exactly as if slot 3
-     * had never held a hands piece.
-     */
     const empty = evaluateBuild(armedBuild());
 
     const stale = armedBuild();
@@ -180,15 +160,14 @@ describe('slot 3-6 upgrade tracks', () => {
 
     expect(withOffHand.primaryWeapon?.hit).toBe(empty.primaryWeapon?.hit);
     expect(withOffHand.derived.fp).toBe(empty.derived.fp);
-    // Archery Gloves also grants +2 SKI; that must be gone too.
+    // Archery Gloves also grants +2 SKI.
     expect(withOffHand.rawStats.ski).toBe(empty.rawStats.ski);
   });
 });
 
 describe('slot 3-6 materials and enchantments', () => {
   it('uses the material’s Other profile, not its armour one', () => {
-    // Arctic Gold is "+1 Armor, +1 Weight, +5% Ice Resistance" on a torso but
-    // only the resistance on a pair of boots.
+    // Arctic Gold is "+1 Armor, +1 Weight, +5% Ice Resistance" on a torso, only the resistance elsewhere.
     const state = build();
     state.equipment.legs = { itemName: 'Boots of Initiative', upgradePoints: NO_LEGS_UPGRADE_POINTS };
     const before = evaluateBuild(state).derived;
@@ -208,8 +187,7 @@ describe('slot 3-6 materials and enchantments', () => {
   });
 
   it('feeds a slot enchantment’s stats and status resistance into the build', () => {
-    // Warding on legs is "+3 Resistance" plus the shared "+10% Status Effect
-    // Resistance". Both must reach the totals, at the legs magnitude.
+    // Warding on legs is "+3 Resistance" plus "+10% Status Effect Resistance".
     const state = build();
     state.equipment.legs = { itemName: 'Boots of Initiative', upgradePoints: NO_LEGS_UPGRADE_POINTS };
     const before = evaluateBuild(state);
@@ -220,22 +198,20 @@ describe('slot 3-6 materials and enchantments', () => {
   });
 
   it('reads an enchantment at the slot it is on', () => {
-    // Warding is "Armor: +5 Resistance. Legs: +3 Resistance." The legs figure
-    // must not borrow the torso one.
+    // Warding is "Armor: +5 Resistance. Legs: +3 Resistance."
     expect(armorEnchantmentEffect('Warding').stats.res).toBe(5);
     expect(enchantmentEffectForSlot('Warding', 'Legs').stats.res).toBe(3);
   });
 
   it('refuses an enchantment that is not legal on the slot', () => {
-    // Leviathan is torso-only; putting it on legs must resolve to nothing.
+    // Leviathan is torso-only.
     expect(enchantmentEffectForSlot('Leviathan', 'Legs').hp).toBe(0);
   });
 });
 
 describe('item elemental resistance', () => {
   it('applies a resistance stated in a gear item’s own text', () => {
-    // Indignant Idol is "-10% Light Resistance": a penalty, and the only place
-    // it is written is the prose, since these slots have no resistance column.
+    // Indignant Idol is "-10% Light Resistance", stated only in its prose.
     const state = build();
     const before = evaluateBuild(state).elementalResistance.Light;
     state.equipment.accessory1 = { itemName: 'Indignant Idol', upgradePoints: NO_ACCESSORY_UPGRADE_POINTS };
@@ -243,11 +219,7 @@ describe('item elemental resistance', () => {
   });
 
   it('does not double an armour whose resistance is already curated', () => {
-    /*
-     * Blackheart carries `resistances: { Light: 10 }` in armors.json *and*
-     * repeats "10% Light Resistance" in its details. Reading both would grant
-     * 20%. The armour text is deliberately not parsed for resistances.
-     */
+    // Blackheart curates Light: 10 and repeats it in its details; armour text is not parsed for resistances.
     const state = build();
     const before = evaluateBuild(state).elementalResistance.Light;
     state.equipment.armorName = 'Blackheart';
@@ -255,8 +227,7 @@ describe('item elemental resistance', () => {
   });
 
   it('applies a curated resistance that was keyed with the wiki’s spelling', () => {
-    // Brightray Plate was keyed "Darkness" rather than the canonical "Dark",
-    // so its 10% never reached the build at all.
+    // Brightray Plate's data spells it "Darkness".
     const state = build();
     const before = evaluateBuild(state).elementalResistance.Dark;
     state.equipment.armorName = 'Brightray Plate';
@@ -266,10 +237,6 @@ describe('item elemental resistance', () => {
 
 describe('equipment sets', () => {
   it('counts pieces across every slot, not just one', () => {
-    /*
-     * Unassuming Adventurer spans armour, hands, legs and both accessories, so a
-     * count that looked at one slot's data could never reach its thresholds.
-     */
     const state = build();
     state.equipment.armorName = 'Roughspun Tunic';
     state.equipment.accessory1 = { itemName: 'Ring of Focus', upgradePoints: NO_ACCESSORY_UPGRADE_POINTS };
@@ -283,7 +250,6 @@ describe('equipment sets', () => {
   });
 
   it('reports a set the build has only one piece of', () => {
-    // One piece grants nothing, but showing the next threshold is the point.
     const state = build();
     state.equipment.accessory1 = { itemName: 'Ring of Focus', upgradePoints: NO_ACCESSORY_UPGRADE_POINTS };
     const [set] = activeSets(state.equipment);
@@ -293,8 +259,6 @@ describe('equipment sets', () => {
   });
 
   it('does not count a stale hands piece when an off-hand weapon is equipped', () => {
-    // Slot 3 holds one thing; counting both would complete a set the player
-    // is not wearing.
     const state = build();
     state.equipment.armorName = 'Roughspun Tunic';
     state.equipment.hands = { itemName: 'Green Gloves', upgradePoints: NO_HANDS_UPGRADE_POINTS };
@@ -305,7 +269,6 @@ describe('equipment sets', () => {
   });
 
   it('keeps a per-piece set rule that has no thresholds', () => {
-    // Dragon King scales with how many pieces are worn rather than stepping.
     const dragonKing = ITEM_SETS['Dragon King'];
     expect(dragonKing.thresholds).toEqual([]);
     expect(dragonKing.note).toMatch(/for each Dragon King item equipped/i);
@@ -313,11 +276,7 @@ describe('equipment sets', () => {
 });
 
 describe('aptitude threshold', () => {
-  /**
-   * 31 invested APT scales to 35. One short of the 36 that grants the next "+1
-   * to every other stat" tier. Any bonus APT lands exactly on the boundary,
-   * which is what makes this the case worth testing.
-   */
+  // 31 invested APT scales to 35, one short of the 36 tier.
   const onBoundary = () => {
     const state = build();
     state.addedStats.apt = 31;
@@ -325,11 +284,7 @@ describe('aptitude threshold', () => {
   };
 
   it('does not let equipment APT push the every-6 threshold', () => {
-    /*
-     * Bands of the Chimera grants +1 to all stats, APT included. That +1 must
-     * raise APT without buying a tier: the wearer should gain the item's own +1
-     * STR and nothing more. Counting it granted a second +1 to all twelve.
-     */
+    // Bands of the Chimera grants +1 to all stats; only its own +1 STR should show.
     const state = onBoundary();
     const before = evaluateBuild(state).rawStats.str;
     state.equipment.hands = { itemName: 'Bands of the Chimera', upgradePoints: NO_HANDS_UPGRADE_POINTS };
@@ -337,7 +292,6 @@ describe('aptitude threshold', () => {
   });
 
   it('still grants the tier for APT the character actually invested', () => {
-    // The rule itself is intact. One more spent point does cross the boundary.
     const state = onBoundary();
     const before = evaluateBuild(state).rawStats.str;
     state.addedStats.apt = 32;
@@ -347,10 +301,6 @@ describe('aptitude threshold', () => {
 
 describe('all-stats bonuses', () => {
   it('expands "+1 to all stats" across the twelve stats', () => {
-    /*
-     * Bands of the Chimera says "all stats" where its siblings name one
-     * ("+1-4 STR"), so it parsed to nothing and the item did nothing.
-     */
     const state = build();
     const before = evaluateBuild(state).rawStats;
     state.equipment.hands = { itemName: 'Bands of the Chimera', upgradePoints: NO_HANDS_UPGRADE_POINTS };
@@ -379,8 +329,7 @@ describe('physical resistance', () => {
   });
 
   it('applies it from a material', () => {
-    // Chainmail Section is "+5% Slash Resistance" on both its Armor and Other
-    // profiles, so it counts on a torso and on a pair of boots alike.
+    // Chainmail Section is "+5% Slash Resistance" on both its Armor and Other profiles.
     const state = build();
     state.equipment.armorName = 'Breastplate';
     state.equipment.armorMaterial = 'Chainmail Section';
@@ -395,21 +344,12 @@ describe('dragon sets', () => {
     state.equipment.armorName = "Dragon King's Armor";
     state.equipment.hands = { itemName: 'Dragon King Gauntlet', upgradePoints: NO_HANDS_UPGRADE_POINTS };
     const after = evaluateBuild(state);
-    /*
-     * Two pieces: +3 to the raw stat each, and +5% each on the scaled total.
-     *
-     * The scaled figure is derived from the racial line rather than from
-     * `rawStats`, so the multiplier is the only thing that moves it, and at a
-     * low STR the floor can swallow it entirely, which is why this asserts the
-     * formula rather than merely that the number went up.
-     */
+    // Dragon King: +3 raw stat and +5% of the scaled total per piece.
     expect(after.rawStats.str - before.rawStats.str).toBe(6);
     expect(after.scaledStats.str).toBe(Math.floor(before.scaledStats.str * 1.1));
   });
 
   it('ignores the legacy typed count', () => {
-    // A build saved while Dragon King was a manual field must not keep paying
-    // out for pieces it is not wearing.
     const state = build();
     const before = evaluateBuild(state).rawStats.str;
     state.dragonKing = 4;

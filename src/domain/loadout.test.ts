@@ -37,12 +37,9 @@ const baseClassOf = (name: string) => (
 
 describe('skill point pools', () => {
   it('gives every reachable class its own allowance, base class included', () => {
-    // Two promotions of one base reach three classes: the two promotions and the
-    // Summoner base they share, which is granted once rather than twice.
     const pools = buildSkillPools('Shapeshifter', 'Grand Summoner').map(pool => pool.className).sort();
     expect(pools).toEqual(['Grand Summoner', 'Shapeshifter', 'Summoner']);
 
-    // A monoclass build reaches its own class and its base, and no more.
     expect(buildSkillPools('Summoner', 'Summoner').map(pool => pool.className)).toEqual(['Summoner']);
     expect(buildSkillPools('Shapeshifter', 'Shapeshifter').map(pool => pool.className).sort())
       .toEqual(['Shapeshifter', 'Summoner']);
@@ -51,8 +48,7 @@ describe('skill point pools', () => {
   it('charges a rank to its own class and leaves the other allowances alone', () => {
     const spends = skillPoolSpends('Shapeshifter', 'Grand Summoner', { main: { 'sync-mind': 2 }, sub: {} }, false);
     const byClass = Object.fromEntries(spends.map(pool => [pool.className, pool.spent]));
-    // Sync-Mind is a Summoner skill, so it costs the Summoner allowance even
-    // though neither slot *is* Summoner.
+    // Sync-Mind is a Summoner skill.
     expect(byClass.Summoner).toBe(2);
     expect(byClass.Shapeshifter).toBe(0);
     expect(byClass['Grand Summoner']).toBe(0);
@@ -60,8 +56,6 @@ describe('skill point pools', () => {
 
   it('does not let one class borrow another class\'s points', () => {
     const state = build({ mainClass: 'Shapeshifter', subClass: 'Grand Summoner' });
-    // Well inside the 105 points the build has in total, and still illegal:
-    // it all lands on one 35-point class.
     state.skillRanks = { main: {}, sub: {} };
     for (const skill of buildSkillPools('Shapeshifter', 'Grand Summoner')
       .find(pool => pool.className === 'Shapeshifter')!.skills) {
@@ -84,14 +78,11 @@ describe('skill point pools', () => {
     expect(destinyAllowsClassPair('Shapeshifter', 'Grand Summoner')).toBe(true);
     expect(destinyAllowsClassPair('Summoner', 'Bonder')).toBe(true);
     expect(destinyAllowsClassPair('Shapeshifter', 'Ghost')).toBe(false);
-    // Without Destiny every pair is legal, including the cross-tree one.
     expect(classPairLegal('Shapeshifter', 'Ghost', false)).toBe(true);
     expect(classPairLegal('Shapeshifter', 'Ghost', true)).toBe(false);
   });
 
   it('charges a skill both sheets have set only once', () => {
-    // A monoclass build keeps two sheets over one class; the higher rank is what
-    // the character has, and it is paid for once.
     const ranks = { main: { 'sync-mind': 2 }, sub: { 'sync-mind': 2 } };
     const spends = skillPoolSpends('Summoner', 'Summoner', ranks, false);
     expect(spends).toHaveLength(1);
@@ -141,8 +132,7 @@ describe('elemental attack from skills', () => {
     expect(effect).toMatchObject({ kind: 'element', key: 'Fire' });
     expect(effect.valueByRank).toEqual([7, 9, 11]);
 
-    // A three-round cast buff, so it is opt-in rather than folded into the
-    // build's permanent totals.
+    // A three-round cast buff.
     expect(effect.applies).toBe('conditional');
 
     const evoker = build({ mainClass: 'Evoker', subClass: 'Evoker' });
@@ -156,8 +146,7 @@ describe('elemental attack from skills', () => {
   });
 
   it('refuses a percentage where the model wants a flat bonus', () => {
-    // "Dark ATK: 10/20/30/40/50%" scales the element rather than adding to it,
-    // and the calculator has nowhere to put that.
+    // Wiki: "Dark ATK: 10/20/30/40/50%".
     const darkImbue = SKILLS.find(skill => skill.name === 'Dark Imbue')!;
     expect(darkImbue.effects.some(effect => effect.kind === 'element')).toBe(false);
   });
@@ -174,16 +163,14 @@ describe('elemental attack from skills', () => {
 
 describe('trait data', () => {
   it('marks Blood Binding as hand-modelled so the Karakuri body is not counted twice', () => {
-    // Each Blood Binding trait restates the stat offsets `karakuriBonus` already
-    // applies from the build's `karakuriYoukai` field.
+    // `karakuriBonus` already applies these offsets from `karakuriYoukai`.
     const bindings = TRAITS.filter(trait => trait.id.startsWith('blood-binding-'));
     expect(bindings.length).toBe(7);
     for (const trait of bindings) expect(trait.handModelled).toBe(true);
   });
 
   it('checks requirements against base stats, excluding the APT bonus', () => {
-    // The wiki is explicit that "bonuses from APT or items will not contribute"
-    // to a trait requirement, so investing in APT must not unlock traits.
+    // Wiki: "bonuses from APT or items will not contribute" to a trait requirement.
     const plain = build();
     plain.addedStats.str = 40;
     const aptitude = { ...plain, addedStats: { ...plain.addedStats, apt: 40 } };
@@ -210,8 +197,6 @@ describe('loadout legality', () => {
   });
 
   it('rejects a skill whose prerequisite is unranked', () => {
-    // Install requires Sync-Mind rank 1, which requires The Contract rank 1.
-    // Holding Install alone is not a build the game allows.
     const state = build();
     state.youkai = { contracted: ['apus'], installed: 'apus' };
     state.skillRanks = { main: { install: 1 }, sub: {} };

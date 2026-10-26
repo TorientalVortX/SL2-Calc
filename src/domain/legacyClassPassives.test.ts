@@ -26,7 +26,6 @@ describe('legacy class-passive imports', () => {
     const baseline = evaluateBuild(withoutSkills).rawStats;
     expect(actual.def - baseline.def).toBe(6);
     expect(actual.res - baseline.res).toBe(5);
-    // Even an unnormalized object cannot reactivate the deleted calculation path.
     expect(evaluateBuild({ ...build, ...fixture }).rawStats).toEqual(actual);
   });
 

@@ -8,7 +8,6 @@ const legacy = {
 
 const ZERO_SCALING = { str: 0, wil: 0, ski: 0, cel: 0, def: 0, res: 0, vit: 0, fai: 0, luc: 0, gui: 0, san: 0, apt: 0 };
 
-/** A whole weapon slot as the app writes one, for the round trips that must be verbatim. */
 const weaponSlot = (overrides: Record<string, unknown> = {}) => ({
   selectedWeaponName: 'Longsword', weaponType: 'Sword', basePower: 8, baseCrit: 5, baseHit: 80,
   baseWeight: 10, baseCritDamage: 100, material: 'None', part1: 'None', part2: 'None', part3: 'None',
@@ -54,8 +53,6 @@ describe('build persistence', () => {
   });
 
   it('round trips the hands, legs and accessory slots', () => {
-    // The torso upgrades were once dropped on load, so a saved build came back
-    // with its points silently reset. These four slots must not repeat that.
     const build = parseBuildFile(JSON.stringify(legacy)).build;
     build.equipment.hands = {
       itemName: 'Archery Gloves', material: 'Demonsilk', enchantment: 'Fireheart',
@@ -70,13 +67,10 @@ describe('build persistence', () => {
     expect(reloaded.equipment.hands).toEqual(build.equipment.hands);
     expect(reloaded.equipment.legs?.upgradePoints).toEqual({ hp: 4, evade: 1 });
     expect(reloaded.equipment.accessory1?.upgradePoints).toEqual({ fortune: 2, greed: 5 });
-    // An untouched slot stays absent rather than materialising as empty.
     expect(reloaded.equipment.accessory2).toBeUndefined();
   });
 
   it('round trips the rolls chosen for ranged item bonuses', () => {
-    // "+2-4 CEL" is per-item RNG, so which roll the player owns is part of the
-    // build. Losing it on save would silently reset the item to its floor.
     const build = parseBuildFile(JSON.stringify(legacy)).build;
     build.equipment.accessory1 = { itemName: 'Bunny Ears', upgradePoints: { fortune: 0, greed: 0 } };
     build.equipment.itemRolls = { 'Bunny Ears:0:0': 4 };
@@ -86,9 +80,7 @@ describe('build persistence', () => {
   });
 
   it('reads only the tracks a slot owns', () => {
-    // A hand-edited or cross-pasted file must not inject another slot's tracks:
-    // legs has no `hit`, and a missing or non-numeric track reads as 0, not NaN.
-    // Written as a v1 file because the v0.5 branch discards equipment wholesale.
+    // v1 file because the v0.5 branch discards equipment wholesale.
     const v1 = createBuildFile('Tracks', parseBuildFile(JSON.stringify(legacy)).build);
     const tampered = {
       ...v1,
@@ -123,14 +115,11 @@ describe('build persistence', () => {
   });
 
   it('round trips an off-hand weapon in slot 3 and drops a non-object one', () => {
-    // Slot 3's other half. The hands piece is covered above; the off-hand
-    // weapon travels as a whole weapon config and must come back verbatim.
     const build = parseBuildFile(JSON.stringify(legacy)).build;
     build.equipment.offHandWeapon = weaponSlot() as typeof build.equipment.offHandWeapon;
     const reloaded = parseBuildFile(JSON.stringify(createBuildFile('Dual', build))).build;
     expect(reloaded.equipment.offHandWeapon).toEqual(build.equipment.offHandWeapon);
 
-    // A hand-edited scalar must read as an empty slot, not crash or leak through.
     const tampered = JSON.parse(JSON.stringify(createBuildFile('Dual', build))) as { build: { equipment: Record<string, unknown> } };
     tampered.build.equipment.offHandWeapon = 'Longsword';
     expect(parseBuildFile(JSON.stringify(tampered)).build.equipment.offHandWeapon).toBeUndefined();
@@ -138,9 +127,6 @@ describe('build persistence', () => {
 
   it('coerces a tampered weapon field instead of feeding it to the damage formulas', () => {
     const build = parseBuildFile(JSON.stringify(legacy)).build;
-    // What a hand-edited share link or a truncated save can carry. Every one of
-    // these used to reach weaponCalculation as-is, because both weapon slots
-    // were cast rather than read.
     build.equipment.primaryWeapon = weaponSlot({
       basePower: 'lots', baseCrit: null, baseHit: Number.NaN, rarity: {},
       material: 42, powerQuality: 'yes', selectedWeaponName: 7,
@@ -152,7 +138,6 @@ describe('build persistence', () => {
     expect(weapon?.rarity).toBe(0);
     expect(weapon?.material).toBe('None');
     expect(weapon?.selectedWeaponName).toBeNull();
-    // `Boolean('yes')`, which is what this file's own flag readers do.
     expect(weapon?.powerQuality).toBe(true);
   });
 
@@ -179,8 +164,7 @@ describe('build persistence', () => {
     const { upgradePoints: _absent, ...beforeChannels } = weaponSlot({ upgradeLevel: 4 });
     build.equipment.primaryWeapon = beforeChannels as typeof build.equipment.primaryWeapon;
     const weapon = parseBuildFile(JSON.stringify(createBuildFile('Legacy upgrades', build))).build.equipment.primaryWeapon;
-    // The old uniform level raised power, crit and hit by 4 each and durability
-    // by none; filling the channels in with zeroes would have erased all of it.
+    // The old uniform level raised power, crit and hit by 4 each, durability by none.
     expect(weapon?.upgradePoints).toEqual({ power: 4, critical: 4, accuracy: 4, durability: 0 });
   });
 
@@ -220,8 +204,6 @@ describe('build persistence', () => {
   });
 
   it('shares a fully loaded six-slot build as a URL within the size caps', () => {
-    // The share-link cap was sized before slots 3-6 existed; a full loadout
-    // with materials, enchantments and rolls must still fit.
     const build = parseBuildFile(JSON.stringify(legacy)).build;
     build.equipment.armorName = 'Breastplate';
     build.equipment.armorMaterial = 'Coral';
@@ -266,11 +248,6 @@ describe('post-softcap stat buffs', () => {
 });
 
 describe('upgrade ceilings on load', () => {
-  /*
-   * Every build saved before the ceilings existed can hold a spend no item can
-   * reach, and the decks only clamp on edit, so a stale build would otherwise
-   * keep an illegal figure and feed it to every derived value.
-   */
   function loaded(build: Record<string, unknown>) {
     return parseBuildFile(JSON.stringify({
       schemaVersion: 1,
@@ -337,7 +314,6 @@ describe('upgrade ceilings on load', () => {
         armorUpgradePoints: { armor: 1, magicArmor: 1, evade: 1, durability: 40 },
       },
     }).equipment.armorUpgradePoints;
-    // A torso has no durability track, so a saved one is dropped rather than kept.
     expect(points).toEqual({ armor: 1, magicArmor: 1, evade: 1 });
   });
 

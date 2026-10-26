@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { applyTheme, otherTheme, readTheme, writeTheme, THEME_LABEL, THEME_MARK } from './theme';
 
-/** A `localStorage` stand-in, since the test environment has none. */
+// The suite runs in plain node: no localStorage, no DOM.
 function stubStorage(): Map<string, string> {
   const store = new Map<string, string>();
   vi.stubGlobal('localStorage', {
@@ -13,8 +13,6 @@ function stubStorage(): Map<string, string> {
 
 describe('theme preference', () => {
   it('falls back to dark when storage cannot be read', () => {
-    // No `localStorage` at all here, which is the same shape of failure as a
-    // browser refusing it in private mode.
     expect(readTheme()).toBe('dark');
     expect(() => writeTheme('light')).not.toThrow();
   });
@@ -26,7 +24,6 @@ describe('theme preference', () => {
       expect(readTheme()).toBe('light');
       writeTheme('dark');
       expect(readTheme()).toBe('dark');
-      // Anything else under the key is not a theme, and dark is the default.
       store.set([...store.keys()][0], 'sepia');
       expect(readTheme()).toBe('dark');
     } finally {
@@ -53,15 +50,6 @@ describe('theme preference', () => {
   });
 });
 
-/**
- * The document, stubbed.
- *
- * The project's suite runs in plain node with no DOM, and pulling in jsdom for
- * four assertions would be a dependency for the sake of one function. This is the
- * whole surface `applyTheme` touches, which is also the whole of what is worth
- * asserting about it: which attribute it sets, which properties it publishes, and
- * that a page without the meta tag does not take it down.
- */
 function stubDocument(withMeta = true) {
   const attributes = new Map<string, string>();
   const properties = new Map<string, string>();
@@ -97,8 +85,7 @@ describe('applying a theme to the document', () => {
   it('publishes an ink for every stat and element, per theme', () => {
     const { properties } = stubDocument();
     applyTheme('dark');
-    // A sample of each family; `colors.test.ts` asserts the full set and its
-    // contrast. What matters here is that `applyTheme` is what publishes them.
+    // A sample; colors.test.ts asserts the full set.
     expect(properties.get('--ink-stat-str')).toBe('#ef4444');
     expect(properties.get('--ink-el-fire')).toBe('#ef4444');
     expect(properties.get('--ink-stat-wil')).toBe('#ffffff');

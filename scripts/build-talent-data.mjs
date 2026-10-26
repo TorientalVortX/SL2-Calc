@@ -1,27 +1,5 @@
-/**
- * Turns the scraped talent catalog into the calculator's talent dataset.
- *
- *   wiki-data/raw/talents.json  ->  src/data/content/talents.json
- *                               ->  optimizer-knowledge/01-core-mechanics/talents-catalog.md
- *
- * Every subtalent keeps its wiki text verbatim. On top of that, two kinds of
- * claim are lifted into structured fields, because both change what a build can
- * legally equip or how its numbers come out:
- *
- *   weaponAccess  "Allows you to equip any Sword weapon with a Rarity equal to
- *                  or less than SR * 2". The Adaptation subtalents, which are
- *                  the only way to reach a weapon your class cannot use.
- *   modifiers     "increases Hit by SR * 1.5". A per-rank change to a stat the
- *                  calculator models, with the weapon types it is scoped to and
- *                  whether it fires unconditionally.
- *
- * Anything whose subject does not resolve to a stat the calculator models stays
- * prose only; `--report` lists those so a wiki rewrite surfaces instead of
- * silently dropping numbers.
- *
- *   node scripts/build-talent-data.mjs
- *   node scripts/build-talent-data.mjs --report
- */
+// Usage: node scripts/build-talent-data.mjs [--report]
+// -> src/data/content/talents.json and optimizer-knowledge/01-core-mechanics/talents-catalog.md
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
@@ -34,14 +12,7 @@ const raw = JSON.parse(await readFile(IN, 'utf8'));
 
 const kebab = (name) => name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
-/* ------------------------------------------------------------ weapon scope */
-
-/**
- * Weapon words the wiki uses, mapped to the calculator's `weaponType` values.
- * Subtypes (Rifle, Shortbow, Shuriken…) resolve to their parent type and are
- * also recorded separately, because a talent that doubles for Rifles still
- * applies to every Gun.
- */
+// Subtypes resolve to their parent too: a talent that doubles for Rifles applies to every Gun.
 const WEAPON_WORDS = [
   ['Swords', 'Sword'], ['Sword', 'Sword'],
   ['Daggers', 'Dagger'], ['Dagger', 'Dagger'],
@@ -58,15 +29,12 @@ const WEAPON_WORDS = [
   ['Guns', 'Gun'], ['Gun', 'Gun'],
   ['Tomes', 'Tome'], ['Tome', 'Tome'],
   ['Shuriken', 'Dagger'],
-  // Katana is stocked under both swords and daggers, so it widens to both
-  // rather than picking one and quietly excluding half the weapons it names.
+  // Katana is stocked under both swords and daggers.
   ['Katanas', 'Sword'], ['Katana', 'Sword'], ['Katanas', 'Dagger'], ['Katana', 'Dagger'],
 ];
 
-/** Words that name a weapon subtype rather than a whole type. */
 const SUBTYPE_WORDS = new Set(['Shortbow', 'Crossbow', 'Rifle', 'Handgun', 'Shotgun', 'Shuriken', 'Katana', 'Spear']);
 
-/** The weapon types and subtypes a fragment of effect text mentions. */
 function weaponScope(text) {
   const types = new Set();
   const subtypes = new Set();
@@ -79,13 +47,7 @@ function weaponScope(text) {
   return { weapons: [...types].sort(), weaponSubtypes: [...subtypes].sort() };
 }
 
-/* ----------------------------------------------------------- stat resolver */
-
-/**
- * Ordered subject-phrase → stat key rules. Order is load-bearing: "maximum
- * Battle Weight" is a carrying cap, plain "Battle Weight" is the weapon's, and
- * "Critical Damage" must be tested before "Critical".
- */
+// Order matters: "maximum Battle Weight" is a carrying cap, and "Critical Damage" precedes "Critical".
 const STAT_RULES = [
   [/close-range Hit penalty/i, ['closeRangeHitPenalty']],
   [/maximum Battle Weight/i, ['maxBattleWeight']],
@@ -96,8 +58,7 @@ const STAT_RULES = [
   [/Scaled Weapon ATK/i, ['scaledWeaponAtk']],
   [/\b(Fire|Ice|Earth|Wind|Water|Darkness|Light|Lightning|Sound|Acid)\s+ATK\b/i, ['elementAtk']],
   [/\bHit\b/i, ['hit']],
-  // Farshot is a range band, not the weapon's reach: pushing the penalty out
-  // does not let you attack further, so it gets its own key.
+  // Farshot is a range band, not the weapon's reach, so it gets its own key.
   [/range before Farshot/i, ['farshotRange']],
   [/attack range/i, ['attackRange']],
   [/maximum FP/i, ['maxFp']],
@@ -112,13 +73,11 @@ const STAT_RULES = [
   [/\bPower\b/i, ['power']],
   [/Item Belt/i, ['itemBelt']],
   [/carrying capacity/i, ['carryingCapacity']],
-  // Bare FP and HP are only the pools themselves. Anchored, so a subject that
-  // merely mentions them ("campfire HP/FP recovery") stays prose.
+  // Anchored so "campfire HP/FP recovery" stays prose.
   [/^(?:your |target's |the target's )?FP$/i, ['fp']],
   [/^(?:your )?HP$/i, ['hp']],
 ];
 
-/** The element named in an elemental-ATK subject, e.g. `Fire ATK` → `Fire`. */
 const elementIn = (subject) => subject.match(/\b(Fire|Ice|Earth|Wind|Water|Darkness|Light|Lightning|Sound|Acid)\s+ATK\b/i)?.[1] ?? null;
 
 function resolveStats(subject) {
@@ -128,15 +87,7 @@ function resolveStats(subject) {
 
 const INCREASE = /^(increas|rais|boost|improv|add|gain|grant|restor|recover)/i;
 
-/* ------------------------------------------------------- effect extraction */
-
-/**
- * `"Allows you to equip any Sword weapon with a Rarity equal to or less than SR * 2"`
- *
- * The Adaptation subtalents are the game's only rarity unlock, so this is
- * matched exactly rather than inferred: at rank SR the character may equip any
- * weapon of that type whose Rarity is at most `SR * rarityPerRank`.
- */
+// The Adaptation subtalents are the game's only rarity unlock.
 function parseWeaponAccess(effect) {
   const match = effect.match(
     /Allows you to equip any ([A-Za-z]+)(?: weapon)? with (?:a )?Rarity equal to or less than SR\s*\*\s*(\d+(?:\.\d+)?)/i,
@@ -147,20 +98,11 @@ function parseWeaponAccess(effect) {
   return { weaponType: weapons[0], rarityPerRank: Number(match[2]) };
 }
 
-/**
- * Phrases that make an effect situational: a stance, a facing, a time of day.
- * A weapon scope ("For Bow weapons:") is not one of these: it narrows which
- * weapons the bonus covers, but the bonus always applies to those weapons.
- */
+// A weapon scope ("For Bow weapons:") is not a condition; it narrows which weapons the bonus covers.
 const CONDITION_WORDS =
   /\b(without|while|when|whenever|if|during|against|doubled|at night|in battle|once per|after|per round|equipped|from their front|in [A-Z][a-z]+ dungeons)\b/i;
 
-/**
- * Per-rank stat changes stated as `... by [up to] SR [* n][%]`.
- *
- * Two shapes appear: `<verb> <subject> by SR * n` and, for resources,
- * `<verb> SR * n <stat>` ("gain SR * 1 Armor"). A bare `SR` means one per rank.
- */
+// Two shapes: `<verb> <subject> by SR * n` and `<verb> SR * n <stat>`. A bare `SR` means one per rank.
 function parseModifiers(effect) {
   const found = [];
   const unmapped = [];
@@ -190,34 +132,24 @@ function parseModifiers(effect) {
     }
   };
 
-  // `<verb> <subject> by SR * n`. The subject may not itself contain "by", or a
-  // clause whose verb precedes its subject ("Power increases by SR * 1") would
-  // be swallowed whole as one nonsense subject.
+  // The subject may not contain "by", or "Power increases by SR * 1" is swallowed as one subject.
   const byPattern =
     /(increas\w*|rais\w*|boost\w*|improv\w*|add\w*|gain\w*|grant\w*|restor\w*|recover\w*|reduc\w*|decreas\w*|lower\w*)\s+((?:(?!\bby\b)[^.;:])+?)\s+by\s+(?:up to\s+)?SR(?:\s*\*\s*(\d+(?:\.\d+)?))?\s*(%?)/gi;
-  /*
-   * Spans this pattern consumed, so the conjunction pass below cannot re-read a
-   * clause already banked. "increases Armor and Magic Armor by SR * 1" resolves
-   * to both stats from one match; without this the trailing "and Magic Armor by
-   * SR * 1" matched a second time and Magic Armor was counted twice.
-   */
+  // Stops the conjunction pass re-reading "and Magic Armor by SR * 1" from an already-banked match.
   const claimed = [];
   for (const match of effect.matchAll(byPattern)) {
     claimed.push([match.index, match.index + match[0].length]);
     record(match[1], match[2], match[3] === undefined ? 1 : Number(match[3]), Boolean(match[4]), match[0]);
   }
 
-  // `<subject> increases by SR * n`: the same claim with the verb after its
-  // subject, which the wiki uses when a condition leads the sentence.
+  // `<subject> increases by SR * n`: used when a condition leads the sentence.
   const subjectFirstPattern =
     /([A-Za-z][A-Za-z' ]*?)\s+(increases?|decreases?|reduces?|lowers?)\s+by\s+(?:up to\s+)?SR(?:\s*\*\s*(\d+(?:\.\d+)?))?\s*(%?)/gi;
   for (const match of effect.matchAll(subjectFirstPattern)) {
     record(match[2], match[1], match[3] === undefined ? 1 : Number(match[3]), Boolean(match[4]), match[0]);
   }
 
-  // `… and <subject> by SR * n`: a second claim sharing the first clause's
-  // verb ("increases Critical by SR * 1.5 and Critical Damage by SR * 0.5%").
-  // A subject that starts with its own verb is already covered above.
+  // `... and <subject> by SR * n` sharing the first clause's verb.
   const conjunctionPattern =
     /\band\s+((?:(?!\bby\b)[^.;:])+?)\s+by\s+(?:up to\s+)?SR(?:\s*\*\s*(\d+(?:\.\d+)?))?\s*(%?)/gi;
   for (const match of effect.matchAll(conjunctionPattern)) {
@@ -238,8 +170,6 @@ function parseModifiers(effect) {
 
   return { modifiers: found, unmapped };
 }
-
-/* -------------------------------------------------------------------- build */
 
 const unmappedReport = [];
 
@@ -280,11 +210,7 @@ const talents = raw.categories.flatMap(category =>
   }),
 );
 
-/*
- * The intro states the budget in prose. It is pulled out here so the calculator
- * can cap talent spending without a second source: 60 points from levels, plus
- * 5 from Legend Extension, and at most 10 ranks in any one talent.
- */
+// The wiki intro states the budget: 60 from levels, 5 from Legend Extension, at most 10 ranks per talent.
 const budget = {
   pointsFromLevels: Number(raw.intro.match(/maximum equal to (\d+)/i)?.[1] ?? 60),
   legendExtensionPoints: Number(raw.intro.match(/plus (\d+) through Legend Extension/i)?.[1] ?? 5),
@@ -301,8 +227,6 @@ const payload = {
   talents,
 };
 await writeFile(OUT, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
-
-/* -------------------------------------------------- knowledge base markdown */
 
 const subtalents = talents.flatMap(talent => talent.subtalents.map(sub => ({ talent, sub })));
 const access = subtalents.filter(entry => entry.sub.weaponAccess);

@@ -1,20 +1,4 @@
-/**
- * Turns the scraped Traits page into the calculator's trait dataset.
- *
- *   wiki-data/mechanics/traits.md  ->  src/data/content/traits.json
- *
- * The wiki lists traits as Name / Effect / Requirements across six sections, and
- * gives no per-trait point cost; the only cost rule it states is that a Human's
- * History trait is free. Everything else is one point.
- *
- * Requirements matter mechanically: "Traits with stat point requirements
- * reference your base total. Bonuses from APT or items will not contribute!",
- * so they are parsed into structured minimums the calculator can check against
- * base stats rather than scaled ones.
- *
- *   node scripts/build-trait-data.mjs
- *   node scripts/build-trait-data.mjs --report
- */
+// Usage: node scripts/build-trait-data.mjs [--report]  -> src/data/content/traits.json
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
@@ -26,28 +10,16 @@ const REPORT = process.argv.includes('--report');
 const STATS = ['str', 'wil', 'ski', 'cel', 'def', 'res', 'vit', 'fai', 'luc', 'gui', 'san', 'apt'];
 const STAT_PATTERN = STATS.join('|');
 
-/**
- * A stat minimum, in each of the three shapes the wiki writes: "15 FAI",
- * "80+ VIT", "15 Base STR". Built fresh per call because `g` regexes carry a
- * `lastIndex` across uses. "Base" is redundant rather than a separate rule;
- * every trait requirement reads base totals.
- */
+// The wiki writes "15 FAI", "80+ VIT" or "15 Base STR"; every requirement reads base totals.
+// Built per call because `g` regexes carry `lastIndex`.
 const statMinimum = (flags) => new RegExp(`(\\d+)\\s*\\+?\\s*(?:Base\\s+)?(${STAT_PATTERN})\\b`, flags);
 
-/** The calculator spells one history differently from the wiki. */
 const HISTORY_KEY_FIXES = { 'History: Myrmidon': 'Myrmdon' };
 
-/*
- * Race names are resolved against the calculator's own race data rather than
- * trusted as written, because the wiki's phrasing does not always match it. A
- * requirement naming a race the calculator has never heard of is silently
- * unsatisfiable, which is worse than no requirement at all. It hides the trait
- * from the race that should have it.
- */
+// An unknown race makes a requirement silently unsatisfiable, hiding the trait from its race.
 const raceData = JSON.parse(await readFile(RACES_IN, 'utf8'));
 const KNOWN_RACES = new Set([...Object.keys(raceData.races), ...Object.keys(raceData.subraces)]);
 
-/** Wiki spellings the calculator's race list writes differently. */
 const RACE_ALIASES = {
   'Standard Mechanation': 'Mechanation STANDARD',
   'Cabal Mechanation': 'Mechanation CABAL',
@@ -55,12 +27,10 @@ const RACE_ALIASES = {
   'Raid Mechanation': 'Mechanation RAID',
 };
 
-/** Wiki names covering several of the calculator's races at once. */
 const RACE_EXPANSIONS = {
   Mechanation: ['Mechanation STANDARD', 'Mechanation CABAL', 'Mechanation AGILE', 'Mechanation RAID'],
 };
 
-/** A wiki race name as the calculator's races are spelled, or [] if unknown. */
 function resolveRace(name) {
   const cleaned = name.replace(/\s+/g, ' ').trim();
   if (RACE_EXPANSIONS[cleaned]) return RACE_EXPANSIONS[cleaned];
@@ -70,12 +40,7 @@ function resolveRace(name) {
 
 const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
-/**
- * Rows tagged with the `##` section and `###` subsection they sit under.
- *
- * The Racial Traits section subdivides by race group, and that subsection is the
- * only thing saying which races a racial trait belongs to.
- */
+// Racial Traits subsections are the only thing saying which races a trait belongs to.
 function taggedRows(markdown) {
   const rows = [];
   let section = null;
@@ -93,12 +58,6 @@ function taggedRows(markdown) {
   return rows;
 }
 
-/**
- * Flat stat bonuses stated in an effect, e.g. History traits' "+2 SKI, +1 LUC".
- *
- * Only the plain "+N STAT" form is read. Anything conditional or expressed as
- * prose is left for the player to read, rather than guessed at.
- */
 function parseStatBonuses(effect) {
   const bonuses = {};
   const pattern = new RegExp(`([+-]\\d+)\\s*(${STAT_PATTERN})\\b`, 'gi');
@@ -109,67 +68,34 @@ function parseStatBonuses(effect) {
   return bonuses;
 }
 
-/** Race clauses naming something absent from the calculator's race data. */
 const unresolvedRaces = [];
 
-/**
- * Prerequisite trait names the wiki writes differently from the trait itself.
- *
- * A name mapping to several traits is satisfied by any one of them: "Oni
- * Heritage Trait" is the pair of Red and Blue, of which a character picks one.
- */
+// "Oni Heritage Trait" is satisfied by either Red or Blue.
 const TRAIT_PREREQ_ALIASES = {
   'Fast Healing': ['Fast Healer'],
   'Oni Heritage': ['Oni Heritage (Red)', 'Oni Heritage (Blue)'],
 };
 
-/**
- * Structured requirements: stat minimums, races, classes, and prerequisites.
- *
- * Stat minimums are checked against base totals, per the wiki's own warning that
- * APT and item bonuses do not count toward them.
- *
- * The requirements column is a comma-and-"or" list of independent clauses, so it
- * is split into clauses first and each one classified. Reading the column with
- * one regex per requirement kind was the earlier approach and it lost every
- * clause that did not come first: "Lupine, Felidae, Grimalkin or Shaitan Race"
- * kept only the last two races, and a race stated as "(Human Only)" or implied
- * by a prerequisite trait produced no race requirement at all, which is how the
- * Human eyes traits came to show as available to every race.
- */
+// Stat minimums use base totals: the wiki says APT and item bonuses do not count.
 function parseRequirements(text) {
   const requirement = {
     stats: {},
     races: [],
     excludedRaces: [],
     classes: [],
-    /** Prerequisite trait *names*; resolved to ids once every trait is known. */
     traitNames: [],
-    /** Talent prerequisites, which the calculator does not model: display only. */
     talents: [],
-    /** "Race with Natural Skin", likewise unmodelled and display only. */
     naturalSkin: false,
-    /** Either-or clauses with a branch the calculator cannot check: display only. */
     alternatives: [],
-    /* Empty rather than the wiki's "None", so the trait screen can print `raw`
-     * as-is without checking for a word that means "nothing to print". */
     raw: !text || /^none$/i.test(text) ? '' : text,
   };
   if (!text || /^none$/i.test(text)) return requirement;
 
-  // Only the plainest of the three shapes used to parse, so every trait written
-  // the other two ways imposed no minimum at all and never locked.
   for (const match of text.matchAll(statMinimum('gi'))) {
     requirement.stats[match[2].toLowerCase()] = Number(match[1]);
   }
 
-  /*
-   * A stat minimum offered as one of several alternatives is not a minimum.
-   * Ghost Entertainer wants "10 SAN or 7+ Ranks in Spiritualism", and talent
-   * ranks are not modelled here, so enforcing the SAN half alone would lock a
-   * build that qualifies through the other half. The whole clause moves to the
-   * display-only list instead.
-   */
+  // Ghost Entertainer wants "10 SAN or 7+ Ranks in Spiritualism"; an alternative is not a minimum.
   for (const segment of text.split(/\s*,\s*/)) {
     if (!/\s+or\s+/i.test(segment)) continue;
     const sides = segment.split(/\s+or\s+/i).map((s) => s.trim());
@@ -184,19 +110,13 @@ function parseRequirements(text) {
   }
 
   const clauses = text.split(/\s*,\s*|\s+or\s+/i).map((c) => c.trim()).filter(Boolean);
-  /*
-   * A bare race name only counts as one when some clause said "Race". The list
-   * form drops the word from every entry but the last ("Zeran, Reaper or
-   * Apertaurus Race"). Without that guard, any capitalised word that happens to
-   * match a race name would become a requirement.
-   */
+  // The list form says "Race" only on the last entry ("Zeran, Reaper or Apertaurus Race").
   const listsRaces = clauses.some((clause) => /\bRace\b/.test(clause));
 
   for (const clause of clauses) {
     if (/\bNatural Skin\b/i.test(clause)) requirement.naturalSkin = true;
 
-    // "Non-Corrupted Race with Natural Skin", "Non-Glykin Race ..." are
-    // exclusions, and were previously read as a *requirement* for the named race.
+    // "Non-Glykin Race ..." is an exclusion, not a requirement.
     const excluded = /\bNon-([A-Z][A-Za-z' ]*?)\s+Race\b/.exec(clause);
     if (excluded) {
       requirement.excludedRaces.push(...resolveRace(excluded[1]));
@@ -211,8 +131,7 @@ function parseRequirements(text) {
         requirement.races.push(...resolved);
         continue;
       }
-      // A clause that says "Race" but names nothing the calculator knows is a
-      // data mismatch, not an absent requirement, so it is reported loudly.
+      // "Race" naming nothing known is a data mismatch, reported loudly.
       if (/\bRace\b/.test(clause) && !/\bNatural Skin\b/i.test(clause)) {
         unresolvedRaces.push(clause);
       }
@@ -259,27 +178,15 @@ for (const { section, subsection, cells } of rows) {
     id,
     name,
     category,
-  /*
-     * A History trait is chosen in the Traits modal but applied through the
-     * build's existing `history` field, which carries HP and percentage effects
-     * beyond the flat stats parsed here. `historyKey` is that field's value: the
-     * trait name without its prefix, bridging one spelling difference in the
-     * calculator's own data.
-     */
+  // History traits apply through the build's `history` field; `historyKey` is that field's value.
     ...(category === 'History'
       ? {
         handModelled: true,
         historyKey: (HISTORY_KEY_FIXES[name] ?? name.replace(/^History:\s*/, '')),
       }
       : {}),
-    /*
-     * The seven Blood Binding traits *are* the Karakuri body choice, which the
-     * calculator already applies from the build's `karakuriYoukai` field. Their
-     * effect text repeats those same stat offsets, so without this the offsets
-     * land twice, once from the body, once from the trait.
-     */
+    // Blood Binding traits are the Karakuri body, already applied from `karakuriYoukai`.
     ...(id.startsWith('blood-binding-') ? { handModelled: true } : {}),
-    /** Race group for a racial trait, from the subsection heading. */
     group: subsection ?? null,
     effect,
     statBonuses: parseStatBonuses(effect),
@@ -287,11 +194,7 @@ for (const { section, subsection, cells } of rows) {
   });
 }
 
-/*
- * Prerequisite traits are stated by name and stored as ids, which needs every
- * trait parsed first. A name that resolves to nothing is reported rather than
- * dropped: an unresolved prerequisite would silently un-gate the trait.
- */
+// An unresolved prerequisite would silently un-gate the trait, so it is reported.
 const idByName = new Map(traits.map((t) => [t.name.toLowerCase(), t.id]));
 const unresolvedTraits = [];
 for (const trait of traits) {
@@ -306,11 +209,7 @@ for (const trait of traits) {
   trait.requirements = { ...rest, traits: resolved };
 }
 
-/*
- * A racial trait with no race requirement is the failure this parser exists to
- * prevent. It shows up as available to every race. Prerequisite chains count as
- * a gate, since the trait they depend on carries the race requirement.
- */
+// A racial trait with no race gate shows for every race; a prerequisite chain counts as a gate.
 const ungatedRacials = traits.filter((t) => (
   t.category === 'Racial'
   && !t.requirements.races.length

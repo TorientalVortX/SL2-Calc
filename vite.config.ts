@@ -41,15 +41,8 @@ export default defineConfig({
       },
     }),
   ],
-  /*
-   * `three` reaches the graph only through the intro's dynamic import, so the dev
-   * server would otherwise discover it late: the first cold load triggers a
-   * re-optimize and a full reload part-way through booting the intro. Naming it
-   * here pre-bundles it at startup instead.
-   *
-   * A precaution rather than a fix for an observed bug — production is unaffected
-   * either way, since `vite build` emits a real chunk and runs no optimizer.
-   */
+  // `three` is only reached via a dynamic import; pre-bundle it so a cold dev load
+  // does not re-optimize and full-reload part-way through the intro.
   optimizeDeps: {
     include: ['three'],
   },

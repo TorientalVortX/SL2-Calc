@@ -7,9 +7,6 @@ import { TEMPLATES } from '../state/build';
 import { buildCardModel, renderBuildCard } from '../state/buildCard';
 import type { Builder } from '../state/useBuilder';
 
-/* ----------------------------------------------------------------- templates */
-
-/** Starting spreads, read from the game dataset rather than invented here. */
 export function TemplatesDialog({ builder, onClose }: { builder: Builder; onClose: () => void }) {
   const { dispatch, setBuildName, notify } = builder;
 
@@ -61,8 +58,6 @@ export function TemplatesDialog({ builder, onClose }: { builder: Builder; onClos
     </Modal>
   );
 }
-
-/* --------------------------------------------------------------------- saves */
 
 export function SavesDialog({ builder, onClose }: { builder: Builder; onClose: () => void }) {
   const { saves, saveAs, overwrite, loadSlot, deleteSlot, buildName } = builder;
@@ -142,9 +137,6 @@ export function SavesDialog({ builder, onClose }: { builder: Builder; onClose: (
   );
 }
 
-/* ------------------------------------------------------------------ transfer */
-
-/** Import and export, in `buildPersistence`'s schema-v1 build file format. */
 export function TransferDialog({ builder, onClose }: { builder: Builder; onClose: () => void }) {
   const { exportJSON, importJSON, downloadJSON, notify, shareLink, shareCode } = builder;
   const [text, setText] = useState(() => exportJSON());
@@ -283,9 +275,6 @@ export function TransferDialog({ builder, onClose }: { builder: Builder; onClose
   );
 }
 
-/* ----------------------------------------------------------------- shortcuts */
-
-/** Every shortcut the sheet answers to, grouped by what it acts on. */
 const SHORTCUTS: Array<{ group: string; rows: Array<[keys: string[], what: string]> }> = [
   {
     group: 'Attributes',
@@ -345,16 +334,6 @@ export function ShortcutsDialog({ onClose }: { onClose: () => void }) {
   );
 }
 
-/* ----------------------------------------------------------------- changelog */
-
-/**
- * What this release and the current dataset changed.
- *
- * Both lists are here because the badge that opens this dialog carries both
- * numbers, and they move for different reasons: the app notes say what the sheet
- * can do, the data notes say how current its numbers are. A build saved before
- * either kind of change is worth re-reading after one.
- */
 export function ChangesDialog({ onClose }: { onClose: () => void }) {
   return (
     <Modal title="What's new" onClose={onClose}>
@@ -383,16 +362,6 @@ export function ChangesDialog({ onClose }: { onClose: () => void }) {
   );
 }
 
-/* --------------------------------------------------------------- shared build */
-
-/**
- * A build arriving by link, offered rather than applied.
- *
- * A dialog because accepting replaces the sheet: an inline banner is easy to click
- * past, and the visitor's own unsaved work is behind it. The dataset the link was
- * made against is named when it differs from this one: the numbers move when the
- * data does, and a stale link is worth knowing about before loading it.
- */
 export function SharedBuildDialog({ builder, onClose }: { builder: Builder; onClose: () => void }) {
   const { pendingShare, acceptShare, dismissShare } = builder;
   if (!pendingShare) return null;

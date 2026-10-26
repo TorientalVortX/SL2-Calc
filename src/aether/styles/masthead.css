@@ -1,16 +1,7 @@
-/* ------------------------------------------------------------------ header */
-
 .masthead {
   position: relative;
   display: flex;
   align-items: center;
-  /*
-   * Wraps at any width, not only below the stacking breakpoint. Seven action
-   * buttons and a build name are content, and content ran past a 900px window
-   * long before the layout was told to stack: taking the page into a horizontal
-   * scroll rather than using the second line that was free all along. It still
-   * never wraps at the widths the bar was drawn for.
-   */
   flex-wrap: wrap;
   gap: 18px;
   padding: 0 16px;
@@ -65,8 +56,6 @@
   white-space: nowrap;
 }
 
-/* The subtitle doubles as the changelog route, so it must look pressable without
-   becoming a button in the visual hierarchy of a masthead that already has six. */
 .masthead__subtitle--link {
   padding: 0;
   background: none;
@@ -81,10 +70,7 @@
 }
 
 .masthead__name {
-  /* Basis at the floor rather than at the content width, so a tight bar narrows
-     the name field before the row wraps: line breaking reads the basis and would
-     otherwise take a second line while 200px of slack sat in this one. It still
-     grows back to its 300px cap wherever the room exists. */
+  /* Flex wrapping reads the basis, so a content-width basis would wrap before the field shrinks. */
   flex: 1 1 90px;
   min-width: 90px;
   max-width: 300px;
@@ -115,8 +101,6 @@
   flex: none;
 }
 
-/* Class, subclass and the point balance. A class rather than an inline style so
-   the stacked layouts can give the row a line of its own. */
 .masthead__chips { flex: none; }
 
 .masthead__divider {

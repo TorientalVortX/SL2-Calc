@@ -1,23 +1,13 @@
-/* ------------------------------------------------------------------ panels */
-
 .panel {
   position: relative;
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
-  /* `minmax(0, 1fr)` rather than the implicit `auto`: an auto track cannot be
-     sized below its items' min-content, so one nowrap row inside a sheet made the
-     whole panel wider than the column holding it. `min-width: 0` on the panel
-     stops that reaching the page; this stops it reaching the panel's own frame. */
+  /* An auto track cannot shrink below min-content, so one nowrap row would widen the panel. */
   grid-template-columns: minmax(0, 1fr);
   min-height: 0;
   min-width: 0;
-  /* A backstop so nothing inside a panel paints over the column beside it.
-     `clip` rather than `hidden` on purpose: `hidden` would make the panel a
-     scroll container, and the sticky header below would then stick to the panel
-     instead of to the viewport. */
+  /* clip, not hidden: hidden makes a scroll container and the sticky header would stick to the panel. */
   overflow: clip;
-  /* Lets the header adapt to the panel's own width rather than the viewport's.
-     The same panel is 292px in a sidebar and 890px in the centre column. */
   container-type: inline-size;
   background: var(--ink-800);
   border: 1px solid var(--edge-soft);
@@ -25,7 +15,6 @@
   box-shadow: var(--shadow-panel);
 }
 
-/* Outer hairline, offset a few pixels: the double-frame of an FFXIV window. */
 .panel::before {
   content: '';
   position: absolute;
@@ -35,12 +24,6 @@
   pointer-events: none;
 }
 
-/*
- * Sticky, so the loadout's tab strip stays reachable while the page scrolls
- * through a nine-hundred-skill list. It sticks only for as long as its own panel
- * is on screen, which is what makes it read as part of the panel rather than as
- * a second toolbar.
- */
 .panel__head {
   position: sticky;
   top: 0;
@@ -48,18 +31,13 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  /* Grid and flex children default to `min-width: auto`, which lets a long class
-     name in the tab strip push the header, and with it the whole panel, past
-     the width of its column. */
+  /* Flex/grid children default to min-width: auto, letting a long class name widen the panel. */
   min-width: 0;
   padding: 9px 13px 8px;
-  /* Opaque: content scrolls underneath it. */
   background: var(--ink-700);
   border-bottom: 1px solid var(--edge-soft);
 }
 
-/* Never shrinks: the panel's name is the last thing that should be sacrificed to
-   fit a tab strip. The meta beside it gives way instead. */
 .panel__title {
   flex: 0 0 auto;
   font-family: var(--font-display);
@@ -90,7 +68,6 @@
   padding: 10px 11px 12px;
 }
 
-/* Corner brackets. Four absolutely-placed L shapes, drawn with borders. */
 .corner {
   position: absolute;
   width: 9px;
@@ -105,8 +82,6 @@
 .corner--bl { bottom: 2px; left: 2px; border-bottom: 1px solid; border-left: 1px solid; }
 .corner--br { bottom: 2px; right: 2px; border-bottom: 1px solid; border-right: 1px solid; }
 .panel:hover .corner { opacity: 0.7; }
-
-/* -------------------------------------------------------------- typography */
 
 .eyebrow {
   font-family: var(--font-display);
@@ -123,7 +98,6 @@
 }
 .section + .section { margin-top: 14px; }
 
-/* A heading with rules running out to both sides. */
 .section__head {
   display: flex;
   align-items: center;
@@ -146,8 +120,6 @@
 .muted { color: var(--text-3); }
 .dim { color: var(--text-4); }
 
-/* ------------------------------------------------------------------- rows */
-
 .row {
   position: relative;
   display: flex;
@@ -167,7 +139,6 @@
     box-shadow 0.24s var(--ease);
 }
 
-/* The cursor diamond, revealed on selection. */
 .row::before {
   content: '';
   position: absolute;

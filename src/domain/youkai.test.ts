@@ -32,7 +32,6 @@ describe('youkai dataset', () => {
     expect(YOUKAI).toHaveLength(35);
     for (const youkai of YOUKAI) {
       expect(youkai.skills.map(skill => skill.slot)).toEqual(['evoke-active', 'evoke-passive', 'main']);
-      // The Evoke-Active is always a usable skill and the Evoke-Passive always a passive.
       expect(youkai.skills[0].passive).toBe(false);
       expect(youkai.skills[1].passive).toBe(true);
     }
@@ -85,10 +84,7 @@ describe('youkai skill bonuses', () => {
   });
 
   it('grants physical resistance from an Installed Youkai', () => {
-    /*
-     * Tough Fur is a `main` skill, so it reaches the Summoner only through
-     * Install, and it trades: +25% Slash for -25% Water.
-     */
+    // Tough Fur trades +25% Slash for -25% Water.
     const build = summonerBuild();
     build.youkai = { contracted: ['kilkenny'], installed: null };
     expect(youkaiNumericBonuses(build).physicalResistance.Slash).toBeUndefined();
@@ -100,11 +96,7 @@ describe('youkai skill bonuses', () => {
   });
 
   it('takes the non-self figure for an Install that is stronger on the Youkai itself', () => {
-    /*
-     * Drowned Woman grants "50% Slash, Blunt, and Pierce resistance … (Only 25%
-     * for non-Drowned Woman units)". An Installed Summoner is never a Drowned
-     * Woman, so 25% is the figure that applies to any build here.
-     */
+    // Drowned Woman: "50% ... (Only 25% for non-Drowned Woman units)".
     const build = summonerBuild();
     build.youkai = { contracted: ['drowned-woman'], installed: 'drowned-woman' };
     const bonuses = youkaiNumericBonuses(build);
@@ -139,7 +131,6 @@ describe('affinity growth', () => {
     const stats = youkaiStats(byakko, { 'affinity-beast': 3 });
     expect(stats.str).toBe(59);
     expect(stats.luc).toBe(46);
-    // Byakko has no FAI aptitude; a zero stays zero rather than being lifted.
     expect(stats.fai).toBe(0);
   });
 
@@ -192,19 +183,13 @@ describe('install', () => {
 
   it('replaces base stats except FAI, SAN and APT', () => {
     const stats = installedBaseStats({ contracted: ['byakko'], installed: 'byakko' }, {})!;
-    /*
-     * The Beast race line, not Byakko's own numbers. Install swaps one racial
-     * line for another, so the substituted stats sit on the same scale as the
-     * subrace line they displace: 9 STR, against Byakko's level 60 STR of 56.
-     */
+    // Install swaps in the Beast race line, not Byakko's own level 60 stats.
     expect(stats).toEqual({ ...youkaiRaceBaseStats('Beast'), fai: undefined, san: undefined, apt: undefined });
     expect(stats.str).toBe(9);
     for (const preserved of INSTALL_PRESERVED_STATS) expect(stats[preserved]).toBeUndefined();
   });
 
   it('gives every Youkai of a race the same body', () => {
-    // The race is what you wear. Which Dragon you installed changes the skills
-    // you gain, not the stat line.
     const dragons = YOUKAI.filter(youkai => youkai.race === 'Dragon').map(youkai => youkai.id);
     expect(dragons.length).toBeGreaterThan(1);
     const lines = dragons.map(id => installedBaseStats({ contracted: [id], installed: id }, {}));
@@ -226,7 +211,7 @@ describe('install', () => {
       const build = summonerBuild();
       build.race = 'Other'; build.subrace = 'Redtail';
       build.mainClass = 'Shapeshifter'; build.subClass = 'Shinobi';
-      // A bonus APT point must not cross the owned-APT 5->6 threshold.
+      // Keeps the bonus APT point below the owned-APT 5->6 threshold.
       build.addedStats.apt = 5;
       build.youkai = { contracted: [id], installed: id };
       build.skillRanks = { main: { install: 1 }, sub: {} };
@@ -251,7 +236,6 @@ describe('install', () => {
   });
 
   it('keeps the summon on its level 60 line', () => {
-    // Install reads the racial base; the Youkai fighting beside you does not.
     expect(youkaiStats(youkaiById('byakko')!, {}).str).toBe(56);
   });
 
@@ -272,11 +256,8 @@ describe('install', () => {
     build.youkai = { contracted: ['byakko'], installed: 'byakko' };
     const after = evaluateBuild(build);
 
-    // Byakko's STR base of 56 dwarfs any subrace line, so the installed build
-    // must be visibly stronger, and its HP follows from the new VIT.
     expect(after.rawStats.str).toBeGreaterThan(before.rawStats.str);
     expect(after.derived.maxHP).toBeGreaterThan(before.derived.maxHP);
-    // FAI is preserved, so the Youkai cap cannot move.
     expect(after.derived.youkaiCap).toBe(before.derived.youkaiCap);
   });
 

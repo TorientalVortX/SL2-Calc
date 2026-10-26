@@ -9,41 +9,20 @@ import { useListNavigation } from '../hooks/useListNavigation';
 import { elementAdjustment, elementalRows, formatReadout, readoutGroups } from '../state/readout';
 import type { Builder } from '../state/useBuilder';
 
-/**
- * Every derived value, recomputed from the one evaluation the sheet shares.
- *
- * A dagger marks a number that is not the whole story: Hit and Critical before a
- * weapon is equipped, and the weight load, which can only count the two slots the
- * wiki gives a weight. The footnote appears only when a marked row is on screen,
- * so it does not sit there explaining nothing, and its text comes off the rows
- * themselves so the footnote and each row's card cannot say different things.
- *
- * Every line is also a button onto its **card**: the formula behind the figure,
- * and the attributes it reads as routes to those attributes' own cards. The row
- * tooltips carried the formulas before, which is to say they carried them on a
- * desktop and nowhere else, and a tooltip that tells you Max HP is ten times
- * scaled VIT cannot then take you to VIT.
- */
+/** Daggers mark partial figures: Hit and Critical before a weapon, and the load, which the wiki weighs for two slots only. */
 export function AttributesRail({
   builder,
   onInspectStat,
   onAdjustElements,
 }: {
   builder: Builder;
-  /** Opens an attribute's card, which the sheet owns rather than this panel. */
   onInspectStat: (stat: StatKey) => void;
-  /** Route to the manual ATK/RES adjusters, which live in the Advanced dialog. */
   onAdjustElements?: () => void;
 }) {
   const { build, evaluation } = builder;
   const groups = useMemo(() => readoutGroups(evaluation), [evaluation]);
   const elements = useMemo(() => elementalRows(evaluation), [evaluation]);
 
-  /*
-   * Both kinds of line in one flat list, in the order they are on screen. The card
-   * steps through this, so its prev/next walks the rail as it reads rather than
-   * stopping at the boundary between the readouts and the elements.
-   */
   const entries = useMemo<RailEntry[]>(() => [
     ...groups.flatMap(group => group.rows.map((row): RailEntry => ({
       kind: 'readout', key: row.key, label: row.label, group: group.title, row,
@@ -63,7 +42,6 @@ export function AttributesRail({
   const entry = entries.find(candidate => candidate.key === inspecting);
   const onListKeys = useListNavigation();
 
-  /** The card's key on a focused row, so the mouse is not the only way in. */
   const onRowKeys = (event: KeyboardEvent<HTMLElement>) => {
     if (event.key.toLowerCase() !== 'i') return;
     const key = (event.target as HTMLElement).dataset?.entry;
@@ -196,8 +174,6 @@ export function AttributesRail({
           evaluation={evaluation}
           onSelect={setInspecting}
           onClose={() => setInspecting(null)}
-          // Replaces this card rather than stacking over it: one figure is being
-          // read at a time, and the attribute card is where that trail leads.
           onInspectStat={stat => { setInspecting(null); onInspectStat(stat); }}
           onAdjust={onAdjustElements}
         />

@@ -1,5 +1,3 @@
-/* -------------------------------------------------------------------- base */
-
 *,
 *::before,
 *::after { box-sizing: border-box; }
@@ -19,8 +17,6 @@ body {
   line-height: 1.45;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  /* The shell sizes itself to the viewport when it can; when the panels need
-     more room than that, the page scrolls rather than clipping them. */
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -40,11 +36,9 @@ button { cursor: pointer; }
   color: var(--gold-100);
 }
 
-/* Scrollbars, kept thin and metallic rather than default grey. */
 .scroll {
   overflow-y: auto;
-  /* Deliberately not `contain`: when a pinned sidebar reaches its end the wheel
-     should carry on scrolling the page rather than stopping dead. */
+  /* Not `contain`: a pinned sidebar at its end should hand the wheel to the page. */
   scrollbar-width: thin;
   scrollbar-color: var(--scroll-thumb) transparent;
 }
@@ -61,13 +55,10 @@ button { cursor: pointer; }
   background-clip: padding-box;
 }
 
-/* Focus is always visible; the sheet is fully keyboard navigable. */
 :focus-visible {
   outline: 1px solid var(--aether);
   outline-offset: 1px;
 }
-
-/* --------------------------------------------------------------- backdrop */
 
 .backdrop {
   position: fixed;
@@ -77,29 +68,12 @@ button { cursor: pointer; }
   background: var(--wash-base);
 }
 
-/* ------------------------------------------------------------------- shell */
-
-/*
- * The page is the scroll surface.
- *
- * This started as a fixed frame with every panel scrolling inside itself, which
- * looked right and read badly: the wheel did something different depending on
- * which of three regions the pointer happened to be over, and nothing at all
- * over the gaps between them. Now there is one scroll (the document), and the
- * side columns are pinned so the class browser and the derived rail stay put
- * while the sheet in the middle moves.
- */
 .shell {
   position: relative;
   z-index: 1;
   display: grid;
-  /* Masthead, the narrow-viewport section nav, then the body. The nav row
-     collapses to nothing when the nav itself is display:none. */
   grid-template-rows: auto auto auto;
-  /* One column that is allowed to be narrower than its content. Sizing a grid by
-     `fr` gives it a min-content width of the widest column times the track count
-     (1319px at a 900px viewport) and an `auto` track here would have adopted it
-     and taken the whole page into a horizontal scroll. */
+  /* An fr grid's min-content is widest column x track count (1319px at 900px), which auto would adopt. */
   grid-template-columns: minmax(0, 1fr);
   min-height: 100%;
   padding: 10px 14px 14px;
@@ -111,12 +85,8 @@ button { cursor: pointer; }
   grid-template-columns: minmax(272px, 320px) minmax(0, 1fr) minmax(300px, 372px);
   gap: 10px;
   min-height: 0;
-  /* The other half of the rule above: a grid item keeps `min-width: auto`, so
-     without this the body refuses to shrink below that same inflated min-content
-     and overflows the column that was just told it may be narrower. */
+  /* Grid items keep min-width: auto, so without this the body cannot shrink below that min-content. */
   min-width: 0;
-  /* Columns size to their own content instead of stretching to the tallest, so a
-     long loadout sheet does not drag the sidebars down with it. */
   align-items: start;
 }
 
@@ -127,10 +97,6 @@ button { cursor: pointer; }
   min-width: 0;
 }
 
-/*
- * Pinned sidebars, capped to the viewport. Each one's last panel is the flexible
- * row, so it scrolls inside itself only when the sidebar genuinely overflows.
- */
 .column--left,
 .column--right {
   position: sticky;
@@ -141,6 +107,4 @@ button { cursor: pointer; }
 .column--left { grid-template-rows: auto minmax(0, 1fr); }
 .column--right { grid-template-rows: minmax(0, 1fr); }
 
-/* The centre is the part that scrolls with the page, so both of its panels are
-   sized by their content and neither scrolls on its own. */
 .column--center { grid-template-rows: auto auto; }

@@ -1,14 +1,7 @@
-/* ------------------------------------------------------------- responsive */
-
 @media (max-width: 1500px) {
   .shell__body { grid-template-columns: minmax(250px, 292px) minmax(0, 1fr) minmax(280px, 336px); }
 }
 
-/*
- * A short viewport cannot usefully pin a sidebar (there is no room left to
- * scroll the middle against), so they are released and everything scrolls
- * together as one page.
- */
 @media (max-height: 620px) {
   .column--left,
   .column--right {
@@ -19,24 +12,15 @@
   .column--right { grid-template-rows: auto auto; }
 }
 
-/* Two columns, and nothing pinned: at this width a sidebar would take a third of
-   the screen to stay still. Nothing being pinned is also what makes the readout
-   scrollable off screen, so this is where the section nav earns its place. */
 @media (max-width: 1240px) {
   .sectionnav {
     display: flex;
     position: sticky;
     top: 0;
     z-index: 5;
-    /*
-     * Fixed, because the panel headers stick directly below it and the two offsets
-     * have to agree to the pixel. Left to content height it measured 35px against
-     * the 39px the headers assumed, and a 4px band of the sheet scrolled through
-     * the seam.
-     */
+    /* Fixed so it agrees to the pixel with the panel headers' sticky offset. */
     height: var(--nav-h);
     gap: 2px;
-    /* Opaque: the panels scroll underneath it. */
     background:
       linear-gradient(180deg, var(--nav-top), var(--nav-bottom)),
       var(--ink-900);
@@ -45,8 +29,6 @@
     box-shadow: var(--shadow-nav);
   }
 
-  /* The panel headers stick too, and two sticky bands stacking would hide the
-     first row of whichever sheet is open. */
   .panel__head { top: var(--nav-h); }
 
   .shell__body {
@@ -74,11 +56,6 @@
     gap: 10px;
   }
   .masthead__name { max-width: none; order: 3; flex-basis: 100%; }
-  /*
-   * The action row is a flex container of its own, so wrapping the masthead does
-   * nothing for it: seven buttons stayed on one line and pushed the whole shell
-   * wider than the viewport, taking the page into a horizontal scroll.
-   */
   .masthead__actions {
     order: 2;
     flex-wrap: wrap;
@@ -87,25 +64,13 @@
     flex: 1 1 100%;
   }
   .masthead__divider { display: none; }
-  /* Both title lines are nowrap by default, which is the other overflow source
-     once the subtitle carries the dataset version too. */
   .masthead__titles { flex: 1 1 140px; }
   .masthead__subtitle { white-space: normal; letter-spacing: 0.14em; }
   .stat { grid-template-columns: 13px 62px auto 1fr 46px; gap: 6px; }
   .stat__full { display: none; }
-  /* Each rail line is a tap target of its own here, so it is given the height to
-     be one. Denser than a button wants, but this is a table of figures and it has
-     to stay readable as one. */
   .readout--open { padding-top: 5px; padding-bottom: 5px; }
   .element--open { padding-top: 4px; padding-bottom: 4px; }
 
-  /*
-   * A tab strip is the only way into five of the six loadout sheets, and they run
-   * well past a 360px panel: enough to clip `youkai` at the edge with no way to
-   * reach the rest. It scrolls instead, without a bar: the strip is already a row
-   * of legible words, so the cut-off word is its own affordance. Adding `talents`
-   * made the overflow wider, not different in kind.
-   */
   .tabs {
     overflow-x: auto;
     scrollbar-width: none;
@@ -115,52 +80,24 @@
   .tab { scroll-snap-align: end; }
 }
 
-/*
- * Phones. A 360px screen is 100px narrower than the narrowest column this sheet
- * was drawn for, and the things that break are all of one kind: a five-column
- * table, a thumb, and a masthead that spent a third of the screen before the
- * first figure. Type sizes, colour and rule weights are untouched, only the
- * geometry moves.
- */
 @media (max-width: 430px) {
   .shell { padding: 6px; }
 
-  /* The masthead cost 229px of 780, 29% of the screen on arrival, all of it
-     chrome. The subtitle is the recoverable part: it wrapped to two lines of
-     tracked capitals, and it is a route to the changelog rather than something
-     anyone reads. */
   .masthead {
     padding: 8px 10px;
     gap: 7px;
   }
-  /*
-   * Four bands instead of five: crest and title share the first line, and the
-   * chips take the second rather than squeezing the title into 67px beside them.
-   * Together with the one-line subtitle this returns 58px: a quarter of what the
-   * masthead was costing before the first figure on the sheet.
-   */
   .masthead__titles { flex: 1 1 0; min-width: 0; }
   .masthead__chips { flex: 1 1 100%; }
   .masthead__subtitle {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    /* Tracked down until the dataset date fits: the line is a route to the
-       changelog, and a date cut mid-digit is worse than a tighter one. */
     letter-spacing: 0.06em;
   }
   .masthead__name { padding: 5px 9px; }
   .masthead__actions { gap: 5px; }
 
-  /*
-   * The attribute row, on two lines.
-   *
-   * Five columns in 320px left the allocation track 64px wide: too narrow to read
-   * as a proportion, too narrow to hit, and (because it takes `touch-action:
-   * none` to work as a drag surface) a scroll dead zone in the middle of twelve
-   * rows. Given its own line it is the widest control on the sheet instead of the
-   * smallest, and the top line has the room to make the steppers thumb-sized.
-   */
   .stat,
   .stat-head {
     grid-template-columns: 13px minmax(40px, auto) 1fr auto;
@@ -177,7 +114,6 @@
     height: 11px;
     border-radius: 2px;
   }
-  /* The caption for a column that is no longer a column. */
   .stat-head { padding-bottom: 6px; }
   .stat-head span:nth-child(4) { display: none; }
   .stat-head span:nth-child(3) { text-align: right; }
@@ -186,30 +122,14 @@
   .stat__input { width: 48px; padding: 5px 4px; font-size: 14px; }
   .stat__name { min-height: 30px; }
 
-  /* Scaled / Raw and the armory's tuning tabs: 22px high is a word, not a
-     control. */
   .tabs--mini .tab { padding: 6px 8px; }
 
-  /* Five sections across 348px leaves 67px each, and `Attributes` ellipsised to
-     `Attribut…`, and a jump target you cannot read is not one. The tracking is what
-     gives, not the word. */
   .sectionnav__item { padding: 8px 2px; letter-spacing: 0.02em; }
 
-  /* The dialog gets the screen; a 24px scrim inset is a desktop courtesy. */
   .scrim { padding: 9px; }
 
-  /* Five of thirty-nine items is a list you scroll rather than read. The tuning
-     pane below it is empty until something is chosen, so the height is free. */
   .armory__list { max-height: min(44vh, 320px); }
 
-  /*
-   * The bottom of the type scale, raised about a point.
-   *
-   * Only the labels that carry something a reader has to take away: which slot a
-   * row is, what a skill's marker means, what a column of figures is counting.
-   * The purely decorative small caps are left where they are, so the hierarchy
-   * between the tiers does not close up.
-   */
   .slot__label { font-size: 11px; }
   .entry__name .chip { font-size: 10px; }
   .stat-head { font-size: 10px; }
@@ -218,18 +138,10 @@
   .warnings__to { font-size: 10px; }
 }
 
-/*
- * Prose that names keys, on a device that has none.
- *
- * Two of these sit under the panels they describe and cost about 60px between
- * them: a fifth of a phone screen spent telling a thumb about Shift and Home.
- * The shortcut dialog still lists them all for anyone who attaches a keyboard.
- */
 @media (hover: none) and (pointer: coarse) {
   .hint--keys { display: none; }
 }
 
-/* Motion is decorative throughout; honour a request to remove it. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -240,7 +152,6 @@
   }
 }
 
-/* Native disclosure remains keyboard-operable inside the stat dialog. */
 .statcard__sources > summary { list-style: none; cursor: pointer; }
 .statcard__sources > summary::-webkit-details-marker { display: none; }
 .statcard__sources > summary .readout__label::before { content: '+ '; color: var(--gold-500); }

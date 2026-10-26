@@ -16,7 +16,7 @@ import {
 } from './colors';
 import type { StatKey } from '../types';
 
-/** WCAG relative luminance. */
+// WCAG relative luminance.
 function luminance(hex: string): number {
   const channels = [1, 3, 5].map(at => {
     const value = parseInt(hex.slice(at, at + 2), 16) / 255;
@@ -48,8 +48,6 @@ describe('the game palette, re-cut per surface', () => {
   });
 
   it.each(SURFACES)('substitutes on the %s panel only where it has to', surface => {
-    // A substitution that is not needed is a canonical colour thrown away, so
-    // every entry in a table has to be earning its place.
     const table = surface === 'dark' ? ON_DARK : ON_LIGHT;
     for (const [source, replacement] of Object.entries(table)) {
       expect(contrast(source, PANEL_SURFACE[surface])).toBeLessThan(4.5);
@@ -58,9 +56,7 @@ describe('the game palette, re-cut per surface', () => {
   });
 
   it('keeps each light substitute on its source hue', () => {
-    // The palette is how a reader tells twelve gems apart, and Wind and Acid are
-    // only 16 degrees from each other to begin with. Darkening is allowed to
-    // change how light a colour is, not which colour it is.
+    // Wind and Acid are only 16 degrees apart to begin with.
     const hue = (hex: string) => {
       const [r, g, b] = [1, 3, 5].map(at => parseInt(hex.slice(at, at + 2), 16) / 255);
       const max = Math.max(r, g, b);
@@ -70,14 +66,14 @@ describe('the game palette, re-cut per surface', () => {
       return ((raw * 60) + 360) % 360;
     };
     for (const [source, replacement] of Object.entries(ON_LIGHT)) {
-      // WIL's white has no hue to hold, and becomes a neutral by design.
+      // WIL's white has no hue to hold.
       if (source === '#ffffff') continue;
       expect(Math.abs(hue(source) - hue(replacement))).toBeLessThanOrEqual(2);
     }
   });
 
   it('leaves the canonical constants alone', () => {
-    // These are the game's own colours and what an export writes out.
+    // The game's own colours, and what an export writes out.
     expect(STAT_COLORS.str).toBe('#ef4444');
     expect(STAT_COLORS.wil).toBe('#ffffff');
     expect(STAT_COLORS.apt).toBe('rainbow');
@@ -125,7 +121,6 @@ describe('the ink custom properties', () => {
     expect(statInk('str')).toBe('var(--ink-stat-str)');
     expect(elementInk('Fire')).toBe('var(--ink-el-fire)');
     expect(elementInk('Lightning')).toBe('var(--ink-el-lightning)');
-    // Every name a component can ask for is a name `inkVars` publishes.
     const published = inkVars('dark');
     const named = (value: string) => value.slice('var('.length, -1);
     for (const stat of STATS) expect(published).toHaveProperty(named(statInk(stat)));

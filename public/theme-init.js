@@ -1,4 +1,4 @@
-// Must use the same key as `src/aether/state/theme.ts`.
+// Must match the storage key in `src/aether/state/theme.ts`.
 try {
   if (localStorage.getItem('sl2:aether:theme:v1') === 'light') {
     document.documentElement.setAttribute('data-theme', 'light');

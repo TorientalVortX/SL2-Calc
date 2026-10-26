@@ -1,38 +1,4 @@
-/* ------------------------------------------------------------------ tokens */
-
-/*
- * Two themes, one vocabulary.
- *
- * Every colour the sheet paints is named here, and nothing below this block
- * writes a literal again. That is what makes the second theme possible at all:
- * it is this interface with another set of values, not another stylesheet to
- * keep in step with this one.
- *
- * Three kinds of token live here.
- *
- *   Scales   `--ink-*`, `--gold-*`, `--text-*`. Numbered by role, and the
- *            numbering means the same thing in both themes: `--ink-900` is the
- *            recessed ground and `--ink-500` the raised one, `--gold-100` is the
- *            accent at its most emphatic and `--bronze` at its quietest. The
- *            light theme runs the gold ladder the other way round in absolute
- *            lightness, because emphasis on vellum is depth rather than glow.
- *
- *   Channels `--tint-rgb` and the three semantic triplets: bare `R G B`, used as
- *            `rgb(var(--tint-rgb) / 0.06)`. For the families where the sheet
- *            wants a dozen alphas of one colour and the alpha ladder carries
- *            across themes unchanged. `--tint-rgb` is the overlay that has to
- *            contrast with the ground, so it is white on ink and umber on
- *            vellum: every `--tint` alpha reads as "this much emphasis", not as
- *            "this much white".
- *
- *   Roles    `--well`, `--channel`… A surface whose light value
- *            is a different idea rather than a recolouring: a text field on
- *            near-black is a hole cut into the panel, and on vellum it is a
- *            paler card lying on top of it.
- */
-
 :root {
-  /* Ground. Cool near-black, warmed very slightly toward the centre. */
   --void: #04060a;
   --ink-900: #070a10;
   --ink-800: #0b0f17;
@@ -40,7 +6,6 @@
   --ink-600: #161c28;
   --ink-500: #1e2532;
 
-  /* Gold / bronze. The accent language of the whole interface. */
   --gold-100: #f6ecd2;
   --gold-200: #e9d8ab;
   --gold-300: #d8c088;
@@ -48,38 +13,31 @@
   --gold-500: #9d824a;
   --bronze: #6f5a31;
 
-  /* Selection glows. */
   --aether: #86dced;
   --aether-dim: rgba(134, 220, 237, 0.32);
   --glow-gold: rgba(216, 192, 136, 0.28);
 
-  /* Semantic. */
   --alert: #e3705d;
   --alert-dim: rgba(227, 112, 93, 0.16);
   --alert-text: #f0a99b;
-  /* The far end of the over-budget meter, where the gradient starts. */
   --alert-deep: #9c4436;
   --affirm: #8fd6a0;
 
-  /* Type. */
   --text: #e6e9f0;
   --text-2: #a6b0c2;
   --text-3: #707a8d;
   --text-4: #4b5468;
 
-  /* Structure. */
   --edge: rgba(200, 170, 106, 0.22);
   --edge-soft: rgba(200, 170, 106, 0.12);
   --edge-hard: rgba(200, 170, 106, 0.4);
   --hairline: rgba(255, 255, 255, 0.055);
 
-  /* Overlay channels. See the note above: alphas, not colours, are the ladder. */
   --tint-rgb: 255 255 255;
   --gold-rgb: 216 192 136;
   --alert-rgb: 227 112 93;
   --affirm-rgb: 143 214 160;
 
-  /* Surface colours. */
   --nav-top: rgba(20, 25, 34, 0.98);
   --nav-bottom: rgba(9, 12, 18, 0.98);
   --modal-top: rgba(20, 26, 37, 0.98);
@@ -95,12 +53,6 @@
   --glyph-top: rgba(255, 255, 255, 0.06);
   --glyph-bottom: rgba(0, 0, 0, 0.4);
 
-  /*
-   * Recessed things. `--well` is a field the reader types into and `--channel`
-   * an empty bar waiting to be filled; on ink both are simply darker than the
-   * panel, which is why they were one value for so long. On vellum they part
-   * company — a field goes paler than the paper and a channel goes greyer.
-   */
   --well: rgba(0, 0, 0, 0.45);
   --channel: rgba(0, 0, 0, 0.55);
   --figure-bg: rgba(0, 0, 0, 0.35);
@@ -111,12 +63,10 @@
   --scroll-thumb: rgba(157, 130, 74, 0.5);
   --scroll-track: rgba(0, 0, 0, 0.3);
 
-  /* Lit edge of a filled bar. */
   --fill-edge: rgba(255, 255, 255, 0.35);
 
   --scrim: rgba(2, 4, 7, 0.72);
 
-  /* Page background. */
   --wash-base: linear-gradient(180deg, #070a11 0%, #04060a 45%, #05070c 100%);
 
   --font-display: 'Barlow Condensed', 'Barlow', system-ui, sans-serif;
@@ -126,8 +76,6 @@
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 
-  /* The stacked layout's section strip, and the offset every panel header sticks
-     at. One number, because the two touching bands must not disagree. */
   --nav-h: 37px;
 
   --shadow-panel: 0 5px 18px -12px rgba(0, 0, 0, 0.7);
@@ -138,21 +86,6 @@
   color-scheme: dark;
 }
 
-/*
- * The light variation: vellum and bronze.
- *
- * Not an inversion, and deliberately not white. The sheet is read for long
- * stretches at a time, and a monitor's full output through a 1400px column of
- * small type is the part of a light theme that hurts; every ground here is a
- * warm off-white a few points down from that, which also keeps the gold accent
- * the interface is built around from reading as dirt on a blue-white page.
- *
- * The frame is still drawn entirely in bronze — same corner brackets, same rules
- * under the same headers — so the two themes are recognisably one interface.
- * What changes is the direction of every light: shadows lift the panels off the
- * page instead of sinking them into it, and where the dark sheet glows, this one
- * darkens.
- */
 :root[data-theme='light'] {
   --void: #dcd6c8;
   --ink-900: #efeae0;
@@ -161,8 +94,7 @@
   --ink-600: #f9f6f0;
   --ink-500: #fdfbf7;
 
-  /* Ink-on-vellum bronzes. `--gold-100` still means "the most emphatic the
-     accent gets", which here is the darkest rather than the palest. */
+  /* `--gold-100` is still the most emphatic, which on vellum is the darkest. */
   --gold-100: #45300f;
   --gold-200: #66481a;
   --gold-300: #855f26;
@@ -190,7 +122,6 @@
   --edge-hard: rgba(122, 92, 44, 0.56);
   --hairline: rgba(52, 44, 28, 0.13);
 
-  /* Umber rather than white: on vellum an overlay has to darken to register. */
   --tint-rgb: 54 45 28;
   --gold-rgb: 140 104 40;
   --alert-rgb: 173 55 34;
@@ -221,13 +152,8 @@
   --scroll-thumb: rgba(150, 118, 58, 0.55);
   --scroll-track: rgba(96, 80, 50, 0.09);
 
-  /* A shade rather than a gleam. The dark sheet lights the near end of a bar,
-     which on vellum only made the bar look like it faded in from nothing. */
   --fill-edge: rgba(66, 54, 34, 0.22);
 
-  /* Heavier than the dark theme's, which is the opposite of what it looks like
-     it should be: a dialog has to sit on something, and 40% over vellum left the
-     whole sheet legible behind it and the modal floating free. */
   --scrim: rgba(58, 48, 32, 0.52);
 
   --wash-base: linear-gradient(180deg, #e7e1d4 0%, #dcd6c8 45%, #d7d0c1 100%);

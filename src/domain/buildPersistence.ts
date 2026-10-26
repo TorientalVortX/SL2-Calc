@@ -37,14 +37,6 @@ import { emptyYoukaiState, normalizeYoukaiState, youkaiById } from './youkai';
 import { traitById } from './traits';
 import { subtalentById } from '../data/talents';
 
-/**
- * Talent ranks from a saved build.
- *
- * Unknown subtalent ids are dropped and every rank is clamped to that
- * subtalent's own cap, for the reason armour upgrades are clamped here: a build
- * saved against an older catalog can carry a rank the wiki no longer allows, and
- * it would otherwise feed that figure straight into every derived value.
- */
 function talentAllocation(value: unknown): Record<string, number> {
   if (!isRecord(value)) return {};
   const allocation: Record<string, number> = {};
@@ -58,7 +50,6 @@ function talentAllocation(value: unknown): Record<string, number> {
 }
 
 export const APP_RELEASE = releaseJson as AppRelease;
-/** Read from `app-release.json` so the notes and the badge can never disagree. */
 export const APP_VERSION = APP_RELEASE.version;
 export const GAME_DATA_MANIFEST = manifestJson as GameDataManifest;
 
@@ -78,14 +69,7 @@ const numericRecord = <T extends Record<string, number>>(value: unknown, default
   }, { ...defaults });
 };
 
-/**
- * Skill ranks from an untrusted source, keyed by skill id.
- *
- * The set of ids is open (it grows whenever the wiki dataset is regenerated), so
- * unknown ids are kept rather than dropped: a build saved on a newer dataset
- * should survive a round trip through an older one. Ranks are clamped to
- * non-negative integers; `skillBonuses` bounds them against each skill's maxRank.
- */
+// Unknown ids are kept so a build saved on a newer dataset survives a round trip through an older one.
 const skillRankRecord = (value: unknown): SkillRanks => {
   if (!isRecord(value)) return {};
   const result: SkillRanks = {};
@@ -96,14 +80,7 @@ const skillRankRecord = (value: unknown): SkillRanks => {
   return result;
 };
 
-/**
- * Carries the four class skills that used to be Talents controls into the skill
- * sheet, so a build saved before the move keeps the ranks it was built with.
- *
- * `painTolerance` was stored as the HP it granted rather than a rank, which is
- * why it is divided back down. An existing rank always wins: a build saved after
- * the move has already recorded the truth.
- */
+// Older saves stored these as Talents fields; `painTolerance` was the HP granted, not a rank.
 const migrateTalentSkills = (ranks: SkillRanks, value: Record<string, unknown>): SkillRanks => {
   const legacy: Array<[string, number]> = [
     ['rising-game', Math.floor(Number(value.risingGame) || 0)],
@@ -118,14 +95,6 @@ const migrateTalentSkills = (ranks: SkillRanks, value: Record<string, unknown>):
   return migrated;
 };
 
-/**
- * Youkai contracts from an untrusted source.
- *
- * Ids are validated against the dataset, since an unknown Youkai cannot be shown
- * or scored: unlike skill ids, there is no meaningful way to carry it forward.
- * An installed Youkai that is not contracted is dropped rather than silently
- * granting its stats.
- */
 const youkaiState = (value: unknown): YoukaiState => {
   if (!isRecord(value)) return emptyYoukaiState();
   const contracted = Array.isArray(value.contracted)
@@ -135,27 +104,9 @@ const youkaiState = (value: unknown): YoukaiState => {
   return normalizeYoukaiState({ contracted, installed });
 };
 
-/*
- * A weapon slot from an untrusted source.
- *
- * Both weapon slots used to be handed to the calculator verbatim,
- * `isRecord(value) ? value as unknown as WeaponConfig`, so a truncated save or a
- * hand-edited share link could put a string in `basePower` and have the damage
- * formulas add it to a number, or omit `baseCritDamage` and have them read
- * undefined. Every field is coerced individually against the defaults
- * `weaponToConfig` builds, for the reason `gearSlot` gives below: it keeps a
- * malformed file from injecting channels the calculator never defined. Each
- * coercion is the same rule the rest of this file uses by hand: `z.string()
- * .catch(x)` is `typeof v === 'string' ? v : x`, and `transform(Boolean)` is
- * `Boolean(v)`, so what loads is unchanged for any build the app itself wrote.
- *
- * An absent field reads as its default rather than failing the whole build,
- * which is what lets a weapon saved before a field existed still load.
- */
 const savedNumber = (fallback: number) => z.number().catch(fallback);
 const savedName = (fallback: string) => z.string().catch(fallback);
-// `.catch` is what covers an absent key: an unknown schema rejects `undefined`
-// outright, so without it a weapon saved before a flag existed fails to parse.
+// Zod's unknown schema rejects an absent key, so `.catch` is needed for saves predating a flag.
 const savedFlag = z.unknown().transform(Boolean).catch(false);
 
 const weaponSlotShape = {
@@ -171,12 +122,7 @@ const weaponSlotShape = {
   part2: savedName('None'),
   part3: savedName('None'),
   enchantment: savedName('None'),
-  /*
-   * These two are read together, never defaulted apart. `resolveUpgradePoints`
-   * maps a legacy `upgradeLevel` into the three channels only when no explicit
-   * points were saved, so filling `upgradePoints` in with zeroes here would
-   * silently strip the upgrades off every build written before it existed.
-   */
+  // `upgradePoints` must stay undefined when absent so `resolveUpgradePoints` can map a legacy `upgradeLevel`.
   upgradeLevel: savedNumber(0),
   upgradePoints: z.object({
     power: savedNumber(0),
@@ -195,7 +141,6 @@ const weaponSlotShape = {
   customScaling: z.unknown().transform(value => numericRecord(value, ZERO_STATS)).catch(() => ({ ...ZERO_STATS })),
 } as const;
 
-/** Consumes a legacy `upgradeLevel` on read, which is the only thing that reads it. */
 const withResolvedUpgrades = <T extends { upgradeLevel: number; upgradePoints?: WeaponUpgradePoints }>(config: T) =>
   ({ ...config, upgradeLevel: 0, upgradePoints: resolveUpgradePoints(config) });
 
@@ -218,13 +163,6 @@ function baseClassFor(className: string): string {
   return Object.entries(CLASS_HIERARCHY).find(([, value]) => value.name === className || value.subClasses.includes(className))?.[0] ?? 'Soldier';
 }
 
-/**
- * Holds a loaded torso spend inside what its armour class allows.
- *
- * The ceilings depend on the torso, so an unknown or absent armour name leaves
- * every channel uncapped: clamping against a class the build does not wear would
- * be worse than not clamping at all.
- */
 function clampArmorUpgradePoints(points: ArmorUpgradePoints, armorName: string | null, world: GameWorld): ArmorUpgradePoints {
   const caps = armorUpgradeCaps(armorName ? ARMORS[armorName]?.type : undefined, world);
   return {
@@ -234,13 +172,11 @@ function clampArmorUpgradePoints(points: ArmorUpgradePoints, armorName: string |
   };
 }
 
-/** Applies the weapon ceilings to a parsed slot, leaving an empty slot empty. */
 function withWeaponCeilings<T extends { upgradePoints: WeaponUpgradePoints } | undefined>(config: T, world: GameWorld): T {
   if (!config) return config;
   return { ...config, upgradePoints: clampWeaponUpgradePoints(config.upgradePoints, world) };
 }
 
-/** The weapon equivalent. Every channel has a ceiling, so none is left open. */
 function clampWeaponUpgradePoints(points: WeaponUpgradePoints, world: GameWorld): WeaponUpgradePoints {
   const caps = weaponUpgradeCaps(world);
   return {
@@ -259,7 +195,6 @@ export function normalizeBuildState(value: unknown): BuildState {
   const subClass = typeof value.subClass === 'string' && CLASSES[value.subClass] ? value.subClass : null;
   if (!race || !subrace || !mainClass || !subClass) throw new Error('Build references an unknown race, subrace, or class.');
   const equipment = isRecord(value.equipment) ? value.equipment : {};
-  // Read before equipment, because the upgrade ceilings depend on it.
   const world: GameWorld = value.world === 'G6' || value.world === 'Korvara' ? value.world : DEFAULT_WORLD;
   const armorName = typeof equipment.armorName === 'string' && ARMORS[equipment.armorName] ? equipment.armorName : null;
   const savedHistory = Array.isArray(value.traits)
@@ -306,8 +241,7 @@ export function normalizeBuildState(value: unknown): BuildState {
     luminaryElement: Boolean(value.luminaryElement),
     persistenceOfNormalcy: Boolean(value.persistenceOfNormalcy),
     powerOfNormalcy: Boolean(value.powerOfNormalcy),
-    // Builds saved before Destiny existed were built against the 35-point
-    // budget and two free trees, which is exactly Destiny off.
+    // Pre-Destiny saves used the 35-point budget and two free trees, which is Destiny off.
     destiny: Boolean(value.destiny),
     skillRanks: migrateLegacyClassPassives(value, {
       main: migrateTalentSkills(
@@ -325,7 +259,6 @@ export function normalizeBuildState(value: unknown): BuildState {
       ? Object.fromEntries(Object.entries(value.skillInputs).filter(([, amount]) => typeof amount === 'number' && Number.isFinite(amount)).map(([key, amount]) => [key, Math.max(0, Math.floor(amount as number))]))
       : {},
     youkai: youkaiState(value.youkai),
-    // Unknown ids are dropped: a trait that no longer exists cannot be shown or scored.
     traits: Array.isArray(value.traits)
       ? [...new Set(value.traits.filter((id): id is string => typeof id === 'string' && Boolean(traitById(id)) && !traitById(id)?.historyKey))]
       : [],
@@ -338,16 +271,6 @@ export function normalizeBuildState(value: unknown): BuildState {
     equipment: {
       armorName,
       armorConditionalBonuses: isRecord(equipment.armorConditionalBonuses) ? Object.fromEntries(Object.entries(equipment.armorConditionalBonuses).map(([key, enabled]) => [key, Boolean(enabled)])) : {},
-      /*
-       * Both were previously dropped on load, so a saved build silently came
-       * back with its torso upgrades reset.
-       *
-       * Clamped against the armour class's ceilings, not merely coerced. Every
-       * build saved before those ceilings existed can hold a spend no torso can
-       * reach, and the deck only clamps on edit, so without this a stale build
-       * would keep an illegal figure and quietly feed it to every derived value.
-       * A channel with no recorded ceiling is still bounded below at zero.
-       */
       armorUpgradePoints: isRecord(equipment.armorUpgradePoints)
         ? clampArmorUpgradePoints({
           armor: Number(equipment.armorUpgradePoints.armor) || 0,
@@ -355,8 +278,6 @@ export function normalizeBuildState(value: unknown): BuildState {
           evade: Number(equipment.armorUpgradePoints.evade) || 0,
         }, armorName, world)
         : undefined,
-      // Ranged item rolls. Coerced to finite numbers; the resolver clamps each
-      // into its own range, so a stale or hand-edited value cannot escape it.
       itemRolls: isRecord(equipment.itemRolls)
         ? Object.fromEntries(
           Object.entries(equipment.itemRolls)
@@ -375,12 +296,7 @@ export function normalizeBuildState(value: unknown): BuildState {
         : undefined,
       armorMaterial: typeof equipment.armorMaterial === 'string' ? equipment.armorMaterial : undefined,
       armorEnchantment: typeof equipment.armorEnchantment === 'string' ? equipment.armorEnchantment : undefined,
-      // Weapon spends are clamped for the same reason torso spends are: the decks
-      // only clamp on edit, so a build saved before the ceilings existed would
-      // otherwise keep a spend no weapon can reach.
       primaryWeapon: withWeaponCeilings(savedWeapon(weaponConfigSchema, equipment.primaryWeapon), world),
-      // Slots 3-6. Absent on any build saved before they existed, which reads as
-      // empty rather than as a parse failure.
       hands: gearSlot(equipment.hands, NO_HANDS_UPGRADE_POINTS),
       offHandWeapon: withWeaponCeilings(savedWeapon(weaponSlotSchema, equipment.offHandWeapon), world),
       legs: gearSlot(equipment.legs, NO_LEGS_UPGRADE_POINTS),
@@ -391,17 +307,6 @@ export function normalizeBuildState(value: unknown): BuildState {
   return { ...build, spellthief: normalizeSpellthiefState(value.spellthief, build) };
 }
 
-/**
- * Reads one hands, legs or accessory slot off a saved build.
- *
- * `zero` supplies the track names, so each slot only ever reads its own two. A
- * legs entry cannot come back carrying a stray `hit`. Tracks are coerced
- * individually rather than by spreading the saved object, which is what keeps a
- * hand-edited or truncated file from injecting unknown channels.
- *
- * Every field is read back. The torso upgrades were once dropped here and builds
- * silently reloaded with their points reset; these must not repeat that.
- */
 function gearSlot<Points extends object>(
   value: unknown,
   zero: Points,

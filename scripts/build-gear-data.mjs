@@ -1,21 +1,4 @@
-/**
- * Builds the hands, legs and accessory item records the calculator loads.
- *
- *   wiki-data/raw/equipment.json  ->  src/data/content/gear.json
- *
- * These are equipment slots 3 to 6. They are kept apart from `armors.json`
- * because they are a different kind of thing: the wiki gives them **no Armor,
- * Magic Armor, Evade or Weight columns at all**, so there is nothing to put in an
- * armour record. Everything one of these items does is written in prose, which
- * `build-item-effects.mjs` turns into numbers afterwards.
- *
- * That is also why this script does not try to parse magnitudes itself. It keeps
- * each item's effect lines as the wiki wrote them and leaves the reading of
- * "+2 SKI" or "UL/2" to the one place that already knows how.
- *
- *   node scripts/build-gear-data.mjs
- *   node scripts/build-gear-data.mjs --report   # list what was dropped and why
- */
+// Usage: node scripts/build-gear-data.mjs [--report]  -> src/data/content/gear.json
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
@@ -23,21 +6,10 @@ const SOURCE = path.resolve('wiki-data/raw/equipment.json');
 const OUT = path.resolve('src/data/content/gear.json');
 const REPORT = process.argv.includes('--report');
 
-/**
- * Scraped `group` -> the group the calculator files it under.
- *
- * Shields stay separate from the rest of Hands because they are their own wiki
- * page and every one of them grants the Guard skill, which is worth being able
- * to filter on. Both still occupy slot 3.
- */
+// Shields are their own wiki page and all grant Guard; they still occupy slot 3.
 const GROUPS = {
   Hands: { group: 'Hands', slot: 3 },
-  /*
-   * The Shields page states the material once for the whole page ("All shields
-   * are made of Metal") instead of repeating it on every row, so only one of
-   * the twenty carries its own. `defaultMaterial` fills the rest in. A row that
-   * does state one still wins: Blue Iron Shield is specifically Iron.
-   */
+  // The Shields page states "All shields are made of Metal" once instead of per row.
   Shield: { group: 'Shield', slot: 3, defaultMaterial: 'Metal' },
   Legs: { group: 'Legs', slot: 4 },
   Accessory: { group: 'Accessory', slot: 5 },
@@ -55,20 +27,11 @@ for (const item of items) {
   if (!mapped) continue;
 
   const effects = item.details?.effects ?? [];
-  /*
-   * An item with no effect line has nothing to contribute and nothing to show:
-   * these slots carry no stat columns, so effect text is the entire record.
-   */
   if (!effects.length) {
     dropped.push(`${item.name} (${mapped.group}): no effect text`);
     continue;
   }
 
-  /*
-   * Names are the key the calculator equips by, matching `ARMORS`. A collision
-   * would make one of the two unreachable, so it is reported rather than left to
-   * overwrite silently.
-   */
   if (seen.has(item.name)) collisions.push(`${item.name}: ${seen.get(item.name)} and ${mapped.group}`);
   else seen.set(item.name, mapped.group);
 
@@ -77,13 +40,10 @@ for (const item of items) {
     name: item.name,
     slot: mapped.slot,
     rarity: item.rarity ?? 1,
-    // The crafting material class, which decides what materials the piece takes
-    // and which class effects it satisfies (Void Assassin's Voidveil wants Cloth).
+    // Material class decides which materials the piece takes and which class effects it meets.
     ...((item.details.material || mapped.defaultMaterial)
       ? { material: item.details.material || mapped.defaultMaterial }
       : {}),
-    // Joined for the effect parser, which reads one description per item, and
-    // kept line-by-line for display.
     details: effects.join(' '),
     specialEffects: effects,
     ...(item.details.flavour ? { flavour: item.details.flavour } : {}),

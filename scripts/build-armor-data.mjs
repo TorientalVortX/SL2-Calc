@@ -1,46 +1,16 @@
-/**
- * Extracts armour effects for materials and enchantments from the scraped wiki.
- *
- *   wiki-data/mechanics/item-materials.md  \
- *   wiki-data/mechanics/enchantments.md    /  ->  src/data/content/armor-modifiers.json
- *
- * These two tables are why `ARMOR_MATERIAL_MODIFIERS` and
- * `ARMOR_ENCHANTMENT_OVERRIDES` could stay empty until now: the calculator knew
- * the *names* of materials and enchantments from the weapon table but not what
- * either does to armour, and the weapon values do not transfer.
- *
- * The wiki states them plainly, which is what makes this parseable at all:
- *
- *   Weapon: +6 Critical, +8 Weight
- *   Armor: +2 Armor, +1 Magic Armor, +6 Evade, +8 Weight
- *   Other: No effect.
- *
- * Only the `Armor:` segment is read. Anything outside the patterns below is left
- * out rather than guessed, and reported at the end so the gap stays visible.
- *
- *   node scripts/build-armor-data.mjs
- *   node scripts/build-armor-data.mjs --report   # list what did not parse
- */
+// Usage: node scripts/build-armor-data.mjs [--report]  -> src/data/content/armor-modifiers.json
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
-/*
- * Materials come from the equipment scraper's JSON rather than the mechanics
- * markdown. `scrape-wiki.mjs` collapses the `<br>`s inside a Details cell, so
- * that page reads "+8 WeightArmor: +2 Armor" with the clause boundaries run
- * together and has to be split with lookaheads. `scrape-equipment.mjs` keeps the
- * breaks and hands over `weapon`, `armor` and `other` as separate fields.
- */
+// scrape-wiki.mjs collapses the <br>s in a Details cell; scrape-equipment.mjs keeps
+// weapon/armor/other as separate fields, so materials come from its JSON.
 const MATERIALS_JSON = path.resolve('wiki-data/raw/item-materials.json');
 const ENCHANTS_MD = path.resolve('wiki-data/mechanics/enchantments.md');
 const OUT = path.resolve('src/data/content/armor-modifiers.json');
 const REPORT = process.argv.includes('--report');
 
 const ELEMENTS = ['Fire', 'Ice', 'Wind', 'Earth', 'Dark', 'Water', 'Light', 'Lightning', 'Acid', 'Sound'];
-/*
- * Resisted like an element, written like one, but not one. Canvas Square is
- * '+5% Pierce Resistance'; without these three the material simply lost it.
- */
+// Resisted like elements but not elements: Canvas Square is '+5% Pierce Resistance'.
 const PHYSICAL = ['Blunt', 'Pierce', 'Slash'];
 const RESIST_TYPES = [...ELEMENTS, ...PHYSICAL];
 const STAT_WORDS = {
@@ -50,7 +20,6 @@ const STAT_WORDS = {
   guile: 'gui', gui: 'gui', sanctity: 'san', san: 'san', aptitude: 'apt', apt: 'apt',
 };
 
-/** Rows of a markdown table, minus the header and separator lines. */
 function tableRows(markdown) {
   return markdown
     .split('\n')
@@ -59,21 +28,10 @@ function tableRows(markdown) {
     .filter((cells) => cells.length >= 3 && cells[1] && cells[1] !== 'Name' && !/^-+$/.test(cells[1]));
 }
 
-/**
- * Whether a clause states a real effect.
- *
- * "No effect." is the wiki explicitly saying the material does nothing in that
- * role, which is different from the clause being absent.
- */
+// "No effect." is the wiki explicitly saying so, which differs from an absent clause.
 const hasEffect = (text) => Boolean(text) && !/^no effect/i.test(text);
 
-/**
- * Reads the armour effects out of a details blob.
- *
- * Matches are anchored on the unit word, so "+1 Magic Armor" is never read as
- * "+1 Armor": magic armour is checked first and its text removed before the
- * plain armour pattern runs.
- */
+// Magic armour is matched and removed first so "+1 Magic Armor" is never read as "+1 Armor".
 function parseArmorEffects(text) {
   const effects = {
     armor: 0, magicArmor: 0, evade: 0, weight: 0, weightMod: 1, hp: 0, hpPercent: 0, fp: 0,
@@ -81,12 +39,7 @@ function parseArmorEffects(text) {
     critical: 0, criticalEvade: 0, stats: {}, resistances: {}, elementalAttack: {},
   };
   let found = false;
-  /*
-   * Some enchantments give a different amount per slot: Warding is "Armor: +5
-   * Resistance. Legs: +3 Resistance". Those are alternatives, not a sum, so the
-   * torso figure is taken and the other slot's clause dropped. Summing them
-   * would overstate the bonus on every slot.
-   */
+  // Per-slot amounts are alternatives, not a sum (Warding: "Armor: +5 Resistance. Legs: +3 Resistance").
   let rest = /(?:^|\.)\s*(?:Armor|Torso)\s*:/i.test(text)
     ? (/(?:^|\.)\s*(?:Armor|Torso)\s*:\s*([^.]*)/i.exec(text)?.[1] ?? text)
     : text;
@@ -106,8 +59,7 @@ function parseArmorEffects(text) {
   take(/([+-]\s*\d+)\s*Critical Evade\b/gi, (_, n) => { effects.criticalEvade += Number(n.replace(/\s/g, '')); });
   take(/([+-]\s*\d+)\s*Critical\b/gi, (_, n) => { effects.critical += Number(n.replace(/\s/g, '')); });
   take(/([+-]\s*\d+)\s*Evade\b/gi, (_, n) => { effects.evade += Number(n.replace(/\s/g, '')); });
-  // Elemental attack, written either "+3 Fire ATK" or "Fire ATK by 3".
-  // Attack is elemental only. There is no "Pierce ATK".
+  // Elemental attack, written "+3 Fire ATK" or "Fire ATK by 3"; there is no "Pierce ATK".
   take(new RegExp(`([+-]\\s*\\d+)\\s*(${ELEMENTS.join('|')})\\s*ATK\\b`, 'gi'), (_, n, element) => {
     const key = ELEMENTS.find((e) => e.toLowerCase() === element.toLowerCase());
     effects.elementalAttack[key] = (effects.elementalAttack[key] ?? 0) + Number(n.replace(/\s/g, ''));
@@ -148,7 +100,6 @@ function parseArmorEffects(text) {
   return found ? effects : null;
 }
 
-/** Drops the zeroed channels so the emitted record only carries real values. */
 function compact(effects) {
   const out = {};
   for (const [key, value] of Object.entries(effects)) {
@@ -158,20 +109,7 @@ function compact(effects) {
   return out;
 }
 
-/**
- * Returns the always-on part of an enchantment for a torso.
- *
- * The source often puts weapon, armor and shared effects in one run-on string.
- * Only `Armor`/`Torso` and `Both` segments apply here. Conditional sentences are
- * removed so effects such as Camouflage's Sneak-only Evade are never treated as
- * permanent calculator stats.
- */
-/**
- * The labels an enchantment uses for each body slot.
- *
- * `Both` is not a slot but a shared clause, so it belongs to every one. The wiki
- * writes the torso as either "Armor" or "Torso" depending on the enchantment.
- */
+// The wiki labels the torso "Armor" or "Torso"; a `Both:` clause applies to every slot.
 const SLOT_LABELS = {
   Torso: ['armor', 'torso'],
   Hands: ['hands'],
@@ -181,15 +119,7 @@ const SLOT_LABELS = {
   Feet: ['feet'],
 };
 
-/**
- * The part of an enchantment's text that applies to one slot.
- *
- * A single enchantment often states a different magnitude per slot: Warding is
- * "Armor: +5 Resistance. Legs: +3 Resistance.", so reading the torso figure and
- * using it everywhere would overstate the bonus on every other slot. Clauses for
- * other slots are dropped rather than summed, and conditional sentences are
- * removed so nothing gated is treated as a standing bonus.
- */
+// Per-slot clauses are alternatives, not a sum, so other slots' clauses are dropped.
 function slotEnchantText(info, slot) {
   const labels = SLOT_LABELS[slot];
   if (!labels) return '';
@@ -208,11 +138,7 @@ function slotEnchantText(info, slot) {
       const end = matches[index + 1]?.index ?? info.length;
       pieces.push(info.slice(start, end));
     }
-    /*
-     * No clause names this slot, but some clause names another. The enchantment
-     * is legal here and simply says nothing about it, which is not the same as
-     * the whole text applying.
-     */
+    // Another slot is named but this one is not: the enchantment says nothing here.
     if (!pieces.length) return '';
     selected = pieces.join('. ');
   }
@@ -224,13 +150,10 @@ function slotEnchantText(info, slot) {
     .trim();
 }
 
-/** Canonical slot name for a label the wiki wrote, or null if unrecognised. */
 function canonicalSlot(slot) {
   const lower = slot.toLowerCase();
   return Object.keys(SLOT_LABELS).find((name) => SLOT_LABELS[name].includes(lower)) ?? null;
 }
-
-/* --------------------------------------------------------------- materials */
 
 const materialRecords = JSON.parse(await readFile(MATERIALS_JSON, 'utf8'));
 const materials = {};
@@ -240,30 +163,14 @@ const dropped = [];
 
 for (const record of materialRecords) {
   const { name, materialClass: section } = record;
-  /*
-   * `All:` supplements the profiles a material already has; it never grants a new
-   * role. Two failure modes to avoid, one on each side:
-   *
-   *   Treating it as a replacement wiped Aureate's "Armor: -3 Armor, -3 Magic
-   *   Armor" and left it with nothing.
-   *
-   *   Letting it stand in for a missing profile put Fine Art into the armour
-   *   material picker. Fine Art is a Chapter material with no `Armor:` clause,
-   *   because chapters craft tomes.
-   *
-   * So the role comes from the material's own clause, and `All` is appended to
-   * whichever roles that gives it.
-   */
+  // `All:` supplements the roles a material already has and never grants one
+  // (Aureate keeps its Armor clause; Fine Art, a Chapter material, stays out of armour).
   const roleText = (text) => (hasEffect(text) ? [text, record.all].filter(Boolean).join('. ') : null);
   const weaponText = roleText(record.weapon);
   const armorText = roleText(record.armor);
   const otherText = roleText(record.other);
 
-  /*
-   * A material with no effect in any of the three roles is not craftable gear at
-   * all: plain Cotton, Iron Ore and Ash Wood exist only as raw drops. Listing
-   * them in a gear picker is noise, so they are dropped.
-   */
+  // No effect in any role means a raw drop (Cotton, Iron Ore, Ash Wood), not craftable gear.
   if (!hasEffect(weaponText) && !hasEffect(armorText) && !hasEffect(otherText)) {
     dropped.push(`${name} (${section})`);
     continue;
@@ -276,7 +183,6 @@ for (const record of materialRecords) {
   ];
   (categories[section] ??= []).push(name);
 
-  /** Parses one profile, recording anything the patterns could not read. */
   const profile = (text, label) => {
     if (!hasEffect(text)) return null;
     const parsed = parseArmorEffects(text);
@@ -285,11 +191,6 @@ for (const record of materialRecords) {
     return null;
   };
 
-  /*
-   * The armour profile stays flattened onto the record, which is the shape every
-   * existing consumer reads. The hands/legs/accessory profile is nested under
-   * `other` so adding it cannot change how armour is resolved.
-   */
   const armorEffects = profile(armorText, 'armor') ?? {};
   const otherEffects = profile(otherText, 'other');
 
@@ -300,33 +201,23 @@ for (const record of materialRecords) {
   };
 }
 
-/* ------------------------------------------------------------ enchantments */
-
 const enchantRows = tableRows(await readFile(ENCHANTS_MD, 'utf8'));
 const enchantments = {};
 const unparsedEnchantments = [];
 
 for (const cells of enchantRows) {
   const name = cells[1];
-  // Name/Catalyst/Details/Location are distinct columns. Keeping this scoped to
-  // Details prevents acquisition locations from leaking into effect text.
   const details = cells[3] ?? '';
   const slotMatch = /Can Enchant:\s*([^]*?)Enchant Info:/i.exec(details);
   const infoMatch = /Enchant Info:\s*([\s\S]*)/i.exec(details);
   if (!slotMatch || !infoMatch) { unparsedEnchantments.push(`${name} (no Can Enchant / Enchant Info)`); continue; }
 
   const slots = slotMatch[1].split(/,\s*/).map((s) => s.trim()).filter(Boolean);
-  // Armour enchantments are the ones that can go on a body slot at all.
   const armorSlots = slots.filter((slot) => /torso|legs|hands|head|feet|accessory/i.test(slot));
   if (!armorSlots.length) continue;
 
   const sourceText = infoMatch[1].trim();
 
-  /*
-   * Every legal slot is resolved separately. The torso stays flattened onto the
-   * record because that is the shape every existing consumer reads; the rest go
-   * under `bySlot`, so adding them cannot change how a torso resolves.
-   */
   const bySlot = {};
   for (const slot of armorSlots) {
     const canonical = canonicalSlot(slot);
@@ -344,9 +235,7 @@ for (const cells of enchantRows) {
   }
   const others = Object.fromEntries(Object.entries(bySlot).filter(([slot]) => slot !== 'Torso'));
 
-  // Keep every legal body-slot enchantment, including prose-only and
-  // conditional effects. The picker needs legality data even when a mechanic
-  // does not yet map to one of the calculator's numeric channels.
+  // Keep prose-only and conditional enchantments: the picker needs their slot legality.
   enchantments[name] = {
     slots: armorSlots,
     description: sourceText,

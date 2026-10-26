@@ -7,7 +7,6 @@ export interface YoukaiNumericBonuses {
   stats: Partial<Record<StatKey, number>>;
   derived: { evadeBase: number; evade: number; criticalEvade: number; luckStatusPercent: number; hpRegeneration: number };
   elementalResistance: Partial<Record<ElementKey, number>>;
-  /** Blunt / Pierce / Slash, which a couple of Install skills grant. */
   physicalResistance: Partial<Record<PhysicalKey, number>>;
   weaponPower: number;
 }
@@ -33,8 +32,7 @@ const NUMERIC_EFFECTS: Record<string, NumericEffect[]> = {
   'Seal of the East': [{ kind: 'stat', key: 'cel', value: 2 }],
   'Seal of the East+': [{ kind: 'stat', key: 'cel', value: 2 }],
   'Painful Accuracy': [{ kind: 'stat', key: 'ski', value: 2 }],
-  // Korvara rule confirmed by the user: Skitterscale is base Evade. The +10
-  // creature-only version does not apply to an installed player.
+  // Korvara rule confirmed by the user: Skitterscale is base Evade; the +10 creature-only version doesn't apply.
   Skitterscale: [{ kind: 'stat', key: 'def', value: 2 }, { kind: 'derived', key: 'evadeBase', value: 5 }],
   Nightshade: [{ kind: 'stat', key: 'def', value: 2 }, { kind: 'stat', key: 'res', value: 2 }],
   'Fairy Ring': [{ kind: 'derived', key: 'luckStatusPercent', value: 10 }],
@@ -51,15 +49,7 @@ const NUMERIC_EFFECTS: Record<string, NumericEffect[]> = {
   ],
   'Demon Plant': [{ kind: 'resistance', key: 'Dark', value: 25 }, { kind: 'resistance', key: 'Light', value: -25 }],
 
-  /*
-   * Install skills that trade one resistance for another.
-   *
-   * Each of these states a stronger effect for the Youkai itself ("If the owner
-   * of this skill is Kasa-Obake, they instead are immune to Water damage"), but
-   * an Installed Summoner is never that Youkai, so the base figure is the one
-   * that applies here. Drowned Woman says so outright: 50% for itself, "only 25%
-   * for non-Drowned Woman units", which is every build this models.
-   */
+  // The wiki's stronger "if the owner is <Youkai>" figures never apply to an Installed Summoner; base values are used.
   'Tough Fur': [
     { kind: 'physicalResistance', key: 'Slash', value: 25 },
     { kind: 'resistance', key: 'Water', value: -25 },

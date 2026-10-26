@@ -15,13 +15,6 @@ import type { LoadoutSheet } from '../state/build';
 
 type Sheet = LoadoutSheet;
 
-/**
- * Skills, traits and racials, sharing one framed sheet.
- *
- * They are tabs rather than three panels because only one is ever being edited,
- * and each needs the full width of the column for its rows. The alternative was
- * three cramped lists that all needed scrolling anyway.
- */
 export function LoadoutPanel({ builder }: { builder: Builder }) {
   const [sheet, setSheet] = useState<Sheet>('gear');
   const { status, build, evaluation } = builder;
@@ -53,8 +46,6 @@ export function LoadoutPanel({ builder }: { builder: Builder }) {
     <Panel
       id="panel-loadout"
       title="Loadout"
-      // The sheets here are open-ended (900 skills, 339 weapons), so the panel
-      // grows and the page scrolls, rather than a list scrolling inside a frame.
       scroll={false}
       meta={
         <div className="tabs">
@@ -81,11 +72,6 @@ export function LoadoutPanel({ builder }: { builder: Builder }) {
         </div>
       }
     >
-      {/*
-        * Each problem is a route to the sheet that can fix it. Printing them as
-        * prose left the reader to work out that "Soldier skills cost 38 points"
-        * meant the Skills tab, and then to find it themselves.
-        */}
       {status.violations.length ? (
         <div className="warnings">
           {status.violations.slice(0, 4).map(problem => (

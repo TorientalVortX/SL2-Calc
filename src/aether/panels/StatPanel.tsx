@@ -11,27 +11,7 @@ import { formatScaled, statBreakdown } from '../state/readout';
 import { STAT_VIEW_LABEL, type StatView } from '../state/statView';
 import type { Builder } from '../state/useBuilder';
 
-/**
- * Attribute allocation.
- *
- * Each row is one tab stop, and the arrow keys spend points rather than moving
- * between rows: the same shape as a console character sheet, and the reason the
- * steppers inside a row are taken out of the tab order. Vertical movement still
- * works from anywhere in the grid.
- *
- * The bar under each stat is stacked, not a single fill: the hatched part is the
- * floor the character already has from race, and the solid part is what has been
- * invested on top. Both are measured against the hard cap of 80, so the gap at
- * the right edge is exactly how much more the stat can take.
- *
- * The value column reports raw or scaled points, switched in the header and
- * remembered between visits. Both figures answer questions a build asks
- * constantly (raw is what the cap allows, scaled is what the formulas read), and
- * the tooltip that used to be the only place the other one appeared could not be
- * reached at all on a touch screen. Every row also opens a **card** carrying both
- * figures, their provenance and what the stat does; the sheet owns that card,
- * because the derived rail opens it too.
- */
+/** Bars measure against the hard cap of 80; the hatched part is the racial floor. */
 export function StatPanel({
   builder,
   view,
@@ -71,8 +51,6 @@ export function StatPanel({
       });
       return;
     }
-    // The keys the hint line under the grid advertises: the card, and the unit the
-    // value column is in. `Enter` and `Space` have no other meaning on a row.
     if (stat && (key === 'i' || key === 'enter' || key === ' ')) {
       event.preventDefault();
       play('select');
@@ -89,12 +67,7 @@ export function StatPanel({
     const rows = [...event.currentTarget.querySelectorAll<HTMLElement>('[data-nav]')];
     const index = rows.findIndex(row => row === document.activeElement);
     if (index < 0) return;
-    /*
-     * Step by a whole grid row. The grid is one column on a narrow viewport and
-     * two on a wide one, so the stride is read off the live computed style rather
-     * than assumed: moving down by one item in two-column mode would jump
-     * sideways instead.
-     */
+    // One column or two depending on viewport, so the stride is read off the live style.
     const columns = getComputedStyle(event.currentTarget).gridTemplateColumns.split(' ').length;
     const stride = Math.max(1, columns);
     const next = index + (key === 'arrowup' || key === 'w' ? -stride : stride);
@@ -108,7 +81,6 @@ export function StatPanel({
     <Panel
       id="panel-attributes"
       title="Attributes"
-      // Sized by its content; the page is what scrolls in this column.
       scroll={false}
       meta={
         <>
@@ -130,8 +102,7 @@ export function StatPanel({
           <AnimatedNumber
             value={Math.abs(remaining)}
             className="pool__value"
-            // The sign follows the number actually on screen, so the count-up
-            // through zero never renders as "−0".
+            // Signed off the displayed number, so the count-up through zero never renders "−0".
             format={value => {
               const shown = Math.round(value);
               return over && shown > 0 ? `−${shown}` : String(shown);
@@ -156,7 +127,6 @@ export function StatPanel({
         </div>
       ) : null}
 
-      {/* One caption block per grid column; the second is hidden while single-column. */}
       <div className="stat-head-row" aria-hidden="true">
         <StatHead view={view} />
         <StatHead view={view} second />
@@ -184,13 +154,6 @@ export function StatPanel({
   );
 }
 
-/**
- * The unit the value column is in.
- *
- * In the panel header rather than beside each number, because it is one question
- * about all twelve rows at once: twelve switches would be twelve ways to end up
- * comparing a raw figure against a scaled one.
- */
 function ViewSwitch({ view, onPick }: { view: StatView; onPick: (view: StatView) => void }) {
   return (
     <span className="tabs tabs--mini" role="radiogroup" aria-label="Attribute totals">
@@ -262,10 +225,7 @@ function StatRow({
     >
       <span className="stat__gem" style={{ color }} />
 
-      {/*
-        * The name opens the card. Out of the tab order like the steppers beside it,
-        * so the row stays one tab stop: the keyboard reaches the same card with I.
-        */}
+      {/* Out of the tab order so the row stays one tab stop; I opens the same card. */}
       <button
         type="button"
         tabIndex={-1}

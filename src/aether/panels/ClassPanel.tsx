@@ -14,14 +14,6 @@ import {
 } from '../state/build';
 import type { Builder } from '../state/useBuilder';
 
-/**
- * Class selection for both slots.
- *
- * The two slots share one browser rather than getting a column each: a character
- * has nine families and at most five classes in any of them, and splitting that
- * twice over would cost more space than the comparison is worth. The active slot
- * is a tab, and the browser retargets.
- */
 export function ClassPanel({ builder }: { builder: Builder }) {
   const { build, dispatch } = builder;
   const monoclass = build.mainClass === build.subClass;
@@ -30,21 +22,12 @@ export function ClassPanel({ builder }: { builder: Builder }) {
   const activeClass = slot === 'main' ? build.mainClass : build.subClass;
   const [family, setFamily] = useState(() => familyOf(activeClass).base);
 
-  // Follow the slot's own family when the tab or the class changes, so the
-  // browser always opens on what is actually equipped.
   useEffect(() => setFamily(familyOf(activeClass).base), [activeClass]);
 
   const onFamilyKeys = useListNavigation(1);
   const onClassKeys = useListNavigation(2);
 
-  /*
-   * The base class and its promotions, kept apart.
-   *
-   * `members` lists the base first and the promotions after, but rendering all
-   * five as one grid gave no clue which was which, and the distinction decides
-   * what a build can reach: promotions inherit the base's skill pool, and Power
-   * of Normalcy applies only while both slots are base classes.
-   */
+  // Promotions inherit the base's skill pool, and Power of Normalcy applies only while both slots are base classes.
   const { base, promotions } = useMemo(() => {
     const entry = CLASS_FAMILIES.find(item => item.base === family);
     return { base: entry?.base ?? family, promotions: entry?.members.slice(1) ?? [] };
@@ -164,12 +147,6 @@ interface ClassCardProps {
   onChoose: (className: string) => void;
 }
 
-/**
- * One selectable class.
- *
- * The base card runs full width and the promotions sit in a grid beneath it, so
- * the shape of the section states the hierarchy before any label does.
- */
 function ClassCard({ className, tier, builder, slot, activeClass, onChoose }: ClassCardProps) {
   const { build } = builder;
   const config = CLASSES[className];
@@ -191,10 +168,6 @@ function ClassCard({ className, tier, builder, slot, activeClass, onChoose }: Cl
     >
       <span className="card__head">
         <span className="card__name">{className}</span>
-        {/* Only the base card is badged. The promotions sit under their own
-            heading and behind a branch bar, so a chip on each would be repeating
-            the section back at itself, and it was squeezing "Demon Hunter" onto
-            two lines in a half-width card. */}
         {tier === 'base' ? <span className="chip chip--gold">Base</span> : null}
       </span>
       <span className="card__meta">{statLine(className)}</span>
@@ -203,7 +176,6 @@ function ClassCard({ className, tier, builder, slot, activeClass, onChoose }: Cl
   );
 }
 
-/** A class's per-level stat grant, written the way the wiki lists it. */
 function statLine(className: string): string {
   const config = CLASSES[className];
   if (!config) return '—';

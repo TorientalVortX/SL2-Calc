@@ -21,7 +21,7 @@ describe('Spellthief copies', () => {
     for (const id of ['phoenix', 'ring-of-pearls', 'water-wall', 'acid-rain', 'aero-of-kindness', 'sear', 'earthbound-fog', 'invigoration', 'fulgur-of-flight']) {
       expect(changeCopySpell(build(), id, 'steal').spellthief?.equipped).toEqual([id]);
     }
-    // Previously included as a spell, but the source identifies it as a Spear skill.
+    // The source lists Solar Lance as a Spear skill, not a spell.
     expect(changeCopySpell(build(), 'solar-lance', 'steal').spellthief?.equipped).toEqual([]);
   });
   it('gates copies by class, rank and legal Destiny pairing', () => {

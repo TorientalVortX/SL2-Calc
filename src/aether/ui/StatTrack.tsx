@@ -3,34 +3,16 @@ import { play } from '../state/audio';
 import { STAT_HARD_CAP } from '../state/build';
 
 interface StatTrackProps {
-  /** What the character already has before any point is spent. */
   floor: number;
   invested: number;
-  /** The stat's element colour; the fill and its glow are `currentColor`. */
   color: string;
   onSet: (invested: number) => void;
-  /**
-   * Makes the track a real control: focusable, arrow-key operable and announced
-   * as a slider. The attribute row does not want this (the row itself is the tab
-   * stop there and owns the same keys), but the stat card has no other stepper to
-   * inherit them from.
-   */
+  /** Only the stat card wants this; on the attribute row the row is the tab stop and owns the keys. */
   slider?: boolean;
   label?: string;
   className?: string;
 }
 
-/**
- * The stacked allocation bar, and the drag surface that sets it.
- *
- * Two parts rather than one fill: the hatched span is the floor the character
- * already has, and the solid span is what has been invested on top. Both are
- * measured against the hard cap of 80, so the gap at the right edge is exactly
- * how much more the stat can take.
- *
- * Shared by the attribute row and the stat card so the pointer arithmetic (which
- * has to subtract the floor before it can report an invested value) exists once.
- */
 export function StatTrack({ floor, invested, color, onSet, slider, label, className = '' }: StatTrackProps) {
   const trackRef = useRef<HTMLDivElement>(null);
   const dragging = useRef(false);

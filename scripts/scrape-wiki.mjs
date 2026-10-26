@@ -1,23 +1,5 @@
-/**
- * Scrapes the Sigrogana Legend 2 wiki (https://sl2.miraheze.org) into the
- * markdown corpus under `wiki-data/`.
- *
- * The wiki is the source of truth for skill numbers, class stat bonuses and
- * Youkai stats, none of which live in the calculator's own data files. Pages
- * are rendered in a real browser rather than fetched, so MediaWiki templates
- * (which supply most infobox values) are expanded before we read them.
- *
- *   node scripts/scrape-wiki.mjs            # full run
- *   node scripts/scrape-wiki.mjs --limit 5  # first 5 skills only, for a smoke test
- *   node scripts/scrape-wiki.mjs --refresh  # ignore the cache and refetch every page
- *
- * Fetched pages are cached under `.wiki-cache/` (gitignored), so iterating on the
- * markdown formatting costs no requests. Delete that directory or pass `--refresh`
- * to pick up wiki edits.
- *
- * Output is deterministic: rerunning overwrites `wiki-data/` in place so the
- * diff shows exactly what changed on the wiki since the last scrape.
- */
+// Usage: node scripts/scrape-wiki.mjs [--limit N] [--refresh]  -> wiki-data/ (pages cached in .wiki-cache/)
+// Pages are rendered in a real browser so MediaWiki templates expand before they are read.
 import { chromium } from 'playwright';
 import { mkdir, writeFile, readFile, rm } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
@@ -27,11 +9,7 @@ const WIKI = 'https://sl2.miraheze.org';
 const OUT = path.resolve('wiki-data');
 const CACHE = path.resolve('.wiki-cache');
 
-/**
- * The wiki sits behind Cloudflare and starts returning 429 challenges if it is
- * hit too hard. A full run is ~1000 pages. Keep concurrency low, space requests
- * out, and cache every page so reruns cost nothing.
- */
+// Cloudflare starts issuing 429 challenges under load and a full run is ~1000 pages.
 const CONCURRENCY = 3;
 const REQUEST_DELAY_MS = 250;
 
@@ -39,26 +17,17 @@ const argLimit = process.argv.indexOf('--limit');
 const LIMIT = argLimit === -1 ? Infinity : Number(process.argv[argLimit + 1]);
 const REFRESH = process.argv.includes('--refresh');
 
-/* ------------------------------------------------------------------ utils */
-
 const slug = (s) =>
   s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 const wikiUrl = (title) => `${WIKI}/wiki/${encodeURIComponent(title.replace(/ /g, '_'))}`;
 
-/** Escapes the characters that would break a value inside a markdown table cell. */
 const cell = (s) => String(s ?? '').replace(/\|/g, '\\|').replace(/\n+/g, ' ').trim();
 
-// Note: article links are filtered by MediaWiki namespace prefix, not by "contains
-// a colon", real skills are titled things like "Affinity: Fairy". The regex lives
-// inside each in-page function, since those are serialised into the browser.
+// Article links are filtered by namespace prefix, not by colon: skills are titled like "Affinity: Fairy".
+// The regex lives in each in-page function because those are serialised into the browser.
 
-/**
- * Runs `worker(item, index, slot)` over `items` with at most `size` in flight.
- * `slot` is stable for the lifetime of a lane, so callers can bind one browser
- * page per lane. Two workers must never share a page or their navigations
- * abort each other.
- */
+// Each lane owns one browser page: two workers sharing a page abort each other's navigations.
 async function pool(items, worker, size = CONCURRENCY) {
   const results = new Array(items.length);
   let cursor = 0;
@@ -73,28 +42,18 @@ async function pool(items, worker, size = CONCURRENCY) {
   return results;
 }
 
-/* --------------------------------------------------- in-page DOM extractor */
-
-/**
- * Runs inside the browser. Returns a normalised view of one wiki article:
- * the infobox as label/value pairs, and the body as an ordered block list.
- *
- * Kept as a single function so it can be passed to page.evaluate() whole.
- */
+// Runs inside the browser; kept as one function so page.evaluate() can serialise it.
 function extractArticle() {
   const root = document.querySelector('#mw-content-text .mw-parser-output');
   if (!root) return null;
 
   const clean = (el) => (el?.textContent ?? '').replace(/\s+/g, ' ').trim();
 
-  // --- infobox -------------------------------------------------------------
   const box = root.querySelector('table.wikia-infobox');
   const infobox = { title: '', fields: [], flags: [], notes: [] };
   if (box) {
     const rows = [...box.querySelectorAll('tr')];
-    // The title cell leads with an icon. When that image is a redlink the wiki
-    // renders its alt text ("File:Gen_active.png") into the cell, so read the
-    // bolded name and only fall back to the whole cell.
+    // A redlinked title icon renders its alt text ("File:Gen_active.png") into the cell, so prefer the bolded name.
     infobox.title =
       clean(rows[0]?.querySelector('b')) ||
       clean(rows[0]).replace(/^File:\S+\.(png|webp|jpg|gif)\s*/i, '');
@@ -122,7 +81,6 @@ function extractArticle() {
     }
   }
 
-  // --- body ----------------------------------------------------------------
   const blocks = [];
   const skip = (el) =>
     el.classList.contains('navbox') ||
@@ -161,7 +119,7 @@ function extractArticle() {
   };
   walk(root);
 
-  // --- skill navbox (class pages carry the authoritative skill roster) ------
+  // Class navboxes carry the authoritative skill roster.
   // Declared inline because this function is serialised into the page.
   const NS = /^(File|Image|Template|Category|Help|Special|User|Talk|Project|MediaWiki|Module|Portal)(_talk)?:/i;
   const navSkills = [];
@@ -176,8 +134,7 @@ function extractArticle() {
       for (const a of td.querySelectorAll('a')) {
         const href = a.getAttribute('href') ?? '';
         if (!href.startsWith('/wiki/') || NS.test(href.slice(6))) continue;
-        // A redlink points at the edit form: the navbox names the skill but the
-        // wiki has no page for it. Record it as a gap rather than trying to load it.
+        // A redlink points at the edit form: the wiki has no page for that skill.
         const missing = href.includes('redlink=1') || a.classList.contains('new');
         const title = decodeURIComponent(href.slice(6).split('?')[0]).replace(/_/g, ' ');
         navSkills.push({ category, name: clean(a), title, missing });
@@ -187,8 +144,6 @@ function extractArticle() {
 
   return { infobox, blocks, navSkills, url: location.href };
 }
-
-/* ------------------------------------------------------- markdown renderer */
 
 function blocksToMarkdown(blocks, baseLevel = 2) {
   const out = [];
@@ -231,14 +186,9 @@ function frontmatter(obj) {
   return lines.join('\n');
 }
 
-/* ------------------------------------------------------------- field reads */
-
 const field = (info, name) => info.fields.find(([k]) => k.toLowerCase() === name.toLowerCase())?.[1] ?? '';
 
-/**
- * Splits the cost note ("3 M | 13/15/17/19/21 FP") into momentum and the
- * per-rank FP list. Ranks are 1-indexed by position.
- */
+// "3 M | 13/15/17/19/21 FP" -> momentum and per-rank FP.
 function parseCost(notes) {
   const joined = notes.join(' | ');
   const momentum = joined.match(/(\d+(?:\s*\/\s*\d+)*)\s*M(?![a-z])/i)?.[1]?.replace(/\s+/g, '') ?? '';
@@ -248,12 +198,7 @@ function parseCost(notes) {
 
 const STATS = ['STR', 'WIL', 'CEL', 'SKI', 'DEF', 'RES', 'VIT', 'LUC', 'FAI', 'GUI', 'SAN', 'APT'];
 
-/**
- * Canonical skill category. The wiki writes the same category several ways
- * ("Utility" / "Utility Skill") and occasionally qualifies it ("Support / Spell",
- * "Passive (Hidden)"); the calculator wants one stable key, so the original text
- * is preserved separately as `typeRaw`.
- */
+// The wiki writes categories several ways ("Utility"/"Utility Skill", "Passive (Hidden)"); the original is kept as `typeRaw`.
 const CANONICAL_TYPES = ['Offensive', 'Defensive', 'Support', 'Utility', 'Passive', 'Innate'];
 function normaliseType(raw) {
   if (!raw) return '';
@@ -261,11 +206,7 @@ function normaliseType(raw) {
   return CANONICAL_TYPES.find((t) => t.toLowerCase() === base.toLowerCase()) ?? base;
 }
 
-/**
- * Runs inside the browser. The Youkai page is one big table per Youkai type,
- * with stat lines and a run of skills packed into single cells; this pulls it
- * apart into per-Youkai records.
- */
+// Runs inside the browser. The Youkai page packs stat lines and skills into single cells per type table.
 function extractYoukai() {
   const root = document.querySelector('#mw-content-text .mw-parser-output');
   if (!root) return null;
@@ -278,8 +219,7 @@ function extractYoukai() {
 
   const groups = [];
   for (const table of root.querySelectorAll('table.wikitable')) {
-    // The type name is the nearest heading before the table. MediaWiki wraps
-    // each heading in a div, so check the element itself and its descendants.
+    // MediaWiki wraps each heading in a div, so check the element and its descendants.
     let type = '';
     let node = table.previousElementSibling ?? table.parentElement;
     while (node && node !== root && !type) {
@@ -331,18 +271,7 @@ function extractYoukai() {
   return { groups, intro, url: location.href };
 }
 
-/* ------------------------------------------------------------- supplements */
-
-/**
- * Skills transcribed by hand from the wiki's page source.
- *
- * These fill in pages the scraper could not read. They are merged only when the
- * scrape did not produce the skill itself, so once a page becomes readable the
- * live values win and the entry here becomes dead weight that can be deleted.
- *
- * The Affinity family is one `Passivebox` template per Youkai race, identical
- * apart from the race name.
- */
+// Hand-transcribed from page source for pages the scraper cannot read; live scrapes always win.
 const YOUKAI_RACES = ['Avian', 'Beast', 'Dragon', 'Fairy', 'Mystic', 'Night', 'Plant'];
 
 const SUPPLEMENTS = YOUKAI_RACES.map((race) => ({
@@ -370,23 +299,12 @@ const SUPPLEMENTS = YOUKAI_RACES.map((race) => ({
   url: `${WIKI}/wiki/Affinity:_${race}`,
 }));
 
-/* ------------------------------------------------------------------ scrape */
-
 async function scrape() {
   await mkdir(CACHE, { recursive: true });
   const STATE = path.join(CACHE, 'cf-state.json');
 
-  /*
-   * Headed, with the automation marker off.
-   *
-   * The wiki sits behind a Cloudflare challenge. Headless Chromium is
-   * fingerprinted and parked on "Just a moment..." indefinitely, which reads as a
-   * permanent 429 even though nothing is actually banned: a headed browser solves
-   * the challenge in seconds. Leave the window alone while it runs; dismissing it
-   * cancels the only thing that can clear the challenge.
-   *
-   * The resulting clearance cookie is persisted so later runs start cleared.
-   */
+  // Cloudflare parks headless Chromium on "Just a moment..." (reads as a permanent 429); a headed browser
+  // clears it in seconds, so do not close the window mid-run. The clearance cookie is persisted.
   const browser = await chromium.launch({
     headless: false,
     args: ['--disable-blink-features=AutomationControlled'],
@@ -401,13 +319,7 @@ async function scrape() {
 
   let blockedUntil = 0;
 
-  /**
-   * Fetches one page and runs `extract` on it, going through the on-disk cache.
-   *
-   * A 429 means Cloudflare has started challenging us; every lane pauses until
-   * `blockedUntil` passes so we back off as a whole rather than each retrying
-   * into the same wall.
-   */
+  // On a 429 every lane pauses until `blockedUntil`, so the run backs off as a whole.
   const fetchPage = async (title, slot, extract, cacheKey) => {
     const file = cachePath(cacheKey);
     if (!REFRESH) {
@@ -425,14 +337,8 @@ async function scrape() {
       if (waitFor > 0) await page.waitForTimeout(waitFor);
       try {
         const response = await page.goto(wikiUrl(title), { waitUntil: 'domcontentloaded', timeout: 60000 });
-        /*
-         * Cloudflare answers with 429 and an interstitial that has no article
-         * markup. That status alone means nothing (the challenge clears itself a
-         * few seconds later in a headed browser), so wait for the title to change
-         * rather than reading the status and giving up. Only a challenge that
-         * never resolves counts as blocked, and even then it is "try later",
-         * never "this page is missing", which would poison the cache.
-         */
+        // A Cloudflare 429 interstitial clears itself in a headed browser, so wait for the title to change.
+        // A challenge that never resolves means "try later", never a cached miss.
         if (/Just a moment|Checking your connection/i.test(await page.title())) {
           const cleared = await page
             .waitForFunction(() => !/Just a moment|Checking your connection/i.test(document.title), { timeout: 40000 })
@@ -464,10 +370,8 @@ async function scrape() {
     throw lastErr ?? new Error(`gave up on ${title}`);
   };
 
-  /** Loads one article on the page owned by `slot`. */
   const visit = (title, slot = 0) => fetchPage(title, slot, extractArticle, `article:${title}`);
 
-  // 1. Class roster, straight off the Classes index.
   console.log('→ class roster');
   const roster = (await fetchPage('Classes', 0, () => {
     const NS = /^(File|Image|Template|Category|Help|Special|User|Talk|Project|MediaWiki|Module|Portal)(_talk)?:/i;
@@ -485,7 +389,6 @@ async function scrape() {
   const KNOWN_BASES = ['Archer', 'Chemist', 'Curate', 'Duelist', 'Mage', 'Bard', 'Martial Artist', 'Rogue', 'Soldier', 'Summoner'];
   const classTitles = roster.filter((r) => r.title !== 'Classes').map((r) => r.title);
 
-  // 2. Class pages.
   console.log(`→ ${classTitles.length} candidate class pages`);
   const classDocs = (
     await pool(classTitles, async (t, _i, slot) => {
@@ -499,9 +402,8 @@ async function scrape() {
   ).filter((d) => d && /Class/i.test(field(d.infobox, 'Type')));
   console.log(`  kept ${classDocs.length} class pages`);
 
-  // 3. Every skill referenced by any class navbox.
-  const skillIndex = new Map(); // title -> {title, name, categories:Set, classes:Set}
-  const gaps = []; // navbox entries the wiki has no page for
+  const skillIndex = new Map();
+  const gaps = [];
   for (const doc of classDocs) {
     const className = doc.infobox.title || doc.title;
     for (const s of doc.navSkills) {
@@ -530,7 +432,6 @@ async function scrape() {
     }
   })).filter(Boolean);
 
-  // Fill in anything the wiki would not serve. Live pages always take priority.
   const scraped = new Set(skillDocs.map((d) => d.title));
   const filled = SUPPLEMENTS.filter((s) => !scraped.has(s.title));
   if (filled.length) {
@@ -538,7 +439,6 @@ async function scrape() {
     skillDocs.push(...filled);
   }
 
-  // 4. Youkai + core mechanics reference pages.
   console.log('→ youkai + mechanics');
   const MECHANICS = [
     'Stat', 'Damage', 'Protection', 'Hit', 'Evade', 'Critical', 'Critical Evade',
@@ -563,8 +463,6 @@ async function scrape() {
   return { classDocs, skillDocs, skillIndex, gaps, youkai, mechDocs: mechDocs.filter(Boolean), KNOWN_BASES };
 }
 
-/* ------------------------------------------------------------------- write */
-
 async function write(rel, body) {
   const file = path.join(OUT, rel);
   await mkdir(path.dirname(file), { recursive: true });
@@ -574,14 +472,7 @@ async function write(rel, body) {
 async function emit(data) {
   const { classDocs, skillDocs, skillIndex, gaps, youkai, mechDocs, KNOWN_BASES } = data;
   const scrapedAt = new Date().toISOString().slice(0, 10);
-  /*
-   * Clear only the directories this script owns.
-   *
-   * Removing all of `wiki-data/` would take other scrapers' output with it:
-   * `scrape-races.mjs` writes `races/` and its own `raw/` files into the same
-   * tree, and a `--limit` smoke run here would silently destroy a full race
-   * scrape.
-   */
+  // Clear only the directories this script owns: scrape-races.mjs writes into the same tree.
   for (const owned of ['classes', 'skills', 'youkai', 'mechanics']) {
     await rm(path.join(OUT, owned), { recursive: true, force: true });
   }
@@ -589,16 +480,13 @@ async function emit(data) {
     await rm(path.join(OUT, owned), { force: true });
   }
 
-  // ---- skills ------------------------------------------------------------
   const skillsByClass = new Map();
   const skillRows = [];
 
   for (const doc of skillDocs) {
     const info = doc.infobox;
     const meta = skillIndex.get(doc.title);
-    // File the skill under every class that can reach it: the one its infobox
-    // names, plus any class whose navbox lists it. The two disagree often enough
-    // that trusting either alone leaves holes in a class roster.
+    // The infobox class and the navbox rosters often disagree, so file the skill under both.
     const owners = [
       ...new Set([
         ...(field(info, 'Class') || '').split(/,\s*/).filter(Boolean),
@@ -705,7 +593,6 @@ async function emit(data) {
     await write(`skills/${slug(cls)}.md`, body);
   }
 
-  // Master skill index.
   skillRows.sort((a, b) => a.class.localeCompare(b.class) || byCategory(a, b));
   await write(
     'skills/_index.md',
@@ -729,7 +616,6 @@ async function emit(data) {
     ].join('\n'),
   );
 
-  // ---- classes -----------------------------------------------------------
   const classRows = [];
   for (const doc of classDocs) {
     const info = doc.infobox;
@@ -811,7 +697,6 @@ async function emit(data) {
     ].join('\n'),
   );
 
-  // ---- youkai ------------------------------------------------------------
   const allYoukai = [];
   for (const group of youkai.groups) {
     const body = [
@@ -888,7 +773,6 @@ async function emit(data) {
   );
   await write('raw/youkai.json', JSON.stringify(allYoukai, null, 2));
 
-  // ---- coverage / known gaps --------------------------------------------
   const gapsByClass = new Map();
   for (const g of gaps) {
     if (!gapsByClass.has(g.class)) gapsByClass.set(g.class, []);
@@ -934,7 +818,6 @@ async function emit(data) {
     ].join('\n'),
   );
 
-  // ---- mechanics ---------------------------------------------------------
   for (const doc of mechDocs) {
     await write(
       `mechanics/${slug(doc.title)}.md`,
@@ -952,7 +835,6 @@ async function emit(data) {
     );
   }
 
-  // ---- machine-readable sidecar -----------------------------------------
   await write(
     'raw/skills.json',
     JSON.stringify(
@@ -966,7 +848,6 @@ async function emit(data) {
   );
   await write('raw/classes.json', JSON.stringify(classRows, null, 2));
 
-  // ---- README ------------------------------------------------------------
   await write(
     'README.md',
     [

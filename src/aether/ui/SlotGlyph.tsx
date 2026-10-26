@@ -1,13 +1,6 @@
 import type { SlotId } from '../state/equipment';
 
-/**
- * Slot marks, drawn as paths.
- *
- * These were emoji first (⚔ 🛡 ⬢). They rendered as tofu: the bundled Barlow and
- * JetBrains faces carry no pictographs, and whether the system fallback has them
- * is not something the page can rely on. Inline SVG always draws, scales cleanly,
- * and inherits the slot's gold through `currentColor`.
- */
+/** Inline SVG, since emoji render as tofu: the bundled faces carry no pictographs. */
 const PATHS: Record<SlotId, JSX.Element> = {
   primaryWeapon: (
     <>

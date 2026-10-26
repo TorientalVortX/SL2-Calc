@@ -11,20 +11,6 @@ import { STAT_KEYS, STAT_NAMES } from '../state/build';
 import { DEFAULT_WORLD } from '../../domain/upgradeCaps';
 import type { Builder } from '../state/useBuilder';
 
-/**
- * The overrides that are not choices.
- *
- * Everything here is already part of a build and already feeds `evaluateBuild`:
- * Legend Extend, base-stat corrections, stamps, the vitals fudge factors and the
- * elemental adjusters. The sheet used to hold none of them, which meant a build
- * imported from the original calculator could read differently here with nothing
- * on screen to explain why. They live in one dialog rather than on the sheet
- * because none of them is part of ordinary play: you set them once, from a
- * character the game has already told you about.
- *
- * Sections rather than one long scroll, so the rail's element rows can open the
- * dialog directly on the adjusters they point at.
- */
 export type AdvancedSection = 'legend' | 'base' | 'vitals' | 'elements';
 
 const SECTIONS: Array<{ id: AdvancedSection; label: string }> = [
@@ -89,8 +75,7 @@ export function AdvancedDialog({ builder, section: initial, onClose }: AdvancedD
           </p>
           <div className="le-grid">
             {Object.keys(LEGEND_EXTEND).map(key => {
-              // Undefined until first toggled, and React drops an attribute set to
-              // undefined, so aria-checked must be coerced or it never ships.
+              // React drops an attribute set to undefined, so aria-checked must be coerced.
               const on = Boolean(build.legendExtend[key]);
               return (
                 <button
@@ -233,11 +218,7 @@ export function AdvancedDialog({ builder, section: initial, onClose }: AdvancedD
             />
           </div>
 
-          {/*
-            * G6 and Korvara are separate worlds with separate content and, in
-            * places, separate rules. The calculator reads this for one thing so
-            * far: G6 raises every equipment upgrade ceiling by one.
-            */}
+          {/* G6 raises every equipment upgrade ceiling by one; the only rule the calculator reads from this so far. */}
           <div className="section">
             <SectionHead>World</SectionHead>
             <p className="hint" style={{ padding: '0 2px 8px' }}>
@@ -307,7 +288,6 @@ interface ElementAdjusterProps {
   onResistance: (value: number) => void;
 }
 
-/** One element's two adjusters, signed so a penalty reads as a penalty. */
 function ElementAdjuster({ element, attack, resistance, onAttack, onResistance }: ElementAdjusterProps) {
   const colour = elementInk(element);
   return (
@@ -326,13 +306,6 @@ function ElementAdjuster({ element, attack, resistance, onAttack, onResistance }
   );
 }
 
-/**
- * A signed −/value/+ control.
- *
- * Separate from `Stepper`, which is for bounded ranks and disables at its ends;
- * an adjustment runs either way from zero and its sign is the point, so the value
- * is typed as well as stepped.
- */
 function Signed({
   value,
   onChange,
