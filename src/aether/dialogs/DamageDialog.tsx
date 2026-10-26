@@ -29,14 +29,15 @@ export function DamageDialog({ builder, onClose }: { builder: Builder; onClose: 
   const [hit, setHit] = useState<IncomingHit>(NO_HIT);
   const set = (patch: Partial<IncomingHit>) => setHit(current => ({ ...current, ...patch }));
 
-  const { steps, taken } = incomingDamage(hit, evaluation);
+  const { steps, instances, taken } = incomingDamage(hit, evaluation);
   const maxHP = evaluation.derived.maxHP;
-  const hitsToDown = taken > 0 ? Math.ceil(maxHP / taken) : null;
+  const armorName = hit.damageClass === 'magical' ? 'Magic Armor' : 'Armor';
+  const attacksToDown = taken > 0 ? Math.ceil(maxHP / taken) : null;
 
   return (
     <Modal title="Incoming damage" onClose={onClose}>
       <div className="grid-fields">
-        <NumberField label="Damage" value={hit.amount} max={99999} onChange={amount => set({ amount })} />
+        <NumberField label="Damage per hit" value={hit.amount} max={99999} onChange={amount => set({ amount })} />
         <SelectField
           label="Class"
           value={hit.damageClass}
@@ -70,6 +71,10 @@ export function DamageDialog({ builder, onClose }: { builder: Builder; onClose: 
         ) : null}
         <Toggle on={hit.armorIgnoring} onChange={armorIgnoring => set({ armorIgnoring })}>Ignores Armor</Toggle>
         <span className="inline" style={{ gap: 6 }}>
+          <span className="field__label">Hits</span>
+          <Stepper label="Hits" value={hit.hits} min={1} max={20} onChange={hits => set({ hits })} />
+        </span>
+        <span className="inline" style={{ gap: 6 }}>
           <span className="field__label">Guard Momentum</span>
           <Stepper label="Guard Momentum" value={hit.guardMomentum} min={0} max={10} onChange={guardMomentum => set({ guardMomentum })} />
         </span>
@@ -82,8 +87,8 @@ export function DamageDialog({ builder, onClose }: { builder: Builder; onClose: 
           <span className="figure__note">{maxHP - taken} of {maxHP} HP left</span>
         </div>
         <div className="figure figure--static">
-          <span className="eyebrow">Hits to down</span>
-          <span className="figure__value">{hitsToDown ?? '–'}</span>
+          <span className="eyebrow">Attacks to down</span>
+          <span className="figure__value">{attacksToDown ?? '–'}</span>
           {hit.guardMomentum > 0 ? (
             <span className="figure__note">Evade while guarding: {guardedEvade(evaluation.derived.evade, hit.guardMomentum)}</span>
           ) : null}
@@ -98,8 +103,14 @@ export function DamageDialog({ builder, onClose }: { builder: Builder; onClose: 
             <span>{Math.round(step.total * 10) / 10}</span>
           </div>
         ))}
+        {instances.length > 1 ? instances.map((instance, index) => (
+          <div className="provenance__row" key={index}>
+            <span>Hit {index + 1} <span className="dim">{instance.absorbed ? `−${Math.round(instance.absorbed * 10) / 10} ${armorName}` : `${armorName} spent`}</span></span>
+            <span>{instance.taken}</span>
+          </div>
+        )) : null}
         <p className="hint" style={{ marginTop: 8 }}>
-          Percentage reductions multiply together, then Armor or Magic Armor is subtracted. Only the final number is rounded down.
+          Percentage reductions multiply together, then Armor or Magic Armor is subtracted. Armor is one pool per attack, used up hit by hit. Each hit is rounded down.
         </p>
       </div>
     </Modal>

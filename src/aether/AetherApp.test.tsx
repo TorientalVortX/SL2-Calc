@@ -88,7 +88,7 @@ describe('incoming damage', () => {
 
     await user.click(screen.getByRole('button', { name: 'Simulate' }));
     const card = screen.getByRole('dialog', { name: /Incoming damage/ });
-    const damage = within(card).getByRole('spinbutton', { name: 'Damage' });
+    const damage = within(card).getByRole('spinbutton', { name: 'Damage per hit' });
     await user.clear(damage);
     await user.type(damage, '400');
     const taken = () => within(card).getByText('Taken').parentElement!.querySelector('.figure__value')!.textContent;

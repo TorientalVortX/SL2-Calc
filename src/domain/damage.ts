@@ -5,7 +5,9 @@ export type DamageClass = 'physical' | 'magical' | 'protection-ignoring';
 export type DamageType = ElementKey | PhysicalKey | null;
 
 export interface IncomingHit {
+  /** Damage per hit; a multi-hit attack has `hits` instances of it. */
   amount: number;
+  hits: number;
   damageClass: DamageClass;
   type: DamageType;
   critical: boolean;
@@ -23,8 +25,15 @@ export interface DamageStep {
   total: number;
 }
 
+export interface DamageInstance {
+  /** Armor or Magic Armor spent on this hit from the attack's pool. */
+  absorbed: number;
+  taken: number;
+}
+
 export interface IncomingDamage {
   steps: DamageStep[];
+  instances: DamageInstance[];
   taken: number;
 }
 
@@ -32,7 +41,7 @@ export interface IncomingDamage {
 export const GUARD_PERCENT_PER_MOMENTUM = 10;
 
 export const NO_HIT: IncomingHit = {
-  amount: 100, damageClass: 'physical', type: null, critical: false, critDamagePercent: 150,
+  amount: 100, hits: 1, damageClass: 'physical', type: null, critical: false, critDamagePercent: 150,
   armorIgnoring: false, guardMomentum: 0, otherReductionPercent: 0,
 };
 
@@ -46,6 +55,7 @@ function isPhysicalType(type: DamageType): type is PhysicalKey {
 
 /** Per the wiki Protection page: percentage reductions multiply, then flat Armor/Magic Armor is subtracted. */
 export function incomingDamage(hit: IncomingHit, defender: Defenses): IncomingDamage {
+  let armorPool = 0;
   const steps: DamageStep[] = [{ label: 'Incoming', total: hit.amount }];
   let total = hit.amount;
   const multiply = (label: string, percent: number) => {
@@ -69,16 +79,22 @@ export function incomingDamage(hit: IncomingHit, defender: Defenses): IncomingDa
     }
     multiply('Guard', hit.guardMomentum * GUARD_PERCENT_PER_MOMENTUM);
     multiply('Other reductions', hit.otherReductionPercent);
-    if (!hit.armorIgnoring) {
-      const flat = physical ? defender.derived.armor : defender.derived.magicArmor;
-      if (flat) {
-        total -= flat;
-        steps.push({ label: physical ? 'Armor' : 'Magic Armor', flat, total });
-      }
-    }
+    if (!hit.armorIgnoring) armorPool = Math.max(0, physical ? defender.derived.armor : defender.derived.magicArmor);
   }
 
-  return { steps, taken: Math.max(0, Math.floor(total)) };
+  // Per the developer: Armor is one pool per attack, spent on each hit in turn (20 Armor vs 2×15 takes 0, then 10).
+  const instances: DamageInstance[] = [];
+  for (let index = 0; index < Math.max(1, Math.floor(hit.hits)); index++) {
+    const absorbed = Math.min(armorPool, total);
+    armorPool -= absorbed;
+    instances.push({ absorbed, taken: Math.max(0, Math.floor(total - absorbed)) });
+  }
+  if (instances.length === 1 && instances[0].absorbed) {
+    const label = hit.damageClass === 'magical' ? 'Magic Armor' : 'Armor';
+    steps.push({ label, flat: instances[0].absorbed, total: total - instances[0].absorbed });
+  }
+
+  return { steps, instances, taken: instances.reduce((sum, instance) => sum + instance.taken, 0) };
 }
 
 export function guardedEvade(evade: number, guardMomentum: number): number {

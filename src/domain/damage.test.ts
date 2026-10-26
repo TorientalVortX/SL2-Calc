@@ -44,6 +44,17 @@ describe('incoming damage', () => {
     expect(incomingDamage({ ...NO_HIT, amount: 200, damageClass: 'protection-ignoring', type: 'Fire', guardMomentum: 3 }, defender).taken).toBe(200);
   });
 
+  it('spends Armor as one pool across the hits of a multi-hit attack', () => {
+    const bare = { ...defender, derived: { ...defender.derived, physicalDefense: 0, armor: 20 } };
+    // The developer's example: 20 Armor against 30 damage over two hits takes 0, then 10.
+    const result = incomingDamage({ ...NO_HIT, amount: 15, hits: 2 }, bare);
+    expect(result.instances).toEqual([{ absorbed: 15, taken: 0 }, { absorbed: 5, taken: 10 }]);
+    expect(result.taken).toBe(10);
+    // Once the pool is spent, later hits land in full.
+    expect(incomingDamage({ ...NO_HIT, amount: 15, hits: 3 }, bare).instances.map(hit => hit.taken)).toEqual([0, 10, 15]);
+    expect(incomingDamage({ ...NO_HIT, amount: 15, hits: 2, armorIgnoring: true }, bare).taken).toBe(30);
+  });
+
   it('never goes below zero', () => {
     expect(incomingDamage({ ...NO_HIT, amount: 30 }, defender).taken).toBe(0);
     expect(incomingDamage({ ...NO_HIT, amount: 500, guardMomentum: 12 }, defender).taken).toBe(0);
