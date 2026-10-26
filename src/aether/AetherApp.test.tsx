@@ -2,6 +2,9 @@
 import { describe, expect, it, vi } from 'vitest';
 import { cleanup, screen, within } from '@testing-library/react';
 import { importBuild, renderApp, showcaseBuild } from './testing';
+import { parseBuildFile } from '../domain/buildPersistence';
+import { evaluateBuild } from '../domain/buildEvaluation';
+import { NO_HIT, incomingDamage } from '../domain/damage';
 
 // Only exists inside a Vite build with the PWA plugin.
 vi.mock('virtual:pwa-register/react', () => ({
@@ -73,5 +76,26 @@ describe('share links', () => {
     expect((screen.getByRole('textbox', { name: 'Build name' }) as HTMLInputElement).value).toBe(showcaseName);
     expect(window.location.hash).toBe('');
     expect(screen.getByRole('button', { name: /Main Hand/ }).textContent).toContain('Dynaxis');
+  });
+});
+
+describe('incoming damage', () => {
+  it('shows what the current build takes from a hit, with Guard', async () => {
+    const { user } = renderApp();
+    const dialog = await importBuild(user, showcaseBuild);
+    await user.click(within(dialog).getByRole('button', { name: 'Close Esc' }));
+    const evaluation = evaluateBuild(parseBuildFile(showcaseBuild).build);
+
+    await user.click(screen.getByRole('button', { name: 'Simulate' }));
+    const card = screen.getByRole('dialog', { name: /Incoming damage/ });
+    const damage = within(card).getByRole('spinbutton', { name: 'Damage' });
+    await user.clear(damage);
+    await user.type(damage, '400');
+    const taken = () => within(card).getByText('Taken').parentElement!.querySelector('.figure__value')!.textContent;
+    expect(taken()).toBe(String(incomingDamage({ ...NO_HIT, amount: 400 }, evaluation).taken));
+
+    await user.click(within(card).getByRole('button', { name: 'Guard Momentum up' }));
+    await user.click(within(card).getByRole('button', { name: 'Guard Momentum up' }));
+    expect(taken()).toBe(String(incomingDamage({ ...NO_HIT, amount: 400, guardMomentum: 2 }, evaluation).taken));
   });
 });
