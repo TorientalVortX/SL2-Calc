@@ -84,15 +84,14 @@ These conflicts can change which candidates the deterministic search explores an
 - Kensei: both sources support Sword, but skill-specific Katana restrictions must be recorded separately.
 - Black Knight: both sources support Sword/Spear/Axe and Heavy Armor is central to several mechanics.
 
-Until verified, the optimizer should report these as data conflicts rather than use the community list to bypass canonical local restrictions.
 
-## Priority classes represented by current profile benchmarks
+## Priority classes
 
 ### Ghost
 
 Role evidence: low-HP bruiser, Blood Magic, Claret Call pressure, mobility/control, and conditional survival. Community [Ghost page](https://sl2.fandom.com/wiki/Ghost). Confidence: `community`.
 
-Required optimizer mechanics:
+Mechanics still to model:
 
 - HP-percentage costs for every Blood Magic/defensive action.
 - Rising Game thresholds, exact affected stats, cap, and whether bonus stats can be suppressed.

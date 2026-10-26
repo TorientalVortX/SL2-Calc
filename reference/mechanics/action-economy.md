@@ -64,22 +64,6 @@ Source: community [Momentum page](https://sl2.fandom.com/wiki/Momentum). Confide
 - Exploiting an elemental weakness can grant +1M; triggering enemy resistance can remove 1M. Exact per-action/per-source limits require verification.
 - Stun, Knockdown, racial effects, class skills, and field effects can change available Momentum.
 
-## Optimizer implications
-
-Until exact skill records exist, rotation quality must be reported separately from stat quality.
-
-For each candidate, eventually evaluate:
-
-1. Setup cost before the build becomes effective.
-2. Damage, healing, control, or protection delivered per Momentum.
-3. FP and HP spent per round, including repeat-action multipliers.
-4. Cooldown gaps and the actions available during them.
-5. Probability of receiving critical/weakness Momentum under the expected opponent.
-6. Movement Momentum and whether the required position is realistically reachable.
-7. Whether the rotation is still functional when its primary condition, status, summon, or field tile fails.
-
-Do not treat a high one-action damage number as the best rotation when it consumes setup, a whole round, unsustainable FP, or a limited class resource.
-
 ## Known class-resource examples
 
 These are routing evidence, not full rotation formulas.
@@ -92,7 +76,7 @@ These are routing evidence, not full rotation formulas.
 - Spellthief: copied spells reportedly have minimum cooldowns and a limited equipped selection; exact spell inventory is part of the build, not a generic class bonus. Source: community [Spellthief page](https://sl2.fandom.com/wiki/Spellthief). Confidence: `community`.
 - Bonder: Youkai count, bond/friendship, summon/install state, and Youkai training determine whether class passives function. Source: community [Bonder page](https://sl2.fandom.com/wiki/Bonder). Confidence: `community`.
 
-## Required per-skill record before exact rotation optimization
+## Per-skill record needed for exact rotations
 
 - Rank and skill-point cost.
 - Main-class-only behavior and inheritance rules.

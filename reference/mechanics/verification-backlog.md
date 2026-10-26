@@ -1,6 +1,6 @@
 # Controlled-test and data verification backlog
 
-Research snapshot: 2026-08-04. This is the highest-value queue for turning current evidence into reliable optimizer math.
+Research snapshot: 2026-08-04. This is the highest-value queue for turning current evidence into reliable calculator math.
 
 ## Priority 0: establish current version
 

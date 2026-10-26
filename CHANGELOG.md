@@ -124,4 +124,4 @@ open up.
 
 - Source-level editorial pass across 155 files: prose and comment style,
   removal of comments that only restated the code, and deletion of unused
-  decorative CSS. No logic changed. See [`review.md`](review.md).
+  decorative CSS. No logic changed.

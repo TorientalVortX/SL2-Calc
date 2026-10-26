@@ -6,9 +6,9 @@ Research snapshot: 2026-08-04. This document distinguishes tested calculator beh
 
 1. Current in-game descriptions and controlled tests: authoritative when version and conditions are recorded.
 2. Official developer announcements: authoritative for the version they describe.
-3. Calculator code and validated JSON: authoritative for what the optimizer currently computes.
+3. Calculator code and validated JSON: authoritative for what the calculator currently computes.
 4. Current community wiki: useful evidence, but version-sensitive and sometimes internally inconsistent.
-5. Historical files under `reference/` and `SL2BuildInfo.docx`: planning evidence only.
+5. Historical files under `reference/`: planning evidence only.
 
 ## Allocation and stat pipeline
 
@@ -21,7 +21,7 @@ Source: `src/domain/buildEvaluation.ts`, `src/domain/calculations.ts`, and `src/
 - Each complete 6 scaled APT grants +1 bonus stat to all 11 non-APT stats.
 - APT-derived stats are bonus stats, not base stats. The local stat record specifically warns that they do not satisfy base-stat trait requirements and that effects such as Burn can negate APT-derived DEF.
 
-The current diminishing-return implementation uses a soft cap of `racial base + 40 + Dragon bonus`. Above the soft cap, each successive three-point band has multipliers `0.90, 0.82, 0.74, 0.66, ...`, with a floor of `0.10`. The optimizer must evaluate the exact function and must not approximate it with a flat cost.
+The current diminishing-return implementation uses a soft cap of `racial base + 40 + Dragon bonus`. Above the soft cap, each successive three-point band has multipliers `0.90, 0.82, 0.74, 0.66, ...`, with a floor of `0.10`.
 
 APT policy:
 
@@ -145,7 +145,7 @@ Do not invent numerical output for:
 - Complete incoming-damage order, resistance rounding, Evasion, parries, guards, and barriers.
 - Off-hand, hands, footwear, accessories, item belt, materials on armor, set bonuses, and most item effects.
 - Traits, prayer, skill-point allocation, equipped-skill costs, and casting-tool legality beyond configured data.
-- Talent effects beyond the scraped catalog (`01-core-mechanics/talents-catalog.md`): its weapon-access unlocks and per-rank stat modifiers are usable, but conditional modifiers, qualitative subtalents, and talent/skill interactions are not.
+- Talent effects beyond the scraped catalog (`talents-catalog.md`): its weapon-access unlocks and per-rank stat modifiers are usable, but conditional modifiers, qualitative subtalents, and talent/skill interactions are not.
 - Initiative/turn-order ties, field objects, movement/pathing, team positioning, and opponent AI.
 - Buff/debuff uptime or conditional effects not explicitly verified for the target rotation.
 

@@ -17,19 +17,13 @@ Research snapshot: 2026-08-04.
 - Coverage: class descriptions/tips, weapon/armor lists, and an older calculations summary.
 - Confidence: `uncertain` for current game behavior. The directory's own README says the files are non-authoritative, incomplete, or outdated.
 
-### Personal build document
-
-- Location: `SL2BuildInfo.docx` and its normalized planning contract in `docs/BUILD_GENERATOR_GUIDELINES.md`.
-- Coverage: community build targets and planning practices.
-- Confidence: `community`; targets are conditional evidence, not universal formulas.
-
 ## Public sources
 
 ### Official game website
 
 - [Sigrogana Legend 2 official site](https://neus-projects.net/)
 - Confirms ongoing development, tactical turn-based combat, critical/weakness action economy, the dual-class system, promoted classes, talents, and traits.
-- Confidence: `verified` for high-level system existence; it does not provide enough exact formulas for the optimizer.
+- Confidence: `verified` for high-level system existence; it does not provide enough exact formulas for the calculator.
 
 ### Official forum announcement
 

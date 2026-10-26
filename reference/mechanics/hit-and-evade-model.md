@@ -169,20 +169,9 @@ Max HP and Max FP are floored at zero for the same reason — a large enough deb
 manual override drove Max HP to about −3900, and every readout downstream reported a
 nonsense quantity rather than a very fragile character.
 
-### Positioning in the optimizer
-
-The accuracy objective scores `hitTiers.base` — the Hit a build can always count on
-— plus a credit for `hitTiers.flank2 - base`, scaled against 35 (a GUI-heavy build's
-Flanking stat) and weighted at 0.15. Flanking depends on where the character is
-standing, so at that weight it ranks a flanking build above an otherwise-equal one
-without ever paying to give up guaranteed Hit. Same reasoning as
-`INSTALL_UPSIDE_WEIGHT`.
-
 ### Still outstanding
 
-- The multiplier and conditional channels are inputs on the Hit-chance screen
-  only; nothing derives them from the build, so Guard, Thick Brush, Close Shot and
-  Enemy Evaluation have to be entered by hand.
-- The Hit-chance screen lives in the legacy shell. Aether has the provenance and
-  tier display but no hit-chance panel yet; both shells get the cap and SWA
-  corrections through `evaluateBuild`.
+- There is no Hit-chance panel since the classic calculator was retired. Aether
+  shows the provenance and tier display; the multiplier and conditional channels
+  (Guard, Thick Brush, Close Shot, Enemy Evaluation) are not derived from the build
+  and currently have no input.

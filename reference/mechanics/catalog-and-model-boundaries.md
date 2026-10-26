@@ -18,8 +18,6 @@ Descriptions/effects remain version-sensitive even when base values are locally 
 
 Devil's Tome is not a general-purpose high-stat Tome. Its canonical `Devilbark Material` passive says that spells outside the Nerifian domain cannot be cast. This conflicts directly with flexible and multi-element spell plans, including the normal reason to value Shapeshifter's elemental breadth. Confidence: `calculator-verified` from `src/data/content/weapons-tomes.json`, corroborated by `reference/weaponInfo/Tomes.txt`.
 
-Optimizer policy: exclude Devil's Tome from automatic weapon generation unless the user explicitly requests Devil's Tome or a Nerifian plan. An exact user weapon lock remains a hard constraint, but the result must report the casting restriction. Its Power, Hit, Critical, Hellfire damage, and WIL scaling cannot compensate for an incompatible spell-access requirement.
-
 ## Weapon evaluation
 
 Maintainer correction, 2026-10-19: **Coastal Squall's spell-power bonuses do not apply to Youkai spells.** Do not credit these bonuses when selecting a weapon for damaging Youkai Evokes. A direct increase to the actual user's elemental ATK is a distinct effect and feeds their supplied 250% elemental-ATK formula normally. Confidence: direct player confirmation for Coastal Squall's exclusion.
@@ -40,13 +38,6 @@ The community [Armor page](https://sl2.fandom.com/wiki/Armor) describes:
 - torso Weight as Battle Weight consumption, with negative torso Weight treated as zero.
 
 Confidence: `community`; local base records are `calculator-verified`.
-
-Optimizer policy:
-
-- Always evaluate Armor, Magic Armor, Evade, Weight, stats, resistances, and conditions together.
-- Do not count an item condition in the reliable scenario unless its trigger and expected uptime are supplied.
-- Do not rank a high-Evade torso as universally superior to flat protection; armor type changes Evasion and class interactions.
-- Respect class/skill requirements for Unarmored, Light, or Heavy Armor.
 
 ## Battle Weight and missing slots
 

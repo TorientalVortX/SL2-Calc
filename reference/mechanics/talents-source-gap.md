@@ -7,7 +7,7 @@ This gap is **closed**. The wiki's [Talents page](https://sl2.miraheze.org/wiki/
 ## What replaced it
 
 - `scripts/scrape-talents.mjs` pulls the page's wikitext through the MediaWiki API into `wiki-data/raw/talents.json` and `wiki-data/mechanics/talents.md`.
-- `scripts/build-talent-data.mjs` derives `src/data/content/talents.json` and the catalog at `01-core-mechanics/talents-catalog.md`.
+- `scripts/build-talent-data.mjs` derives `src/data/content/talents.json` and the catalog at `reference/mechanics/talents-catalog.md`.
 - `src/data/talents.ts` exposes the allocation helpers: weapon-rarity unlocks, per-stat modifier totals, and SP spending.
 
 ## What is now safe to use

@@ -1,11 +1,11 @@
 // Usage: node scripts/build-talent-data.mjs [--report]
-// -> src/data/content/talents.json and optimizer-knowledge/01-core-mechanics/talents-catalog.md
+// -> src/data/content/talents.json and reference/mechanics/talents-catalog.md
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 const IN = path.resolve('wiki-data/raw/talents.json');
 const OUT = path.resolve('src/data/content/talents.json');
-const KNOWLEDGE_OUT = path.resolve('optimizer-knowledge/01-core-mechanics/talents-catalog.md');
+const KNOWLEDGE_OUT = path.resolve('reference/mechanics/talents-catalog.md');
 const REPORT = process.argv.includes('--report');
 
 const raw = JSON.parse(await readFile(IN, 'utf8'));

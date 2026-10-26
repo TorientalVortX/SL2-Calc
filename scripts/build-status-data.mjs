@@ -1,12 +1,12 @@
 // Usage: node scripts/build-status-data.mjs [--report]
-// -> src/data/content/statuses.json and optimizer-knowledge/01-core-mechanics/status-effects-catalog.md
+// -> src/data/content/statuses.json and reference/mechanics/status-effects-catalog.md
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 const IN = path.resolve('wiki-data/raw/statuses.json');
 const RACES_IN = path.resolve('src/data/content/races.json');
 const OUT = path.resolve('src/data/content/statuses.json');
-const KNOWLEDGE_OUT = path.resolve('optimizer-knowledge/01-core-mechanics/status-effects-catalog.md');
+const KNOWLEDGE_OUT = path.resolve('reference/mechanics/status-effects-catalog.md');
 const REPORT = process.argv.includes('--report');
 
 const raw = JSON.parse(await readFile(IN, 'utf8'));
@@ -95,7 +95,7 @@ const knowledge = [
 await writeFile(KNOWLEDGE_OUT, `${knowledge}\n`, 'utf8');
 
 console.log(`Wrote ${statuses.length} statuses across ${categories.length} categories to src/data/content/statuses.json`);
-console.log(`Wrote optimizer-knowledge/01-core-mechanics/status-effects-catalog.md`);
+console.log(`Wrote reference/mechanics/status-effects-catalog.md`);
 if (REPORT) {
   for (const status of withImmunities) {
     console.log(`  immunity: ${status.name} <- ${[...status.immuneRaces, ...(status.otherImmune ?? [])].join(', ')}`);

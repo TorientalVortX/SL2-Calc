@@ -54,7 +54,7 @@ Storage keys are `sl2:aether:draft:v1`, `sl2:aether:saves:v1`, `sl2:aether:prefs
 Create a frontend-only Pages project with these settings:
 
 - Production branch: `main`
-- Preview branches: `Dev-Preview`, `feature/*`, and `fix/*`
+- Preview branches: `release/*`, `feature/*`, and `fix/*`
 - Build command: `npm run build`
 - Output directory: `dist`
 - Node version: 22
