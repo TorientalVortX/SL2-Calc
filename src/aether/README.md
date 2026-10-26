@@ -6,7 +6,7 @@ classic calculator was retired in 0.9.x and `/classic` now redirects here.
 
 ```bash
 npm run dev:aether     # http://127.0.0.1:5173/
-npm run build          # emits dist/index.html and the dist/aether.html redirect
+npm run build          # emits dist/
 ```
 
 ## Why it reuses the domain layer

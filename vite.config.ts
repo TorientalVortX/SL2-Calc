@@ -1,4 +1,3 @@
-import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
@@ -7,18 +6,7 @@ import packageJson from './package.json'
 
 const cacheNamespace = `sl2-${packageJson.version}-${gameData.dataVersion}`
 
-const entry = (file: string) => fileURLToPath(new URL(file, import.meta.url))
-
 export default defineConfig({
-  build: {
-    // `aether.html` redirects bookmarks from when the Codex lived there.
-    rollupOptions: {
-      input: {
-        main: entry('index.html'),
-        aether: entry('aether.html'),
-      },
-    },
-  },
   plugins: [
     react(),
     VitePWA({

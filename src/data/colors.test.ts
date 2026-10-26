@@ -30,15 +30,6 @@ function contrast(a: string, b: string): number {
   return (high + 0.05) / (low + 0.05);
 }
 
-/**
- * The one stat whose ink is below 4.5:1 on the dark panel, and was before the
- * light theme existed: RES / Dark's `#7c3aed` sits at about 3.1:1 there. It
- * clears the 3:1 that its gem needs as a graphic but not the 4.5:1 its name
- * needs as text, and correcting it would move a colour the whole calculator
- * front end also paints with. Recorded here rather than quietly excluded.
- */
-const KNOWN_BELOW_AA: Record<Surface, StatKey[]> = { dark: ['res'], light: [] };
-
 const SURFACES: Surface[] = ['dark', 'light'];
 const STATS = Object.keys(STAT_COLORS) as StatKey[];
 
@@ -48,7 +39,6 @@ describe('the game palette, re-cut per surface', () => {
     const vars = inkVars(surface);
     const short: string[] = [];
     for (const stat of STATS) {
-      if (KNOWN_BELOW_AA[surface].includes(stat)) continue;
       const ink = vars[`--ink-stat-${stat}`];
       if (contrast(ink, ground) < 4.5) {
         short.push(`${stat} (${ink}) at ${contrast(ink, ground).toFixed(2)}:1`);

@@ -17,22 +17,8 @@
     <meta name="twitter:card" content="summary_large_image">
     <link rel="canonical" href="https://sl2-calc.pages.dev/">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <!--
-      The theme, put on the document before anything is painted.
-
-      This has to run here rather than in the app: the stylesheet below decides
-      the page's colour the moment it parses, which is long before the module
-      bundle executes, so a reader on the light theme would watch the sheet open
-      dark and then flip. The key is the one `state/theme.ts` writes; the two
-      have to stay in step, and the version suffix is what makes a change safe.
-    -->
-    <script>
-      try {
-        if (localStorage.getItem('sl2:aether:theme:v1') === 'light') {
-          document.documentElement.setAttribute('data-theme', 'light');
-        }
-      } catch (error) { /* private browsing; the dark default stands */ }
-    </script>
+    <!-- Sets the theme before first paint. External because the CSP (script-src 'self') blocks inline scripts. -->
+    <script src="/theme-init.js"></script>
     <!-- Painted before any stylesheet loads. Without it the first frame of a
          cold load is white, which is a poor way to open a dark cinematic. -->
     <style>

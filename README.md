@@ -66,7 +66,7 @@ Enable **Web Analytics** in the Pages dashboard under Analytics & Logs. The Cont
 
 `public/_headers` defines immutable caching for fingerprinted assets, revalidation for the application shell/service worker, clickjacking protection, a restrictive permissions policy, and the production CSP. Verify these response headers after each Cloudflare configuration change.
 
-`public/_redirects` sends the retired `/classic` URLs to `/`, keeping any `#build=` fragment. `/aether.html` is a static redirect page for bookmarks from when the Codex lived there.
+`public/_redirects` sends the retired `/classic` URLs and the old `/aether.html` address to `/`, keeping any `#build=` fragment.
 
 ## Offline and update behavior
 
