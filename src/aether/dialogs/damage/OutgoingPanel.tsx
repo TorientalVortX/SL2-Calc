@@ -5,7 +5,7 @@ import { ELEMENT_KEYS } from '../../../domain/buildEvaluation';
 import { NO_HIT, type DamageClass, type DamageType, type IncomingHit } from '../../../domain/damage';
 import { findWeaponByName } from '../../../domain/equipment';
 import {
-  OPEN_TARGET, attackBase, defaultDamage, expectedOutgoing, outgoingDamage, powerMultiplier,
+  OPEN_TARGET, attackBase, critDamageFor, defaultDamage, expectedOutgoing, outgoingDamage, powerMultiplier,
   type FlatBonus, type Target,
 } from '../../../domain/outgoing';
 import { SKILLS, mergeSkillRanks, skillById } from '../../../domain/skills';
@@ -35,9 +35,9 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
   const weaponType = asDamageType(findWeaponByName(build.equipment.primaryWeapon?.selectedWeaponName)?.damageType);
   const ranks = useMemo(() => mergeSkillRanks(build.skillRanks), [build.skillRanks]);
   const attacks = useMemo(
-    () => SKILLS.filter(skill => (ranks[skill.id] ?? 0) > 0
-      && skill.scaling?.some(term => term.source === 'weapon' || term.source === 'element')
-      && skillFormulaBreakdown(skill, ranks[skill.id], evaluation)),
+    () => SKILLS.filter(skill => (ranks[skill.id] ?? 0) > 0 && (skill.basicAttack
+      || (skill.scaling?.some(term => term.source === 'weapon' || term.source === 'element')
+        && skillFormulaBreakdown(skill, ranks[skill.id], evaluation)))),
     [ranks, evaluation],
   );
 
@@ -46,7 +46,7 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
   const rank = skill ? ranks[skill.id] ?? 1 : 0;
   const [elements, setElements] = useState<Partial<Record<number, ElementKey>>>({});
   const [hit, setHit] = useState<IncomingHit>(() => ({
-    ...NO_HIT, amount: 0, critDamagePercent: weapon?.criticalDamage ?? 100, ...defaultDamage(skill, {}, weaponType),
+    ...NO_HIT, amount: 0, critDamagePercent: critDamageFor(skill, evaluation), ...defaultDamage(skill, {}, weaponType),
   }));
   const [percents, setPercents] = useState<number[]>([]);
   const [lightning, setLightning] = useState(false);
@@ -60,7 +60,8 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
   const pickAttack = (id: string) => {
     setSkillId(id);
     setElements({});
-    set(defaultDamage(id ? skillById(id) ?? null : null, {}, weaponType));
+    const next = id ? skillById(id) ?? null : null;
+    set({ ...defaultDamage(next, {}, weaponType), critDamagePercent: critDamageFor(next, evaluation) });
   };
   const pickElement = (index: number, element: ElementKey) => {
     const next = { ...elements, [index]: element };
@@ -121,7 +122,14 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
       <div className="grid-fields">
         <SelectField label="Class" value={hit.damageClass} options={CLASS_OPTIONS} onChange={value => set({ damageClass: value as DamageClass })} />
         <SelectField label="Type" value={hit.type ?? ''} options={TYPE_OPTIONS} onChange={value => set({ type: (value || null) as DamageType })} />
-        <NumberField label="Crit damage %" value={hit.critDamagePercent} min={100} max={1000} onChange={critDamagePercent => set({ critDamagePercent })} />
+        <NumberField
+          label="Crit damage %"
+          value={hit.critDamagePercent}
+          min={100}
+          max={1000}
+          onChange={critDamagePercent => set({ critDamagePercent })}
+          hint={skill && !skill.basicAttack ? 'Skills and spells crit at 125%.' : 'Weapon crit damage plus scaled GUI.'}
+        />
       </div>
       <div className="inline" style={{ gap: 12, flexWrap: 'wrap', margin: '10px 0' }}>
         <Toggle on={hit.armorIgnoring} onChange={armorIgnoring => set({ armorIgnoring })}>Ignores Armor</Toggle>

@@ -251,6 +251,13 @@ const CONDITION_MARKERS = new RegExp(
 const PASSIVE_MARKERS = /\bpassively (increases|grants|boosts)\b|\bincreases your (base )?\w+\b/i;
 
 // Defaults to conditional: only explicit passive phrasing with no conditional wording earns `always`.
+// "Performs a basic attack on the target": its damage is a basic attack's, crit and all.
+// A skill with its own scaling only adds one on the side (Shinken, Infernal Summon).
+function performsBasicAttack(entry, scaling) {
+  if (entry.type !== 'Offensive' || scaling) return false;
+  return /\b(?:performs?|performing|preform)\s+(?:a|an)\s+(?:\w+\s+)?basic attack\b/i.test(entry.description ?? '');
+}
+
 function classifyEffect(description, category) {
   // "If at max Rank, X is further increased by +1" is already in the per-rank list (+1/2/3/4/6).
   const text = String(description ?? '').replace(/\b(if\s+)?at max rank[^.]*\.?/gi, ' ');
@@ -359,6 +366,7 @@ for (const entry of raw) {
     effects,
     requiresRaw: parseRequirements(entry.extras),
     ...(HAND_MODELLED.has(entry.name) ? { handModelled: true } : {}),
+    ...(performsBasicAttack(entry, scaling) ? { basicAttack: true } : {}),
     text: {
       id,
       range: entry.range || null,

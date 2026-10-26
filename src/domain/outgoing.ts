@@ -44,7 +44,7 @@ type Attacker = Pick<BuildEvaluation, 'scaledStats' | 'elementalAttack' | 'prima
 
 /** Wiki Damage page: a basic attack is Scaled Weapon Attack; a skill or spell adds its SWA and Elemental ATK scaling. */
 export function attackBase(skill: Skill | null, rank: number, attacker: Attacker, elements: Partial<Record<number, ElementKey>> = {}): AttackBase {
-  if (!skill) {
+  if (!skill || skill.basicAttack) {
     const swa = attacker.primaryWeapon?.swa ?? null;
     return {
       terms: [{ label: 'Scaled Weapon ATK', amount: swa, detail: swa === null ? 'Equip a main-hand weapon.' : '100%' }],
@@ -127,6 +127,15 @@ export function expectedOutgoing(hit: IncomingHit, base: number, percents: numbe
   const main = expectedDamage({ ...hit, amount: base * powerMultiplier(percents) }, defenses, odds);
   const bonus = flat.amount > 0 ? expectedDamage(bonusHit(hit, flat), defenses, { ...odds, critChancePercent: 0 }).expected : 0;
   return { ...main, critChance, expected: main.expected + bonus };
+}
+
+// Confirmed in game: skills and spells crit at a flat 1.25, without the weapon's crit damage or GUI;
+// skills that perform a basic attack crit like one.
+export const SKILL_CRIT_DAMAGE_PERCENT = 125;
+
+/** A basic attack crits at the weapon's crit damage plus scaled GUI (wiki Critical page). */
+export function critDamageFor(skill: Skill | null, attacker: Pick<BuildEvaluation, 'primaryWeapon'>): number {
+  return skill && !skill.basicAttack ? SKILL_CRIT_DAMAGE_PERCENT : attacker.primaryWeapon?.criticalDamage ?? 100;
 }
 
 /** Element terms make a spell's damage magical; anything else is a physical hit of the weapon's type. */

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { NO_HIT } from './damage';
-import { OPEN_TARGET, attackBase, defaultDamage, expectedOutgoing, outgoingDamage, powerMultiplier } from './outgoing';
+import { OPEN_TARGET, attackBase, critDamageFor, defaultDamage, expectedOutgoing, outgoingDamage, powerMultiplier } from './outgoing';
 import { skillById } from './skills';
 
 const attacker = {
@@ -23,6 +23,19 @@ describe('outgoing damage', () => {
     expect(attackBase(acidRain, 1, attacker).amount).toBeCloseTo(0.9 * 40 + 120);
     expect(defaultDamage(acidRain, {}, 'Slash')).toEqual({ damageClass: 'magical', type: 'Acid' });
     expect(defaultDamage(null, {}, 'Slash')).toEqual({ damageClass: 'physical', type: 'Slash' });
+  });
+
+  it('crits basic attacks at weapon crit damage plus GUI, and skills at a flat 125%', () => {
+    expect(critDamageFor(null, attacker)).toBe(128);
+    expect(critDamageFor(skillById('chaos-onslaught')!, attacker)).toBe(125);
+  });
+
+  it('treats a skill that performs a basic attack as one, crit included', () => {
+    const cutthroat = skillById('cutthroat')!;
+    expect(cutthroat.basicAttack).toBe(true);
+    expect(attackBase(cutthroat, 1, attacker).amount).toBe(120);
+    expect(critDamageFor(cutthroat, attacker)).toBe(128);
+    expect(skillById('shinken')?.basicAttack).toBeUndefined();
   });
 
   it('multiplies damage percentages together', () => {
