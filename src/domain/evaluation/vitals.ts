@@ -11,7 +11,7 @@ export type VitalsResult = ReturnType<typeof resolveVitals>;
 export function resolveVitals(inputs: EvaluationInputs, stats: StatsResult) {
   const {
     build, race, subrace, history, food, astrologyStat, hasFortitude, hasEndurance, painToleranceRank, armor,
-    armorConditional, armorMaterial, armorEnchant, items, legsPoints, handsPoints, gearBonus, gearSlots, mixtureBonuses, talents,
+    armorConditional, armorMaterial, armorEnchant, items, legsPoints, handsPoints, gearBonus, gearSlots, mixtureBonuses, talents, weaponMaterial,
   } = inputs;
   const { scaledStats, skills, baseFor } = stats;
 
@@ -33,7 +33,7 @@ export function resolveVitals(inputs: EvaluationInputs, stats: StatsResult) {
     endurance: hasEndurance,
     customHP: build.customHP + (food.hp ?? 0) + (history.hp ?? 0) + spiritVitals + crystalVitals,
     equipmentHP: (armor?.statBonuses?.hp ?? 0) + armorConditional.hp + armorMaterial.hp + armorEnchant.hp
-      + (items.derived.hp ?? 0) + legsPoints.hp + gearBonus.hp,
+      + (items.derived.hp ?? 0) + legsPoints.hp + gearBonus.hp + weaponMaterial.hp,
     normalcyHP,
     lich: build.subrace === 'Lich',
   });
@@ -50,7 +50,7 @@ export function resolveVitals(inputs: EvaluationInputs, stats: StatsResult) {
     warwalk: build.warwalk,
     customFP: build.customFP + (food.fp ?? 0) + (history.fp ?? 0) + spiritVitals + crystalVitals,
     equipmentFP: (armor?.statBonuses?.fp ?? 0) + armorConditional.fp + armorMaterial.fp + armorEnchant.fp
-      + (items.derived.fp ?? 0) + handsPoints.fp + gearBonus.fp + (skills.derived.fp ?? 0),
+      + (items.derived.fp ?? 0) + handsPoints.fp + gearBonus.fp + (skills.derived.fp ?? 0) + weaponMaterial.fp,
     talentFP: talents.maxFp,
     lich: build.subrace === 'Lich',
   });
@@ -65,6 +65,7 @@ export function resolveVitals(inputs: EvaluationInputs, stats: StatsResult) {
     { label: 'White Spirits', value: spiritVitals, channel: 'base' },
     { label: 'Food, history and manual FP', value: build.customFP + (food.fp ?? 0) + (history.fp ?? 0), channel: 'base' },
     { label: 'Torso', value: (armor?.statBonuses?.fp ?? 0) + armorConditional.fp + armorMaterial.fp + armorEnchant.fp, channel: 'base' },
+    { label: 'Weapon material', value: weaponMaterial.fp, channel: 'base' },
     { label: 'Item effects', value: items.derived.fp ?? 0, channel: 'base' },
     { label: 'Hands upgrades', value: handsPoints.fp, channel: 'base' },
     ...((gearSlots ?? []).flatMap(slot => slot?.itemName ? [{ label: `${slot.itemName}: ${slot.material ?? 'None'} material`, value: otherMaterialModifier(slot.material).fp, channel: 'base' as const }] : [])),

@@ -24,7 +24,7 @@ function raceResistances(build: BuildState, stats: StatRecord): ElementalRecord 
 }
 
 export function resolveElements(inputs: EvaluationInputs, stats: StatsResult) {
-  const { build, armor, armorMaterial, armorEnchant, items, talents, mixtureBonuses, youkaiBonuses, gearBonus } = inputs;
+  const { build, armor, armorMaterial, armorEnchant, items, talents, mixtureBonuses, youkaiBonuses, gearBonus, weaponMaterial } = inputs;
   const { scaledStats, rawStats, skills } = stats;
 
   const raceResistance = raceResistances(build, scaledStats);
@@ -42,6 +42,7 @@ export function resolveElements(inputs: EvaluationInputs, stats: StatsResult) {
       manualAdjustment: build.elementalATKAdjustments[element]
         + (armorMaterial.elementalAttack[element] ?? 0) + (armorEnchant.elementalAttack[element] ?? 0)
         + (items.elementalAttack[element] ?? 0)
+        + (gearBonus.elementalAttack[element] ?? 0) + (weaponMaterial.elementalAttack[element] ?? 0)
         + (skills.elemental[element] ?? 0)
         + (talents.elementalAttack[element] ?? 0)
         + (mixtureBonuses.elementalAttack?.[element] ?? 0),

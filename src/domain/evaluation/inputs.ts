@@ -10,7 +10,7 @@ import { RACES, SUBRACES } from '../../data/races';
 import { CLASSES } from '../../data/classes';
 import { ASTROLOGY_PLANETS, FOODS, HISTORY, LEGEND_EXTEND } from '../../data/bonuses';
 import { ARMORS } from '../../data/armors';
-import { armorMaterialModifier, armorQualityModifier, otherMaterialModifier } from '../armorMaterials';
+import { armorMaterialModifier, armorQualityModifier, otherMaterialModifier, weaponMaterialExtras } from '../armorMaterials';
 import { armorEnchantmentEffect, enchantmentEffectForSlot } from '../armorEnchantments';
 import { calculateRisingGameBonus } from '../calculations';
 import { mergeSkillRanks, skillBonuses, skillsForClassSlots, type SkillBonuses } from '../skills';
@@ -59,11 +59,12 @@ interface GearBonus {
   statusResistance: number;
   stats: Partial<StatRecord>;
   resistances: Partial<Record<ResistKey, number>>;
+  elementalAttack: Partial<Record<ElementKey, number>>;
 }
 
 const NO_GEAR_BONUS: GearBonus = Object.freeze({
   evade: 0, hp: 0, fp: 0, armor: 0, magicArmor: 0, critical: 0, criticalEvade: 0,
-  statusResistance: 0, stats: Object.freeze({}), resistances: Object.freeze({}),
+  statusResistance: 0, stats: Object.freeze({}), resistances: Object.freeze({}), elementalAttack: Object.freeze({}),
 }) as GearBonus;
 
 export const GEAR_ENCHANT_SLOTS = ['Hands', 'Legs', 'Accessory', 'Accessory'] as const;
@@ -73,7 +74,7 @@ type GearSlotInput = { itemName: string | null; material?: string; enchantment?:
 function sumGearModifiers(slots: GearSlotInput[]): GearBonus {
   const total: GearBonus = {
     evade: 0, hp: 0, fp: 0, armor: 0, magicArmor: 0, critical: 0, criticalEvade: 0,
-    statusResistance: 0, stats: {}, resistances: {},
+    statusResistance: 0, stats: {}, resistances: {}, elementalAttack: {},
   };
   for (let index = 0; index < slots.length; index += 1) {
     const slot = slots[index];
@@ -96,6 +97,9 @@ function sumGearModifiers(slots: GearSlotInput[]): GearBonus {
       }
       for (const [element, value] of Object.entries(source.resistances)) {
         total.resistances[element as ElementKey] = (total.resistances[element as ElementKey] ?? 0) + (value ?? 0);
+      }
+      for (const [element, value] of Object.entries(source.elementalAttack)) {
+        total.elementalAttack[element as ElementKey] = (total.elementalAttack[element as ElementKey] ?? 0) + (value ?? 0);
       }
     }
   }
@@ -176,6 +180,7 @@ export function gatherInputs(build: BuildState) {
   const legsPoints = build.equipment.legs?.upgradePoints ?? NO_LEGS_UPGRADE_POINTS;
 
   const weaponBonus = weaponStatBonus(build.equipment.primaryWeapon);
+  const weaponMaterial = weaponMaterialExtras(build.equipment.primaryWeapon?.material);
   const leBonus: Partial<StatRecord> = {};
   for (const [key, enabled] of Object.entries(build.legendExtend)) {
     const stat = LEGEND_EXTEND[key]?.stat;
@@ -187,6 +192,6 @@ export function gatherInputs(build: BuildState) {
     hasSkillRanks, mergedSkillRanks, youkaiBonuses, rising, painToleranceRank, hasFortitude, hasEndurance,
     availableSkills, skillWeaponTypes, skillContext, initialSkills, karakuri, traits, talents,
     armor, armorConditional, armorMaterial, armorQuality, armorEnchant, armorPoints, dragonKingPieces, dragonQueenPieces,
-    usingOffHand, equippedHands, gearSlots, items, gearBonus, handsPoints, legsPoints, weaponBonus, leBonus,
+    usingOffHand, equippedHands, gearSlots, items, gearBonus, handsPoints, legsPoints, weaponBonus, weaponMaterial, leBonus,
   };
 }
