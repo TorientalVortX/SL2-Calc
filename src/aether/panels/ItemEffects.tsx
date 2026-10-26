@@ -64,9 +64,10 @@ export function GrantedSkillCard({ builder, skill, source }: { builder: Builder;
         {skill.cost ? <span className="chip">{skill.cost}</span> : null}
         {source ? <span className="chip chip--gold granted__source">{source}</span> : null}
       </div>
+      {skill.text ? <p className="granted__text">{skill.text}</p> : null}
       {skill.parts.map(entry => (
         <div className="granted__part" key={entry.conditionalKey}>
-          <p className="granted__text">{entry.effect.description}</p>
+          {skill.text ? null : <p className="granted__text">{entry.effect.description}</p>}
           {entry.effect.applies === 'conditional' ? (
             <Toggle
               on={Boolean(conditionals[entry.conditionalKey])}

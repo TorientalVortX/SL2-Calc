@@ -30,6 +30,8 @@ export interface ItemEffect {
   grants?: string;
   /** The skill's "Grants Skill" header or its cost line; neither carries a bonus. */
   role?: 'skill' | 'cost';
+  /** A weapon special's skills, split from its text; one special can grant two (Tricky Yoyo). */
+  skills?: Array<{ name: string; cost: string | null; text: string }>;
 }
 
 const WEAPON_EFFECTS = content.weapons as Record<string, ItemEffect[]>;

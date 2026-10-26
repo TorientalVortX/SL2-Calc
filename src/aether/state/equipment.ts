@@ -356,6 +356,8 @@ export interface GrantedSkill {
   cost: string | null;
   itemName: string;
   slot: SlotId;
+  /** Set when the skill's text was split out of one longer line; `parts` then only carry its switches. */
+  text?: string;
   parts: SlotEffect[];
 }
 
@@ -368,6 +370,13 @@ export function groupSlotEffects(entries: SlotEffect[], slot: SlotId): EffectGro
     const name = entry.effect.grants;
     if (!name) {
       groups.push({ kind: 'effect', entry });
+      continue;
+    }
+    if (entry.effect.skills) {
+      entry.effect.skills.forEach((skill, index) => groups.push({
+        kind: 'skill',
+        skill: { ...skill, itemName: entry.itemName, slot, parts: index === 0 ? [entry] : [] },
+      }));
       continue;
     }
     const last = groups[groups.length - 1];

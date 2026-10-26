@@ -129,9 +129,11 @@
       "magicArmor": 0,
       "evade": 0,
       "weight": 15,
-      "details": "Grants Skill: Contract of Blood. Sometimes, the best strategy isn't the most compassionate.",
+      "details": "Grants Skill: Contract of Blood 3 Momentum, 0 FP Targets 1 of your Youkai within 1 Range and sets it's HP to 0, defeating it. You then gain Cruel Commander LV X (X = your level + 20) for 3 rounds, which causes your STR to become equal to its LV.",
       "specialEffects": [
-        "Grants Contract of Blood skill"
+        "Grants Skill: Contract of Blood",
+        "3 Momentum, 0 FP",
+        "Targets 1 of your Youkai within 1 Range and sets it's HP to 0, defeating it. You then gain Cruel Commander LV X (X = your level + 20) for 3 rounds, which causes your STR to become equal to its LV."
       ],
       "rarity": 9
     },
@@ -973,6 +975,121 @@
         "Jam damage shield on battle start"
       ],
       "rarity": 10
+    },
+    {
+      "id": "armor:unarmored:berserker-shell",
+      "name": "Berserker Shell",
+      "armor": 0,
+      "magicArmor": 0,
+      "evade": 9,
+      "weight": 2,
+      "details": "+20 HP Gain increased Critical with Axe weapons based on how much HP you are missing.",
+      "statBonuses": {
+        "hp": 20
+      },
+      "rarity": 7
+    },
+    {
+      "id": "armor:unarmored:caster-s-cape",
+      "name": "Caster's Cape",
+      "armor": 0,
+      "magicArmor": 3,
+      "evade": 4,
+      "weight": 1,
+      "details": "If your main class is a Mage class, the stat bonuses it gives you are increased by 50% (min. 1 if >0).",
+      "rarity": 8
+    },
+    {
+      "id": "armor:unarmored:dragon-gi",
+      "name": "Dragon Gi",
+      "armor": 3,
+      "magicArmor": 4,
+      "evade": 7,
+      "weight": 1,
+      "details": "+15 HP, +15 FP Set: Like a Dragon 2+ - Gain Cast Off Flexing Skill. When you use Cast Off Flexing; * Activate all of your Arcane Tattoo traits. * Activate Crack Knuckles skill (if equipped). * Gain Dragon Fist status permanently. (+2 Attack Range for Bare Fists. Bare Fists' Attack skill moves you to an unoccupied tile next to the target if not in 1 Range, and gains Trickery - Activate Kick skill on the target. * Kick skill Momentum cost reduced by 1 during a turn where you've used Attack.",
+      "statBonuses": {
+        "hp": 15,
+        "fp": 15
+      },
+      "rarity": 7
+    },
+    {
+      "id": "armor:unarmored:farmer-s-shirt",
+      "name": "Farmer's Shirt",
+      "armor": 0,
+      "magicArmor": 1,
+      "evade": 10,
+      "weight": 1,
+      "details": "If your main class is a Martial Artist class, the stat bonuses it gives you are increased by 50% (min. 1 if > 0).",
+      "rarity": 8
+    },
+    {
+      "id": "armor:unarmored:healer-s-shroud",
+      "name": "Healer's Shroud",
+      "armor": 0,
+      "magicArmor": 5,
+      "evade": 2,
+      "weight": 2,
+      "details": "If your main class is a Curate class, the stat bonuses it gives you are increased by 50% (min. 1 if >0). Set: Church Faithful 2+ - +15% Healing-tag skill Power and +3 Light ATK 3+ - +15 Evade versus Vampire race, Possessed race, and Cladis Mortem Null enemies. 4+ - Can't be targeted by the Banquet skill. Vampiric effects (item effects or miniboss skill) do not work against you. Pray skill's Momentum cost becomes 3.",
+      "rarity": 8
+    },
+    {
+      "id": "armor:unarmored:kaminah-robes",
+      "name": "Kaminah Robes",
+      "armor": 0,
+      "magicArmor": 0,
+      "evade": 5,
+      "weight": 1,
+      "details": "Replaces Blind status effects that are applied to you with Beyond Sight instead.",
+      "rarity": 8
+    },
+    {
+      "id": "armor:unarmored:shadow-gi",
+      "name": "Shadow Gi",
+      "armor": 1,
+      "magicArmor": 1,
+      "evade": 7,
+      "weight": 5,
+      "details": "10% Light Resistance Grants Skill: Ninja Telepo 1 Momentum, 10FP Throw your hands together in a ninjutsu sign and disappear, reappearing at a nearby location within 2 Range. You also gain a status called Double Telepo for 3 Rounds. (When you evade an attack, you disappear in a puff of smoke and appear at the tile behind your attacker, if it is a valid battle tile. Expires after triggered.)",
+      "resistances": {
+        "Light": 10
+      },
+      "specialEffects": [
+        "Grants Skill: Ninja Telepo",
+        "1 Momentum, 10FP",
+        "Throw your hands together in a ninjutsu sign and disappear, reappearing at a nearby location within 2 Range. You also gain a status called Double Telepo for 3 Rounds. (When you evade an attack, you disappear in a puff of smoke and appear at the tile behind your attacker, if it is a valid battle tile. Expires after triggered.)"
+      ],
+      "rarity": 8
+    },
+    {
+      "id": "armor:unarmored:warding-cloth",
+      "name": "Warding Cloth",
+      "armor": 1,
+      "magicArmor": 4,
+      "evade": 7,
+      "weight": 1,
+      "details": "Increases status resistance by 10%.",
+      "rarity": 6
+    },
+    {
+      "id": "armor:unarmored:alchemic-wrap",
+      "name": "Alchemic Wrap",
+      "armor": 0,
+      "magicArmor": 0,
+      "evade": 0,
+      "weight": 8,
+      "details": "Doubles item material effects that modify this item's parameters (such as Armor, Evade, etc.).",
+      "rarity": 8
+    },
+    {
+      "id": "armor:unarmored:batwing-cloak",
+      "name": "Batwing Cloak",
+      "armor": 0,
+      "magicArmor": 0,
+      "evade": 7,
+      "weight": 1,
+      "details": "Airborne effects you are under do not automatically end when turns shift. When a field object explodes while you are in its effective radius, you become Airborne (3 rounds) and gain Agile Bat as a substatus to it (LV = 30 - Battle Weight). While Airborne, if this torso is enchanted with Winged, enemy Critical Damage is reduced by 25% when attacking you. Increases Evade and Critical Evade by LV. Immune to Airborne.",
+      "rarity": 6
     }
   ]
 }

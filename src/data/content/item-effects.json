@@ -224,7 +224,14 @@
         "description": "Sacrifice life essence in the form of 15 HP to the Baphomet Offering, removing Baphomet's Hunger and reapplying Baphomet's Strength. (Yes, it works even if you don't have blood.)",
         "applies": "reference",
         "effects": [],
-        "grants": "Bloodlet"
+        "grants": "Bloodlet",
+        "skills": [
+          {
+            "name": "Bloodlet",
+            "cost": null,
+            "text": "Sacrifice life essence in the form of 15 HP to the Baphomet Offering, removing Baphomet's Hunger and reapplying Baphomet's Strength. (Yes, it works even if you don't have blood.)"
+          }
+        ]
       },
       {
         "name": "Maou",
@@ -267,7 +274,14 @@
         "description": "Rev your weapon and fill it with focus, increasing its Charge, to a maximum of level 3. When you hit with a weapon that can consume Weapon Charges, the damage you deal with that attack will increase by 50% per level. (Weapon Charges will expire after 5 rounds.)",
         "applies": "reference",
         "effects": [],
-        "grants": "Charge Weapon"
+        "grants": "Charge Weapon",
+        "skills": [
+          {
+            "name": "Charge Weapon",
+            "cost": null,
+            "text": "Rev your weapon and fill it with focus, increasing its Charge, to a maximum of level 3. When you hit with a weapon that can consume Weapon Charges, the damage you deal with that attack will increase by 50% per level. (Weapon Charges will expire after 5 rounds.)"
+          }
+        ]
       },
       {
         "name": "Elite Engine",
@@ -1511,7 +1525,14 @@
         "description": "Rising Sun: 2M, 15 FP, 2 Round CD. Consumes 3 Sun Crests. Targets 1 unoccupied tile within 3 Range. Reappear at target location, when you do, become Airborne and deal 30 armor-ignoring Fire bonus damage to all enemies in 2 Range Circle. All damaged enemies are inflicted with Glowing LV 10 until your next turn.",
         "applies": "reference",
         "effects": [],
-        "grants": "Rising Sun"
+        "grants": "Rising Sun",
+        "skills": [
+          {
+            "name": "Rising Sun",
+            "cost": "2M, 15 FP, 2 Round CD",
+            "text": "Consumes 3 Sun Crests. Targets 1 unoccupied tile within 3 Range. Reappear at target location, when you do, become Airborne and deal 30 armor-ignoring Fire bonus damage to all enemies in 2 Range Circle. All damaged enemies are inflicted with Glowing LV 10 until your next turn."
+          }
+        ]
       },
       {
         "name": "Muddle",
@@ -1546,7 +1567,14 @@
         "description": "Targets 2 tiles in 6 Range. Location 1 must contain an enemy with String Attached LV 2+ (caused by you), and Location 2 must contain a different enemy. You puppeteer the first enemy, who takes 3 steps towards the second. Then, the first enemy is forced to attack the second with their main hand weapon (75% damage, or 100% if String Attached was LV4+). Afterwards, your strings detach from the first target.",
         "applies": "reference",
         "effects": [],
-        "grants": "Puppet Assault"
+        "grants": "Puppet Assault",
+        "skills": [
+          {
+            "name": "Puppet Assault",
+            "cost": null,
+            "text": "Targets 2 tiles in 6 Range. Location 1 must contain an enemy with String Attached LV 2+ (caused by you), and Location 2 must contain a different enemy. You puppeteer the first enemy, who takes 3 steps towards the second. Then, the first enemy is forced to attack the second with their main hand weapon (75% damage, or 100% if String Attached was LV4+). Afterwards, your strings detach from the first target."
+          }
+        ]
       }
     ],
     "Tsukikage": [
@@ -1567,7 +1595,14 @@
         "description": "Rising Sun: 2M, 15FP, 2 Round Cooldown. Consumes 3 Moon Crests. Targets 1 unoccupied tile within 3 Range. Appear at location, gain Sneak until next turn and Night Shade (LV15, 2 attacks, 3 rounds).",
         "applies": "reference",
         "effects": [],
-        "grants": "Moon Reflection"
+        "grants": "Moon Reflection",
+        "skills": [
+          {
+            "name": "Moon Reflection",
+            "cost": "2M, 15FP, 2 Round Cooldown",
+            "text": "Consumes 3 Moon Crests. Targets 1 unoccupied tile within 3 Range. Appear at location, gain Sneak until next turn and Night Shade (LV15, 2 attacks, 3 rounds)."
+          }
+        ]
       },
       {
         "name": "Muddle",
@@ -1638,7 +1673,14 @@
         "description": "Begins a rhythmic foreign dance which boosts the SKI and LUC of all party members in the current battle by Atlaua's Abaniko's UL/2 (min. 1) for 3 rounds.",
         "applies": "reference",
         "effects": [],
-        "grants": "Luckiness Dance"
+        "grants": "Luckiness Dance",
+        "skills": [
+          {
+            "name": "Luckiness Dance",
+            "cost": null,
+            "text": "Begins a rhythmic foreign dance which boosts the SKI and LUC of all party members in the current battle by Atlaua's Abaniko's UL/2 (min. 1) for 3 rounds."
+          }
+        ]
       }
     ],
     "Dancing Shiv": [
@@ -1722,7 +1764,14 @@
         "description": "Grants skill: Guard. Guard does not deplete the Schwarz Sturm gauge.",
         "applies": "reference",
         "effects": [],
-        "grants": "Guard Skill"
+        "grants": "Guard",
+        "skills": [
+          {
+            "name": "Guard",
+            "cost": "1+ Momentum, 0FP",
+            "text": "Raise your shield and protect yourself from enemy attacks. Consumes all remaining Momentum, but until your next action, all damage you take is reduced by (Momentum consumed * 10)%. Guard does not deplete the Schwarz Sturm gauge."
+          }
+        ]
       }
     ],
     "Brawler's Glove (Enhanced)": [
@@ -1852,7 +1901,14 @@
         "description": "Grants Skill: Guard (1+ Momentum, 0FP) - Raise your shield and protect yourself from enemy attacks. Consumes all remaining Momentum, but until your next action, all damage you take is reduced by (Momentum consumed * 10)%.",
         "applies": "reference",
         "effects": [],
-        "grants": "Guard Skill"
+        "grants": "Guard",
+        "skills": [
+          {
+            "name": "Guard",
+            "cost": "1+ Momentum, 0FP",
+            "text": "Raise your shield and protect yourself from enemy attacks. Consumes all remaining Momentum, but until your next action, all damage you take is reduced by (Momentum consumed * 10)%."
+          }
+        ]
       },
       {
         "name": "Tonfa Block",
@@ -1899,7 +1955,19 @@
         "description": "Walk The Dog: 3M, 10 FP, 1 round CD. Can only be used if the Special Strike 'Around The World' is not on cooldown. Targets a 5 Size Line in front of you. Spin your yoyo on the ground and move forward, until you encounter a dense tile or an enemy. For each tile you move through, increases the activation chance of your Around The World Special Strike by 6%. Afterwards, if you encountered an enemy, you will activate Tricky Yoyo's basic attack skill on them. Elevator: 1M. Can only be used if the Special Strike 'Around The World' is not on cooldown. Spin your yoyo, angling the string so that it moves upwards. Not only a visually impressive defiance of gravity, but one that straightens the string out, restoring 5 durability and increasing the chance of its next Special Strike activation by 15%.",
         "applies": "reference",
         "effects": [],
-        "grants": "Elevator"
+        "grants": "Walk The Dog",
+        "skills": [
+          {
+            "name": "Walk The Dog",
+            "cost": "3M, 10 FP, 1 round CD",
+            "text": "Can only be used if the Special Strike 'Around The World' is not on cooldown. Targets a 5 Size Line in front of you. Spin your yoyo on the ground and move forward, until you encounter a dense tile or an enemy. For each tile you move through, increases the activation chance of your Around The World Special Strike by 6%. Afterwards, if you encountered an enemy, you will activate Tricky Yoyo's basic attack skill on them."
+          },
+          {
+            "name": "Elevator",
+            "cost": "1M",
+            "text": "Can only be used if the Special Strike 'Around The World' is not on cooldown. Spin your yoyo, angling the string so that it moves upwards. Not only a visually impressive defiance of gravity, but one that straightens the string out, restoring 5 durability and increasing the chance of its next Special Strike activation by 15%."
+          }
+        ]
       }
     ],
     "Bear Claws": [
@@ -1935,7 +2003,14 @@
         "description": "Grants Skill: Charge Weapon (3 Momentum, 5 FP) - Rev your weapon and fill it with focus, increasing its Charge, to a maximum of level 3. When you hit with a weapon that can consume Weapon Charges, the damage you deal with that attack will increase by 50% per level. (Weapon Charges will expire after 5 rounds.)",
         "applies": "reference",
         "effects": [],
-        "grants": "Charge Weapon"
+        "grants": "Charge Weapon",
+        "skills": [
+          {
+            "name": "Charge Weapon",
+            "cost": "3 Momentum, 5 FP",
+            "text": "Rev your weapon and fill it with focus, increasing its Charge, to a maximum of level 3. When you hit with a weapon that can consume Weapon Charges, the damage you deal with that attack will increase by 50% per level. (Weapon Charges will expire after 5 rounds.)"
+          }
+        ]
       },
       {
         "name": "Weapon Charge Consumption",
@@ -1976,14 +2051,28 @@
         "description": "Has a special secondary attack called 'Weight Strike', and grants access to the 'Spin Kusarigami' skill. Weight Strike: 3M, Basic attack that deals Blunt Damage.",
         "applies": "reference",
         "effects": [],
-        "grants": "Weight Strike"
+        "grants": "Weight Strike",
+        "skills": [
+          {
+            "name": "Weight Strike",
+            "cost": "3M",
+            "text": "Basic attack that deals Blunt Damage."
+          }
+        ]
       },
       {
         "name": "Spin Kusarigami",
         "description": "Spin Kusarigami: 1M, Puts Weight Strike on 1 round CD, but the next time you attack with it and it hits, you pull the target 3 tiles towards you. Afterwards, if they are within 1 Range of you, you automatically apply the Grapple skill to them.",
         "applies": "reference",
         "effects": [],
-        "grants": "Spin Kusarigami"
+        "grants": "Spin Kusarigami",
+        "skills": [
+          {
+            "name": "Spin Kusarigami",
+            "cost": "1M",
+            "text": "Puts Weight Strike on 1 round CD, but the next time you attack with it and it hits, you pull the target 3 tiles towards you. Afterwards, if they are within 1 Range of you, you automatically apply the Grapple skill to them."
+          }
+        ]
       }
     ],
     "Magical Comet": [
@@ -2104,7 +2193,14 @@
         "description": "Grants Skill: Freezing Round (3 Momentum, 10 FP) - Spin your weapon, Fenri, around your body and let it tear into all enemies within 1 Range of you, dealing Ice physical damage equal to 100% of Scaled Weapon Attack to them.",
         "applies": "reference",
         "effects": [],
-        "grants": "Freezing Round"
+        "grants": "Freezing Round",
+        "skills": [
+          {
+            "name": "Freezing Round",
+            "cost": "3 Momentum, 10 FP",
+            "text": "Spin your weapon, Fenri, around your body and let it tear into all enemies within 1 Range of you, dealing Ice physical damage equal to 100% of Scaled Weapon Attack to them."
+          }
+        ]
       }
     ],
     "Ymir": [
@@ -2251,7 +2347,14 @@
         "description": "Rev your weapon and fill it with focus, increasing its Charge, to a maximum of level 3. When you hit with a weapon that can consume Weapon Charges, the damage you deal with that attack will increase by 50% per level. (Weapon Charges will expire after 5 rounds.)",
         "applies": "reference",
         "effects": [],
-        "grants": "Charge Weapon"
+        "grants": "Charge Weapon",
+        "skills": [
+          {
+            "name": "Charge Weapon",
+            "cost": null,
+            "text": "Rev your weapon and fill it with focus, increasing its Charge, to a maximum of level 3. When you hit with a weapon that can consume Weapon Charges, the damage you deal with that attack will increase by 50% per level. (Weapon Charges will expire after 5 rounds.)"
+          }
+        ]
       },
       {
         "name": "Elite Engine",
@@ -2373,7 +2476,14 @@
         "description": "Fire both Yin and Yang at a target enemy within 3 Range, alternating between Light and Darkness damage, over 4 shots. The total damage dealt is equal to 100% Darkness ATK + 100% Light ATK + 50% of the total Scaled Weapon ATK of both weapons. In addition, both guns gain 2 additional attack rounds for 2 rounds.",
         "applies": "reference",
         "effects": [],
-        "grants": "Double Dao"
+        "grants": "Double Dao",
+        "skills": [
+          {
+            "name": "Double Dao",
+            "cost": null,
+            "text": "Fire both Yin and Yang at a target enemy within 3 Range, alternating between Light and Darkness damage, over 4 shots. The total damage dealt is equal to 100% Darkness ATK + 100% Light ATK + 50% of the total Scaled Weapon ATK of both weapons. In addition, both guns gain 2 additional attack rounds for 2 rounds."
+          }
+        ]
       }
     ],
     "Yin": [
@@ -2400,7 +2510,14 @@
         "description": "Fire both Yin and Yang at a target enemy within 3 Range, alternating between Light and Darkness damage, over 4 shots. The total damage dealt is equal to 100% Darkness ATK + 100% Light ATK + 50% of the total Scaled Weapon ATK of both weapons. In addition, both guns gain 2 additional attack rounds for 2 rounds.",
         "applies": "reference",
         "effects": [],
-        "grants": "Double Dao"
+        "grants": "Double Dao",
+        "skills": [
+          {
+            "name": "Double Dao",
+            "cost": null,
+            "text": "Fire both Yin and Yang at a target enemy within 3 Range, alternating between Light and Darkness damage, over 4 shots. The total damage dealt is equal to 100% Darkness ATK + 100% Light ATK + 50% of the total Scaled Weapon ATK of both weapons. In addition, both guns gain 2 additional attack rounds for 2 rounds."
+          }
+        ]
       }
     ],
     "Blaster Trumpet": [
@@ -2449,7 +2566,14 @@
             "ulMultiplier": 0
           }
         ],
-        "grants": "Crusader Charge"
+        "grants": "Crusader Charge",
+        "skills": [
+          {
+            "name": "Crusader Charge",
+            "cost": "3M / 10 FP",
+            "text": "Wield the Holy Word and charge forward in a resizeable Line (2-3, +1 max per 20 STR, capped at 6). The first enemy you encounter is pushed along with you, until you or they encounter an impassable tile or another enemy. Afterwards, if an enemy was hit, they take Pierce damage equal to 100% of Holy Word's Scaled Weapon Attack. If the movement was stopped by another enemy, that enemy takes Blunt damage equal to half that."
+          }
+        ]
       },
       {
         "name": "Divine Bunker",
@@ -2463,7 +2587,14 @@
             "ulMultiplier": 0
           }
         ],
-        "grants": "Divine Bunker"
+        "grants": "Divine Bunker",
+        "skills": [
+          {
+            "name": "Divine Bunker",
+            "cost": "3M / 15 FP, 3 Rounds CD",
+            "text": "Unleash the Holy Word's full force. Can only be used after having used Crusader Charge in the same round. Fire the pilebunker, dealing Pierce damage with Great Accuracy equal to 100% of Holy Word's Scaled Weapon Attack to the enemy in the tile you are facing, which knocks them airborne and away 5 tiles. Afterwards, if the Holy Word is Jeweled, and an Offensive Mercalan spell scroll (excluding invocations) is in its Scroll weapon part slot, you cast it at the target's location for free. If there is no valid spell scroll, they are struck by divine lightning instead, taking Lightning magic damage equal to your FAI x 2, which ignores evasion, protection, reflect, absorb, and immune."
+          }
+        ]
       }
     ],
     "Tarnell": [
@@ -2824,7 +2955,14 @@
         "description": "Rev your weapon and fill it with focus, increasing its Charge, to a maximum of level 3. When you hit with a weapon that can consume Weapon Charges, the damage you deal with that attack will increase by 50% per level. (Weapon Charges will expire after 5 rounds.)",
         "applies": "reference",
         "effects": [],
-        "grants": "Charge Weapon"
+        "grants": "Charge Weapon",
+        "skills": [
+          {
+            "name": "Charge Weapon",
+            "cost": null,
+            "text": "Rev your weapon and fill it with focus, increasing its Charge, to a maximum of level 3. When you hit with a weapon that can consume Weapon Charges, the damage you deal with that attack will increase by 50% per level. (Weapon Charges will expire after 5 rounds.)"
+          }
+        ]
       },
       {
         "name": "Elite Engine",
@@ -3071,7 +3209,14 @@
         "description": "Creates (or moves, if already active) a Amethyst talis at target location within 5 Range. While active, the talis becomes the center point for Isesip spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)",
         "applies": "reference",
         "effects": [],
-        "grants": "Deploy Talis (Amethyst)"
+        "grants": "Deploy Talis (Amethyst)",
+        "skills": [
+          {
+            "name": "Deploy Talis (Amethyst)",
+            "cost": null,
+            "text": "Creates (or moves, if already active) a Amethyst talis at target location within 5 Range. While active, the talis becomes the center point for Isesip spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)"
+          }
+        ]
       }
     ],
     "Aquamarine-Head Staff": [
@@ -3099,7 +3244,14 @@
         "description": "Creates (or moves, if already active) a Sapphire talis at target location within 5 Range. While active, the talis becomes the center point for Aquarian spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)",
         "applies": "reference",
         "effects": [],
-        "grants": "Deploy Talis (Sapphire)"
+        "grants": "Deploy Talis (Sapphire)",
+        "skills": [
+          {
+            "name": "Deploy Talis (Sapphire)",
+            "cost": null,
+            "text": "Creates (or moves, if already active) a Sapphire talis at target location within 5 Range. While active, the talis becomes the center point for Aquarian spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)"
+          }
+        ]
       }
     ],
     "Cariaite-Head Staff": [
@@ -3154,7 +3306,14 @@
         "description": "Creates (or moves, if already active) a Diamond talis at target location within 5 Range. While active, the talis becomes the center point for Mercalan spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)",
         "applies": "reference",
         "effects": [],
-        "grants": "Deploy Talis (Diamond)"
+        "grants": "Deploy Talis (Diamond)",
+        "skills": [
+          {
+            "name": "Deploy Talis (Diamond)",
+            "cost": null,
+            "text": "Creates (or moves, if already active) a Diamond talis at target location within 5 Range. While active, the talis becomes the center point for Mercalan spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)"
+          }
+        ]
       }
     ],
     "Emerald-Head Staff": [
@@ -3182,7 +3341,14 @@
         "description": "Creates (or moves, if already active) a Emerald talis at target location within 5 Range. While active, the talis becomes the center point for Sylphid spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)",
         "applies": "reference",
         "effects": [],
-        "grants": "Deploy Talis (Emerald)"
+        "grants": "Deploy Talis (Emerald)",
+        "skills": [
+          {
+            "name": "Deploy Talis (Emerald)",
+            "cost": null,
+            "text": "Creates (or moves, if already active) a Emerald talis at target location within 5 Range. While active, the talis becomes the center point for Sylphid spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)"
+          }
+        ]
       }
     ],
     "Fortunite-Head Staff": [
@@ -3306,7 +3472,14 @@
         "description": "Creates (or moves, if already active) a Onyx talis at target location within 5 Range. While active, the talis becomes the center point for Huggesoan spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)",
         "applies": "reference",
         "effects": [],
-        "grants": "Deploy Talis (Onyx)"
+        "grants": "Deploy Talis (Onyx)",
+        "skills": [
+          {
+            "name": "Deploy Talis (Onyx)",
+            "cost": null,
+            "text": "Creates (or moves, if already active) a Onyx talis at target location within 5 Range. While active, the talis becomes the center point for Huggesoan spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)"
+          }
+        ]
       }
     ],
     "Red Argus": [
@@ -3356,7 +3529,14 @@
         "description": "Performs a basic attack with the Roaring Rose by firing a bullet-like wrapping of petals at a target within 5 Range. (Roaring Rose has an increased distance before it is affected by Farshot Penalty, so fire away.)",
         "applies": "reference",
         "effects": [],
-        "grants": "Reaping Petals"
+        "grants": "Reaping Petals",
+        "skills": [
+          {
+            "name": "Reaping Petals",
+            "cost": null,
+            "text": "Performs a basic attack with the Roaring Rose by firing a bullet-like wrapping of petals at a target within 5 Range. (Roaring Rose has an increased distance before it is affected by Farshot Penalty, so fire away.)"
+          }
+        ]
       },
       {
         "name": "Cunning Rose",
@@ -3397,7 +3577,14 @@
         "description": "Creates (or moves, if already active) a Ruby talis at target location within 5 Range. While active, the talis becomes the center point for Nerifian spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)",
         "applies": "reference",
         "effects": [],
-        "grants": "Deploy Talis (Ruby)"
+        "grants": "Deploy Talis (Ruby)",
+        "skills": [
+          {
+            "name": "Deploy Talis (Ruby)",
+            "cost": null,
+            "text": "Creates (or moves, if already active) a Ruby talis at target location within 5 Range. While active, the talis becomes the center point for Nerifian spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)"
+          }
+        ]
       }
     ],
     "Sapphire-Head Staff": [
@@ -3425,7 +3612,14 @@
         "description": "Creates (or moves, if already active) a Sapphire talis at target location within 5 Range. While active, the talis becomes the center point for Aquarian spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)",
         "applies": "reference",
         "effects": [],
-        "grants": "Deploy Talis (Sapphire)"
+        "grants": "Deploy Talis (Sapphire)",
+        "skills": [
+          {
+            "name": "Deploy Talis (Sapphire)",
+            "cost": null,
+            "text": "Creates (or moves, if already active) a Sapphire talis at target location within 5 Range. While active, the talis becomes the center point for Aquarian spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)"
+          }
+        ]
       }
     ],
     "Tetraite-Head Staff": [
@@ -3473,7 +3667,14 @@
         "description": "Creates (or moves, if already active) a Topaz talis at target location within 5 Range. While active, the talis becomes the center point for Nature spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)",
         "applies": "reference",
         "effects": [],
-        "grants": "Deploy Talis (Topaz)"
+        "grants": "Deploy Talis (Topaz)",
+        "skills": [
+          {
+            "name": "Deploy Talis (Topaz)",
+            "cost": null,
+            "text": "Creates (or moves, if already active) a Topaz talis at target location within 5 Range. While active, the talis becomes the center point for Nature spells you cast (excluding movement skills). You can use this skill on your current location to destroy it. (Destroying it will restore 2 Momentum.)"
+          }
+        ]
       }
     ],
     "Eternal Servitude": [
@@ -3488,7 +3689,14 @@
         "description": "This skill requires a Rank D Invocation. Cannot be used before Round 2. Unleashes pure darkness on the battlefield, tainting all enemies with curses and knocking them down. (All Lv5, duration 3: Noshka's Famine, Crippling Muysig, Frailty of Credwa, Fellel's Fumble, Plisfa's Masochism)",
         "applies": "reference",
         "effects": [],
-        "grants": "Adon Graxis"
+        "grants": "Adon Graxis",
+        "skills": [
+          {
+            "name": "Adon Graxis",
+            "cost": null,
+            "text": "This skill requires a Rank D Invocation. Cannot be used before Round 2. Unleashes pure darkness on the battlefield, tainting all enemies with curses and knocking them down. (All Lv5, duration 3: Noshka's Famine, Crippling Muysig, Frailty of Credwa, Fellel's Fumble, Plisfa's Masochism)"
+          }
+        ]
       }
     ],
     "Fellgrant Drinker": [
@@ -3524,7 +3732,14 @@
         "description": "Whildly spin your Grypon Wing whip around you, kicking up a storm in a 3 Size Circle. Deals Wind magic damage around you, which can critically hit (can activate Gryphon Wing's On Critical effect, but only once per skill use). Creates an Air Shaft at your location for 3 rounds. If you have Grypon Storm, this skill gains additional effects based on its LV: LV5+: If you have an unsummoned Hippogriph (and can summon it), summons it to a tile near you. LV10+: +1 Circle Size. Chance to inflict Lingering Wind Damage LV X (X = Gryphon Storm LV) for 2 rounds.",
         "applies": "reference",
         "effects": [],
-        "grants": "Gryphon Tempest"
+        "grants": "Gryphon Tempest",
+        "skills": [
+          {
+            "name": "Gryphon Tempest",
+            "cost": null,
+            "text": "Whildly spin your Grypon Wing whip around you, kicking up a storm in a 3 Size Circle. Deals Wind magic damage around you, which can critically hit (can activate Gryphon Wing's On Critical effect, but only once per skill use). Creates an Air Shaft at your location for 3 rounds. If you have Grypon Storm, this skill gains additional effects based on its LV: LV5+: If you have an unsummoned Hippogriph (and can summon it), summons it to a tile near you. LV10+: +1 Circle Size. Chance to inflict Lingering Wind Damage LV X (X = Gryphon Storm LV) for 2 rounds."
+          }
+        ]
       }
     ],
     "Hundred-Reflection Spear": [
@@ -3661,21 +3876,42 @@
         "description": "This unit, having wings, is capable of flight. While Airborne, this unit will hover when using Movement, allowing them to avoid field hazards and traps on the ground.",
         "applies": "reference",
         "effects": [],
-        "grants": "Flight"
+        "grants": "Flight",
+        "skills": [
+          {
+            "name": "Flight",
+            "cost": null,
+            "text": "This unit, having wings, is capable of flight. While Airborne, this unit will hover when using Movement, allowing them to avoid field hazards and traps on the ground."
+          }
+        ]
       },
       {
         "name": "Gain Air",
         "description": "Leap into the air and hover briefly with your wings, giving you the Airborne status.",
         "applies": "reference",
         "effects": [],
-        "grants": "Gain Air"
+        "grants": "Gain Air",
+        "skills": [
+          {
+            "name": "Gain Air",
+            "cost": null,
+            "text": "Leap into the air and hover briefly with your wings, giving you the Airborne status."
+          }
+        ]
       },
       {
         "name": "Winged Spearstrike",
         "description": "Tosses your Winged Spear in a line, reducing its durability by 2, where it will travel up to 6 Range away. If it hits an enemy, it will deal Wind magic damage to them equal to 125% of Wind ATK + UL*2.",
         "applies": "reference",
         "effects": [],
-        "grants": "Winged Spearstrike"
+        "grants": "Winged Spearstrike",
+        "skills": [
+          {
+            "name": "Winged Spearstrike",
+            "cost": null,
+            "text": "Tosses your Winged Spear in a line, reducing its durability by 2, where it will travel up to 6 Range away. If it hits an enemy, it will deal Wind magic damage to them equal to 125% of Wind ATK + UL*2."
+          }
+        ]
       }
     ],
     "Longsword (Enhanced)": [
@@ -3828,7 +4064,19 @@
             "ulMultiplier": 0
           }
         ],
-        "grants": "Unravel Strike"
+        "grants": "Spin Up",
+        "skills": [
+          {
+            "name": "Spin Up",
+            "cost": "1M, 1 round CD",
+            "text": "Wind up your weapon's thread, gaining Spun Weapon, which may confer different effects for certain weapons that can be spun up."
+          },
+          {
+            "name": "Unravel Strike",
+            "cost": "3M",
+            "text": "Requires Spun Weapon. Basic attack that targets a 3 Size Diamond up to 3 Range away, but must be performed by a weapon that grants this skill. Afterwards, Spun Weapon ends. On Battle Start: Gain Spun Weapon. While you have Spun Weapon, weapon gains +5 Power and +5% Critical Damage. While you do not, weapon gains +5 Hit and +2 Attack Range."
+          }
+        ]
       }
     ],
     "Rapier of Resent": [
@@ -3970,7 +4218,14 @@
         "description": "Grants Skill: Charge Weapon (3 Momentum, 5 FP) - Rev your weapon and fill it with focus, increasing its Charge, to a maximum of level 3. When you hit with a weapon that can consume Weapon Charges, the damage you deal with that attack will increase by 50% per level. (Weapon Charges will expire after 5 rounds.)",
         "applies": "reference",
         "effects": [],
-        "grants": "Charge Weapon"
+        "grants": "Charge Weapon",
+        "skills": [
+          {
+            "name": "Charge Weapon",
+            "cost": "3 Momentum, 5 FP",
+            "text": "Rev your weapon and fill it with focus, increasing its Charge, to a maximum of level 3. When you hit with a weapon that can consume Weapon Charges, the damage you deal with that attack will increase by 50% per level. (Weapon Charges will expire after 5 rounds.)"
+          }
+        ]
       },
       {
         "name": "Elite Engine",
@@ -3985,7 +4240,14 @@
         "description": "Grants Skill: Flip Blade (0M, 0 FP, 1 Round CD) - Turn your Sakabatou around, changing which side you're using. Grants or removes Flipped Blade (permanent duration). Flipped Blade: Your Sakabatou weapons deal Slash damage.",
         "applies": "reference",
         "effects": [],
-        "grants": "Flip Blade"
+        "grants": "Flip Blade",
+        "skills": [
+          {
+            "name": "Flip Blade",
+            "cost": "0M, 0 FP, 1 Round CD",
+            "text": "Turn your Sakabatou around, changing which side you're using. Grants or removes Flipped Blade (permanent duration). Flipped Blade: Your Sakabatou weapons deal Slash damage."
+          }
+        ]
       },
       {
         "name": "Killing Is A Choice",
@@ -4072,7 +4334,14 @@
         "description": "1+M, 0 FP, 2 Round CD A special self-defense technique. Consume all of your remaining Momentum and gain Swift Guard LV X (X = 8 x Momentum consumed), as you take a stance with the Kamiya. If you consume at least 4 Momentum this way, you also prepare the Kamiya Counter (until your next turn), a special retaliation strike that aims for the target's knees or other form of mobility. Kamiya Counter: Perform a counter attack (50% damage) when an enemy in 1 Range attacks you (except from behind), which will inflict Clumsy until the attacker's next turn if it hits. Doesn't stack with other counter attacks and takes priority over them.",
         "applies": "reference",
         "effects": [],
-        "grants": "Kamiya Guard"
+        "grants": "Kamiya Guard",
+        "skills": [
+          {
+            "name": "Kamiya Guard",
+            "cost": "1+M, 0 FP, 2 Round CD",
+            "text": "A special self-defense technique. Consume all of your remaining Momentum and gain Swift Guard LV X (X = 8 x Momentum consumed), as you take a stance with the Kamiya. If you consume at least 4 Momentum this way, you also prepare the Kamiya Counter (until your next turn), a special retaliation strike that aims for the target's knees or other form of mobility. Kamiya Counter: Perform a counter attack (50% damage) when an enemy in 1 Range attacks you (except from behind), which will inflict Clumsy until the attacker's next turn if it hits. Doesn't stack with other counter attacks and takes priority over them."
+          }
+        ]
       }
     ],
     "Kouenjin": [
@@ -4568,7 +4837,14 @@
         "description": "Targets a tile up to 8 Range away that contains an enemy or plant special tile. Creates Ice Sheets in the line along from your current location to that tile, which last 3 rounds. Plant special tiles are frozen and turn into dense ice statues. If an enemy is the target and they are a Plant, they are inflicted with Frozen LV 10 for 2 rounds, but this skill enters a 3 round cooldown.",
         "applies": "reference",
         "effects": [],
-        "grants": "Everblue"
+        "grants": "Everblue",
+        "skills": [
+          {
+            "name": "Everblue",
+            "cost": null,
+            "text": "Targets a tile up to 8 Range away that contains an enemy or plant special tile. Creates Ice Sheets in the line along from your current location to that tile, which last 3 rounds. Plant special tiles are frozen and turn into dense ice statues. If an enemy is the target and they are a Plant, they are inflicted with Frozen LV 10 for 2 rounds, but this skill enters a 3 round cooldown."
+          }
+        ]
       }
     ],
     "Spectre Sword": [
@@ -4765,7 +5041,14 @@
         "description": "Rev your weapon and fill it with focus, increasing its Charge, to a maximum of level 3. When you hit with a weapon that can consume Weapon Charges, the damage you deal with that attack will increase by 50% per level. (Weapon Charges will expire after 5 rounds.)",
         "applies": "reference",
         "effects": [],
-        "grants": "Charge Weapon"
+        "grants": "Charge Weapon",
+        "skills": [
+          {
+            "name": "Charge Weapon",
+            "cost": null,
+            "text": "Rev your weapon and fill it with focus, increasing its Charge, to a maximum of level 3. When you hit with a weapon that can consume Weapon Charges, the damage you deal with that attack will increase by 50% per level. (Weapon Charges will expire after 5 rounds.)"
+          }
+        ]
       },
       {
         "name": "Weapon Charge Consumption",
@@ -5018,7 +5301,14 @@
         "description": "Grants access to a custom spell in battle. The spell will deal magic damage to units it targets equal to the scaling of this weapon, plus 100% of your Elem ATK of the same element. By installing Spell Seeds into this tome's customization slots, their effects will also be applied, generally to the targets of the spell. This special tome can be modified with Spell Seeds to give its spell additional effects. You can right-click this item and select 'set-style-mode' to change the effect of style seeds to display on enemies, yourself, or the location(s) you target.",
         "applies": "reference",
         "effects": [],
-        "grants": "Custom Spell"
+        "grants": "Custom Spell",
+        "skills": [
+          {
+            "name": "Custom Spell",
+            "cost": null,
+            "text": "Grants access to a custom spell in battle. The spell will deal magic damage to units it targets equal to the scaling of this weapon, plus 100% of your Elem ATK of the same element. By installing Spell Seeds into this tome's customization slots, their effects will also be applied, generally to the targets of the spell. This special tome can be modified with Spell Seeds to give its spell additional effects. You can right-click this item and select 'set-style-mode' to change the effect of style seeds to display on enemies, yourself, or the location(s) you target."
+          }
+        ]
       }
     ],
     "Forgrint": [
@@ -5027,7 +5317,14 @@
         "description": "Grants a skill that can change this weapon into a Spear (or back into a Tome).",
         "applies": "reference",
         "effects": [],
-        "grants": "Transform to Spear"
+        "grants": "Transform to Spear",
+        "skills": [
+          {
+            "name": "Transform to Spear",
+            "cost": null,
+            "text": "Grants a skill that can change this weapon into a Spear (or back into a Tome)."
+          }
+        ]
       },
       {
         "name": "Fallenharn",
@@ -5042,7 +5339,14 @@
         "description": "Grants a skill that can change this weapon into a Sword (or back into a Tome).",
         "applies": "reference",
         "effects": [],
-        "grants": "Transform to Sword"
+        "grants": "Transform to Sword",
+        "skills": [
+          {
+            "name": "Transform to Sword",
+            "cost": null,
+            "text": "Grants a skill that can change this weapon into a Sword (or back into a Tome)."
+          }
+        ]
       },
       {
         "name": "Swordsmith Rain",
@@ -5102,7 +5406,14 @@
         "description": "Grants a skill that can change this weapon into an Axe (or back into a Tome).",
         "applies": "reference",
         "effects": [],
-        "grants": "Transform to Axe"
+        "grants": "Transform to Axe",
+        "skills": [
+          {
+            "name": "Transform to Axe",
+            "cost": null,
+            "text": "Grants a skill that can change this weapon into an Axe (or back into a Tome)."
+          }
+        ]
       },
       {
         "name": "Spirit Trip",
@@ -5117,7 +5428,14 @@
         "description": "Have the Screaming Tome bite your hand, causing you to take 10% (20% if not your main hand weapon) of your maximum HP as unresistable Piercing damage. In exchange, the magical bite will remove any Silence you are suffering (ignoring any effects that would prevent its curing), letting you yelp in pain.",
         "applies": "reference",
         "effects": [],
-        "grants": "Screamer"
+        "grants": "Screamer",
+        "skills": [
+          {
+            "name": "Screamer",
+            "cost": null,
+            "text": "Have the Screaming Tome bite your hand, causing you to take 10% (20% if not your main hand weapon) of your maximum HP as unresistable Piercing damage. In exchange, the magical bite will remove any Silence you are suffering (ignoring any effects that would prevent its curing), letting you yelp in pain."
+          }
+        ]
       }
     ],
     "Aquaphobia": [
@@ -5145,7 +5463,14 @@
         "description": "Creates (or moves, if already active) a Frozen Fear at target location within 5 Range. While active, the Frozen Fear becomes the center point for Aquarian spells you cast (excluding movement skills). You can use this skill on your current location to destroy your Frozen Fear. (Destroying it will restore 2 Momentum.)",
         "applies": "reference",
         "effects": [],
-        "grants": "Frozen Fear"
+        "grants": "Frozen Fear",
+        "skills": [
+          {
+            "name": "Frozen Fear",
+            "cost": null,
+            "text": "Creates (or moves, if already active) a Frozen Fear at target location within 5 Range. While active, the Frozen Fear becomes the center point for Aquarian spells you cast (excluding movement skills). You can use this skill on your current location to destroy your Frozen Fear. (Destroying it will restore 2 Momentum.)"
+          }
+        ]
       }
     ],
     "Balrog": [
@@ -5396,18 +5721,27 @@
     ],
     "Cruel Commander": [
       {
-        "name": "Cruel Commander",
-        "description": "Grants Skill: Contract of Blood. Sometimes, the best strategy isn't the most compassionate.",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Grants Contract of Blood skill",
-        "description": "Grants Contract of Blood skill",
+        "name": "Grants Skill: Contract of Blood",
+        "description": "Grants Skill: Contract of Blood",
         "applies": "reference",
         "effects": [],
         "grants": "Contract of Blood",
         "role": "skill"
+      },
+      {
+        "name": "3 Momentum, 0 FP",
+        "description": "3 Momentum, 0 FP",
+        "applies": "reference",
+        "effects": [],
+        "grants": "Contract of Blood",
+        "role": "cost"
+      },
+      {
+        "name": "Targets 1 of your Youkai within 1 Range and sets it's HP to 0, defeating it. You then gain Cruel Commander LV X (X = your level + 20) for 3 rounds, which causes your STR to become equal to its LV.",
+        "description": "Targets 1 of your Youkai within 1 Range and sets it's HP to 0, defeating it. You then gain Cruel Commander LV X (X = your level + 20) for 3 rounds, which causes your STR to become equal to its LV.",
+        "applies": "reference",
+        "effects": [],
+        "grants": "Contract of Blood"
       }
     ],
     "Dragon King's Armor": [
@@ -6283,6 +6617,122 @@
       {
         "name": "Jam damage shield on battle start",
         "description": "Jam damage shield on battle start",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Berserker Shell": [
+      {
+        "name": "Berserker Shell",
+        "description": "+20 HP Gain increased Critical with Axe weapons based on how much HP you are missing.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Caster's Cape": [
+      {
+        "name": "Caster's Cape",
+        "description": "If your main class is a Mage class, the stat bonuses it gives you are increased by 50% (min. 1 if >0).",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Dragon Gi": [
+      {
+        "name": "Dragon Gi",
+        "description": "+15 HP, +15 FP Set: Like a Dragon 2+ - Gain Cast Off Flexing Skill. When you use Cast Off Flexing; * Activate all of your Arcane Tattoo traits. * Activate Crack Knuckles skill (if equipped). * Gain Dragon Fist status permanently. (+2 Attack Range for Bare Fists. Bare Fists' Attack skill moves you to an unoccupied tile next to the target if not in 1 Range, and gains Trickery - Activate Kick skill on the target. * Kick skill Momentum cost reduced by 1 during a turn where you've used Attack.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Farmer's Shirt": [
+      {
+        "name": "Farmer's Shirt",
+        "description": "If your main class is a Martial Artist class, the stat bonuses it gives you are increased by 50% (min. 1 if > 0).",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Healer's Shroud": [
+      {
+        "name": "Healer's Shroud",
+        "description": "If your main class is a Curate class, the stat bonuses it gives you are increased by 50% (min. 1 if >0). Set: Church Faithful 2+ - +15% Healing-tag skill Power and +3 Light ATK 3+ - +15 Evade versus Vampire race, Possessed race, and Cladis Mortem Null enemies. 4+ - Can't be targeted by the Banquet skill. Vampiric effects (item effects or miniboss skill) do not work against you. Pray skill's Momentum cost becomes 3.",
+        "applies": "conditional",
+        "effects": [
+          {
+            "kind": "elementalAttack",
+            "key": "Light",
+            "base": 3,
+            "ulMultiplier": 0
+          },
+          {
+            "kind": "derived",
+            "key": "evade",
+            "base": 15,
+            "ulMultiplier": 0
+          }
+        ]
+      }
+    ],
+    "Kaminah Robes": [
+      {
+        "name": "Kaminah Robes",
+        "description": "Replaces Blind status effects that are applied to you with Beyond Sight instead.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Shadow Gi": [
+      {
+        "name": "Shadow Gi",
+        "description": "10% Light Resistance",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Grants Skill: Ninja Telepo",
+        "description": "Grants Skill: Ninja Telepo",
+        "applies": "reference",
+        "effects": [],
+        "grants": "Ninja Telepo",
+        "role": "skill"
+      },
+      {
+        "name": "1 Momentum, 10FP",
+        "description": "1 Momentum, 10FP",
+        "applies": "reference",
+        "effects": [],
+        "grants": "Ninja Telepo",
+        "role": "cost"
+      },
+      {
+        "name": "Throw your hands together in a ninjutsu sign and disappear, reappearing at a nearby location within 2 Range. You also gain a status called Double Telepo for 3 Rounds. (When you evade an attack, you disappear in a puff of smoke and appear at the tile behind your attacker, if it is a valid battle tile. Expires after triggered.)",
+        "description": "Throw your hands together in a ninjutsu sign and disappear, reappearing at a nearby location within 2 Range. You also gain a status called Double Telepo for 3 Rounds. (When you evade an attack, you disappear in a puff of smoke and appear at the tile behind your attacker, if it is a valid battle tile. Expires after triggered.)",
+        "applies": "reference",
+        "effects": [],
+        "grants": "Ninja Telepo"
+      }
+    ],
+    "Warding Cloth": [
+      {
+        "name": "Warding Cloth",
+        "description": "Increases status resistance by 10%.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Alchemic Wrap": [
+      {
+        "name": "Alchemic Wrap",
+        "description": "Doubles item material effects that modify this item's parameters (such as Armor, Evade, etc.).",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Batwing Cloak": [
+      {
+        "name": "Batwing Cloak",
+        "description": "Airborne effects you are under do not automatically end when turns shift. When a field object explodes while you are in its effective radius, you become Airborne (3 rounds) and gain Agile Bat as a substatus to it (LV = 30 - Battle Weight). While Airborne, if this torso is enchanted with Winged, enemy Critical Damage is reduced by 25% when attacking you. Increases Evade and Critical Evade by LV. Immune to Airborne.",
         "applies": "reference",
         "effects": []
       }

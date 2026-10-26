@@ -257,6 +257,28 @@ describe('granted skills', () => {
     expect(skills[3].parts.map(part => part.effect.description)[1]).toBe('Furinkazan: Gain 1 Fire Mark.');
   });
 
+  it('splits a weapon special that grants two skills, with each cost on its own', () => {
+    const build = buildReducer(createDefaultBuild(), { type: 'equip-weapon', which: 'primaryWeapon', weaponName: 'Tricky Yoyo' });
+    expect(grantedSkills(build.equipment).map(skill => [skill.name, skill.cost])).toEqual([
+      ['Walk The Dog', '3M, 10 FP, 1 round CD'],
+      ['Elevator', '1M'],
+    ]);
+  });
+
+  it('fills a weapon skill that only names itself from the item that describes it', () => {
+    const build = buildReducer(createDefaultBuild(), { type: 'equip-weapon', which: 'primaryWeapon', weaponName: 'Boxing Glove' });
+    const [guard] = grantedSkills(build.equipment);
+    expect(guard.name).toBe('Guard');
+    expect(guard.text).toMatch(/^Raise your shield.*Schwarz Sturm gauge\.$/);
+  });
+
+  it('describes the skills torso armour grants', () => {
+    const build = buildReducer(createDefaultBuild(), { type: 'equip-armor', armorName: 'Cruel Commander' });
+    const [contract] = grantedSkills(build.equipment);
+    expect([contract.name, contract.cost]).toEqual(['Contract of Blood', '3 Momentum, 0 FP']);
+    expect(contract.parts[0].effect.description).toMatch(/^Targets 1 of your Youkai/);
+  });
+
   it('leaves an item’s other effects out of its skills', () => {
     const build = buildReducer(createDefaultBuild(), { type: 'equip-gear', slot: 'accessory1', itemName: 'Ash-Kissed Malas' });
     const other = effectsForSlot(build.equipment, 'accessory1').filter(entry => !entry.effect.grants);

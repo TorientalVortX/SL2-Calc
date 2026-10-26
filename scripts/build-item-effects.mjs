@@ -282,6 +282,48 @@ function withSkillRole(record, tag) {
   return tag.role ? { ...record, applies: 'reference', effects: [], ...tag } : { ...record, ...tag };
 }
 
+// Gear writes each skill in full, so a weapon that only names one ("Grants skill: Guard.") can borrow it.
+const SKILL_LIBRARY = new Map();
+for (const item of Object.values(JSON.parse(await readFile(GEAR, 'utf8'))).flat()) {
+  const lines = item.specialEffects ?? [];
+  const found = new Map();
+  skillRoles(lines).forEach((tag, index) => {
+    if (!tag.grants) return;
+    const known = found.get(tag.grants) ?? { cost: null, text: [] };
+    if (tag.role === 'cost') known.cost = lines[index];
+    else if (!tag.role) known.text.push(lines[index]);
+    found.set(tag.grants, known);
+  });
+  for (const [name, known] of found) if (!SKILL_LIBRARY.has(name)) SKILL_LIBRARY.set(name, known);
+}
+
+const COST = String.raw`\d+\+?\s*M\b(?:\s*[,/]\s*\d+\s*FP)?(?:\s*[,.]\s*\d+\s*[Rr]ounds?\s*(?:CD|Cooldown))?`;
+const SKILL_SEGMENT = new RegExp(String.raw`(?:^|(?<=[.)]\s+))\(?([A-Z][A-Za-z' ]{1,30}?):\s*(${COST})[.,]?\s*`, 'g');
+
+// Weapon specials write skills as "Grants Skill: X (cost) - text", "X: cost. text" (one or several), or "cost text".
+function weaponSkills(name, description) {
+  const text = description.trim();
+  const inline = /^Grants Skill:\s*([^(]+?)\s*\(([^)]*)\)\s*-\s*([\s\S]*)$/i.exec(text);
+  if (inline) return [{ name: inline[1].trim(), cost: inline[2].trim(), text: inline[3].trim() }];
+  const named = /^Grants skill:\s*([^.(]+?)\.\s*([\s\S]*)$/i.exec(text);
+  if (named) {
+    const known = SKILL_LIBRARY.get(named[1].trim());
+    return [{ name: named[1].trim(), cost: known?.cost ?? null, text: [...(known?.text ?? []), named[2]].filter(Boolean).join(' ') }];
+  }
+  const leadingCost = new RegExp(String.raw`^(${COST})\s+([\s\S]*)$`).exec(text);
+  if (leadingCost) return [{ name, cost: leadingCost[1], text: leadingCost[2] }];
+  const headers = [...text.matchAll(SKILL_SEGMENT)];
+  if (!headers.length) return [{ name, cost: null, text }];
+  const segments = headers.map((match, index) => ({
+    // One segment is this special's own skill; the wiki sometimes labels it with a sibling's name (Tsukikage).
+    name: headers.length === 1 ? name : match[1].trim(),
+    cost: match[2].trim().replace(/\.\s*/g, ', '),
+    text: text.slice(match.index + match[0].length, headers[index + 1]?.index ?? text.length).trim(),
+  }));
+  if (text.startsWith('(')) segments[segments.length - 1].text = segments[segments.length - 1].text.replace(/\)$/, '');
+  return segments;
+}
+
 const weapons = {};
 for (const file of (await readdir(CONTENT)).filter((f) => /^weapons-.+\.json$/.test(f))) {
   for (const weapon of JSON.parse(await readFile(path.join(CONTENT, file), 'utf8'))) {
@@ -289,7 +331,9 @@ for (const file of (await readdir(CONTENT)).filter((f) => /^weapons-.+\.json$/.t
       // Only a Passive is a standing bonus; the rest fire on a trigger.
       .map((special) => {
         const record = toRecord(special.name ?? special.type, special.description ?? '', special.type === 'Passive');
-        return special.type === 'GrantsSkill' ? { ...record, grants: special.name } : record;
+        if (special.type !== 'GrantsSkill') return record;
+        const skills = weaponSkills(special.name, special.description ?? '');
+        return { ...record, grants: skills[0].name, skills };
       })
       .filter((record) => record.effects.length || record.description);
     if (records.length) weapons[weapon.name] = records;
@@ -304,12 +348,18 @@ for (const list of Object.values(JSON.parse(await readFile(ARMORS, 'utf8')))) {
     const structuredElements = new Set(
       Object.keys(armor.resistances ?? {}).map(canonicalElement).filter(Boolean),
     );
-    const detail = armor.details
-      ? withoutStructuredDuplicates(toRecord(armor.name, armor.details, true), structured, structuredElements)
+    const roles = skillRoles(armor.specialEffects ?? []);
+    // A granted skill's lines are also in `details`; show them once, on the skill.
+    const detailText = (armor.specialEffects ?? [])
+      .filter((_, index) => roles[index].grants)
+      .reduce((text, line) => text.replace(line, ''), armor.details ?? '')
+      .replace(/\s+/g, ' ')
+      .trim();
+    const detail = detailText
+      ? withoutStructuredDuplicates(toRecord(armor.name, detailText, true), structured, structuredElements)
       : null;
     if (detail) records.push(detail);
     const detailValues = new Set(detail?.effects.map(valueSignature) ?? []);
-    const roles = skillRoles(armor.specialEffects ?? []);
     for (const [index, special] of (armor.specialEffects ?? []).entries()) {
       const record = withSkillRole(withoutStructuredDuplicates(toRecord(special, special, false), structured, structuredElements), roles[index]);
       // `specialEffects` summarizes `details`; do not offer the same magnitude twice.
