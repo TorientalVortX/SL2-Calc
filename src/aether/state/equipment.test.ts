@@ -286,6 +286,54 @@ describe('granted skills', () => {
   });
 });
 
+describe('granted skills in use', () => {
+  const on = (build: ReturnType<typeof createDefaultBuild>, key: string) => buildReducer(build, { type: 'item-conditional', key, on: true });
+
+  it('sets STR to level + 20 while Contract of Blood is in effect', () => {
+    const build = buildReducer(createDefaultBuild(), { type: 'equip-armor', armorName: 'Cruel Commander' });
+    const active = evaluateBuild(on(build, 'Cruel Commander:2'));
+    expect(active.scaledStats.str).toBe(build.characterLevel + 20);
+    expect(active.rawStats.str).toBe(build.characterLevel + 20);
+  });
+
+  it('adds Lion’s Roar’s STR, growing with character level', () => {
+    const build = buildReducer(createDefaultBuild(), { type: 'equip-gear', slot: 'hands', itemName: 'Lion Shield' });
+    const before = evaluateBuild(build).scaledStats.str;
+    expect(evaluateBuild(on(build, 'Lion Shield:3')).scaledStats.str).toBe(before + 2 + Math.floor(build.characterLevel / 5));
+  });
+
+  it('gives Luckiness Dance at least 1 SKI and LUC before any upgrades', () => {
+    const build = buildReducer(createDefaultBuild(), { type: 'equip-weapon', which: 'primaryWeapon', weaponName: "Atlaua's Abaniko" });
+    const before = evaluateBuild(build).scaledStats;
+    const after = evaluateBuild(on(build, "Atlaua's Abaniko:1")).scaledStats;
+    expect([after.ski - before.ski, after.luc - before.luc]).toEqual([1, 1]);
+  });
+
+  it('does not read a skill’s cost or a "per 20 STR" rate as a bonus', () => {
+    const build = buildReducer(createDefaultBuild(), { type: 'equip-weapon', which: 'primaryWeapon', weaponName: 'Holy Word' });
+    expect(effectsForSlot(build.equipment, 'primaryWeapon').flatMap(entry => entry.effect.effects)).toEqual([]);
+  });
+});
+
+describe('class torso pieces', () => {
+  const as = (mainClass: string, armorName: string | null) => {
+    const build = buildReducer({ ...createDefaultBuild(), mainClass, subClass: 'Soldier' }, { type: 'equip-armor', armorName });
+    return evaluateBuild(build).rawStats;
+  };
+
+  it('raises a Mage class’s stat bonuses by half, at least 1 each', () => {
+    const bare = as('Evoker', null);
+    const caped = as('Evoker', "Caster's Cape");
+    // Evoker gives WIL 3, SKI 2, CEL 2, LUC 1.
+    expect([caped.wil - bare.wil, caped.ski - bare.ski, caped.cel - bare.cel, caped.luc - bare.luc, caped.str - bare.str]).toEqual([1, 1, 1, 1, 0]);
+  });
+
+  it('does nothing for a class outside its family', () => {
+    expect(as('Monk', "Caster's Cape")).toEqual(as('Monk', null));
+    expect(as('Monk', "Farmer's Shirt").def - as('Monk', null).def).toBe(1);
+  });
+});
+
 describe('clearing', () => {
   it('empties every slot without touching the character', () => {
     let build = armed();

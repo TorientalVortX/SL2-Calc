@@ -204,6 +204,6 @@ describe('summing item bonuses', () => {
   });
 
   it('allocates nothing for a build with no equipment', () => {
-    expect(itemBonuses({})).toEqual({ stats: {}, derived: {}, elementalAttack: {}, resistances: {} });
+    expect(itemBonuses({})).toEqual({ stats: {}, setStats: {}, derived: {}, elementalAttack: {}, resistances: {} });
   });
 });

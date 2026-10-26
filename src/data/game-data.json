@@ -5,6 +5,9 @@
   "changes": [
     "Added 10 unarmored torso pieces that were missing, including Shadow Gi, Dragon Gi, Caster's Cape and Batwing Cloak.",
     "Skills granted by equipment now show their cost and full text, including Cruel Commander's Contract of Blood and both of Tricky Yoyo's skills.",
+    "Caster's Cape, Farmer's Shirt and Healer's Shroud now raise your main class's stat bonuses by half when it is in their family.",
+    "Contract of Blood, Lion's Roar, Luckiness Dance and Needle's Spin Up now apply their stats while switched on.",
+    "Fixed Holy Word's Crusader Charge and Divine Bunker switches, which added STR and FP read from their cost and range text.",
     "Materials with an \"All:\" effect now apply it on every slot their class supports, so Webbing on cloth gloves gives its Acid ATK.",
     "Fixed glove enchantments such as Fireheart, whose elemental ATK never applied.",
     "Fixed Rainbowbark and other materials that list several elements under one bonus.",

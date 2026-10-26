@@ -18,6 +18,7 @@ import { youkaiNumericBonuses } from '../youkaiBonuses';
 import { itemBonuses } from '../itemEffects';
 import { setPiecesEquipped } from '../itemSets';
 import { traitStatBonuses } from '../traits';
+import { boostedClassStats, classArmorApplies } from '../classArmor';
 import { talentEffects } from '../talents';
 import { effectiveWeaponTypes, findWeaponByName } from '../equipment';
 import { activeMixtureBonuses } from '../chemist';
@@ -121,7 +122,8 @@ export function gatherInputs(build: BuildState) {
   const mixtureBonuses = activeMixtureBonuses(build);
   const subrace = SUBRACES[build.subrace] ?? emptyStats();
   const race = RACES[build.race];
-  const mainClass = CLASSES[build.mainClass] ?? emptyStats();
+  const classStats = CLASSES[build.mainClass] ?? emptyStats();
+  const mainClass = classArmorApplies(build.equipment.armorName, build.mainClass) ? boostedClassStats(classStats) : classStats;
   const monoclassModifier = build.mainClass === build.subClass ? 2 : 1;
   const history = HISTORY[build.history] ?? HISTORY.None ?? { stats: {}, description: '' };
   const food = FOODS[build.food] ?? FOODS.None ?? { stats: {}, hp: 0, fp: 0, description: '' };
@@ -172,6 +174,7 @@ export function gatherInputs(build: BuildState) {
       ...(build.equipment.itemConditionalBonuses ?? {}),
     },
     rolls: build.equipment.itemRolls,
+    level: build.characterLevel,
   });
   const gearBonus = gearSlots ? sumGearModifiers(gearSlots) : NO_GEAR_BONUS;
 

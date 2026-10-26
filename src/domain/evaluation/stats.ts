@@ -121,6 +121,10 @@ export function resolveStats(inputs: EvaluationInputs) {
   }
   if (dragonKingPieces > 0) scaledStats.str = Math.floor(scaledStats.str * (1 + 0.05 * dragonKingPieces));
   if (dragonQueenPieces > 0) scaledStats.wil = Math.floor(scaledStats.wil * (1 + 0.05 * dragonQueenPieces));
+  for (const [stat, value] of Object.entries(items.setStats) as Array<[StatKey, number]>) {
+    scaledStats[stat] = value;
+    rawStats[stat] = value;
+  }
   if (hasSkillRanks) skills = skillBonuses(availableSkills, mergedSkillRanks, build.skillConditionals, skillWeaponTypes, { ...skillContext, scaledStats });
 
   const fortune = calculateRedtailFortune({

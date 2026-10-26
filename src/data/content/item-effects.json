@@ -1671,8 +1671,23 @@
       {
         "name": "Luckiness Dance",
         "description": "Begins a rhythmic foreign dance which boosts the SKI and LUC of all party members in the current battle by Atlaua's Abaniko's UL/2 (min. 1) for 3 rounds.",
-        "applies": "reference",
-        "effects": [],
+        "applies": "conditional",
+        "effects": [
+          {
+            "kind": "buffStat",
+            "key": "ski",
+            "base": 0,
+            "ulMultiplier": 0.5,
+            "min": 1
+          },
+          {
+            "kind": "buffStat",
+            "key": "luc",
+            "base": 0,
+            "ulMultiplier": 0.5,
+            "min": 1
+          }
+        ],
         "grants": "Luckiness Dance",
         "skills": [
           {
@@ -2551,21 +2566,8 @@
       {
         "name": "Crusader Charge",
         "description": "(Crusader Charge: 3M / 10 FP. Wield the Holy Word and charge forward in a resizeable Line (2-3, +1 max per 20 STR, capped at 6). The first enemy you encounter is pushed along with you, until you or they encounter an impassable tile or another enemy. Afterwards, if an enemy was hit, they take Pierce damage equal to 100% of Holy Word's Scaled Weapon Attack. If the movement was stopped by another enemy, that enemy takes Blunt damage equal to half that.)",
-        "applies": "conditional",
-        "effects": [
-          {
-            "kind": "derived",
-            "key": "fp",
-            "base": 10,
-            "ulMultiplier": 0
-          },
-          {
-            "kind": "stat",
-            "key": "str",
-            "base": 20,
-            "ulMultiplier": 0
-          }
-        ],
+        "applies": "reference",
+        "effects": [],
         "grants": "Crusader Charge",
         "skills": [
           {
@@ -2578,15 +2580,8 @@
       {
         "name": "Divine Bunker",
         "description": "(Divine Bunker: 3M / 15 FP. 3 Rounds CD. Unleash the Holy Word's full force. Can only be used after having used Crusader Charge in the same round. Fire the pilebunker, dealing Pierce damage with Great Accuracy equal to 100% of Holy Word's Scaled Weapon Attack to the enemy in the tile you are facing, which knocks them airborne and away 5 tiles. Afterwards, if the Holy Word is Jeweled, and an Offensive Mercalan spell scroll (excluding invocations) is in its Scroll weapon part slot, you cast it at the target's location for free. If there is no valid spell scroll, they are struck by divine lightning instead, taking Lightning magic damage equal to your FAI x 2, which ignores evasion, protection, reflect, absorb, and immune.)",
-        "applies": "conditional",
-        "effects": [
-          {
-            "kind": "derived",
-            "key": "fp",
-            "base": 15,
-            "ulMultiplier": 0
-          }
-        ],
+        "applies": "reference",
+        "effects": [],
         "grants": "Divine Bunker",
         "skills": [
           {
@@ -4054,12 +4049,6 @@
           {
             "kind": "derived",
             "key": "power",
-            "base": 5,
-            "ulMultiplier": 0
-          },
-          {
-            "kind": "derived",
-            "key": "hit",
             "base": 5,
             "ulMultiplier": 0
           }
@@ -5739,8 +5728,16 @@
       {
         "name": "Targets 1 of your Youkai within 1 Range and sets it's HP to 0, defeating it. You then gain Cruel Commander LV X (X = your level + 20) for 3 rounds, which causes your STR to become equal to its LV.",
         "description": "Targets 1 of your Youkai within 1 Range and sets it's HP to 0, defeating it. You then gain Cruel Commander LV X (X = your level + 20) for 3 rounds, which causes your STR to become equal to its LV.",
-        "applies": "reference",
-        "effects": [],
+        "applies": "conditional",
+        "effects": [
+          {
+            "kind": "setStat",
+            "key": "str",
+            "base": 20,
+            "ulMultiplier": 0,
+            "perLevel": 1
+          }
+        ],
         "grants": "Contract of Blood"
       }
     ],
@@ -8268,8 +8265,16 @@
       {
         "name": "Lion Shield",
         "description": "Unleash a mighty roar. Increases the user's STR by 2 (+1 per 5 character levels) for 3 rounds. Enemies in range may also be Feared for 2 rounds.",
-        "applies": "reference",
-        "effects": [],
+        "applies": "conditional",
+        "effects": [
+          {
+            "kind": "buffStat",
+            "key": "str",
+            "base": 2,
+            "ulMultiplier": 0,
+            "perLevel": 0.2
+          }
+        ],
         "grants": "Lion's Roar"
       }
     ],

@@ -4,7 +4,8 @@ import type { ArmorUpgradePoints, ElementKey, ResistKey, StatKey, TetraAlignment
 import content from '../data/content/item-effects.json';
 
 export interface ItemEffectValue {
-  kind: 'stat' | 'buffStat' | 'derived' | 'elementalAttack' | 'resistance';
+  /** `setStat` replaces the stat outright (Contract of Blood: "your STR becomes equal to its LV"). */
+  kind: 'stat' | 'buffStat' | 'setStat' | 'derived' | 'elementalAttack' | 'resistance';
   key: string;
   base: number;
   ulMultiplier: number;
@@ -14,6 +15,9 @@ export interface ItemEffectValue {
   controlLabel?: string;
   /** Written for a Fire alignment; the item's chosen crystal decides the real element or stat. */
   tetra?: boolean;
+  /** Added per character level ("+1 per 5 character levels" is 0.2). */
+  perLevel?: number;
+  min?: number;
 }
 
 export const isTetraItem = (effects: ItemEffect[]) => effects.some(effect => effect.effects.some(value => value.tetra));
@@ -63,9 +67,9 @@ export function armorUL(points: ArmorUpgradePoints | undefined): number {
   return points.armor + points.magicArmor + points.evade;
 }
 
-export function valueAtUL(value: ItemEffectValue, ul: number, roll?: number): number {
+export function valueAtUL(value: ItemEffectValue, ul: number, roll?: number, level = 0): number {
   const rolled = value.rollMax === undefined ? value.base : clampRoll(value, roll);
-  return Math.floor(rolled + ul * value.ulMultiplier);
+  return Math.max(value.min ?? -Infinity, Math.floor(rolled + ul * value.ulMultiplier + level * (value.perLevel ?? 0)));
 }
 
 export function clampRoll(value: ItemEffectValue, roll: number | undefined): number {
@@ -81,13 +85,15 @@ export function itemRollKey(itemName: string, effectIndex: number, valueIndex: n
 
 export interface ItemBonuses {
   stats: Partial<Record<StatKey, number>>;
+  /** Final values that replace a stat while their effect is on. */
+  setStats: Partial<Record<StatKey, number>>;
   derived: Record<string, number>;
   elementalAttack: Partial<Record<ElementKey, number>>;
   /** Armour text is not read for these; its curated resistance map already applies them. */
   resistances: Partial<Record<ResistKey, number>>;
 }
 
-const EMPTY: ItemBonuses = { stats: {}, derived: {}, elementalAttack: {}, resistances: {} };
+const EMPTY: ItemBonuses = { stats: {}, setStats: {}, derived: {}, elementalAttack: {}, resistances: {} };
 const NO_ROLLS: Record<string, number> = Object.freeze({});
 
 export function itemConditionalKey(itemName: string, index: number): string {
@@ -116,24 +122,32 @@ function effectKey(value: ItemEffectValue, tetra: TetraAlignment = 'Fire'): stri
   return value.kind === 'stat' ? TETRA_PAIRS[tetra].stat : tetra;
 }
 
-export function bonusesForItem(
+interface BattleContext {
+  conditionals: Record<string, boolean>;
+  rolls: Record<string, number>;
+  level: number;
+}
+
+function bonusesForItem(
   itemName: string | null | undefined,
   effects: ItemEffect[],
   ul: number,
-  conditionals: Record<string, boolean>,
   into: ItemBonuses,
-  rolls: Record<string, number> = NO_ROLLS,
+  context: BattleContext,
   tetra?: TetraAlignment,
 ): ItemBonuses {
   if (!itemName) return into;
   effects.forEach((effect, index) => {
     if (effect.applies === 'reference') return;
-    if (effect.applies === 'conditional' && !conditionals[itemConditionalKey(itemName, index)]) return;
+    if (effect.applies === 'conditional' && !context.conditionals[itemConditionalKey(itemName, index)]) return;
     effect.effects.forEach((value, valueIndex) => {
-      const amount = valueAtUL(value, ul, rolls[itemRollKey(itemName, index, valueIndex)]);
+      const amount = valueAtUL(value, ul, context.rolls[itemRollKey(itemName, index, valueIndex)], context.level);
       if (!amount) return;
       const valueKey = effectKey(value, tetra);
-      if (value.kind === 'buffStat') {
+      if (value.kind === 'setStat') {
+        const key = valueKey as StatKey;
+        into.setStats[key] = Math.max(into.setStats[key] ?? -Infinity, amount);
+      } else if (value.kind === 'buffStat') {
         const key = `buff:${valueKey}`;
         into.derived[key] = (into.derived[key] ?? 0) + amount;
       } else if (value.kind === 'stat') {
@@ -173,6 +187,7 @@ export function itemBonuses(input: {
   gear?: Array<GearSlotInput | undefined>;
   conditionals?: Record<string, boolean>;
   rolls?: Record<string, number>;
+  level?: number;
 }): ItemBonuses {
   const weapons = weaponEffects(input.weaponName);
   const armors = armorEffects(input.armorName);
@@ -185,17 +200,16 @@ export function itemBonuses(input: {
   }
   if (!weapons.length && !armors.length && !hasGear) return EMPTY;
 
-  const conditionals = input.conditionals ?? {};
-  const rolls = input.rolls ?? NO_ROLLS;
-  const result: ItemBonuses = { stats: {}, derived: {}, elementalAttack: {}, resistances: {} };
-  bonusesForItem(input.weaponName, weapons, weaponUL(input.weaponPoints), conditionals, result, rolls);
-  bonusesForItem(input.armorName, armors, armorUL(input.armorPoints), conditionals, result, rolls);
+  const context = { conditionals: input.conditionals ?? {}, rolls: input.rolls ?? NO_ROLLS, level: input.level ?? 0 };
+  const result: ItemBonuses = { stats: {}, setStats: {}, derived: {}, elementalAttack: {}, resistances: {} };
+  bonusesForItem(input.weaponName, weapons, weaponUL(input.weaponPoints), result, context);
+  bonusesForItem(input.armorName, armors, armorUL(input.armorPoints), result, context);
   if (gear) {
     for (const slot of gear) {
       if (!slot?.itemName) continue;
       const effects = gearEffects(slot.itemName);
       if (!effects.length) continue;
-      bonusesForItem(slot.itemName, effects, gearUL(slot.upgradePoints), conditionals, result, rolls, slot.tetra);
+      bonusesForItem(slot.itemName, effects, gearUL(slot.upgradePoints), result, context, slot.tetra);
     }
   }
   return result;

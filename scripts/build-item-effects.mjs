@@ -142,12 +142,16 @@ const SHARED_LISTS = [
   { pattern: String.raw`\(?(${MAGNITUDE})\)?\s+${CHANNEL_LIST}\b(?!-)`, magnitude: 1, first: 2 },
 ];
 
+// "+1 max per 20 STR" is a rate, not a bonus.
+const isRate = (text, index) => /\bper\s*$/i.test(text.slice(Math.max(0, index - 6), index));
+
 // A description matched by the first order is not re-scanned by the second.
 function parseEffects(text) {
   const shared = [];
   const covered = [];
   for (const { pattern, magnitude: at, first } of SHARED_LISTS) {
     for (const match of text.matchAll(new RegExp(pattern, 'gi'))) {
+      if (isRate(text, match.index)) continue;
       const magnitude = parseMagnitude(match[at]);
       const words = [match[first], ...match[first + 1].split(new RegExp(LIST_SEPARATOR)).filter(Boolean)];
       for (const word of words) {
@@ -163,7 +167,7 @@ function parseEffects(text) {
     pattern.lastIndex = 0;
     const found = [];
     for (const match of text.matchAll(pattern)) {
-      if (inList(match.index)) continue;
+      if (inList(match.index) || isRate(text, match.index)) continue;
       const [channelWord, magnitudeWord] = index < 2 ? [match[1], match[2]] : [match[2], match[1]];
       const channel = resolveChannel(channelWord);
       const magnitude = parseMagnitude(magnitudeWord);
@@ -276,10 +280,31 @@ function skillRoles(lines) {
   });
 }
 
+// Granted skills whose effect on the user the text parser cannot read; switched on while the skill is in effect.
+const SKILL_MODELS = {
+  // "Cruel Commander LV X (X = your level + 20) ... causes your STR to become equal to its LV."
+  'Contract of Blood': [{ kind: 'setStat', key: 'str', base: 20, ulMultiplier: 0, perLevel: 1 }],
+  // "Increases the user's STR by 2 (+1 per 5 character levels)."
+  "Lion's Roar": [{ kind: 'buffStat', key: 'str', base: 2, ulMultiplier: 0, perLevel: 0.2 }],
+  // "Boosts the SKI and LUC of all party members ... by Atlaua's Abaniko's UL/2 (min. 1)."
+  'Luckiness Dance': [
+    { kind: 'buffStat', key: 'ski', base: 0, ulMultiplier: 0.5, min: 1 },
+    { kind: 'buffStat', key: 'luc', base: 0, ulMultiplier: 0.5, min: 1 },
+  ],
+  // Spun Weapon, which Spin Up grants: "weapon gains +5 Power"; the unspun +5 Hit is not modelled.
+  'Spin Up': [{ kind: 'derived', key: 'power', base: 5, ulMultiplier: 0 }],
+};
+
+function withSkillModel(record) {
+  const model = SKILL_MODELS[record.grants];
+  if (!model || record.role) return record;
+  return { ...record, applies: 'conditional', effects: model };
+}
+
 // Headers and cost lines carry no bonus: "10 FP / 2M" is what the skill spends.
 function withSkillRole(record, tag) {
   if (!tag.grants) return record;
-  return tag.role ? { ...record, applies: 'reference', effects: [], ...tag } : { ...record, ...tag };
+  return withSkillModel(tag.role ? { ...record, applies: 'reference', effects: [], ...tag } : { ...record, ...tag });
 }
 
 // Gear writes each skill in full, so a weapon that only names one ("Grants skill: Guard.") can borrow it.
@@ -333,7 +358,9 @@ for (const file of (await readdir(CONTENT)).filter((f) => /^weapons-.+\.json$/.t
         const record = toRecord(special.name ?? special.type, special.description ?? '', special.type === 'Passive');
         if (special.type !== 'GrantsSkill') return record;
         const skills = weaponSkills(special.name, special.description ?? '');
-        return { ...record, grants: skills[0].name, skills };
+        // Parse the skills' own text: the special's cost ("3M / 10 FP") is not a bonus.
+        const parsed = toRecord(record.name, skills.map((skill) => skill.text).join(' '), false);
+        return withSkillModel({ ...record, applies: parsed.applies, effects: parsed.effects, grants: skills[0].name, skills });
       })
       .filter((record) => record.effects.length || record.description);
     if (records.length) weapons[weapon.name] = records;

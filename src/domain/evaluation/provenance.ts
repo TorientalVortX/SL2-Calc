@@ -6,6 +6,7 @@ import { enchantmentEffectForSlot } from '../armorEnchantments';
 import { itemBonuses } from '../itemEffects';
 import { skillBonuses, skillsForClassSlots } from '../skills';
 import { sanguineCrestStats, traitById, traitStatBonuses } from '../traits';
+import { classArmorApplies } from '../classArmor';
 import { GEAR_ENCHANT_SLOTS, type EvaluationInputs } from './inputs';
 import type { StatsResult } from './stats';
 import { STAT_KEYS } from './shared';
@@ -27,7 +28,8 @@ export function statProvenance(inputs: EvaluationInputs, stats: StatsResult): No
     }
   };
   const line = (fn: (stat: StatKey) => number) => Object.fromEntries(STAT_KEYS.map(stat => [stat, fn(stat)]));
-  add(`${build.mainClass}${monoclassModifier === 2 ? ' (monoclass)' : ''}`, line(stat => (mainClass[stat] ?? 0) * monoclassModifier));
+  const classBoost = classArmorApplies(build.equipment.armorName, build.mainClass) ? ` (+50% from ${build.equipment.armorName})` : '';
+  add(`${build.mainClass}${monoclassModifier === 2 ? ' (monoclass)' : ''}${classBoost}`, line(stat => (mainClass[stat] ?? 0) * monoclassModifier));
   add('Manual stat adjustments', build.customStats);
   add('Karakuri binding', karakuri);
   add('Installed Youkai: racial stat replacement', line(stat => racialFor(stat) - (subrace[stat] ?? 0)));
@@ -45,15 +47,15 @@ export function statProvenance(inputs: EvaluationInputs, stats: StatsResult): No
   add(`Weapon: ${build.equipment.primaryWeapon?.selectedWeaponName}`, itemBonuses({
     weaponName: build.equipment.primaryWeapon?.selectedWeaponName,
     weaponPoints: build.equipment.primaryWeapon ? resolveUpgradePoints(build.equipment.primaryWeapon) : undefined,
-    conditionals, rolls: build.equipment.itemRolls,
+    conditionals, rolls: build.equipment.itemRolls, level: build.characterLevel,
   }).stats);
   add(`Torso effects: ${build.equipment.armorName}`, itemBonuses({
-    armorName: build.equipment.armorName, armorPoints: resolveArmorUpgradePoints(build.equipment), conditionals, rolls: build.equipment.itemRolls,
+    armorName: build.equipment.armorName, armorPoints: resolveArmorUpgradePoints(build.equipment), conditionals, rolls: build.equipment.itemRolls, level: build.characterLevel,
   }).stats);
   gearSlots?.forEach((slot, index) => {
     if (!slot?.itemName) return;
     const label = `${['Hands', 'Legs', 'Accessory 1', 'Accessory 2'][index]}: ${slot.itemName}`;
-    add(label, itemBonuses({ gear: [slot], conditionals, rolls: build.equipment.itemRolls }).stats);
+    add(label, itemBonuses({ gear: [slot], conditionals, rolls: build.equipment.itemRolls, level: build.characterLevel }).stats);
     add(`${label} / ${slot.material}`, otherMaterialModifier(slot.material).stats);
     add(`${label} / ${slot.enchantment}`, enchantmentEffectForSlot(slot.enchantment, GEAR_ENCHANT_SLOTS[index]).stats);
   });
