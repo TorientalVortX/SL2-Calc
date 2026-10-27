@@ -320,6 +320,15 @@ function classifyEffect(description, category) {
   };
 }
 
+// A spell's school, which item "+10% Power to Nerifian Spells" lines key on. The wiki also spells Isespian "Isesipian".
+const SPELL_DOMAINS = ['Nerifian', 'Aquarian', 'Sylphid', 'Isespian', 'Nature', 'Mercalan', 'Mercana', 'Huggessoan'];
+
+function spellDomain(extras) {
+  const value = (extras ?? []).find(([label]) => label === 'Domain')?.[1];
+  const domain = String(value ?? '').replace(/^Isesipian$/, 'Isespian');
+  return SPELL_DOMAINS.includes(domain) ? domain : null;
+}
+
 function parseEffects(extras, maxRank, applies, description = '') {
   const effects = [];
   for (const [rawLabel, value] of extras ?? []) {
@@ -418,6 +427,7 @@ for (const entry of raw) {
     requiresRaw: parseRequirements(entry.extras),
     ...(HAND_MODELLED.has(entry.name) ? { handModelled: true } : {}),
     ...(HEALING.has(entry.name) ? { healing: true } : {}),
+    ...(spellDomain(entry.extras) ? { domain: spellDomain(entry.extras) } : {}),
     ...(performsBasicAttack(entry, scaling) ? {
       basicAttack: {
         ...basicAttackProfile(entry, maxRank),

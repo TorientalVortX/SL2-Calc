@@ -55,6 +55,7 @@ export const OPEN_TARGET: Target = {
 type Attacker = Pick<BuildEvaluation, 'scaledStats' | 'elementalAttack' | 'primaryWeapon'> & {
   offHandWeapon?: BuildEvaluation['offHandWeapon'];
   unarmedWeapon?: BuildEvaluation['unarmedWeapon'];
+  spellPower?: BuildEvaluation['spellPower'];
   derived?: Pick<BuildEvaluation['derived'], 'maxHP' | 'currentHP'>;
 };
 
@@ -113,18 +114,28 @@ export function attackBase(skill: Skill | null, rank: number, attacker: Attacker
   if (!skill || skill.basicAttack) return basicAttack(skill, rank, attacker, hand);
   const formula = skillFormulaBreakdown(skill, rank, { ...attacker, primaryWeapon: weaponFor(attacker, hand) }, elements);
   if (!formula) return { terms: [], amount: 0, bonus: 0, hit: 0, critical: 0, complete: false };
+  const { flat } = spellPowerFor(skill, attacker);
+  const terms = formula.terms.map(term => ({
+    label: term.label,
+    amount: term.amount,
+    detail: term.amount === null ? term.reason ?? '' : term.flat ? 'flat' : `${term.coefficient}%`,
+  }));
+  if (flat) terms.push({ label: `${skill.domain} spell Power`, amount: flat, detail: 'items' });
   return {
-    terms: formula.terms.map(term => ({
-      label: term.label,
-      amount: term.amount,
-      detail: term.amount === null ? term.reason ?? '' : term.flat ? 'flat' : `${term.coefficient}%`,
-    })),
-    amount: formula.subtotal,
+    terms,
+    amount: formula.subtotal + flat,
     bonus: 0,
     hit: 0,
     critical: 0,
     complete: formula.complete,
   };
+}
+
+const NO_SPELL_POWER = { percent: 0, flat: 0 };
+
+/** Item Power for the spell's school ("+10% Power to Nerifian Spells", "+2 Power to Sylphid Spells"). */
+export function spellPowerFor(skill: Skill | null, attacker: Pick<Attacker, 'spellPower'>) {
+  return (skill?.domain && attacker.spellPower?.[skill.domain]) || NO_SPELL_POWER;
 }
 
 /** A basic-attack skill's separate rider, at the given rank. */

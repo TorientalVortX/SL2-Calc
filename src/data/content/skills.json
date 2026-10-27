@@ -156,7 +156,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Isespian"
     },
     {
       "id": "acrobatic-shooting",
@@ -353,7 +354,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Sylphid"
     },
     {
       "id": "aero-of-kindness",
@@ -392,7 +394,8 @@
         }
       ],
       "effects": [],
-      "healing": true
+      "healing": true,
+      "domain": "Sylphid"
     },
     {
       "id": "affinity-avian",
@@ -596,7 +599,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Isespian"
     },
     {
       "id": "agile-protection",
@@ -676,7 +680,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Sylphid"
     },
     {
       "id": "akihono-tobitoro",
@@ -714,7 +719,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Nerifian"
     },
     {
       "id": "akimbo",
@@ -910,7 +916,8 @@
           "condition": "Eternal Flame"
         }
       ],
-      "healing": true
+      "healing": true,
+      "domain": "Huggessoan"
     },
     {
       "id": "alteration-fixation",
@@ -1357,7 +1364,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Sylphid"
     },
     {
       "id": "arbalest-specialist",
@@ -1608,7 +1616,8 @@
           ],
           "applies": "conditional"
         }
-      ]
+      ],
+      "domain": "Isespian"
     },
     {
       "id": "asura-fist",
@@ -1647,7 +1656,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Huggessoan"
     },
     {
       "id": "attack-formation",
@@ -2204,7 +2214,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Huggessoan"
     },
     {
       "id": "black-bubble",
@@ -2248,7 +2259,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Aquarian"
     },
     {
       "id": "black-deflection",
@@ -2365,7 +2377,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Nature"
     },
     {
       "id": "blackened-faith",
@@ -2567,7 +2580,8 @@
       ],
       "momentum": 3,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "domain": "Huggessoan"
     },
     {
       "id": "blood-spike",
@@ -3080,7 +3094,8 @@
           ],
           "applies": "conditional"
         }
-      ]
+      ],
+      "domain": "Mercalan"
     },
     {
       "id": "brine-blade",
@@ -3097,7 +3112,8 @@
       ],
       "momentum": 3,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "domain": "Aquarian"
     },
     {
       "id": "bullet-barrier",
@@ -3246,7 +3262,8 @@
           ],
           "applies": "conditional"
         }
-      ]
+      ],
+      "domain": "Nature"
     },
     {
       "id": "calm",
@@ -3859,7 +3876,8 @@
         }
       ],
       "effects": [],
-      "healing": true
+      "healing": true,
+      "domain": "Isespian"
     },
     {
       "id": "chilling-rune",
@@ -4105,7 +4123,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Aquarian"
     },
     {
       "id": "collect-ingredients",
@@ -4277,7 +4296,8 @@
       ],
       "momentum": 3,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "domain": "Sylphid"
     },
     {
       "id": "continuous-production",
@@ -4365,7 +4385,8 @@
       ],
       "momentum": 3,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "domain": "Mercalan"
     },
     {
       "id": "cooldown",
@@ -4684,7 +4705,8 @@
       ],
       "momentum": null,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "domain": "Sylphid"
     },
     {
       "id": "crescent-rook",
@@ -4801,7 +4823,8 @@
       ],
       "momentum": 6,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "domain": "Aquarian"
     },
     {
       "id": "cripple-arm",
@@ -5290,7 +5313,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Aquarian"
     },
     {
       "id": "danger-sense",
@@ -5389,7 +5413,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Huggessoan"
     },
     {
       "id": "dark-imbue",
@@ -5797,7 +5822,8 @@
       ],
       "momentum": 3,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "domain": "Aquarian"
     },
     {
       "id": "deadly-aim",
@@ -5912,7 +5938,8 @@
       ],
       "momentum": 6,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "domain": "Huggessoan"
     },
     {
       "id": "defending-dawr",
@@ -5990,7 +6017,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Mercalan"
     },
     {
       "id": "deploy-m-a-p",
@@ -6236,7 +6264,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Huggessoan"
     },
     {
       "id": "detonation-rift",
@@ -6528,7 +6557,8 @@
           ],
           "applies": "conditional"
         }
-      ]
+      ],
+      "domain": "Mercalan"
     },
     {
       "id": "dive-down",
@@ -6588,7 +6618,8 @@
       ],
       "momentum": 6,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "domain": "Mercalan"
     },
     {
       "id": "divine-radiance",
@@ -6645,7 +6676,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Mercalan"
     },
     {
       "id": "divine-spark",
@@ -6743,7 +6775,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Nature"
     },
     {
       "id": "double-dance",
@@ -6914,7 +6947,8 @@
           ],
           "applies": "conditional"
         }
-      ]
+      ],
+      "domain": "Aquarian"
     },
     {
       "id": "druidic-tending",
@@ -7006,7 +7040,8 @@
       ],
       "momentum": 6,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "domain": "Huggessoan"
     },
     {
       "id": "earthbound-vengeance",
@@ -7025,7 +7060,8 @@
       ],
       "momentum": 6,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "domain": "Huggessoan"
     },
     {
       "id": "eastern-wind",
@@ -7611,7 +7647,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Huggessoan"
     },
     {
       "id": "ensui-veil",
@@ -7667,7 +7704,8 @@
           ],
           "applies": "conditional"
         }
-      ]
+      ],
+      "domain": "Aquarian"
     },
     {
       "id": "entangle-trap",
@@ -7782,7 +7820,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Huggessoan"
     },
     {
       "id": "eternal-flame",
@@ -8024,7 +8063,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Nerifian"
     },
     {
       "id": "expanding-ice",
@@ -8119,7 +8159,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Nerifian"
     },
     {
       "id": "explosive-art",
@@ -8316,7 +8357,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Aquarian"
     },
     {
       "id": "fan-throw",
@@ -8613,7 +8655,8 @@
           "condition": "Eternal Flame"
         }
       ],
-      "healing": true
+      "healing": true,
+      "domain": "Aquarian"
     },
     {
       "id": "field-medic",
@@ -8766,7 +8809,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Nerifian"
     },
     {
       "id": "fire-arrows",
@@ -8857,7 +8901,8 @@
           ],
           "applies": "conditional"
         }
-      ]
+      ],
+      "domain": "Nerifian"
     },
     {
       "id": "fire-trap",
@@ -8951,7 +8996,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Nerifian"
     },
     {
       "id": "firing-posture",
@@ -9210,7 +9256,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Sylphid"
     },
     {
       "id": "fleur",
@@ -9438,7 +9485,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Nerifian"
     },
     {
       "id": "forest-walk",
@@ -9544,7 +9592,8 @@
             "percent": 50
           }
         }
-      ]
+      ],
+      "domain": "Sylphid"
     },
     {
       "id": "fox-s-cunning",
@@ -9696,7 +9745,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Aquarian"
     },
     {
       "id": "frigid-formation",
@@ -9734,7 +9784,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Aquarian"
     },
     {
       "id": "fulgur-of-duplicity",
@@ -9772,7 +9823,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Nature"
     },
     {
       "id": "fulgur-of-flight",
@@ -9850,7 +9902,8 @@
           ],
           "applies": "conditional"
         }
-      ]
+      ],
+      "domain": "Isespian"
     },
     {
       "id": "gear-mastery",
@@ -10043,7 +10096,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Mercalan"
     },
     {
       "id": "geo-of-crumbling",
@@ -10081,7 +10135,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Isespian"
     },
     {
       "id": "geo-of-drought",
@@ -10098,7 +10153,8 @@
       ],
       "momentum": 3,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "domain": "Isespian"
     },
     {
       "id": "getting-into-it",
@@ -10180,7 +10236,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Huggessoan"
     },
     {
       "id": "god-rod",
@@ -10338,7 +10395,8 @@
           "condition": "Eternal Flame"
         }
       ],
-      "healing": true
+      "healing": true,
+      "domain": "Isespian"
     },
     {
       "id": "good-materials",
@@ -10429,7 +10487,8 @@
       "momentum": 3,
       "scaling": null,
       "effects": [],
-      "healing": true
+      "healing": true,
+      "domain": "Mercalan"
     },
     {
       "id": "grand-finale",
@@ -11350,7 +11409,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Mercalan"
     },
     {
       "id": "holy-shield",
@@ -11411,7 +11471,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Mercalan"
     },
     {
       "id": "holy-sword",
@@ -11570,7 +11631,8 @@
           ],
           "applies": "conditional"
         }
-      ]
+      ],
+      "domain": "Aquarian"
     },
     {
       "id": "ice-point",
@@ -12238,7 +12300,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Aquarian"
     },
     {
       "id": "interference-shell",
@@ -12295,7 +12358,8 @@
           ],
           "applies": "conditional"
         }
-      ]
+      ],
+      "domain": "Mercalan"
     },
     {
       "id": "invisible-weapon",
@@ -12323,7 +12387,8 @@
           ],
           "applies": "conditional"
         }
-      ]
+      ],
+      "domain": "Sylphid"
     },
     {
       "id": "invoke-elemental-art",
@@ -12430,7 +12495,8 @@
           ],
           "applies": "conditional"
         }
-      ]
+      ],
+      "domain": "Isespian"
     },
     {
       "id": "isenshi",
@@ -12468,7 +12534,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Isespian"
     },
     {
       "id": "jet-stream",
@@ -12512,7 +12579,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Aquarian"
     },
     {
       "id": "jetpack",
@@ -12711,7 +12779,8 @@
         }
       ],
       "effects": [],
-      "healing": true
+      "healing": true,
+      "domain": "Aquarian"
     },
     {
       "id": "kan-saiganki",
@@ -12749,7 +12818,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Isespian"
     },
     {
       "id": "katana-master",
@@ -12800,7 +12870,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Aquarian"
     },
     {
       "id": "kenki",
@@ -13103,7 +13174,8 @@
       ],
       "momentum": 3,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "domain": "Isespian"
     },
     {
       "id": "kip-up",
@@ -13180,7 +13252,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Nerifian"
     },
     {
       "id": "korkenzieher",
@@ -13268,7 +13341,8 @@
           ],
           "applies": "conditional"
         }
-      ]
+      ],
+      "domain": "Aquarian"
     },
     {
       "id": "l-au-dela",
@@ -13465,7 +13539,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Aquarian"
     },
     {
       "id": "lick-weapon",
@@ -13808,7 +13883,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Mercana"
     },
     {
       "id": "lux-relido",
@@ -13846,7 +13922,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Mercana"
     },
     {
       "id": "mad-chop",
@@ -13928,7 +14005,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Isespian"
     },
     {
       "id": "magical-feathers",
@@ -14014,7 +14092,8 @@
       "momentum": 3,
       "scaling": null,
       "effects": [],
-      "healing": true
+      "healing": true,
+      "domain": "Mercalan"
     },
     {
       "id": "margin-manipulation",
@@ -14190,7 +14269,8 @@
           ],
           "applies": "conditional"
         }
-      ]
+      ],
+      "domain": "Mercalan"
     },
     {
       "id": "mercalan-tenants",
@@ -14305,7 +14385,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Aquarian"
     },
     {
       "id": "mixed-martial-arts",
@@ -14528,7 +14609,8 @@
         }
       ],
       "effects": [],
-      "healing": true
+      "healing": true,
+      "domain": "Mercalan"
     },
     {
       "id": "needle-thread",
@@ -14632,7 +14714,8 @@
           ],
           "applies": "conditional"
         }
-      ]
+      ],
+      "domain": "Nerifian"
     },
     {
       "id": "nest",
@@ -15352,7 +15435,8 @@
           ],
           "applies": "conditional"
         }
-      ]
+      ],
+      "domain": "Nature"
     },
     {
       "id": "overload-copy",
@@ -15654,7 +15738,8 @@
         }
       ],
       "effects": [],
-      "healing": true
+      "healing": true,
+      "domain": "Mercalan"
     },
     {
       "id": "phoenix-talon",
@@ -15710,7 +15795,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Mercana"
     },
     {
       "id": "photon-rose",
@@ -15865,7 +15951,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Nature"
     },
     {
       "id": "piped-piper",
@@ -16259,7 +16346,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Aquarian"
     },
     {
       "id": "primal-ruler",
@@ -16459,7 +16547,8 @@
       ],
       "momentum": 3,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "domain": "Mercalan"
     },
     {
       "id": "purifying-aquae",
@@ -16476,7 +16565,8 @@
       ],
       "momentum": 3,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "domain": "Aquarian"
     },
     {
       "id": "purity-edge",
@@ -16659,7 +16749,8 @@
           "condition": "Eternal Flame"
         }
       ],
-      "healing": true
+      "healing": true,
+      "domain": "Nature"
     },
     {
       "id": "quick-and-wild",
@@ -16748,7 +16839,8 @@
           ],
           "applies": "conditional"
         }
-      ]
+      ],
+      "domain": "Mercalan"
     },
     {
       "id": "radiant-solace",
@@ -16787,7 +16879,8 @@
         }
       ],
       "effects": [],
-      "healing": true
+      "healing": true,
+      "domain": "Mercana"
     },
     {
       "id": "radiant-splendor",
@@ -16840,7 +16933,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Mercana"
     },
     {
       "id": "radiation",
@@ -17183,7 +17277,8 @@
         }
       ],
       "effects": [],
-      "healing": true
+      "healing": true,
+      "domain": "Aquarian"
     },
     {
       "id": "rebound",
@@ -17256,7 +17351,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Nature"
     },
     {
       "id": "red-rain",
@@ -17321,7 +17417,8 @@
           ],
           "applies": "conditional"
         }
-      ]
+      ],
+      "domain": "Nature"
     },
     {
       "id": "reflect-shots",
@@ -17352,7 +17449,8 @@
       "momentum": 3,
       "scaling": null,
       "effects": [],
-      "healing": true
+      "healing": true,
+      "domain": "Mercalan"
     },
     {
       "id": "regenschauer",
@@ -17413,7 +17511,8 @@
           ],
           "applies": "conditional"
         }
-      ]
+      ],
+      "domain": "Sylphid"
     },
     {
       "id": "relentless-strikes",
@@ -17510,7 +17609,8 @@
       ],
       "momentum": 3,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "domain": "Mercalan"
     },
     {
       "id": "resourceful",
@@ -17750,7 +17850,8 @@
           ],
           "applies": "conditional"
         }
-      ]
+      ],
+      "domain": "Aquarian"
     },
     {
       "id": "riposte",
@@ -18145,7 +18246,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Nature"
     },
     {
       "id": "ryemei",
@@ -18183,7 +18285,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Nature"
     },
     {
       "id": "ryumai-suikan",
@@ -18221,7 +18324,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Aquarian"
     },
     {
       "id": "ryusei-ryugeki",
@@ -18299,7 +18403,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Mercalan"
     },
     {
       "id": "sacrifice",
@@ -18551,7 +18656,8 @@
           "condition": "Eternal Flame"
         }
       ],
-      "healing": true
+      "healing": true,
+      "domain": "Nerifian"
     },
     {
       "id": "salvage",
@@ -18707,7 +18813,8 @@
           ],
           "applies": "conditional"
         }
-      ]
+      ],
+      "domain": "Mercalan"
     },
     {
       "id": "sanguine-star",
@@ -18812,7 +18919,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Sylphid"
     },
     {
       "id": "scharfe",
@@ -18910,7 +19018,8 @@
       ],
       "momentum": 3,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "domain": "Aquarian"
     },
     {
       "id": "seal-of-fortune",
@@ -18983,7 +19092,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Nerifian"
     },
     {
       "id": "second-chance",
@@ -19003,7 +19113,8 @@
       "momentum": 3,
       "scaling": null,
       "effects": [],
-      "healing": true
+      "healing": true,
+      "domain": "Mercalan"
     },
     {
       "id": "second-set",
@@ -19064,7 +19175,8 @@
       ],
       "momentum": 3,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "domain": "Sylphid"
     },
     {
       "id": "serpent-strikes",
@@ -19386,7 +19498,8 @@
       ],
       "momentum": 6,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "domain": "Mercalan"
     },
     {
       "id": "shine-ray",
@@ -19430,7 +19543,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Mercalan"
     },
     {
       "id": "shinken",
@@ -19889,7 +20003,8 @@
           ],
           "applies": "conditional"
         }
-      ]
+      ],
+      "domain": "Sylphid"
     },
     {
       "id": "smoking-rune",
@@ -20276,7 +20391,8 @@
           ],
           "applies": "conditional"
         }
-      ]
+      ],
+      "domain": "Sylphid"
     },
     {
       "id": "sonic-shell",
@@ -20528,7 +20644,8 @@
       "momentum": 6,
       "scaling": null,
       "effects": [],
-      "healing": true
+      "healing": true,
+      "domain": "Huggessoan"
     },
     {
       "id": "spirit-regeneration",
@@ -20658,7 +20775,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Aquarian"
     },
     {
       "id": "split-form",
@@ -20802,7 +20920,8 @@
           ],
           "applies": "conditional"
         }
-      ]
+      ],
+      "domain": "Nature"
     },
     {
       "id": "steal",
@@ -20878,7 +20997,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Aquarian"
     },
     {
       "id": "steel-aura",
@@ -21016,7 +21136,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Isespian"
     },
     {
       "id": "straight-cannon",
@@ -21110,7 +21231,8 @@
       ],
       "momentum": 3,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "domain": "Mercalan"
     },
     {
       "id": "sturdy-rune",
@@ -21293,7 +21415,8 @@
       ],
       "momentum": 3,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "domain": "Huggessoan"
     },
     {
       "id": "swaying",
@@ -21655,7 +21778,8 @@
           ],
           "applies": "conditional"
         }
-      ]
+      ],
+      "domain": "Sylphid"
     },
     {
       "id": "tattoo-refresh",
@@ -21984,7 +22108,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Nature"
     },
     {
       "id": "thunder-drive",
@@ -22091,7 +22216,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Sylphid"
     },
     {
       "id": "toiken",
@@ -22438,7 +22564,8 @@
           "condition": "Eternal Flame"
         }
       ],
-      "healing": true
+      "healing": true,
+      "domain": "Sylphid"
     },
     {
       "id": "tyrant-s-throne",
@@ -22523,7 +22650,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Nerifian"
     },
     {
       "id": "unerring-light",
@@ -23170,7 +23298,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Sylphid"
     },
     {
       "id": "vydel",
@@ -23208,7 +23337,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Sylphid"
     },
     {
       "id": "walk-in-darkness",
@@ -23454,7 +23584,8 @@
         }
       ],
       "effects": [],
-      "healing": true
+      "healing": true,
+      "domain": "Aquarian"
     },
     {
       "id": "water-pillar",
@@ -23498,7 +23629,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Aquarian"
     },
     {
       "id": "water-to-wine",
@@ -23513,7 +23645,8 @@
       ],
       "momentum": 3,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "domain": "Aquarian"
     },
     {
       "id": "water-wall",
@@ -23528,7 +23661,8 @@
       ],
       "momentum": 3,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "domain": "Aquarian"
     },
     {
       "id": "wazabane",
@@ -23718,7 +23852,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Isespian"
     },
     {
       "id": "wide-stage",
@@ -24071,7 +24206,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Aquarian"
     },
     {
       "id": "wind-dancer",
@@ -24172,7 +24308,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Sylphid"
     },
     {
       "id": "wind-slasher",
@@ -24210,7 +24347,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Sylphid"
     },
     {
       "id": "wind-weave",
@@ -24400,7 +24538,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "domain": "Isespian"
     },
     {
       "id": "yester-shift",

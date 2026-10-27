@@ -15,6 +15,8 @@ import {
   weaponUL,
 } from './itemEffects';
 import { skillById } from './skills';
+import { evaluateBuild } from './buildEvaluation';
+import { buildReducer, createDefaultBuild } from '../aether/state/build';
 
 describe('UL resolution', () => {
   it('sums every upgrade channel', () => {
@@ -252,5 +254,20 @@ describe('summing item bonuses', () => {
 
   it('allocates nothing for a build with no equipment', () => {
     expect(itemBonuses({})).toEqual({ stats: {}, setStats: {}, derived: {}, elementalAttack: {}, resistances: {} });
+  });
+});
+
+describe('spell-school Power', () => {
+  const equip = (slot: 'primaryWeapon' | 'offHandWeapon', build = createDefaultBuild()) => buildReducer(build, { type: 'equip-weapon', which: slot, weaponName: 'Burngada' });
+
+  it('gives a held staff its full Power and an off-hand one half', () => {
+    expect(evaluateBuild(equip('primaryWeapon')).spellPower).toEqual({ Nerifian: { percent: 10, flat: 0 } });
+    expect(evaluateBuild(equip('offHandWeapon', equip('primaryWeapon'))).spellPower).toEqual({ Nerifian: { percent: 15, flat: 0 } });
+  });
+
+  it('reads flat Power for every school a trinket lists', () => {
+    expect(itemBonuses({ gear: [undefined, undefined, { itemName: 'Prism Jewel' }] }).derived).toMatchObject({
+      'spellFlatPower:Aquarian': 2, 'spellFlatPower:Isespian': 2, 'spellFlatPower:Sylphid': 2,
+    });
   });
 });

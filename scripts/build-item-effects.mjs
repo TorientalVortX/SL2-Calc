@@ -63,15 +63,31 @@ const SPECIAL_CHANNELS = [
   { pattern: /([+-]?\d+)% Critical(?: Chance)?(?! Damage| Evade)\b/gi, effect: (match) => ({ key: 'critical', base: Number(match[1]) }) },
   { pattern: /(?<![*\w])([+-]?\d+)% Maximum HP\b/g, effect: (match) => ({ key: 'hpPercent', base: Number(match[1]) }) },
   { pattern: /[+-]?(?:\d+\+?)?(?:UL)? Critical Damage \(flat damage\)/gi, effect: () => null },
+  // "+10% Power to Nature and Isespia Spells (halved if off-hand)": one value per school; the halving is `offHandShare`.
+  {
+    pattern: /([+-]?\d+|\+?UL)% Power to ([\w ,]+?) Spells(?:\s*\(halved if [^)]*\))?/gi,
+    effect: (match) => spellSchools(match[2]).map((key) => ({
+      kind: 'spellPower', key, ...(/UL/.test(match[1]) ? { base: 0, ulMultiplier: 1 } : { base: Number(match[1]) }),
+    })),
+  },
+  // "+2 Power to Sylphid Spells": flat Power on that school's spells.
+  {
+    pattern: /([+-]\s?\d+) Power to ([\w ,]+?) Spells/gi,
+    effect: (match) => spellSchools(match[2]).map((key) => ({ kind: 'spellFlatPower', key, base: Number(match[1].replace(/\s/g, '')) })),
+  },
 ];
+
+// The wiki writes Isespian three ways.
+function spellSchools(list) {
+  return list.split(/\s*,\s*(?:and\s+)?|\s+and\s+/).map((school) => school.trim().replace(/^Isesp\w*|^Isesip\w*/i, 'Isespian'));
+}
 
 function parseSpecialChannels(text) {
   const effects = [];
   let rest = text;
   for (const { pattern, effect } of SPECIAL_CHANNELS) {
     rest = rest.replace(pattern, (...match) => {
-      const value = effect(match);
-      if (value) effects.push({ kind: 'derived', ulMultiplier: 0, ...value });
+      for (const value of [effect(match)].flat()) if (value) effects.push({ kind: 'derived', ulMultiplier: 0, ...value });
       return ' ';
     });
   }
@@ -251,7 +267,7 @@ function toRecord(name, description, alwaysEligible) {
     ...(effects.length && /\bends? (?:that|other) effects?\b/i.test(description) ? { exclusive: true } : {}),
     // Off-hand weapons apply their effects in full unless the line says otherwise.
     ...(effects.length && /\bthis is your main hand weapon\b/i.test(description) ? { mainHandOnly: true } : {}),
-    ...(effects.length && /\(halved if (?:off-hand|not main weapon)\)/i.test(description) ? { offHandShare: 0.5 } : {}),
+    ...(effects.length && /\(halved if (?:off-hand|not main weapon)\.?\)/i.test(description) ? { offHandShare: 0.5 } : {}),
   };
 }
 

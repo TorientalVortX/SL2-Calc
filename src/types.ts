@@ -106,6 +106,8 @@ export interface Skill {
   handModelled?: boolean;
   /** Restores HP; on the curated list in wiki-data/healing-skills.json. */
   healing?: boolean;
+  /** A spell's school (Nerifian, Aquarian…), which item spell Power keys on. */
+  domain?: string;
   /** The skill's damage is a basic attack ("performs a basic attack on the target"), with these changes. */
   basicAttack?: BasicAttackProfile;
   inputs?: Array<{ key: string; label: string; min: number; max: number; default: number; maxByRank?: number[]; maxRankSource?: string; choices?: Array<{ value: number; label: string }> }>;
@@ -604,6 +606,8 @@ export interface BuildEvaluation {
   primaryWeapon?: WeaponLine;
   /** An off-hand weapon is its own weapon, used by attacks made with it. */
   offHandWeapon?: WeaponLine;
+  /** Item Power on spells of a school: "+10% Power to Nerifian Spells" is `percent`, "+2 Power to Sylphid Spells" is `flat`. */
+  spellPower: Partial<Record<string, { percent: number; flat: number }>>;
   /** The unarmed weapon beside a held one (Mixed Martial Arts, Unstable Tendril). With the main hand empty it is `primaryWeapon`. */
   unarmedWeapon?: WeaponLine;
 }

@@ -40,5 +40,19 @@ export function evaluateBuild(build: BuildState, includeStatSources = false): Bu
     primaryWeapon: offense.primaryWeapon,
     offHandWeapon: offense.offHandWeapon,
     unarmedWeapon: offense.unarmedWeapon,
+    spellPower: spellPowerBySchool(inputs.items.derived),
   };
+}
+
+function spellPowerBySchool(derived: Record<string, number>): BuildEvaluation['spellPower'] {
+  const bySchool: BuildEvaluation['spellPower'] = {};
+  for (const [key, amount] of Object.entries(derived)) {
+    const [kind, school] = key.split(':');
+    if (!school || (kind !== 'spellPower' && kind !== 'spellFlatPower')) continue;
+    const entry = bySchool[school] ?? { percent: 0, flat: 0 };
+    if (kind === 'spellPower') entry.percent += amount;
+    else entry.flat += amount;
+    bySchool[school] = entry;
+  }
+  return bySchool;
 }

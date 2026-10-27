@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { NO_HIT } from './damage';
-import { OPEN_TARGET, attackBase, critDamageFor, defaultDamage, expectedOutgoing, outgoingDamage, powerMultiplier, riderFor, targetAfterSets } from './outgoing';
+import { OPEN_TARGET, attackBase, critDamageFor, defaultDamage, expectedOutgoing, outgoingDamage, powerMultiplier, riderFor, spellPowerFor, targetAfterSets } from './outgoing';
 import { skillById } from './skills';
 
 const attacker = {
@@ -16,6 +16,16 @@ const plain = (amount: number) => ({ amount, bonus: 0 });
 describe('outgoing damage', () => {
   it('uses Scaled Weapon Attack for a basic attack', () => {
     expect(attackBase(null, 0, attacker).amount).toBe(120);
+  });
+
+  it('adds item Power for the spell’s school, and nothing for another school', () => {
+    const explosion = skillById('explosion')!;
+    expect(explosion.domain).toBe('Nerifian');
+    const powered = { ...attacker, spellPower: { Nerifian: { percent: 10, flat: 2 } } };
+    // Rank 1: 100% Fire ATK + 100% SWA, plus the flat 2.
+    expect(attackBase(explosion, 1, powered).amount).toBe(50 + 120 + 2);
+    expect(spellPowerFor(explosion, powered)).toEqual({ percent: 10, flat: 2 });
+    expect(spellPowerFor(skillById('acid-rain')!, powered)).toEqual({ percent: 0, flat: 0 });
   });
 
   it('adds a spell’s SWA and Elemental ATK terms', () => {

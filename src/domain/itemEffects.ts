@@ -5,7 +5,7 @@ import content from '../data/content/item-effects.json';
 
 export interface ItemEffectValue {
   /** `setStat` replaces the stat outright (Contract of Blood: "your STR becomes equal to its LV"). */
-  kind: 'stat' | 'buffStat' | 'setStat' | 'derived' | 'elementalAttack' | 'resistance';
+  kind: 'stat' | 'buffStat' | 'setStat' | 'derived' | 'elementalAttack' | 'resistance' | 'spellPower' | 'spellFlatPower';
   key: string;
   base: number;
   ulMultiplier: number;
@@ -222,6 +222,9 @@ function bonusesForItem(
       } else if (value.kind === 'resistance') {
         const key = valueKey as ResistKey;
         into.resistances[key] = (into.resistances[key] ?? 0) + amount;
+      } else if (value.kind === 'spellPower' || value.kind === 'spellFlatPower') {
+        const key = `${value.kind}:${valueKey}`;
+        into.derived[key] = (into.derived[key] ?? 0) + amount;
       } else {
         into.derived[valueKey] = (into.derived[valueKey] ?? 0) + amount;
       }

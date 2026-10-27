@@ -5,7 +5,7 @@ import { ELEMENT_KEYS } from '../../../domain/buildEvaluation';
 import { NO_HIT, type DamageClass, type DamageType, type IncomingHit } from '../../../domain/damage';
 import { findWeaponByName } from '../../../domain/equipment';
 import {
-  OPEN_TARGET, attackBase, critDamageFor, defaultDamage, expectedOutgoing, outgoingDamage, powerMultiplier, riderFor, targetAfterSets, weaponFor,
+  OPEN_TARGET, attackBase, critDamageFor, defaultDamage, expectedOutgoing, outgoingDamage, powerMultiplier, riderFor, spellPowerFor, targetAfterSets, weaponFor,
   type FlatBonus, type Hand, type Target,
 } from '../../../domain/outgoing';
 import { SKILLS, mergeSkillRanks, skillById } from '../../../domain/skills';
@@ -111,7 +111,8 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
   const base = attackBase(skill, rank, evaluation, elements, attackHand);
   const fromSets = setAttackEffects(equippedSets(build.equipment));
   const setDamagePercents = fromSets.flatMap(effect => (effect.damagePercent ? [effect.damagePercent] : []));
-  const allPercents = [...percents, ...(lightning ? [LIGHTNING_CRITICAL_PERCENT] : []), ...setDamagePercents];
+  const spellPercent = spellPowerFor(skill, evaluation).percent;
+  const allPercents = [...percents, ...(lightning ? [LIGHTNING_CRITICAL_PERCENT] : []), ...setDamagePercents, ...(spellPercent ? [spellPercent] : [])];
   const attackerHit = (weapon?.hit ?? 0) + base.hit;
   const attackerCritical = (weapon?.critical ?? 0) + base.critical;
   const seenTarget = targetAfterSets(target, fromSets, hit.type, flat.type ?? null);
@@ -210,7 +211,8 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
           ) : null}
           <Toggle on={lightning} onChange={setLightning}>Lightning Critical (+25%)</Toggle>
         </div>
-        <p className="hint">Each modifier multiplies: +15% and +10% make ×1.265. Use them for effects like Damage Amplified, spell-school Power or race bonuses.</p>
+        <p className="hint">Each modifier multiplies: +15% and +10% make ×1.265. Use them for effects like Damage Amplified or race bonuses.</p>
+        {spellPercent ? <p className="hint">From your items: +{spellPercent}% Power to {skill?.domain} spells.</p> : null}
         {fromSets.length ? (
           <p className="hint">
             From your sets: {fromSets.map(effect => (effect.damagePercent

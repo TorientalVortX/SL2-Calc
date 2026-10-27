@@ -128,8 +128,16 @@
       {
         "name": "Nerifian Spell Power",
         "description": "+10% Power to Nerifian Spells (Halved if not main weapon.)",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "spellPower",
+            "ulMultiplier": 0,
+            "key": "Nerifian",
+            "base": 10
+          }
+        ],
+        "offHandShare": 0.5
       }
     ],
     "Gunbai": [
@@ -2247,7 +2255,8 @@
             "base": 0,
             "ulMultiplier": 0.5
           }
-        ]
+        ],
+        "offHandShare": 0.5
       },
       {
         "name": "Knockback",
@@ -2864,8 +2873,16 @@
       {
         "name": "Spell Power Bonus",
         "description": "+10% Power to Aquarian Spells (Halved if not main weapon.)",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "spellPower",
+            "ulMultiplier": 0,
+            "key": "Aquarian",
+            "base": 10
+          }
+        ],
+        "offHandShare": 0.5
       }
     ],
     "King Fisher": [
@@ -2992,8 +3009,16 @@
       {
         "name": "Spell Power Bonus",
         "description": "+10% Power to Nature Spells (Halved if not main weapon.)",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "spellPower",
+            "ulMultiplier": 0,
+            "key": "Nature",
+            "base": 10
+          }
+        ],
+        "offHandShare": 0.5
       },
       {
         "name": "Poison",
@@ -5138,8 +5163,16 @@
       {
         "name": "Nature Spell Power",
         "description": "+10% Power to Nature Spells (Halved if not main weapon.)",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "spellPower",
+            "ulMultiplier": 0,
+            "key": "Nature",
+            "base": 10
+          }
+        ],
+        "offHandShare": 0.5
       },
       {
         "name": "Charm on Critical",
@@ -5178,8 +5211,22 @@
       {
         "name": "Nature and Isespia Spell Power",
         "description": "+10% Power to Nature and Isespia Spells (halved if off-hand).",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "spellPower",
+            "ulMultiplier": 0,
+            "key": "Nature",
+            "base": 10
+          },
+          {
+            "kind": "spellPower",
+            "ulMultiplier": 0,
+            "key": "Isespian",
+            "base": 10
+          }
+        ],
+        "offHandShare": 0.5
       }
     ],
     "Farren": [
@@ -5233,8 +5280,22 @@
       {
         "name": "Nature and Sylphid Spell Power",
         "description": "+10% Power to Nature and Sylphid spells (halved if off-hand).",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "spellPower",
+            "ulMultiplier": 0,
+            "key": "Nature",
+            "base": 10
+          },
+          {
+            "kind": "spellPower",
+            "ulMultiplier": 0,
+            "key": "Sylphid",
+            "base": 10
+          }
+        ],
+        "offHandShare": 0.5
       }
     ],
     "Xuanwuken": [
@@ -5247,8 +5308,22 @@
       {
         "name": "Aquarian and Isespian Spell Power",
         "description": "+10% Power to Aquarian and Isespian Spells (halved if off-hand).",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "spellPower",
+            "ulMultiplier": 0,
+            "key": "Aquarian",
+            "base": 10
+          },
+          {
+            "kind": "spellPower",
+            "ulMultiplier": 0,
+            "key": "Isespian",
+            "base": 10
+          }
+        ],
+        "offHandShare": 0.5
       }
     ],
     "Zhuquelare": [
@@ -5261,8 +5336,22 @@
       {
         "name": "Nerifian and Sylphid Spell Power",
         "description": "+10% Power to Nerifian and Sylphid spells (halved if off-hand).",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "spellPower",
+            "ulMultiplier": 0,
+            "key": "Nerifian",
+            "base": 10
+          },
+          {
+            "kind": "spellPower",
+            "ulMultiplier": 0,
+            "key": "Sylphid",
+            "base": 10
+          }
+        ],
+        "offHandShare": 0.5
       }
     ],
     "Dynamic Tome": [
@@ -5494,14 +5583,30 @@
       {
         "name": "Aquarian Spell Power",
         "description": "+UL% Power to Aquarian Spells (Halved if not main weapon.)",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "spellPower",
+            "ulMultiplier": 1,
+            "key": "Aquarian",
+            "base": 0
+          }
+        ],
+        "offHandShare": 0.5
       },
       {
         "name": "Sylphid Spell Power",
         "description": "+UL% Power to Sylphid Spells (Halved if not main weapon.)",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "spellPower",
+            "ulMultiplier": 1,
+            "key": "Sylphid",
+            "base": 0
+          }
+        ],
+        "offHandShare": 0.5
       },
       {
         "name": "Hurricane Summon",
@@ -5514,8 +5619,22 @@
       {
         "name": "Isesipian and Sylphid Spell Power",
         "description": "+UL% Power to Isesipian and Sylphid Spells (halved if off-hand).",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "spellPower",
+            "ulMultiplier": 1,
+            "key": "Isespian",
+            "base": 0
+          },
+          {
+            "kind": "spellPower",
+            "ulMultiplier": 1,
+            "key": "Sylphid",
+            "base": 0
+          }
+        ],
+        "offHandShare": 0.5
       },
       {
         "name": "Sandstorm Creation",
@@ -5650,13 +5769,13 @@
       {
         "name": "Brightray Plate",
         "description": "+5 Power to Mercalan Spells 10% Darkness Resistance A golden glowing suit of armor.",
-        "applies": "conditional",
+        "applies": "always",
         "effects": [
           {
-            "kind": "derived",
-            "key": "power",
-            "base": 5,
-            "ulMultiplier": 0
+            "kind": "spellFlatPower",
+            "ulMultiplier": 0,
+            "key": "Mercalan",
+            "base": 5
           }
         ]
       }
@@ -6377,13 +6496,13 @@
       {
         "name": "Animal Pelt",
         "description": "Material: Furcloth +10 HP +3 Power to Nature Spells Beast synergies.",
-        "applies": "conditional",
+        "applies": "always",
         "effects": [
           {
-            "kind": "derived",
-            "key": "power",
-            "base": 3,
-            "ulMultiplier": 0
+            "kind": "spellFlatPower",
+            "ulMultiplier": 0,
+            "key": "Nature",
+            "base": 3
           }
         ]
       },
@@ -9317,13 +9436,13 @@
       {
         "name": "Black Stone",
         "description": "+2 Power to Huggessoan Spells.",
-        "applies": "conditional",
+        "applies": "always",
         "effects": [
           {
-            "kind": "derived",
-            "key": "power",
-            "base": 2,
-            "ulMultiplier": 0
+            "kind": "spellFlatPower",
+            "ulMultiplier": 0,
+            "key": "Huggessoan",
+            "base": 2
           }
         ]
       },
@@ -9358,13 +9477,13 @@
       {
         "name": "Blood Whistle",
         "description": "+2 Power to Sylphid Spells",
-        "applies": "conditional",
+        "applies": "always",
         "effects": [
           {
-            "kind": "derived",
-            "key": "power",
-            "base": 2,
-            "ulMultiplier": 0
+            "kind": "spellFlatPower",
+            "ulMultiplier": 0,
+            "key": "Sylphid",
+            "base": 2
           }
         ]
       },
@@ -9596,13 +9715,13 @@
       {
         "name": "Crucifix",
         "description": "+2 Power to Mercalan Spells",
-        "applies": "conditional",
+        "applies": "always",
         "effects": [
           {
-            "kind": "derived",
-            "key": "power",
-            "base": 2,
-            "ulMultiplier": 0
+            "kind": "spellFlatPower",
+            "ulMultiplier": 0,
+            "key": "Mercalan",
+            "base": 2
           }
         ]
       },
@@ -10036,13 +10155,13 @@
       {
         "name": "Halo",
         "description": "+2 Power to Mercalan Spells",
-        "applies": "conditional",
+        "applies": "always",
         "effects": [
           {
-            "kind": "derived",
-            "key": "power",
-            "base": 2,
-            "ulMultiplier": 0
+            "kind": "spellFlatPower",
+            "ulMultiplier": 0,
+            "key": "Mercalan",
+            "base": 2
           }
         ]
       },
@@ -10179,13 +10298,13 @@
       {
         "name": "Holy Water Urn",
         "description": "+ 2 Power to Aquarian Spells",
-        "applies": "conditional",
+        "applies": "always",
         "effects": [
           {
-            "kind": "derived",
-            "key": "power",
-            "base": 2,
-            "ulMultiplier": 0
+            "kind": "spellFlatPower",
+            "ulMultiplier": 0,
+            "key": "Aquarian",
+            "base": 2
           }
         ]
       },
@@ -10571,13 +10690,13 @@
       {
         "name": "Phoenix Fire Lantern",
         "description": "+2 Power to Nerifian Spells",
-        "applies": "conditional",
+        "applies": "always",
         "effects": [
           {
-            "kind": "derived",
-            "key": "power",
-            "base": 2,
-            "ulMultiplier": 0
+            "kind": "spellFlatPower",
+            "ulMultiplier": 0,
+            "key": "Nerifian",
+            "base": 2
           }
         ]
       },
@@ -10686,13 +10805,43 @@
       {
         "name": "Prism Jewel",
         "description": "+2 Power to Aquarian, Huggessoan, Isesipian, Mercalan, Nerifian and Sylphid Spells",
-        "applies": "conditional",
+        "applies": "always",
         "effects": [
           {
-            "kind": "derived",
-            "key": "power",
-            "base": 2,
-            "ulMultiplier": 0
+            "kind": "spellFlatPower",
+            "ulMultiplier": 0,
+            "key": "Aquarian",
+            "base": 2
+          },
+          {
+            "kind": "spellFlatPower",
+            "ulMultiplier": 0,
+            "key": "Huggessoan",
+            "base": 2
+          },
+          {
+            "kind": "spellFlatPower",
+            "ulMultiplier": 0,
+            "key": "Isespian",
+            "base": 2
+          },
+          {
+            "kind": "spellFlatPower",
+            "ulMultiplier": 0,
+            "key": "Mercalan",
+            "base": 2
+          },
+          {
+            "kind": "spellFlatPower",
+            "ulMultiplier": 0,
+            "key": "Nerifian",
+            "base": 2
+          },
+          {
+            "kind": "spellFlatPower",
+            "ulMultiplier": 0,
+            "key": "Sylphid",
+            "base": 2
           }
         ]
       }
@@ -10709,13 +10858,13 @@
       {
         "name": "Rainbow Gem",
         "description": "+2 Power to Isesipian Spells",
-        "applies": "conditional",
+        "applies": "always",
         "effects": [
           {
-            "kind": "derived",
-            "key": "power",
-            "base": 2,
-            "ulMultiplier": 0
+            "kind": "spellFlatPower",
+            "ulMultiplier": 0,
+            "key": "Isespian",
+            "base": 2
           }
         ]
       },
@@ -11681,13 +11830,13 @@
       {
         "name": "Wind Flute",
         "description": "+2 Power to Sylphid Spells",
-        "applies": "conditional",
+        "applies": "always",
         "effects": [
           {
-            "kind": "derived",
-            "key": "power",
-            "base": 2,
-            "ulMultiplier": 0
+            "kind": "spellFlatPower",
+            "ulMultiplier": 0,
+            "key": "Sylphid",
+            "base": 2
           }
         ]
       },
