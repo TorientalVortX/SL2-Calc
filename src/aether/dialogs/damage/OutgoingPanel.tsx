@@ -1,15 +1,18 @@
 import { useMemo, useState } from 'react';
-import type { ElementKey, PhysicalKey } from '../../../types';
+import type { ElementKey, PhysicalKey, Skill } from '../../../types';
 import { PHYSICAL_KEYS } from '../../../types';
 import { ELEMENT_KEYS } from '../../../domain/buildEvaluation';
 import { NO_HIT, type DamageClass, type DamageType, type IncomingHit } from '../../../domain/damage';
 import { findWeaponByName } from '../../../domain/equipment';
 import {
-  OPEN_TARGET, attackBase, critDamageFor, defaultDamage, expectedOutgoing, outgoingDamage, powerMultiplier, riderFor,
-  type FlatBonus, type Target,
+  OPEN_TARGET, attackBase, critDamageFor, critFlatDamageFor, defaultDamage, expectedOutgoing, onHitBonuses, outgoingDamage, powerMultiplier, riderFor, spellPowerFor, targetAfterSets, versusFor, weaponFor, withSwaPercent,
+  type FlatBonus, type Hand, type Target,
 } from '../../../domain/outgoing';
 import { SKILLS, mergeSkillRanks, skillById } from '../../../domain/skills';
+import { VERSUS_RACES, setAttackEffects } from '../../../domain/itemEffects';
+import { equippedSets } from '../../../domain/itemSets';
 import { skillFormulaBreakdown } from '../../../domain/skillDamage';
+import { unarmedWeapon } from '../../../domain/unarmed';
 import { SectionHead } from '../../ui/Panel';
 import { NumberField, SelectField, Stepper, Toggle } from '../../ui/controls';
 import type { Builder } from '../../state/useBuilder';
@@ -17,6 +20,16 @@ import { CLASS_OPTIONS, OutcomeGrid, STEPS_HINT, StepRows, TYPE_OPTIONS, percent
 
 const LIGHTNING_CRITICAL_PERCENT = 25;
 const NO_BONUS: FlatBonus = { amount: 0, ignores: 'none' };
+const HAND_LABEL: Record<Hand, string> = { main: 'Main', off: 'Off', unarmed: 'Unarmed' };
+const RACE_OPTIONS = [{ value: '', label: 'Any' }, ...VERSUS_RACES.map(race => ({ value: race, label: race }))];
+const ARMOR_TYPE_OPTIONS = [
+  { value: '', label: 'Any' }, { value: 'Heavy', label: 'Heavy Armor' }, { value: 'Light', label: 'Light Armor' }, { value: 'Unarmored', label: 'Unarmored' },
+];
+
+function riderDetail(rider: FlatBonus): string {
+  const ignores = rider.unresistable ? 'unresistable' : rider.ignores === 'none' ? '' : `ignores ${rider.ignores}`;
+  return [`${rider.damageClass === 'physical' ? 'physical' : 'magic'} ${rider.type}`, ignores].filter(Boolean).join(', ');
+}
 
 const IGNORE_OPTIONS: Array<{ value: FlatBonus['ignores']; label: string }> = [
   { value: 'none', label: 'Normal' },
@@ -32,11 +45,22 @@ function asDamageType(type: string | undefined): DamageType {
 
 export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; initialSkillId?: string }) {
   const { build, evaluation } = builder;
-  const weapon = evaluation.primaryWeapon;
-  const weaponType = asDamageType(findWeaponByName(build.equipment.primaryWeapon?.selectedWeaponName)?.damageType);
+  const fists = unarmedWeapon(build);
+  const [handChoice, setHand] = useState<Hand>('main');
+  const weaponNameOf = (which: Hand) => (which === 'off'
+    ? build.equipment.offHandWeapon?.selectedWeaponName
+    : which === 'main' ? build.equipment.primaryWeapon?.selectedWeaponName ?? fists.name : fists.name) ?? 'none';
+  const weaponTypeOf = (which: Hand) => {
+    const held = which === 'off' ? build.equipment.offHandWeapon : which === 'main' ? build.equipment.primaryWeapon : undefined;
+    return asDamageType(held ? findWeaponByName(held.selectedWeaponName)?.damageType : fists.damageType);
+  };
+  const critFor = (attack: Skill | null, which: Hand) => ({
+    critDamagePercent: critDamageFor(attack, evaluation, which),
+    critFlatDamage: critFlatDamageFor(attack, evaluation, which),
+  });
   const ranks = useMemo(() => mergeSkillRanks(build.skillRanks), [build.skillRanks]);
   const attacks = useMemo(
-    () => SKILLS.filter(skill => (ranks[skill.id] ?? 0) > 0 && (skill.basicAttack
+    () => SKILLS.filter(skill => (ranks[skill.id] ?? 0) > 0 && !(skill.healing && skill.category !== 'Offensive') && (skill.basicAttack
       || (skill.scaling?.some(term => term.source === 'weapon' || term.source === 'element')
         && skillFormulaBreakdown(skill, ranks[skill.id], evaluation)))),
     [ranks, evaluation],
@@ -45,9 +69,19 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
   const [skillId, setSkillId] = useState(initialSkillId ?? '');
   const skill = skillId ? skillById(skillId) ?? null : null;
   const rank = skill ? ranks[skill.id] ?? 1 : 0;
+  // Only a basic attack, or a skill that performs one, picks between held weapons; Mixed Martial Arts lends any skill the unarmed weapon.
+  const handsFor = (attack: typeof skill): Hand[] => [
+    'main',
+    ...(evaluation.offHandWeapon && (!attack || attack.basicAttack) ? ['off' as const] : []),
+    ...(evaluation.unarmedWeapon && attack ? ['unarmed' as const] : []),
+  ];
+  const hands = handsFor(skill);
+  const attackHand: Hand = hands.includes(handChoice) ? handChoice : 'main';
+  const weapon = weaponFor(evaluation, attackHand);
+  const weaponType = weaponTypeOf(attackHand);
   const [elements, setElements] = useState<Partial<Record<number, ElementKey>>>({});
   const [hit, setHit] = useState<IncomingHit>(() => ({
-    ...NO_HIT, amount: 0, critDamagePercent: critDamageFor(skill, evaluation), ...defaultDamage(skill, {}, weaponType),
+    ...NO_HIT, amount: 0, ...critFor(skill, attackHand), ...defaultDamage(skill, {}, weaponType),
   }));
   const [percents, setPercents] = useState<number[]>([]);
   const [lightning, setLightning] = useState(false);
@@ -62,8 +96,13 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
     setSkillId(id);
     setElements({});
     const next = id ? skillById(id) ?? null : null;
-    set({ ...defaultDamage(next, {}, weaponType), critDamagePercent: critDamageFor(next, evaluation) });
+    const nextHand: Hand = handsFor(next).includes(handChoice) ? handChoice : 'main';
+    set({ ...defaultDamage(next, {}, weaponTypeOf(nextHand)), ...critFor(next, nextHand) });
     setFlat(riderFor(next, next ? ranks[next.id] ?? 1 : 0) ?? NO_BONUS);
+  };
+  const pickHand = (next: Hand) => {
+    setHand(next);
+    set({ ...defaultDamage(skill, elements, weaponTypeOf(next)), ...critFor(skill, next) });
   };
   const pickElement = (index: number, element: ElementKey) => {
     const next = { ...elements, [index]: element };
@@ -75,22 +114,33 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
     : evaluation.elementalResistance[type as ElementKey]);
   const copyOwnDefenses = () => {
     const { physicalDefense, magicalDefense, armor, magicArmor, evade, criticalEvade } = evaluation.derived;
-    setTarget({
+    setTarget(current => ({
+      ...current,
       physicalDefense, magicalDefense, armor, magicArmor, evade, criticalEvade,
       resistance: ownResistance(hit.type),
-      bonusResistance: ownResistance(flat.type ?? null),
-    });
+      bonusResistance: ownResistance(riderType),
+    }));
   };
 
-  const base = attackBase(skill, rank, evaluation, elements);
-  const allPercents = lightning ? [...percents, LIGHTNING_CRITICAL_PERCENT] : percents;
+  const versus = versusFor(skill, evaluation, attackHand, target);
+  const swaPercent = versus.filter(bonus => bonus.kind === 'swa').reduce((total, bonus) => total + bonus.percent, 0);
+  const base = attackBase(skill, rank, withSwaPercent(evaluation, attackHand, swaPercent), elements, attackHand);
+  const fromSets = setAttackEffects(equippedSets(build.equipment));
+  const setDamagePercents = fromSets.flatMap(effect => (effect.damagePercent ? [effect.damagePercent] : []));
+  const spellPercent = spellPowerFor(skill, evaluation).percent;
+  const allPercents = [...percents, ...(lightning ? [LIGHTNING_CRITICAL_PERCENT] : []), ...setDamagePercents, ...(spellPercent ? [spellPercent] : []),
+    ...versus.flatMap(bonus => (bonus.kind === 'dealt' && bonus.percent ? [bonus.percent] : []))];
   const attackerHit = (weapon?.hit ?? 0) + base.hit;
   const attackerCritical = (weapon?.critical ?? 0) + base.critical;
-  const dealt = outgoingDamage(hit, base, allPercents, flat, target);
-  const expected = expectedOutgoing(hit, base, allPercents, flat, target, {
+  const riders = onHitBonuses(skill, evaluation, attackHand);
+  const bonuses = [flat, ...riders].filter(bonus => bonus.amount > 0);
+  // One "bonus resistance" field covers riders whose type differs from the attack's.
+  const riderType = bonuses.find(bonus => bonus.type && bonus.type !== hit.type && !bonus.unresistable)?.type ?? null;
+  const seenTarget = targetAfterSets(target, fromSets, hit.type, riderType);
+  const dealt = outgoingDamage(hit, base, allPercents, bonuses, seenTarget);
+  const expected = expectedOutgoing(hit, base, allPercents, bonuses, seenTarget, {
     hit: attackerHit, critical: attackerCritical, greatAccuracy, ignoresEvasion,
   });
-  const riderType = flat.type && flat.type !== hit.type ? flat.type : null;
   const choosable = (skill?.scaling ?? []).flatMap((term, index) => (term.source === 'element' && (term.alternateElement || !term.element)
     ? [{ index, choices: term.alternateElement ? [term.element!, term.alternateElement] : ELEMENT_KEYS }]
     : []));
@@ -109,6 +159,14 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
             ]}
             onChange={pickAttack}
           />
+          {hands.length > 1 ? (
+            <SelectField
+              label="Hand"
+              value={attackHand}
+              options={hands.map(option => ({ value: option, label: `${HAND_LABEL[option]} · ${weaponNameOf(option)}` }))}
+              onChange={value => pickHand(value as Hand)}
+            />
+          ) : null}
           {choosable.map(({ index, choices }) => (
             <SelectField
               key={index}
@@ -132,7 +190,9 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
         ) : null}
       </div>
 
-      <div className="grid-fields">
+      <div className="section">
+        <SectionHead>Hit</SectionHead>
+        <div className="grid-fields">
         <SelectField label="Class" value={hit.damageClass} options={CLASS_OPTIONS} onChange={value => set({ damageClass: value as DamageClass })} />
         <SelectField label="Type" value={hit.type ?? ''} options={TYPE_OPTIONS} onChange={value => set({ type: (value || null) as DamageType })} />
         <NumberField
@@ -141,15 +201,20 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
           min={100}
           max={1000}
           onChange={critDamagePercent => set({ critDamagePercent })}
-          hint={skill && !skill.basicAttack ? 'Skills and spells crit at 125%.' : 'Weapon crit damage plus scaled GUI.'}
         />
-      </div>
-      <div className="inline" style={{ gap: 12, flexWrap: 'wrap', margin: '10px 0' }}>
-        <Toggle on={hit.armorIgnoring} onChange={armorIgnoring => set({ armorIgnoring })}>Ignores Armor</Toggle>
-        <span className="inline" style={{ gap: 6 }}>
-          <span className="field__label">Hits</span>
-          <Stepper label="Hits" value={hit.hits} min={1} max={20} onChange={hits => set({ hits })} />
-        </span>
+        <NumberField label="Crit flat damage" value={hit.critFlatDamage ?? 0} min={0} max={1000} onChange={critFlatDamage => set({ critFlatDamage })} />
+        </div>
+        <div className="toggle-row">
+          <span className="inline" style={{ gap: 6 }}>
+            <span className="field__label">Hits</span>
+            <Stepper label="Hits" value={hit.hits} min={1} max={20} onChange={hits => set({ hits })} />
+          </span>
+          <Toggle on={hit.armorIgnoring} onChange={armorIgnoring => set({ armorIgnoring })}>Ignores Armor</Toggle>
+        </div>
+        <p className="hint">
+          {skill && !skill.basicAttack ? 'Skills and spells crit at 125%.' : 'Crit damage is the weapon’s modifier plus scaled GUI.'}
+          {' '}Crit flat damage is added to a crit before defenses, such as Guillotine’s +10 Critical Damage.
+        </p>
       </div>
 
       <div className="section">
@@ -166,18 +231,32 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
             />
           ))}
         </div>
-        <div className="inline" style={{ gap: 12, flexWrap: 'wrap', margin: '6px 0' }}>
+        <div className="toggle-row">
           <button type="button" className="btn btn--ghost" onClick={() => setPercents(list => [...list, 10])}>Add modifier</button>
           {percents.length ? (
             <button type="button" className="btn btn--ghost" onClick={() => setPercents(list => list.slice(0, -1))}>Remove last</button>
           ) : null}
           <Toggle on={lightning} onChange={setLightning}>Lightning Critical (+25%)</Toggle>
         </div>
-        <p className="hint">Each modifier multiplies: +15% and +10% make ×1.265. Use them for effects like Damage Amplified, spell-school Power or race bonuses.</p>
+        <p className="hint">Each modifier multiplies: +15% and +10% make ×1.265. Use them for effects like Damage Amplified or race bonuses.</p>
+        {spellPercent ? <p className="hint">From your items: +{spellPercent}% Power to {skill?.domain} spells.</p> : null}
+        {fromSets.length ? (
+          <p className="hint">
+            From your sets: {fromSets.map(effect => (effect.damagePercent
+              ? `${effect.label} +${effect.damagePercent}% damage`
+              : `${effect.label} ignores up to ${effect.resistanceIgnored!.percent}% ${effect.resistanceIgnored!.types.join('/')} resistance`)).join('; ')}.
+          </p>
+        ) : null}
       </div>
 
       <div className="section">
         <SectionHead>Bonus damage</SectionHead>
+        {riders.map(rider => (
+          <div className="provenance__row" key={`${rider.source}-${rider.type}`}>
+            <span>{rider.source} <span className="dim">{riderDetail(rider)}</span></span>
+            <span>{rider.amount}</span>
+          </div>
+        ))}
         <div className="grid-fields">
           <NumberField label="Bonus per hit" value={flat.amount} max={9999} onChange={amount => setFlat(current => ({ ...current, amount }))} />
           <SelectField
@@ -189,7 +268,8 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
         </div>
         <p className="hint">
           {flat.type ? `${flat.damageClass === 'magical' ? 'Magic' : 'Physical'} ${flat.type} damage from the skill. ` : ''}
-          On-hit bonus damage, such as Tetra Dragon Fang’s 30. It is not raised by crits or damage modifiers.
+          {riders.length ? 'Your weapon and gear add the rows above on basic attacks. ' : ''}
+          Add any other on-hit bonus here, such as Tetra Dragon Fang’s 30. None of it is raised by crits or damage modifiers.
         </p>
       </div>
 
@@ -206,6 +286,24 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
           ) : null}
           <NumberField label="Evade" value={target.evade} max={999} onChange={evade => aim({ evade })} />
           <NumberField label="Critical Evade" value={target.criticalEvade} max={999} onChange={criticalEvade => aim({ criticalEvade })} />
+          <SelectField label="Race" value={target.race} options={RACE_OPTIONS} onChange={race => aim({ race })} />
+          <SelectField label="Torso" value={target.armorType} options={ARMOR_TYPE_OPTIONS} onChange={armorType => aim({ armorType: armorType as Target['armorType'] })} />
+        </div>
+        <div className="toggle-row">
+          <Toggle on={target.boss} onChange={boss => aim({ boss })}>Boss</Toggle>
+        </div>
+        {versus.length ? (
+          <p className="hint">
+            From your weapon: {versus.map(bonus => `${bonus.source} +${bonus.percent}% ${bonus.kind === 'swa' ? 'Scaled Weapon ATK' : 'damage'} vs ${bonus.targets.join('/')}`).join('; ')}.
+          </p>
+        ) : null}
+      </div>
+
+      <div className="section">
+        <SectionHead>Accuracy</SectionHead>
+        <div className="toggle-row">
+          <Toggle on={greatAccuracy} onChange={setGreatAccuracy}>Great Accuracy</Toggle>
+          <Toggle on={ignoresEvasion} onChange={setIgnoresEvasion}>Ignores Evasion</Toggle>
         </div>
       </div>
 
@@ -224,31 +322,23 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
         </div>
       </div>
 
-      <div className="section">
-        <SectionHead>Expected</SectionHead>
-        <div className="inline" style={{ gap: 12, flexWrap: 'wrap', marginBottom: 6 }}>
-          <Toggle on={greatAccuracy} onChange={setGreatAccuracy}>Great Accuracy</Toggle>
-          <Toggle on={ignoresEvasion} onChange={setIgnoresEvasion}>Ignores Evasion</Toggle>
-        </div>
-        <p className="hint">
-          Each hit against {target.evade} Evade: {percent(expected.hitChance)} lands, {percent(expected.glanceChance)} glances, {percent(expected.evadeChance)} evaded; {tenth(expected.critChance)}% crit.
-        </p>
-      </div>
+      <p className="hint">
+        Each hit against {target.evade} Evade: {percent(expected.hitChance)} lands, {percent(expected.glanceChance)} glances, {percent(expected.evadeChance)} evaded; {tenth(expected.critChance)}% crit.
+      </p>
 
       <div className="section">
         <SectionHead>Steps</SectionHead>
         <StepRows steps={dealt.main.steps} instances={dealt.main.instances} damageClass={hit.damageClass} start="Attack" />
-        {dealt.bonus ? (
-          <>
-            <StepRows
-              steps={dealt.bonus.steps}
-              instances={dealt.bonus.instances}
-              damageClass={flat.ignores === 'protection' ? 'protection-ignoring' : flat.damageClass ?? hit.damageClass}
-              label="Bonus"
-              start="Bonus damage"
-            />
-          </>
-        ) : null}
+        {dealt.bonuses.map((bonus, index) => (
+          <StepRows
+            key={index}
+            steps={bonus.steps}
+            instances={bonus.instances}
+            damageClass={bonuses[index].ignores === 'protection' ? 'protection-ignoring' : bonuses[index].damageClass ?? hit.damageClass}
+            label="Bonus"
+            start={bonuses[index].source ?? 'Bonus damage'}
+          />
+        ))}
         <p className="hint" style={{ marginTop: 8 }}>{STEPS_HINT}</p>
       </div>
     </>

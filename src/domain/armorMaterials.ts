@@ -38,6 +38,23 @@ function profileFor(material: WikiMaterial, role: 'armor' | 'other'): Partial<Ar
   return role === 'other' ? (other ?? {}) : armor;
 }
 
+function sumRecords<Key extends string>(a: Partial<Record<Key, number>>, b: Partial<Record<Key, number>>): Partial<Record<Key, number>> {
+  const sum = { ...a };
+  for (const [key, value] of Object.entries(b) as Array<[Key, number]>) sum[key] = (sum[key] ?? 0) + value;
+  return sum;
+}
+
+/** Both weapons' materials count when dual-wielding. */
+export function sumMaterialModifiers(a: ArmorMaterialModifier, b: ArmorMaterialModifier): ArmorMaterialModifier {
+  return {
+    armor: a.armor + b.armor, magicArmor: a.magicArmor + b.magicArmor, evade: a.evade + b.evade, weight: a.weight + b.weight,
+    hp: a.hp + b.hp, fp: a.fp + b.fp, critical: a.critical + b.critical, criticalEvade: a.criticalEvade + b.criticalEvade,
+    stats: sumRecords(a.stats, b.stats),
+    resistances: sumRecords(a.resistances, b.resistances),
+    elementalAttack: sumRecords(a.elementalAttack, b.elementalAttack),
+  };
+}
+
 export function weaponMaterialExtras(name: string | null | undefined): ArmorMaterialModifier {
   return complete((name && WIKI_MATERIALS[name]?.weapon) || {});
 }

@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import type { BuildEvaluation, ElementKey, Skill, SkillText } from '../../types';
 import { skillFormulaBreakdown } from '../../domain/skillDamage';
+import { setHealingBonuses } from '../../domain/itemEffects';
+import { equippedSets } from '../../domain/itemSets';
 import { ELEMENT_KEYS } from '../../domain/buildEvaluation';
 import { formatScaled } from '../state/readout';
 import {
@@ -33,6 +35,10 @@ export function SkillCard({ skill, evaluation, builder, rank, onRank, onClose, o
   const [elements, setElements] = useState<Partial<Record<number, ElementKey>>>({});
   const shownRank = Math.max(1, rank);
   const formula = text ? skillFormulaBreakdown(skill, shownRank, evaluation, elements, text.powerRaw) : null;
+  const healingBonuses = skill.healing ? setHealingBonuses(equippedSets(builder.build.equipment)) : [];
+  const healingPercent = healingBonuses.reduce((total, bonus) => total + bonus.percent, 0);
+  // A Support heal's formula is the heal; an attack's is its damage, and it heals a share of that.
+  const healIsFormula = skill.category !== 'Offensive';
 
   useEffect(() => {
     let live = true;
@@ -107,9 +113,17 @@ export function SkillCard({ skill, evaluation, builder, rank, onRank, onClose, o
               <dt>{formula.complete ? 'Total' : 'Subtotal'}</dt>
               <dd className="num">{formatScaled(formula.subtotal)}</dd>
             </div>
+            {healingPercent && healIsFormula ? <div className="skill-card__total">
+              <dt>Healed, +{healingPercent}%</dt>
+              <dd className="num">{formatScaled(formula.subtotal * (1 + healingPercent / 100))}</dd>
+            </div> : null}
           </dl>
-          <p className="hint">Before defenses and criticals. Extra effects aren’t included.</p>
-          {onSimulate && rank > 0 && <button type="button" className="btn btn--ghost" onClick={onSimulate}>Simulate against a target</button>}
+          {skill.healing && healIsFormula
+            ? <p className="hint">The HP this restores. Extra effects aren’t included.</p>
+            : <>
+              <p className="hint">Before defenses and criticals. Extra effects aren’t included.</p>
+              {onSimulate && rank > 0 && <button type="button" className="btn btn--ghost" onClick={onSimulate}>Simulate against a target</button>}
+            </>}
         </section>}
 
         {skill.basicAttack && onSimulate && rank > 0 && <section className="section">
@@ -117,6 +131,10 @@ export function SkillCard({ skill, evaluation, builder, rank, onRank, onClose, o
           <p className="hint">Deals a basic attack, so it crits with your weapon’s crit damage and GUI.</p>
           <button type="button" className="btn btn--ghost" onClick={onSimulate}>Simulate against a target</button>
         </section>}
+
+        {healingPercent && !(formula && healIsFormula) ? <p className="hint">
+          {healingBonuses.map(bonus => bonus.label).join(', ')} raises the HP this restores by {healingPercent}%.
+        </p> : null}
 
         {facts.length > 0 && <dl className="skill-card__facts">
           {facts.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}

@@ -1,0 +1,62 @@
+{
+  "source": "Confirmed by the maintainer 2026-10-27: skills that restore HP, which Church Faithful 2+ raises by 15%. Status cures, modifiers on other heals and FP-only restores are left out.",
+  "groups": {
+    "confirmed": [
+      "Graft",
+      "Malmelo",
+      "Healing Discharge",
+      "Reihou",
+      "Spirit Regeneration"
+    ],
+    "allyHeals": [
+      "Phoenix",
+      "Radiant Solace",
+      "Aero of Kindness",
+      "Cantus of Consideration",
+      "Kaicho Kaisu",
+      "Field Medic",
+      "Refreshing Flow",
+      "Aid",
+      "Second Chance",
+      "Rest Beat",
+      "Second Set",
+      "Idol Step",
+      "Water Dragon"
+    ],
+    "summonerHeals": [
+      "Heaven Below",
+      "Chimera Install",
+      "Seal of Labors",
+      "Repair"
+    ],
+    "selfSustain": [
+      "Meditate",
+      "Disengage",
+      "Plant Rejuvenate",
+      "Shore Up",
+      "Tenacity",
+      "Guard Order",
+      "Normalize Form",
+      "Phoenix Talon",
+      "Shared Joy",
+      "Pacifist Boon",
+      "Dark Revelry"
+    ],
+    "drains": [
+      "Dhessence",
+      "Cherry Blossom",
+      "Needle",
+      "Spirit Pain",
+      "Vamp Shell",
+      "Rebound",
+      "Dragging Vines",
+      "Altera",
+      "Fenrir",
+      "Golem",
+      "Quetal",
+      "Rebia",
+      "Salamander",
+      "Typhur"
+    ]
+  }
+}

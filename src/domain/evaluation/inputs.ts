@@ -1,4 +1,4 @@
-import type { BuildState, ElementKey, ResistKey, SkillRanks, StatKey, StatRecord, WeaponConfig } from '../../types';
+import type { BuildState, ElementKey, ResistKey, SkillRanks, StatKey, StatRecord, WeaponSlotConfig } from '../../types';
 import {
   NO_HANDS_UPGRADE_POINTS,
   NO_LEGS_UPGRADE_POINTS,
@@ -10,12 +10,12 @@ import { RACES, SUBRACES } from '../../data/races';
 import { CLASSES } from '../../data/classes';
 import { ASTROLOGY_PLANETS, FOODS, HISTORY, LEGEND_EXTEND } from '../../data/bonuses';
 import { ARMORS } from '../../data/armors';
-import { armorMaterialModifier, armorQualityModifier, otherMaterialModifier, weaponMaterialExtras } from '../armorMaterials';
+import { armorMaterialModifier, armorQualityModifier, otherMaterialModifier, sumMaterialModifiers, weaponMaterialExtras } from '../armorMaterials';
 import { armorEnchantmentEffect, enchantmentEffectForSlot } from '../armorEnchantments';
 import { calculateRisingGameBonus } from '../calculations';
 import { mergeSkillRanks, skillBonuses, skillsForClassSlots, type SkillBonuses } from '../skills';
 import { youkaiNumericBonuses } from '../youkaiBonuses';
-import { itemBonuses } from '../itemEffects';
+import { itemBonuses, withOffHandBonuses } from '../itemEffects';
 import { setPiecesEquipped } from '../itemSets';
 import { traitStatBonuses } from '../traits';
 import { boostedClassStats, classArmorApplies } from '../classArmor';
@@ -24,6 +24,8 @@ import { effectiveWeaponTypes, findWeaponByName } from '../equipment';
 import { activeMixtureBonuses } from '../chemist';
 import { calculateArmorConditionals } from '../derivedCalculations';
 import { emptyStats } from './shared';
+import { equippedSets } from '../itemSets';
+import { unarmedBesideWeapon, unarmedWeapon } from '../unarmed';
 
 const EMPTY_SKILL_BONUSES: SkillBonuses = { stats: {}, buffStats: {}, derived: {}, elemental: {}, elementalResistance: {} };
 const EMPTY_RANKS: SkillRanks = {};
@@ -107,7 +109,13 @@ function sumGearModifiers(slots: GearSlotInput[]): GearBonus {
   return total;
 }
 
-function weaponStatBonus(config?: WeaponConfig): Partial<StatRecord> {
+function addStats(a: Partial<StatRecord>, b: Partial<StatRecord>): Partial<StatRecord> {
+  const sum = { ...a };
+  for (const [stat, value] of Object.entries(b) as Array<[StatKey, number]>) sum[stat] = (sum[stat] ?? 0) + value;
+  return sum;
+}
+
+function weaponStatBonus(config?: WeaponSlotConfig): Partial<StatRecord> {
   if (!config) return {};
   if (config.enchantment === 'Jeweled') return { fai: 2 };
   if (config.enchantment === 'Exorcism') return { fai: 2, san: 2 };
@@ -137,8 +145,10 @@ export function gatherInputs(build: BuildState) {
   const hasFortitude = (mergedSkillRanks.fortitude ?? 0) >= 1;
   const hasEndurance = (mergedSkillRanks.endurance ?? 0) >= 1;
   const availableSkills = hasSkillRanks ? skillsForClassSlots(build.mainClass, build.subClass) : [];
+  const unarmed = unarmedWeapon(build);
+  const mainWeaponTypes = build.equipment.primaryWeapon ? effectiveWeaponTypes(build.equipment.primaryWeapon) : unarmed.types;
   const skillWeaponSubtype = findWeaponByName(build.equipment.primaryWeapon?.selectedWeaponName)?.subtype;
-  const skillWeaponTypes = [...effectiveWeaponTypes(build.equipment.primaryWeapon), ...(skillWeaponSubtype ? [skillWeaponSubtype] : [])];
+  const skillWeaponTypes = [...mainWeaponTypes, ...(skillWeaponSubtype ? [skillWeaponSubtype] : [])];
   const skillContext = { inputs: build.skillInputs, ranks: mergedSkillRanks };
   const initialSkills = hasSkillRanks
     ? skillBonuses(availableSkills, mergedSkillRanks, build.skillConditionals, skillWeaponTypes, skillContext)
@@ -147,8 +157,10 @@ export function gatherInputs(build: BuildState) {
   // History traits are skipped inside `traitStatBonuses`; the `history` field already grants them.
   const traits = traitStatBonuses(build.traits ?? [], build.traitConditionals);
   // Grip talents are resolved from the equipped weapon in the offense stage, so they are zeroed here.
-  const talents = talentEffects({ ...build, talents: { ...build.talents,
-    'two-hand/full-swing': 0, 'two-hand/steady': 0 } }, effectiveWeaponTypes(build.equipment.primaryWeapon));
+  const talentInput = { ...build, talents: { ...build.talents, 'two-hand/full-swing': 0, 'two-hand/steady': 0 } };
+  const talents = talentEffects(talentInput, mainWeaponTypes);
+  const unarmedBeside = unarmedBesideWeapon(build, mergedSkillRanks);
+  const unarmedTalents = unarmedBeside ? talentEffects(talentInput, unarmed.types) : talents;
   const armor = build.equipment.armorName ? ARMORS[build.equipment.armorName] ?? null : null;
   const armorConditional = calculateArmorConditionals(armor, build.equipment.armorConditionalBonuses);
   const armorMaterial = armorMaterialModifier(build.equipment.armorMaterial);
@@ -163,27 +175,43 @@ export function gatherInputs(build: BuildState) {
   const gearSlots = equippedHands || build.equipment.legs || build.equipment.accessory1 || build.equipment.accessory2
     ? [equippedHands, build.equipment.legs, build.equipment.accessory1, build.equipment.accessory2]
     : undefined;
-  const items = itemBonuses({
+  const conditionals = { ...build.equipment.armorConditionalBonuses, ...(build.equipment.itemConditionalBonuses ?? {}) };
+  const mainItems = itemBonuses({
     weaponName: build.equipment.primaryWeapon?.selectedWeaponName,
     armorName: build.equipment.armorName,
     weaponPoints: build.equipment.primaryWeapon ? resolveUpgradePoints(build.equipment.primaryWeapon) : undefined,
     armorPoints,
     gear: gearSlots,
-    conditionals: {
-      ...build.equipment.armorConditionalBonuses,
-      ...(build.equipment.itemConditionalBonuses ?? {}),
-    },
+    conditionals,
+    rolls: build.equipment.itemRolls,
+    level: build.characterLevel,
+    sets: equippedSets(build.equipment),
+  });
+  const mainWeaponItems = itemBonuses({
+    weaponName: build.equipment.primaryWeapon?.selectedWeaponName,
+    weaponPoints: build.equipment.primaryWeapon ? resolveUpgradePoints(build.equipment.primaryWeapon) : undefined,
+    conditionals,
     rolls: build.equipment.itemRolls,
     level: build.characterLevel,
   });
+  const offHandWeapon = usingOffHand ? build.equipment.offHandWeapon : undefined;
+  const offHandItems = itemBonuses({
+    weaponName: offHandWeapon?.selectedWeaponName,
+    weaponPoints: offHandWeapon ? resolveUpgradePoints(offHandWeapon) : undefined,
+    conditionals,
+    rolls: build.equipment.itemRolls,
+    level: build.characterLevel,
+    offHand: true,
+  });
+  const items = withOffHandBonuses(mainItems, offHandItems);
   const gearBonus = gearSlots ? sumGearModifiers(gearSlots) : NO_GEAR_BONUS;
 
   // Accessory upgrade points buy Fortune and Greed (drop rates), so only hands and legs matter here.
   const handsPoints = usingOffHand ? NO_HANDS_UPGRADE_POINTS : build.equipment.hands?.upgradePoints ?? NO_HANDS_UPGRADE_POINTS;
   const legsPoints = build.equipment.legs?.upgradePoints ?? NO_LEGS_UPGRADE_POINTS;
 
-  const weaponBonus = weaponStatBonus(build.equipment.primaryWeapon);
-  const weaponMaterial = weaponMaterialExtras(build.equipment.primaryWeapon?.material);
+  const weaponBonus = addStats(weaponStatBonus(build.equipment.primaryWeapon), weaponStatBonus(offHandWeapon));
+  const weaponMaterial = sumMaterialModifiers(weaponMaterialExtras(build.equipment.primaryWeapon?.material), weaponMaterialExtras(offHandWeapon?.material));
   const leBonus: Partial<StatRecord> = {};
   for (const [key, enabled] of Object.entries(build.legendExtend)) {
     const stat = LEGEND_EXTEND[key]?.stat;
@@ -194,7 +222,8 @@ export function gatherInputs(build: BuildState) {
     build, mixtureBonuses, subrace, race, mainClass, monoclassModifier, history, food, astrologyStat,
     hasSkillRanks, mergedSkillRanks, youkaiBonuses, rising, painToleranceRank, hasFortitude, hasEndurance,
     availableSkills, skillWeaponTypes, skillContext, initialSkills, karakuri, traits, talents,
+    unarmed, unarmedBeside, unarmedTalents, mainWeaponTypes,
     armor, armorConditional, armorMaterial, armorQuality, armorEnchant, armorPoints, dragonKingPieces, dragonQueenPieces,
-    usingOffHand, equippedHands, gearSlots, items, gearBonus, handsPoints, legsPoints, weaponBonus, weaponMaterial, leBonus,
+    usingOffHand, offHandWeapon, offHandItems, mainWeaponItems, equippedHands, gearSlots, items, gearBonus, handsPoints, legsPoints, weaponBonus, weaponMaterial, leBonus,
   };
 }

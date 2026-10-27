@@ -89,7 +89,7 @@ export function SkillsSheet({ builder }: { builder: Builder }) {
                 key={`${skill.slot}:${skill.name}`}
                 builder={builder}
                 skill={skill}
-                source={`${SLOTS.find(slot => slot.id === skill.slot)?.label} · ${skill.itemName}`}
+                source={skill.slot === 'set' ? `Set · ${skill.itemName}` : `${SLOTS.find(slot => slot.id === skill.slot)?.label} · ${skill.itemName}`}
               />
             ))}
           </div>

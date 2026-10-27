@@ -4,7 +4,8 @@ import { SectionHead } from '../ui/Panel';
 import { SlotGlyph } from '../ui/SlotGlyph';
 import { useListNavigation } from '../hooks/useListNavigation';
 import { play } from '../state/audio';
-import { SLOTS, equipmentOverview, slotSummary, type SlotId } from '../state/equipment';
+import { SLOTS, equipmentOverview, setBonuses, slotSummary, type SlotId } from '../state/equipment';
+import { EffectRow } from './ItemEffects';
 import type { Builder } from '../state/useBuilder';
 import { ArmoryDialog } from '../dialogs/ArmoryDialog';
 
@@ -23,17 +24,18 @@ export function GearSheet({ builder }: { builder: Builder }) {
     [build, evaluation.derived.battleWeight, evaluation.derived.equipmentLoad],
   );
 
+  const sets = useMemo(() => setBonuses(build.equipment), [build.equipment]);
+
+  const accessNote = (weaponType: string | null, subClassOnly: boolean) => weaponType && (subClassOnly
+    ? `${build.subClass} lists ${weaponType}s, but only the main class grants weapon access. ${build.mainClass} needs Adaptation to equip one. Its stats are still included.`
+    : `${build.mainClass} cannot equip a ${weaponType} without Adaptation. Its stats are still included.`);
   const notes = [
-    overview.restrictedWeapon
-      && (overview.restrictedBySubClassOnly
-        ? `${build.subClass} lists ${overview.restrictedWeapon}s, but only the main class grants weapon access. ${build.mainClass} needs Adaptation to equip one. Its stats are still included.`
-        : `${build.mainClass} cannot equip a ${overview.restrictedWeapon} without Adaptation. Its stats are still included.`),
+    accessNote(overview.restrictedWeapon, overview.restrictedBySubClassOnly),
+    overview.restrictedOffHand !== overview.restrictedWeapon && accessNote(overview.restrictedOffHand, overview.restrictedOffHandBySubClassOnly),
     overview.duplicateAccessory
       && 'The same accessory is equipped twice. The game allows only one copy.',
     overview.overWeight
       && `Weapon and torso weigh ${overview.load} against a battle weight of ${overview.capacity}.`,
-    overview.unmodelledOffHand
-      && 'An off-hand weapon replaces the hands item. Only the main hand contributes to calculated stats.',
   ].filter((note): note is string => Boolean(note));
 
   return (
@@ -116,6 +118,31 @@ export function GearSheet({ builder }: { builder: Builder }) {
           })}
         </div>
       </div>
+
+      {sets.length ? (
+        <div className="section">
+          <SectionHead aside={`${sets.length}`}>Set bonuses</SectionHead>
+          <div className="stack--tight">
+            {sets.map(set => (
+              <div className="granted" key={set.name}>
+                <div className="granted__head">
+                  <span className="granted__name">{set.name}</span>
+                  <span className={`chip ${set.thresholds.some(threshold => threshold.reached) ? 'chip--good' : ''}`}>{set.equipped}/{set.total}</span>
+                </div>
+                {set.note && !set.thresholds.length ? <p className="granted__text">{set.note}</p> : null}
+                {set.thresholds.map(threshold => (
+                  <div className={`set-threshold ${threshold.reached ? '' : 'is-pending'}`} key={threshold.entry.conditionalKey}>
+                    <span className="chip">{threshold.count}+</span>
+                    {threshold.reached
+                      ? <EffectRow builder={builder} entry={threshold.entry} />
+                      : <span className="granted__text">{threshold.entry.effect.description}</span>}
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : null}
 
       {open ? (
         <ArmoryDialog builder={builder} slot={open} onClose={() => setOpen(null)} />

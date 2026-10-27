@@ -284,6 +284,7 @@ function basicAttackProfile(entry, maxRank) {
   if (reduced) profile.damagePercent = Number(reduced[1] ?? reduced[2]);
 
   if (/(?:deals|does) magic damage/i.test(text)) profile.damageClass = 'magical';
+  if (/Main Weapon Power \+ Sub-Weapon Power/i.test(entry.power ?? '')) profile.bothWeaponsPower = true;
   const typed = /deals (\w+) physical damage/i.exec(text);
   if (typed) profile.type = typed[1] === 'Darkness' ? 'Dark' : typed[1];
 
@@ -317,6 +318,15 @@ function classifyEffect(description, category) {
     // Every elemental ATK skill today is a timed cast buff (the Evoker's four elementals, Blotch).
     element: passiveClass && !conditional && PASSIVE_MARKERS.test(text) ? 'always' : 'conditional',
   };
+}
+
+// A spell's school, which item "+10% Power to Nerifian Spells" lines key on. The wiki also spells Isespian "Isesipian".
+const SPELL_DOMAINS = ['Nerifian', 'Aquarian', 'Sylphid', 'Isespian', 'Nature', 'Mercalan', 'Mercana', 'Huggessoan'];
+
+function spellDomain(extras) {
+  const value = (extras ?? []).find(([label]) => label === 'Domain')?.[1];
+  const domain = String(value ?? '').replace(/^Isesipian$/, 'Isespian');
+  return SPELL_DOMAINS.includes(domain) ? domain : null;
 }
 
 function parseEffects(extras, maxRank, applies, description = '') {
@@ -366,6 +376,8 @@ function parseEffects(extras, maxRank, applies, description = '') {
 const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 const raw = JSON.parse(await readFile(IN, 'utf8'));
+// The game has no readable Healing tag, so the list is curated (Church Faithful raises these).
+const HEALING = new Set(Object.values(JSON.parse(await readFile(path.resolve('wiki-data/healing-skills.json'), 'utf8')).groups).flat());
 const KNOWN_CLASSES = new Set(
   Object.keys(JSON.parse(await readFile(path.resolve('src/data/content/classes.json'), 'utf8')).classes),
 );
@@ -414,6 +426,8 @@ for (const entry of raw) {
     effects,
     requiresRaw: parseRequirements(entry.extras),
     ...(HAND_MODELLED.has(entry.name) ? { handModelled: true } : {}),
+    ...(HEALING.has(entry.name) ? { healing: true } : {}),
+    ...(spellDomain(entry.extras) ? { domain: spellDomain(entry.extras) } : {}),
     ...(performsBasicAttack(entry, scaling) ? {
       basicAttack: {
         ...basicAttackProfile(entry, maxRank),
@@ -469,12 +483,20 @@ skills.find(skill => skill.id === 'keyshot').effects = [
   { kind: 'derived', key: 'critical', valueByRank: [5, 10, 15], applies: 'always', weapons: ['Bow'] },
 ];
 
+// "When using their bare fists": automatic on the unarmed weapon, never on a held one.
+for (const effect of skills.find(skill => skill.id === 'empty-palm').effects) {
+  effect.applies = 'always';
+  effect.weapons = ['Unarmed'];
+}
+
 skills.sort((a, b) => a.name.localeCompare(b.name));
+const unknownHealing = [...HEALING].filter((name) => !skills.some((skill) => skill.name === name));
+if (unknownHealing.length) console.warn(`  ! healing-skills.json names no skill: ${unknownHealing.join(', ')}`);
 const text = skills.map((s) => s.text);
 for (const s of skills) delete s.text;
 
-await writeFile(OUT, `${JSON.stringify({ skills })}\n`, 'utf8');
-await writeFile(OUT_TEXT, `${JSON.stringify({ text })}\n`, 'utf8');
+await writeFile(OUT, `${JSON.stringify({ skills }, null, 2)}\n`, 'utf8');
+await writeFile(OUT_TEXT, `${JSON.stringify({ text }, null, 2)}\n`, 'utf8');
 
 const withScaling = skills.filter((s) => s.scaling).length;
 const withFp = skills.filter((s) => s.fpByRank).length;

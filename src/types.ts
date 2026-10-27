@@ -104,6 +104,10 @@ export interface Skill {
   requires?: Array<{ id: string; rank: number }>;
   /** `BuildData` models this skill as its own field, so its effects are skipped to avoid double counting. */
   handModelled?: boolean;
+  /** Restores HP; on the curated list in wiki-data/healing-skills.json. */
+  healing?: boolean;
+  /** A spell's school (Nerifian, Aquarian…), which item spell Power keys on. */
+  domain?: string;
   /** The skill's damage is a basic attack ("performs a basic attack on the target"), with these changes. */
   basicAttack?: BasicAttackProfile;
   inputs?: Array<{ key: string; label: string; min: number; max: number; default: number; maxByRank?: number[]; maxRankSource?: string; choices?: Array<{ value: number; label: string }> }>;
@@ -118,6 +122,8 @@ export interface BasicAttackProfile {
   bonusDamageByRank?: number[];
   /** Bonus damage equal to this share of the user's missing HP (Ether Invitation). */
   missingHpPercent?: number;
+  /** "Main Weapon Power + Sub-Weapon Power" replaces Scaled Weapon ATK (Straight Cannon). */
+  bothWeaponsPower?: boolean;
   /** The attack deals this share of its normal damage (Quick and Wild). */
   damagePercent?: number;
   damageClass?: 'magical';
@@ -597,15 +603,55 @@ export interface BuildEvaluation {
   elementalResistance: ElementalRecord;
   physicalResistance: PhysicalRecord;
   sources: DerivedSources;
-  primaryWeapon?: {
-    power: number;
-    /** Scaled Weapon Attack (Power + stat scaling), what skill and spell coefficients are stated against. */
-    swa: number;
-    hit: number;
-    critical: number;
-    criticalDamage: number;
-    weight: number;
-  };
+  primaryWeapon?: WeaponLine;
+  /** An off-hand weapon is its own weapon, used by attacks made with it. */
+  offHandWeapon?: WeaponLine;
+  /** Damage cuts against attackers of a race, from everything worn. */
+  damageTakenVersus: VersusBonus[];
+  /** Item Power on spells of a school: "+10% Power to Nerifian Spells" is `percent`, "+2 Power to Sylphid Spells" is `flat`. */
+  spellPower: Partial<Record<string, { percent: number; flat: number }>>;
+  /** The unarmed weapon beside a held one (Mixed Martial Arts, Unstable Tendril). With the main hand empty it is `primaryWeapon`. */
+  unarmedWeapon?: WeaponLine;
+}
+
+export interface WeaponLine {
+  power: number;
+  /** Scaled Weapon Attack (Power + stat scaling), what skill and spell coefficients are stated against. */
+  swa: number;
+  hit: number;
+  critical: number;
+  criticalDamage: number;
+  weight: number;
+  /** "+N Power to Unarmed Weapons (Basic attacks only.)" */
+  basicAttackPower?: number;
+  /** "+10 Critical Damage": flat damage a crit adds. */
+  criticalFlatDamage?: number;
+  /** Damage this weapon's basic attacks add on hit, from the weapon and from gear. */
+  onHit?: OnHitRider[];
+  /** This weapon's bonuses against certain targets (Mythslayer vs Youkai, Knight Slayer vs Heavy armor). */
+  versus?: VersusBonus[];
+}
+
+/** A bonus that depends on the other side: `taken` cuts damage from it, `dealt` raises damage, `swa` raises Scaled Weapon ATK. */
+export interface VersusBonus {
+  source: string;
+  kind: 'taken' | 'dealt' | 'swa';
+  percent: number;
+  /** Races, "Boss", or a torso armor type (Heavy, Light, Unarmored). */
+  targets: string[];
+  basicOnly?: boolean;
+}
+
+export interface OnHitRider {
+  source: string;
+  /** Flat part, with UL resolved. */
+  amount: number;
+  /** "equal to 50% of your Ice ATK": a percentage of Elemental ATK of `type`, resolved at attack time. */
+  atkPercent?: number;
+  type: string;
+  damageClass: 'physical' | 'magical';
+  ignores: 'none' | 'armor' | 'protection';
+  unresistable?: boolean;
 }
 
 export interface RaceConfig {

@@ -42,6 +42,7 @@ export function resolveVitals(inputs: EvaluationInputs, stats: StatsResult) {
   if (armorEnchant.hpPercent) maxHP = Math.floor(maxHP * (1 + armorEnchant.hpPercent / 100));
   maxHP += mixtureBonuses.maxHP ?? 0;
   if (skills.derived.hpPercent) maxHP = Math.floor(maxHP * (1 + skills.derived.hpPercent / 100));
+  if (items.derived.hpPercent) maxHP = Math.floor(maxHP * (1 + items.derived.hpPercent / 100));
   let fp = calculateMaxFocus({
     wil: scaledStats.wil,
     san: scaledStats.san,

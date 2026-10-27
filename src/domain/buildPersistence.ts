@@ -37,6 +37,7 @@ import {
 } from '../types';
 import { emptyYoukaiState, normalizeYoukaiState, youkaiById } from './youkai';
 import { traitById } from './traits';
+import { migrateItemKey } from './itemEffects';
 import { subtalentById } from '../data/talents';
 
 function talentAllocation(value: unknown): Record<string, number> {
@@ -275,7 +276,7 @@ export function normalizeBuildState(value: unknown): BuildState {
     elementalRESAdjustments: numericRecord(value.elementalRESAdjustments, ZERO_ELEMENTS),
     equipment: {
       armorName,
-      armorConditionalBonuses: isRecord(equipment.armorConditionalBonuses) ? Object.fromEntries(Object.entries(equipment.armorConditionalBonuses).map(([key, enabled]) => [key, Boolean(enabled)])) : {},
+      armorConditionalBonuses: isRecord(equipment.armorConditionalBonuses) ? Object.fromEntries(Object.entries(equipment.armorConditionalBonuses).map(([key, enabled]) => [migrateItemKey(key), Boolean(enabled)])) : {},
       armorUpgradePoints: isRecord(equipment.armorUpgradePoints)
         ? clampArmorUpgradePoints({
           armor: Number(equipment.armorUpgradePoints.armor) || 0,
@@ -284,13 +285,13 @@ export function normalizeBuildState(value: unknown): BuildState {
         }, armorName, world)
         : undefined,
       itemConditionalBonuses: isRecord(equipment.itemConditionalBonuses)
-        ? Object.fromEntries(Object.entries(equipment.itemConditionalBonuses).filter(([, on]) => on).map(([key]) => [key, true]))
+        ? Object.fromEntries(Object.entries(equipment.itemConditionalBonuses).filter(([, on]) => on).map(([key]) => [migrateItemKey(key), true]))
         : undefined,
       itemRolls: isRecord(equipment.itemRolls)
         ? Object.fromEntries(
           Object.entries(equipment.itemRolls)
             .filter(([, value]) => Number.isFinite(Number(value)))
-            .map(([key, value]) => [key, Number(value)]),
+            .map(([key, value]) => [migrateItemKey(key), Number(value)]),
         )
         : undefined,
       armorQuality: isRecord(equipment.armorQuality)

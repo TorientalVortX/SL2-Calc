@@ -59,7 +59,7 @@ for (const skill of skills) {
 }
 
 records.sort((a, b) => a.name.localeCompare(b.name));
-await writeFile(OUT, `${JSON.stringify({ racialSkills: records })}\n`, 'utf8');
+await writeFile(OUT, `${JSON.stringify({ racialSkills: records }, null, 2)}\n`, 'utf8');
 
 const covered = new Set(records.flatMap((r) => r.subraces));
 const bare = subraces.filter((s) => !covered.has(s) && !NO_RACE_PAGE.has(s));

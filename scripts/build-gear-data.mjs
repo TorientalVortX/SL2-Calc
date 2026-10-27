@@ -1,6 +1,7 @@
 // Usage: node scripts/build-gear-data.mjs [--report]  -> src/data/content/gear.json
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import { patchedEquipment } from './wiki-patches.mjs';
 
 const SOURCE = path.resolve('wiki-data/raw/equipment.json');
 const OUT = path.resolve('src/data/content/gear.json');
@@ -15,7 +16,7 @@ const GROUPS = {
   Accessory: { group: 'Accessory', slot: 5 },
 };
 
-const items = JSON.parse(await readFile(SOURCE, 'utf8'));
+const items = await patchedEquipment(JSON.parse(await readFile(SOURCE, 'utf8')));
 
 // Razor Talons writes its skill as a {{#tip-text}} tooltip; split it into the usual name, cost and text lines.
 function expandSkillTooltip(line) {

@@ -36,6 +36,13 @@ describe('incoming damage', () => {
     expect(result.steps.map(step => step.label)).toEqual(['Incoming', 'Physical Defense', 'Critical', 'Armor']);
   });
 
+  it('adds flat crit damage before defenses, and only on a crit', () => {
+    // (200 × 1.5 + 10) × 0.73 − 45 = 181.3
+    const hit = { ...NO_HIT, amount: 200, critFlatDamage: 10 };
+    expect(incomingDamage({ ...hit, outcomes: outcomes(['hit', false, true]) }, defender).taken).toBe(181);
+    expect(incomingDamage({ ...hit, outcomes: outcomes(['hit']) }, defender).taken).toBe(incomingDamage({ ...NO_HIT, amount: 200 }, defender).taken);
+  });
+
   it('rolls crits per hit, so only the critical hits of an attack are multiplied', () => {
     const open = { ...defender, derived: { ...defender.derived, physicalDefense: 0, armor: 0 } };
     const result = incomingDamage({ ...NO_HIT, amount: 100, hits: 3, outcomes: outcomes(['hit'], ['hit', false, true], ['glance', false, true]) }, open);
@@ -128,5 +135,15 @@ describe('expected damage', () => {
       brute += a[1] * b[1] * c[1] * incomingDamage({ ...hit, outcomes: [a[0], b[0], c[0]] }, defender).taken;
     }
     expect(expectedDamage(hit, defender, chances).expected).toBeCloseTo(brute, 9);
+  });
+});
+
+describe('reductions against one attacker', () => {
+  it('multiplies each in on its own', () => {
+    const versusReductions = [{ label: 'Beastfoe Shield vs Beast', percent: 10 }, { label: 'Rough Ranger vs Beast', percent: 5 }];
+    const result = incomingDamage({ ...NO_HIT, amount: 200, versusReductions }, defender);
+    // 200 × 0.73 × 0.90 × 0.95 − 45 = 79.83
+    expect(result.taken).toBe(79);
+    expect(result.steps.map(step => step.label)).toContain('Rough Ranger vs Beast');
   });
 });

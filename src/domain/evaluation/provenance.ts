@@ -1,11 +1,12 @@
 import type { BuildEvaluation, StatKey, StatRecord } from '../../types';
-import { resolveArmorUpgradePoints, resolveUpgradePoints } from '../../types';
+import { equippedSlot3, resolveArmorUpgradePoints, resolveUpgradePoints } from '../../types';
 import { CLASS_HIERARCHY } from '../../data/classes';
 import { otherMaterialModifier } from '../armorMaterials';
 import { enchantmentEffectForSlot } from '../armorEnchantments';
 import { itemBonuses } from '../itemEffects';
 import { skillBonuses, skillsForClassSlots } from '../skills';
 import { sanguineCrestStats, traitById, traitStatBonuses } from '../traits';
+import { equippedSets } from '../itemSets';
 import { classArmorApplies } from '../classArmor';
 import { GEAR_ENCHANT_SLOTS, type EvaluationInputs } from './inputs';
 import type { StatsResult } from './stats';
@@ -49,6 +50,12 @@ export function statProvenance(inputs: EvaluationInputs, stats: StatsResult): No
     weaponPoints: build.equipment.primaryWeapon ? resolveUpgradePoints(build.equipment.primaryWeapon) : undefined,
     conditionals, rolls: build.equipment.itemRolls, level: build.characterLevel,
   }).stats);
+  if (equippedSlot3(build.equipment) === 'offHandWeapon' && build.equipment.offHandWeapon) {
+    const offHand = build.equipment.offHandWeapon;
+    add(`Off-hand: ${offHand.selectedWeaponName}`, itemBonuses({
+      weaponName: offHand.selectedWeaponName, weaponPoints: resolveUpgradePoints(offHand), conditionals, rolls: build.equipment.itemRolls, level: build.characterLevel, offHand: true,
+    }).stats);
+  }
   add(`Torso effects: ${build.equipment.armorName}`, itemBonuses({
     armorName: build.equipment.armorName, armorPoints: resolveArmorUpgradePoints(build.equipment), conditionals, rolls: build.equipment.itemRolls, level: build.characterLevel,
   }).stats);
@@ -59,6 +66,9 @@ export function statProvenance(inputs: EvaluationInputs, stats: StatsResult): No
     add(`${label} / ${slot.material}`, otherMaterialModifier(slot.material).stats);
     add(`${label} / ${slot.enchantment}`, enchantmentEffectForSlot(slot.enchantment, GEAR_ENCHANT_SLOTS[index]).stats);
   });
+  for (const set of equippedSets(build.equipment)) {
+    add(`Set: ${set.name} ${set.pieces}`, itemBonuses({ sets: [set], conditionals, level: build.characterLevel }).stats);
+  }
   for (const id of build.traits ?? []) add(`Trait: ${traitById(id)?.name ?? id}`, traitStatBonuses([id], build.traitConditionals));
   for (const skill of skillsForClassSlots(build.mainClass, build.subClass)) {
     if (mergedSkillRanks[skill.id]) add(`Skill: ${skill.name}`, skillBonuses([skill], mergedSkillRanks, build.skillConditionals, skillWeaponTypes, { ...skillContext, scaledStats }).stats);

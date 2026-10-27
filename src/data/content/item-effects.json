@@ -31,9 +31,9 @@
         "effects": [
           {
             "kind": "derived",
-            "key": "critical",
-            "base": 10,
-            "ulMultiplier": 0
+            "ulMultiplier": 0,
+            "key": "criticalFlatDamage",
+            "base": 10
           }
         ]
       }
@@ -79,7 +79,15 @@
         "name": "Ice Damage",
         "description": "Deals magic Ice bonus damage equal to 50% of your Ice ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Ice",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       }
     ],
     "Graality": [
@@ -123,13 +131,29 @@
         "name": "Fire Damage",
         "description": "Deals magic Fire bonus damage equal to 50% of your Fire ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Fire",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Nerifian Spell Power",
         "description": "+10% Power to Nerifian Spells (Halved if not main weapon.)",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "spellPower",
+            "ulMultiplier": 0,
+            "key": "Nerifian",
+            "base": 10
+          }
+        ],
+        "offHandShare": 0.5
       }
     ],
     "Gunbai": [
@@ -150,7 +174,15 @@
         "name": "Wind Damage",
         "description": "Deals magic Wind bonus damage equal to 50% of your Wind ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Wind",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Gunbai Defense Arts",
@@ -259,7 +291,15 @@
         "name": "Darkness Damage",
         "description": "Deals magic Darkness bonus damage equal to 50% of your Darkness ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Dark",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       }
     ],
     "Excel Parashu": [
@@ -382,7 +422,15 @@
         "name": "Darkness Damage",
         "description": "Deals magic Darkness bonus damage equal to 50% of your Darkness ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Dark",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       }
     ],
     "Lare Grystale": [
@@ -405,7 +453,15 @@
         "name": "Youkai Hunter",
         "description": "Damage dealt by this weapon's attack is increased by 25% if the target is a Youkai or installed with one.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "versus": {
+          "kind": "dealt",
+          "percent": 25,
+          "targets": [
+            "Youkai"
+          ],
+          "basicOnly": true
+        }
       },
       {
         "name": "Fiction Reaper",
@@ -467,7 +523,14 @@
         "name": "Unarmored Bonus",
         "description": "Increases Scaled Weapon ATK by 20% if the target's armor type is Unarmored.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "versus": {
+          "kind": "swa",
+          "percent": 20,
+          "targets": [
+            "Unarmored"
+          ]
+        }
       }
     ],
     "Grand Smasher": [
@@ -615,7 +678,15 @@
         "name": "Fire Damage",
         "description": "Deals magic Fire damage equal to 50% of your Fire ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Fire",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Burning Rope",
@@ -694,7 +765,15 @@
         "name": "Lightning Damage",
         "description": "Deals magic Lightning bonus damage equal to 50% of your Lightning ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Lightning",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Carved Circuit",
@@ -813,7 +892,15 @@
         "name": "Earth Damage",
         "description": "Deals magic Earth damage equal to 50% of your Earth ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Earth",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Thorn Wrap",
@@ -1317,13 +1404,29 @@
         "name": "Ice Damage",
         "description": "Deals magic Ice bonus damage equal to 25% of your Ice ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 25,
+          "type": "Ice",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Water Damage",
         "description": "Deals magic Water bonus damage equal to 25% of your Water ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 25,
+          "type": "Water",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       }
     ],
     "Seiryuu Tessen": [
@@ -1331,13 +1434,29 @@
         "name": "Lightning Damage",
         "description": "Deals magic Lightning bonus damage equal to 25% of your Lightning ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 25,
+          "type": "Lightning",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Wind Damage",
         "description": "Deals magic Wind bonus damage equal to 25% of your Wind ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 25,
+          "type": "Wind",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Dragon Dance",
@@ -1359,13 +1478,29 @@
         "name": "Fire Damage",
         "description": "Deals magic Fire bonus damage equal to 25% of your Fire ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 25,
+          "type": "Fire",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Wind Damage",
         "description": "Deals magic Wind bonus damage equal to 25% of your Wind ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 25,
+          "type": "Wind",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       }
     ],
     "Touyaa Shuriken": [
@@ -1413,27 +1548,8 @@
       {
         "name": "Neverending Story Set",
         "description": "2+ - 1) +3 WIL. 2) +3 CEL. 3) +15% Sound Resistance.",
-        "applies": "always",
-        "effects": [
-          {
-            "kind": "stat",
-            "key": "wil",
-            "base": 3,
-            "ulMultiplier": 0
-          },
-          {
-            "kind": "stat",
-            "key": "cel",
-            "base": 3,
-            "ulMultiplier": 0
-          },
-          {
-            "kind": "resistance",
-            "key": "Sound",
-            "base": 15,
-            "ulMultiplier": 0
-          }
-        ]
+        "applies": "reference",
+        "effects": []
       }
     ],
     "Magical Photon": [
@@ -1652,7 +1768,15 @@
         "name": "Fire Damage",
         "description": "Deals magic Fire bonus damage equal to 50% of your Fire ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Fire",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Fire Exhaurire",
@@ -1742,6 +1866,12 @@
         "description": "+10 Critical, +5% Critical Damage. When critically hitting monsters with this weapon (excluding bosses, and monsters whose level is 10 or more higher than yours): 5% chance for the attack to do a Vorpal Strike, dealing 9999 Akashic damage. Critical hits from behind the target when attacking with this weapon have an UL% chance higher of becoming Vorpal Strikes (applies as a percentage to the base chance, not added to it.)",
         "applies": "conditional",
         "effects": [
+          {
+            "kind": "derived",
+            "ulMultiplier": 0,
+            "key": "criticalDamage",
+            "base": 5
+          },
           {
             "kind": "derived",
             "key": "critical",
@@ -1895,7 +2025,15 @@
         "name": "Fire Damage",
         "description": "Deals magic Fire damage equal to 50% of your Fire ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Fire",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Weapon Charge Consumption",
@@ -2125,7 +2263,15 @@
         "name": "Giant Slaying",
         "description": "Basic attacks with this weapon deal 15% more damage if the target is a Giant, Enlarged, or has the Mountain skill. Also applies to enemies with a Gigantic torso enchantment at half effectiveness.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "versus": {
+          "kind": "dealt",
+          "percent": 15,
+          "targets": [
+            "Giant"
+          ],
+          "basicOnly": true
+        }
       },
       {
         "name": "Demoralize Giants",
@@ -2188,7 +2334,15 @@
         "name": "Ice Damage",
         "description": "Deals magic Ice damage equal to 50% of your Ice ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Ice",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "WIL Bonus",
@@ -2260,7 +2414,8 @@
             "base": 0,
             "ulMultiplier": 0.5
           }
-        ]
+        ],
+        "offHandShare": 0.5
       },
       {
         "name": "Knockback",
@@ -2347,7 +2502,15 @@
         "name": "Anti-Youkai Damage",
         "description": "Damage dealt by this weapon's attack is increased by 15% if the target is a Youkai or installed with one.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "versus": {
+          "kind": "dealt",
+          "percent": 15,
+          "targets": [
+            "Youkai"
+          ],
+          "basicOnly": true
+        }
       }
     ],
     "Excel Sniper": [
@@ -2742,9 +2905,9 @@
         "effects": [
           {
             "kind": "derived",
-            "key": "critical",
-            "base": 0,
-            "ulMultiplier": 1
+            "ulMultiplier": 1,
+            "key": "criticalFlatDamage",
+            "base": 0
           }
         ]
       },
@@ -2817,7 +2980,15 @@
         "name": "Light Damage",
         "description": "Deals magic Light bonus damage equal to 50% of your Light ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Light",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       }
     ],
     "Impaler": [
@@ -2879,13 +3050,29 @@
         "name": "Water Damage",
         "description": "Deals magic Water bonus damage equal to 50% of your Water ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Water",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Spell Power Bonus",
         "description": "+10% Power to Aquarian Spells (Halved if not main weapon.)",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "spellPower",
+            "ulMultiplier": 0,
+            "key": "Aquarian",
+            "base": 10
+          }
+        ],
+        "offHandShare": 0.5
       }
     ],
     "King Fisher": [
@@ -2971,7 +3158,15 @@
         "name": "Fire Damage",
         "description": "Deals magic Fire bonus damage equal to 50% of your Fire ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Fire",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Coal Brand",
@@ -2999,7 +3194,15 @@
         "name": "Ice Damage",
         "description": "Deals magic Ice bonus damage equal to 50% of your Ice ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Ice",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       }
     ],
     "Abberation Spear": [
@@ -3007,13 +3210,29 @@
         "name": "Lightning Damage",
         "description": "Deals magic Lightning bonus damage equal to 50% of your Lightning ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Lightning",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Spell Power Bonus",
         "description": "+10% Power to Nature Spells (Halved if not main weapon.)",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "spellPower",
+            "ulMultiplier": 0,
+            "key": "Nature",
+            "base": 10
+          }
+        ],
+        "offHandShare": 0.5
       },
       {
         "name": "Poison",
@@ -3419,7 +3638,14 @@
         "name": "Heavy Armor Bonus",
         "description": "Increases Scaled Weapon ATK by 20% if the target's armor type is Heavy Armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "versus": {
+          "kind": "swa",
+          "percent": 20,
+          "targets": [
+            "Heavy"
+          ]
+        }
       }
     ],
     "Morganite-Head Staff": [
@@ -3459,8 +3685,15 @@
       {
         "name": "Darkness ATK Bonus",
         "description": "+5 Darkness ATK.",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "elementalAttack",
+            "key": "Dark",
+            "base": 5,
+            "ulMultiplier": 0
+          }
+        ]
       },
       {
         "name": "Deploy Talis (Onyx)",
@@ -3627,8 +3860,15 @@
       {
         "name": "Darkness ATK Bonus",
         "description": "+5 Darkness ATK.",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "elementalAttack",
+            "key": "Dark",
+            "base": 5,
+            "ulMultiplier": 0
+          }
+        ]
       },
       {
         "name": "Magic Stone Power",
@@ -3742,7 +3982,14 @@
         "name": "Light Damage",
         "description": "Deals magic Light bonus damage equal to UL, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 1,
+          "type": "Light",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Status Copy",
@@ -3929,7 +4176,15 @@
         "name": "Water Damage",
         "description": "Deals magic Water bonus damage equal to 50% of your Water ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Water",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       }
     ],
     "Wo-Dao": [
@@ -3967,7 +4222,15 @@
         "name": "Darkness Damage",
         "description": "Deals magic Darkness bonus damage equal to 50% of your Darkness ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Dark",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Impure Stroke",
@@ -4010,7 +4273,15 @@
         "name": "Earth Damage",
         "description": "Deals magic Earth bonus damage equal to 50% of your Earth ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Earth",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Crystalline Armor",
@@ -4073,7 +4344,15 @@
         "name": "Darkness Damage",
         "description": "Deals magic Darkness bonus damage equal to 50% of your Darkness ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Dark",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Soul Burn",
@@ -4087,7 +4366,15 @@
         "name": "Water Damage",
         "description": "Deals magic Water bonus damage equal to 50% of your Water ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Water",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Aqua Pulse",
@@ -4245,13 +4532,19 @@
         "effects": [
           {
             "kind": "derived",
-            "key": "critical",
+            "key": "armor",
             "base": 5,
             "ulMultiplier": 0
           },
           {
             "kind": "derived",
-            "key": "armor",
+            "key": "magicArmor",
+            "base": 5,
+            "ulMultiplier": 0
+          },
+          {
+            "kind": "derived",
+            "key": "critical",
             "base": 5,
             "ulMultiplier": 0
           },
@@ -4275,7 +4568,15 @@
         "name": "Darkness Damage",
         "description": "Deals magic Darkness bonus damage equal to 50% of your Darkness ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Dark",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Darkness Resistance",
@@ -4338,7 +4639,15 @@
         "name": "Passive",
         "description": "On Hit: Deals magic Fire bonus damage equal to 50% of your Fire ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Fire",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Passive",
@@ -4373,7 +4682,15 @@
         "name": "Lightning Damage",
         "description": "Deals magic Lightning bonus damage equal to 50% of your Lightning ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Lightning",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Lightning Resistance",
@@ -4400,7 +4717,15 @@
         "name": "Acid Damage",
         "description": "Deals magic Acid bonus damage equal to 50% of your Acid ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Acid",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Acid Resistance",
@@ -4466,7 +4791,15 @@
         "name": "Passive",
         "description": "On Hit: Deals magic Ice bonus damage equal to 50% of your Ice ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Ice",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Passive",
@@ -4674,7 +5007,15 @@
         "name": "Light Damage",
         "description": "Deals magic Light bonus damage equal to 50% of your Light ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Light",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Stat Bonus",
@@ -4794,7 +5135,14 @@
         "name": "Anti-Light Armor",
         "description": "Increases Scaled Weapon ATK by 20% if the target's armor type is Light Armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "versus": {
+          "kind": "swa",
+          "percent": 20,
+          "targets": [
+            "Light"
+          ]
+        }
       }
     ],
     "Salamander Sword": [
@@ -4819,7 +5167,15 @@
         "name": "Ice Damage",
         "description": "Deals magic Ice bonus damage equal to 50% of your Ice ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Ice",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Everblue",
@@ -4841,7 +5197,15 @@
         "name": "Darkness Damage",
         "description": "Deals magic Darkness bonus damage equal to 50% of your Darkness ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Dark",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Haunted Soul",
@@ -4907,7 +5271,14 @@
         "name": "Pierce Bonus Damage",
         "description": "Deals physical Pierce bonus damage equal to UL, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 1,
+          "type": "Pierce",
+          "damageClass": "physical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Parry Penetration",
@@ -4921,7 +5292,15 @@
         "name": "Elite Slayer",
         "description": "Increases the total Power of attacks and skills this weapon is used in by UL%, but only if the enemy is a Boss monster or has at least one 10* item equipped.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "versus": {
+          "kind": "dealt",
+          "percent": 0,
+          "ulMultiplier": 1,
+          "targets": [
+            "Boss"
+          ]
+        }
       }
     ],
     "Spine Leash": [
@@ -5130,35 +5509,24 @@
       {
         "name": "Neverending Story Set",
         "description": "Set: Neverending Story. 2+ - 1) +3 WIL. 2) +3 CEL. 3) +15% Sound Resistance.",
-        "applies": "conditional",
-        "effects": [
-          {
-            "kind": "stat",
-            "key": "wil",
-            "base": 3,
-            "ulMultiplier": 0
-          },
-          {
-            "kind": "stat",
-            "key": "cel",
-            "base": 3,
-            "ulMultiplier": 0
-          },
-          {
-            "kind": "resistance",
-            "key": "Sound",
-            "base": 15,
-            "ulMultiplier": 0
-          }
-        ]
+        "applies": "reference",
+        "effects": []
       }
     ],
     "Rose Whip": [
       {
         "name": "Nature Spell Power",
         "description": "+10% Power to Nature Spells (Halved if not main weapon.)",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "spellPower",
+            "ulMultiplier": 0,
+            "key": "Nature",
+            "base": 10
+          }
+        ],
+        "offHandShare": 0.5
       },
       {
         "name": "Charm on Critical",
@@ -5197,8 +5565,22 @@
       {
         "name": "Nature and Isespia Spell Power",
         "description": "+10% Power to Nature and Isespia Spells (halved if off-hand).",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "spellPower",
+            "ulMultiplier": 0,
+            "key": "Nature",
+            "base": 10
+          },
+          {
+            "kind": "spellPower",
+            "ulMultiplier": 0,
+            "key": "Isespian",
+            "base": 10
+          }
+        ],
+        "offHandShare": 0.5
       }
     ],
     "Farren": [
@@ -5252,8 +5634,22 @@
       {
         "name": "Nature and Sylphid Spell Power",
         "description": "+10% Power to Nature and Sylphid spells (halved if off-hand).",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "spellPower",
+            "ulMultiplier": 0,
+            "key": "Nature",
+            "base": 10
+          },
+          {
+            "kind": "spellPower",
+            "ulMultiplier": 0,
+            "key": "Sylphid",
+            "base": 10
+          }
+        ],
+        "offHandShare": 0.5
       }
     ],
     "Xuanwuken": [
@@ -5266,8 +5662,22 @@
       {
         "name": "Aquarian and Isespian Spell Power",
         "description": "+10% Power to Aquarian and Isespian Spells (halved if off-hand).",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "spellPower",
+            "ulMultiplier": 0,
+            "key": "Aquarian",
+            "base": 10
+          },
+          {
+            "kind": "spellPower",
+            "ulMultiplier": 0,
+            "key": "Isespian",
+            "base": 10
+          }
+        ],
+        "offHandShare": 0.5
       }
     ],
     "Zhuquelare": [
@@ -5280,8 +5690,22 @@
       {
         "name": "Nerifian and Sylphid Spell Power",
         "description": "+10% Power to Nerifian and Sylphid spells (halved if off-hand).",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "spellPower",
+            "ulMultiplier": 0,
+            "key": "Nerifian",
+            "base": 10
+          },
+          {
+            "kind": "spellPower",
+            "ulMultiplier": 0,
+            "key": "Sylphid",
+            "base": 10
+          }
+        ],
+        "offHandShare": 0.5
       }
     ],
     "Dynamic Tome": [
@@ -5352,6 +5776,12 @@
         "effects": [
           {
             "kind": "derived",
+            "ulMultiplier": 0,
+            "key": "criticalFlatDamage",
+            "base": 10
+          },
+          {
+            "kind": "derived",
             "key": "critical",
             "base": 10,
             "ulMultiplier": 0
@@ -5360,12 +5790,6 @@
             "kind": "derived",
             "key": "critical",
             "base": 3,
-            "ulMultiplier": 0
-          },
-          {
-            "kind": "derived",
-            "key": "critical",
-            "base": 10,
             "ulMultiplier": 0
           },
           {
@@ -5513,14 +5937,30 @@
       {
         "name": "Aquarian Spell Power",
         "description": "+UL% Power to Aquarian Spells (Halved if not main weapon.)",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "spellPower",
+            "ulMultiplier": 1,
+            "key": "Aquarian",
+            "base": 0
+          }
+        ],
+        "offHandShare": 0.5
       },
       {
         "name": "Sylphid Spell Power",
         "description": "+UL% Power to Sylphid Spells (Halved if not main weapon.)",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "spellPower",
+            "ulMultiplier": 1,
+            "key": "Sylphid",
+            "base": 0
+          }
+        ],
+        "offHandShare": 0.5
       },
       {
         "name": "Hurricane Summon",
@@ -5533,8 +5973,22 @@
       {
         "name": "Isesipian and Sylphid Spell Power",
         "description": "+UL% Power to Isesipian and Sylphid Spells (halved if off-hand).",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "spellPower",
+            "ulMultiplier": 1,
+            "key": "Isespian",
+            "base": 0
+          },
+          {
+            "kind": "spellPower",
+            "ulMultiplier": 1,
+            "key": "Sylphid",
+            "base": 0
+          }
+        ],
+        "offHandShare": 0.5
       },
       {
         "name": "Sandstorm Creation",
@@ -5651,17 +6105,31 @@
         "effects": []
       }
     ],
+    "Alchemic Plate": [
+      {
+        "name": "Alchemic Plate",
+        "description": "Doubles item material effects that modify this item's parameters.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Doubles material effects",
+        "description": "Doubles material effects",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
     "Brightray Plate": [
       {
         "name": "Brightray Plate",
         "description": "+5 Power to Mercalan Spells 10% Darkness Resistance A golden glowing suit of armor.",
-        "applies": "conditional",
+        "applies": "always",
         "effects": [
           {
-            "kind": "derived",
-            "key": "power",
-            "base": 5,
-            "ulMultiplier": 0
+            "kind": "spellFlatPower",
+            "ulMultiplier": 0,
+            "key": "Mercalan",
+            "base": 5
           }
         ]
       }
@@ -5676,20 +6144,6 @@
       {
         "name": "Soldier class bonus enhancement",
         "description": "Soldier class bonus enhancement",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Alchemic Plate": [
-      {
-        "name": "Alchemic Plate",
-        "description": "Doubles item material effects that modify this item's parameters.",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Doubles material effects",
-        "description": "Doubles material effects",
         "applies": "reference",
         "effects": []
       }
@@ -5774,6 +6228,40 @@
         ]
       }
     ],
+    "Starless Night": [
+      {
+        "name": "Starless Night",
+        "description": "+3 Darkness ATK Protection From Spatial race. Darkheart enchant blocks Star Map skills.",
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "elementalAttack",
+            "key": "Dark",
+            "base": 3,
+            "ulMultiplier": 0
+          }
+        ]
+      },
+      {
+        "name": "10% Spatial damage reduction",
+        "description": "10% Spatial damage reduction",
+        "applies": "reference",
+        "effects": [],
+        "versus": {
+          "kind": "taken",
+          "percent": 10,
+          "targets": [
+            "Spatial"
+          ]
+        }
+      },
+      {
+        "name": "Star Map immunity with Darkheart",
+        "description": "Star Map immunity with Darkheart",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
     "Terrasque Shell": [
       {
         "name": "Terrasque Shell",
@@ -5811,26 +6299,6 @@
       {
         "name": "+10 Critical Evade vs bows",
         "description": "+10 Critical Evade vs bows",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Starless Night": [
-      {
-        "name": "Starless Night",
-        "description": "+3 Darkness ATK Protection From Spatial race. Darkheart enchant blocks Star Map skills.",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "10% Spatial damage reduction",
-        "description": "10% Spatial damage reduction",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Star Map immunity with Darkheart",
-        "description": "Star Map immunity with Darkheart",
         "applies": "reference",
         "effects": []
       }
@@ -6074,6 +6542,20 @@
         "effects": []
       }
     ],
+    "Alchemic Grain": [
+      {
+        "name": "Alchemic Grain",
+        "description": "Doubles item material effects that modify this item's parameters.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Doubles material effects",
+        "description": "Doubles material effects",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
     "Blackheart": [
       {
         "name": "Blackheart",
@@ -6178,20 +6660,6 @@
         "effects": []
       }
     ],
-    "Alchemic Grain": [
-      {
-        "name": "Alchemic Grain",
-        "description": "Doubles item material effects that modify this item's parameters.",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Doubles material effects",
-        "description": "Doubles material effects",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
     "Rough Ranger": [
       {
         "name": "Rough Ranger",
@@ -6210,7 +6678,14 @@
         "name": "Reduce Beast damage by 5%",
         "description": "Reduce Beast damage by 5%",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "versus": {
+          "kind": "taken",
+          "percent": 5,
+          "targets": [
+            "Beast"
+          ]
+        }
       },
       {
         "name": "Ignore thick vine penalties",
@@ -6389,13 +6864,13 @@
       {
         "name": "Animal Pelt",
         "description": "Material: Furcloth +10 HP +3 Power to Nature Spells Beast synergies.",
-        "applies": "conditional",
+        "applies": "always",
         "effects": [
           {
-            "kind": "derived",
-            "key": "power",
-            "base": 3,
-            "ulMultiplier": 0
+            "kind": "spellFlatPower",
+            "ulMultiplier": 0,
+            "key": "Nature",
+            "base": 3
           }
         ]
       },
@@ -6453,6 +6928,14 @@
         "effects": []
       }
     ],
+    "Batwing Cloak": [
+      {
+        "name": "Batwing Cloak",
+        "description": "Airborne effects you are under do not automatically end when turns shift. When a field object explodes while you are in its effective radius, you become Airborne (3 rounds) and gain Agile Bat as a substatus to it (LV = 30 - Battle Weight). While Airborne, if this torso is enchanted with Winged, enemy Critical Damage is reduced by 25% when attacking you. Increases Evade and Critical Evade by LV. Immune to Airborne.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
     "Cloak of Many Colors": [
       {
         "name": "Cloak of Many Colors",
@@ -6481,6 +6964,101 @@
         "description": "+12 Evade and +12 Critical if using same weapon types in both hands.",
         "applies": "reference",
         "effects": []
+      }
+    ],
+    "Warding Cloth": [
+      {
+        "name": "Warding Cloth",
+        "description": "Increases status resistance by 10%.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Berserker Shell": [
+      {
+        "name": "Berserker Shell",
+        "description": "+20 HP Gain increased Critical with Axe weapons based on how much HP you are missing.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Dragon Gi": [
+      {
+        "name": "Dragon Gi",
+        "description": "+15 HP, +15 FP Set: Like a Dragon 2+ - Gain Cast Off Flexing Skill. When you use Cast Off Flexing; * Activate all of your Arcane Tattoo traits. * Activate Crack Knuckles skill (if equipped). * Gain Dragon Fist status permanently. (+2 Attack Range for Bare Fists. Bare Fists' Attack skill moves you to an unoccupied tile next to the target if not in 1 Range, and gains Trickery - Activate Kick skill on the target. * Kick skill Momentum cost reduced by 1 during a turn where you've used Attack.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Alchemic Wrap": [
+      {
+        "name": "Alchemic Wrap",
+        "description": "Doubles item material effects that modify this item's parameters (such as Armor, Evade, etc.).",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Caster's Cape": [
+      {
+        "name": "Caster's Cape",
+        "description": "If your main class is a Mage class, the stat bonuses it gives you are increased by 50% (min. 1 if >0).",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Farmer's Shirt": [
+      {
+        "name": "Farmer's Shirt",
+        "description": "If your main class is a Martial Artist class, the stat bonuses it gives you are increased by 50% (min. 1 if > 0).",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Healer's Shroud": [
+      {
+        "name": "Healer's Shroud",
+        "description": "If your main class is a Curate class, the stat bonuses it gives you are increased by 50% (min. 1 if >0). Set: Church Faithful 2+ - +15% Healing-tag skill Power and +3 Light ATK 3+ - +15 Evade versus Vampire race, Possessed race, and Cladis Mortem Null enemies. 4+ - Can't be targeted by the Banquet skill. Vampiric effects (item effects or miniboss skill) do not work against you. Pray skill's Momentum cost becomes 3.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Kaminah Robes": [
+      {
+        "name": "Kaminah Robes",
+        "description": "Replaces Blind status effects that are applied to you with Beyond Sight instead.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Shadow Gi": [
+      {
+        "name": "Shadow Gi",
+        "description": "10% Light Resistance",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Grants Skill: Ninja Telepo",
+        "description": "Grants Skill: Ninja Telepo",
+        "applies": "reference",
+        "effects": [],
+        "grants": "Ninja Telepo",
+        "role": "skill"
+      },
+      {
+        "name": "1 Momentum, 10FP",
+        "description": "1 Momentum, 10FP",
+        "applies": "reference",
+        "effects": [],
+        "grants": "Ninja Telepo",
+        "role": "cost"
+      },
+      {
+        "name": "Throw your hands together in a ninjutsu sign and disappear, reappearing at a nearby location within 2 Range. You also gain a status called Double Telepo for 3 Rounds. (When you evade an attack, you disappear in a puff of smoke and appear at the tile behind your attacker, if it is a valid battle tile. Expires after triggered.)",
+        "description": "Throw your hands together in a ninjutsu sign and disappear, reappearing at a nearby location within 2 Range. You also gain a status called Double Telepo for 3 Rounds. (When you evade an attack, you disappear in a puff of smoke and appear at the tile behind your attacker, if it is a valid battle tile. Expires after triggered.)",
+        "applies": "reference",
+        "effects": [],
+        "grants": "Ninja Telepo"
       }
     ],
     "Boltstruck Gi": [
@@ -6617,122 +7195,6 @@
         "applies": "reference",
         "effects": []
       }
-    ],
-    "Berserker Shell": [
-      {
-        "name": "Berserker Shell",
-        "description": "+20 HP Gain increased Critical with Axe weapons based on how much HP you are missing.",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Caster's Cape": [
-      {
-        "name": "Caster's Cape",
-        "description": "If your main class is a Mage class, the stat bonuses it gives you are increased by 50% (min. 1 if >0).",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Dragon Gi": [
-      {
-        "name": "Dragon Gi",
-        "description": "+15 HP, +15 FP Set: Like a Dragon 2+ - Gain Cast Off Flexing Skill. When you use Cast Off Flexing; * Activate all of your Arcane Tattoo traits. * Activate Crack Knuckles skill (if equipped). * Gain Dragon Fist status permanently. (+2 Attack Range for Bare Fists. Bare Fists' Attack skill moves you to an unoccupied tile next to the target if not in 1 Range, and gains Trickery - Activate Kick skill on the target. * Kick skill Momentum cost reduced by 1 during a turn where you've used Attack.",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Farmer's Shirt": [
-      {
-        "name": "Farmer's Shirt",
-        "description": "If your main class is a Martial Artist class, the stat bonuses it gives you are increased by 50% (min. 1 if > 0).",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Healer's Shroud": [
-      {
-        "name": "Healer's Shroud",
-        "description": "If your main class is a Curate class, the stat bonuses it gives you are increased by 50% (min. 1 if >0). Set: Church Faithful 2+ - +15% Healing-tag skill Power and +3 Light ATK 3+ - +15 Evade versus Vampire race, Possessed race, and Cladis Mortem Null enemies. 4+ - Can't be targeted by the Banquet skill. Vampiric effects (item effects or miniboss skill) do not work against you. Pray skill's Momentum cost becomes 3.",
-        "applies": "conditional",
-        "effects": [
-          {
-            "kind": "elementalAttack",
-            "key": "Light",
-            "base": 3,
-            "ulMultiplier": 0
-          },
-          {
-            "kind": "derived",
-            "key": "evade",
-            "base": 15,
-            "ulMultiplier": 0
-          }
-        ]
-      }
-    ],
-    "Kaminah Robes": [
-      {
-        "name": "Kaminah Robes",
-        "description": "Replaces Blind status effects that are applied to you with Beyond Sight instead.",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Shadow Gi": [
-      {
-        "name": "Shadow Gi",
-        "description": "10% Light Resistance",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Grants Skill: Ninja Telepo",
-        "description": "Grants Skill: Ninja Telepo",
-        "applies": "reference",
-        "effects": [],
-        "grants": "Ninja Telepo",
-        "role": "skill"
-      },
-      {
-        "name": "1 Momentum, 10FP",
-        "description": "1 Momentum, 10FP",
-        "applies": "reference",
-        "effects": [],
-        "grants": "Ninja Telepo",
-        "role": "cost"
-      },
-      {
-        "name": "Throw your hands together in a ninjutsu sign and disappear, reappearing at a nearby location within 2 Range. You also gain a status called Double Telepo for 3 Rounds. (When you evade an attack, you disappear in a puff of smoke and appear at the tile behind your attacker, if it is a valid battle tile. Expires after triggered.)",
-        "description": "Throw your hands together in a ninjutsu sign and disappear, reappearing at a nearby location within 2 Range. You also gain a status called Double Telepo for 3 Rounds. (When you evade an attack, you disappear in a puff of smoke and appear at the tile behind your attacker, if it is a valid battle tile. Expires after triggered.)",
-        "applies": "reference",
-        "effects": [],
-        "grants": "Ninja Telepo"
-      }
-    ],
-    "Warding Cloth": [
-      {
-        "name": "Warding Cloth",
-        "description": "Increases status resistance by 10%.",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Alchemic Wrap": [
-      {
-        "name": "Alchemic Wrap",
-        "description": "Doubles item material effects that modify this item's parameters (such as Armor, Evade, etc.).",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Batwing Cloak": [
-      {
-        "name": "Batwing Cloak",
-        "description": "Airborne effects you are under do not automatically end when turns shift. When a field object explodes while you are in its effective radius, you become Airborne (3 rounds) and gain Agile Bat as a substatus to it (LV = 30 - Battle Weight). While Airborne, if this torso is enchanted with Winged, enemy Critical Damage is reduced by 25% when attacking you. Increases Evade and Critical Evade by LV. Immune to Airborne.",
-        "applies": "reference",
-        "effects": []
-      }
     ]
   },
   "gear": {
@@ -6741,7 +7203,14 @@
         "name": "Acidic Claws",
         "description": "On Hit: Deal protection-ignoring Acid damage equal to 5+UL, but reduces the weapon's durability by 1.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 5,
+          "ulMultiplier": 1,
+          "type": "Acid",
+          "damageClass": "magical",
+          "ignores": "protection"
+        }
       }
     ],
     "Archery Gloves": [
@@ -6765,9 +7234,9 @@
         "effects": [
           {
             "kind": "derived",
-            "key": "power",
-            "base": 2,
-            "ulMultiplier": 0
+            "ulMultiplier": 0,
+            "key": "basicAttackPower:Bow",
+            "base": 2
           }
         ]
       }
@@ -7162,7 +7631,17 @@
         "name": "Burning Bracers",
         "description": "On Hit: If a Fist weapon, deals 15 Fire armor-ignoring magic damage.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 15,
+          "ulMultiplier": 0,
+          "type": "Fire",
+          "damageClass": "magical",
+          "weapons": [
+            "Fist"
+          ],
+          "ignores": "armor"
+        }
       }
     ],
     "Chunin Gloves": [
@@ -7266,8 +7745,15 @@
       {
         "name": "Crownbleeder Plus",
         "description": "+5% Critical Chance",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "derived",
+            "ulMultiplier": 0,
+            "key": "critical",
+            "base": 5
+          }
+        ]
       },
       {
         "name": "Crownbleeder Plus",
@@ -7490,7 +7976,17 @@
         "name": "Insulated Burning Bracers",
         "description": "On Hit: If a Fist weapon, deals 15 Fire armor-ignoring magic damage.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 15,
+          "ulMultiplier": 0,
+          "type": "Fire",
+          "damageClass": "magical",
+          "weapons": [
+            "Fist"
+          ],
+          "ignores": "armor"
+        }
       }
     ],
     "Ivy Binds": [
@@ -7761,8 +8257,15 @@
       {
         "name": "Rogue's Work Gloves",
         "description": "+10% Critical Damage",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "derived",
+            "ulMultiplier": 0,
+            "key": "criticalDamage",
+            "base": 10
+          }
+        ]
       },
       {
         "name": "Rogue's Work Gloves",
@@ -7856,8 +8359,15 @@
       {
         "name": "Sayakensa",
         "description": "+10% Critical Chance",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "derived",
+            "ulMultiplier": 0,
+            "key": "critical",
+            "base": 10
+          }
+        ]
       },
       {
         "name": "Sayakensa",
@@ -8044,7 +8554,14 @@
         "name": "Beastfoe Shield",
         "description": "Reduces damage from Beast race enemies by 10%.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "versus": {
+          "kind": "taken",
+          "percent": 10,
+          "targets": [
+            "Beast"
+          ]
+        }
       }
     ],
     "Beastfoe Shield Plus": [
@@ -8052,7 +8569,14 @@
         "name": "Beastfoe Shield Plus",
         "description": "Reduces damage from Beast race enemies by 15%.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "versus": {
+          "kind": "taken",
+          "percent": 15,
+          "targets": [
+            "Beast"
+          ]
+        }
       },
       {
         "name": "Beastfoe Shield Plus",
@@ -8159,7 +8683,14 @@
         "name": "Firefoe Shield",
         "description": "Reduces damage from Fireblood race enemies by 10%.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "versus": {
+          "kind": "taken",
+          "percent": 10,
+          "targets": [
+            "Fireblood"
+          ]
+        }
       }
     ],
     "Firefoe Shield Plus": [
@@ -8167,7 +8698,14 @@
         "name": "Firefoe Shield Plus",
         "description": "Reduces damage from Fireblood race enemies by 15%.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "versus": {
+          "kind": "taken",
+          "percent": 15,
+          "targets": [
+            "Fireblood"
+          ]
+        }
       },
       {
         "name": "Firefoe Shield Plus",
@@ -8326,9 +8864,9 @@
         "effects": [
           {
             "kind": "derived",
-            "key": "power",
-            "base": 2,
-            "ulMultiplier": 0
+            "ulMultiplier": 0,
+            "key": "basicAttackPower:Unarmed",
+            "base": 2
           }
         ]
       }
@@ -8380,7 +8918,14 @@
         "name": "Plantfoe Shield",
         "description": "Reduces damage from Plant race enemies by 10%.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "versus": {
+          "kind": "taken",
+          "percent": 10,
+          "targets": [
+            "Plant"
+          ]
+        }
       }
     ],
     "Plantfoe Shield Plus": [
@@ -8388,7 +8933,14 @@
         "name": "Plantfoe Shield Plus",
         "description": "Reduces damage from Plant race enemies by 15%.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "versus": {
+          "kind": "taken",
+          "percent": 15,
+          "targets": [
+            "Plant"
+          ]
+        }
       },
       {
         "name": "Plantfoe Shield Plus",
@@ -8416,7 +8968,14 @@
         "name": "Undeadfoe Shield",
         "description": "Reduces damage from Undead race enemies by 10%.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "versus": {
+          "kind": "taken",
+          "percent": 10,
+          "targets": [
+            "Undead"
+          ]
+        }
       }
     ],
     "Undeadfoe Shield Plus": [
@@ -8424,7 +8983,14 @@
         "name": "Undeadfoe Shield Plus",
         "description": "Reduces damage from Undead race enemies by 15%.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "versus": {
+          "kind": "taken",
+          "percent": 15,
+          "targets": [
+            "Undead"
+          ]
+        }
       },
       {
         "name": "Undeadfoe Shield Plus",
@@ -8873,7 +9439,14 @@
         "name": "Jammer Waders",
         "description": "Reduces damage from Jammer race enemies by 25%.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "versus": {
+          "kind": "taken",
+          "percent": 25,
+          "targets": [
+            "Jammer"
+          ]
+        }
       }
     ],
     "Kickboxing Shoes": [
@@ -8884,9 +9457,9 @@
         "effects": [
           {
             "kind": "derived",
-            "key": "power",
-            "base": 2,
-            "ulMultiplier": 0
+            "ulMultiplier": 0,
+            "key": "basicAttackPower:Unarmed",
+            "base": 2
           }
         ]
       }
@@ -8899,9 +9472,9 @@
         "effects": [
           {
             "kind": "derived",
-            "key": "power",
-            "base": 5,
-            "ulMultiplier": 0
+            "ulMultiplier": 0,
+            "key": "basicAttackPower:Unarmed",
+            "base": 5
           }
         ]
       },
@@ -9138,28 +9711,14 @@
       {
         "name": "Sanctified Shoes",
         "description": "2+ - +15% Healing-tag skill Power and +3 Light ATK",
-        "applies": "always",
-        "effects": [
-          {
-            "kind": "elementalAttack",
-            "key": "Light",
-            "base": 3,
-            "ulMultiplier": 0
-          }
-        ]
+        "applies": "reference",
+        "effects": []
       },
       {
         "name": "Sanctified Shoes",
         "description": "3+ - +15 Evade versus Vampire race, Possessed race, and Cladis Mortem Null enemies.",
-        "applies": "conditional",
-        "effects": [
-          {
-            "kind": "derived",
-            "key": "evade",
-            "base": 15,
-            "ulMultiplier": 0
-          }
-        ]
+        "applies": "reference",
+        "effects": []
       },
       {
         "name": "Sanctified Shoes",
@@ -9335,13 +9894,13 @@
       {
         "name": "Black Stone",
         "description": "+2 Power to Huggessoan Spells.",
-        "applies": "conditional",
+        "applies": "always",
         "effects": [
           {
-            "kind": "derived",
-            "key": "power",
-            "base": 2,
-            "ulMultiplier": 0
+            "kind": "spellFlatPower",
+            "ulMultiplier": 0,
+            "key": "Huggessoan",
+            "base": 2
           }
         ]
       },
@@ -9376,13 +9935,13 @@
       {
         "name": "Blood Whistle",
         "description": "+2 Power to Sylphid Spells",
-        "applies": "conditional",
+        "applies": "always",
         "effects": [
           {
-            "kind": "derived",
-            "key": "power",
-            "base": 2,
-            "ulMultiplier": 0
+            "kind": "spellFlatPower",
+            "ulMultiplier": 0,
+            "key": "Sylphid",
+            "base": 2
           }
         ]
       },
@@ -9614,13 +10173,13 @@
       {
         "name": "Crucifix",
         "description": "+2 Power to Mercalan Spells",
-        "applies": "conditional",
+        "applies": "always",
         "effects": [
           {
-            "kind": "derived",
-            "key": "power",
-            "base": 2,
-            "ulMultiplier": 0
+            "kind": "spellFlatPower",
+            "ulMultiplier": 0,
+            "key": "Mercalan",
+            "base": 2
           }
         ]
       },
@@ -9639,28 +10198,14 @@
       {
         "name": "Crucifix",
         "description": "2+ - +15% Healing-tag skill Power and +3 Light ATK",
-        "applies": "always",
-        "effects": [
-          {
-            "kind": "elementalAttack",
-            "key": "Light",
-            "base": 3,
-            "ulMultiplier": 0
-          }
-        ]
+        "applies": "reference",
+        "effects": []
       },
       {
         "name": "Crucifix",
         "description": "3+ - +15 Evade versus Vampire race, Possessed race, and Cladis Mortem Null enemies.",
-        "applies": "conditional",
-        "effects": [
-          {
-            "kind": "derived",
-            "key": "evade",
-            "base": 15,
-            "ulMultiplier": 0
-          }
-        ]
+        "applies": "reference",
+        "effects": []
       },
       {
         "name": "Crucifix",
@@ -9760,6 +10305,12 @@
         "effects": [
           {
             "kind": "derived",
+            "ulMultiplier": 0,
+            "key": "criticalDamage",
+            "base": 25
+          },
+          {
+            "kind": "derived",
             "key": "critical",
             "base": 50,
             "ulMultiplier": 0
@@ -9828,7 +10379,18 @@
         "name": "Enhanced Swordmaster's Ring",
         "description": "On Hit: If a Sword weapon, deals 10 Pierce unresistable magic damage.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 10,
+          "ulMultiplier": 0,
+          "type": "Pierce",
+          "damageClass": "magical",
+          "weapons": [
+            "Sword"
+          ],
+          "ignores": "none",
+          "unresistable": true
+        }
       }
     ],
     "Est Lestrada": [
@@ -10047,21 +10609,28 @@
       {
         "name": "Grimalkin Hat",
         "description": "+5 Darkness ATK",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "elementalAttack",
+            "key": "Dark",
+            "base": 5,
+            "ulMultiplier": 0
+          }
+        ]
       }
     ],
     "Halo": [
       {
         "name": "Halo",
         "description": "+2 Power to Mercalan Spells",
-        "applies": "conditional",
+        "applies": "always",
         "effects": [
           {
-            "kind": "derived",
-            "key": "power",
-            "base": 2,
-            "ulMultiplier": 0
+            "kind": "spellFlatPower",
+            "ulMultiplier": 0,
+            "key": "Mercalan",
+            "base": 2
           }
         ]
       },
@@ -10087,28 +10656,14 @@
       {
         "name": "Halo",
         "description": "2+ - +15% Healing-tag skill Power and +3 Light ATK",
-        "applies": "always",
-        "effects": [
-          {
-            "kind": "elementalAttack",
-            "key": "Light",
-            "base": 3,
-            "ulMultiplier": 0
-          }
-        ]
+        "applies": "reference",
+        "effects": []
       },
       {
         "name": "Halo",
         "description": "3+ - +15 Evade versus Vampire race, Possessed race, and Cladis Mortem Null enemies.",
-        "applies": "conditional",
-        "effects": [
-          {
-            "kind": "derived",
-            "key": "evade",
-            "base": 15,
-            "ulMultiplier": 0
-          }
-        ]
+        "applies": "reference",
+        "effects": []
       },
       {
         "name": "Halo",
@@ -10212,13 +10767,13 @@
       {
         "name": "Holy Water Urn",
         "description": "+ 2 Power to Aquarian Spells",
-        "applies": "conditional",
+        "applies": "always",
         "effects": [
           {
-            "kind": "derived",
-            "key": "power",
-            "base": 2,
-            "ulMultiplier": 0
+            "kind": "spellFlatPower",
+            "ulMultiplier": 0,
+            "key": "Aquarian",
+            "base": 2
           }
         ]
       },
@@ -10604,13 +11159,13 @@
       {
         "name": "Phoenix Fire Lantern",
         "description": "+2 Power to Nerifian Spells",
-        "applies": "conditional",
+        "applies": "always",
         "effects": [
           {
-            "kind": "derived",
-            "key": "power",
-            "base": 2,
-            "ulMultiplier": 0
+            "kind": "spellFlatPower",
+            "ulMultiplier": 0,
+            "key": "Nerifian",
+            "base": 2
           }
         ]
       },
@@ -10719,13 +11274,43 @@
       {
         "name": "Prism Jewel",
         "description": "+2 Power to Aquarian, Huggessoan, Isesipian, Mercalan, Nerifian and Sylphid Spells",
-        "applies": "conditional",
+        "applies": "always",
         "effects": [
           {
-            "kind": "derived",
-            "key": "power",
-            "base": 2,
-            "ulMultiplier": 0
+            "kind": "spellFlatPower",
+            "ulMultiplier": 0,
+            "key": "Aquarian",
+            "base": 2
+          },
+          {
+            "kind": "spellFlatPower",
+            "ulMultiplier": 0,
+            "key": "Huggessoan",
+            "base": 2
+          },
+          {
+            "kind": "spellFlatPower",
+            "ulMultiplier": 0,
+            "key": "Isespian",
+            "base": 2
+          },
+          {
+            "kind": "spellFlatPower",
+            "ulMultiplier": 0,
+            "key": "Mercalan",
+            "base": 2
+          },
+          {
+            "kind": "spellFlatPower",
+            "ulMultiplier": 0,
+            "key": "Nerifian",
+            "base": 2
+          },
+          {
+            "kind": "spellFlatPower",
+            "ulMultiplier": 0,
+            "key": "Sylphid",
+            "base": 2
           }
         ]
       }
@@ -10742,13 +11327,13 @@
       {
         "name": "Rainbow Gem",
         "description": "+2 Power to Isesipian Spells",
-        "applies": "conditional",
+        "applies": "always",
         "effects": [
           {
-            "kind": "derived",
-            "key": "power",
-            "base": 2,
-            "ulMultiplier": 0
+            "kind": "spellFlatPower",
+            "ulMultiplier": 0,
+            "key": "Isespian",
+            "base": 2
           }
         ]
       },
@@ -10954,7 +11539,18 @@
         "name": "Ring of the Dancer",
         "description": "On Hit: If a Fist weapon, deals 10 Sound unresistible magic damage.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 10,
+          "ulMultiplier": 0,
+          "type": "Sound",
+          "damageClass": "magical",
+          "weapons": [
+            "Fist"
+          ],
+          "ignores": "none",
+          "unresistable": true
+        }
       }
     ],
     "Ring of the Knight": [
@@ -10986,8 +11582,15 @@
       {
         "name": "Ring of Thorns",
         "description": "-10% Maximum HP",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "derived",
+            "ulMultiplier": 0,
+            "key": "hpPercent",
+            "base": -10
+          }
+        ]
       },
       {
         "name": "Ring of Thorns",
@@ -10996,9 +11599,9 @@
         "effects": [
           {
             "kind": "derived",
-            "key": "power",
-            "base": 3,
-            "ulMultiplier": 0
+            "ulMultiplier": 0,
+            "key": "basicAttackPower",
+            "base": 3
           }
         ]
       }
@@ -11007,8 +11610,15 @@
       {
         "name": "Ring of Thorns Plus",
         "description": "-7% Maximum HP",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "derived",
+            "ulMultiplier": 0,
+            "key": "hpPercent",
+            "base": -7
+          }
+        ]
       },
       {
         "name": "Ring of Thorns Plus",
@@ -11030,17 +11640,24 @@
         "effects": [
           {
             "kind": "derived",
-            "key": "power",
-            "base": 10,
-            "ulMultiplier": 0
+            "ulMultiplier": 0,
+            "key": "basicAttackPower",
+            "base": 10
           }
         ]
       },
       {
         "name": "Ring of Thorns Plus",
         "description": "+10% Critical Chance",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "derived",
+            "ulMultiplier": 0,
+            "key": "critical",
+            "base": 10
+          }
+        ]
       }
     ],
     "Saturn Badge": [
@@ -11089,6 +11706,12 @@
         "description": "If your Quick Draw defeats an enemy, the attack that triggered it is negated. While preparing a Quick Draw, you gain +10 Evade and +5% Critical Damage. After your Quick Draw triggers, you gain the same effect (2 rounds). (If both Quick Draw and this effect is active at the same time, they stack.)",
         "applies": "conditional",
         "effects": [
+          {
+            "kind": "derived",
+            "ulMultiplier": 0,
+            "key": "criticalDamage",
+            "base": 5
+          },
           {
             "kind": "derived",
             "key": "evade",
@@ -11166,13 +11789,27 @@
         "name": "Sharkfang Necklace",
         "description": "Reduces damage from Shark race enemies by 15%.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "versus": {
+          "kind": "taken",
+          "percent": 15,
+          "targets": [
+            "Shark"
+          ]
+        }
       },
       {
         "name": "Sharkfang Necklace",
         "description": "Reduces damage from Fish race enemies by 15%.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "versus": {
+          "kind": "taken",
+          "percent": 15,
+          "targets": [
+            "Fish"
+          ]
+        }
       }
     ],
     "Shock Collar": [
@@ -11439,7 +12076,18 @@
         "name": "Swordmaster's Ring",
         "description": "On Hit: If a Sword weapon, deals 5 Pierce unresistable magic damage.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 5,
+          "ulMultiplier": 0,
+          "type": "Pierce",
+          "damageClass": "magical",
+          "weapons": [
+            "Sword"
+          ],
+          "ignores": "none",
+          "unresistable": true
+        }
       }
     ],
     "Sylph Cloak": [
@@ -11687,13 +12335,13 @@
       {
         "name": "Wind Flute",
         "description": "+2 Power to Sylphid Spells",
-        "applies": "conditional",
+        "applies": "always",
         "effects": [
           {
-            "kind": "derived",
-            "key": "power",
-            "base": 2,
-            "ulMultiplier": 0
+            "kind": "spellFlatPower",
+            "ulMultiplier": 0,
+            "key": "Sylphid",
+            "base": 2
           }
         ]
       },
@@ -11768,6 +12416,207 @@
         "description": "Fire both Yin and Yang at a target enemy within 3 Range, alternating between Light and Darkness damage, over 4 shots. The total damage dealt is equal to 100% Darkness ATK + 100% Light ATK + 50% of the total Scaled Weapon ATK of both weapons.",
         "applies": "reference",
         "effects": []
+      }
+    ]
+  },
+  "sets": {
+    "Church Faithful": [
+      {
+        "name": "Church Faithful",
+        "description": "+15% Healing-tag skill Power and +3 Light ATK",
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "elementalAttack",
+            "key": "Light",
+            "base": 3,
+            "ulMultiplier": 0
+          }
+        ],
+        "healingPercent": 15,
+        "count": 2
+      },
+      {
+        "name": "Church Faithful",
+        "description": "+15 Evade versus Vampire race, Possessed race, and Cladis Mortem Null enemies.",
+        "applies": "conditional",
+        "effects": [
+          {
+            "kind": "derived",
+            "key": "evade",
+            "base": 15,
+            "ulMultiplier": 0
+          }
+        ],
+        "count": 3
+      },
+      {
+        "name": "Church Faithful",
+        "description": "Can't be targeted by the Banquet skill. Vampiric effects (item effects or miniboss skill) do not work against you. Pray skill's Momentum cost becomes 3.",
+        "applies": "reference",
+        "effects": [],
+        "count": 4
+      }
+    ],
+    "Gunsmoke Spiritual": [
+      {
+        "name": "Gunsmoke Spiritual",
+        "description": "Grants access to the Double Dao skill.",
+        "applies": "reference",
+        "effects": [],
+        "grants": "Double Dao",
+        "count": 2
+      },
+      {
+        "name": "Gunsmoke Spiritual",
+        "description": "Darkness and Light damage you deal ignores up to 10% of elemental resistance. Double Dao",
+        "applies": "reference",
+        "effects": [],
+        "resistanceIgnored": {
+          "types": [
+            "Dark",
+            "Light"
+          ],
+          "percent": 10
+        },
+        "count": 3
+      }
+    ],
+    "Hayabusa": [
+      {
+        "name": "Hayabusa",
+        "description": "# +2 Attack Range with Daggers # Movement type becomes Teleport. If Main Weapon is Tsukikage: Moon Style. Critical hits generate Moon Crests (max 3) and grants Moon Reflection skill. If Main Weapon is Hikage: Sun Style. Critical hits generate Sun Crests (max 3) and grants Rising Sun skill. Rising Sun: 2M, 15 FP, 2 Round CD. Consumes 3 Sun Crests. Targets 1 unoccupied tile within 3 Range. Reappear at target location, when you do, become Airborne and deal 30 armor-ignoring Fire bonus damage to all enemies in 2 Range Circle. All damaged enemies are inflicted with Glowing LV 10 until your next turn.",
+        "applies": "reference",
+        "effects": [],
+        "count": 2
+      }
+    ],
+    "Like a Dragon": [
+      {
+        "name": "Like a Dragon",
+        "description": "Gain Cast Off Flexing Skill. When you use Cast Off Flexing; * Activate all of your Arcane Tattoo traits. * Activate Crack Knuckles skill (if equipped). * Gain Dragon Fist status permanently. (+2 Attack Range for Bare Fists. Bare Fists' Attack skill moves you to an unoccupied tile next to the target if not in 1 Range, and gains Trickery - Activate Kick skill on the target. * Kick skill Momentum cost reduced by 1 during a turn where you've used Attack.",
+        "applies": "reference",
+        "effects": [],
+        "grants": "Cast Off Flexing",
+        "count": 2
+      }
+    ],
+    "Neverending Story": [
+      {
+        "name": "Neverending Story",
+        "description": "# +3 WIL # +3 CEL # +15% Sound Resistance",
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "stat",
+            "key": "wil",
+            "base": 3,
+            "ulMultiplier": 0
+          },
+          {
+            "kind": "stat",
+            "key": "cel",
+            "base": 3,
+            "ulMultiplier": 0
+          },
+          {
+            "kind": "resistance",
+            "key": "Sound",
+            "base": 15,
+            "ulMultiplier": 0
+          }
+        ],
+        "count": 2
+      }
+    ],
+    "Precautionary Tale": [
+      {
+        "name": "Precautionary Tale",
+        "description": "Life-Saving Charm's HP and FP recovery increases by (25 x total number of this set's items equipped), and when it is activated, grants Debuff Immunity LV2 for 3 rounds, and if Jerkin of Fortune is equipped, reactivates its On Battle Start effect.",
+        "applies": "reference",
+        "effects": [],
+        "count": 2
+      },
+      {
+        "name": "Precautionary Tale",
+        "description": "After Life-Saving Charm activates, you gain Death-Defying Fortune LV (25 + your scaled CEL) for 2 rounds.",
+        "applies": "reference",
+        "effects": [],
+        "count": 3
+      }
+    ],
+    "The Wolf's Claws": [
+      {
+        "name": "The Wolf's Claws",
+        "description": "# Grants access to the Shooting Star skill. # Increases the range of the Kick skill by 5. # Kick skill causes you to fly towards your target.",
+        "applies": "reference",
+        "effects": [],
+        "grants": "Shooting Star",
+        "count": 2
+      }
+    ],
+    "Unassuming Adventurer": [
+      {
+        "name": "Unassuming Adventurer",
+        "description": "Flee success rate is (normal success rate+50)%.",
+        "applies": "reference",
+        "effects": [],
+        "count": 2
+      },
+      {
+        "name": "Unassuming Adventurer",
+        "description": "+(10 x total number of this set's item equipped) HP and FP.",
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "derived",
+            "key": "hp",
+            "base": 0,
+            "ulMultiplier": 0,
+            "perPiece": 10
+          },
+          {
+            "kind": "derived",
+            "key": "fp",
+            "base": 0,
+            "ulMultiplier": 0,
+            "perPiece": 10
+          }
+        ],
+        "count": 3
+      },
+      {
+        "name": "Unassuming Adventurer",
+        "description": "+15% damage dealt.",
+        "applies": "reference",
+        "effects": [],
+        "damagePercent": 15,
+        "count": 5
+      }
+    ],
+    "Weapon Singer": [
+      {
+        "name": "Weapon Singer",
+        "description": "Decreases the cooldown of Special Strikes by 1 round. (Min. 1 round)",
+        "applies": "reference",
+        "effects": [],
+        "count": 2
+      }
+    ],
+    "Youkai Shaman": [
+      {
+        "name": "Youkai Shaman",
+        "description": "Item effects of Youkai Shaman items that apply to Youkai when summoned will also apply to you.",
+        "applies": "reference",
+        "effects": [],
+        "count": 2
+      },
+      {
+        "name": "Youkai Shaman",
+        "description": "+1 duration to Youkai Shaman item effects. When a Youkai is summoned and receives a Youkai Shaman item effect, it performs an attack on a random enemy in 1 Range (50% damage).",
+        "applies": "reference",
+        "effects": [],
+        "count": 3
       }
     ]
   }

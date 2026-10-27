@@ -5,8 +5,9 @@ import { mainClassAllowsWeaponType, subClassOnlyWeaponType, weaponCategory } fro
 import { CLASSES } from '../../data/classes';
 import { GEAR_BY_GROUP } from '../../data/gear';
 import { WEAPONS_BY_TYPE } from '../../data/weapons';
+import { itemConditionalKey } from '../../domain/itemEffects';
 import { buildReducer, createDefaultBuild } from './build';
-import { SLOTS, effectsForSlot, equipmentOverview, grantedSkills, slotSummary, weaponChoices } from './equipment';
+import { SLOTS, effectsForSlot, equipmentOverview, grantedSkills, setBonuses, slotSummary, weaponChoices } from './equipment';
 
 const armed = () => buildReducer(createDefaultBuild(), {
   type: 'equip-weapon', which: 'primaryWeapon', weaponName: 'Engraved Katana',
@@ -70,7 +71,7 @@ describe('equipping', () => {
       type: 'equip-weapon', which: 'primaryWeapon', weaponName: null,
     });
     expect(build.equipment.primaryWeapon).toBeUndefined();
-    expect(evaluateBuild(build).primaryWeapon).toBeUndefined();
+    expect(evaluateBuild(build).primaryWeapon).toMatchObject({ power: 10, weight: 0 });
   });
 });
 
@@ -211,7 +212,7 @@ describe('item effects', () => {
   it('exposes effect lines with stable conditional keys', () => {
     const effects = effectsForSlot(armed().equipment, 'primaryWeapon');
     for (const entry of effects) {
-      expect(entry.conditionalKey).toBe(`Engraved Katana:${entry.index}`);
+      expect(entry.conditionalKey).toMatch(/^Engraved Katana#[0-9a-z]+$/);
       for (const roll of entry.rolls) expect(roll.max).toBeGreaterThanOrEqual(roll.min);
     }
   });
@@ -235,9 +236,9 @@ describe('Magical Gauntlet shields', () => {
     let build = buildReducer(createDefaultBuild(), { type: 'equip-gear', slot: 'hands', itemName: 'Metallic Magic Gauntlet' });
     const def = () => evaluateBuild(build).scaledStats.def;
     const base = def();
-    build = buildReducer(build, { type: 'item-conditional', key: 'Metallic Magic Gauntlet:2', on: true });
-    build = buildReducer(build, { type: 'item-conditional', key: 'Metallic Magic Gauntlet:5', on: true });
-    expect(build.equipment.itemConditionalBonuses).toMatchObject({ 'Metallic Magic Gauntlet:2': false, 'Metallic Magic Gauntlet:5': true });
+    build = buildReducer(build, { type: 'item-conditional', key: itemConditionalKey('Metallic Magic Gauntlet', 2), on: true });
+    build = buildReducer(build, { type: 'item-conditional', key: itemConditionalKey('Metallic Magic Gauntlet', 5), on: true });
+    expect(build.equipment.itemConditionalBonuses).toMatchObject({ [itemConditionalKey('Metallic Magic Gauntlet', 2)]: false, [itemConditionalKey('Metallic Magic Gauntlet', 5)]: true });
     expect(def()).toBe(base + 8);
   });
 });
@@ -253,7 +254,7 @@ describe('granted skills', () => {
       ['Magical Aegis', '3 Momentum, 5 FP', 'slot3'],
       ['Goren Bakudan', '3M, 15 FP, 1 Round CD', 'accessory1'],
     ]);
-    expect(skills[1].parts.map(part => part.conditionalKey)).toEqual(['Metallic Magic Gauntlet:5']);
+    expect(skills[1].parts.map(part => part.conditionalKey)).toEqual([itemConditionalKey('Metallic Magic Gauntlet', 5)]);
     expect(skills[3].parts.map(part => part.effect.description)[1]).toBe('Furinkazan: Gain 1 Fire Mark.');
   });
 
@@ -291,7 +292,7 @@ describe('granted skills in use', () => {
 
   it('sets STR to level + 20 while Contract of Blood is in effect', () => {
     const build = buildReducer(createDefaultBuild(), { type: 'equip-armor', armorName: 'Cruel Commander' });
-    const active = evaluateBuild(on(build, 'Cruel Commander:2'));
+    const active = evaluateBuild(on(build, itemConditionalKey('Cruel Commander', 2)));
     expect(active.scaledStats.str).toBe(build.characterLevel + 20);
     expect(active.rawStats.str).toBe(build.characterLevel + 20);
   });
@@ -299,19 +300,88 @@ describe('granted skills in use', () => {
   it('adds Lion’s Roar’s STR, growing with character level', () => {
     const build = buildReducer(createDefaultBuild(), { type: 'equip-gear', slot: 'hands', itemName: 'Lion Shield' });
     const before = evaluateBuild(build).scaledStats.str;
-    expect(evaluateBuild(on(build, 'Lion Shield:3')).scaledStats.str).toBe(before + 2 + Math.floor(build.characterLevel / 5));
+    expect(evaluateBuild(on(build, itemConditionalKey('Lion Shield', 3))).scaledStats.str).toBe(before + 2 + Math.floor(build.characterLevel / 5));
   });
 
   it('gives Luckiness Dance at least 1 SKI and LUC before any upgrades', () => {
     const build = buildReducer(createDefaultBuild(), { type: 'equip-weapon', which: 'primaryWeapon', weaponName: "Atlaua's Abaniko" });
     const before = evaluateBuild(build).scaledStats;
-    const after = evaluateBuild(on(build, "Atlaua's Abaniko:1")).scaledStats;
+    const after = evaluateBuild(on(build, itemConditionalKey("Atlaua's Abaniko", 1))).scaledStats;
     expect([after.ski - before.ski, after.luc - before.luc]).toEqual([1, 1]);
   });
 
   it('does not read a skill’s cost or a "per 20 STR" rate as a bonus', () => {
     const build = buildReducer(createDefaultBuild(), { type: 'equip-weapon', which: 'primaryWeapon', weaponName: 'Holy Word' });
     expect(effectsForSlot(build.equipment, 'primaryWeapon').flatMap(entry => entry.effect.effects)).toEqual([]);
+  });
+});
+
+describe('off-hand weapons', () => {
+  const dual = () => [
+    { type: 'equip-weapon' as const, which: 'primaryWeapon' as const, weaponName: 'Longsword' },
+    { type: 'equip-weapon' as const, which: 'offHandWeapon' as const, weaponName: 'Mugendai' },
+  ].reduce(buildReducer, createDefaultBuild());
+
+  it('counts the off-hand’s effects, enchantment and weight', () => {
+    const solo = buildReducer(createDefaultBuild(), { type: 'equip-weapon', which: 'primaryWeapon', weaponName: 'Longsword' });
+    const [one, two] = [evaluateBuild(solo), evaluateBuild(dual())];
+    expect(two.derived.fp - one.derived.fp).toBeGreaterThanOrEqual(15);
+    expect(two.derived.equipmentLoad - one.derived.equipmentLoad).toBe(6);
+    const jeweled = buildReducer(dual(), { type: 'weapon-patch', which: 'offHandWeapon', patch: { enchantment: 'Jeweled' } });
+    expect(evaluateBuild(jeweled).rawStats.fai - two.rawStats.fai).toBe(2);
+  });
+
+  it('gives the off-hand its own weapon line and leaves the main hand’s alone', () => {
+    const solo = buildReducer(createDefaultBuild(), { type: 'equip-weapon', which: 'primaryWeapon', weaponName: 'Longsword' });
+    const evaluation = evaluateBuild(dual());
+    expect(evaluation.offHandWeapon?.weight).toBe(6);
+    expect(evaluation.offHandWeapon?.swa).toBeGreaterThan(0);
+    expect(evaluation.primaryWeapon?.power).toBe(evaluateBuild(solo).primaryWeapon?.power);
+    expect(evaluateBuild(solo).offHandWeapon).toBeUndefined();
+  });
+
+  it('shows the off-hand’s effects in the armory and checks its class access', () => {
+    const build = dual();
+    expect(effectsForSlot(build.equipment, 'slot3').map(entry => entry.itemName)).toContain('Mugendai');
+    const evaluation = evaluateBuild(build);
+    const overview = equipmentOverview(build.equipment, evaluation.derived.battleWeight, evaluation.derived.equipmentLoad, build);
+    expect(overview.restrictedWeapon).toBeNull();
+    expect(overview.restrictedOffHand).toBe('Tome');
+  });
+});
+
+describe('set bonuses', () => {
+  const wear = (build: ReturnType<typeof createDefaultBuild>, ...actions: Parameters<typeof buildReducer>[1][]) => actions.reduce(buildReducer, build);
+
+  it('applies a reached threshold without a switch, and nothing below it', () => {
+    const one = wear(createDefaultBuild(), { type: 'equip-weapon', which: 'primaryWeapon', weaponName: 'Konosekai' });
+    const both = wear(one, { type: 'equip-weapon', which: 'offHandWeapon', weaponName: 'Mugendai' });
+    const [lone, paired] = [evaluateBuild(one), evaluateBuild(both)];
+    expect(paired.scaledStats.wil - lone.scaledStats.wil).toBe(3);
+    expect(paired.scaledStats.cel - lone.scaledStats.cel).toBe(3);
+    expect(paired.elementalResistance.Sound - lone.elementalResistance.Sound).toBe(15);
+  });
+
+  it('puts a situational threshold behind a switch that only shows once reached', () => {
+    let build = wear(createDefaultBuild(),
+      { type: 'equip-gear', slot: 'accessory1', itemName: 'Crucifix' },
+      { type: 'equip-gear', slot: 'accessory2', itemName: 'Halo' },
+      { type: 'equip-gear', slot: 'legs', itemName: 'Sanctified Shoes' });
+    const church = setBonuses(build.equipment).find(set => set.name === 'Church Faithful')!;
+    const versus = church.thresholds.find(threshold => threshold.count === 3)!;
+    expect(versus.reached).toBe(true);
+    expect(versus.entry.effect.applies).toBe('conditional');
+    const before = evaluateBuild(build).derived.evade;
+    build = buildReducer(build, { type: 'item-conditional', key: versus.entry.conditionalKey, on: true });
+    expect(evaluateBuild(build).derived.evade).toBeGreaterThan(before);
+  });
+
+  it('lists a set’s skill with the item-granted ones once the set reaches it', () => {
+    const build = wear(createDefaultBuild(),
+      { type: 'equip-weapon', which: 'primaryWeapon', weaponName: 'Yin' },
+      { type: 'equip-weapon', which: 'offHandWeapon', weaponName: 'Yang' });
+    const doubleDao = grantedSkills(build.equipment).filter(skill => skill.slot === 'set');
+    expect(doubleDao.map(skill => [skill.name, skill.itemName])).toEqual([['Double Dao', 'Gunsmoke Spiritual 2+']]);
   });
 });
 

@@ -8,6 +8,7 @@ import { resolveOffense } from './evaluation/offense';
 import { resolveEvade } from './evaluation/defense';
 import { resolveDerived } from './evaluation/derived';
 import { statProvenance } from './evaluation/provenance';
+import { versusBonuses } from './itemEffects';
 
 export { STAT_KEYS, ELEMENT_KEYS } from './evaluation/shared';
 export { evaluateWeaponSlot } from './evaluation/offense';
@@ -38,5 +39,26 @@ export function evaluateBuild(build: BuildState, includeStatSources = false): Bu
     physicalResistance: elements.physicalResistance,
     sources: { hit: offense.hitSources, evade: defense.evadeSources, fp: vitals.fpSources },
     primaryWeapon: offense.primaryWeapon,
+    offHandWeapon: offense.offHandWeapon,
+    unarmedWeapon: offense.unarmedWeapon,
+    spellPower: spellPowerBySchool(inputs.items.derived),
+    damageTakenVersus: versusBonuses({
+      armorName: build.equipment.armorName,
+      armorPoints: inputs.armorPoints,
+      gear: inputs.gearSlots,
+    }).filter(bonus => bonus.kind === 'taken'),
   };
+}
+
+function spellPowerBySchool(derived: Record<string, number>): BuildEvaluation['spellPower'] {
+  const bySchool: BuildEvaluation['spellPower'] = {};
+  for (const [key, amount] of Object.entries(derived)) {
+    const [kind, school] = key.split(':');
+    if (!school || (kind !== 'spellPower' && kind !== 'spellFlatPower')) continue;
+    const entry = bySchool[school] ?? { percent: 0, flat: 0 };
+    if (kind === 'spellPower') entry.percent += amount;
+    else entry.flat += amount;
+    bySchool[school] = entry;
+  }
+  return bySchool;
 }

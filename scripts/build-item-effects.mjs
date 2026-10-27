@@ -5,6 +5,7 @@ import path from 'node:path';
 const CONTENT = path.resolve('src/data/content');
 const ARMORS = path.resolve('src/data/armors.json');
 const GEAR = path.join(CONTENT, 'gear.json');
+const SETS = path.join(CONTENT, 'item-sets.json');
 const OUT = path.join(CONTENT, 'item-effects.json');
 const REPORT = process.argv.includes('--report');
 
@@ -14,7 +15,7 @@ const STATS = {
 };
 // Longest spelling first so "maximum HP" is not read as a bare "HP".
 const DERIVED = {
-  power: 'power', hit: 'hit', critical: 'critical', 'critical evade': 'criticalEvade',
+  power: 'power', hit: 'hit', critical: 'critical', 'critical evade': 'criticalEvade', 'critical damage': 'criticalFlatDamage',
   evade: 'evade', armor: 'armor', 'magic armor': 'magicArmor', weight: 'weight',
   'maximum hp': 'hp', 'maximum fp': 'fp', 'max hp': 'hp', 'max fp': 'fp', hp: 'hp', fp: 'fp',
 };
@@ -47,7 +48,54 @@ const CHANNEL_NAMES = [
   ...Object.keys(DERIVED).sort((a, b) => b.length - a.length),
   ...Object.keys(STATS),
   ...ELEMENTS.map((e) => `${e} ATK`),
+  'Darkness ATK',
 ];
+
+// Wordings the channel patterns can't carry, read first and cut from the text so nothing counts twice.
+const SPECIAL_CHANNELS = [
+  // "+3 Power to All Weapons (Basic attacks only.)"; the key carries the weapon type it is limited to.
+  {
+    pattern: /([+-]?\d+) Power to (\w+) Weapons \(Basic attacks only\.?\)/gi,
+    effect: (match) => ({ key: match[2] === 'All' ? 'basicAttackPower' : `basicAttackPower:${match[2]}`, base: Number(match[1]) }),
+  },
+  // "+5% Critical Damage" raises the crit modifier; "+10 Critical Damage" is flat damage on a crit. A "for X weapons" line is scoped to a type.
+  { pattern: /([+-]?\d+)% Critical Damage(?! (?:reduction|modifier|for\b))/gi, effect: (match) => ({ key: 'criticalDamage', base: Number(match[1]) }) },
+  {
+    pattern: /([+-]?\d+\+?UL|[+-]?UL|[+-]?\d+) Critical Damage(?: \(flat damage\))?(?! (?:reduction|modifier|for\b))/gi,
+    effect: (match) => ({ key: 'criticalFlatDamage', ...parseMagnitude(match[1].replace(/^\+(?=UL)/, '')) }),
+  },
+  { pattern: /([+-]?\d+)% Critical(?: Chance)?(?! Damage| Evade)\b/gi, effect: (match) => ({ key: 'critical', base: Number(match[1]) }) },
+  { pattern: /(?<![*\w])([+-]?\d+)% Maximum HP\b/g, effect: (match) => ({ key: 'hpPercent', base: Number(match[1]) }) },
+  // "+10% Power to Nature and Isespia Spells (halved if off-hand)": one value per school; the halving is `offHandShare`.
+  {
+    pattern: /([+-]?\d+|\+?UL)% Power to ([\w ,]+?) Spells(?:\s*\(halved if [^)]*\))?/gi,
+    effect: (match) => spellSchools(match[2]).map((key) => ({
+      kind: 'spellPower', key, ...(/UL/.test(match[1]) ? { base: 0, ulMultiplier: 1 } : { base: Number(match[1]) }),
+    })),
+  },
+  // "+2 Power to Sylphid Spells": flat Power on that school's spells.
+  {
+    pattern: /([+-]\s?\d+) Power to ([\w ,]+?) Spells/gi,
+    effect: (match) => spellSchools(match[2]).map((key) => ({ kind: 'spellFlatPower', key, base: Number(match[1].replace(/\s/g, '')) })),
+  },
+];
+
+// The wiki writes Isespian three ways.
+function spellSchools(list) {
+  return list.split(/\s*,\s*(?:and\s+)?|\s+and\s+/).map((school) => school.trim().replace(/^Isesp\w*|^Isesip\w*/i, 'Isespian'));
+}
+
+function parseSpecialChannels(text) {
+  const effects = [];
+  let rest = text;
+  for (const { pattern, effect } of SPECIAL_CHANNELS) {
+    rest = rest.replace(pattern, (...match) => {
+      for (const value of [effect(match)].flat()) if (value) effects.push({ kind: 'derived', ulMultiplier: 0, ...value });
+      return ' ';
+    });
+  }
+  return { effects, rest };
+}
 
 // Regeneration ("Recover 2 HP each Round") and costs ("FP cost is increased to 25 FP") are not max HP/FP.
 const RECOVERY = /\b(?:recovers?|recovered|restores?|restored|heals?|healed|regains?|drains?|loses?|lost|costs?|sacrifices?)\b/i;
@@ -113,7 +161,7 @@ function parseResistances(text) {
 
 function resolveChannel(word) {
   const lower = word.toLowerCase().trim();
-  const element = ELEMENTS.find((e) => lower === `${e.toLowerCase()} atk`);
+  const element = lower === 'darkness atk' ? 'Dark' : ELEMENTS.find((e) => lower === `${e.toLowerCase()} atk`);
   if (element) return { kind: 'elementalAttack', key: element };
   if (DERIVED[lower]) return { kind: 'derived', key: DERIVED[lower] };
   if (STATS[lower]) return { kind: 'stat', key: STATS[lower] };
@@ -134,7 +182,7 @@ const PATTERNS = [
   new RegExp(String.raw`\(?(${MAGNITUDE})\)?\s+(${CHANNELS})\b(?!-)`, 'gi'),
 ];
 
-const LIST_SEPARATOR = String.raw`\s*(?:,\s*and|,|and|/)\s*`;
+const LIST_SEPARATOR = String.raw`\s*(?:,\s*and|,|and|/|&)\s*`;
 const CHANNEL_LIST = String.raw`(${CHANNELS})((?:${LIST_SEPARATOR}(?:${CHANNELS})\b)+)`;
 // One magnitude shared by a channel list: "STR and WIL by 2", "+5 Evade/Armor", "+2 STR, WIL, DEF, and RES".
 const SHARED_LISTS = [
@@ -178,6 +226,77 @@ function parseEffects(text) {
   return shared;
 }
 
+const IGNORES = { 'armor-ignoring': 'armor', 'ignores armor': 'armor', 'protection-ignoring': 'protection' };
+
+// Always-on damage a basic attack adds when it hits. Triggered specials, kick riders and conditional ones stay text.
+const ON_HIT = [
+  // "Deals magic Ice bonus damage equal to 50% of your Ice ATK, which ignores armor."
+  {
+    pattern: /^(?:On Hit: )?Deals magic (\w+) (?:bonus )?damage equal to (\d+)% of your \1 ATK, which ignores armor\.?$/i,
+    rider: (m) => ({ base: 0, ulMultiplier: 0, atkPercent: Number(m[2]), type: m[1], damageClass: 'magical', ignores: 'armor' }),
+  },
+  // "Deals physical Pierce bonus damage equal to UL, which ignores armor."
+  {
+    pattern: /^Deals (magic|physical) (\w+) bonus damage equal to UL, which ignores armor\.?$/i,
+    rider: (m) => ({ base: 0, ulMultiplier: 1, type: m[2], damageClass: m[1] === 'magic' ? 'magical' : 'physical', ignores: 'armor' }),
+  },
+  // "On Hit: If a Fist weapon, deals 15 Fire armor-ignoring magic damage." / "deals 10 Pierce unresistable magic damage."
+  {
+    pattern: /^On Hit: If an? (\w+) weapon, deals (\d+) (\w+) (armor-ignoring|unresist[ai]ble) magic damage\.?$/i,
+    rider: (m) => ({
+      base: Number(m[2]), ulMultiplier: 0, type: m[3], damageClass: 'magical', weapons: [m[1]],
+      ...(/unresist/i.test(m[4]) ? { ignores: 'none', unresistable: true } : { ignores: 'armor' }),
+    }),
+  },
+  // "On Hit: Deal protection-ignoring Acid damage equal to 5+UL, but reduces the weapon's durability by 1."
+  {
+    pattern: /^On Hit: Deal (protection-ignoring|armor-ignoring) (\w+) damage equal to (\d+)\+UL\b/i,
+    rider: (m) => ({ base: Number(m[3]), ulMultiplier: 1, type: m[2], damageClass: 'magical', ignores: IGNORES[m[1].toLowerCase()] }),
+  },
+];
+
+// Bonuses that depend on who is on the other side: `taken` cuts damage from them, `dealt` raises this weapon's
+// damage, `swa` raises its Scaled Weapon ATK. Targets are races, "Boss", or a torso armor type.
+const VERSUS = [
+  { pattern: /^Reduces damage from ([\w ]+?) race enemies by (\d+)%\.?$/i, versus: (m) => ({ kind: 'taken', percent: Number(m[2]), targets: [m[1]] }) },
+  { pattern: /^Reduce ([A-Z]\w+) damage by (\d+)%$/, versus: (m) => ({ kind: 'taken', percent: Number(m[2]), targets: [m[1]] }) },
+  { pattern: /^(\d+)% ([A-Z]\w+) damage reduction$/, versus: (m) => ({ kind: 'taken', percent: Number(m[1]), targets: [m[2]] }) },
+  {
+    pattern: /^Damage dealt by this weapon's attack is increased by (\d+)% if the target is an? (\w+)/i,
+    versus: (m) => ({ kind: 'dealt', percent: Number(m[1]), targets: [m[2]], basicOnly: true }),
+  },
+  {
+    pattern: /^Basic attacks with this weapon deal (\d+)% more damage if the target is an? (\w+)/i,
+    versus: (m) => ({ kind: 'dealt', percent: Number(m[1]), targets: [m[2]], basicOnly: true }),
+  },
+  {
+    pattern: /^Increases Scaled Weapon ATK by (\d+)% if the target's armor type is (Unarmored|Heavy Armor|Light Armor)\.?$/i,
+    versus: (m) => ({ kind: 'swa', percent: Number(m[1]), targets: [m[2].replace(/ Armor$/, '')] }),
+  },
+  {
+    pattern: /^Increases the total Power of attacks and skills this weapon is used in by UL%, but only if the enemy is a Boss/i,
+    versus: () => ({ kind: 'dealt', percent: 0, ulMultiplier: 1, targets: ['Boss'] }),
+  },
+];
+
+function parseVersus(description) {
+  for (const { pattern, versus } of VERSUS) {
+    const match = pattern.exec(description);
+    if (match) return versus(match);
+  }
+  return null;
+}
+
+function parseOnHit(description) {
+  for (const { pattern, rider } of ON_HIT) {
+    const match = pattern.exec(description);
+    if (!match) continue;
+    const parsed = rider(match);
+    return { ...parsed, type: canonicalElement(parsed.type) ?? parsed.type };
+  }
+  return null;
+}
+
 function toRecord(name, description, alwaysEligible) {
   if (name === 'Numa' && /On Battle Start/.test(description)) {
     return { name: 'Boon of Numa',
@@ -198,24 +317,35 @@ function toRecord(name, description, alwaysEligible) {
   }
   // Tetra lines name Fire's pairing (Fire, STR); the calculator remaps them to the chosen crystal.
   const tetra = /\(Tetra\)/.test(description);
-  const text = tetra ? description.replace(/\bElemental ATK\b/, 'Fire ATK').replace(/(\d+)\s+Stat\b/, '$1 STR') : description;
+  // Set text copied onto a member ("Set: Church Faithful 2+ - +3 Light ATK") is applied by the set, not per item.
+  const ownText = description.replace(/\bSet:\s[\s\S]*$/, '').replace(/^\s*\d\+\s*[-:][\s\S]*$/, '');
+  const special = parseSpecialChannels(tetra ? ownText.replace(/\bElemental ATK\b/, 'Fire ATK').replace(/(\d+)\s+Stat\b/, '$1 STR') : ownText);
+  const text = special.rest;
   // Zero non-scaling magnitudes come from incidental numbers ("if you are reduced to 0 HP").
-  const effects = [...parseEffects(text), ...parseResistances(text), ...parseAllStats(text)]
+  const effects = [...special.effects, ...parseEffects(text), ...parseResistances(text), ...parseAllStats(text)]
     .filter((value) => value.base !== 0 || value.ulMultiplier !== 0 || value.rollMax)
     .map((value) => (tetra ? { ...value, tetra: true } : value));
   // A trailing chance clause is a separate effect (Armor of Eyes: "Increases Hit by UL/2, UL% chance to ...").
-  const magnitudeClause = description
+  // Read with the special channels cut, so "+10% Critical Chance" isn't made conditional by its own "Chance".
+  const magnitudeClause = text
     // A disabling exception does not make a normally-active bonus opt-in.
     .replace(/,\s*except when\b[^.]*\.?/gi, '.')
     .replace(/\bUL%\s+chance\b.*$/i, '');
   // A buff that lasts N rounds was switched on in battle; it is not a standing bonus.
-  const conditional = CONDITION.test(magnitudeClause) || /for \d+ (?:attacks? this round|rounds?)\b/i.test(description);
+  const conditional = CONDITION.test(magnitudeClause) || /for \d+ (?:attacks? this round|rounds?)\b/i.test(ownText);
+  const onHit = parseOnHit(description.replace(/\s+/g, ' ').trim());
+  const versus = parseVersus(description.replace(/\s+/g, ' ').trim());
   return {
     name,
     description: description.replace(/\s+/g, ' ').trim(),
     applies: !effects.length ? 'reference' : (conditional || !alwaysEligible) ? 'conditional' : 'always',
     effects,
+    ...(onHit ? { onHit } : {}),
+    ...(versus ? { versus } : {}),
     ...(effects.length && /\bends? (?:that|other) effects?\b/i.test(description) ? { exclusive: true } : {}),
+    // Off-hand weapons apply their effects in full unless the line says otherwise.
+    ...(effects.length && /\bthis is your main hand weapon\b/i.test(description) ? { mainHandOnly: true } : {}),
+    ...(effects.length && /\(halved if (?:off-hand|not main weapon)\.?\)/i.test(description) ? { offHandShare: 0.5 } : {}),
   };
 }
 
@@ -397,6 +527,34 @@ for (const list of Object.values(JSON.parse(await readFile(ARMORS, 'utf8')))) {
   }
 }
 
+// Set wording the line parser can't carry: a bonus per piece equipped, damage dealt, resistance
+// ignored, and a skill the set grants ("Grants access to the Double Dao skill", "Gain Cast Off Flexing Skill").
+const PER_PIECE = /\+\((\d+) x total number of this set's items? equipped\) ((?:HP|FP)(?: and (?:HP|FP))?)/i;
+const DAMAGE_DEALT = /\+(\d+)% damage dealt/i;
+const RESISTANCE_IGNORED = /(\w+) and (\w+) damage you deal ignores up to (\d+)% of elemental resistance/i;
+const HEALING_POWER = /\+(\d+)% Healing-tag skill Power/i;
+const SET_SKILL = /Grants access to the ([\w' ]+?) skill|Gain ([\w' ]+?) Skill\b/;
+
+function setRecord(name, description) {
+  const record = toRecord(name, description, true);
+  const perPiece = PER_PIECE.exec(description);
+  if (perPiece) {
+    const effects = perPiece[2].split(/\s+and\s+/).map((channel) => ({ kind: 'derived', key: channel.toLowerCase(), base: 0, ulMultiplier: 0, perPiece: Number(perPiece[1]) }));
+    return { ...record, applies: 'always', effects };
+  }
+  const damage = DAMAGE_DEALT.exec(description);
+  const ignored = RESISTANCE_IGNORED.exec(description);
+  const skill = SET_SKILL.exec(description);
+  const healing = HEALING_POWER.exec(description);
+  return {
+    ...record,
+    ...(healing ? { healingPercent: Number(healing[1]) } : {}),
+    ...(damage ? { damagePercent: Number(damage[1]) } : {}),
+    ...(ignored ? { resistanceIgnored: { types: [ignored[1], ignored[2]].map((type) => canonicalElement(type) ?? type), percent: Number(ignored[3]) } } : {}),
+    ...(skill ? { grants: (skill[1] ?? skill[2]).trim() } : {}),
+  };
+}
+
 // Read lines separately: they are separate wiki bullets, and an "On Hit:" line must not gate the others.
 const gear = {};
 for (const list of Object.values(JSON.parse(await readFile(GEAR, 'utf8')))) {
@@ -416,9 +574,16 @@ for (const list of Object.values(JSON.parse(await readFile(GEAR, 'utf8')))) {
   }
 }
 
-await writeFile(OUT, `${JSON.stringify({ weapons, armors, gear }, null, 2)}\n`, 'utf8');
+// A reached threshold applies by piece count, so only its situational parts need a switch.
+const sets = {};
+for (const [name, set] of Object.entries(JSON.parse(await readFile(SETS, 'utf8')))) {
+  const records = set.thresholds.map((threshold) => ({ ...setRecord(name, threshold.description), count: threshold.count }));
+  if (records.length) sets[name] = records;
+}
 
-const all = [...Object.values(weapons).flat(), ...Object.values(armors).flat(), ...Object.values(gear).flat()];
+await writeFile(OUT, `${JSON.stringify({ weapons, armors, gear, sets }, null, 2)}\n`, 'utf8');
+
+const all = [...Object.values(weapons).flat(), ...Object.values(armors).flat(), ...Object.values(gear).flat(), ...Object.values(sets).flat()];
 const byApplies = all.reduce((acc, r) => ({ ...acc, [r.applies]: (acc[r.applies] ?? 0) + 1 }), {});
 const ulScaled = all.filter((r) => r.effects.some((e) => e.ulMultiplier !== 0));
 console.log(`${all.length} item effects -> ${path.relative(process.cwd(), OUT)}`);

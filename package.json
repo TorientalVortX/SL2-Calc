@@ -1,6 +1,6 @@
 {
   "name": "sl2-calculator",
-  "version": "0.9.2",
+  "version": "0.9.3",
   "private": true,
   "type": "module",
   "scripts": {
@@ -34,7 +34,11 @@
     "prebuild": "npm run validate:data",
     "build": "vite build",
     "preview": "vite preview",
-    "build:sets": "node scripts/build-set-data.mjs"
+    "build:sets": "node scripts/build-set-data.mjs",
+    "build:armor-list": "node scripts/build-armor-list.mjs",
+    "build:equipment": "npm run build:armor-list && npm run build:gear && npm run build:sets && npm run build:items",
+    "report:effects": "node scripts/effect-coverage.mjs",
+    "data:diff": "node scripts/data-diff.mjs"
   },
   "dependencies": {
     "@fontsource/barlow": "^5.3.0",

@@ -4,6 +4,7 @@ import {
   type DamageClass, type DamageType, type IncomingHit,
 } from '../../../domain/damage';
 import { parryChanceBonuses, parryOptions } from '../../../domain/parry';
+import { VERSUS_RACES } from '../../../domain/itemEffects';
 import { SectionHead } from '../../ui/Panel';
 import { NumberField, SelectField, Stepper, Toggle } from '../../ui/controls';
 import type { Builder } from '../../state/useBuilder';
@@ -20,6 +21,7 @@ export function IncomingPanel({ builder }: { builder: Builder }) {
   const [critChance, setCritChance] = useState(0);
   const [greatAccuracy, setGreatAccuracy] = useState(false);
   const [ignoresEvasion, setIgnoresEvasion] = useState(false);
+  const [attackerRace, setAttackerRace] = useState('');
   const set = (patch: Partial<IncomingHit>) => setHit(current => ({ ...current, ...patch }));
 
   const parries = parryOptions(build, evaluation);
@@ -31,7 +33,10 @@ export function IncomingPanel({ builder }: { builder: Builder }) {
   const parryChance = parryId && parryFits ? (chanceOverride ?? parry?.chance ?? 0) : 0;
   const pickParry = (id: string) => { setParryId(id); setChanceOverride(null); };
 
-  const resolved = { ...hit, parryReductionPercent };
+  const versusReductions = evaluation.damageTakenVersus
+    .filter(bonus => bonus.targets.includes(attackerRace))
+    .map(bonus => ({ label: `${bonus.source} vs ${attackerRace}`, percent: bonus.percent }));
+  const resolved = { ...hit, parryReductionPercent, versusReductions };
   const { steps, instances, taken } = incomingDamage(resolved, evaluation);
   const evade = guardedEvade(evaluation.derived.evade, hit.guardMomentum);
   const expected = expectedDamage(resolved, evaluation, {
@@ -47,13 +52,22 @@ export function IncomingPanel({ builder }: { builder: Builder }) {
         <SelectField label="Type" value={hit.type ?? ''} options={TYPE_OPTIONS} onChange={value => set({ type: (value || null) as DamageType })} />
         <NumberField label="Other reduction %" value={hit.otherReductionPercent} max={100} onChange={otherReductionPercent => set({ otherReductionPercent })} />
         <NumberField label="Crit damage %" value={hit.critDamagePercent} min={100} max={1000} onChange={critDamagePercent => set({ critDamagePercent })} />
+        <SelectField
+          label="Attacker race"
+          value={attackerRace}
+          options={[{ value: '', label: 'Any' }, ...VERSUS_RACES.map(race => ({ value: race, label: race }))]}
+          onChange={setAttackerRace}
+        />
       </div>
-      <div className="inline" style={{ gap: 12, flexWrap: 'wrap', margin: '10px 0' }}>
-        <Toggle on={hit.armorIgnoring} onChange={armorIgnoring => set({ armorIgnoring })}>Ignores Armor</Toggle>
+      {versusReductions.length ? (
+        <p className="hint">From your gear: {versusReductions.map(reduction => `${reduction.label} −${reduction.percent}%`).join('; ')}.</p>
+      ) : null}
+      <div className="toggle-row">
         <span className="inline" style={{ gap: 6 }}>
           <span className="field__label">Hits</span>
           <Stepper label="Hits" value={hit.hits} min={1} max={20} onChange={hits => set({ hits })} />
         </span>
+        <Toggle on={hit.armorIgnoring} onChange={armorIgnoring => set({ armorIgnoring })}>Ignores Armor</Toggle>
       </div>
 
       <div className="section">
@@ -85,12 +99,26 @@ export function IncomingPanel({ builder }: { builder: Builder }) {
         </div>
         {parryId ? (
           <>
-            <Toggle on={zugzwang} onChange={setZugzwang}>Attacker has Zugzwang (parry reduction halved)</Toggle>
+            <div className="toggle-row">
+              <Toggle on={zugzwang} onChange={setZugzwang}>Attacker has Zugzwang (parry reduction halved)</Toggle>
+            </div>
             {parry ? <p className="hint">−{parry.reductionPercent}% when it fires. Chance: {parry.chanceRule}. Parries {parry.appliesTo}.</p> : null}
             {parryFits ? null : <p className="hint">{parry?.name} can’t parry {hit.damageClass} damage.</p>}
             {bonuses.length ? <p className="hint">Add when it applies: {bonuses.map(bonus => `${bonus.name} +${bonus.percent}%`).join(', ')}.</p> : null}
           </>
         ) : null}
+      </div>
+
+      <div className="section">
+        <SectionHead>Attacker</SectionHead>
+        <div className="grid-fields">
+          <NumberField label="Attacker Hit" value={attackerHit} max={999} onChange={setAttackerHit} />
+          <NumberField label="Attacker Crit %" value={critChance} max={100} onChange={setCritChance} />
+        </div>
+        <div className="toggle-row">
+          <Toggle on={greatAccuracy} onChange={setGreatAccuracy}>Great Accuracy</Toggle>
+          <Toggle on={ignoresEvasion} onChange={setIgnoresEvasion}>Ignores Evasion</Toggle>
+        </div>
       </div>
 
       <OutcomeGrid hit={hit} parry={Boolean(parryId)} onChange={outcomes => set({ outcomes })} />
@@ -110,20 +138,11 @@ export function IncomingPanel({ builder }: { builder: Builder }) {
         </div>
       </div>
 
-      <div className="section">
-        <SectionHead>Expected</SectionHead>
-        <div className="inline" style={{ gap: 12, flexWrap: 'wrap', marginBottom: 6 }}>
-          <NumberField label="Attacker Hit" value={attackerHit} max={999} onChange={setAttackerHit} />
-          <NumberField label="Attacker Crit %" value={critChance} max={100} onChange={setCritChance} />
-          <Toggle on={greatAccuracy} onChange={setGreatAccuracy}>Great Accuracy</Toggle>
-          <Toggle on={ignoresEvasion} onChange={setIgnoresEvasion}>Ignores Evasion</Toggle>
-        </div>
-        <p className="hint">
-          Each hit against {evade} Evade: {percent(expected.hitChance)} lands, {percent(expected.glanceChance)} glances, {percent(expected.evadeChance)} evaded
-          {critChance ? `; ${critChance}% crit` : ''}
-          {parryId ? `; ${tenth(parryChance)}% parried when it connects` : ''}.
-        </p>
-      </div>
+      <p className="hint">
+        Each hit against {evade} Evade: {percent(expected.hitChance)} lands, {percent(expected.glanceChance)} glances, {percent(expected.evadeChance)} evaded
+        {critChance ? `; ${critChance}% crit` : ''}
+        {parryId ? `; ${tenth(parryChance)}% parried when it connects` : ''}.
+      </p>
 
       <div className="section">
         <SectionHead>Steps</SectionHead>

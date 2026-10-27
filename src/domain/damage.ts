@@ -19,9 +19,13 @@ export interface IncomingHit {
   damageClass: DamageClass;
   type: DamageType;
   critDamagePercent: number;
+  /** Flat damage a crit adds before defenses ("+10 Critical Damage"). */
+  critFlatDamage?: number;
   armorIgnoring: boolean;
   guardMomentum: number;
   otherReductionPercent: number;
+  /** Cuts against this attacker in particular (Beastfoe Shield vs Beast), each its own multiplier. */
+  versusReductions?: Array<{ label: string; percent: number }>;
   /** Reduction of the defender's parry skill when it fires, already halved for Zugzwang. */
   parryReductionPercent: number;
   /** One per hit; missing entries are plain hits. Each hit rolls its own crit. */
@@ -74,10 +78,16 @@ function hitCount(hit: IncomingHit): number {
 
 const PLAIN_HIT: HitOutcome = { result: 'hit', parried: false, critical: false };
 
+// (amount × crit% + flat) is amount × (crit% + flat / amount), so the flat part rides the same multiplier.
+function critFactor(hit: IncomingHit): number {
+  const flat = hit.critFlatDamage && hit.amount > 0 ? hit.critFlatDamage / hit.amount : 0;
+  return hit.critDamagePercent / 100 + flat;
+}
+
 function outcomeSteps(outcome: HitOutcome, hit: IncomingHit): Array<{ label: string; factor: number }> {
   if (outcome.result === 'evaded') return [{ label: 'Evaded', factor: 0 }];
   const steps = [
-    { label: 'Critical', factor: outcome.critical ? hit.critDamagePercent / 100 : 1 },
+    { label: 'Critical', factor: outcome.critical ? critFactor(hit) : 1 },
     { label: 'Glancing', factor: outcome.result === 'glance' ? reduce(GLANCE_REDUCTION_PERCENT) : 1 },
     { label: 'Parried', factor: outcome.parried ? reduce(hit.parryReductionPercent) : 1 },
   ];
@@ -108,6 +118,7 @@ function sharedReductions(hit: IncomingHit, defender: Defenses) {
     }
     multiply('Guard', hit.guardMomentum * GUARD_PERCENT_PER_MOMENTUM);
     multiply('Other reductions', hit.otherReductionPercent);
+    for (const reduction of hit.versusReductions ?? []) multiply(reduction.label, reduction.percent);
     if (!hit.armorIgnoring) armorPool = Math.max(0, physical ? defender.derived.armor : defender.derived.magicArmor);
   }
   return { steps, perHit: total, armorPool };

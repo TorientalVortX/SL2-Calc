@@ -16003,10 +16003,10 @@
       "effects": [
         "Grants Skill: Magic Shield",
         "3 Momentum, 5 FP",
-        "Charges your gauntlet with focus, creating a shield of energy that increases your DEF and RES by 4 for 5 rounds, and lets you parry any damage (25% + 25% DEF + 25% RES chance, 25% reduction). Switching to it from another effect of the Magical Gauntlet costs 0 Momentum and ends that effect."
+        "Charges your gauntlet with focus, creating a shield of energy that increases your DEF and RES by 4 for 4 rounds. This will also end other effects caused by the Magical Gauntlet."
       ],
       "flavour": "A light-weight gauntlet enchanted with some sort of artifact that generates a protective barrier.",
-      "raw": "'''Material:''' Metal <br> '''Grants Skill:''' Magic Shield <br><small>3 Momentum, 5 FP<br> Charges your gauntlet with focus, creating a shield of energy that increases your DEF and RES by 4 for 5 rounds, and lets you parry any damage (25% + 25% DEF + 25% RES chance, 25% reduction). Switching to it from another effect of the Magical Gauntlet costs 0 Momentum and ends that effect.</small> <br><br><i>A light-weight gauntlet enchanted with some sort of artifact that generates a protective barrier.</i>"
+      "raw": "'''Material:''' Metal <br> '''Grants Skill:''' Magic Shield <br><small>3 Momentum, 5 FP<br> Charges your gauntlet with focus, creating a shield of energy that increases your DEF and RES by 4 for 4 rounds. This will also end other effects caused by the Magical Gauntlet.</small> <br><br><i>A light-weight gauntlet enchanted with some sort of artifact that generates a protective barrier.</i>"
     },
     "location": [
       "Random Drops",
@@ -16028,16 +16028,16 @@
       "effects": [
         "Grants Skill: Magic Shield",
         "3 Momentum, 5 FP",
-        "Charges your gauntlet with focus, creating a shield of energy that increases your DEF and RES by 4 for 5 rounds, and lets you parry any damage (25% + 25% DEF + 25% RES chance, 25% reduction). Switching to it from another effect of the Magical Gauntlet costs 0 Momentum and ends that effect.",
+        "Charges your gauntlet with focus, creating a shield of energy that increases your DEF and RES by 4 for 4 rounds. This will also end other effects caused by the Magical Gauntlet.",
         "Grants Skill: Metallic Aegis",
-        "3 Momentum, 5 FP",
-        "Charges your gauntlet with focus, creating a shield of energy that increases your DEF by 8 for 5 rounds, and lets you parry physical damage (25% + 50% DEF chance, 35% reduction). Switching to it from another effect of the Magical Gauntlet costs 0 Momentum and ends that effect.",
+        "3 Momentum, 20 FP",
+        "Charges your gauntlet with focus, creating a shield of energy that increases your DEF by 8 for 4 rounds. This will also end other effects caused by the Magical Gauntlet.",
         "Grants Skill: Magical Aegis",
-        "3 Momentum, 5 FP",
-        "Charges your gauntlet with focus, creating a shield of energy that increases your RES by 8 for 5 rounds, and lets you parry magical damage (25% + 50% RES chance, 35% reduction). Switching to it from another effect of the Magical Gauntlet costs 0 Momentum and ends that effect."
+        "3 Momentum, 20 FP",
+        "Charges your gauntlet with focus, creating a shield of energy that increases your RES by 4 for 4 rounds. This will also end other effects caused by the Magical Gauntlet."
       ],
       "flavour": "An enhanced version of the normal gauntlet, this version can focus more of its power into physical defense or magical protection.",
-      "raw": "'''Material:''' Metal <br> '''Grants Skill:''' Magic Shield <br><small>3 Momentum, 5 FP<br> Charges your gauntlet with focus, creating a shield of energy that increases your DEF and RES by 4 for 5 rounds, and lets you parry any damage (25% + 25% DEF + 25% RES chance, 25% reduction). Switching to it from another effect of the Magical Gauntlet costs 0 Momentum and ends that effect.</small><br>'''Grants Skill:''' Metallic Aegis <br><small>3 Momentum, 5 FP<br> Charges your gauntlet with focus, creating a shield of energy that increases your DEF by 8 for 5 rounds, and lets you parry physical damage (25% + 50% DEF chance, 35% reduction). Switching to it from another effect of the Magical Gauntlet costs 0 Momentum and ends that effect.</small><br> '''Grants Skill:''' Magical Aegis <br><small>3 Momentum, 5 FP<br> Charges your gauntlet with focus, creating a shield of energy that increases your RES by 8 for 5 rounds, and lets you parry magical damage (25% + 50% RES chance, 35% reduction). Switching to it from another effect of the Magical Gauntlet costs 0 Momentum and ends that effect.</small><br><br><i>An enhanced version of the normal gauntlet, this version can focus more of its power into physical defense or magical protection.\n</i>"
+      "raw": "'''Material:''' Metal <br> '''Grants Skill:''' Magic Shield <br><small>3 Momentum, 5 FP<br> Charges your gauntlet with focus, creating a shield of energy that increases your DEF and RES by 4 for 4 rounds. This will also end other effects caused by the Magical Gauntlet.</small><br>'''Grants Skill:''' Metallic Aegis <br><small>3 Momentum, 20 FP<br> Charges your gauntlet with focus, creating a shield of energy that increases your DEF by 8 for 4 rounds. This will also end other effects caused by the Magical Gauntlet.</small><br> '''Grants Skill:''' Magical Aegis <br><small>3 Momentum, 20 FP<br> Charges your gauntlet with focus, creating a shield of energy that increases your RES by 4 for 4 rounds. This will also end other effects caused by the Magical Gauntlet.</small><br><br><i>An enhanced version of the normal gauntlet, this version can focus more of its power into physical defense or magical protection.\n</i>"
     },
     "location": [
       "Alchemy"
