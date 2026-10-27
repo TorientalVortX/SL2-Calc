@@ -1,6 +1,7 @@
 // Usage: node scripts/build-set-data.mjs [--report]  -> src/data/content/item-sets.json
 import { readdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import { patchedEquipment } from './wiki-patches.mjs';
 
 const SOURCE = path.resolve('wiki-data/raw/equipment.json');
 const OUT = path.resolve('src/data/content/item-sets.json');
@@ -45,7 +46,7 @@ async function appDataItems() {
   return all;
 }
 
-const items = JSON.parse(await readFile(SOURCE, 'utf8'));
+const items = await patchedEquipment(JSON.parse(await readFile(SOURCE, 'utf8')));
 
 const sets = new Map();
 const problems = [];

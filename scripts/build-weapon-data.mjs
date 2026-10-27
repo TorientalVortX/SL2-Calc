@@ -2,6 +2,7 @@
 // Merges into the curated files: the wiki leaves 86 Damage Type cells blank and has no structured specials.
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import { patchedEquipment } from './wiki-patches.mjs';
 
 const SOURCE = path.resolve('wiki-data/raw/equipment.json');
 const CONTENT = path.resolve('src/data/content');
@@ -198,7 +199,7 @@ function parseSpecials(raw) {
   ];
 }
 
-const raw = JSON.parse(await readFile(SOURCE, 'utf8'));
+const raw = await patchedEquipment(JSON.parse(await readFile(SOURCE, 'utf8')));
 const weapons = raw.filter((item) => item.kind === 'Weapon' && FILES[item.group]);
 
 const changes = { added: [], statChanged: [], orphaned: [] };

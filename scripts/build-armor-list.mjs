@@ -3,6 +3,7 @@
 // can't give us (structured bonuses, reworded details, short effect labels) and renames.
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import { patchedEquipment } from './wiki-patches.mjs';
 
 const SOURCE = path.resolve('wiki-data/raw/equipment.json');
 const OVERLAY = path.resolve('wiki-data/armor-overlay.json');
@@ -11,7 +12,7 @@ const OUT = path.resolve('src/data/armors.json');
 const GROUPS = ['Heavy', 'Light', 'Unarmored'];
 const FIELD_ORDER = ['id', 'name', 'armor', 'magicArmor', 'evade', 'weight', 'details', 'statBonuses', 'resistances', 'specialEffects', 'conditionalBonuses', 'rarity'];
 
-const raw = JSON.parse(await readFile(SOURCE, 'utf8')).filter((item) => item.kind === 'Armor');
+const raw = (await patchedEquipment(JSON.parse(await readFile(SOURCE, 'utf8')))).filter((item) => item.kind === 'Armor');
 const overlay = JSON.parse(await readFile(OVERLAY, 'utf8'));
 
 function baseArmor(item, renames) {
