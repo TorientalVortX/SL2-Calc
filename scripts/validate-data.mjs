@@ -487,6 +487,27 @@ if (!release.headline) fail('app-release.json.headline', 'expected a one-line su
 if (!Array.isArray(release.notes) || release.notes.length === 0) fail('app-release.json.notes', 'expected at least one release note');
 if (release.version !== pkg.version) fail('app-release.json.version', `is ${release.version} but package.json says ${pkg.version}`);
 
+// Drift: every wiki item must be in the app and every app item on the wiki, so a hand-kept list
+// can't silently fall behind (the armor list once missed 10 torsos and broke two sets).
+const WIKI_ONLY_ALLOWED = new Map();
+const APP_ONLY_ALLOWED = new Map([
+  ['Tsukikage', 'build-weapon-data keeps it: saved builds reference it and the wiki has no row'],
+]);
+const wikiItems = JSON.parse(await readFile(path.join(root, 'wiki-data', 'raw', 'equipment.json'), 'utf8'));
+const armorOverlay = JSON.parse(await readFile(path.join(root, 'wiki-data', 'armor-overlay.json'), 'utf8'));
+const renamed = new Map(Object.entries(armorOverlay.renames).map(([id, rename]) => [wikiItems.find((item) => item.id === id)?.name, rename.name]));
+const DRIFT_LISTS = [
+  { label: 'weapons', wiki: (item) => item.kind === 'Weapon', app: [...weaponNames] },
+  { label: 'armors.json', wiki: (item) => item.kind === 'Armor', app: Object.values(armorData).flat().map((armor) => armor.name) },
+  { label: 'gear.json', wiki: (item) => ['Hands', 'Legs', 'Accessory'].includes(item.kind), app: Object.values(gearData).flat().map((item) => item.name) },
+];
+for (const { label, wiki, app } of DRIFT_LISTS) {
+  const wikiNames = new Set(wikiItems.filter(wiki).map((item) => renamed.get(item.name) ?? item.name));
+  const appNames = new Set(app);
+  for (const name of wikiNames) if (!appNames.has(name) && !WIKI_ONLY_ALLOWED.has(name)) fail(label, `"${name}" is on the wiki but missing from the app; regenerate with npm run build:equipment`);
+  for (const name of appNames) if (!wikiNames.has(name) && !APP_ONLY_ALLOWED.has(name)) fail(label, `"${name}" is not on the wiki; add it to the allowlist with a reason or remove it`);
+}
+
 if (errors.length) {
   console.error(`Data validation failed with ${errors.length} error(s):\n${errors.map((error) => `- ${error}`).join('\n')}`);
   process.exit(1);
