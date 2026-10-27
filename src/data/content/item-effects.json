@@ -11692,6 +11692,7 @@
             "ulMultiplier": 0
           }
         ],
+        "healingPercent": 15,
         "count": 2
       },
       {

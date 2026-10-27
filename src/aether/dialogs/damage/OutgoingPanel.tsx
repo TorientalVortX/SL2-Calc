@@ -38,7 +38,7 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
   const weaponType = asDamageType(findWeaponByName(build.equipment.primaryWeapon?.selectedWeaponName)?.damageType);
   const ranks = useMemo(() => mergeSkillRanks(build.skillRanks), [build.skillRanks]);
   const attacks = useMemo(
-    () => SKILLS.filter(skill => (ranks[skill.id] ?? 0) > 0 && (skill.basicAttack
+    () => SKILLS.filter(skill => (ranks[skill.id] ?? 0) > 0 && !(skill.healing && skill.category !== 'Offensive') && (skill.basicAttack
       || (skill.scaling?.some(term => term.source === 'weapon' || term.source === 'element')
         && skillFormulaBreakdown(skill, ranks[skill.id], evaluation)))),
     [ranks, evaluation],

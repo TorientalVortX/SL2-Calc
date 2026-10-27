@@ -405,6 +405,7 @@ for (const list of Object.values(JSON.parse(await readFile(ARMORS, 'utf8')))) {
 const PER_PIECE = /\+\((\d+) x total number of this set's items? equipped\) ((?:HP|FP)(?: and (?:HP|FP))?)/i;
 const DAMAGE_DEALT = /\+(\d+)% damage dealt/i;
 const RESISTANCE_IGNORED = /(\w+) and (\w+) damage you deal ignores up to (\d+)% of elemental resistance/i;
+const HEALING_POWER = /\+(\d+)% Healing-tag skill Power/i;
 const SET_SKILL = /Grants access to the ([\w' ]+?) skill|Gain ([\w' ]+?) Skill\b/;
 
 function setRecord(name, description) {
@@ -417,8 +418,10 @@ function setRecord(name, description) {
   const damage = DAMAGE_DEALT.exec(description);
   const ignored = RESISTANCE_IGNORED.exec(description);
   const skill = SET_SKILL.exec(description);
+  const healing = HEALING_POWER.exec(description);
   return {
     ...record,
+    ...(healing ? { healingPercent: Number(healing[1]) } : {}),
     ...(damage ? { damagePercent: Number(damage[1]) } : {}),
     ...(ignored ? { resistanceIgnored: { types: [ignored[1], ignored[2]].map((type) => canonicalElement(type) ?? type), percent: Number(ignored[3]) } } : {}),
     ...(skill ? { grants: (skill[1] ?? skill[2]).trim() } : {}),

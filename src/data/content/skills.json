@@ -391,7 +391,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "healing": true
     },
     {
       "id": "affinity-avian",
@@ -636,7 +637,8 @@
       ],
       "momentum": 3,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "healing": true
     },
     {
       "id": "air-pressure",
@@ -907,7 +909,8 @@
           "rankSource": "eternal-flame",
           "condition": "Eternal Flame"
         }
-      ]
+      ],
+      "healing": true
     },
     {
       "id": "alteration-fixation",
@@ -3310,7 +3313,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "healing": true
     },
     {
       "id": "cast-order",
@@ -3854,7 +3858,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "healing": true
     },
     {
       "id": "chilling-rune",
@@ -3888,7 +3893,8 @@
       ],
       "momentum": 3,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "healing": true
     },
     {
       "id": "chimera-style",
@@ -5441,7 +5447,8 @@
       "fpByRank": null,
       "momentum": null,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "healing": true
     },
     {
       "id": "dark-shield",
@@ -6318,7 +6325,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "healing": true
     },
     {
       "id": "dig-order",
@@ -6450,7 +6458,8 @@
           ],
           "applies": "conditional"
         }
-      ]
+      ],
+      "healing": true
     },
     {
       "id": "distorted-beat",
@@ -6786,7 +6795,8 @@
       ],
       "momentum": 1,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "healing": true
     },
     {
       "id": "dragging-vines-druid",
@@ -6803,7 +6813,8 @@
       ],
       "momentum": 1,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "healing": true
     },
     {
       "id": "dragon-gale",
@@ -8592,7 +8603,8 @@
           "rankSource": "eternal-flame",
           "condition": "Eternal Flame"
         }
-      ]
+      ],
+      "healing": true
     },
     {
       "id": "field-medic",
@@ -8609,7 +8621,8 @@
       ],
       "momentum": 3,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "healing": true
     },
     {
       "id": "fight-as-one",
@@ -10315,7 +10328,8 @@
           "rankSource": "eternal-flame",
           "condition": "Eternal Flame"
         }
-      ]
+      ],
+      "healing": true
     },
     {
       "id": "good-materials",
@@ -10405,7 +10419,8 @@
       ],
       "momentum": 3,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "healing": true
     },
     {
       "id": "grand-finale",
@@ -10620,7 +10635,8 @@
       ],
       "momentum": 3,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "healing": true
     },
     {
       "id": "guerilla-tactic",
@@ -11024,7 +11040,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "healing": true
     },
     {
       "id": "heaven-below",
@@ -11037,7 +11054,8 @@
       "fpByRank": null,
       "momentum": null,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "healing": true
     },
     {
       "id": "heaven-kick",
@@ -11763,7 +11781,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "healing": true
     },
     {
       "id": "ignite-engine",
@@ -12682,7 +12701,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "healing": true
     },
     {
       "id": "kan-saiganki",
@@ -13984,7 +14004,8 @@
       ],
       "momentum": 3,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "healing": true
     },
     {
       "id": "margin-manipulation",
@@ -14093,7 +14114,8 @@
       ],
       "momentum": null,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "healing": true
     },
     {
       "id": "meld-form",
@@ -14496,7 +14518,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "healing": true
     },
     {
       "id": "needle-thread",
@@ -14759,7 +14782,8 @@
       "fpByRank": null,
       "momentum": null,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "healing": true
     },
     {
       "id": "northern-wind",
@@ -15360,7 +15384,8 @@
       "fpByRank": null,
       "momentum": null,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "healing": true
     },
     {
       "id": "pain-tolerance",
@@ -15619,7 +15644,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "healing": true
     },
     {
       "id": "phoenix-talon",
@@ -15636,7 +15662,8 @@
       ],
       "momentum": 3,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "healing": true
     },
     {
       "id": "photon-ring",
@@ -15876,7 +15903,8 @@
       ],
       "momentum": null,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "healing": true
     },
     {
       "id": "plisfa-s-masochism",
@@ -16621,7 +16649,8 @@
           "rankSource": "eternal-flame",
           "condition": "Eternal Flame"
         }
-      ]
+      ],
+      "healing": true
     },
     {
       "id": "quick-and-wild",
@@ -16748,7 +16777,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "healing": true
     },
     {
       "id": "radiant-splendor",
@@ -17143,7 +17173,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "healing": true
     },
     {
       "id": "rebound",
@@ -17160,7 +17191,8 @@
       ],
       "momentum": 3,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "healing": true
     },
     {
       "id": "recklessness",
@@ -17310,7 +17342,8 @@
       ],
       "momentum": 3,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "healing": true
     },
     {
       "id": "regenschauer",
@@ -17342,7 +17375,8 @@
       ],
       "momentum": 6,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "healing": true
     },
     {
       "id": "relent-gale",
@@ -17417,7 +17451,8 @@
       ],
       "momentum": 3,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "healing": true
     },
     {
       "id": "repeat-sign",
@@ -17507,7 +17542,8 @@
       ],
       "momentum": 3,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "healing": true
     },
     {
       "id": "restocking",
@@ -18505,7 +18541,8 @@
           "rankSource": "eternal-flame",
           "condition": "Eternal Flame"
         }
-      ]
+      ],
+      "healing": true
     },
     {
       "id": "salvage",
@@ -18898,7 +18935,8 @@
       ],
       "momentum": 3,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "healing": true
     },
     {
       "id": "sear",
@@ -18955,7 +18993,8 @@
       ],
       "momentum": 3,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "healing": true
     },
     {
       "id": "second-set",
@@ -18972,7 +19011,8 @@
       ],
       "momentum": 3,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "healing": true
     },
     {
       "id": "second-verse",
@@ -19129,7 +19169,8 @@
       "fpByRank": null,
       "momentum": null,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "healing": true
     },
     {
       "id": "shared-pain",
@@ -19469,7 +19510,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "healing": true
     },
     {
       "id": "shower-of-applause",
@@ -20476,7 +20518,8 @@
       ],
       "momentum": 6,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "healing": true
     },
     {
       "id": "spirit-regeneration",
@@ -20489,7 +20532,8 @@
       "fpByRank": null,
       "momentum": null,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "healing": true
     },
     {
       "id": "spirit-well",
@@ -21654,7 +21698,8 @@
       "fpByRank": null,
       "momentum": null,
       "scaling": null,
-      "effects": []
+      "effects": [],
+      "healing": true
     },
     {
       "id": "terra-strike",
@@ -22381,7 +22426,8 @@
           "rankSource": "eternal-flame",
           "condition": "Eternal Flame"
         }
-      ]
+      ],
+      "healing": true
     },
     {
       "id": "tyrant-s-throne",
@@ -22769,6 +22815,7 @@
       "momentum": 0,
       "scaling": null,
       "effects": [],
+      "healing": true,
       "requires": [
         {
           "id": "arcane-gun",
@@ -23395,7 +23442,8 @@
           ]
         }
       ],
-      "effects": []
+      "effects": [],
+      "healing": true
     },
     {
       "id": "water-pillar",

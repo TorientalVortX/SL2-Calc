@@ -42,6 +42,8 @@ export interface ItemEffect {
   count?: number;
   damagePercent?: number;
   resistanceIgnored?: { types: string[]; percent: number };
+  /** Raises how much the curated healing skills restore (Church Faithful 2+). */
+  healingPercent?: number;
 }
 
 const WEAPON_EFFECTS = content.weapons as Record<string, ItemEffect[]>;
@@ -281,6 +283,13 @@ export interface SetAttackEffect {
   label: string;
   damagePercent?: number;
   resistanceIgnored?: { types: string[]; percent: number };
+}
+
+/** Reached set thresholds that raise healing, e.g. Church Faithful 2+ at 15. */
+export function setHealingBonuses(sets: ActiveSetPieces[]): Array<{ label: string; percent: number }> {
+  return sets.flatMap(set => setEffects(set.name)
+    .filter(effect => (effect.count ?? 0) <= set.pieces && effect.healingPercent)
+    .map(effect => ({ label: `${set.name} ${effect.count}+`, percent: effect.healingPercent! })));
 }
 
 /** Reached set thresholds that change the damage you deal (Unassuming Adventurer, Gunsmoke Spiritual). */

@@ -366,6 +366,8 @@ function parseEffects(extras, maxRank, applies, description = '') {
 const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 const raw = JSON.parse(await readFile(IN, 'utf8'));
+// The game has no readable Healing tag, so the list is curated (Church Faithful raises these).
+const HEALING = new Set(Object.values(JSON.parse(await readFile(path.resolve('wiki-data/healing-skills.json'), 'utf8')).groups).flat());
 const KNOWN_CLASSES = new Set(
   Object.keys(JSON.parse(await readFile(path.resolve('src/data/content/classes.json'), 'utf8')).classes),
 );
@@ -414,6 +416,7 @@ for (const entry of raw) {
     effects,
     requiresRaw: parseRequirements(entry.extras),
     ...(HAND_MODELLED.has(entry.name) ? { handModelled: true } : {}),
+    ...(HEALING.has(entry.name) ? { healing: true } : {}),
     ...(performsBasicAttack(entry, scaling) ? {
       basicAttack: {
         ...basicAttackProfile(entry, maxRank),
@@ -470,6 +473,8 @@ skills.find(skill => skill.id === 'keyshot').effects = [
 ];
 
 skills.sort((a, b) => a.name.localeCompare(b.name));
+const unknownHealing = [...HEALING].filter((name) => !skills.some((skill) => skill.name === name));
+if (unknownHealing.length) console.warn(`  ! healing-skills.json names no skill: ${unknownHealing.join(', ')}`);
 const text = skills.map((s) => s.text);
 for (const s of skills) delete s.text;
 

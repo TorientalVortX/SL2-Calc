@@ -9,10 +9,12 @@ import {
   itemConditionalKey,
   itemRollKey,
   setAttackEffects,
+  setHealingBonuses,
   valueAtUL,
   weaponEffects,
   weaponUL,
 } from './itemEffects';
+import { skillById } from './skills';
 
 describe('UL resolution', () => {
   it('sums every upgrade channel', () => {
@@ -148,6 +150,13 @@ describe('item effect data', () => {
     expect(set(2)).toEqual({});
     expect(set(3)).toEqual({ hp: 30, fp: 30 });
     expect(set(4)).toEqual({ hp: 40, fp: 40 });
+  });
+
+  it('raises healing by 15% from Church Faithful 2+, for the skills on the healing list', () => {
+    expect(setHealingBonuses([{ name: 'Church Faithful', pieces: 1 }])).toEqual([]);
+    expect(setHealingBonuses([{ name: 'Church Faithful', pieces: 2 }])).toEqual([{ label: 'Church Faithful 2+', percent: 15 }]);
+    expect(['graft', 'healing-discharge', 'reihou', 'dhessence'].map(id => skillById(id)?.healing)).toEqual([true, true, true, true]);
+    expect(['cleanse-body', 'healing-aqua', 'nature-s-bounty'].map(id => skillById(id)?.healing)).toEqual([undefined, undefined, undefined]);
   });
 
   it('turns Unassuming Adventurer 5+ and Gunsmoke Spiritual 3+ into damage effects once reached', () => {
