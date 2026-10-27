@@ -70,8 +70,16 @@ describe('unarmed weapon', () => {
   });
 
   it('becomes a Sword or Gun as well with the Karakuri weapon traits', () => {
-    expect(unarmedWeapon(['hidden-blade'])).toMatchObject({ name: 'Hidden Blade', types: ['Fist', 'Sword', 'Unarmed'] });
-    expect(unarmedWeapon(['hidden-barrage']).types).toContain('Gun');
+    expect(unarmedWeapon({ traits: ['hidden-blade'] })).toMatchObject({ name: 'Hidden Blade', types: ['Fist', 'Sword', 'Unarmed'], damageType: 'Slash' });
+    expect(unarmedWeapon({ traits: ['hidden-barrage'] }).types).toContain('Gun');
     expect(unarmedWeapon().name).toBe('Bare Fists');
+  });
+
+  it('swaps in the Unstable Tendril under Tendril Tonic, usable beside a weapon without Mixed Martial Arts', () => {
+    const tonic = { mixturePlan: ['Tendril Tonic'], activeMixtureEffects: [JSON.stringify(['Tendril Tonic', 'Tendril Tonic'])] };
+    expect(unarmedWeapon({ ...tonic, traits: ['hidden-blade'] })).toMatchObject({ name: 'Unstable Tendril', types: ['Fist', 'Whip', 'Unarmed'] });
+    const evaluation = evaluateBuild({ ...holding(martialArtist()), ...tonic });
+    const { str, apt } = evaluation.scaledStats;
+    expect(evaluation.unarmedWeapon).toMatchObject({ power: 10, swa: 10 + Math.floor((str * 40 + apt * 70) * 1.5 / 100) });
   });
 });

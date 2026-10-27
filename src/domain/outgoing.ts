@@ -58,7 +58,7 @@ type Attacker = Pick<BuildEvaluation, 'scaledStats' | 'elementalAttack' | 'prima
   derived?: Pick<BuildEvaluation['derived'], 'maxHP' | 'currentHP'>;
 };
 
-/** `unarmed` is bare fists beside a held weapon, through Mixed Martial Arts. */
+/** `unarmed` is the unarmed weapon beside a held one, through Mixed Martial Arts or the Unstable Tendril. */
 export type Hand = 'main' | 'off' | 'unarmed';
 
 type Wielder = Pick<Attacker, 'primaryWeapon' | 'offHandWeapon' | 'unarmedWeapon'>;
@@ -70,7 +70,7 @@ export const weaponFor = (attacker: Wielder, hand: Hand) =>
 const EQUIP_HINT: Record<Hand, string> = {
   main: 'Equip a main-hand weapon.',
   off: 'Equip an off-hand weapon.',
-  unarmed: 'Needs Mixed Martial Arts and no sub-weapon or shield.',
+  unarmed: 'Needs Mixed Martial Arts or Tendril Tonic, and no sub-weapon or shield.',
 };
 
 const atRank = (values: number[] | undefined, rank: number) => (values ? valueAtRank(values, rank) ?? 0 : 0);

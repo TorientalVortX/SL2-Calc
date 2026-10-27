@@ -604,7 +604,7 @@ export interface BuildEvaluation {
   primaryWeapon?: WeaponLine;
   /** An off-hand weapon is its own weapon, used by attacks made with it. */
   offHandWeapon?: WeaponLine;
-  /** Bare fists beside a held weapon, through Mixed Martial Arts. With the main hand empty they are `primaryWeapon`. */
+  /** The unarmed weapon beside a held one (Mixed Martial Arts, Unstable Tendril). With the main hand empty it is `primaryWeapon`. */
   unarmedWeapon?: WeaponLine;
 }
 

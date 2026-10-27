@@ -36,7 +36,7 @@ function asDamageType(type: string | undefined): DamageType {
 
 export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; initialSkillId?: string }) {
   const { build, evaluation } = builder;
-  const fists = unarmedWeapon(build.traits);
+  const fists = unarmedWeapon(build);
   const [handChoice, setHand] = useState<Hand>('main');
   const weaponNameOf = (which: Hand) => (which === 'off'
     ? build.equipment.offHandWeapon?.selectedWeaponName
@@ -56,7 +56,7 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
   const [skillId, setSkillId] = useState(initialSkillId ?? '');
   const skill = skillId ? skillById(skillId) ?? null : null;
   const rank = skill ? ranks[skill.id] ?? 1 : 0;
-  // Only a basic attack, or a skill that performs one, picks between held weapons; Mixed Martial Arts lends any skill the bare fists.
+  // Only a basic attack, or a skill that performs one, picks between held weapons; Mixed Martial Arts lends any skill the unarmed weapon.
   const handsFor = (attack: typeof skill): Hand[] => [
     'main',
     ...(evaluation.offHandWeapon && (!attack || attack.basicAttack) ? ['off' as const] : []),

@@ -76,7 +76,7 @@ export type OffenseResult = ReturnType<typeof resolveOffense>;
 
 export function resolveOffense(inputs: EvaluationInputs, stats: StatsResult) {
   const { build, armorConditional, usingOffHand, equippedHands, talents, handsPoints, items, youkaiBonuses, offHandWeapon: offHandConfig, offHandItems, mainWeaponItems } = inputs;
-  const { unarmed, mixedMartialArts, unarmedTalents } = inputs;
+  const { unarmed, unarmedBeside, unarmedTalents } = inputs;
   const { scaledStats, skills, fortune } = stats;
 
   const weaponConfig = build.equipment.primaryWeapon;
@@ -161,10 +161,10 @@ export function resolveOffense(inputs: EvaluationInputs, stats: StatsResult) {
     )
     : undefined;
 
-  const unarmedSkills = mixedMartialArts && inputs.hasSkillRanks
+  const unarmedSkills = unarmedBeside && inputs.hasSkillRanks
     ? skillBonuses(inputs.availableSkills, inputs.mergedSkillRanks, build.skillConditionals, unarmed.types, { ...inputs.skillContext, scaledStats }).derived
     : {};
-  const unarmedWeapon = mixedMartialArts
+  const unarmedWeapon = unarmedBeside
     ? {
       ...secondaryLine(evaluateWeapon(unarmed.config, scaledStats, armorConditional.critical, build.traits, true), unarmedSkills, heldWeaponItems, unarmedTalents),
       ...(unarmedPower ? { basicAttackPower: unarmedPower } : {}),
