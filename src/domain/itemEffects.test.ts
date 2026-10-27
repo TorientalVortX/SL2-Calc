@@ -65,6 +65,20 @@ describe('item effect data', () => {
     expect(scaled).toMatchObject({ kind: 'elementalAttack', base: 0, ulMultiplier: 0.5 });
   });
 
+  it('reads percent and basic-attack wordings into their own channels', () => {
+    const derived = (name: string) => itemBonuses({ gear: [undefined, undefined, { itemName: name }] }).derived;
+    expect(derived('Ring of Thorns Plus')).toMatchObject({ hpPercent: -7, basicAttackPower: 10, critical: 10, criticalEvade: -10 });
+    expect(derived('Ring of Thorns Plus').power).toBeUndefined();
+    expect(derived('Archery Gloves')).toMatchObject({ 'basicAttackPower:Bow': 2 });
+    expect(derived("Rogue's Work Gloves")).toMatchObject({ criticalDamage: 10 });
+    expect(itemBonuses({ gear: [undefined, undefined, { itemName: 'Grimalkin Hat' }] }).elementalAttack.Dark).toBe(5);
+    // "+10 Critical Damage" is the crit modifier, not Critical; "(flat damage)" is neither.
+    expect(itemBonuses({ weaponName: 'Guillotine' }).derived).toEqual({ criticalDamage: 10 });
+    expect(weaponEffects('Moonlight Mercy').flatMap(e => e.effects)).toEqual([]);
+    // "UL*2% maximum HP" revives a youkai; it is not your HP.
+    expect(itemBonuses({ weaponName: 'Bell of No Rest' }).derived.hpPercent).toBeUndefined();
+  });
+
   it('keeps unmodellable effects as reference with no numbers', () => {
     const gorger = weaponEffects('Gorger');
     expect(gorger.length).toBeGreaterThan(0);

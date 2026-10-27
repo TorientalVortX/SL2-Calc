@@ -15,8 +15,7 @@ const STATS = {
 };
 // Longest spelling first so "maximum HP" is not read as a bare "HP".
 const DERIVED = {
-  'power to unarmed weapons': 'unarmedPower',
-  power: 'power', hit: 'hit', critical: 'critical', 'critical evade': 'criticalEvade',
+  power: 'power', hit: 'hit', critical: 'critical', 'critical evade': 'criticalEvade', 'critical damage': 'criticalDamage',
   evade: 'evade', armor: 'armor', 'magic armor': 'magicArmor', weight: 'weight',
   'maximum hp': 'hp', 'maximum fp': 'fp', 'max hp': 'hp', 'max fp': 'fp', hp: 'hp', fp: 'fp',
 };
@@ -49,7 +48,35 @@ const CHANNEL_NAMES = [
   ...Object.keys(DERIVED).sort((a, b) => b.length - a.length),
   ...Object.keys(STATS),
   ...ELEMENTS.map((e) => `${e} ATK`),
+  'Darkness ATK',
 ];
+
+// Wordings the channel patterns can't carry, read first and cut from the text so nothing counts twice.
+const SPECIAL_CHANNELS = [
+  // "+3 Power to All Weapons (Basic attacks only.)"; the key carries the weapon type it is limited to.
+  {
+    pattern: /([+-]?\d+) Power to (\w+) Weapons \(Basic attacks only\.?\)/gi,
+    effect: (match) => ({ key: match[2] === 'All' ? 'basicAttackPower' : `basicAttackPower:${match[2]}`, base: Number(match[1]) }),
+  },
+  // "Critical Damage (flat damage)" adds damage, not crit modifier; a "for X weapons" line is scoped to a type.
+  { pattern: /([+-]?\d+)%? Critical Damage(?! (?:reduction|modifier|\(flat|for\b))/gi, effect: (match) => ({ key: 'criticalDamage', base: Number(match[1]) }) },
+  { pattern: /([+-]?\d+)% Critical(?: Chance)?(?! Damage| Evade)\b/gi, effect: (match) => ({ key: 'critical', base: Number(match[1]) }) },
+  { pattern: /(?<![*\w])([+-]?\d+)% Maximum HP\b/g, effect: (match) => ({ key: 'hpPercent', base: Number(match[1]) }) },
+  { pattern: /[+-]?(?:\d+\+?)?(?:UL)? Critical Damage \(flat damage\)/gi, effect: () => null },
+];
+
+function parseSpecialChannels(text) {
+  const effects = [];
+  let rest = text;
+  for (const { pattern, effect } of SPECIAL_CHANNELS) {
+    rest = rest.replace(pattern, (...match) => {
+      const value = effect(match);
+      if (value) effects.push({ kind: 'derived', ulMultiplier: 0, ...value });
+      return ' ';
+    });
+  }
+  return { effects, rest };
+}
 
 // Regeneration ("Recover 2 HP each Round") and costs ("FP cost is increased to 25 FP") are not max HP/FP.
 const RECOVERY = /\b(?:recovers?|recovered|restores?|restored|heals?|healed|regains?|drains?|loses?|lost|costs?|sacrifices?)\b/i;
@@ -115,7 +142,7 @@ function parseResistances(text) {
 
 function resolveChannel(word) {
   const lower = word.toLowerCase().trim();
-  const element = ELEMENTS.find((e) => lower === `${e.toLowerCase()} atk`);
+  const element = lower === 'darkness atk' ? 'Dark' : ELEMENTS.find((e) => lower === `${e.toLowerCase()} atk`);
   if (element) return { kind: 'elementalAttack', key: element };
   if (DERIVED[lower]) return { kind: 'derived', key: DERIVED[lower] };
   if (STATS[lower]) return { kind: 'stat', key: STATS[lower] };
@@ -136,7 +163,7 @@ const PATTERNS = [
   new RegExp(String.raw`\(?(${MAGNITUDE})\)?\s+(${CHANNELS})\b(?!-)`, 'gi'),
 ];
 
-const LIST_SEPARATOR = String.raw`\s*(?:,\s*and|,|and|/)\s*`;
+const LIST_SEPARATOR = String.raw`\s*(?:,\s*and|,|and|/|&)\s*`;
 const CHANNEL_LIST = String.raw`(${CHANNELS})((?:${LIST_SEPARATOR}(?:${CHANNELS})\b)+)`;
 // One magnitude shared by a channel list: "STR and WIL by 2", "+5 Evade/Armor", "+2 STR, WIL, DEF, and RES".
 const SHARED_LISTS = [
@@ -202,13 +229,15 @@ function toRecord(name, description, alwaysEligible) {
   const tetra = /\(Tetra\)/.test(description);
   // Set text copied onto a member ("Set: Church Faithful 2+ - +3 Light ATK") is applied by the set, not per item.
   const ownText = description.replace(/\bSet:\s[\s\S]*$/, '').replace(/^\s*\d\+\s*[-:][\s\S]*$/, '');
-  const text = tetra ? ownText.replace(/\bElemental ATK\b/, 'Fire ATK').replace(/(\d+)\s+Stat\b/, '$1 STR') : ownText;
+  const special = parseSpecialChannels(tetra ? ownText.replace(/\bElemental ATK\b/, 'Fire ATK').replace(/(\d+)\s+Stat\b/, '$1 STR') : ownText);
+  const text = special.rest;
   // Zero non-scaling magnitudes come from incidental numbers ("if you are reduced to 0 HP").
-  const effects = [...parseEffects(text), ...parseResistances(text), ...parseAllStats(text)]
+  const effects = [...special.effects, ...parseEffects(text), ...parseResistances(text), ...parseAllStats(text)]
     .filter((value) => value.base !== 0 || value.ulMultiplier !== 0 || value.rollMax)
     .map((value) => (tetra ? { ...value, tetra: true } : value));
   // A trailing chance clause is a separate effect (Armor of Eyes: "Increases Hit by UL/2, UL% chance to ...").
-  const magnitudeClause = ownText
+  // Read with the special channels cut, so "+10% Critical Chance" isn't made conditional by its own "Chance".
+  const magnitudeClause = text
     // A disabling exception does not make a normally-active bonus opt-in.
     .replace(/,\s*except when\b[^.]*\.?/gi, '.')
     .replace(/\bUL%\s+chance\b.*$/i, '');

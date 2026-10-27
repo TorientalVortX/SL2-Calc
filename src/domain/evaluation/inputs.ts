@@ -222,7 +222,7 @@ export function gatherInputs(build: BuildState) {
     build, mixtureBonuses, subrace, race, mainClass, monoclassModifier, history, food, astrologyStat,
     hasSkillRanks, mergedSkillRanks, youkaiBonuses, rising, painToleranceRank, hasFortitude, hasEndurance,
     availableSkills, skillWeaponTypes, skillContext, initialSkills, karakuri, traits, talents,
-    unarmed, unarmedBeside, unarmedTalents,
+    unarmed, unarmedBeside, unarmedTalents, mainWeaponTypes,
     armor, armorConditional, armorMaterial, armorQuality, armorEnchant, armorPoints, dragonKingPieces, dragonQueenPieces,
     usingOffHand, offHandWeapon, offHandItems, mainWeaponItems, equippedHands, gearSlots, items, gearBonus, handsPoints, legsPoints, weaponBonus, weaponMaterial, leBonus,
   };

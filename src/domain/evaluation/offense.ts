@@ -76,14 +76,22 @@ export type OffenseResult = ReturnType<typeof resolveOffense>;
 
 export function resolveOffense(inputs: EvaluationInputs, stats: StatsResult) {
   const { build, armorConditional, usingOffHand, equippedHands, talents, handsPoints, items, youkaiBonuses, offHandWeapon: offHandConfig, offHandItems, mainWeaponItems } = inputs;
-  const { unarmed, unarmedBeside, unarmedTalents } = inputs;
+  const { unarmed, unarmedBeside, unarmedTalents, mainWeaponTypes } = inputs;
   const { scaledStats, skills, fortune } = stats;
 
   const weaponConfig = build.equipment.primaryWeapon;
   const weaponBase = weaponConfig
     ? evaluateWeapon({ ...weaponConfig, twoHandedSkillRank: 0 }, scaledStats, armorConditional.critical, build.traits)
     : evaluateWeapon(unarmed.config, scaledStats, armorConditional.critical, build.traits, true);
-  const unarmedPower = items.derived.unarmedPower ?? 0;
+  // "+N Power to X Weapons (Basic attacks only.)": keyed by the weapon type it names, or none for All.
+  const basicAttackPower = (types: string[]) => types.reduce(
+    (total, type) => total + (items.derived[`basicAttackPower:${type}`] ?? 0),
+    items.derived.basicAttackPower ?? 0,
+  );
+  const withBasicAttackPower = (line: WeaponLine, types: string[]): WeaponLine => {
+    const bonus = basicAttackPower(types);
+    return bonus ? { ...line, basicAttackPower: bonus } : line;
+  };
 
   const gripTypes = effectiveWeaponTypes(weaponConfig);
   const gripAllowed = !usingOffHand && !isShield(equippedHands?.itemName);
@@ -121,7 +129,7 @@ export function resolveOffense(inputs: EvaluationInputs, stats: StatsResult) {
   });
 
   // The wiki describes skill Power/Hit/Critical as weapon modifiers; added after evaluation so they skip scaling.
-  const primaryWeapon: WeaponLine = {
+  const primaryWeapon = withBasicAttackPower({
     ...weaponBase,
     power: weaponBase.power + (skills.derived.power ?? 0) + (items.derived.power ?? 0) + youkaiBonuses.weaponPower + talents.power,
     // Full Swing and Tactics raise Scaled Weapon ATK, not the weapon's printed Power.
@@ -129,10 +137,9 @@ export function resolveOffense(inputs: EvaluationInputs, stats: StatsResult) {
       + (skills.derived.power ?? 0) + (items.derived.power ?? 0) + youkaiBonuses.weaponPower + talents.power,
     hit: Math.floor(attack.byTier.base),
     critical: weaponBase.critical + (skills.derived.critical ?? 0) + (items.derived.critical ?? 0) + fortune.critical + talents.critical,
-    criticalDamage: weaponBase.criticalDamage + talents.criticalDamagePercent + (skills.derived.criticalDamage ?? 0),
+    criticalDamage: weaponBase.criticalDamage + talents.criticalDamagePercent + (skills.derived.criticalDamage ?? 0) + (items.derived.criticalDamage ?? 0),
     weight: Math.max(0, weaponBase.weight - talents.weaponWeightReduction),
-    ...(!weaponConfig && unarmedPower ? { basicAttackPower: unarmedPower } : {}),
-  };
+  }, mainWeaponTypes);
 
   const secondaryLine = (base: WeaponLine, skill: Record<string, number>, item: (key: string) => number, talent: TalentEffects): WeaponLine => ({
     ...base,
@@ -146,29 +153,29 @@ export function resolveOffense(inputs: EvaluationInputs, stats: StatsResult) {
       flanking,
     }).byTier.base),
     critical: base.critical + (skill.critical ?? 0) + item('critical') + fortune.critical + talent.critical,
-    criticalDamage: base.criticalDamage + talent.criticalDamagePercent + (skill.criticalDamage ?? 0),
+    criticalDamage: base.criticalDamage + talent.criticalDamagePercent + (skill.criticalDamage ?? 0) + item('criticalDamage'),
     weight: Math.max(0, base.weight - talent.weaponWeightReduction),
   });
   const heldWeaponItems = (key: string) => (items.derived[key] ?? 0) - (mainWeaponItems.derived[key] ?? 0);
 
   // The off-hand is its own weapon: general bonuses reach it, the main weapon's own effects don't.
   const offHandWeapon = offHandConfig
-    ? secondaryLine(
+    ? withBasicAttackPower(secondaryLine(
       evaluateWeapon(offHandConfig, scaledStats, armorConditional.critical, build.traits),
       skills.derived,
       key => heldWeaponItems(key) + (offHandItems.derived[key] ?? 0),
       talents,
-    )
+    ), effectiveWeaponTypes(offHandConfig))
     : undefined;
 
   const unarmedSkills = unarmedBeside && inputs.hasSkillRanks
     ? skillBonuses(inputs.availableSkills, inputs.mergedSkillRanks, build.skillConditionals, unarmed.types, { ...inputs.skillContext, scaledStats }).derived
     : {};
   const unarmedWeapon = unarmedBeside
-    ? {
-      ...secondaryLine(evaluateWeapon(unarmed.config, scaledStats, armorConditional.critical, build.traits, true), unarmedSkills, heldWeaponItems, unarmedTalents),
-      ...(unarmedPower ? { basicAttackPower: unarmedPower } : {}),
-    }
+    ? withBasicAttackPower(
+      secondaryLine(evaluateWeapon(unarmed.config, scaledStats, armorConditional.critical, build.traits, true), unarmedSkills, heldWeaponItems, unarmedTalents),
+      unarmed.types,
+    )
     : undefined;
 
   return { primaryWeapon, offHandWeapon, unarmedWeapon, hitSources, hitBonusSources, attack, flanking };

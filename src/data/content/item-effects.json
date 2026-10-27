@@ -31,9 +31,9 @@
         "effects": [
           {
             "kind": "derived",
-            "key": "critical",
-            "base": 10,
-            "ulMultiplier": 0
+            "ulMultiplier": 0,
+            "key": "criticalDamage",
+            "base": 10
           }
         ]
       }
@@ -1725,6 +1725,12 @@
         "effects": [
           {
             "kind": "derived",
+            "ulMultiplier": 0,
+            "key": "criticalDamage",
+            "base": 5
+          },
+          {
+            "kind": "derived",
             "key": "critical",
             "base": 10,
             "ulMultiplier": 0
@@ -2719,15 +2725,8 @@
       {
         "name": "Passive",
         "description": "+UL Critical Damage (flat damage) (for this weapon only)",
-        "applies": "always",
-        "effects": [
-          {
-            "kind": "derived",
-            "key": "critical",
-            "base": 0,
-            "ulMultiplier": 1
-          }
-        ]
+        "applies": "reference",
+        "effects": []
       },
       {
         "name": "Passive",
@@ -3440,8 +3439,15 @@
       {
         "name": "Darkness ATK Bonus",
         "description": "+5 Darkness ATK.",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "elementalAttack",
+            "key": "Dark",
+            "base": 5,
+            "ulMultiplier": 0
+          }
+        ]
       },
       {
         "name": "Deploy Talis (Onyx)",
@@ -3608,8 +3614,15 @@
       {
         "name": "Darkness ATK Bonus",
         "description": "+5 Darkness ATK.",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "elementalAttack",
+            "key": "Dark",
+            "base": 5,
+            "ulMultiplier": 0
+          }
+        ]
       },
       {
         "name": "Magic Stone Power",
@@ -4226,13 +4239,19 @@
         "effects": [
           {
             "kind": "derived",
-            "key": "critical",
+            "key": "armor",
             "base": 5,
             "ulMultiplier": 0
           },
           {
             "kind": "derived",
-            "key": "armor",
+            "key": "magicArmor",
+            "base": 5,
+            "ulMultiplier": 0
+          },
+          {
+            "kind": "derived",
+            "key": "critical",
             "base": 5,
             "ulMultiplier": 0
           },
@@ -5314,6 +5333,12 @@
         "effects": [
           {
             "kind": "derived",
+            "ulMultiplier": 0,
+            "key": "criticalDamage",
+            "base": 10
+          },
+          {
+            "kind": "derived",
             "key": "critical",
             "base": 10,
             "ulMultiplier": 0
@@ -5322,12 +5347,6 @@
             "kind": "derived",
             "key": "critical",
             "base": 3,
-            "ulMultiplier": 0
-          },
-          {
-            "kind": "derived",
-            "key": "critical",
-            "base": 10,
             "ulMultiplier": 0
           },
           {
@@ -5740,8 +5759,15 @@
       {
         "name": "Starless Night",
         "description": "+3 Darkness ATK Protection From Spatial race. Darkheart enchant blocks Star Map skills.",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "elementalAttack",
+            "key": "Dark",
+            "base": 3,
+            "ulMultiplier": 0
+          }
+        ]
       },
       {
         "name": "10% Spatial damage reduction",
@@ -6714,9 +6740,9 @@
         "effects": [
           {
             "kind": "derived",
-            "key": "power",
-            "base": 2,
-            "ulMultiplier": 0
+            "ulMultiplier": 0,
+            "key": "basicAttackPower:Bow",
+            "base": 2
           }
         ]
       }
@@ -7215,8 +7241,15 @@
       {
         "name": "Crownbleeder Plus",
         "description": "+5% Critical Chance",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "derived",
+            "ulMultiplier": 0,
+            "key": "critical",
+            "base": 5
+          }
+        ]
       },
       {
         "name": "Crownbleeder Plus",
@@ -7710,8 +7743,15 @@
       {
         "name": "Rogue's Work Gloves",
         "description": "+10% Critical Damage",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "derived",
+            "ulMultiplier": 0,
+            "key": "criticalDamage",
+            "base": 10
+          }
+        ]
       },
       {
         "name": "Rogue's Work Gloves",
@@ -7805,8 +7845,15 @@
       {
         "name": "Sayakensa",
         "description": "+10% Critical Chance",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "derived",
+            "ulMultiplier": 0,
+            "key": "critical",
+            "base": 10
+          }
+        ]
       },
       {
         "name": "Sayakensa",
@@ -8275,9 +8322,9 @@
         "effects": [
           {
             "kind": "derived",
-            "key": "unarmedPower",
-            "base": 2,
-            "ulMultiplier": 0
+            "ulMultiplier": 0,
+            "key": "basicAttackPower:Unarmed",
+            "base": 2
           }
         ]
       }
@@ -8833,9 +8880,9 @@
         "effects": [
           {
             "kind": "derived",
-            "key": "unarmedPower",
-            "base": 2,
-            "ulMultiplier": 0
+            "ulMultiplier": 0,
+            "key": "basicAttackPower:Unarmed",
+            "base": 2
           }
         ]
       }
@@ -8848,9 +8895,9 @@
         "effects": [
           {
             "kind": "derived",
-            "key": "unarmedPower",
-            "base": 5,
-            "ulMultiplier": 0
+            "ulMultiplier": 0,
+            "key": "basicAttackPower:Unarmed",
+            "base": 5
           }
         ]
       },
@@ -9681,6 +9728,12 @@
         "effects": [
           {
             "kind": "derived",
+            "ulMultiplier": 0,
+            "key": "criticalDamage",
+            "base": 25
+          },
+          {
+            "kind": "derived",
             "key": "critical",
             "base": 50,
             "ulMultiplier": 0
@@ -9968,8 +10021,15 @@
       {
         "name": "Grimalkin Hat",
         "description": "+5 Darkness ATK",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "elementalAttack",
+            "key": "Dark",
+            "base": 5,
+            "ulMultiplier": 0
+          }
+        ]
       }
     ],
     "Halo": [
@@ -10893,8 +10953,15 @@
       {
         "name": "Ring of Thorns",
         "description": "-10% Maximum HP",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "derived",
+            "ulMultiplier": 0,
+            "key": "hpPercent",
+            "base": -10
+          }
+        ]
       },
       {
         "name": "Ring of Thorns",
@@ -10903,9 +10970,9 @@
         "effects": [
           {
             "kind": "derived",
-            "key": "power",
-            "base": 3,
-            "ulMultiplier": 0
+            "ulMultiplier": 0,
+            "key": "basicAttackPower",
+            "base": 3
           }
         ]
       }
@@ -10914,8 +10981,15 @@
       {
         "name": "Ring of Thorns Plus",
         "description": "-7% Maximum HP",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "derived",
+            "ulMultiplier": 0,
+            "key": "hpPercent",
+            "base": -7
+          }
+        ]
       },
       {
         "name": "Ring of Thorns Plus",
@@ -10937,17 +11011,24 @@
         "effects": [
           {
             "kind": "derived",
-            "key": "power",
-            "base": 10,
-            "ulMultiplier": 0
+            "ulMultiplier": 0,
+            "key": "basicAttackPower",
+            "base": 10
           }
         ]
       },
       {
         "name": "Ring of Thorns Plus",
         "description": "+10% Critical Chance",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "derived",
+            "ulMultiplier": 0,
+            "key": "critical",
+            "base": 10
+          }
+        ]
       }
     ],
     "Saturn Badge": [
@@ -10996,6 +11077,12 @@
         "description": "If your Quick Draw defeats an enemy, the attack that triggered it is negated. While preparing a Quick Draw, you gain +10 Evade and +5% Critical Damage. After your Quick Draw triggers, you gain the same effect (2 rounds). (If both Quick Draw and this effect is active at the same time, they stack.)",
         "applies": "conditional",
         "effects": [
+          {
+            "kind": "derived",
+            "ulMultiplier": 0,
+            "key": "criticalDamage",
+            "base": 5
+          },
           {
             "kind": "derived",
             "key": "evade",
