@@ -418,10 +418,10 @@ for (const [group, records] of Object.entries({ materials: armorModifiers.materi
 
 function validateEffectChannels(effect, at, allowNested) {
     for (const [key, value] of Object.entries(effect)) {
-      if (key === 'other' && allowNested) {
-        if (!isRecord(value)) { fail(`${at}.other`, 'expected an object'); continue; }
-        if (!Object.keys(value).length) fail(`${at}.other`, 'expected at least one channel');
-        validateEffectChannels(value, `${at}.other`, false);
+      if ((key === 'other' || key === 'weapon') && allowNested) {
+        if (!isRecord(value)) { fail(`${at}.${key}`, 'expected an object'); continue; }
+        if (!Object.keys(value).length) fail(`${at}.${key}`, 'expected at least one channel');
+        validateEffectChannels(value, `${at}.${key}`, false);
         continue;
       }
       if (key === 'bySlot' && allowNested) {

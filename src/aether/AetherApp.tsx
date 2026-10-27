@@ -20,6 +20,7 @@ import {
 } from './dialogs/Dialogs';
 import { AdvancedDialog, type AdvancedSection } from './dialogs/AdvancedDialog';
 import { StatCard } from './dialogs/StatCard';
+import { DamageDialog } from './dialogs/DamageDialog';
 import { play } from './state/audio';
 import { readStatView, writeStatView, type StatView } from './state/statView';
 import { useBuilder } from './state/useBuilder';
@@ -134,6 +135,7 @@ export function AetherApp() {
               builder={builder}
               onInspectStat={setStatCard}
               onAdjustElements={() => openAdvanced('elements')}
+              onSimulateHit={() => setDialog('damage')}
             />
           </div>
         </div>
@@ -146,6 +148,7 @@ export function AetherApp() {
         <AdvancedDialog builder={builder} section={advancedSection} onClose={() => setDialog(null)} />
       ) : null}
       {dialog === 'shortcuts' ? <ShortcutsDialog onClose={() => setDialog(null)} /> : null}
+      {dialog === 'damage' ? <DamageDialog builder={builder} onClose={() => setDialog(null)} /> : null}
       {statCard ? (
         <StatCard
           builder={builder}

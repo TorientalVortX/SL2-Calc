@@ -1,6 +1,7 @@
 import type { ArmorQuality, ArmorUpgradePoints, BuildState, StatKey, WeaponConfig } from '../../types';
 import { evaluateBuild } from '../../domain/buildEvaluation';
 import { normalizeBuildState } from '../../domain/buildPersistence';
+import { exclusiveRivals } from '../../domain/itemEffects';
 import { traitById } from '../../domain/traits';
 import { changeCopySpell, settleSpellthief, type CopySpellAction } from '../../domain/spellthief';
 import { planMixture, removePlannedMixture, toggleMixtureEffect } from '../../domain/chemist';
@@ -111,6 +112,7 @@ export type BuildAction =
   | { type: 'mixture-effect-toggle'; name: string; effect: string }
   | { type: 'copy-spell'; id: string; action: CopySpellAction }
   | { type: 'trait'; id: string; taken: boolean }
+  | { type: 'trait-conditional'; id: string; on: boolean }
   | { type: 'traits-clear' }
   | { type: 'subtalent-rank'; subtalentId: string; rank: number }
   | { type: 'talent-conditional'; subtalentId: string; on: boolean }
@@ -121,7 +123,7 @@ export type BuildAction =
   | { type: 'weapon-patch'; which: 'primaryWeapon' | 'offHandWeapon'; patch: Partial<WeaponConfig> }
   | { type: 'armor-patch'; patch: { armorMaterial?: string; armorEnchantment?: string; armorQuality?: ArmorQuality } }
   | { type: 'armor-upgrade'; patch: Partial<ArmorUpgradePoints> }
-  | { type: 'gear-patch'; slot: GearSlotId; patch: Partial<{ material: string; enchantment: string; upgradePoints: Record<string, number> }> }
+  | { type: 'gear-patch'; slot: GearSlotId; patch: Parameters<typeof patchGear>[2] }
   | { type: 'armor-conditional'; key: string; on: boolean }
   | { type: 'item-conditional'; key: string; on: boolean }
   | { type: 'item-roll'; key: string; value: number }
@@ -267,7 +269,15 @@ export function buildReducer(build: BuildState, action: BuildAction): BuildState
       const taken = new Set(build.traits ?? []);
       if (action.taken) taken.add(action.id);
       else taken.delete(action.id);
-      return { ...build, traits: [...taken] };
+      const traitConditionals = { ...(build.traitConditionals ?? {}) };
+      if (!action.taken) delete traitConditionals[action.id];
+      return { ...build, traits: [...taken], traitConditionals };
+    }
+    case 'trait-conditional': {
+      const traitConditionals = { ...(build.traitConditionals ?? {}) };
+      if (action.on) traitConditionals[action.id] = true;
+      else delete traitConditionals[action.id];
+      return { ...build, traitConditionals };
     }
     case 'subtalent-rank': {
       const talents = setSubtalentRank(build.talents, action.subtalentId, action.rank);
@@ -286,7 +296,7 @@ export function buildReducer(build: BuildState, action: BuildAction): BuildState
       return { ...build, talents: {}, talentConditionals: {} };
 
     case 'traits-clear':
-      return { ...build, traits: [], history: 'None' };
+      return { ...build, traits: [], traitConditionals: {}, history: 'None' };
 
     // Stats are re-clamped after equipping: a granted stat raises the floor and lowers the invested cap.
     case 'equip-weapon':
@@ -329,7 +339,11 @@ export function buildReducer(build: BuildState, action: BuildAction): BuildState
         ...build,
         equipment: {
           ...build.equipment,
-          itemConditionalBonuses: { ...(build.equipment.itemConditionalBonuses ?? {}), [action.key]: action.on },
+          itemConditionalBonuses: {
+            ...(build.equipment.itemConditionalBonuses ?? {}),
+            ...(action.on ? Object.fromEntries(exclusiveRivals(action.key).map(key => [key, false])) : {}),
+            [action.key]: action.on,
+          },
         },
       });
 

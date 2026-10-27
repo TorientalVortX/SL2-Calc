@@ -4,6 +4,7 @@ import { evaluateBuild } from './buildEvaluation';
 import { buildReducer } from '../aether/state/build';
 import {
   TRAITS,
+  sanguineCrestStats,
   traitById,
   traitCheckTarget,
   traitCost,
@@ -236,13 +237,30 @@ describe('trait stat bonuses', () => {
     expect(traitStatBonuses([history.id])).toEqual({});
   });
 
-  it('feeds a taken trait into the build stats', () => {
-    const trait = TRAITS.find(t => !t.handModelled && Object.keys(t.statBonuses).length === 1)!;
-    const [stat, value] = Object.entries(trait.statBonuses)[0] as [string, number];
-    const base = build();
-    const before = evaluateBuild(base).rawStats[stat as 'str'];
-    base.traits = [trait.id];
-    expect(evaluateBuild(base).rawStats[stat as 'str']).toBe(before + value);
+  it('leaves out bonuses that depend on battle state or another effect', () => {
+    for (const id of ['little-cheese', 'oni-heritage-red', 'oni-heritage-blue']) {
+      expect(traitById(id)?.statBonuses).toEqual({});
+    }
+  });
+
+  it('adds Little Cheese’s WIL and GUI only while it is switched on', () => {
+    expect(traitStatBonuses(['little-cheese'])).toEqual({});
+    expect(traitStatBonuses(['little-cheese'], { 'little-cheese': true })).toEqual({ wil: 4, gui: 4 });
+  });
+
+  it('forgets the switch when the trait is dropped', () => {
+    let state = buildReducer(build(), { type: 'trait', id: 'little-cheese', taken: true });
+    state = buildReducer(state, { type: 'trait-conditional', id: 'little-cheese', on: true });
+    expect(state.traitConditionals).toEqual({ 'little-cheese': true });
+    state = buildReducer(state, { type: 'trait', id: 'little-cheese', taken: false });
+    expect(state.traitConditionals).toEqual({});
+  });
+
+  it('routes Oni Heritage through an active Sanguine Crest', () => {
+    const oni = { sanguineCrest: true, subrace: 'Oni', traits: ['oni-heritage-red'] };
+    expect(sanguineCrestStats(oni)).toEqual({ str: 4, wil: 2, ski: 2, cel: 2, def: 2 });
+    expect(sanguineCrestStats({ ...oni, traits: ['oni-heritage-blue'] })).toMatchObject({ str: 2, luc: 2 });
+    expect(sanguineCrestStats({ ...oni, sanguineCrest: false })).toEqual({});
   });
 });
 
@@ -253,6 +271,14 @@ describe('trait persistence', () => {
       ...build(), version: '0.5.0', buildName: 'x', traits: [known, 'not-a-trait', known],
     })).build;
     expect(restored.traits).toEqual([known]);
+  });
+
+  it('keeps switched-on trait bonuses and drops unknown or off ones', () => {
+    const restored = parseBuildFile(JSON.stringify({
+      ...build(), version: '0.5.0', buildName: 'x',
+      traitConditionals: { 'little-cheese': true, 'not-a-trait': true, 'oni-heritage-red': false },
+    })).build;
+    expect(restored.traitConditionals).toEqual({ 'little-cheese': true });
   });
 
   it('defaults to no traits', () => {

@@ -10,6 +10,7 @@ const OUT = path.resolve('src/data/content/armor-modifiers.json');
 const REPORT = process.argv.includes('--report');
 
 const ELEMENTS = ['Fire', 'Ice', 'Wind', 'Earth', 'Dark', 'Water', 'Light', 'Lightning', 'Acid', 'Sound'];
+const ELEMENTS_BY_LENGTH = [...ELEMENTS].sort((a, b) => b.length - a.length);
 // Resisted like elements but not elements: Canvas Square is '+5% Pierce Resistance'.
 const PHYSICAL = ['Blunt', 'Pierce', 'Slash'];
 const RESIST_TYPES = [...ELEMENTS, ...PHYSICAL];
@@ -59,7 +60,14 @@ function parseArmorEffects(text) {
   take(/([+-]\s*\d+)\s*Critical Evade\b/gi, (_, n) => { effects.criticalEvade += Number(n.replace(/\s/g, '')); });
   take(/([+-]\s*\d+)\s*Critical\b/gi, (_, n) => { effects.critical += Number(n.replace(/\s/g, '')); });
   take(/([+-]\s*\d+)\s*Evade\b/gi, (_, n) => { effects.evade += Number(n.replace(/\s/g, '')); });
-  // Elemental attack, written "+3 Fire ATK" or "Fire ATK by 3"; there is no "Pierce ATK".
+  // Elemental attack, written "+3 Fire ATK", "+1 Fire, Ice and Wind ATK" or "Fire ATK by 3"; there is no "Pierce ATK".
+  const element = `(?:${ELEMENTS_BY_LENGTH.join('|')})`;
+  take(new RegExp(`([+-]\\s*\\d+)\\s*(${element}(?:\\s*,\\s*${element})*,?\\s+and\\s+${element})\\s*ATK\\b`, 'gi'), (_, n, list) => {
+    for (const name of list.match(new RegExp(element, 'gi'))) {
+      const key = ELEMENTS.find((e) => e.toLowerCase() === name.toLowerCase());
+      effects.elementalAttack[key] = (effects.elementalAttack[key] ?? 0) + Number(n.replace(/\s/g, ''));
+    }
+  });
   take(new RegExp(`([+-]\\s*\\d+)\\s*(${ELEMENTS.join('|')})\\s*ATK\\b`, 'gi'), (_, n, element) => {
     const key = ELEMENTS.find((e) => e.toLowerCase() === element.toLowerCase());
     effects.elementalAttack[key] = (effects.elementalAttack[key] ?? 0) + Number(n.replace(/\s/g, ''));
@@ -161,14 +169,25 @@ const categories = {};
 const unparsedMaterials = [];
 const dropped = [];
 
+// A class supports a role when any of its materials states that role (Chapters has no Armor, Cloth no Weapon).
+const classRoles = {};
+for (const record of materialRecords) {
+  for (const role of ['weapon', 'armor', 'other']) {
+    if (hasEffect(record[role])) (classRoles[record.materialClass] ??= new Set()).add(role);
+  }
+}
+
 for (const record of materialRecords) {
   const { name, materialClass: section } = record;
-  // `All:` supplements the roles a material already has and never grants one
-  // (Aureate keeps its Armor clause; Fine Art, a Chapter material, stays out of armour).
-  const roleText = (text) => (hasEffect(text) ? [text, record.all].filter(Boolean).join('. ') : null);
-  const weaponText = roleText(record.weapon);
-  const armorText = roleText(record.armor);
-  const otherText = roleText(record.other);
+  // `All:` applies in every role the material's class supports, alongside the material's own profile (confirmed in game).
+  const roleText = (role) => {
+    const own = record[role];
+    if (hasEffect(own)) return [own, record.all].filter(Boolean).join('. ');
+    return hasEffect(record.all) && classRoles[section]?.has(role) ? record.all : null;
+  };
+  const weaponText = roleText('weapon');
+  const armorText = roleText('armor');
+  const otherText = roleText('other');
 
   // No effect in any role means a raw drop (Cotton, Iron Ore, Ash Wood), not craftable gear.
   if (!hasEffect(weaponText) && !hasEffect(armorText) && !hasEffect(otherText)) {
@@ -193,11 +212,14 @@ for (const record of materialRecords) {
 
   const armorEffects = profile(armorText, 'armor') ?? {};
   const otherEffects = profile(otherText, 'other');
+  // Weapon Power/Hit/Critical live in weapon-modifiers.json; only what `All:` adds on a weapon is kept here.
+  const weaponEffects = appliesTo.includes('weapon') && hasEffect(record.all) ? compact(parseArmorEffects(record.all) ?? {}) : null;
 
   materials[name] = {
     appliesTo,
     ...armorEffects,
     ...(otherEffects && Object.keys(otherEffects).length ? { other: otherEffects } : {}),
+    ...(weaponEffects && Object.keys(weaponEffects).length ? { weapon: weaponEffects } : {}),
   };
 }
 

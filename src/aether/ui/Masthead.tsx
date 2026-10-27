@@ -4,7 +4,7 @@ import { THEME_LABEL, THEME_MARK, otherTheme } from '../state/theme';
 import { GAME_DATA_MANIFEST } from '../../domain/buildPersistence';
 import type { Builder } from '../state/useBuilder';
 
-export type DialogName = 'templates' | 'saves' | 'transfer' | 'advanced' | 'shortcuts' | 'changes' | null;
+export type DialogName = 'templates' | 'saves' | 'transfer' | 'advanced' | 'shortcuts' | 'changes' | 'damage' | null;
 
 interface MastheadProps {
   builder: Builder;

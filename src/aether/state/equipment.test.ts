@@ -6,7 +6,7 @@ import { CLASSES } from '../../data/classes';
 import { GEAR_BY_GROUP } from '../../data/gear';
 import { WEAPONS_BY_TYPE } from '../../data/weapons';
 import { buildReducer, createDefaultBuild } from './build';
-import { SLOTS, effectsForSlot, equipmentOverview, slotSummary, weaponChoices } from './equipment';
+import { SLOTS, effectsForSlot, equipmentOverview, grantedSkills, slotSummary, weaponChoices } from './equipment';
 
 const armed = () => buildReducer(createDefaultBuild(), {
   type: 'equip-weapon', which: 'primaryWeapon', weaponName: 'Engraved Katana',
@@ -227,6 +227,110 @@ describe('item effects', () => {
     }));
     expect(JSON.stringify(after.scaledStats) !== JSON.stringify(before.scaledStats)
       || after.primaryWeapon!.power !== before.primaryWeapon!.power).toBe(true);
+  });
+});
+
+describe('Magical Gauntlet shields', () => {
+  it('keeps only one shield active at a time', () => {
+    let build = buildReducer(createDefaultBuild(), { type: 'equip-gear', slot: 'hands', itemName: 'Metallic Magic Gauntlet' });
+    const def = () => evaluateBuild(build).scaledStats.def;
+    const base = def();
+    build = buildReducer(build, { type: 'item-conditional', key: 'Metallic Magic Gauntlet:2', on: true });
+    build = buildReducer(build, { type: 'item-conditional', key: 'Metallic Magic Gauntlet:5', on: true });
+    expect(build.equipment.itemConditionalBonuses).toMatchObject({ 'Metallic Magic Gauntlet:2': false, 'Metallic Magic Gauntlet:5': true });
+    expect(def()).toBe(base + 8);
+  });
+});
+
+describe('granted skills', () => {
+  it('gathers each skill’s name, cost and text from the equipped items', () => {
+    let build = buildReducer(createDefaultBuild(), { type: 'equip-gear', slot: 'hands', itemName: 'Metallic Magic Gauntlet' });
+    build = buildReducer(build, { type: 'equip-gear', slot: 'accessory1', itemName: 'Ash-Kissed Malas' });
+    const skills = grantedSkills(build.equipment);
+    expect(skills.map(skill => [skill.name, skill.cost, skill.slot])).toEqual([
+      ['Magic Shield', '3 Momentum, 5 FP', 'slot3'],
+      ['Metallic Aegis', '3 Momentum, 5 FP', 'slot3'],
+      ['Magical Aegis', '3 Momentum, 5 FP', 'slot3'],
+      ['Goren Bakudan', '3M, 15 FP, 1 Round CD', 'accessory1'],
+    ]);
+    expect(skills[1].parts.map(part => part.conditionalKey)).toEqual(['Metallic Magic Gauntlet:5']);
+    expect(skills[3].parts.map(part => part.effect.description)[1]).toBe('Furinkazan: Gain 1 Fire Mark.');
+  });
+
+  it('splits a weapon special that grants two skills, with each cost on its own', () => {
+    const build = buildReducer(createDefaultBuild(), { type: 'equip-weapon', which: 'primaryWeapon', weaponName: 'Tricky Yoyo' });
+    expect(grantedSkills(build.equipment).map(skill => [skill.name, skill.cost])).toEqual([
+      ['Walk The Dog', '3M, 10 FP, 1 round CD'],
+      ['Elevator', '1M'],
+    ]);
+  });
+
+  it('fills a weapon skill that only names itself from the item that describes it', () => {
+    const build = buildReducer(createDefaultBuild(), { type: 'equip-weapon', which: 'primaryWeapon', weaponName: 'Boxing Glove' });
+    const [guard] = grantedSkills(build.equipment);
+    expect(guard.name).toBe('Guard');
+    expect(guard.text).toMatch(/^Raise your shield.*Schwarz Sturm gauge\.$/);
+  });
+
+  it('describes the skills torso armour grants', () => {
+    const build = buildReducer(createDefaultBuild(), { type: 'equip-armor', armorName: 'Cruel Commander' });
+    const [contract] = grantedSkills(build.equipment);
+    expect([contract.name, contract.cost]).toEqual(['Contract of Blood', '3 Momentum, 0 FP']);
+    expect(contract.parts[0].effect.description).toMatch(/^Targets 1 of your Youkai/);
+  });
+
+  it('leaves an item’s other effects out of its skills', () => {
+    const build = buildReducer(createDefaultBuild(), { type: 'equip-gear', slot: 'accessory1', itemName: 'Ash-Kissed Malas' });
+    const other = effectsForSlot(build.equipment, 'accessory1').filter(entry => !entry.effect.grants);
+    expect(other.map(entry => entry.effect.description)).toEqual(['+2 STR']);
+  });
+});
+
+describe('granted skills in use', () => {
+  const on = (build: ReturnType<typeof createDefaultBuild>, key: string) => buildReducer(build, { type: 'item-conditional', key, on: true });
+
+  it('sets STR to level + 20 while Contract of Blood is in effect', () => {
+    const build = buildReducer(createDefaultBuild(), { type: 'equip-armor', armorName: 'Cruel Commander' });
+    const active = evaluateBuild(on(build, 'Cruel Commander:2'));
+    expect(active.scaledStats.str).toBe(build.characterLevel + 20);
+    expect(active.rawStats.str).toBe(build.characterLevel + 20);
+  });
+
+  it('adds Lion’s Roar’s STR, growing with character level', () => {
+    const build = buildReducer(createDefaultBuild(), { type: 'equip-gear', slot: 'hands', itemName: 'Lion Shield' });
+    const before = evaluateBuild(build).scaledStats.str;
+    expect(evaluateBuild(on(build, 'Lion Shield:3')).scaledStats.str).toBe(before + 2 + Math.floor(build.characterLevel / 5));
+  });
+
+  it('gives Luckiness Dance at least 1 SKI and LUC before any upgrades', () => {
+    const build = buildReducer(createDefaultBuild(), { type: 'equip-weapon', which: 'primaryWeapon', weaponName: "Atlaua's Abaniko" });
+    const before = evaluateBuild(build).scaledStats;
+    const after = evaluateBuild(on(build, "Atlaua's Abaniko:1")).scaledStats;
+    expect([after.ski - before.ski, after.luc - before.luc]).toEqual([1, 1]);
+  });
+
+  it('does not read a skill’s cost or a "per 20 STR" rate as a bonus', () => {
+    const build = buildReducer(createDefaultBuild(), { type: 'equip-weapon', which: 'primaryWeapon', weaponName: 'Holy Word' });
+    expect(effectsForSlot(build.equipment, 'primaryWeapon').flatMap(entry => entry.effect.effects)).toEqual([]);
+  });
+});
+
+describe('class torso pieces', () => {
+  const as = (mainClass: string, armorName: string | null) => {
+    const build = buildReducer({ ...createDefaultBuild(), mainClass, subClass: 'Soldier' }, { type: 'equip-armor', armorName });
+    return evaluateBuild(build).rawStats;
+  };
+
+  it('raises a Mage class’s stat bonuses by half, at least 1 each', () => {
+    const bare = as('Evoker', null);
+    const caped = as('Evoker', "Caster's Cape");
+    // Evoker gives WIL 3, SKI 2, CEL 2, LUC 1.
+    expect([caped.wil - bare.wil, caped.ski - bare.ski, caped.cel - bare.cel, caped.luc - bare.luc, caped.str - bare.str]).toEqual([1, 1, 1, 1, 0]);
+  });
+
+  it('does nothing for a class outside its family', () => {
+    expect(as('Monk', "Caster's Cape")).toEqual(as('Monk', null));
+    expect(as('Monk', "Farmer's Shirt").def - as('Monk', null).def).toBe(1);
   });
 });
 

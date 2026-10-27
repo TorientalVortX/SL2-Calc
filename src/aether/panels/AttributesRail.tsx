@@ -14,10 +14,12 @@ export function AttributesRail({
   builder,
   onInspectStat,
   onAdjustElements,
+  onSimulateHit,
 }: {
   builder: Builder;
   onInspectStat: (stat: StatKey) => void;
   onAdjustElements?: () => void;
+  onSimulateHit?: () => void;
 }) {
   const { build, evaluation } = builder;
   const groups = useMemo(() => readoutGroups(evaluation), [evaluation]);
@@ -62,7 +64,20 @@ export function AttributesRail({
       <div onKeyDown={event => { onListKeys(event); onRowKeys(event); }}>
         {groups.map(group => (
           <div className="section" key={group.key}>
-            <SectionHead>{group.title}</SectionHead>
+            <SectionHead
+              aside={group.key === 'defense' && onSimulateHit ? (
+                <button
+                  type="button"
+                  className="btn btn--ghost btn--icon"
+                  title="See how much of a hit this build actually takes"
+                  onClick={() => { play('select'); onSimulateHit(); }}
+                >
+                  Simulate
+                </button>
+              ) : undefined}
+            >
+              {group.title}
+            </SectionHead>
             <div>
               {group.rows.map(row => (
                 <button

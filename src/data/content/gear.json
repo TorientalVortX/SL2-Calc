@@ -404,11 +404,11 @@
       "slot": 3,
       "rarity": 6,
       "material": "Metal",
-      "details": "Grants Skill: Magic Shield 3 Momentum, 5 FP Charges your gauntlet with focus, creating a shield of energy that increases your DEF and RES by 4 for 4 rounds. This will also end other effects caused by the Magical Gauntlet.",
+      "details": "Grants Skill: Magic Shield 3 Momentum, 5 FP Charges your gauntlet with focus, creating a shield of energy that increases your DEF and RES by 4 for 5 rounds, and lets you parry any damage (25% + 25% DEF + 25% RES chance, 25% reduction). Switching to it from another effect of the Magical Gauntlet costs 0 Momentum and ends that effect.",
       "specialEffects": [
         "Grants Skill: Magic Shield",
         "3 Momentum, 5 FP",
-        "Charges your gauntlet with focus, creating a shield of energy that increases your DEF and RES by 4 for 4 rounds. This will also end other effects caused by the Magical Gauntlet."
+        "Charges your gauntlet with focus, creating a shield of energy that increases your DEF and RES by 4 for 5 rounds, and lets you parry any damage (25% + 25% DEF + 25% RES chance, 25% reduction). Switching to it from another effect of the Magical Gauntlet costs 0 Momentum and ends that effect."
       ],
       "flavour": "A light-weight gauntlet enchanted with some sort of artifact that generates a protective barrier."
     },
@@ -443,17 +443,17 @@
       "slot": 3,
       "rarity": 9,
       "material": "Metal",
-      "details": "Grants Skill: Magic Shield 3 Momentum, 5 FP Charges your gauntlet with focus, creating a shield of energy that increases your DEF and RES by 4 for 4 rounds. This will also end other effects caused by the Magical Gauntlet. Grants Skill: Metallic Aegis 3 Momentum, 20 FP Charges your gauntlet with focus, creating a shield of energy that increases your DEF by 8 for 4 rounds. This will also end other effects caused by the Magical Gauntlet. Grants Skill: Magical Aegis 3 Momentum, 20 FP Charges your gauntlet with focus, creating a shield of energy that increases your RES by 4 for 4 rounds. This will also end other effects caused by the Magical Gauntlet.",
+      "details": "Grants Skill: Magic Shield 3 Momentum, 5 FP Charges your gauntlet with focus, creating a shield of energy that increases your DEF and RES by 4 for 5 rounds, and lets you parry any damage (25% + 25% DEF + 25% RES chance, 25% reduction). Switching to it from another effect of the Magical Gauntlet costs 0 Momentum and ends that effect. Grants Skill: Metallic Aegis 3 Momentum, 5 FP Charges your gauntlet with focus, creating a shield of energy that increases your DEF by 8 for 5 rounds, and lets you parry physical damage (25% + 50% DEF chance, 35% reduction). Switching to it from another effect of the Magical Gauntlet costs 0 Momentum and ends that effect. Grants Skill: Magical Aegis 3 Momentum, 5 FP Charges your gauntlet with focus, creating a shield of energy that increases your RES by 8 for 5 rounds, and lets you parry magical damage (25% + 50% RES chance, 35% reduction). Switching to it from another effect of the Magical Gauntlet costs 0 Momentum and ends that effect.",
       "specialEffects": [
         "Grants Skill: Magic Shield",
         "3 Momentum, 5 FP",
-        "Charges your gauntlet with focus, creating a shield of energy that increases your DEF and RES by 4 for 4 rounds. This will also end other effects caused by the Magical Gauntlet.",
+        "Charges your gauntlet with focus, creating a shield of energy that increases your DEF and RES by 4 for 5 rounds, and lets you parry any damage (25% + 25% DEF + 25% RES chance, 25% reduction). Switching to it from another effect of the Magical Gauntlet costs 0 Momentum and ends that effect.",
         "Grants Skill: Metallic Aegis",
-        "3 Momentum, 20 FP",
-        "Charges your gauntlet with focus, creating a shield of energy that increases your DEF by 8 for 4 rounds. This will also end other effects caused by the Magical Gauntlet.",
+        "3 Momentum, 5 FP",
+        "Charges your gauntlet with focus, creating a shield of energy that increases your DEF by 8 for 5 rounds, and lets you parry physical damage (25% + 50% DEF chance, 35% reduction). Switching to it from another effect of the Magical Gauntlet costs 0 Momentum and ends that effect.",
         "Grants Skill: Magical Aegis",
-        "3 Momentum, 20 FP",
-        "Charges your gauntlet with focus, creating a shield of energy that increases your RES by 4 for 4 rounds. This will also end other effects caused by the Magical Gauntlet."
+        "3 Momentum, 5 FP",
+        "Charges your gauntlet with focus, creating a shield of energy that increases your RES by 8 for 5 rounds, and lets you parry magical damage (25% + 50% RES chance, 35% reduction). Switching to it from another effect of the Magical Gauntlet costs 0 Momentum and ends that effect."
       ],
       "flavour": "An enhanced version of the normal gauntlet, this version can focus more of its power into physical defense or magical protection."
     },
@@ -1313,10 +1313,12 @@
       "slot": 4,
       "rarity": 7,
       "material": "Metal",
-      "details": "While Airborne, when you move into the same tile as an enemy, deal 25 armor-ignoring Slash damage to that enemy. (Once per enemy per action.) * Grants Skill: {{#tip-text: Falcon Arc | Falcon Arc Cost: 10 FP / 2M Target: Location Area: Single (Line To) Range: 2 Cooldown: 3 Round(s) Targets a flexible line to an unoccupied tile up to 2 Range away. You flip, becoming Airborne, and float along the line to that tile. If you have Razor Talons equipped, and they are enchanted with Winged, this skill has +1 Range. If you have no armor equipped, or armor that is enchanted with Winged, this skill costs -1M.}}",
+      "details": "While Airborne, when you move into the same tile as an enemy, deal 25 armor-ignoring Slash damage to that enemy. (Once per enemy per action.) Grants Skill: Falcon Arc 10 FP / 2M, 3 Round Cooldown Targets a flexible line to an unoccupied tile up to 2 Range away. You flip, becoming Airborne, and float along the line to that tile. If you have Razor Talons equipped, and they are enchanted with Winged, this skill has +1 Range. If you have no armor equipped, or armor that is enchanted with Winged, this skill costs -1M.",
       "specialEffects": [
         "While Airborne, when you move into the same tile as an enemy, deal 25 armor-ignoring Slash damage to that enemy. (Once per enemy per action.)",
-        "* Grants Skill: {{#tip-text: Falcon Arc | Falcon Arc Cost: 10 FP / 2M Target: Location Area: Single (Line To) Range: 2 Cooldown: 3 Round(s) Targets a flexible line to an unoccupied tile up to 2 Range away. You flip, becoming Airborne, and float along the line to that tile. If you have Razor Talons equipped, and they are enchanted with Winged, this skill has +1 Range. If you have no armor equipped, or armor that is enchanted with Winged, this skill costs -1M.}}"
+        "Grants Skill: Falcon Arc",
+        "10 FP / 2M, 3 Round Cooldown",
+        "Targets a flexible line to an unoccupied tile up to 2 Range away. You flip, becoming Airborne, and float along the line to that tile. If you have Razor Talons equipped, and they are enchanted with Winged, this skill has +1 Range. If you have no armor equipped, or armor that is enchanted with Winged, this skill costs -1M."
       ],
       "flavour": "A pair of razor sharp falcon-like boots. They are rather impractical, unless you can somehow fly."
     },

@@ -17,6 +17,18 @@ const GROUPS = {
 
 const items = JSON.parse(await readFile(SOURCE, 'utf8'));
 
+// Razor Talons writes its skill as a {{#tip-text}} tooltip; split it into the usual name, cost and text lines.
+function expandSkillTooltip(line) {
+  const tip = /Grants Skill:\s*\{\{#tip-text:\s*([^|]+)\|\s*([\s\S]*)\}\}/.exec(line);
+  if (!tip) return [line];
+  const name = tip[1].trim();
+  const body = tip[2].replace(new RegExp(`^${name}\\s*`), '');
+  const cost = /Cost:\s*(.+?)\s+Target:/.exec(body)?.[1];
+  const text = body.replace(/^[\s\S]*?Cooldown:\s*\d+\s*Round\(s\)\s*/, '');
+  const cooldown = /Cooldown:\s*(\d+)\s*Round/.exec(body)?.[1];
+  return [`Grants Skill: ${name}`, ...(cost ? [`${cost}${cooldown ? `, ${cooldown} Round Cooldown` : ''}`] : []), text];
+}
+
 const gear = { Hands: [], Shield: [], Legs: [], Accessory: [] };
 const dropped = [];
 const seen = new Map();
@@ -26,7 +38,7 @@ for (const item of items) {
   const mapped = GROUPS[item.group];
   if (!mapped) continue;
 
-  const effects = item.details?.effects ?? [];
+  const effects = (item.details?.effects ?? []).flatMap(expandSkillTooltip);
   if (!effects.length) {
     dropped.push(`${item.name} (${mapped.group}): no effect text`);
     continue;

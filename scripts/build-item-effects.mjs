@@ -130,44 +130,52 @@ const PATTERNS = [
   new RegExp(String.raw`Increases?\s+(?:your\s+)?(${CHANNELS})\b[\s\S]*?\b(?:up\s+to\s+)?(?:a\s+)?maximum\s+(?:of\s+)?\(?(${MAGNITUDE})\)?`, 'gi'),
   // Allows a targeting phrase: "Increases Evade against enemies within 1 Range by UL."
   new RegExp(String.raw`Increases?\s+(?:your\s+)?(${CHANNELS})\b[^.!?]*?\bby\s+\(?(${MAGNITUDE})\)?`, 'gi'),
-  new RegExp(String.raw`\(?(${MAGNITUDE})\)?\s+(${CHANNELS})\b`, 'gi'),
+  // "30 armor-ignoring damage" is not an Armor bonus.
+  new RegExp(String.raw`\(?(${MAGNITUDE})\)?\s+(${CHANNELS})\b(?!-)`, 'gi'),
 ];
+
+const LIST_SEPARATOR = String.raw`\s*(?:,\s*and|,|and|/)\s*`;
+const CHANNEL_LIST = String.raw`(${CHANNELS})((?:${LIST_SEPARATOR}(?:${CHANNELS})\b)+)`;
+// One magnitude shared by a channel list: "STR and WIL by 2", "+5 Evade/Armor", "+2 STR, WIL, DEF, and RES".
+const SHARED_LISTS = [
+  { pattern: String.raw`Increases?\s+(?:your\s+)?${CHANNEL_LIST}\s+by\s+\(?(${MAGNITUDE})\)?`, magnitude: 3, first: 1 },
+  { pattern: String.raw`\(?(${MAGNITUDE})\)?\s+${CHANNEL_LIST}\b(?!-)`, magnitude: 1, first: 2 },
+];
+
+// "+1 max per 20 STR" is a rate, not a bonus.
+const isRate = (text, index) => /\bper\s*$/i.test(text.slice(Math.max(0, index - 6), index));
 
 // A description matched by the first order is not re-scanned by the second.
 function parseEffects(text) {
-  // A shared magnitude may be written after both channels ("STR and WIL by
-  // 2") or before slash-separated channels ("+5 Evade/Armor").
   const shared = [];
-  const increasePair = new RegExp(String.raw`Increases?\s+(?:your\s+)?(${CHANNELS})\s+(?:and|/)\s+(${CHANNELS})\s+by\s+\(?(${MAGNITUDE})\)?`, 'gi');
-  for (const match of text.matchAll(increasePair)) {
-    const magnitude = parseMagnitude(match[3]);
-    for (const word of [match[1], match[2]]) {
-      const channel = resolveChannel(word);
-      if (channel && magnitude) shared.push({ ...channel, ...magnitude });
+  const covered = [];
+  for (const { pattern, magnitude: at, first } of SHARED_LISTS) {
+    for (const match of text.matchAll(new RegExp(pattern, 'gi'))) {
+      if (isRate(text, match.index)) continue;
+      const magnitude = parseMagnitude(match[at]);
+      const words = [match[first], ...match[first + 1].split(new RegExp(LIST_SEPARATOR)).filter(Boolean)];
+      for (const word of words) {
+        const channel = resolveChannel(word);
+        if (channel && magnitude && !isRecovery(text, match.index, channel, match.index + match[0].length)) shared.push({ ...channel, ...magnitude });
+      }
+      covered.push([match.index, match.index + match[0].length]);
     }
   }
-  const prefixPair = new RegExp(String.raw`\(?(${MAGNITUDE})\)?\s+(${CHANNELS})\s*/\s*(${CHANNELS})\b`, 'gi');
-  for (const match of text.matchAll(prefixPair)) {
-    const magnitude = parseMagnitude(match[1]);
-    for (const word of [match[2], match[3]]) {
-      const channel = resolveChannel(word);
-      if (channel && magnitude && !isRecovery(text, match.index, channel, match.index + match[0].length)) shared.push({ ...channel, ...magnitude });
-    }
-  }
-  if (shared.length) return shared;
+  const inList = (index) => covered.some(([start, end]) => index >= start && index < end);
 
   for (const [index, pattern] of PATTERNS.entries()) {
     pattern.lastIndex = 0;
     const found = [];
     for (const match of text.matchAll(pattern)) {
+      if (inList(match.index) || isRate(text, match.index)) continue;
       const [channelWord, magnitudeWord] = index < 2 ? [match[1], match[2]] : [match[2], match[1]];
       const channel = resolveChannel(channelWord);
       const magnitude = parseMagnitude(magnitudeWord);
       if (channel && magnitude && !isRecovery(text, match.index, channel, match.index + match[0].length)) found.push({ ...channel, ...magnitude });
     }
-    if (found.length) return found;
+    if (found.length) return [...shared, ...found];
   }
-  return [];
+  return shared;
 }
 
 function toRecord(name, description, alwaysEligible) {
@@ -188,20 +196,26 @@ function toRecord(name, description, alwaysEligible) {
       effects: [{ kind: 'derived', key: 'power', base: 0, rollMax: 100, controlLabel: 'Earned Salamander Power', ulMultiplier: 0 }],
     };
   }
+  // Tetra lines name Fire's pairing (Fire, STR); the calculator remaps them to the chosen crystal.
+  const tetra = /\(Tetra\)/.test(description);
+  const text = tetra ? description.replace(/\bElemental ATK\b/, 'Fire ATK').replace(/(\d+)\s+Stat\b/, '$1 STR') : description;
   // Zero non-scaling magnitudes come from incidental numbers ("if you are reduced to 0 HP").
-  const effects = [...parseEffects(description), ...parseResistances(description), ...parseAllStats(description)]
-    .filter((value) => value.base !== 0 || value.ulMultiplier !== 0 || value.rollMax);
+  const effects = [...parseEffects(text), ...parseResistances(text), ...parseAllStats(text)]
+    .filter((value) => value.base !== 0 || value.ulMultiplier !== 0 || value.rollMax)
+    .map((value) => (tetra ? { ...value, tetra: true } : value));
   // A trailing chance clause is a separate effect (Armor of Eyes: "Increases Hit by UL/2, UL% chance to ...").
   const magnitudeClause = description
     // A disabling exception does not make a normally-active bonus opt-in.
     .replace(/,\s*except when\b[^.]*\.?/gi, '.')
     .replace(/\bUL%\s+chance\b.*$/i, '');
-  const conditional = CONDITION.test(magnitudeClause) || /for \d+ attacks? this round/i.test(description);
+  // A buff that lasts N rounds was switched on in battle; it is not a standing bonus.
+  const conditional = CONDITION.test(magnitudeClause) || /for \d+ (?:attacks? this round|rounds?)\b/i.test(description);
   return {
     name,
     description: description.replace(/\s+/g, ' ').trim(),
     applies: !effects.length ? 'reference' : (conditional || !alwaysEligible) ? 'conditional' : 'always',
     effects,
+    ...(effects.length && /\bends? (?:that|other) effects?\b/i.test(description) ? { exclusive: true } : {}),
   };
 }
 
@@ -238,12 +252,116 @@ function withoutStructuredDuplicates(record, structured, structuredElements = ne
   return effects.length ? { ...record, effects } : { ...record, applies: 'reference', effects: [] };
 }
 
+const SKILL_HEADER = /^\*?\s*Grants (?:Skill:\s*([^.]+?)\.?|([^.]+?) skill)$/i;
+const SKILL_COST_LINE = /^(?:Passive|\d+\+?\s*(?:M|Momentum|FP)\b[^.]*)$/i;
+
+// A granted skill is written as "Grants Skill: X", an optional cost line, then its text; Kenpo adds a "Furinkazan:" line.
+function skillRoles(lines) {
+  let skill = null;
+  let stage = null;
+  return lines.map((line) => {
+    const header = SKILL_HEADER.exec(line.trim());
+    if (header) {
+      skill = (header[1] ?? header[2]).trim();
+      stage = 'header';
+      return { grants: skill, role: 'skill' };
+    }
+    if (skill && stage === 'header' && SKILL_COST_LINE.test(line.trim())) {
+      stage = 'cost';
+      return { grants: skill, role: 'cost' };
+    }
+    if (skill && (stage === 'header' || stage === 'cost')) {
+      stage = 'text';
+      return { grants: skill };
+    }
+    if (skill && stage === 'text' && /^Furinkazan:/i.test(line.trim())) return { grants: skill };
+    skill = null;
+    return {};
+  });
+}
+
+// Granted skills whose effect on the user the text parser cannot read; switched on while the skill is in effect.
+const SKILL_MODELS = {
+  // "Cruel Commander LV X (X = your level + 20) ... causes your STR to become equal to its LV."
+  'Contract of Blood': [{ kind: 'setStat', key: 'str', base: 20, ulMultiplier: 0, perLevel: 1 }],
+  // "Increases the user's STR by 2 (+1 per 5 character levels)."
+  "Lion's Roar": [{ kind: 'buffStat', key: 'str', base: 2, ulMultiplier: 0, perLevel: 0.2 }],
+  // "Boosts the SKI and LUC of all party members ... by Atlaua's Abaniko's UL/2 (min. 1)."
+  'Luckiness Dance': [
+    { kind: 'buffStat', key: 'ski', base: 0, ulMultiplier: 0.5, min: 1 },
+    { kind: 'buffStat', key: 'luc', base: 0, ulMultiplier: 0.5, min: 1 },
+  ],
+  // Spun Weapon, which Spin Up grants: "weapon gains +5 Power"; the unspun +5 Hit is not modelled.
+  'Spin Up': [{ kind: 'derived', key: 'power', base: 5, ulMultiplier: 0 }],
+};
+
+function withSkillModel(record) {
+  const model = SKILL_MODELS[record.grants];
+  if (!model || record.role) return record;
+  return { ...record, applies: 'conditional', effects: model };
+}
+
+// Headers and cost lines carry no bonus: "10 FP / 2M" is what the skill spends.
+function withSkillRole(record, tag) {
+  if (!tag.grants) return record;
+  return withSkillModel(tag.role ? { ...record, applies: 'reference', effects: [], ...tag } : { ...record, ...tag });
+}
+
+// Gear writes each skill in full, so a weapon that only names one ("Grants skill: Guard.") can borrow it.
+const SKILL_LIBRARY = new Map();
+for (const item of Object.values(JSON.parse(await readFile(GEAR, 'utf8'))).flat()) {
+  const lines = item.specialEffects ?? [];
+  const found = new Map();
+  skillRoles(lines).forEach((tag, index) => {
+    if (!tag.grants) return;
+    const known = found.get(tag.grants) ?? { cost: null, text: [] };
+    if (tag.role === 'cost') known.cost = lines[index];
+    else if (!tag.role) known.text.push(lines[index]);
+    found.set(tag.grants, known);
+  });
+  for (const [name, known] of found) if (!SKILL_LIBRARY.has(name)) SKILL_LIBRARY.set(name, known);
+}
+
+const COST = String.raw`\d+\+?\s*M\b(?:\s*[,/]\s*\d+\s*FP)?(?:\s*[,.]\s*\d+\s*[Rr]ounds?\s*(?:CD|Cooldown))?`;
+const SKILL_SEGMENT = new RegExp(String.raw`(?:^|(?<=[.)]\s+))\(?([A-Z][A-Za-z' ]{1,30}?):\s*(${COST})[.,]?\s*`, 'g');
+
+// Weapon specials write skills as "Grants Skill: X (cost) - text", "X: cost. text" (one or several), or "cost text".
+function weaponSkills(name, description) {
+  const text = description.trim();
+  const inline = /^Grants Skill:\s*([^(]+?)\s*\(([^)]*)\)\s*-\s*([\s\S]*)$/i.exec(text);
+  if (inline) return [{ name: inline[1].trim(), cost: inline[2].trim(), text: inline[3].trim() }];
+  const named = /^Grants skill:\s*([^.(]+?)\.\s*([\s\S]*)$/i.exec(text);
+  if (named) {
+    const known = SKILL_LIBRARY.get(named[1].trim());
+    return [{ name: named[1].trim(), cost: known?.cost ?? null, text: [...(known?.text ?? []), named[2]].filter(Boolean).join(' ') }];
+  }
+  const leadingCost = new RegExp(String.raw`^(${COST})\s+([\s\S]*)$`).exec(text);
+  if (leadingCost) return [{ name, cost: leadingCost[1], text: leadingCost[2] }];
+  const headers = [...text.matchAll(SKILL_SEGMENT)];
+  if (!headers.length) return [{ name, cost: null, text }];
+  const segments = headers.map((match, index) => ({
+    // One segment is this special's own skill; the wiki sometimes labels it with a sibling's name (Tsukikage).
+    name: headers.length === 1 ? name : match[1].trim(),
+    cost: match[2].trim().replace(/\.\s*/g, ', '),
+    text: text.slice(match.index + match[0].length, headers[index + 1]?.index ?? text.length).trim(),
+  }));
+  if (text.startsWith('(')) segments[segments.length - 1].text = segments[segments.length - 1].text.replace(/\)$/, '');
+  return segments;
+}
+
 const weapons = {};
 for (const file of (await readdir(CONTENT)).filter((f) => /^weapons-.+\.json$/.test(f))) {
   for (const weapon of JSON.parse(await readFile(path.join(CONTENT, file), 'utf8'))) {
     const records = (weapon.specials ?? [])
       // Only a Passive is a standing bonus; the rest fire on a trigger.
-      .map((special) => toRecord(special.name ?? special.type, special.description ?? '', special.type === 'Passive'))
+      .map((special) => {
+        const record = toRecord(special.name ?? special.type, special.description ?? '', special.type === 'Passive');
+        if (special.type !== 'GrantsSkill') return record;
+        const skills = weaponSkills(special.name, special.description ?? '');
+        // Parse the skills' own text: the special's cost ("3M / 10 FP") is not a bonus.
+        const parsed = toRecord(record.name, skills.map((skill) => skill.text).join(' '), false);
+        return withSkillModel({ ...record, applies: parsed.applies, effects: parsed.effects, grants: skills[0].name, skills });
+      })
       .filter((record) => record.effects.length || record.description);
     if (records.length) weapons[weapon.name] = records;
   }
@@ -257,13 +375,20 @@ for (const list of Object.values(JSON.parse(await readFile(ARMORS, 'utf8')))) {
     const structuredElements = new Set(
       Object.keys(armor.resistances ?? {}).map(canonicalElement).filter(Boolean),
     );
-    const detail = armor.details
-      ? withoutStructuredDuplicates(toRecord(armor.name, armor.details, true), structured, structuredElements)
+    const roles = skillRoles(armor.specialEffects ?? []);
+    // A granted skill's lines are also in `details`; show them once, on the skill.
+    const detailText = (armor.specialEffects ?? [])
+      .filter((_, index) => roles[index].grants)
+      .reduce((text, line) => text.replace(line, ''), armor.details ?? '')
+      .replace(/\s+/g, ' ')
+      .trim();
+    const detail = detailText
+      ? withoutStructuredDuplicates(toRecord(armor.name, detailText, true), structured, structuredElements)
       : null;
     if (detail) records.push(detail);
     const detailValues = new Set(detail?.effects.map(valueSignature) ?? []);
-    for (const special of armor.specialEffects ?? []) {
-      const record = withoutStructuredDuplicates(toRecord(special, special, false), structured, structuredElements);
+    for (const [index, special] of (armor.specialEffects ?? []).entries()) {
+      const record = withSkillRole(withoutStructuredDuplicates(toRecord(special, special, false), structured, structuredElements), roles[index]);
       // `specialEffects` summarizes `details`; do not offer the same magnitude twice.
       const effects = record.effects.filter((value) => !detailValues.has(valueSignature(value)));
       records.push(effects.length ? { ...record, effects } : { ...record, applies: 'reference', effects: [] });
@@ -278,8 +403,9 @@ for (const list of Object.values(JSON.parse(await readFile(GEAR, 'utf8')))) {
   for (const item of list) {
     const records = [];
     const seen = new Set();
-    for (const line of item.specialEffects ?? []) {
-      const record = toRecord(item.name, line, true);
+    const roles = skillRoles(item.specialEffects ?? []);
+    for (const [index, line] of (item.specialEffects ?? []).entries()) {
+      const record = withSkillRole(toRecord(item.name, line, true), roles[index]);
       if (!record.effects.length && !record.description) continue;
       // Two lines can state the same bonus; offer it once.
       const fresh = record.effects.filter((value) => !seen.has(valueSignature(value)));

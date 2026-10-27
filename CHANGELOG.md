@@ -11,6 +11,62 @@ The notes for the current release are held in
 `APP_VERSION` and the in-app dialog read. `npm run validate:data` fails if that
 file and `package.json` disagree about the version.
 
+## 0.9.2 — 2026-10-27
+
+Damage calc is in, plus a big pass on item effects.
+
+### Added
+
+- **Damage calc.** Hit Simulate in the Defense panel.
+  - Incoming shows what a hit actually does to you: DEF and RES, resists,
+    Guard, then Armor. Armor works as a pool over multi-hits, so 20 Armor
+    against two 15 damage hits takes 0 then 10. Glances, parries (including
+    the gauntlet shields) and per-hit crits are all in there, plus an
+    expected damage number off the attacker's Hit.
+  - Outgoing does the same thing the other way. Pick a basic attack or one of
+    your ranked skills, add any damage modifiers or bonus damage, and point it
+    at a target's numbers, or at your own with Use my defenses. Skills and
+    spells crit at 1.25. Basic attacks, and skills that do a basic attack, use
+    your weapon's crit damage plus GUI.
+  - Skills that do a basic attack carry their own Hit, Crit and bonus damage
+    now (Couloir, Geldoren, Wazabane, Snake Shot's acid and so on).
+- **Skills from gear.** Every skill an item gives you shows up as a card with
+  its cost in the armory, and in a From equipment section on the Skills sheet.
+  They don't take skill points. The ones that buff you, like Contract of Blood,
+  Lion's Roar and Luckiness Dance, have a switch that applies them.
+- **Tetra crystals.** Tetra Dragon Fang and Tetra Gauntlet follow whichever
+  crystal you pick instead of always being Fire.
+- **Missing torsos.** Shadow Gi, Dragon Gi, Caster's Cape, Farmer's Shirt,
+  Healer's Shroud, Berserker Shell, Kaminah Robes, Warding Cloth, Alchemic Wrap
+  and Batwing Cloak. Dragon Gi and Healer's Shroud count toward their sets now.
+- Caster's Cape, Farmer's Shirt and Healer's Shroud bump your main class stats
+  by half when you're in their class family.
+- Little Cheese has a switch for its WIL and GUI, and Oni Heritage adds its +2
+  onto Sanguine Crest when the crest is up.
+
+### Changed
+
+- Magical Gauntlet shields match the patch: 5 rounds, 5 FP, swap between them
+  for free, and each one parries. Magical Aegis is +8 RES. Only one can be on
+  at a time.
+- Buffs that only last a few rounds (gauntlet shields, Heart of the Lion,
+  Est Lestrada's penalty) are switches now instead of always being on.
+
+### Fixed
+
+- Item switches actually save. They used to reset on refresh and never made it
+  into saves or share links. Builds saved before this update still load with
+  them off, since they were never stored.
+- Items that gave stats from the wrong part of their text: Creeping Darkness
+  had a free 25 Armor, Tetra Dragon Fang 30 Armor, and Holy Word's switches
+  gave STR and FP read off its costs.
+- Lists like "+2 STR, WIL, DEF, and RES" give every stat now, not just the
+  first one (Heart of the Lion, Sunken Silk Bow, Hankyu).
+- Little Cheese and Oni Heritage no longer give their stats all the time.
+- Materials with "All:" effects work on every slot they fit, so Webbing on
+  cloth gloves gives its Acid ATK. Glove enchantments like Fireheart give their
+  elemental ATK too.
+
 ## 0.9.1 — 2026-10-26
 
 Build cards, link previews, and the classic calculator retired.

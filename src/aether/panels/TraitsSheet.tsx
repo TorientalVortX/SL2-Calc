@@ -10,6 +10,7 @@ import {
   uncheckedRequirements,
 } from '../../domain/traits';
 import { SectionHead } from '../ui/Panel';
+import { Toggle } from '../ui/controls';
 import { useListNavigation } from '../hooks/useListNavigation';
 import { play } from '../state/audio';
 import type { Builder } from '../state/useBuilder';
@@ -95,41 +96,53 @@ export function TraitsSheet({ builder }: { builder: Builder }) {
               const isTaken = taken.has(trait.id);
               const unchecked = uncheckedRequirements(trait);
               const cost = traitCost(trait, build.race);
+              const situational = trait.situationalStatBonuses;
               return (
-                <div
-                  key={trait.id}
-                  className={`entry ${isTaken ? 'is-taken' : ''} ${!eligible && !isTaken ? 'is-blocked' : ''}`}
-                  data-nav
-                  tabIndex={0}
-                  role="checkbox"
-                  aria-checked={isTaken}
-                  aria-label={trait.name}
-                  title={[trait.effect, trait.requirements.raw && `Requires: ${trait.requirements.raw}`]
-                    .filter(Boolean).join('\n\n')}
-                  onClick={() => toggle(trait, eligible)}
-                  onKeyDown={event => {
-                    if (event.key === 'Enter' || event.key === ' ') {
-                      event.preventDefault();
-                      toggle(trait, eligible);
-                    }
-                  }}
-                >
-                  <div className="entry__main">
-                    <div className="entry__name">
-                      {trait.name}
-                      {statChips(trait)}
-                      {unchecked.length ? <span className="chip" title={`Not verified: ${unchecked.join('; ')}`}>unverified</span> : null}
+                <div key={trait.id}>
+                  <div
+                    className={`entry ${isTaken ? 'is-taken' : ''} ${!eligible && !isTaken ? 'is-blocked' : ''}`}
+                    data-nav
+                    tabIndex={0}
+                    role="checkbox"
+                    aria-checked={isTaken}
+                    aria-label={trait.name}
+                    title={[trait.effect, trait.requirements.raw && `Requires: ${trait.requirements.raw}`]
+                      .filter(Boolean).join('\n\n')}
+                    onClick={() => toggle(trait, eligible)}
+                    onKeyDown={event => {
+                      if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        toggle(trait, eligible);
+                      }
+                    }}
+                  >
+                    <div className="entry__main">
+                      <div className="entry__name">
+                        {trait.name}
+                        {statChips(trait)}
+                        {unchecked.length ? <span className="chip" title={`Not verified: ${unchecked.join('; ')}`}>unverified</span> : null}
+                      </div>
+                      <div className="entry__sub">
+                        {!eligible && !isTaken ? reasons.join(' · ') : trait.effect}
+                      </div>
                     </div>
-                    <div className="entry__sub">
-                      {!eligible && !isTaken ? reasons.join(' · ') : trait.effect}
+                    <div className="entry__rank">
+                      <span className="chip">{cost === 0 ? 'free' : `${cost} pt`}</span>
+                      <span className="toggle__mark" style={isTaken ? { borderColor: 'var(--gold-200)' } : undefined}>
+                        {isTaken ? <span style={{ position: 'absolute', inset: 2, background: 'var(--gold-200)' }} /> : null}
+                      </span>
                     </div>
                   </div>
-                  <div className="entry__rank">
-                    <span className="chip">{cost === 0 ? 'free' : `${cost} pt`}</span>
-                    <span className="toggle__mark" style={isTaken ? { borderColor: 'var(--gold-200)' } : undefined}>
-                      {isTaken ? <span style={{ position: 'absolute', inset: 2, background: 'var(--gold-200)' }} /> : null}
-                    </span>
-                  </div>
+                  {isTaken && situational ? (
+                    <div className="situational">
+                      <Toggle
+                        on={Boolean(build.traitConditionals?.[trait.id])}
+                        onChange={on => dispatch({ type: 'trait-conditional', id: trait.id, on })}
+                      >
+                        Active: {formatStats(situational)}
+                      </Toggle>
+                    </div>
+                  ) : null}
                 </div>
               );
             })}
@@ -140,12 +153,12 @@ export function TraitsSheet({ builder }: { builder: Builder }) {
   );
 }
 
+function formatStats(stats: Partial<Record<StatKey, number>>): string {
+  return (Object.entries(stats) as Array<[StatKey, number]>)
+    .map(([stat, value]) => `${stat.toUpperCase()} ${value > 0 ? '+' : ''}${value}`).join(' ');
+}
+
 function statChips(trait: Trait) {
-  const entries = Object.entries(trait.statBonuses) as Array<[StatKey, number]>;
-  if (!entries.length) return null;
-  return (
-    <span className="chip chip--gold">
-      {entries.map(([stat, value]) => `${stat.toUpperCase()} ${value > 0 ? '+' : ''}${value}`).join(' ')}
-    </span>
-  );
+  if (!Object.keys(trait.statBonuses).length) return null;
+  return <span className="chip chip--gold">{formatStats(trait.statBonuses)}</span>;
 }

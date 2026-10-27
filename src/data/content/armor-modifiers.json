@@ -195,7 +195,8 @@
     },
     "Silk": {
       "appliesTo": [
-        "armor"
+        "armor",
+        "other"
       ],
       "armor": -3,
       "magicArmor": -3,
@@ -284,13 +285,19 @@
     },
     "Thick Padding": {
       "appliesTo": [
-        "armor"
+        "armor",
+        "other"
       ],
       "armor": 8,
       "evade": -5,
       "weight": 3,
       "resistances": {
         "Sound": 5
+      },
+      "other": {
+        "resistances": {
+          "Sound": 5
+        }
       }
     },
     "Toadscloth": {
@@ -312,12 +319,18 @@
     },
     "Webbing": {
       "appliesTo": [
-        "armor"
+        "armor",
+        "other"
       ],
       "evade": 5,
       "weight": -2,
       "elementalAttack": {
         "Acid": 3
+      },
+      "other": {
+        "elementalAttack": {
+          "Acid": 3
+        }
       }
     },
     "Accursed Remains": {
@@ -350,7 +363,8 @@
     "Aureate": {
       "appliesTo": [
         "weapon",
-        "armor"
+        "armor",
+        "other"
       ],
       "armor": -3,
       "magicArmor": -3,
@@ -739,7 +753,8 @@
     },
     "Fine Art": {
       "appliesTo": [
-        "weapon"
+        "weapon",
+        "other"
       ]
     },
     "Foamy Page": {
@@ -903,7 +918,8 @@
     "Ivorybark": {
       "appliesTo": [
         "weapon",
-        "armor"
+        "armor",
+        "other"
       ],
       "armor": -3,
       "magicArmor": -3,
@@ -1005,11 +1021,41 @@
     "Rainbowbark": {
       "appliesTo": [
         "weapon",
-        "armor"
+        "armor",
+        "other"
       ],
       "evade": 5,
       "hp": 15,
-      "fp": 15
+      "fp": 15,
+      "elementalAttack": {
+        "Fire": 1,
+        "Ice": 1,
+        "Wind": 1,
+        "Earth": 1,
+        "Lightning": 1
+      },
+      "other": {
+        "hp": 15,
+        "fp": 15,
+        "elementalAttack": {
+          "Fire": 1,
+          "Ice": 1,
+          "Wind": 1,
+          "Earth": 1,
+          "Lightning": 1
+        }
+      },
+      "weapon": {
+        "hp": 15,
+        "fp": 15,
+        "elementalAttack": {
+          "Fire": 1,
+          "Ice": 1,
+          "Wind": 1,
+          "Earth": 1,
+          "Lightning": 1
+        }
+      }
     },
     "Scorched Wood": {
       "appliesTo": [

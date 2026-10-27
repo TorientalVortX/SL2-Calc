@@ -32,6 +32,7 @@ import {
   NO_ACCESSORY_UPGRADE_POINTS,
   NO_HANDS_UPGRADE_POINTS,
   NO_LEGS_UPGRADE_POINTS,
+  TETRA_ALIGNMENTS,
   resolveUpgradePoints,
 } from '../types';
 import { emptyYoukaiState, normalizeYoukaiState, youkaiById } from './youkai';
@@ -267,6 +268,9 @@ export function normalizeBuildState(value: unknown): BuildState {
     talentConditionals: isRecord(value.talentConditionals)
       ? Object.fromEntries(Object.entries(value.talentConditionals).map(([key, on]) => [key, Boolean(on)]))
       : {},
+    traitConditionals: isRecord(value.traitConditionals)
+      ? Object.fromEntries(Object.entries(value.traitConditionals).filter(([id, on]) => on && traitById(id)).map(([id]) => [id, true]))
+      : {},
     elementalATKAdjustments: numericRecord(value.elementalATKAdjustments, ZERO_ELEMENTS),
     elementalRESAdjustments: numericRecord(value.elementalRESAdjustments, ZERO_ELEMENTS),
     equipment: {
@@ -278,6 +282,9 @@ export function normalizeBuildState(value: unknown): BuildState {
           magicArmor: Number(equipment.armorUpgradePoints.magicArmor) || 0,
           evade: Number(equipment.armorUpgradePoints.evade) || 0,
         }, armorName, world)
+        : undefined,
+      itemConditionalBonuses: isRecord(equipment.itemConditionalBonuses)
+        ? Object.fromEntries(Object.entries(equipment.itemConditionalBonuses).filter(([, on]) => on).map(([key]) => [key, true]))
         : undefined,
       itemRolls: isRecord(equipment.itemRolls)
         ? Object.fromEntries(
@@ -321,6 +328,7 @@ function gearSlot<Points extends object>(
     itemName: typeof value.itemName === 'string' ? value.itemName : null,
     material: typeof value.material === 'string' ? value.material : undefined,
     enchantment: typeof value.enchantment === 'string' ? value.enchantment : undefined,
+    tetra: TETRA_ALIGNMENTS.find(alignment => alignment === value.tetra),
     upgradePoints,
   };
 }

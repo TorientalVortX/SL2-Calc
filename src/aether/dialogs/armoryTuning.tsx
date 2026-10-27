@@ -1,5 +1,5 @@
-import type { StatKey, WeaponUpgradePoints } from '../../types';
-import { NO_ARMOR_QUALITY, resolveArmorUpgradePoints, resolveUpgradePoints } from '../../types';
+import type { StatKey, TetraAlignment, WeaponUpgradePoints } from '../../types';
+import { NO_ARMOR_QUALITY, TETRA_ALIGNMENTS, resolveArmorUpgradePoints, resolveUpgradePoints } from '../../types';
 import { ARMORS } from '../../data/armors';
 import { statInk } from '../../data/colors';
 import modifierData from '../../data/content/weapon-modifiers.json';
@@ -11,6 +11,7 @@ import {
 } from '../../domain/armorMaterials';
 import { ARMOR_ENCHANTMENT_NAMES, enchantmentNamesForSlot, type EnchantSlot } from '../../domain/armorEnchantments';
 import { findWeaponByName, scalingForWeapon } from '../../domain/equipment';
+import { TETRA_PAIRS, gearEffects, isTetraItem } from '../../domain/itemEffects';
 import { SCALING_TAG_LABEL, effectiveScaling, scalingTagsFor } from '../../domain/weaponScaling';
 import { armorUpgradeCaps, clampUpgradePoint, weaponUpgradeCaps } from '../../domain/upgradeCaps';
 import {
@@ -25,7 +26,8 @@ import { SectionHead } from '../ui/Panel';
 import { GroupedSelect, SelectField, Toggle } from '../ui/controls';
 import { play } from '../state/audio';
 import { STAT_KEYS } from '../state/build';
-import { effectsForSlot, type GearSlotId, type SlotId } from '../state/equipment';
+import { effectsForSlot, groupSlotEffects, type GearSlotId, type SlotId } from '../state/equipment';
+import { EffectRow, GrantedSkillCard } from '../panels/ItemEffects';
 import type { Builder } from '../state/useBuilder';
 
 const MATERIAL_CATEGORIES = modifierData.materialCategories as Record<string, string[]>;
@@ -123,55 +125,16 @@ function Tracks({ children, ul }: { children: React.ReactNode; ul: number }) {
 }
 
 export function EffectControls({ builder, slot }: { builder: Builder; slot: SlotId }) {
-  const { build, dispatch } = builder;
-  const effects = effectsForSlot(build.equipment, slot);
-  if (!effects.length) return null;
-
-  const conditionals = {
-    ...build.equipment.armorConditionalBonuses,
-    ...(build.equipment.itemConditionalBonuses ?? {}),
-  };
+  const groups = groupSlotEffects(effectsForSlot(builder.build.equipment, slot), slot);
+  if (!groups.length) return null;
 
   return (
     <div className="section">
-      <SectionHead aside={`${effects.length}`}>Item effects</SectionHead>
+      <SectionHead aside={`${groups.length}`}>Item effects</SectionHead>
       <div className="stack--tight">
-        {effects.map(entry => (
-          <div key={entry.conditionalKey} className="effect">
-            {entry.effect.applies === 'conditional' ? (
-              <Toggle
-                on={Boolean(conditionals[entry.conditionalKey])}
-                onChange={on => dispatch({ type: 'item-conditional', key: entry.conditionalKey, on })}
-                hint="Enable this when the condition applies."
-              >
-                {entry.effect.description}
-              </Toggle>
-            ) : (
-              <div className="effect__static">
-                <span className={`chip ${entry.effect.applies === 'always' ? 'chip--good' : ''}`}>
-                  {entry.effect.effects.some(value => value.controlLabel) ? 'battle state' : entry.effect.applies === 'always' ? 'active' : 'text'}
-                </span>
-                <span>{entry.effect.description}</span>
-              </div>
-            )}
-
-            {entry.rolls.map(roll => (
-              <div className="roll" key={roll.key}>
-                <span className="roll__label">{roll.label}</span>
-                <input
-                  className="roll__range"
-                  type="range"
-                  min={roll.min}
-                  max={roll.max}
-                  value={roll.current}
-                  aria-label={roll.label}
-                  onChange={event => dispatch({ type: 'item-roll', key: roll.key, value: Number(event.target.value) })}
-                />
-                <span className="num roll__value">{roll.current}</span>
-              </div>
-            ))}
-          </div>
-        ))}
+        {groups.map(group => (group.kind === 'skill'
+          ? <GrantedSkillCard key={`${group.skill.itemName}:${group.skill.name}`} builder={builder} skill={group.skill} />
+          : <EffectRow key={group.entry.conditionalKey} builder={builder} entry={group.entry} />))}
       </div>
     </div>
   );
@@ -468,6 +431,17 @@ export function GearTuning({ builder, slot, slotId }: { builder: Builder; slot: 
               <span className="hint">The wiki gives accessories no enchantment slot.</span>
             </div>
           )}
+          {isTetraItem(gearEffects(state.itemName)) ? (
+            <SelectField
+              label="Tetra crystal"
+              value={state.tetra ?? 'Fire'}
+              options={TETRA_ALIGNMENTS.map(alignment => ({
+                value: alignment,
+                label: `${alignment} · ${TETRA_PAIRS[alignment].stat.toUpperCase()} · ${TETRA_PAIRS[alignment].status}`,
+              }))}
+              onChange={tetra => dispatch({ type: 'gear-patch', slot, patch: { tetra: tetra as TetraAlignment } })}
+            />
+          ) : null}
         </div>
       </div>
 

@@ -13,7 +13,10 @@ import { play } from '../state/audio';
 import type { Builder } from '../state/useBuilder';
 import { CopySpells } from './CopySpells';
 import { SkillCard } from '../dialogs/SkillCard';
+import { DamageDialog } from '../dialogs/DamageDialog';
 import { SkillEffects } from './SkillEffects';
+import { GrantedSkillCard } from './ItemEffects';
+import { SLOTS, grantedSkills } from '../state/equipment';
 
 /** Points don't pool across classes; `setSkillRankForClassSlots` mirrors a rank when both slots' trees reach it. */
 export function SkillsSheet({ builder }: { builder: Builder }) {
@@ -21,6 +24,7 @@ export function SkillsSheet({ builder }: { builder: Builder }) {
   const [query, setQuery] = useState('');
   const [takenOnly, setTakenOnly] = useState(false);
   const [selected, setSelected] = useState<Skill | null>(null);
+  const [simulating, setSimulating] = useState<Skill | null>(null);
   const onKeys = useListNavigation(1);
 
   const ranks = useMemo(() => mergeSkillRanks(build.skillRanks), [build.skillRanks]);
@@ -45,6 +49,8 @@ export function SkillsSheet({ builder }: { builder: Builder }) {
   };
 
   const needle = query.trim().toLowerCase();
+  const granted = useMemo(() => grantedSkills(build.equipment), [build.equipment])
+    .filter(skill => !needle || skill.name.toLowerCase().includes(needle) || skill.itemName.toLowerCase().includes(needle));
 
   return (
     <>
@@ -73,6 +79,22 @@ export function SkillsSheet({ builder }: { builder: Builder }) {
           Reset
         </button>
       </div>
+
+      {granted.length ? (
+        <div className="section">
+          <SectionHead aside={`${granted.length} · no points`}>From equipment</SectionHead>
+          <div className="stack--tight">
+            {granted.map(skill => (
+              <GrantedSkillCard
+                key={`${skill.slot}:${skill.name}`}
+                builder={builder}
+                skill={skill}
+                source={`${SLOTS.find(slot => slot.id === skill.slot)?.label} · ${skill.itemName}`}
+              />
+            ))}
+          </div>
+        </div>
+      ) : null}
 
       <div onKeyDown={onKeys}>
         {status.skillPools.map(pool => {
@@ -130,8 +152,10 @@ export function SkillsSheet({ builder }: { builder: Builder }) {
           rank={ranks[selected.id] ?? 0}
           onRank={rank => setRank(selected, rank)}
           onClose={() => setSelected(null)}
+          onSimulate={() => { setSelected(null); setSimulating(selected); }}
         />
       )}
+      {simulating && <DamageDialog builder={builder} initialSkillId={simulating.id} onClose={() => setSimulating(null)} />}
     </>
   );
 }

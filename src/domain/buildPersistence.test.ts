@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { createBuildFile, decodeSharePayload, encodeSharePayload, parseBuildFile } from './buildPersistence';
+import type { TetraAlignment } from '../types';
 
 const legacy = {
   version: '0.5.0', buildName: 'Legacy Zero HP', race: 'Human', subrace: 'Imperialist', mainClass: 'Soldier', subClass: 'Soldier',
@@ -52,6 +53,20 @@ describe('build persistence', () => {
     expect(decoded.build).toEqual(build);
   });
 
+  it('keeps item and trait switches and a Tetra crystal in a share link', () => {
+    const build = parseBuildFile(JSON.stringify(legacy)).build;
+    build.equipment.hands = { itemName: 'Metallic Magic Gauntlet', upgradePoints: { hit: 0, fp: 0 } };
+    build.equipment.accessory1 = { itemName: 'Tetra Dragon Fang', tetra: 'Wind', upgradePoints: { fortune: 0, greed: 0 } };
+    build.equipment.itemConditionalBonuses = { 'Metallic Magic Gauntlet:5': true };
+    build.traits = ['little-cheese'];
+    build.traitConditionals = { 'little-cheese': true };
+
+    const shared = decodeSharePayload(encodeSharePayload('Switches', build)).build;
+    expect(shared.equipment.itemConditionalBonuses).toEqual({ 'Metallic Magic Gauntlet:5': true });
+    expect(shared.equipment.accessory1?.tetra).toBe('Wind');
+    expect(shared.traitConditionals).toEqual({ 'little-cheese': true });
+  });
+
   it('round trips the hands, legs and accessory slots', () => {
     const build = parseBuildFile(JSON.stringify(legacy)).build;
     build.equipment.hands = {
@@ -68,6 +83,25 @@ describe('build persistence', () => {
     expect(reloaded.equipment.legs?.upgradePoints).toEqual({ hp: 4, evade: 1 });
     expect(reloaded.equipment.accessory1?.upgradePoints).toEqual({ fortune: 2, greed: 5 });
     expect(reloaded.equipment.accessory2).toBeUndefined();
+  });
+
+  it('round trips a Tetra crystal and drops an unknown one', () => {
+    const build = parseBuildFile(JSON.stringify(legacy)).build;
+    build.equipment.accessory1 = { itemName: 'Tetra Dragon Fang', tetra: 'Ice', upgradePoints: { fortune: 0, greed: 0 } };
+    build.equipment.accessory2 = { itemName: 'Blue Seal', tetra: 'Lava' as TetraAlignment, upgradePoints: { fortune: 0, greed: 0 } };
+
+    const reloaded = parseBuildFile(JSON.stringify(createBuildFile('Tetra', build))).build;
+    expect(reloaded.equipment.accessory1?.tetra).toBe('Ice');
+    expect(reloaded.equipment.accessory2?.tetra).toBeUndefined();
+  });
+
+  it('round trips switched-on item effects', () => {
+    const build = parseBuildFile(JSON.stringify(legacy)).build;
+    build.equipment.hands = { itemName: 'Metallic Magic Gauntlet', upgradePoints: { hit: 0, fp: 0 } };
+    build.equipment.itemConditionalBonuses = { 'Metallic Magic Gauntlet:5': true, 'Metallic Magic Gauntlet:2': false };
+
+    const reloaded = parseBuildFile(JSON.stringify(createBuildFile('Shielded', build))).build;
+    expect(reloaded.equipment.itemConditionalBonuses).toEqual({ 'Metallic Magic Gauntlet:5': true });
   });
 
   it('round trips the rolls chosen for ranged item bonuses', () => {

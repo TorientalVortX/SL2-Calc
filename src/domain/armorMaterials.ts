@@ -27,13 +27,19 @@ export type MaterialRole = 'weapon' | 'armor' | 'other';
 interface WikiMaterial extends Partial<ArmorMaterialModifier> {
   appliesTo: MaterialRole[];
   other?: Partial<ArmorMaterialModifier>;
+  /** What the material's `All:` clause adds on a weapon; Power, Hit and Critical come from weapon-modifiers.json. */
+  weapon?: Partial<ArmorMaterialModifier>;
 }
 
 const WIKI_MATERIALS = armorData.materials as Record<string, WikiMaterial>;
 
 function profileFor(material: WikiMaterial, role: 'armor' | 'other'): Partial<ArmorMaterialModifier> {
-  const { appliesTo: _appliesTo, other, ...armor } = material;
+  const { appliesTo: _appliesTo, other, weapon: _weapon, ...armor } = material;
   return role === 'other' ? (other ?? {}) : armor;
+}
+
+export function weaponMaterialExtras(name: string | null | undefined): ArmorMaterialModifier {
+  return complete((name && WIKI_MATERIALS[name]?.weapon) || {});
 }
 
 function categoriesFor(role: MaterialRole): Record<string, string[]> {
