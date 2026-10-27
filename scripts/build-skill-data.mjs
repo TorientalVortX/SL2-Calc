@@ -473,8 +473,8 @@ skills.sort((a, b) => a.name.localeCompare(b.name));
 const text = skills.map((s) => s.text);
 for (const s of skills) delete s.text;
 
-await writeFile(OUT, `${JSON.stringify({ skills })}\n`, 'utf8');
-await writeFile(OUT_TEXT, `${JSON.stringify({ text })}\n`, 'utf8');
+await writeFile(OUT, `${JSON.stringify({ skills }, null, 2)}\n`, 'utf8');
+await writeFile(OUT_TEXT, `${JSON.stringify({ text }, null, 2)}\n`, 'utf8');
 
 const withScaling = skills.filter((s) => s.scaling).length;
 const withFp = skills.filter((s) => s.fpByRank).length;

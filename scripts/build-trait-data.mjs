@@ -230,7 +230,7 @@ const ungatedRacials = traits.filter((t) => (
 ));
 
 traits.sort((a, b) => a.category.localeCompare(b.category) || a.name.localeCompare(b.name));
-await writeFile(OUT, `${JSON.stringify({ traits })}\n`, 'utf8');
+await writeFile(OUT, `${JSON.stringify({ traits }, null, 2)}\n`, 'utf8');
 
 const withStats = traits.filter((t) => Object.keys(t.statBonuses).length);
 const withReq = traits.filter((t) => Object.keys(t.requirements.stats).length || t.requirements.races.length);
