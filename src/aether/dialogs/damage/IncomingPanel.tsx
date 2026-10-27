@@ -62,12 +62,12 @@ export function IncomingPanel({ builder }: { builder: Builder }) {
       {versusReductions.length ? (
         <p className="hint">From your gear: {versusReductions.map(reduction => `${reduction.label} −${reduction.percent}%`).join('; ')}.</p>
       ) : null}
-      <div className="inline" style={{ gap: 12, flexWrap: 'wrap', margin: '10px 0' }}>
-        <Toggle on={hit.armorIgnoring} onChange={armorIgnoring => set({ armorIgnoring })}>Ignores Armor</Toggle>
+      <div className="toggle-row">
         <span className="inline" style={{ gap: 6 }}>
           <span className="field__label">Hits</span>
           <Stepper label="Hits" value={hit.hits} min={1} max={20} onChange={hits => set({ hits })} />
         </span>
+        <Toggle on={hit.armorIgnoring} onChange={armorIgnoring => set({ armorIgnoring })}>Ignores Armor</Toggle>
       </div>
 
       <div className="section">
@@ -99,12 +99,26 @@ export function IncomingPanel({ builder }: { builder: Builder }) {
         </div>
         {parryId ? (
           <>
-            <Toggle on={zugzwang} onChange={setZugzwang}>Attacker has Zugzwang (parry reduction halved)</Toggle>
+            <div className="toggle-row">
+              <Toggle on={zugzwang} onChange={setZugzwang}>Attacker has Zugzwang (parry reduction halved)</Toggle>
+            </div>
             {parry ? <p className="hint">−{parry.reductionPercent}% when it fires. Chance: {parry.chanceRule}. Parries {parry.appliesTo}.</p> : null}
             {parryFits ? null : <p className="hint">{parry?.name} can’t parry {hit.damageClass} damage.</p>}
             {bonuses.length ? <p className="hint">Add when it applies: {bonuses.map(bonus => `${bonus.name} +${bonus.percent}%`).join(', ')}.</p> : null}
           </>
         ) : null}
+      </div>
+
+      <div className="section">
+        <SectionHead>Attacker</SectionHead>
+        <div className="grid-fields">
+          <NumberField label="Attacker Hit" value={attackerHit} max={999} onChange={setAttackerHit} />
+          <NumberField label="Attacker Crit %" value={critChance} max={100} onChange={setCritChance} />
+        </div>
+        <div className="toggle-row">
+          <Toggle on={greatAccuracy} onChange={setGreatAccuracy}>Great Accuracy</Toggle>
+          <Toggle on={ignoresEvasion} onChange={setIgnoresEvasion}>Ignores Evasion</Toggle>
+        </div>
       </div>
 
       <OutcomeGrid hit={hit} parry={Boolean(parryId)} onChange={outcomes => set({ outcomes })} />
@@ -124,20 +138,11 @@ export function IncomingPanel({ builder }: { builder: Builder }) {
         </div>
       </div>
 
-      <div className="section">
-        <SectionHead>Expected</SectionHead>
-        <div className="inline" style={{ gap: 12, flexWrap: 'wrap', marginBottom: 6 }}>
-          <NumberField label="Attacker Hit" value={attackerHit} max={999} onChange={setAttackerHit} />
-          <NumberField label="Attacker Crit %" value={critChance} max={100} onChange={setCritChance} />
-          <Toggle on={greatAccuracy} onChange={setGreatAccuracy}>Great Accuracy</Toggle>
-          <Toggle on={ignoresEvasion} onChange={setIgnoresEvasion}>Ignores Evasion</Toggle>
-        </div>
-        <p className="hint">
-          Each hit against {evade} Evade: {percent(expected.hitChance)} lands, {percent(expected.glanceChance)} glances, {percent(expected.evadeChance)} evaded
-          {critChance ? `; ${critChance}% crit` : ''}
-          {parryId ? `; ${tenth(parryChance)}% parried when it connects` : ''}.
-        </p>
-      </div>
+      <p className="hint">
+        Each hit against {evade} Evade: {percent(expected.hitChance)} lands, {percent(expected.glanceChance)} glances, {percent(expected.evadeChance)} evaded
+        {critChance ? `; ${critChance}% crit` : ''}
+        {parryId ? `; ${tenth(parryChance)}% parried when it connects` : ''}.
+      </p>
 
       <div className="section">
         <SectionHead>Steps</SectionHead>

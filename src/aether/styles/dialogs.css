@@ -141,6 +141,8 @@
 .stack { display: grid; gap: 7px; }
 .stack--tight { display: grid; gap: 4px; }
 .inline { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+.toggle-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; margin: 8px 0; }
+.toggle-row > .toggle { width: auto; }
 .spacer { flex: 1; }
 
 .divider {

@@ -190,7 +190,9 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
         ) : null}
       </div>
 
-      <div className="grid-fields">
+      <div className="section">
+        <SectionHead>Hit</SectionHead>
+        <div className="grid-fields">
         <SelectField label="Class" value={hit.damageClass} options={CLASS_OPTIONS} onChange={value => set({ damageClass: value as DamageClass })} />
         <SelectField label="Type" value={hit.type ?? ''} options={TYPE_OPTIONS} onChange={value => set({ type: (value || null) as DamageType })} />
         <NumberField
@@ -199,23 +201,20 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
           min={100}
           max={1000}
           onChange={critDamagePercent => set({ critDamagePercent })}
-          hint={skill && !skill.basicAttack ? 'Skills and spells crit at 125%.' : 'Weapon crit damage plus scaled GUI.'}
         />
-        <NumberField
-          label="Crit flat damage"
-          value={hit.critFlatDamage ?? 0}
-          min={0}
-          max={1000}
-          onChange={critFlatDamage => set({ critFlatDamage })}
-          hint="Added to a crit before defenses, such as Guillotine’s +10 Critical Damage."
-        />
-      </div>
-      <div className="inline" style={{ gap: 12, flexWrap: 'wrap', margin: '10px 0' }}>
-        <Toggle on={hit.armorIgnoring} onChange={armorIgnoring => set({ armorIgnoring })}>Ignores Armor</Toggle>
-        <span className="inline" style={{ gap: 6 }}>
-          <span className="field__label">Hits</span>
-          <Stepper label="Hits" value={hit.hits} min={1} max={20} onChange={hits => set({ hits })} />
-        </span>
+        <NumberField label="Crit flat damage" value={hit.critFlatDamage ?? 0} min={0} max={1000} onChange={critFlatDamage => set({ critFlatDamage })} />
+        </div>
+        <div className="toggle-row">
+          <span className="inline" style={{ gap: 6 }}>
+            <span className="field__label">Hits</span>
+            <Stepper label="Hits" value={hit.hits} min={1} max={20} onChange={hits => set({ hits })} />
+          </span>
+          <Toggle on={hit.armorIgnoring} onChange={armorIgnoring => set({ armorIgnoring })}>Ignores Armor</Toggle>
+        </div>
+        <p className="hint">
+          {skill && !skill.basicAttack ? 'Skills and spells crit at 125%.' : 'Crit damage is the weapon’s modifier plus scaled GUI.'}
+          {' '}Crit flat damage is added to a crit before defenses, such as Guillotine’s +10 Critical Damage.
+        </p>
       </div>
 
       <div className="section">
@@ -232,7 +231,7 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
             />
           ))}
         </div>
-        <div className="inline" style={{ gap: 12, flexWrap: 'wrap', margin: '6px 0' }}>
+        <div className="toggle-row">
           <button type="button" className="btn btn--ghost" onClick={() => setPercents(list => [...list, 10])}>Add modifier</button>
           {percents.length ? (
             <button type="button" className="btn btn--ghost" onClick={() => setPercents(list => list.slice(0, -1))}>Remove last</button>
@@ -252,6 +251,12 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
 
       <div className="section">
         <SectionHead>Bonus damage</SectionHead>
+        {riders.map(rider => (
+          <div className="provenance__row" key={`${rider.source}-${rider.type}`}>
+            <span>{rider.source} <span className="dim">{riderDetail(rider)}</span></span>
+            <span>{rider.amount}</span>
+          </div>
+        ))}
         <div className="grid-fields">
           <NumberField label="Bonus per hit" value={flat.amount} max={9999} onChange={amount => setFlat(current => ({ ...current, amount }))} />
           <SelectField
@@ -263,14 +268,9 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
         </div>
         <p className="hint">
           {flat.type ? `${flat.damageClass === 'magical' ? 'Magic' : 'Physical'} ${flat.type} damage from the skill. ` : ''}
-          On-hit bonus damage, such as Tetra Dragon Fang’s 30. It is not raised by crits or damage modifiers.
+          {riders.length ? 'Your weapon and gear add the rows above on basic attacks. ' : ''}
+          Add any other on-hit bonus here, such as Tetra Dragon Fang’s 30. None of it is raised by crits or damage modifiers.
         </p>
-        {riders.map(rider => (
-          <div className="provenance__row" key={`${rider.source}-${rider.type}`}>
-            <span>{rider.source} <span className="dim">{riderDetail(rider)}</span></span>
-            <span>{rider.amount}</span>
-          </div>
-        ))}
       </div>
 
       <div className="section">
@@ -289,7 +289,7 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
           <SelectField label="Race" value={target.race} options={RACE_OPTIONS} onChange={race => aim({ race })} />
           <SelectField label="Torso" value={target.armorType} options={ARMOR_TYPE_OPTIONS} onChange={armorType => aim({ armorType: armorType as Target['armorType'] })} />
         </div>
-        <div className="inline" style={{ gap: 12, flexWrap: 'wrap', margin: '6px 0' }}>
+        <div className="toggle-row">
           <Toggle on={target.boss} onChange={boss => aim({ boss })}>Boss</Toggle>
         </div>
         {versus.length ? (
@@ -297,6 +297,14 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
             From your weapon: {versus.map(bonus => `${bonus.source} +${bonus.percent}% ${bonus.kind === 'swa' ? 'Scaled Weapon ATK' : 'damage'} vs ${bonus.targets.join('/')}`).join('; ')}.
           </p>
         ) : null}
+      </div>
+
+      <div className="section">
+        <SectionHead>Accuracy</SectionHead>
+        <div className="toggle-row">
+          <Toggle on={greatAccuracy} onChange={setGreatAccuracy}>Great Accuracy</Toggle>
+          <Toggle on={ignoresEvasion} onChange={setIgnoresEvasion}>Ignores Evasion</Toggle>
+        </div>
       </div>
 
       <OutcomeGrid hit={hit} parry={false} onChange={outcomes => set({ outcomes })} />
@@ -314,16 +322,9 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
         </div>
       </div>
 
-      <div className="section">
-        <SectionHead>Expected</SectionHead>
-        <div className="inline" style={{ gap: 12, flexWrap: 'wrap', marginBottom: 6 }}>
-          <Toggle on={greatAccuracy} onChange={setGreatAccuracy}>Great Accuracy</Toggle>
-          <Toggle on={ignoresEvasion} onChange={setIgnoresEvasion}>Ignores Evasion</Toggle>
-        </div>
-        <p className="hint">
-          Each hit against {target.evade} Evade: {percent(expected.hitChance)} lands, {percent(expected.glanceChance)} glances, {percent(expected.evadeChance)} evaded; {tenth(expected.critChance)}% crit.
-        </p>
-      </div>
+      <p className="hint">
+        Each hit against {target.evade} Evade: {percent(expected.hitChance)} lands, {percent(expected.glanceChance)} glances, {percent(expected.evadeChance)} evaded; {tenth(expected.critChance)}% crit.
+      </p>
 
       <div className="section">
         <SectionHead>Steps</SectionHead>
