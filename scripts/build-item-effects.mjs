@@ -219,6 +219,9 @@ function toRecord(name, description, alwaysEligible) {
     applies: !effects.length ? 'reference' : (conditional || !alwaysEligible) ? 'conditional' : 'always',
     effects,
     ...(effects.length && /\bends? (?:that|other) effects?\b/i.test(description) ? { exclusive: true } : {}),
+    // Off-hand weapons apply their effects in full unless the line says otherwise.
+    ...(effects.length && /\bthis is your main hand weapon\b/i.test(description) ? { mainHandOnly: true } : {}),
+    ...(effects.length && /\(halved if (?:off-hand|not main weapon)\)/i.test(description) ? { offHandShare: 0.5 } : {}),
   };
 }
 

@@ -44,6 +44,10 @@ export interface ItemEffect {
   resistanceIgnored?: { types: string[]; percent: number };
   /** Raises how much the curated healing skills restore (Church Faithful 2+). */
   healingPercent?: number;
+  /** "While ... this is your main hand weapon": skipped on an off-hand weapon. */
+  mainHandOnly?: boolean;
+  /** "(halved if off-hand)": the share an off-hand weapon gets. */
+  offHandShare?: number;
 }
 
 const WEAPON_EFFECTS = content.weapons as Record<string, ItemEffect[]>;
@@ -181,6 +185,7 @@ interface BattleContext {
   level: number;
   /** Set pieces equipped; thresholds above it don't apply. */
   pieces?: number;
+  offHand?: boolean;
 }
 
 function bonusesForItem(
@@ -196,8 +201,10 @@ function bonusesForItem(
     if (effect.applies === 'reference') return;
     if (effect.count && effect.count > (context.pieces ?? 0)) return;
     if (effect.applies === 'conditional' && !context.conditionals[itemConditionalKey(itemName, index)]) return;
+    if (context.offHand && effect.mainHandOnly) return;
+    const share = context.offHand ? effect.offHandShare ?? 1 : 1;
     effect.effects.forEach((value, valueIndex) => {
-      const amount = valueAtUL(value, ul, context.rolls[itemRollKey(itemName, index, valueIndex)], context.level, context.pieces);
+      const amount = Math.floor(share * valueAtUL(value, ul, context.rolls[itemRollKey(itemName, index, valueIndex)], context.level, context.pieces));
       if (!amount) return;
       const valueKey = effectKey(value, tetra);
       if (value.kind === 'setStat') {
@@ -245,6 +252,8 @@ export function itemBonuses(input: {
   rolls?: Record<string, number>;
   level?: number;
   sets?: ActiveSetPieces[];
+  /** The weapon is in the off hand. */
+  offHand?: boolean;
 }): ItemBonuses {
   const weapons = weaponEffects(input.weaponName);
   const armors = armorEffects(input.armorName);
@@ -258,7 +267,7 @@ export function itemBonuses(input: {
   const sets = (input.sets ?? []).filter(set => setEffects(set.name).length);
   if (!weapons.length && !armors.length && !hasGear && !sets.length) return EMPTY;
 
-  const context = { conditionals: input.conditionals ?? {}, rolls: input.rolls ?? NO_ROLLS, level: input.level ?? 0 };
+  const context = { conditionals: input.conditionals ?? {}, rolls: input.rolls ?? NO_ROLLS, level: input.level ?? 0, offHand: input.offHand };
   const result: ItemBonuses = { stats: {}, setStats: {}, derived: {}, elementalAttack: {}, resistances: {} };
   bonusesForItem(input.weaponName, weapons, weaponUL(input.weaponPoints), result, context);
   bonusesForItem(input.armorName, armors, armorUL(input.armorPoints), result, context);
@@ -272,6 +281,27 @@ export function itemBonuses(input: {
   }
   for (const set of sets) bonusesForItem(set.name, setEffects(set.name), 0, result, { ...context, pieces: set.pieces });
   return result;
+}
+
+// What an effect does to "the weapon" stays with the weapon that has it.
+export const WEAPON_DERIVED_KEYS = ['power', 'hit', 'critical'];
+
+function addRecords<Values extends Partial<Record<string, number>>>(a: Values, b: Values): Values {
+  const sum: Record<string, number> = { ...a } as Record<string, number>;
+  for (const [key, value] of Object.entries(b)) sum[key] = (sum[key] ?? 0) + (value ?? 0);
+  return sum as Values;
+}
+
+/** The off-hand weapon's effects counted in the build, minus what it does to itself. */
+export function withOffHandBonuses(main: ItemBonuses, offHand: ItemBonuses): ItemBonuses {
+  const derived = Object.fromEntries(Object.entries(offHand.derived).filter(([key]) => !WEAPON_DERIVED_KEYS.includes(key)));
+  return {
+    stats: addRecords(main.stats, offHand.stats),
+    setStats: { ...offHand.setStats, ...main.setStats },
+    derived: addRecords(main.derived, derived),
+    elementalAttack: addRecords(main.elementalAttack, offHand.elementalAttack),
+    resistances: addRecords(main.resistances, offHand.resistances),
+  };
 }
 
 export interface ActiveSetPieces {

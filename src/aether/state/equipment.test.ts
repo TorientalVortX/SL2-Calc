@@ -316,6 +316,40 @@ describe('granted skills in use', () => {
   });
 });
 
+describe('off-hand weapons', () => {
+  const dual = () => [
+    { type: 'equip-weapon' as const, which: 'primaryWeapon' as const, weaponName: 'Longsword' },
+    { type: 'equip-weapon' as const, which: 'offHandWeapon' as const, weaponName: 'Mugendai' },
+  ].reduce(buildReducer, createDefaultBuild());
+
+  it('counts the off-hand’s effects, enchantment and weight', () => {
+    const solo = buildReducer(createDefaultBuild(), { type: 'equip-weapon', which: 'primaryWeapon', weaponName: 'Longsword' });
+    const [one, two] = [evaluateBuild(solo), evaluateBuild(dual())];
+    expect(two.derived.fp - one.derived.fp).toBeGreaterThanOrEqual(15);
+    expect(two.derived.equipmentLoad - one.derived.equipmentLoad).toBe(6);
+    const jeweled = buildReducer(dual(), { type: 'weapon-patch', which: 'offHandWeapon', patch: { enchantment: 'Jeweled' } });
+    expect(evaluateBuild(jeweled).rawStats.fai - two.rawStats.fai).toBe(2);
+  });
+
+  it('gives the off-hand its own weapon line and leaves the main hand’s alone', () => {
+    const solo = buildReducer(createDefaultBuild(), { type: 'equip-weapon', which: 'primaryWeapon', weaponName: 'Longsword' });
+    const evaluation = evaluateBuild(dual());
+    expect(evaluation.offHandWeapon?.weight).toBe(6);
+    expect(evaluation.offHandWeapon?.swa).toBeGreaterThan(0);
+    expect(evaluation.primaryWeapon?.power).toBe(evaluateBuild(solo).primaryWeapon?.power);
+    expect(evaluateBuild(solo).offHandWeapon).toBeUndefined();
+  });
+
+  it('shows the off-hand’s effects in the armory and checks its class access', () => {
+    const build = dual();
+    expect(effectsForSlot(build.equipment, 'slot3').map(entry => entry.itemName)).toContain('Mugendai');
+    const evaluation = evaluateBuild(build);
+    const overview = equipmentOverview(build.equipment, evaluation.derived.battleWeight, evaluation.derived.equipmentLoad, build);
+    expect(overview.restrictedWeapon).toBeNull();
+    expect(overview.restrictedOffHand).toBe('Tome');
+  });
+});
+
 describe('set bonuses', () => {
   const wear = (build: ReturnType<typeof createDefaultBuild>, ...actions: Parameters<typeof buildReducer>[1][]) => actions.reduce(buildReducer, build);
 

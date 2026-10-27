@@ -38,10 +38,11 @@ async function snapshot(root) {
       const pick = (record, keys) => Object.fromEntries(keys.map((key) => [key, record?.[key]]));
       return {
         ...Object.fromEntries(Object.entries(e.scaledStats).map(([key, value]) => [key, Math.round(value * 100) / 100])),
-        ...pick(e.derived, ['maxHP', 'fp', 'physicalDefense', 'magicalDefense', 'armor', 'magicArmor', 'evade', 'criticalEvade']),
+        ...pick(e.derived, ['maxHP', 'fp', 'physicalDefense', 'magicalDefense', 'armor', 'magicArmor', 'evade', 'criticalEvade', 'equipmentLoad']),
         ...Object.fromEntries(Object.entries(e.elementalAttack).map(([key, value]) => [`${key} ATK`, value])),
         ...Object.fromEntries(Object.entries({ ...e.elementalResistance, ...e.physicalResistance }).map(([key, value]) => [`${key} RES`, value])),
         ...Object.fromEntries(Object.entries(pick(e.primaryWeapon, ['power', 'swa', 'hit', 'critical', 'criticalDamage'])).map(([key, value]) => [`weapon ${key}`, value])),
+        ...Object.fromEntries(Object.entries(pick(e.offHandWeapon, ['power', 'swa', 'hit', 'critical', 'criticalDamage'])).map(([key, value]) => [`off-hand ${key}`, value])),
       };
     };
 

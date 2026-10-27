@@ -329,7 +329,7 @@ export function effectsForSlot(equipment: BuildEquipmentState, slot: SlotId): Sl
     ? weaponEffects(summary.name)
     : slot === 'armor'
       ? armorEffects(summary.name)
-      : summary.offHand ? [] : gearEffects(summary.name);
+      : summary.offHand ? weaponEffects(summary.name) : gearEffects(summary.name);
   const rolls = equipment.itemRolls ?? {};
 
   return effects.map((effect, index) => ({
@@ -436,10 +436,21 @@ export interface EquipmentOverview {
   overWeight: boolean;
   sets: ReturnType<typeof activeSets>;
   duplicateAccessory: boolean;
-  /** Slot 3 holds a weapon, whose own stats the evaluator does not yet model. */
-  unmodelledOffHand: boolean;
   restrictedWeapon: string | null;
   restrictedBySubClassOnly: boolean;
+  restrictedOffHand: string | null;
+  restrictedOffHandBySubClassOnly: boolean;
+}
+
+// The subclass is deliberately absent: its weapon list is not proficiency.
+function weaponRestriction(config: WeaponSlotConfig | undefined, build: { mainClass: string; subClass: string } & TalentInput) {
+  const weaponType = config?.weaponType;
+  const allowed = effectiveWeaponTypes(config).some(type => mainClassAllowsWeaponType(type, CLASSES[build.mainClass])
+    || talentsUnlockWeapon(build, type, config?.rarity ?? 0));
+  return {
+    type: allowed || !weaponType ? null : weaponType,
+    subClassOnly: !allowed && subClassOnlyWeaponType(weaponType, CLASSES[build.mainClass], CLASSES[build.subClass]),
+  };
 }
 
 export function equipmentOverview(
@@ -448,10 +459,8 @@ export function equipmentOverview(
   equipmentLoad: number,
   build: { mainClass: string; subClass: string } & TalentInput,
 ): EquipmentOverview {
-  const weaponType = equipment.primaryWeapon?.weaponType;
-  // The subclass is deliberately absent: its weapon list is not proficiency.
-  const allowed = effectiveWeaponTypes(equipment.primaryWeapon).some(type => mainClassAllowsWeaponType(type, CLASSES[build.mainClass])
-    || talentsUnlockWeapon(build, type, equipment.primaryWeapon?.rarity ?? 0));
+  const main = weaponRestriction(equipment.primaryWeapon, build);
+  const off = weaponRestriction(equippedSlot3(equipment) === 'offHandWeapon' ? equipment.offHandWeapon : undefined, build);
   return {
     load: equipmentLoad,
     capacity: battleWeight,
@@ -461,10 +470,10 @@ export function equipmentOverview(
       equipment.accessory1?.itemName
       && equipment.accessory1.itemName === equipment.accessory2?.itemName,
     ),
-    unmodelledOffHand: equippedSlot3(equipment) === 'offHandWeapon',
-    restrictedWeapon: allowed || !weaponType ? null : weaponType,
-    restrictedBySubClassOnly: !allowed
-      && subClassOnlyWeaponType(weaponType, CLASSES[build.mainClass], CLASSES[build.subClass]),
+    restrictedWeapon: main.type,
+    restrictedBySubClassOnly: main.subClassOnly,
+    restrictedOffHand: off.type,
+    restrictedOffHandBySubClassOnly: off.subClassOnly,
   };
 }
 

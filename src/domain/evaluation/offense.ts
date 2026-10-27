@@ -74,7 +74,7 @@ function evaluateWeapon(config: WeaponConfig | undefined, stats: StatRecord, ext
 export type OffenseResult = ReturnType<typeof resolveOffense>;
 
 export function resolveOffense(inputs: EvaluationInputs, stats: StatsResult) {
-  const { build, armorConditional, usingOffHand, equippedHands, talents, handsPoints, items, youkaiBonuses } = inputs;
+  const { build, armorConditional, usingOffHand, equippedHands, talents, handsPoints, items, youkaiBonuses, offHandWeapon: offHandConfig, offHandItems, mainWeaponItems } = inputs;
   const { scaledStats, skills, fortune } = stats;
 
   const weaponConfig = build.equipment.primaryWeapon;
@@ -128,5 +128,24 @@ export function resolveOffense(inputs: EvaluationInputs, stats: StatsResult) {
     weight: Math.max(0, weaponBase.weight - talents.weaponWeightReduction),
   };
 
-  return { primaryWeapon, hitSources, hitBonusSources, attack, flanking };
+  // The off-hand is its own weapon: general bonuses reach it, the main weapon's own effects don't.
+  const offHandBase = offHandConfig ? evaluateWeapon(offHandConfig, scaledStats, armorConditional.critical, build.traits) : undefined;
+  const generalItems = (key: string) => (items.derived[key] ?? 0) - (mainWeaponItems.derived[key] ?? 0) + (offHandItems.derived[key] ?? 0);
+  const offHandWeapon = offHandBase && {
+    ...offHandBase,
+    power: offHandBase.power + (skills.derived.power ?? 0) + generalItems('power') + youkaiBonuses.weaponPower + talents.power,
+    swa: offHandBase.swa + talents.scaledWeaponAtk + (skills.derived.swa ?? 0)
+      + (skills.derived.power ?? 0) + generalItems('power') + youkaiBonuses.weaponPower + talents.power,
+    hit: Math.floor(attackerHit({
+      baseHit: offHandBase.hit,
+      hitBuffs: (skills.derived.hit ?? 0) + generalItems('hit') + fortune.hit + talents.hit,
+      honorHitBonus: talents.frontalHit,
+      flanking,
+    }).byTier.base),
+    critical: offHandBase.critical + (skills.derived.critical ?? 0) + generalItems('critical') + fortune.critical + talents.critical,
+    criticalDamage: offHandBase.criticalDamage + talents.criticalDamagePercent + (skills.derived.criticalDamage ?? 0),
+    weight: Math.max(0, offHandBase.weight - talents.weaponWeightReduction),
+  };
+
+  return { primaryWeapon, offHandWeapon, hitSources, hitBonusSources, attack, flanking };
 }

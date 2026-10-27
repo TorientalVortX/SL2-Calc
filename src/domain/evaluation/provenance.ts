@@ -1,5 +1,5 @@
 import type { BuildEvaluation, StatKey, StatRecord } from '../../types';
-import { resolveArmorUpgradePoints, resolveUpgradePoints } from '../../types';
+import { equippedSlot3, resolveArmorUpgradePoints, resolveUpgradePoints } from '../../types';
 import { CLASS_HIERARCHY } from '../../data/classes';
 import { otherMaterialModifier } from '../armorMaterials';
 import { enchantmentEffectForSlot } from '../armorEnchantments';
@@ -50,6 +50,12 @@ export function statProvenance(inputs: EvaluationInputs, stats: StatsResult): No
     weaponPoints: build.equipment.primaryWeapon ? resolveUpgradePoints(build.equipment.primaryWeapon) : undefined,
     conditionals, rolls: build.equipment.itemRolls, level: build.characterLevel,
   }).stats);
+  if (equippedSlot3(build.equipment) === 'offHandWeapon' && build.equipment.offHandWeapon) {
+    const offHand = build.equipment.offHandWeapon;
+    add(`Off-hand: ${offHand.selectedWeaponName}`, itemBonuses({
+      weaponName: offHand.selectedWeaponName, weaponPoints: resolveUpgradePoints(offHand), conditionals, rolls: build.equipment.itemRolls, level: build.characterLevel, offHand: true,
+    }).stats);
+  }
   add(`Torso effects: ${build.equipment.armorName}`, itemBonuses({
     armorName: build.equipment.armorName, armorPoints: resolveArmorUpgradePoints(build.equipment), conditionals, rolls: build.equipment.itemRolls, level: build.characterLevel,
   }).stats);

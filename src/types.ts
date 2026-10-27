@@ -599,15 +599,19 @@ export interface BuildEvaluation {
   elementalResistance: ElementalRecord;
   physicalResistance: PhysicalRecord;
   sources: DerivedSources;
-  primaryWeapon?: {
-    power: number;
-    /** Scaled Weapon Attack (Power + stat scaling), what skill and spell coefficients are stated against. */
-    swa: number;
-    hit: number;
-    critical: number;
-    criticalDamage: number;
-    weight: number;
-  };
+  primaryWeapon?: WeaponLine;
+  /** An off-hand weapon is its own weapon, used by attacks made with it. */
+  offHandWeapon?: WeaponLine;
+}
+
+export interface WeaponLine {
+  power: number;
+  /** Scaled Weapon Attack (Power + stat scaling), what skill and spell coefficients are stated against. */
+  swa: number;
+  hit: number;
+  critical: number;
+  criticalDamage: number;
+  weight: number;
 }
 
 export interface RaceConfig {

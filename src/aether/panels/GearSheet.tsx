@@ -26,17 +26,16 @@ export function GearSheet({ builder }: { builder: Builder }) {
 
   const sets = useMemo(() => setBonuses(build.equipment), [build.equipment]);
 
+  const accessNote = (weaponType: string | null, subClassOnly: boolean) => weaponType && (subClassOnly
+    ? `${build.subClass} lists ${weaponType}s, but only the main class grants weapon access. ${build.mainClass} needs Adaptation to equip one. Its stats are still included.`
+    : `${build.mainClass} cannot equip a ${weaponType} without Adaptation. Its stats are still included.`);
   const notes = [
-    overview.restrictedWeapon
-      && (overview.restrictedBySubClassOnly
-        ? `${build.subClass} lists ${overview.restrictedWeapon}s, but only the main class grants weapon access. ${build.mainClass} needs Adaptation to equip one. Its stats are still included.`
-        : `${build.mainClass} cannot equip a ${overview.restrictedWeapon} without Adaptation. Its stats are still included.`),
+    accessNote(overview.restrictedWeapon, overview.restrictedBySubClassOnly),
+    overview.restrictedOffHand !== overview.restrictedWeapon && accessNote(overview.restrictedOffHand, overview.restrictedOffHandBySubClassOnly),
     overview.duplicateAccessory
       && 'The same accessory is equipped twice. The game allows only one copy.',
     overview.overWeight
       && `Weapon and torso weigh ${overview.load} against a battle weight of ${overview.capacity}.`,
-    overview.unmodelledOffHand
-      && 'An off-hand weapon replaces the hands item. Only the main hand contributes to calculated stats.',
   ].filter((note): note is string => Boolean(note));
 
   return (

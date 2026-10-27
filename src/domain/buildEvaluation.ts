@@ -38,5 +38,6 @@ export function evaluateBuild(build: BuildState, includeStatSources = false): Bu
     physicalResistance: elements.physicalResistance,
     sources: { hit: offense.hitSources, evade: defense.evadeSources, fp: vitals.fpSources },
     primaryWeapon: offense.primaryWeapon,
+    offHandWeapon: offense.offHandWeapon,
   };
 }

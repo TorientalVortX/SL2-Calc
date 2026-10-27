@@ -14,12 +14,13 @@ export function resolveDerived(inputs: EvaluationInputs, stats: StatsResult, vit
   } = inputs;
   const { scaledStats, skills, fortune, racialFor } = stats;
   const { maxHP, fp } = vitals;
-  const { primaryWeapon, attack, flanking, hitBonusSources } = offense;
+  const { primaryWeapon, offHandWeapon, attack, flanking, hitBonusSources } = offense;
   const { ownEvade, evadeBonusSources } = defense;
 
   const battleWeight = Math.floor(scaledStats.str) + 5 + talents.maxBattleWeight + (skills.derived.battleWeight ?? 0);
   const armorWeight = Math.floor(((armor?.weight ?? 0) + armorMaterial.weight + armorEnchant.weight + armorQuality.weight) * armorEnchant.weightMod);
-  const equipmentLoad = (primaryWeapon?.weight ?? 0) + armorWeight;
+  // Community Battle Weight page: main weapon + torso + sub-weapon.
+  const equipmentLoad = (primaryWeapon?.weight ?? 0) + (offHandWeapon?.weight ?? 0) + armorWeight;
   const statusResistance = Math.floor((Math.floor(scaledStats.san * 2 + scaledStats.fai)
     + armorEnchant.statusResistance + (skills.derived.statusResistance ?? 0) + gearBonus.statusResistance
     + (mixtureBonuses.statusResistance ?? 0)) * (1 + ((mixtureBonuses.statusResistancePercent ?? 0) + (skills.derived.statusResistancePercent ?? 0)) / 100));
