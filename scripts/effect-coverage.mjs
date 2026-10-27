@@ -54,7 +54,7 @@ const lines = [];
 for (const items of Object.values(data)) {
   for (const [item, entries] of Object.entries(items)) {
     for (const entry of entries) {
-      if (entry.applies !== 'reference') continue;
+      if (entry.applies !== 'reference' || entry.onHit || entry.versus) continue;
       const bucket = BUCKETS.find(([, matches]) => matches(entry))?.[0] ?? 'other';
       lines.push({ item, bucket, shape: shape(entry.description), entry });
     }
