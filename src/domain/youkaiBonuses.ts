@@ -5,14 +5,14 @@ import { normalizeYoukaiState, youkaiById } from './youkai';
 
 export interface YoukaiNumericBonuses {
   stats: Partial<Record<StatKey, number>>;
-  derived: { evadeBase: number; evade: number; criticalEvade: number; luckStatusPercent: number; hpRegeneration: number };
+  derived: { evade: number; criticalEvade: number; luckStatusPercent: number; hpRegeneration: number };
   elementalResistance: Partial<Record<ElementKey, number>>;
   physicalResistance: Partial<Record<PhysicalKey, number>>;
   weaponPower: number;
 }
 
 const emptyNumeric = (): YoukaiNumericBonuses => ({
-  stats: {}, derived: { evadeBase: 0, evade: 0, criticalEvade: 0, luckStatusPercent: 0, hpRegeneration: 0 },
+  stats: {}, derived: { evade: 0, criticalEvade: 0, luckStatusPercent: 0, hpRegeneration: 0 },
   elementalResistance: {}, physicalResistance: {}, weaponPower: 0,
 });
 
@@ -32,8 +32,8 @@ const NUMERIC_EFFECTS: Record<string, NumericEffect[]> = {
   'Seal of the East': [{ kind: 'stat', key: 'cel', value: 2 }],
   'Seal of the East+': [{ kind: 'stat', key: 'cel', value: 2 }],
   'Painful Accuracy': [{ kind: 'stat', key: 'ski', value: 2 }],
-  // Korvara rule confirmed by the user: Skitterscale is base Evade; the +10 creature-only version doesn't apply.
-  Skitterscale: [{ kind: 'stat', key: 'def', value: 2 }, { kind: 'derived', key: 'evadeBase', value: 5 }],
+  // The +10 creature-only version doesn't apply to the player.
+  Skitterscale: [{ kind: 'stat', key: 'def', value: 2 }, { kind: 'derived', key: 'evade', value: 5 }],
   Nightshade: [{ kind: 'stat', key: 'def', value: 2 }, { kind: 'stat', key: 'res', value: 2 }],
   'Fairy Ring': [{ kind: 'derived', key: 'luckStatusPercent', value: 10 }],
   'Positive Thinker': [{ kind: 'resistance', key: 'Dark', value: 10 }],

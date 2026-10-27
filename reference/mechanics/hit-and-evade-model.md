@@ -53,11 +53,11 @@ Source: <https://docs.google.com/spreadsheets/d/1cR6N16JRSH8yc8eyxuDPejBxagYLZ7v
 
 ## Target Evade, in order
 
-Korvara correction confirmed by the maintainer on 2026-10-13: Terrasque's
-Skitterscale grants the player **+5 base Evade**, outside the +50 bonus-Evade
-cap, alongside +2 DEF. Access through Sync-Mind 2 does not require staying
-installed in Terrasque. The creature's own +10 version is not a player bonus.
-This correction does not reclassify other Youkai Evade effects.
+Maintainer clarification, 2026-10-27 (supersedes the 2026-10-13 base-Evade
+ruling): Terrasque's Skitterscale grants the player **+5 bonus Evade**, inside
+the +50 cap like other Youkai Evade, alongside +2 DEF. Access through
+Sync-Mind 2 does not require staying installed in Terrasque. The creature's own
++10 version is not a player bonus.
 
 1. **Base Evade** = `2 × scaled CEL + armour Evade + Base Evade Mod + 5` (legs).
 2. **Base multiplier** (default 100%). Thick Brush +10%, Thick Vines −10%, Guard

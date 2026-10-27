@@ -32,7 +32,6 @@ export function resolveEvade(inputs: EvaluationInputs, stats: StatsResult) {
     { label: 'Torso conditional effects', value: armorConditional.evade, channel: 'bonus' },
     { label: 'Item effects', value: items.derived.evade ?? 0, channel: 'bonus' },
     { label: 'Redtail fortune', value: fortune.evade, channel: 'bonus' },
-    { label: 'Youkai base Evade', value: youkaiBonuses.derived.evadeBase, channel: 'base' },
     { label: 'Youkai', value: youkaiBonuses.derived.evade, channel: 'bonus' },
     { label: 'Active mixture effects', value: mixtureBonuses.evade ?? 0, channel: 'bonus' },
   ]);

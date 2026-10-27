@@ -236,7 +236,7 @@ describe('Evade base and bonus channels', () => {
     expect(evaluateBuild(high).derived.evadeBonus).toBe(evaluateBuild(low).derived.evadeBonus);
   });
 
-  it.each([0, 48, 60])('keeps Skitterscale outside the bonus cap with %i bonus Evade', bonus => {
+  it.each([[0, 5], [48, 2], [60, 0]])('counts Skitterscale against the bonus cap with %i bonus Evade', (bonus, gain) => {
     const build = baseBuild();
     build.mainClass = 'Shapeshifter';
     build.subClass = 'Grand Summoner';
@@ -245,12 +245,11 @@ describe('Evade base and bonus channels', () => {
     const before = evaluateBuild(build);
     build.youkai = { contracted: ['terrasque'], installed: null };
     const after = evaluateBuild(build);
-    expect(after.derived.evadeBase - before.derived.evadeBase).toBe(5);
-    expect(after.derived.evade - before.derived.evade).toBe(5);
-    expect(after.derived.evadeBonus).toBe(before.derived.evadeBonus);
-    expect(after.derived.evadeBonusWasted).toBe(before.derived.evadeBonusWasted);
+    expect(after.derived.evadeBase).toBe(before.derived.evadeBase);
+    expect(after.derived.evade - before.derived.evade).toBe(gain);
+    expect(after.derived.evadeBonusWasted - before.derived.evadeBonusWasted).toBe(5 - gain);
     expect(after.rawStats.def - before.rawStats.def).toBe(2);
-    expect(after.sources.evade).toContainEqual({ label: 'Youkai base Evade', value: 5, channel: 'base' });
+    expect(after.sources.evade).toContainEqual({ label: 'Youkai', value: 5, channel: 'bonus' });
   });
 
   it('requires passive access and keeps the player Skitterscale value when installed', () => {
@@ -259,13 +258,13 @@ describe('Evade base and bonus channels', () => {
     build.subClass = 'Grand Summoner';
     build.skillRanks.main = { 'sync-mind': 1, install: 3 };
     build.youkai = { contracted: ['terrasque'], installed: null };
-    expect(evaluateBuild(build).sources.evade.some(s => s.label === 'Youkai base Evade')).toBe(false);
+    expect(evaluateBuild(build).sources.evade.some(s => s.label === 'Youkai')).toBe(false);
     build.skillRanks.main['sync-mind'] = 2;
     build.youkai.installed = 'terrasque';
-    expect(evaluateBuild(build).sources.evade).toContainEqual({ label: 'Youkai base Evade', value: 5, channel: 'base' });
+    expect(evaluateBuild(build).sources.evade).toContainEqual({ label: 'Youkai', value: 5, channel: 'bonus' });
   });
 
-  it('does not move other Youkai Evade effects into the base channel', () => {
+  it('stacks Skitterscale with other Youkai Evade under one cap', () => {
     const build = baseBuild();
     build.mainClass = 'Shapeshifter';
     build.subClass = 'Grand Summoner';
@@ -273,10 +272,9 @@ describe('Evade base and bonus channels', () => {
     build.youkai = { contracted: ['terrasque', 'wind-elemental'], installed: 'wind-elemental' };
     build.bonusEvade = 50;
     const result = evaluateBuild(build);
-    expect(result.sources.evade).toContainEqual({ label: 'Youkai base Evade', value: 5, channel: 'base' });
-    expect(result.sources.evade).toContainEqual({ label: 'Youkai', value: 10, channel: 'bonus' });
+    expect(result.sources.evade).toContainEqual({ label: 'Youkai', value: 15, channel: 'bonus' });
     expect(result.derived.evadeBonus).toBe(50);
-    expect(result.derived.evadeBonusWasted).toBe(10);
+    expect(result.derived.evadeBonusWasted).toBe(15);
   });
 });
 
