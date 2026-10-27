@@ -15,7 +15,7 @@ const STATS = {
 };
 // Longest spelling first so "maximum HP" is not read as a bare "HP".
 const DERIVED = {
-  power: 'power', hit: 'hit', critical: 'critical', 'critical evade': 'criticalEvade', 'critical damage': 'criticalDamage',
+  power: 'power', hit: 'hit', critical: 'critical', 'critical evade': 'criticalEvade', 'critical damage': 'criticalFlatDamage',
   evade: 'evade', armor: 'armor', 'magic armor': 'magicArmor', weight: 'weight',
   'maximum hp': 'hp', 'maximum fp': 'fp', 'max hp': 'hp', 'max fp': 'fp', hp: 'hp', fp: 'fp',
 };
@@ -58,11 +58,14 @@ const SPECIAL_CHANNELS = [
     pattern: /([+-]?\d+) Power to (\w+) Weapons \(Basic attacks only\.?\)/gi,
     effect: (match) => ({ key: match[2] === 'All' ? 'basicAttackPower' : `basicAttackPower:${match[2]}`, base: Number(match[1]) }),
   },
-  // "Critical Damage (flat damage)" adds damage, not crit modifier; a "for X weapons" line is scoped to a type.
-  { pattern: /([+-]?\d+)%? Critical Damage(?! (?:reduction|modifier|\(flat|for\b))/gi, effect: (match) => ({ key: 'criticalDamage', base: Number(match[1]) }) },
+  // "+5% Critical Damage" raises the crit modifier; "+10 Critical Damage" is flat damage on a crit. A "for X weapons" line is scoped to a type.
+  { pattern: /([+-]?\d+)% Critical Damage(?! (?:reduction|modifier|for\b))/gi, effect: (match) => ({ key: 'criticalDamage', base: Number(match[1]) }) },
+  {
+    pattern: /([+-]?\d+\+?UL|[+-]?UL|[+-]?\d+) Critical Damage(?: \(flat damage\))?(?! (?:reduction|modifier|for\b))/gi,
+    effect: (match) => ({ key: 'criticalFlatDamage', ...parseMagnitude(match[1].replace(/^\+(?=UL)/, '')) }),
+  },
   { pattern: /([+-]?\d+)% Critical(?: Chance)?(?! Damage| Evade)\b/gi, effect: (match) => ({ key: 'critical', base: Number(match[1]) }) },
   { pattern: /(?<![*\w])([+-]?\d+)% Maximum HP\b/g, effect: (match) => ({ key: 'hpPercent', base: Number(match[1]) }) },
-  { pattern: /[+-]?(?:\d+\+?)?(?:UL)? Critical Damage \(flat damage\)/gi, effect: () => null },
   // "+10% Power to Nature and Isespia Spells (halved if off-hand)": one value per school; the halving is `offHandShare`.
   {
     pattern: /([+-]?\d+|\+?UL)% Power to ([\w ,]+?) Spells(?:\s*\(halved if [^)]*\))?/gi,

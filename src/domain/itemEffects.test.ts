@@ -74,9 +74,9 @@ describe('item effect data', () => {
     expect(derived('Archery Gloves')).toMatchObject({ 'basicAttackPower:Bow': 2 });
     expect(derived("Rogue's Work Gloves")).toMatchObject({ criticalDamage: 10 });
     expect(itemBonuses({ gear: [undefined, undefined, { itemName: 'Grimalkin Hat' }] }).elementalAttack.Dark).toBe(5);
-    // "+10 Critical Damage" is the crit modifier, not Critical; "(flat damage)" is neither.
-    expect(itemBonuses({ weaponName: 'Guillotine' }).derived).toEqual({ criticalDamage: 10 });
-    expect(weaponEffects('Moonlight Mercy').flatMap(e => e.effects)).toEqual([]);
+    // "+10 Critical Damage" is flat damage on a crit; "+10% Critical Damage" is the modifier.
+    expect(itemBonuses({ weaponName: 'Guillotine' }).derived).toEqual({ criticalFlatDamage: 10 });
+    expect(weaponEffects('Moonlight Mercy').flatMap(e => e.effects)).toEqual([expect.objectContaining({ key: 'criticalFlatDamage', ulMultiplier: 1 })]);
     // "UL*2% maximum HP" revives a youkai; it is not your HP.
     expect(itemBonuses({ weaponName: 'Bell of No Rest' }).derived.hpPercent).toBeUndefined();
   });

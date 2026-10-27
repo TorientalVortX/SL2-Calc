@@ -32,7 +32,7 @@
           {
             "kind": "derived",
             "ulMultiplier": 0,
-            "key": "criticalDamage",
+            "key": "criticalFlatDamage",
             "base": 10
           }
         ]
@@ -2734,8 +2734,15 @@
       {
         "name": "Passive",
         "description": "+UL Critical Damage (flat damage) (for this weapon only)",
-        "applies": "reference",
-        "effects": []
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "derived",
+            "ulMultiplier": 1,
+            "key": "criticalFlatDamage",
+            "base": 0
+          }
+        ]
       },
       {
         "name": "Passive",
@@ -5423,7 +5430,7 @@
           {
             "kind": "derived",
             "ulMultiplier": 0,
-            "key": "criticalDamage",
+            "key": "criticalFlatDamage",
             "base": 10
           },
           {

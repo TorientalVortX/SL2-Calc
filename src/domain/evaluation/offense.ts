@@ -92,6 +92,7 @@ export function resolveOffense(inputs: EvaluationInputs, stats: StatsResult) {
     const bonus = basicAttackPower(types);
     return bonus ? { ...line, basicAttackPower: bonus } : line;
   };
+  const withCritFlat = (line: WeaponLine, amount: number): WeaponLine => (amount ? { ...line, criticalFlatDamage: amount } : line);
 
   const gripTypes = effectiveWeaponTypes(weaponConfig);
   const gripAllowed = !usingOffHand && !isShield(equippedHands?.itemName);
@@ -129,7 +130,7 @@ export function resolveOffense(inputs: EvaluationInputs, stats: StatsResult) {
   });
 
   // The wiki describes skill Power/Hit/Critical as weapon modifiers; added after evaluation so they skip scaling.
-  const primaryWeapon = withBasicAttackPower({
+  const primaryWeapon = withBasicAttackPower(withCritFlat({
     ...weaponBase,
     power: weaponBase.power + (skills.derived.power ?? 0) + (items.derived.power ?? 0) + youkaiBonuses.weaponPower + talents.power,
     // Full Swing and Tactics raise Scaled Weapon ATK, not the weapon's printed Power.
@@ -139,9 +140,9 @@ export function resolveOffense(inputs: EvaluationInputs, stats: StatsResult) {
     critical: weaponBase.critical + (skills.derived.critical ?? 0) + (items.derived.critical ?? 0) + fortune.critical + talents.critical,
     criticalDamage: weaponBase.criticalDamage + talents.criticalDamagePercent + (skills.derived.criticalDamage ?? 0) + (items.derived.criticalDamage ?? 0),
     weight: Math.max(0, weaponBase.weight - talents.weaponWeightReduction),
-  }, mainWeaponTypes);
+  }, items.derived.criticalFlatDamage ?? 0), mainWeaponTypes);
 
-  const secondaryLine = (base: WeaponLine, skill: Record<string, number>, item: (key: string) => number, talent: TalentEffects): WeaponLine => ({
+  const secondaryLine = (base: WeaponLine, skill: Record<string, number>, item: (key: string) => number, talent: TalentEffects): WeaponLine => withCritFlat({
     ...base,
     power: base.power + (skill.power ?? 0) + item('power') + youkaiBonuses.weaponPower + talent.power,
     swa: base.swa + talent.scaledWeaponAtk + (skill.swa ?? 0)
@@ -155,7 +156,7 @@ export function resolveOffense(inputs: EvaluationInputs, stats: StatsResult) {
     critical: base.critical + (skill.critical ?? 0) + item('critical') + fortune.critical + talent.critical,
     criticalDamage: base.criticalDamage + talent.criticalDamagePercent + (skill.criticalDamage ?? 0) + item('criticalDamage'),
     weight: Math.max(0, base.weight - talent.weaponWeightReduction),
-  });
+  }, item('criticalFlatDamage'));
   const heldWeaponItems = (key: string) => (items.derived[key] ?? 0) - (mainWeaponItems.derived[key] ?? 0);
 
   // The off-hand is its own weapon: general bonuses reach it, the main weapon's own effects don't.

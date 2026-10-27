@@ -1,11 +1,11 @@
 import { useMemo, useState } from 'react';
-import type { ElementKey, PhysicalKey } from '../../../types';
+import type { ElementKey, PhysicalKey, Skill } from '../../../types';
 import { PHYSICAL_KEYS } from '../../../types';
 import { ELEMENT_KEYS } from '../../../domain/buildEvaluation';
 import { NO_HIT, type DamageClass, type DamageType, type IncomingHit } from '../../../domain/damage';
 import { findWeaponByName } from '../../../domain/equipment';
 import {
-  OPEN_TARGET, attackBase, critDamageFor, defaultDamage, expectedOutgoing, outgoingDamage, powerMultiplier, riderFor, spellPowerFor, targetAfterSets, weaponFor,
+  OPEN_TARGET, attackBase, critDamageFor, critFlatDamageFor, defaultDamage, expectedOutgoing, outgoingDamage, powerMultiplier, riderFor, spellPowerFor, targetAfterSets, weaponFor,
   type FlatBonus, type Hand, type Target,
 } from '../../../domain/outgoing';
 import { SKILLS, mergeSkillRanks, skillById } from '../../../domain/skills';
@@ -45,6 +45,10 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
     const held = which === 'off' ? build.equipment.offHandWeapon : which === 'main' ? build.equipment.primaryWeapon : undefined;
     return asDamageType(held ? findWeaponByName(held.selectedWeaponName)?.damageType : fists.damageType);
   };
+  const critFor = (attack: Skill | null, which: Hand) => ({
+    critDamagePercent: critDamageFor(attack, evaluation, which),
+    critFlatDamage: critFlatDamageFor(attack, evaluation, which),
+  });
   const ranks = useMemo(() => mergeSkillRanks(build.skillRanks), [build.skillRanks]);
   const attacks = useMemo(
     () => SKILLS.filter(skill => (ranks[skill.id] ?? 0) > 0 && !(skill.healing && skill.category !== 'Offensive') && (skill.basicAttack
@@ -68,7 +72,7 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
   const weaponType = weaponTypeOf(attackHand);
   const [elements, setElements] = useState<Partial<Record<number, ElementKey>>>({});
   const [hit, setHit] = useState<IncomingHit>(() => ({
-    ...NO_HIT, amount: 0, critDamagePercent: critDamageFor(skill, evaluation, attackHand), ...defaultDamage(skill, {}, weaponType),
+    ...NO_HIT, amount: 0, ...critFor(skill, attackHand), ...defaultDamage(skill, {}, weaponType),
   }));
   const [percents, setPercents] = useState<number[]>([]);
   const [lightning, setLightning] = useState(false);
@@ -84,12 +88,12 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
     setElements({});
     const next = id ? skillById(id) ?? null : null;
     const nextHand: Hand = handsFor(next).includes(handChoice) ? handChoice : 'main';
-    set({ ...defaultDamage(next, {}, weaponTypeOf(nextHand)), critDamagePercent: critDamageFor(next, evaluation, nextHand) });
+    set({ ...defaultDamage(next, {}, weaponTypeOf(nextHand)), ...critFor(next, nextHand) });
     setFlat(riderFor(next, next ? ranks[next.id] ?? 1 : 0) ?? NO_BONUS);
   };
   const pickHand = (next: Hand) => {
     setHand(next);
-    set({ ...defaultDamage(skill, elements, weaponTypeOf(next)), critDamagePercent: critDamageFor(skill, evaluation, next) });
+    set({ ...defaultDamage(skill, elements, weaponTypeOf(next)), ...critFor(skill, next) });
   };
   const pickElement = (index: number, element: ElementKey) => {
     const next = { ...elements, [index]: element };
@@ -180,6 +184,14 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
           max={1000}
           onChange={critDamagePercent => set({ critDamagePercent })}
           hint={skill && !skill.basicAttack ? 'Skills and spells crit at 125%.' : 'Weapon crit damage plus scaled GUI.'}
+        />
+        <NumberField
+          label="Crit flat damage"
+          value={hit.critFlatDamage ?? 0}
+          min={0}
+          max={1000}
+          onChange={critFlatDamage => set({ critFlatDamage })}
+          hint="Added to a crit before defenses, such as Guillotine’s +10 Critical Damage."
         />
       </div>
       <div className="inline" style={{ gap: 12, flexWrap: 'wrap', margin: '10px 0' }}>

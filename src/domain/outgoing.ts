@@ -246,6 +246,11 @@ export function critDamageFor(skill: Skill | null, attacker: Wielder, hand: Hand
   return skill && !skill.basicAttack ? SKILL_CRIT_DAMAGE_PERCENT : weaponFor(attacker, hand)?.criticalDamage ?? 100;
 }
 
+/** "+10 Critical Damage" from the weapon line; skills crit at a flat 1.25 without it. */
+export function critFlatDamageFor(skill: Skill | null, attacker: Wielder, hand: Hand = 'main'): number {
+  return skill && !skill.basicAttack ? 0 : weaponFor(attacker, hand)?.criticalFlatDamage ?? 0;
+}
+
 /** Element terms make a spell's damage magical; a basic attack keeps its weapon's type unless the skill says otherwise. */
 export function defaultDamage(skill: Skill | null, elements: Partial<Record<number, ElementKey>>, weaponType: DamageType): { damageClass: DamageClass; type: DamageType } {
   if (skill?.basicAttack) {

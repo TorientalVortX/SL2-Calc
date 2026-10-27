@@ -622,6 +622,8 @@ export interface WeaponLine {
   weight: number;
   /** "+N Power to Unarmed Weapons (Basic attacks only.)" */
   basicAttackPower?: number;
+  /** "+10 Critical Damage": flat damage a crit adds. */
+  criticalFlatDamage?: number;
 }
 
 export interface RaceConfig {

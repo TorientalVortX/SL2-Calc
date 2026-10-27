@@ -19,6 +19,8 @@ export interface IncomingHit {
   damageClass: DamageClass;
   type: DamageType;
   critDamagePercent: number;
+  /** Flat damage a crit adds before defenses ("+10 Critical Damage"). */
+  critFlatDamage?: number;
   armorIgnoring: boolean;
   guardMomentum: number;
   otherReductionPercent: number;
@@ -74,10 +76,16 @@ function hitCount(hit: IncomingHit): number {
 
 const PLAIN_HIT: HitOutcome = { result: 'hit', parried: false, critical: false };
 
+// (amount × crit% + flat) is amount × (crit% + flat / amount), so the flat part rides the same multiplier.
+function critFactor(hit: IncomingHit): number {
+  const flat = hit.critFlatDamage && hit.amount > 0 ? hit.critFlatDamage / hit.amount : 0;
+  return hit.critDamagePercent / 100 + flat;
+}
+
 function outcomeSteps(outcome: HitOutcome, hit: IncomingHit): Array<{ label: string; factor: number }> {
   if (outcome.result === 'evaded') return [{ label: 'Evaded', factor: 0 }];
   const steps = [
-    { label: 'Critical', factor: outcome.critical ? hit.critDamagePercent / 100 : 1 },
+    { label: 'Critical', factor: outcome.critical ? critFactor(hit) : 1 },
     { label: 'Glancing', factor: outcome.result === 'glance' ? reduce(GLANCE_REDUCTION_PERCENT) : 1 },
     { label: 'Parried', factor: outcome.parried ? reduce(hit.parryReductionPercent) : 1 },
   ];
