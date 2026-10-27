@@ -11,6 +11,59 @@ The notes for the current release are held in
 `APP_VERSION` and the in-app dialog read. `npm run validate:data` fails if that
 file and `package.json` disagree about the version.
 
+## 0.9.3 — 2026-10-27
+
+Set bonuses, off-hands, bare fists, and a lot more in the damage calc.
+
+### Added
+
+- **Set bonuses.** Wear enough pieces of a set and its bonus turns on by
+  itself. The armory shows which tiers you've reached.
+- **Off-hand weapons count.** A weapon in slot 3 is its own weapon now, with
+  its own Power, Hit, Crit and crit damage. Its effects, enchantment, material
+  and weight all count. In the damage calc, basic attacks can pick which hand
+  swings, and Straight Cannon adds both weapons' Power.
+- **Unarmed.** With nothing in your main hand you fight with Bare Fists
+  (10 Power, 105 Accuracy, 5% at 110%, 100% STR, Blunt).
+  - Empty Palm, the Kickboxing Shoes, Metal Buckler and Arcane Tattoo (Fist)
+    all feed into them.
+  - Hidden Blade (Slash) and Hidden Barrage count as a Sword or Gun too, and
+    Tendril Tonic swaps in the Unstable Tendril.
+  - Mixed Martial Arts, or the Tendril, lets you use them next to a held
+    weapon.
+- **More in the damage calc.**
+  - On-hit damage from your weapon and gear (Icebreaker's 50% Ice ATK, Burning
+    Bracers, the Swordmaster's Rings and so on) gets added to basic attacks as
+    its own hit. It doesn't crit and rides the attack's roll.
+  - Pick the target's race, torso and whether it's a boss, so Mythslayer,
+    Giant Slayer, Kingslayer and the armor Slayers kick in. Incoming has an
+    attacker race for the Foe Shields and the like.
+  - "+10% Power to Nerifian Spells" and the "+2 Power to Sylphid Spells"
+    trinkets apply to spells of that school. Off-hand staves give half.
+  - "+10 Critical Damage" is flat damage added on a crit.
+- Church Faithful's +15% healing applies to your healing skills.
+
+### Changed
+
+- Cleaned up the damage tabs. Toggles aren't giant bars anymore, and the hit
+  settings have their own section.
+
+### Fixed
+
+- Set bonuses written on set pieces counted once per piece. Church Faithful
+  could give +9 Light ATK.
+- Guillotine and Morimayer's "+10 Critical Damage" was giving Critical instead.
+- Ring of Thorns and Archery Gloves' basic attack Power applied to everything,
+  skills included. Archery Gloves only works on Bows now.
+- The "+2 Power to X Spells" trinkets were giving weapon Power when switched on.
+- Arcane Tattoo (Fist) made any weapon you held Magical.
+- Some plain bonuses were never read: +5% Critical Chance (Crownbleeder Plus,
+  Sayakensa), Ring of Thorns' Max HP cut, +5 Darkness ATK and Rogue's Work
+  Gloves' crit damage.
+- Skitterscale counts as bonus Evade, inside the cap.
+- Item switches stay on when the wiki data changes. They're tied to the line's
+  text now instead of its position.
+
 ## 0.9.2 — 2026-10-27
 
 Damage calc is in, plus a big pass on item effects.

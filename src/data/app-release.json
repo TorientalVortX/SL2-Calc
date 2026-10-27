@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "version": "0.9.2",
+  "version": "0.9.3",
   "releasedAt": "2026-10-27",
-  "headline": "Damage calc is in, plus a big pass on item effects.",
+  "headline": "Set bonuses, off-hands, bare fists, and a lot more in the damage calc.",
   "notes": [
-    "New damage calc behind Simulate in the Defense panel. Incoming shows what a hit really does to you after DEF, resists, Guard, Armor, glances and parries. Outgoing runs your attacks and skills against a target.",
-    "Skills from your gear show up as cards in the armory and under From equipment on the Skills sheet. The ones that buff you have a switch.",
-    "Tetra items have a crystal picker, Little Cheese has a switch, and Oni Heritage adds onto Sanguine Crest.",
-    "Added the 10 unarmored torsos that were missing, like Shadow Gi and Dragon Gi. Caster's Cape, Farmer's Shirt and Healer's Shroud boost your class stats.",
-    "Item switches are saved now. Before this they reset on refresh and never made it into saves or share links.",
-    "Fixed a bunch of items giving stats they shouldn't, like Creeping Darkness's free 25 Armor and the gauntlet shields stacking forever."
+    "Set bonuses turn on by themselves once you wear enough pieces, and the armory shows which tiers you've reached.",
+    "Off-hand weapons are their own weapon now, with their own stats, effects and weight. Basic attacks in the damage calc can pick a hand.",
+    "No main weapon means Bare Fists. Empty Palm, Kickboxing Shoes, Arcane Tattoo (Fist), Hidden Blade, Hidden Barrage and Tendril Tonic all work with them.",
+    "The damage calc adds on-hit damage from your weapon and gear, race, torso and boss bonuses, spell school Power, and flat crit damage.",
+    "Church Faithful's +15% healing applies to healing skills.",
+    "Fixed set bonuses stacking per piece, crit damage read as Critical, and basic-attack-only Power applying to everything."
   ]
 }

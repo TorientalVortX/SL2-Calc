@@ -1,22 +1,20 @@
 {
   "schemaVersion": 1,
-  "dataVersion": "2026.10.26",
-  "updatedAt": "2026-10-26",
+  "dataVersion": "2026.10.27",
+  "updatedAt": "2026-10-27",
   "changes": [
-    "Added 10 unarmored torso pieces that were missing, including Shadow Gi, Dragon Gi, Caster's Cape and Batwing Cloak.",
-    "Skills granted by equipment now show their cost and full text, including Cruel Commander's Contract of Blood and both of Tricky Yoyo's skills.",
-    "Caster's Cape, Farmer's Shirt and Healer's Shroud now raise your main class's stat bonuses by half when it is in their family.",
-    "Contract of Blood, Lion's Roar, Luckiness Dance and Needle's Spin Up now apply their stats while switched on.",
-    "Fixed Holy Word's Crusader Charge and Divine Bunker switches, which added STR and FP read from their cost and range text.",
-    "Materials with an \"All:\" effect now apply it on every slot their class supports, so Webbing on cloth gloves gives its Acid ATK.",
-    "Fixed glove enchantments such as Fireheart, whose elemental ATK never applied.",
-    "Fixed Rainbowbark and other materials that list several elements under one bonus.",
-    "Updated the Magical Gauntlet shields: 5 rounds, 5 FP, Magical Aegis +8 RES, and each one now grants its parry.",
-    "Magic Shield, Metallic Aegis and Magical Aegis are now switched on under Item effects, one at a time, instead of always applying.",
-    "Buffs that last a number of rounds, such as Heart of the Lion and Est Lestrada's penalty, are now switched on instead of always applying.",
-    "Fixed items that gave Armor from text like \"30 armor-ignoring damage\", including Creeping Darkness and Tetra Dragon Fang.",
-    "Bonuses shared across a list now apply to every stat in it: Heart of the Lion, Sunken Silk Bow and Hankyu.",
-    "Tetra Dragon Fang and Tetra Gauntlet now follow the crystal you pick: Fire, Ice, Earth or Wind.",
-    "Little Cheese's +4 WIL/GUI is now switched on under the trait, and Oni Heritage adds its +2 STR or LUC to an active Sanguine Crest."
+    "Set bonuses are read per tier and apply once you wear enough pieces. Set text copied onto each piece no longer counts on its own.",
+    "Church Faithful's +15% healing is now tied to the healing skills it raises.",
+    "Off-hand weapon effects apply in full unless the line says main hand only or halved off-hand.",
+    "Added Bare Fists (10 Power, 105 Accuracy, 5% at 110%, 100% STR, Blunt), the Unstable Tendril, and Hidden Blade (Slash) and Hidden Barrage as Sword and Gun types.",
+    "Empty Palm now applies only to the unarmed weapon, and on its own.",
+    "\"+N Critical Damage\" is flat damage on a crit, and \"+N% Critical Damage\" raises the crit modifier. Guillotine and Morimayer were giving Critical.",
+    "\"+N Power to X Weapons (Basic attacks only)\" applies only to basic attacks with that weapon type. Ring of Thorns and Archery Gloves were applying to everything.",
+    "Spells carry their school, and \"+N% Power to X Spells\" and \"+N Power to X Spells\" apply to it. The flat ones were giving weapon Power.",
+    "Read on-hit damage from about 40 weapons and gloves, such as Icebreaker's 50% Ice ATK and Burning Bracers' 15 Fire.",
+    "Read race, boss and torso bonuses: Mythslayer, Giant Slayer, Kingslayer, the armor Slayers, the Foe Shields, Jammer Waders and Sharkfang Necklace.",
+    "Read +5% Critical Chance, percent Max HP, Darkness ATK and \"Armor & Magic Armor\", which were missed before.",
+    "Arcane Tattoo (Fist) only makes the unarmed weapon Magical.",
+    "Item switches and rolls are keyed by their text, so wiki edits don't shift them onto other lines."
   ]
 }
