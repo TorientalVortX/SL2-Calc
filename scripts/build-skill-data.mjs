@@ -284,6 +284,7 @@ function basicAttackProfile(entry, maxRank) {
   if (reduced) profile.damagePercent = Number(reduced[1] ?? reduced[2]);
 
   if (/(?:deals|does) magic damage/i.test(text)) profile.damageClass = 'magical';
+  if (/Main Weapon Power \+ Sub-Weapon Power/i.test(entry.power ?? '')) profile.bothWeaponsPower = true;
   const typed = /deals (\w+) physical damage/i.exec(text);
   if (typed) profile.type = typed[1] === 'Darkness' ? 'Dark' : typed[1];
 

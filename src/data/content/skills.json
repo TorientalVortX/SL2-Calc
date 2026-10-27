@@ -21037,7 +21037,9 @@
           "unmodelled": "Depends on Special Armament weight."
         }
       ],
-      "basicAttack": {},
+      "basicAttack": {
+        "bothWeaponsPower": true
+      },
       "battleNote": "The Hit penalty depends on Special Armament weight; it is not calculated yet."
     },
     {

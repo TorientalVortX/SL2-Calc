@@ -53,16 +53,34 @@ export const OPEN_TARGET: Target = {
 };
 
 type Attacker = Pick<BuildEvaluation, 'scaledStats' | 'elementalAttack' | 'primaryWeapon'> & {
+  offHandWeapon?: BuildEvaluation['offHandWeapon'];
   derived?: Pick<BuildEvaluation['derived'], 'maxHP' | 'currentHP'>;
 };
 
+export type Hand = 'main' | 'off';
+
+/** A basic attack uses one weapon, whichever hand attacks; only skills such as Akimbo use both. */
+export const weaponFor = (attacker: Pick<Attacker, 'primaryWeapon' | 'offHandWeapon'>, hand: Hand) =>
+  (hand === 'off' ? attacker.offHandWeapon : attacker.primaryWeapon);
+
 const atRank = (values: number[] | undefined, rank: number) => (values ? valueAtRank(values, rank) ?? 0 : 0);
 
-function basicAttack(skill: Skill | null, rank: number, attacker: Attacker): AttackBase {
+function basicAttack(skill: Skill | null, rank: number, attacker: Attacker, hand: Hand): AttackBase {
   const profile = skill?.basicAttack ?? {};
-  const swa = attacker.primaryWeapon?.swa ?? null;
   const share = profile.damagePercent ?? 100;
-  const terms: AttackTerm[] = [{ label: 'Scaled Weapon ATK', amount: swa === null ? null : swa * share / 100, detail: swa === null ? 'Equip a main-hand weapon.' : `${share}%` }];
+  const swa = weaponFor(attacker, hand)?.swa ?? null;
+  // Straight Cannon: "Main Weapon Power + Sub-Weapon Power".
+  const terms: AttackTerm[] = profile.bothWeaponsPower
+    ? [
+      { label: 'Main weapon Power', amount: attacker.primaryWeapon?.power ?? null, detail: attacker.primaryWeapon ? '' : 'Equip a main-hand weapon.' },
+      { label: 'Sub-weapon Power', amount: attacker.offHandWeapon?.power ?? null, detail: attacker.offHandWeapon ? '' : 'Equip an off-hand weapon.' },
+    ]
+    : [{
+      label: 'Scaled Weapon ATK',
+      amount: swa === null ? null : swa * share / 100,
+      detail: swa !== null ? `${share}%` : hand === 'off' ? 'Equip an off-hand weapon.' : 'Equip a main-hand weapon.',
+    }];
+  const weaponPart = terms.reduce((total, term) => total + (term.amount ?? 0), 0);
   const bonusDamage = atRank(profile.bonusDamageByRank, rank);
   if (bonusDamage) terms.push({ label: 'Bonus damage', amount: bonusDamage, detail: `rank ${rank}` });
   const missingHp = profile.missingHpPercent && attacker.derived
@@ -71,17 +89,17 @@ function basicAttack(skill: Skill | null, rank: number, attacker: Attacker): Att
   if (profile.missingHpPercent) terms.push({ label: 'Missing HP bonus', amount: missingHp, detail: `${profile.missingHpPercent}% of missing HP` });
   return {
     terms,
-    amount: terms[0].amount ?? 0,
+    amount: weaponPart,
     bonus: bonusDamage + missingHp,
     hit: atRank(profile.hitByRank, rank),
     critical: atRank(profile.criticalByRank, rank),
-    complete: swa !== null,
+    complete: terms.every(term => term.amount !== null),
   };
 }
 
 /** Wiki Damage page: a basic attack is Scaled Weapon Attack; a skill or spell adds its SWA and Elemental ATK scaling. */
-export function attackBase(skill: Skill | null, rank: number, attacker: Attacker, elements: Partial<Record<number, ElementKey>> = {}): AttackBase {
-  if (!skill || skill.basicAttack) return basicAttack(skill, rank, attacker);
+export function attackBase(skill: Skill | null, rank: number, attacker: Attacker, elements: Partial<Record<number, ElementKey>> = {}, hand: Hand = 'main'): AttackBase {
+  if (!skill || skill.basicAttack) return basicAttack(skill, rank, attacker, hand);
   const formula = skillFormulaBreakdown(skill, rank, attacker, elements);
   if (!formula) return { terms: [], amount: 0, bonus: 0, hit: 0, critical: 0, complete: false };
   return {
@@ -202,8 +220,8 @@ export function expectedOutgoing(hit: IncomingHit, attack: Attack, percents: num
 export const SKILL_CRIT_DAMAGE_PERCENT = 125;
 
 /** A basic attack crits at the weapon's crit damage plus scaled GUI (wiki Critical page). */
-export function critDamageFor(skill: Skill | null, attacker: Pick<BuildEvaluation, 'primaryWeapon'>): number {
-  return skill && !skill.basicAttack ? SKILL_CRIT_DAMAGE_PERCENT : attacker.primaryWeapon?.criticalDamage ?? 100;
+export function critDamageFor(skill: Skill | null, attacker: Pick<Attacker, 'primaryWeapon' | 'offHandWeapon'>, hand: Hand = 'main'): number {
+  return skill && !skill.basicAttack ? SKILL_CRIT_DAMAGE_PERCENT : weaponFor(attacker, hand)?.criticalDamage ?? 100;
 }
 
 /** Element terms make a spell's damage magical; a basic attack keeps its weapon's type unless the skill says otherwise. */

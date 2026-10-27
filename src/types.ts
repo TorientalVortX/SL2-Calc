@@ -120,6 +120,8 @@ export interface BasicAttackProfile {
   bonusDamageByRank?: number[];
   /** Bonus damage equal to this share of the user's missing HP (Ether Invitation). */
   missingHpPercent?: number;
+  /** "Main Weapon Power + Sub-Weapon Power" replaces Scaled Weapon ATK (Straight Cannon). */
+  bothWeaponsPower?: boolean;
   /** The attack deals this share of its normal damage (Quick and Wild). */
   damagePercent?: number;
   damageClass?: 'magical';

@@ -70,6 +70,22 @@ describe('outgoing damage', () => {
     expect(targetAfterSets({ ...target, resistance: 25 }, gunsmoke, 'Fire', null).resistance).toBe(25);
   });
 
+  it('attacks with the chosen hand’s weapon', () => {
+    const dual = { ...attacker, offHandWeapon: { power: 10, swa: 70, hit: 180, critical: 60, criticalDamage: 140, weight: 4 } };
+    expect(attackBase(null, 0, dual, {}, 'off').amount).toBe(70);
+    expect(attackBase(null, 0, dual, {}, 'main').amount).toBe(120);
+    expect(critDamageFor(null, dual, 'off')).toBe(140);
+    expect(critDamageFor(skillById('cutthroat')!, dual, 'off')).toBe(140);
+    expect(attackBase(null, 0, attacker, {}, 'off').complete).toBe(false);
+  });
+
+  it('adds both weapons’ Power for Straight Cannon', () => {
+    const cannon = skillById('straight-cannon')!;
+    const dual = { ...attacker, offHandWeapon: { power: 10, swa: 70, hit: 180, critical: 60, criticalDamage: 140, weight: 4 } };
+    expect(attackBase(cannon, 1, dual)).toMatchObject({ amount: 16 + 10, complete: true });
+    expect(attackBase(cannon, 1, attacker).complete).toBe(false);
+  });
+
   it('multiplies damage percentages together', () => {
     expect(powerMultiplier([15, 10])).toBeCloseTo(1.15 * 1.1);
     expect(powerMultiplier([])).toBe(1);

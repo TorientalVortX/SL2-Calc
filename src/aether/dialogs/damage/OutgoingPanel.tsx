@@ -5,8 +5,8 @@ import { ELEMENT_KEYS } from '../../../domain/buildEvaluation';
 import { NO_HIT, type DamageClass, type DamageType, type IncomingHit } from '../../../domain/damage';
 import { findWeaponByName } from '../../../domain/equipment';
 import {
-  OPEN_TARGET, attackBase, critDamageFor, defaultDamage, expectedOutgoing, outgoingDamage, powerMultiplier, riderFor, targetAfterSets,
-  type FlatBonus, type Target,
+  OPEN_TARGET, attackBase, critDamageFor, defaultDamage, expectedOutgoing, outgoingDamage, powerMultiplier, riderFor, targetAfterSets, weaponFor,
+  type FlatBonus, type Hand, type Target,
 } from '../../../domain/outgoing';
 import { SKILLS, mergeSkillRanks, skillById } from '../../../domain/skills';
 import { setAttackEffects } from '../../../domain/itemEffects';
@@ -34,8 +34,12 @@ function asDamageType(type: string | undefined): DamageType {
 
 export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; initialSkillId?: string }) {
   const { build, evaluation } = builder;
-  const weapon = evaluation.primaryWeapon;
-  const weaponType = asDamageType(findWeaponByName(build.equipment.primaryWeapon?.selectedWeaponName)?.damageType);
+  const hasOffHand = Boolean(evaluation.offHandWeapon);
+  const [handChoice, setHand] = useState<Hand>('main');
+  const hand: Hand = hasOffHand ? handChoice : 'main';
+  const weaponTypeOf = (which: Hand) => asDamageType(findWeaponByName(
+    (which === 'off' ? build.equipment.offHandWeapon : build.equipment.primaryWeapon)?.selectedWeaponName,
+  )?.damageType);
   const ranks = useMemo(() => mergeSkillRanks(build.skillRanks), [build.skillRanks]);
   const attacks = useMemo(
     () => SKILLS.filter(skill => (ranks[skill.id] ?? 0) > 0 && !(skill.healing && skill.category !== 'Offensive') && (skill.basicAttack
@@ -47,9 +51,13 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
   const [skillId, setSkillId] = useState(initialSkillId ?? '');
   const skill = skillId ? skillById(skillId) ?? null : null;
   const rank = skill ? ranks[skill.id] ?? 1 : 0;
+  // Only a basic attack, or a skill that performs one, picks a hand; other skills scale off the main hand.
+  const attackHand: Hand = !skill || skill.basicAttack ? hand : 'main';
+  const weapon = weaponFor(evaluation, attackHand);
+  const weaponType = weaponTypeOf(attackHand);
   const [elements, setElements] = useState<Partial<Record<number, ElementKey>>>({});
   const [hit, setHit] = useState<IncomingHit>(() => ({
-    ...NO_HIT, amount: 0, critDamagePercent: critDamageFor(skill, evaluation), ...defaultDamage(skill, {}, weaponType),
+    ...NO_HIT, amount: 0, critDamagePercent: critDamageFor(skill, evaluation, attackHand), ...defaultDamage(skill, {}, weaponType),
   }));
   const [percents, setPercents] = useState<number[]>([]);
   const [lightning, setLightning] = useState(false);
@@ -64,8 +72,14 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
     setSkillId(id);
     setElements({});
     const next = id ? skillById(id) ?? null : null;
-    set({ ...defaultDamage(next, {}, weaponType), critDamagePercent: critDamageFor(next, evaluation) });
+    const nextHand: Hand = !next || next.basicAttack ? hand : 'main';
+    set({ ...defaultDamage(next, {}, weaponTypeOf(nextHand)), critDamagePercent: critDamageFor(next, evaluation, nextHand) });
     setFlat(riderFor(next, next ? ranks[next.id] ?? 1 : 0) ?? NO_BONUS);
+  };
+  const pickHand = (next: Hand) => {
+    setHand(next);
+    if (skill && !skill.basicAttack) return;
+    set({ ...defaultDamage(skill, {}, weaponTypeOf(next)), critDamagePercent: critDamageFor(skill, evaluation, next) });
   };
   const pickElement = (index: number, element: ElementKey) => {
     const next = { ...elements, [index]: element };
@@ -84,7 +98,7 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
     });
   };
 
-  const base = attackBase(skill, rank, evaluation, elements);
+  const base = attackBase(skill, rank, evaluation, elements, attackHand);
   const fromSets = setAttackEffects(equippedSets(build.equipment));
   const setDamagePercents = fromSets.flatMap(effect => (effect.damagePercent ? [effect.damagePercent] : []));
   const allPercents = [...percents, ...(lightning ? [LIGHTNING_CRITICAL_PERCENT] : []), ...setDamagePercents];
@@ -114,6 +128,17 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
             ]}
             onChange={pickAttack}
           />
+          {hasOffHand && (!skill || skill.basicAttack) ? (
+            <SelectField
+              label="Hand"
+              value={hand}
+              options={[
+                { value: 'main', label: `Main · ${build.equipment.primaryWeapon?.selectedWeaponName ?? 'none'}` },
+                { value: 'off', label: `Off · ${build.equipment.offHandWeapon?.selectedWeaponName}` },
+              ]}
+              onChange={value => pickHand(value as Hand)}
+            />
+          ) : null}
           {choosable.map(({ index, choices }) => (
             <SelectField
               key={index}
