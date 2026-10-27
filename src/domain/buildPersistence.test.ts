@@ -53,6 +53,20 @@ describe('build persistence', () => {
     expect(decoded.build).toEqual(build);
   });
 
+  it('keeps item and trait switches and a Tetra crystal in a share link', () => {
+    const build = parseBuildFile(JSON.stringify(legacy)).build;
+    build.equipment.hands = { itemName: 'Metallic Magic Gauntlet', upgradePoints: { hit: 0, fp: 0 } };
+    build.equipment.accessory1 = { itemName: 'Tetra Dragon Fang', tetra: 'Wind', upgradePoints: { fortune: 0, greed: 0 } };
+    build.equipment.itemConditionalBonuses = { 'Metallic Magic Gauntlet:5': true };
+    build.traits = ['little-cheese'];
+    build.traitConditionals = { 'little-cheese': true };
+
+    const shared = decodeSharePayload(encodeSharePayload('Switches', build)).build;
+    expect(shared.equipment.itemConditionalBonuses).toEqual({ 'Metallic Magic Gauntlet:5': true });
+    expect(shared.equipment.accessory1?.tetra).toBe('Wind');
+    expect(shared.traitConditionals).toEqual({ 'little-cheese': true });
+  });
+
   it('round trips the hands, legs and accessory slots', () => {
     const build = parseBuildFile(JSON.stringify(legacy)).build;
     build.equipment.hands = {
