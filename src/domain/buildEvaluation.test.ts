@@ -5,6 +5,7 @@ import { SUBRACES } from '../data/races';
 import { ARMORS } from '../data/armors';
 import { HISTORY } from '../data/bonuses';
 import { findWeaponByName, weaponToConfig } from './equipment';
+import { itemConditionalKey } from './itemEffects';
 
 // baseBuild parses a legacy payload, which drops equipment.
 function armedBuild() {
@@ -132,7 +133,7 @@ describe('armour upgrade points', () => {
     // UL 9 across the three torso channels; the effect scales at UL/2, so 4.
     build.equipment.armorUpgradePoints = { armor: 2, magicArmor: 3, evade: 4 };
     const baseline = evaluateBuild(build);
-    build.equipment.armorConditionalBonuses['In-Fighter Gi:0'] = true;
+    build.equipment.armorConditionalBonuses[itemConditionalKey('In-Fighter Gi', 0)] = true;
     const active = evaluateBuild(build);
     expect(active.derived.evade - baseline.derived.evade).toBe(9);
     expect(active.derived.armorEvade - baseline.derived.armorEvade).toBe(9);
@@ -142,7 +143,7 @@ describe('armour upgrade points', () => {
     const build = baseBuild();
     build.equipment.armorName = 'Mermanmail';
     const baseline = evaluateBuild(build);
-    build.equipment.armorConditionalBonuses['Mermanmail:1'] = true;
+    build.equipment.armorConditionalBonuses[itemConditionalKey('Mermanmail', 1)] = true;
     const active = evaluateBuild(build);
     expect(active.derived.evade - baseline.derived.evade).toBe(5);
     expect(active.derived.armor - baseline.derived.armor).toBe(5);

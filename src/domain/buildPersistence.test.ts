@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { createBuildFile, decodeSharePayload, encodeSharePayload, parseBuildFile } from './buildPersistence';
 import type { TetraAlignment } from '../types';
+import { itemConditionalKey, itemRollKey } from './itemEffects';
 
 const legacy = {
   version: '0.5.0', buildName: 'Legacy Zero HP', race: 'Human', subrace: 'Imperialist', mainClass: 'Soldier', subClass: 'Soldier',
@@ -57,12 +58,12 @@ describe('build persistence', () => {
     const build = parseBuildFile(JSON.stringify(legacy)).build;
     build.equipment.hands = { itemName: 'Metallic Magic Gauntlet', upgradePoints: { hit: 0, fp: 0 } };
     build.equipment.accessory1 = { itemName: 'Tetra Dragon Fang', tetra: 'Wind', upgradePoints: { fortune: 0, greed: 0 } };
-    build.equipment.itemConditionalBonuses = { 'Metallic Magic Gauntlet:5': true };
+    build.equipment.itemConditionalBonuses = { [itemConditionalKey('Metallic Magic Gauntlet', 5)]: true };
     build.traits = ['little-cheese'];
     build.traitConditionals = { 'little-cheese': true };
 
     const shared = decodeSharePayload(encodeSharePayload('Switches', build)).build;
-    expect(shared.equipment.itemConditionalBonuses).toEqual({ 'Metallic Magic Gauntlet:5': true });
+    expect(shared.equipment.itemConditionalBonuses).toEqual({ [itemConditionalKey('Metallic Magic Gauntlet', 5)]: true });
     expect(shared.equipment.accessory1?.tetra).toBe('Wind');
     expect(shared.traitConditionals).toEqual({ 'little-cheese': true });
   });
@@ -98,19 +99,31 @@ describe('build persistence', () => {
   it('round trips switched-on item effects', () => {
     const build = parseBuildFile(JSON.stringify(legacy)).build;
     build.equipment.hands = { itemName: 'Metallic Magic Gauntlet', upgradePoints: { hit: 0, fp: 0 } };
-    build.equipment.itemConditionalBonuses = { 'Metallic Magic Gauntlet:5': true, 'Metallic Magic Gauntlet:2': false };
+    build.equipment.itemConditionalBonuses = { [itemConditionalKey('Metallic Magic Gauntlet', 5)]: true, [itemConditionalKey('Metallic Magic Gauntlet', 2)]: false };
 
     const reloaded = parseBuildFile(JSON.stringify(createBuildFile('Shielded', build))).build;
-    expect(reloaded.equipment.itemConditionalBonuses).toEqual({ 'Metallic Magic Gauntlet:5': true });
+    expect(reloaded.equipment.itemConditionalBonuses).toEqual({ [itemConditionalKey('Metallic Magic Gauntlet', 5)]: true });
   });
 
   it('round trips the rolls chosen for ranged item bonuses', () => {
     const build = parseBuildFile(JSON.stringify(legacy)).build;
     build.equipment.accessory1 = { itemName: 'Bunny Ears', upgradePoints: { fortune: 0, greed: 0 } };
-    build.equipment.itemRolls = { 'Bunny Ears:0:0': 4 };
+    build.equipment.itemRolls = { [itemRollKey('Bunny Ears', 0, 0)]: 4 };
 
     const reloaded = parseBuildFile(JSON.stringify(createBuildFile('Rolled', build))).build;
-    expect(reloaded.equipment.itemRolls).toEqual({ 'Bunny Ears:0:0': 4 });
+    expect(reloaded.equipment.itemRolls).toEqual({ [itemRollKey('Bunny Ears', 0, 0)]: 4 });
+  });
+
+  it('moves positional switch and roll keys from older saves onto the lines they meant', () => {
+    const build = parseBuildFile(JSON.stringify(legacy)).build;
+    build.equipment.itemConditionalBonuses = { 'Metallic Magic Gauntlet:5': true };
+    build.equipment.armorConditionalBonuses = { 'Mermanmail:1': true, dualWielding: true };
+    build.equipment.itemRolls = { [itemRollKey('Bunny Ears', 0, 0)]: 4 };
+
+    const reloaded = parseBuildFile(JSON.stringify(createBuildFile('Old', build))).build;
+    expect(reloaded.equipment.itemConditionalBonuses).toEqual({ [itemConditionalKey('Metallic Magic Gauntlet', 5)]: true });
+    expect(reloaded.equipment.armorConditionalBonuses).toEqual({ [itemConditionalKey('Mermanmail', 1)]: true, dualWielding: true });
+    expect(reloaded.equipment.itemRolls).toEqual({ [itemRollKey('Bunny Ears', 0, 0)]: 4 });
   });
 
   it('reads only the tracks a slot owns', () => {
@@ -247,7 +260,7 @@ describe('build persistence', () => {
     build.equipment.legs = { itemName: 'Boots of Initiative', material: 'Snakescale', enchantment: 'Fortune', upgradePoints: { hp: 4, evade: 1 } };
     build.equipment.accessory1 = { itemName: 'Blue Seal', upgradePoints: { fortune: 2, greed: 5 } };
     build.equipment.accessory2 = { itemName: 'Bunny Ears', upgradePoints: { fortune: 0, greed: 0 } };
-    build.equipment.itemRolls = { 'Bunny Ears:0:0': 4 };
+    build.equipment.itemRolls = { [itemRollKey('Bunny Ears', 0, 0)]: 4 };
 
     const encoded = encodeSharePayload('Full Loadout', build);
     expect(encoded.length).toBeLessThan(20_000);

@@ -5,6 +5,7 @@ import { mainClassAllowsWeaponType, subClassOnlyWeaponType, weaponCategory } fro
 import { CLASSES } from '../../data/classes';
 import { GEAR_BY_GROUP } from '../../data/gear';
 import { WEAPONS_BY_TYPE } from '../../data/weapons';
+import { itemConditionalKey } from '../../domain/itemEffects';
 import { buildReducer, createDefaultBuild } from './build';
 import { SLOTS, effectsForSlot, equipmentOverview, grantedSkills, slotSummary, weaponChoices } from './equipment';
 
@@ -211,7 +212,7 @@ describe('item effects', () => {
   it('exposes effect lines with stable conditional keys', () => {
     const effects = effectsForSlot(armed().equipment, 'primaryWeapon');
     for (const entry of effects) {
-      expect(entry.conditionalKey).toBe(`Engraved Katana:${entry.index}`);
+      expect(entry.conditionalKey).toMatch(/^Engraved Katana#[0-9a-z]+$/);
       for (const roll of entry.rolls) expect(roll.max).toBeGreaterThanOrEqual(roll.min);
     }
   });
@@ -235,9 +236,9 @@ describe('Magical Gauntlet shields', () => {
     let build = buildReducer(createDefaultBuild(), { type: 'equip-gear', slot: 'hands', itemName: 'Metallic Magic Gauntlet' });
     const def = () => evaluateBuild(build).scaledStats.def;
     const base = def();
-    build = buildReducer(build, { type: 'item-conditional', key: 'Metallic Magic Gauntlet:2', on: true });
-    build = buildReducer(build, { type: 'item-conditional', key: 'Metallic Magic Gauntlet:5', on: true });
-    expect(build.equipment.itemConditionalBonuses).toMatchObject({ 'Metallic Magic Gauntlet:2': false, 'Metallic Magic Gauntlet:5': true });
+    build = buildReducer(build, { type: 'item-conditional', key: itemConditionalKey('Metallic Magic Gauntlet', 2), on: true });
+    build = buildReducer(build, { type: 'item-conditional', key: itemConditionalKey('Metallic Magic Gauntlet', 5), on: true });
+    expect(build.equipment.itemConditionalBonuses).toMatchObject({ [itemConditionalKey('Metallic Magic Gauntlet', 2)]: false, [itemConditionalKey('Metallic Magic Gauntlet', 5)]: true });
     expect(def()).toBe(base + 8);
   });
 });
@@ -253,7 +254,7 @@ describe('granted skills', () => {
       ['Magical Aegis', '3 Momentum, 5 FP', 'slot3'],
       ['Goren Bakudan', '3M, 15 FP, 1 Round CD', 'accessory1'],
     ]);
-    expect(skills[1].parts.map(part => part.conditionalKey)).toEqual(['Metallic Magic Gauntlet:5']);
+    expect(skills[1].parts.map(part => part.conditionalKey)).toEqual([itemConditionalKey('Metallic Magic Gauntlet', 5)]);
     expect(skills[3].parts.map(part => part.effect.description)[1]).toBe('Furinkazan: Gain 1 Fire Mark.');
   });
 
@@ -291,7 +292,7 @@ describe('granted skills in use', () => {
 
   it('sets STR to level + 20 while Contract of Blood is in effect', () => {
     const build = buildReducer(createDefaultBuild(), { type: 'equip-armor', armorName: 'Cruel Commander' });
-    const active = evaluateBuild(on(build, 'Cruel Commander:2'));
+    const active = evaluateBuild(on(build, itemConditionalKey('Cruel Commander', 2)));
     expect(active.scaledStats.str).toBe(build.characterLevel + 20);
     expect(active.rawStats.str).toBe(build.characterLevel + 20);
   });
@@ -299,13 +300,13 @@ describe('granted skills in use', () => {
   it('adds Lion’s Roar’s STR, growing with character level', () => {
     const build = buildReducer(createDefaultBuild(), { type: 'equip-gear', slot: 'hands', itemName: 'Lion Shield' });
     const before = evaluateBuild(build).scaledStats.str;
-    expect(evaluateBuild(on(build, 'Lion Shield:3')).scaledStats.str).toBe(before + 2 + Math.floor(build.characterLevel / 5));
+    expect(evaluateBuild(on(build, itemConditionalKey('Lion Shield', 3))).scaledStats.str).toBe(before + 2 + Math.floor(build.characterLevel / 5));
   });
 
   it('gives Luckiness Dance at least 1 SKI and LUC before any upgrades', () => {
     const build = buildReducer(createDefaultBuild(), { type: 'equip-weapon', which: 'primaryWeapon', weaponName: "Atlaua's Abaniko" });
     const before = evaluateBuild(build).scaledStats;
-    const after = evaluateBuild(on(build, "Atlaua's Abaniko:1")).scaledStats;
+    const after = evaluateBuild(on(build, itemConditionalKey("Atlaua's Abaniko", 1))).scaledStats;
     expect([after.ski - before.ski, after.luc - before.luc]).toEqual([1, 1]);
   });
 

@@ -80,7 +80,7 @@ export function clampRoll(value: ItemEffectValue, roll: number | undefined): num
 
 /** Per value, not per effect: Bands of the Crocodile is "+1-3 WIL, +1-2 DEF". */
 export function itemRollKey(itemName: string, effectIndex: number, valueIndex: number): string {
-  return `${itemName}:${effectIndex}:${valueIndex}`;
+  return `${itemConditionalKey(itemName, effectIndex)}:${valueIndex}`;
 }
 
 export interface ItemBonuses {
@@ -96,15 +96,53 @@ export interface ItemBonuses {
 const EMPTY: ItemBonuses = { stats: {}, setStats: {}, derived: {}, elementalAttack: {}, resistances: {} };
 const NO_ROLLS: Record<string, number> = Object.freeze({});
 
+const effectsByName = (itemName: string): ItemEffect[] => GEAR_EFFECTS[itemName] ?? WEAPON_EFFECTS[itemName] ?? ARMOR_EFFECTS[itemName] ?? [];
+
+// FNV-1a: short, stable and dependency-free.
+function lineHash(text: string): string {
+  let hash = 0x811c9dc5;
+  for (let index = 0; index < text.length; index++) {
+    hash ^= text.charCodeAt(index);
+    hash = Math.imul(hash, 0x01000193) >>> 0;
+  }
+  return hash.toString(36);
+}
+
+const lineKeyCache = new Map<string, string[]>();
+
+function lineKeys(itemName: string): string[] {
+  const cached = lineKeyCache.get(itemName);
+  if (cached) return cached;
+  const repeats = new Map<string, number>();
+  const keys = effectsByName(itemName).map(effect => {
+    const hash = lineHash(effect.description);
+    const seen = repeats.get(hash) ?? 0;
+    repeats.set(hash, seen + 1);
+    return `${itemName}#${hash}${seen ? `.${seen}` : ''}`;
+  });
+  lineKeyCache.set(itemName, keys);
+  return keys;
+}
+
+/** Keyed by the line's text, not its position, so a wiki edit that adds or reorders lines can't move a saved switch. */
 export function itemConditionalKey(itemName: string, index: number): string {
-  return `${itemName}:${index}`;
+  return lineKeys(itemName)[index] ?? `${itemName}#${index}`;
+}
+
+/** Positional keys from before 0.9.3 ("Name:5", rolls "Name:5:0") resolve against the current lines. */
+export function migrateItemKey(key: string): string {
+  if (key.includes('#')) return key;
+  const roll = /^(.+):(\d+):(\d+)$/.exec(key);
+  if (roll && effectsByName(roll[1]).length) return itemRollKey(roll[1], Number(roll[2]), Number(roll[3]));
+  const line = /^(.+):(\d+)$/.exec(key);
+  if (line && effectsByName(line[1]).length) return itemConditionalKey(line[1], Number(line[2]));
+  return key;
 }
 
 export function exclusiveRivals(conditionalKey: string): string[] {
-  const at = conditionalKey.lastIndexOf(':');
-  const itemName = conditionalKey.slice(0, at);
-  const index = Number(conditionalKey.slice(at + 1));
-  const effects = GEAR_EFFECTS[itemName] ?? WEAPON_EFFECTS[itemName] ?? ARMOR_EFFECTS[itemName] ?? [];
+  const itemName = conditionalKey.slice(0, conditionalKey.lastIndexOf('#'));
+  const effects = effectsByName(itemName);
+  const index = lineKeys(itemName).indexOf(conditionalKey);
   if (!effects[index]?.exclusive) return [];
   return effects.flatMap((effect, other) => (effect.exclusive && other !== index ? [itemConditionalKey(itemName, other)] : []));
 }

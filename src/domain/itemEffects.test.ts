@@ -7,6 +7,7 @@ import {
   gearEffects,
   itemBonuses,
   itemConditionalKey,
+  itemRollKey,
   valueAtUL,
   weaponEffects,
   weaponUL,
@@ -49,9 +50,9 @@ describe('item effect data', () => {
   it('uses earned Salamander Power, defaults to zero and clamps to 0?100', () => {
     const value = weaponEffects('Salamander Sword')[0].effects[0];
     expect(value).toMatchObject({ base: 0, rollMax: 100 });
-    expect(itemBonuses({ weaponName: 'Salamander Sword', conditionals: { 'Salamander Sword:0': true } }).derived.power ?? 0).toBe(0);
+    expect(itemBonuses({ weaponName: 'Salamander Sword', conditionals: { [itemConditionalKey('Salamander Sword', 0)]: true } }).derived.power ?? 0).toBe(0);
     for (const [selected, expected] of [[0, 0], [15, 15], [42, 42], [100, 100], [-5, 0], [150, 100]]) {
-      expect(itemBonuses({ weaponName: 'Salamander Sword', rolls: { 'Salamander Sword:0:0': selected } }).derived.power ?? 0).toBe(expected);
+      expect(itemBonuses({ weaponName: 'Salamander Sword', rolls: { [itemRollKey('Salamander Sword', 0, 0)]: selected } }).derived.power ?? 0).toBe(expected);
     }
   });
   it('parses a UL-scaled weapon passive', () => {
@@ -132,6 +133,13 @@ describe('item effect data', () => {
     expect(values(gearEffects('Heart of the Lion'))).toEqual([['str', 2], ['wil', 2], ['def', 2], ['res', 2]]);
     expect(values(weaponEffects('Sunken Silk Bow').slice(0, 1))).toEqual([['power', 5], ['hit', 5], ['critical', 5]]);
     expect(values(weaponEffects('Hankyu').slice(1, 2))).toEqual([['evade', 10], ['criticalEvade', 10]]);
+  });
+
+  it('keys each line by its text, keeping repeated lines apart', () => {
+    const lines = gearEffects('Metallic Magic Gauntlet');
+    const keys = lines.map((_, index) => itemConditionalKey('Metallic Magic Gauntlet', index));
+    expect(new Set(keys).size).toBe(lines.length);
+    expect(keys.every(key => key.startsWith('Metallic Magic Gauntlet#'))).toBe(true);
   });
 
   it('returns nothing for an unknown item', () => {
