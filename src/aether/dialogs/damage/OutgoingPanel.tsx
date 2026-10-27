@@ -12,6 +12,7 @@ import { SKILLS, mergeSkillRanks, skillById } from '../../../domain/skills';
 import { setAttackEffects } from '../../../domain/itemEffects';
 import { equippedSets } from '../../../domain/itemSets';
 import { skillFormulaBreakdown } from '../../../domain/skillDamage';
+import { unarmedWeapon } from '../../../domain/unarmed';
 import { SectionHead } from '../../ui/Panel';
 import { NumberField, SelectField, Stepper, Toggle } from '../../ui/controls';
 import type { Builder } from '../../state/useBuilder';
@@ -19,6 +20,7 @@ import { CLASS_OPTIONS, OutcomeGrid, STEPS_HINT, StepRows, TYPE_OPTIONS, percent
 
 const LIGHTNING_CRITICAL_PERCENT = 25;
 const NO_BONUS: FlatBonus = { amount: 0, ignores: 'none' };
+const HAND_LABEL: Record<Hand, string> = { main: 'Main', off: 'Off', unarmed: 'Unarmed' };
 
 const IGNORE_OPTIONS: Array<{ value: FlatBonus['ignores']; label: string }> = [
   { value: 'none', label: 'Normal' },
@@ -34,12 +36,15 @@ function asDamageType(type: string | undefined): DamageType {
 
 export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; initialSkillId?: string }) {
   const { build, evaluation } = builder;
-  const hasOffHand = Boolean(evaluation.offHandWeapon);
+  const fists = unarmedWeapon(build.traits);
   const [handChoice, setHand] = useState<Hand>('main');
-  const hand: Hand = hasOffHand ? handChoice : 'main';
-  const weaponTypeOf = (which: Hand) => asDamageType(findWeaponByName(
-    (which === 'off' ? build.equipment.offHandWeapon : build.equipment.primaryWeapon)?.selectedWeaponName,
-  )?.damageType);
+  const weaponNameOf = (which: Hand) => (which === 'off'
+    ? build.equipment.offHandWeapon?.selectedWeaponName
+    : which === 'main' ? build.equipment.primaryWeapon?.selectedWeaponName ?? fists.name : fists.name) ?? 'none';
+  const weaponTypeOf = (which: Hand) => {
+    const held = which === 'off' ? build.equipment.offHandWeapon : which === 'main' ? build.equipment.primaryWeapon : undefined;
+    return asDamageType(held ? findWeaponByName(held.selectedWeaponName)?.damageType : fists.damageType);
+  };
   const ranks = useMemo(() => mergeSkillRanks(build.skillRanks), [build.skillRanks]);
   const attacks = useMemo(
     () => SKILLS.filter(skill => (ranks[skill.id] ?? 0) > 0 && !(skill.healing && skill.category !== 'Offensive') && (skill.basicAttack
@@ -51,8 +56,14 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
   const [skillId, setSkillId] = useState(initialSkillId ?? '');
   const skill = skillId ? skillById(skillId) ?? null : null;
   const rank = skill ? ranks[skill.id] ?? 1 : 0;
-  // Only a basic attack, or a skill that performs one, picks a hand; other skills scale off the main hand.
-  const attackHand: Hand = !skill || skill.basicAttack ? hand : 'main';
+  // Only a basic attack, or a skill that performs one, picks between held weapons; Mixed Martial Arts lends any skill the bare fists.
+  const handsFor = (attack: typeof skill): Hand[] => [
+    'main',
+    ...(evaluation.offHandWeapon && (!attack || attack.basicAttack) ? ['off' as const] : []),
+    ...(evaluation.unarmedWeapon && attack ? ['unarmed' as const] : []),
+  ];
+  const hands = handsFor(skill);
+  const attackHand: Hand = hands.includes(handChoice) ? handChoice : 'main';
   const weapon = weaponFor(evaluation, attackHand);
   const weaponType = weaponTypeOf(attackHand);
   const [elements, setElements] = useState<Partial<Record<number, ElementKey>>>({});
@@ -72,14 +83,13 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
     setSkillId(id);
     setElements({});
     const next = id ? skillById(id) ?? null : null;
-    const nextHand: Hand = !next || next.basicAttack ? hand : 'main';
+    const nextHand: Hand = handsFor(next).includes(handChoice) ? handChoice : 'main';
     set({ ...defaultDamage(next, {}, weaponTypeOf(nextHand)), critDamagePercent: critDamageFor(next, evaluation, nextHand) });
     setFlat(riderFor(next, next ? ranks[next.id] ?? 1 : 0) ?? NO_BONUS);
   };
   const pickHand = (next: Hand) => {
     setHand(next);
-    if (skill && !skill.basicAttack) return;
-    set({ ...defaultDamage(skill, {}, weaponTypeOf(next)), critDamagePercent: critDamageFor(skill, evaluation, next) });
+    set({ ...defaultDamage(skill, elements, weaponTypeOf(next)), critDamagePercent: critDamageFor(skill, evaluation, next) });
   };
   const pickElement = (index: number, element: ElementKey) => {
     const next = { ...elements, [index]: element };
@@ -128,14 +138,11 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
             ]}
             onChange={pickAttack}
           />
-          {hasOffHand && (!skill || skill.basicAttack) ? (
+          {hands.length > 1 ? (
             <SelectField
               label="Hand"
-              value={hand}
-              options={[
-                { value: 'main', label: `Main · ${build.equipment.primaryWeapon?.selectedWeaponName ?? 'none'}` },
-                { value: 'off', label: `Off · ${build.equipment.offHandWeapon?.selectedWeaponName}` },
-              ]}
+              value={attackHand}
+              options={hands.map(option => ({ value: option, label: `${HAND_LABEL[option]} · ${weaponNameOf(option)}` }))}
               onChange={value => pickHand(value as Hand)}
             />
           ) : null}

@@ -7328,7 +7328,10 @@
             12,
             15
           ],
-          "applies": "conditional"
+          "applies": "always",
+          "weapons": [
+            "Unarmed"
+          ]
         },
         {
           "kind": "derived",
@@ -7340,7 +7343,10 @@
             12,
             15
           ],
-          "applies": "conditional"
+          "applies": "always",
+          "weapons": [
+            "Unarmed"
+          ]
         },
         {
           "kind": "derived",
@@ -7352,7 +7358,10 @@
             12,
             15
           ],
-          "applies": "conditional"
+          "applies": "always",
+          "weapons": [
+            "Unarmed"
+          ]
         }
       ]
     },

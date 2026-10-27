@@ -604,6 +604,8 @@ export interface BuildEvaluation {
   primaryWeapon?: WeaponLine;
   /** An off-hand weapon is its own weapon, used by attacks made with it. */
   offHandWeapon?: WeaponLine;
+  /** Bare fists beside a held weapon, through Mixed Martial Arts. With the main hand empty they are `primaryWeapon`. */
+  unarmedWeapon?: WeaponLine;
 }
 
 export interface WeaponLine {
@@ -614,6 +616,8 @@ export interface WeaponLine {
   critical: number;
   criticalDamage: number;
   weight: number;
+  /** "+N Power to Unarmed Weapons (Basic attacks only.)" */
+  basicAttackPower?: number;
 }
 
 export interface RaceConfig {

@@ -54,21 +54,32 @@ export const OPEN_TARGET: Target = {
 
 type Attacker = Pick<BuildEvaluation, 'scaledStats' | 'elementalAttack' | 'primaryWeapon'> & {
   offHandWeapon?: BuildEvaluation['offHandWeapon'];
+  unarmedWeapon?: BuildEvaluation['unarmedWeapon'];
   derived?: Pick<BuildEvaluation['derived'], 'maxHP' | 'currentHP'>;
 };
 
-export type Hand = 'main' | 'off';
+/** `unarmed` is bare fists beside a held weapon, through Mixed Martial Arts. */
+export type Hand = 'main' | 'off' | 'unarmed';
+
+type Wielder = Pick<Attacker, 'primaryWeapon' | 'offHandWeapon' | 'unarmedWeapon'>;
 
 /** A basic attack uses one weapon, whichever hand attacks; only skills such as Akimbo use both. */
-export const weaponFor = (attacker: Pick<Attacker, 'primaryWeapon' | 'offHandWeapon'>, hand: Hand) =>
-  (hand === 'off' ? attacker.offHandWeapon : attacker.primaryWeapon);
+export const weaponFor = (attacker: Wielder, hand: Hand) =>
+  (hand === 'off' ? attacker.offHandWeapon : hand === 'unarmed' ? attacker.unarmedWeapon : attacker.primaryWeapon);
+
+const EQUIP_HINT: Record<Hand, string> = {
+  main: 'Equip a main-hand weapon.',
+  off: 'Equip an off-hand weapon.',
+  unarmed: 'Needs Mixed Martial Arts and no sub-weapon or shield.',
+};
 
 const atRank = (values: number[] | undefined, rank: number) => (values ? valueAtRank(values, rank) ?? 0 : 0);
 
 function basicAttack(skill: Skill | null, rank: number, attacker: Attacker, hand: Hand): AttackBase {
   const profile = skill?.basicAttack ?? {};
   const share = profile.damagePercent ?? 100;
-  const swa = weaponFor(attacker, hand)?.swa ?? null;
+  const weapon = weaponFor(attacker, hand);
+  const swa = weapon ? weapon.swa + (weapon.basicAttackPower ?? 0) : null;
   // Straight Cannon: "Main Weapon Power + Sub-Weapon Power".
   const terms: AttackTerm[] = profile.bothWeaponsPower
     ? [
@@ -78,7 +89,7 @@ function basicAttack(skill: Skill | null, rank: number, attacker: Attacker, hand
     : [{
       label: 'Scaled Weapon ATK',
       amount: swa === null ? null : swa * share / 100,
-      detail: swa !== null ? `${share}%` : hand === 'off' ? 'Equip an off-hand weapon.' : 'Equip a main-hand weapon.',
+      detail: swa !== null ? `${share}%` : EQUIP_HINT[hand],
     }];
   const weaponPart = terms.reduce((total, term) => total + (term.amount ?? 0), 0);
   const bonusDamage = atRank(profile.bonusDamageByRank, rank);
@@ -100,7 +111,7 @@ function basicAttack(skill: Skill | null, rank: number, attacker: Attacker, hand
 /** Wiki Damage page: a basic attack is Scaled Weapon Attack; a skill or spell adds its SWA and Elemental ATK scaling. */
 export function attackBase(skill: Skill | null, rank: number, attacker: Attacker, elements: Partial<Record<number, ElementKey>> = {}, hand: Hand = 'main'): AttackBase {
   if (!skill || skill.basicAttack) return basicAttack(skill, rank, attacker, hand);
-  const formula = skillFormulaBreakdown(skill, rank, attacker, elements);
+  const formula = skillFormulaBreakdown(skill, rank, { ...attacker, primaryWeapon: weaponFor(attacker, hand) }, elements);
   if (!formula) return { terms: [], amount: 0, bonus: 0, hit: 0, critical: 0, complete: false };
   return {
     terms: formula.terms.map(term => ({
@@ -220,7 +231,7 @@ export function expectedOutgoing(hit: IncomingHit, attack: Attack, percents: num
 export const SKILL_CRIT_DAMAGE_PERCENT = 125;
 
 /** A basic attack crits at the weapon's crit damage plus scaled GUI (wiki Critical page). */
-export function critDamageFor(skill: Skill | null, attacker: Pick<Attacker, 'primaryWeapon' | 'offHandWeapon'>, hand: Hand = 'main'): number {
+export function critDamageFor(skill: Skill | null, attacker: Wielder, hand: Hand = 'main'): number {
   return skill && !skill.basicAttack ? SKILL_CRIT_DAMAGE_PERCENT : weaponFor(attacker, hand)?.criticalDamage ?? 100;
 }
 

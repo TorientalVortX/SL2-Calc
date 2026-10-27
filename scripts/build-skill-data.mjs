@@ -473,6 +473,12 @@ skills.find(skill => skill.id === 'keyshot').effects = [
   { kind: 'derived', key: 'critical', valueByRank: [5, 10, 15], applies: 'always', weapons: ['Bow'] },
 ];
 
+// "When using their bare fists": automatic on the unarmed weapon, never on a held one.
+for (const effect of skills.find(skill => skill.id === 'empty-palm').effects) {
+  effect.applies = 'always';
+  effect.weapons = ['Unarmed'];
+}
+
 skills.sort((a, b) => a.name.localeCompare(b.name));
 const unknownHealing = [...HEALING].filter((name) => !skills.some((skill) => skill.name === name));
 if (unknownHealing.length) console.warn(`  ! healing-skills.json names no skill: ${unknownHealing.join(', ')}`);

@@ -54,13 +54,13 @@ describe('readout derivations', () => {
     }
   });
 
-  it('marks the weapon-dependent rows as partial while unarmed', () => {
+  it('reads the bare fists in full while unarmed', () => {
     const partial = readoutGroups(evaluateBuild(soldier.build))
       .flatMap(group => group.rows)
       .filter(row => row.partial)
       .map(row => row.key);
     // Only the weapon and torso have a published weight.
-    expect(partial.sort()).toEqual(['battleWeight', 'critDamage', 'critical', 'hit']);
+    expect(partial).toEqual(['battleWeight']);
   });
 
   it('drops the partial marks and adds Power once a weapon is equipped', () => {
@@ -120,7 +120,7 @@ describe('what a derived row says it reads', () => {
       expect(Boolean(row.note), `${row.key} note`).toBe(Boolean(row.partial));
     }
     const notes = new Set(allRows.filter(row => row.partial).map(row => row.note));
-    expect(notes.size).toBe(2);
+    expect(notes.size).toBe(1);
   });
 
   it('summarises a manual element adjustment, and says nothing when there is none', () => {

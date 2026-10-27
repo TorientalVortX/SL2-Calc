@@ -45,9 +45,10 @@ describe('build card model', () => {
     expect(model.classes).toBe(`${build.mainClass} (Monoclass)`);
   });
 
-  it('flags a character-side figure the way the rail does', () => {
+  it('reads the bare fists in full with the main hand empty', () => {
     const build = createDefaultBuild();
-    const model = buildCardModel(build, evaluateBuild(build), 'Unarmed', counts);
-    expect(model.derived.find(row => row.label === 'Hit')?.value.endsWith('†')).toBe(true);
+    const evaluation = evaluateBuild(build);
+    const model = buildCardModel(build, evaluation, 'Unarmed', counts);
+    expect(model.derived.find(row => row.label === 'Hit')?.value).toBe(`${evaluation.primaryWeapon!.hit}%`);
   });
 });

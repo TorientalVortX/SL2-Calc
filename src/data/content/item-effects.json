@@ -8275,7 +8275,7 @@
         "effects": [
           {
             "kind": "derived",
-            "key": "power",
+            "key": "unarmedPower",
             "base": 2,
             "ulMultiplier": 0
           }
@@ -8833,7 +8833,7 @@
         "effects": [
           {
             "kind": "derived",
-            "key": "power",
+            "key": "unarmedPower",
             "base": 2,
             "ulMultiplier": 0
           }
@@ -8848,7 +8848,7 @@
         "effects": [
           {
             "kind": "derived",
-            "key": "power",
+            "key": "unarmedPower",
             "base": 5,
             "ulMultiplier": 0
           }

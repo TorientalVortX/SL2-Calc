@@ -92,10 +92,10 @@ describe('Magical', () => {
     expect(result.wil).toBe(40);
   });
 
-  // Arcane Tattoo (Fist) enhances the unarmed weapon, which the dataset doesn't have yet.
-  it('is granted by the Arcane Tattoo (Fist) trait', () => {
-    expect(scalingTagsFor({ enchantment: 'None', part1: 'None', part2: 'None', part3: 'None' }, ['arcane-tattoo-fist']))
-      .toContain('Magical');
+  it('is granted to the unarmed weapon by the Arcane Tattoo (Fist) trait', () => {
+    const plain = { enchantment: 'None', part1: 'None', part2: 'None', part3: 'None' };
+    expect(scalingTagsFor(plain, ['arcane-tattoo-fist'], true)).toContain('Magical');
+    expect(scalingTagsFor(plain, ['arcane-tattoo-fist'])).not.toContain('Magical');
   });
 });
 

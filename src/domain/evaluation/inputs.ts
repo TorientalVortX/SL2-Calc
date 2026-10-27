@@ -25,6 +25,7 @@ import { activeMixtureBonuses } from '../chemist';
 import { calculateArmorConditionals } from '../derivedCalculations';
 import { emptyStats } from './shared';
 import { equippedSets } from '../itemSets';
+import { mixedMartialArtsReady, unarmedWeapon } from '../unarmed';
 
 const EMPTY_SKILL_BONUSES: SkillBonuses = { stats: {}, buffStats: {}, derived: {}, elemental: {}, elementalResistance: {} };
 const EMPTY_RANKS: SkillRanks = {};
@@ -144,8 +145,10 @@ export function gatherInputs(build: BuildState) {
   const hasFortitude = (mergedSkillRanks.fortitude ?? 0) >= 1;
   const hasEndurance = (mergedSkillRanks.endurance ?? 0) >= 1;
   const availableSkills = hasSkillRanks ? skillsForClassSlots(build.mainClass, build.subClass) : [];
+  const unarmed = unarmedWeapon(build.traits);
+  const mainWeaponTypes = build.equipment.primaryWeapon ? effectiveWeaponTypes(build.equipment.primaryWeapon) : unarmed.types;
   const skillWeaponSubtype = findWeaponByName(build.equipment.primaryWeapon?.selectedWeaponName)?.subtype;
-  const skillWeaponTypes = [...effectiveWeaponTypes(build.equipment.primaryWeapon), ...(skillWeaponSubtype ? [skillWeaponSubtype] : [])];
+  const skillWeaponTypes = [...mainWeaponTypes, ...(skillWeaponSubtype ? [skillWeaponSubtype] : [])];
   const skillContext = { inputs: build.skillInputs, ranks: mergedSkillRanks };
   const initialSkills = hasSkillRanks
     ? skillBonuses(availableSkills, mergedSkillRanks, build.skillConditionals, skillWeaponTypes, skillContext)
@@ -154,8 +157,10 @@ export function gatherInputs(build: BuildState) {
   // History traits are skipped inside `traitStatBonuses`; the `history` field already grants them.
   const traits = traitStatBonuses(build.traits ?? [], build.traitConditionals);
   // Grip talents are resolved from the equipped weapon in the offense stage, so they are zeroed here.
-  const talents = talentEffects({ ...build, talents: { ...build.talents,
-    'two-hand/full-swing': 0, 'two-hand/steady': 0 } }, effectiveWeaponTypes(build.equipment.primaryWeapon));
+  const talentInput = { ...build, talents: { ...build.talents, 'two-hand/full-swing': 0, 'two-hand/steady': 0 } };
+  const talents = talentEffects(talentInput, mainWeaponTypes);
+  const mixedMartialArts = mixedMartialArtsReady(build, mergedSkillRanks);
+  const unarmedTalents = mixedMartialArts ? talentEffects(talentInput, unarmed.types) : talents;
   const armor = build.equipment.armorName ? ARMORS[build.equipment.armorName] ?? null : null;
   const armorConditional = calculateArmorConditionals(armor, build.equipment.armorConditionalBonuses);
   const armorMaterial = armorMaterialModifier(build.equipment.armorMaterial);
@@ -217,6 +222,7 @@ export function gatherInputs(build: BuildState) {
     build, mixtureBonuses, subrace, race, mainClass, monoclassModifier, history, food, astrologyStat,
     hasSkillRanks, mergedSkillRanks, youkaiBonuses, rising, painToleranceRank, hasFortitude, hasEndurance,
     availableSkills, skillWeaponTypes, skillContext, initialSkills, karakuri, traits, talents,
+    unarmed, mixedMartialArts, unarmedTalents,
     armor, armorConditional, armorMaterial, armorQuality, armorEnchant, armorPoints, dragonKingPieces, dragonQueenPieces,
     usingOffHand, offHandWeapon, offHandItems, mainWeaponItems, equippedHands, gearSlots, items, gearBonus, handsPoints, legsPoints, weaponBonus, weaponMaterial, leBonus,
   };

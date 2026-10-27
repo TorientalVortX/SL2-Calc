@@ -1,4 +1,4 @@
-import type { BuildEvaluation, DerivedSource, StatRecord, WeaponConfig } from '../../types';
+import type { DerivedSource, StatRecord, WeaponConfig, WeaponLine } from '../../types';
 import { resolveUpgradePoints } from '../../types';
 import { isShield } from '../../data/gear';
 import modifierData from '../../data/content/weapon-modifiers.json';
@@ -6,18 +6,20 @@ import { effectiveWeaponTypes, findWeaponByName } from '../equipment';
 import { calculateWeaponSlot, scaledStatContribution, type WeaponEnchantment, type WeaponModifier } from '../weaponCalculation';
 import { effectiveScaling } from '../weaponScaling';
 import { FLANKING_BASE, FLANKING_PER_GUI, HIT_PER_SKI, attackerHit } from '../hitEvade';
+import { skillBonuses } from '../skills';
+import type { TalentEffects } from '../talents';
 import type { EvaluationInputs } from './inputs';
 import type { StatsResult } from './stats';
 import { STAT_KEYS, compactSources, sumSources } from './shared';
 
-export function evaluateWeaponSlot(config: WeaponConfig, stats: StatRecord, extraCritChance = 0, traitIds: string[] = []) {
+export function evaluateWeaponSlot(config: WeaponConfig, stats: StatRecord, extraCritChance = 0, traitIds: string[] = [], unarmed = false) {
   const materials = modifierData.materials as Record<string, WeaponModifier>;
   const parts = modifierData.parts as Record<string, WeaponModifier>;
   const enchantments = modifierData.enchantments as Record<string, WeaponEnchantment>;
   const material = materials[config.material] ?? materials.None;
   const selectedParts = [config.part1, config.part2, config.part3].map(part => parts[part] ?? parts.None);
   const enchantment = enchantments[config.enchantment] ?? enchantments.None;
-  const scaling = effectiveScaling(config, traitIds);
+  const scaling = effectiveScaling(config, traitIds, unarmed);
   const scalingContribution = scaledStatContribution(stats, scaling);
   // The STR-primary critical bonus reads the listed percentage, not the SWA-multiplied one.
   const strScalingContribution = Math.floor(stats.str * (scaling.str ?? 0) / 100);
@@ -58,9 +60,8 @@ export function evaluateWeaponSlot(config: WeaponConfig, stats: StatRecord, extr
   });
 }
 
-function evaluateWeapon(config: WeaponConfig | undefined, stats: StatRecord, extraCritChance: number, traitIds: string[] = []): BuildEvaluation['primaryWeapon'] {
-  if (!config) return undefined;
-  const result = evaluateWeaponSlot(config, stats, extraCritChance, traitIds);
+function evaluateWeapon(config: WeaponConfig, stats: StatRecord, extraCritChance: number, traitIds: string[] = [], unarmed = false): WeaponLine {
+  const result = evaluateWeaponSlot(config, stats, extraCritChance, traitIds, unarmed);
   return {
     power: result.power,
     swa: result.swa,
@@ -75,10 +76,14 @@ export type OffenseResult = ReturnType<typeof resolveOffense>;
 
 export function resolveOffense(inputs: EvaluationInputs, stats: StatsResult) {
   const { build, armorConditional, usingOffHand, equippedHands, talents, handsPoints, items, youkaiBonuses, offHandWeapon: offHandConfig, offHandItems, mainWeaponItems } = inputs;
+  const { unarmed, mixedMartialArts, unarmedTalents } = inputs;
   const { scaledStats, skills, fortune } = stats;
 
   const weaponConfig = build.equipment.primaryWeapon;
-  const weaponBase = evaluateWeapon(weaponConfig ? { ...weaponConfig, twoHandedSkillRank: 0 } : undefined, scaledStats, armorConditional.critical, build.traits);
+  const weaponBase = weaponConfig
+    ? evaluateWeapon({ ...weaponConfig, twoHandedSkillRank: 0 }, scaledStats, armorConditional.critical, build.traits)
+    : evaluateWeapon(unarmed.config, scaledStats, armorConditional.critical, build.traits, true);
+  const unarmedPower = items.derived.unarmedPower ?? 0;
 
   const gripTypes = effectiveWeaponTypes(weaponConfig);
   const gripAllowed = !usingOffHand && !isShield(equippedHands?.itemName);
@@ -116,7 +121,7 @@ export function resolveOffense(inputs: EvaluationInputs, stats: StatsResult) {
   });
 
   // The wiki describes skill Power/Hit/Critical as weapon modifiers; added after evaluation so they skip scaling.
-  const primaryWeapon = weaponBase && {
+  const primaryWeapon: WeaponLine = {
     ...weaponBase,
     power: weaponBase.power + (skills.derived.power ?? 0) + (items.derived.power ?? 0) + youkaiBonuses.weaponPower + talents.power,
     // Full Swing and Tactics raise Scaled Weapon ATK, not the weapon's printed Power.
@@ -126,26 +131,45 @@ export function resolveOffense(inputs: EvaluationInputs, stats: StatsResult) {
     critical: weaponBase.critical + (skills.derived.critical ?? 0) + (items.derived.critical ?? 0) + fortune.critical + talents.critical,
     criticalDamage: weaponBase.criticalDamage + talents.criticalDamagePercent + (skills.derived.criticalDamage ?? 0),
     weight: Math.max(0, weaponBase.weight - talents.weaponWeightReduction),
+    ...(!weaponConfig && unarmedPower ? { basicAttackPower: unarmedPower } : {}),
   };
 
-  // The off-hand is its own weapon: general bonuses reach it, the main weapon's own effects don't.
-  const offHandBase = offHandConfig ? evaluateWeapon(offHandConfig, scaledStats, armorConditional.critical, build.traits) : undefined;
-  const generalItems = (key: string) => (items.derived[key] ?? 0) - (mainWeaponItems.derived[key] ?? 0) + (offHandItems.derived[key] ?? 0);
-  const offHandWeapon = offHandBase && {
-    ...offHandBase,
-    power: offHandBase.power + (skills.derived.power ?? 0) + generalItems('power') + youkaiBonuses.weaponPower + talents.power,
-    swa: offHandBase.swa + talents.scaledWeaponAtk + (skills.derived.swa ?? 0)
-      + (skills.derived.power ?? 0) + generalItems('power') + youkaiBonuses.weaponPower + talents.power,
+  const secondaryLine = (base: WeaponLine, skill: Record<string, number>, item: (key: string) => number, talent: TalentEffects): WeaponLine => ({
+    ...base,
+    power: base.power + (skill.power ?? 0) + item('power') + youkaiBonuses.weaponPower + talent.power,
+    swa: base.swa + talent.scaledWeaponAtk + (skill.swa ?? 0)
+      + (skill.power ?? 0) + item('power') + youkaiBonuses.weaponPower + talent.power,
     hit: Math.floor(attackerHit({
-      baseHit: offHandBase.hit,
-      hitBuffs: (skills.derived.hit ?? 0) + generalItems('hit') + fortune.hit + talents.hit,
-      honorHitBonus: talents.frontalHit,
+      baseHit: base.hit,
+      hitBuffs: (skill.hit ?? 0) + item('hit') + fortune.hit + talent.hit,
+      honorHitBonus: talent.frontalHit,
       flanking,
     }).byTier.base),
-    critical: offHandBase.critical + (skills.derived.critical ?? 0) + generalItems('critical') + fortune.critical + talents.critical,
-    criticalDamage: offHandBase.criticalDamage + talents.criticalDamagePercent + (skills.derived.criticalDamage ?? 0),
-    weight: Math.max(0, offHandBase.weight - talents.weaponWeightReduction),
-  };
+    critical: base.critical + (skill.critical ?? 0) + item('critical') + fortune.critical + talent.critical,
+    criticalDamage: base.criticalDamage + talent.criticalDamagePercent + (skill.criticalDamage ?? 0),
+    weight: Math.max(0, base.weight - talent.weaponWeightReduction),
+  });
+  const heldWeaponItems = (key: string) => (items.derived[key] ?? 0) - (mainWeaponItems.derived[key] ?? 0);
 
-  return { primaryWeapon, offHandWeapon, hitSources, hitBonusSources, attack, flanking };
+  // The off-hand is its own weapon: general bonuses reach it, the main weapon's own effects don't.
+  const offHandWeapon = offHandConfig
+    ? secondaryLine(
+      evaluateWeapon(offHandConfig, scaledStats, armorConditional.critical, build.traits),
+      skills.derived,
+      key => heldWeaponItems(key) + (offHandItems.derived[key] ?? 0),
+      talents,
+    )
+    : undefined;
+
+  const unarmedSkills = mixedMartialArts && inputs.hasSkillRanks
+    ? skillBonuses(inputs.availableSkills, inputs.mergedSkillRanks, build.skillConditionals, unarmed.types, { ...inputs.skillContext, scaledStats }).derived
+    : {};
+  const unarmedWeapon = mixedMartialArts
+    ? {
+      ...secondaryLine(evaluateWeapon(unarmed.config, scaledStats, armorConditional.critical, build.traits, true), unarmedSkills, heldWeaponItems, unarmedTalents),
+      ...(unarmedPower ? { basicAttackPower: unarmedPower } : {}),
+    }
+    : undefined;
+
+  return { primaryWeapon, offHandWeapon, unarmedWeapon, hitSources, hitBonusSources, attack, flanking };
 }

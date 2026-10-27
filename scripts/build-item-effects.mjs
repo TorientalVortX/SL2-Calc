@@ -15,6 +15,7 @@ const STATS = {
 };
 // Longest spelling first so "maximum HP" is not read as a bare "HP".
 const DERIVED = {
+  'power to unarmed weapons': 'unarmedPower',
   power: 'power', hit: 'hit', critical: 'critical', 'critical evade': 'criticalEvade',
   evade: 'evade', armor: 'armor', 'magic armor': 'magicArmor', weight: 'weight',
   'maximum hp': 'hp', 'maximum fp': 'fp', 'max hp': 'hp', 'max fp': 'fp', hp: 'hp', fp: 'fp',

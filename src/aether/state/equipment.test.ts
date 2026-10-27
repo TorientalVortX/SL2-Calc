@@ -71,7 +71,7 @@ describe('equipping', () => {
       type: 'equip-weapon', which: 'primaryWeapon', weaponName: null,
     });
     expect(build.equipment.primaryWeapon).toBeUndefined();
-    expect(evaluateBuild(build).primaryWeapon).toBeUndefined();
+    expect(evaluateBuild(build).primaryWeapon).toMatchObject({ power: 10, weight: 0 });
   });
 });
 

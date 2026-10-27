@@ -9,7 +9,6 @@ const ALTERATED_ENCHANTMENTS = new Set(['Arcane', 'Envenomed', 'Enflamed']);
 const SHORT_BODY_PART = 'Short Body';
 
 const MASTERY_TRAIT = 'mastery-of-weapon-arts';
-/** Grants Magical only to the unarmed weapon, which the dataset doesn't include, so it can't fire yet. */
 const ARCANE_TATTOO_FIST_TRAIT = 'arcane-tattoo-fist';
 
 export const SCALING_TAG_LABEL: Record<ScalingTag, string> = {
@@ -37,13 +36,13 @@ export function mainScalingStat(scaling: Partial<ScalingTable>): StatKey | null 
   return best;
 }
 
-export function scalingTagsFor(config: Pick<WeaponConfig, 'enchantment' | 'part1' | 'part2' | 'part3'>, traitIds: string[] = []): ScalingTag[] {
+export function scalingTagsFor(config: Pick<WeaponConfig, 'enchantment' | 'part1' | 'part2' | 'part3'>, traitIds: string[] = [], unarmed = false): ScalingTag[] {
   const tags: ScalingTag[] = [];
   const parts = [config.part1, config.part2, config.part3];
   if (parts.includes(SHORT_BODY_PART)) tags.push('ShortBody');
   if (config.enchantment === 'Mundane') tags.push('Mundane');
   else if (ALTERATED_ENCHANTMENTS.has(config.enchantment)) tags.push('Alterated');
-  if (traitIds.includes(ARCANE_TATTOO_FIST_TRAIT)) tags.push('Magical');
+  if (unarmed && traitIds.includes(ARCANE_TATTOO_FIST_TRAIT)) tags.push('Magical');
   if (traitIds.includes(MASTERY_TRAIT)) tags.push('MasteryOfWeaponArts');
   return tags;
 }
@@ -86,6 +85,6 @@ export function applyScalingTags(base: Partial<ScalingTable>, tags: ScalingTag[]
   return scaling;
 }
 
-export function effectiveScaling(config: WeaponConfig, traitIds: string[] = []): ScalingTable {
-  return applyScalingTags(config.customScaling, scalingTagsFor(config, traitIds));
+export function effectiveScaling(config: WeaponConfig, traitIds: string[] = [], unarmed = false): ScalingTable {
+  return applyScalingTags(config.customScaling, scalingTagsFor(config, traitIds, unarmed));
 }
