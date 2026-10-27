@@ -8,6 +8,7 @@ import {
   itemBonuses,
   itemConditionalKey,
   itemRollKey,
+  onHitRiders,
   setAttackEffects,
   setHealingBonuses,
   valueAtUL,
@@ -269,5 +270,21 @@ describe('spell-school Power', () => {
     expect(itemBonuses({ gear: [undefined, undefined, { itemName: 'Prism Jewel' }] }).derived).toMatchObject({
       'spellFlatPower:Aquarian': 2, 'spellFlatPower:Isespian': 2, 'spellFlatPower:Sylphid': 2,
     });
+  });
+});
+
+describe('on-hit riders', () => {
+  it('reads a weapon’s Elemental ATK rider and a gear rider only for its weapon type', () => {
+    expect(onHitRiders({ weaponName: 'Icebreaker' }, ['Axe'])).toEqual([
+      expect.objectContaining({ source: 'Icebreaker', amount: 0, atkPercent: 50, type: 'Ice', damageClass: 'magical', ignores: 'armor' }),
+    ]);
+    const bracers = { gear: [{ itemName: 'Burning Bracers' }] };
+    expect(onHitRiders(bracers, ['Fist'])).toEqual([expect.objectContaining({ amount: 15, type: 'Fire' })]);
+    expect(onHitRiders(bracers, ['Sword'])).toEqual([]);
+  });
+
+  it('resolves UL on the weapon', () => {
+    const points = { power: 3, critical: 2, accuracy: 0, durability: 0 };
+    expect(onHitRiders({ weaponName: 'Hooked Twinblade', weaponPoints: points }, [])[0]).toMatchObject({ amount: 5, type: 'Pierce', damageClass: 'physical' });
   });
 });

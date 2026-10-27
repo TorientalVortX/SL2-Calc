@@ -624,6 +624,20 @@ export interface WeaponLine {
   basicAttackPower?: number;
   /** "+10 Critical Damage": flat damage a crit adds. */
   criticalFlatDamage?: number;
+  /** Damage this weapon's basic attacks add on hit, from the weapon and from gear. */
+  onHit?: OnHitRider[];
+}
+
+export interface OnHitRider {
+  source: string;
+  /** Flat part, with UL resolved. */
+  amount: number;
+  /** "equal to 50% of your Ice ATK": a percentage of Elemental ATK of `type`, resolved at attack time. */
+  atkPercent?: number;
+  type: string;
+  damageClass: 'physical' | 'magical';
+  ignores: 'none' | 'armor' | 'protection';
+  unresistable?: boolean;
 }
 
 export interface RaceConfig {

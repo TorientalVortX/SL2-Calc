@@ -5,7 +5,7 @@ import { ELEMENT_KEYS } from '../../../domain/buildEvaluation';
 import { NO_HIT, type DamageClass, type DamageType, type IncomingHit } from '../../../domain/damage';
 import { findWeaponByName } from '../../../domain/equipment';
 import {
-  OPEN_TARGET, attackBase, critDamageFor, critFlatDamageFor, defaultDamage, expectedOutgoing, outgoingDamage, powerMultiplier, riderFor, spellPowerFor, targetAfterSets, weaponFor,
+  OPEN_TARGET, attackBase, critDamageFor, critFlatDamageFor, defaultDamage, expectedOutgoing, onHitBonuses, outgoingDamage, powerMultiplier, riderFor, spellPowerFor, targetAfterSets, weaponFor,
   type FlatBonus, type Hand, type Target,
 } from '../../../domain/outgoing';
 import { SKILLS, mergeSkillRanks, skillById } from '../../../domain/skills';
@@ -21,6 +21,11 @@ import { CLASS_OPTIONS, OutcomeGrid, STEPS_HINT, StepRows, TYPE_OPTIONS, percent
 const LIGHTNING_CRITICAL_PERCENT = 25;
 const NO_BONUS: FlatBonus = { amount: 0, ignores: 'none' };
 const HAND_LABEL: Record<Hand, string> = { main: 'Main', off: 'Off', unarmed: 'Unarmed' };
+
+function riderDetail(rider: FlatBonus): string {
+  const ignores = rider.unresistable ? 'unresistable' : rider.ignores === 'none' ? '' : `ignores ${rider.ignores}`;
+  return [`${rider.damageClass === 'physical' ? 'physical' : 'magic'} ${rider.type}`, ignores].filter(Boolean).join(', ');
+}
 
 const IGNORE_OPTIONS: Array<{ value: FlatBonus['ignores']; label: string }> = [
   { value: 'none', label: 'Normal' },
@@ -108,7 +113,7 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
     setTarget({
       physicalDefense, magicalDefense, armor, magicArmor, evade, criticalEvade,
       resistance: ownResistance(hit.type),
-      bonusResistance: ownResistance(flat.type ?? null),
+      bonusResistance: ownResistance(riderType),
     });
   };
 
@@ -119,12 +124,15 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
   const allPercents = [...percents, ...(lightning ? [LIGHTNING_CRITICAL_PERCENT] : []), ...setDamagePercents, ...(spellPercent ? [spellPercent] : [])];
   const attackerHit = (weapon?.hit ?? 0) + base.hit;
   const attackerCritical = (weapon?.critical ?? 0) + base.critical;
-  const seenTarget = targetAfterSets(target, fromSets, hit.type, flat.type ?? null);
-  const dealt = outgoingDamage(hit, base, allPercents, flat, seenTarget);
-  const expected = expectedOutgoing(hit, base, allPercents, flat, seenTarget, {
+  const riders = onHitBonuses(skill, evaluation, attackHand);
+  const bonuses = [flat, ...riders].filter(bonus => bonus.amount > 0);
+  // One "bonus resistance" field covers riders whose type differs from the attack's.
+  const riderType = bonuses.find(bonus => bonus.type && bonus.type !== hit.type && !bonus.unresistable)?.type ?? null;
+  const seenTarget = targetAfterSets(target, fromSets, hit.type, riderType);
+  const dealt = outgoingDamage(hit, base, allPercents, bonuses, seenTarget);
+  const expected = expectedOutgoing(hit, base, allPercents, bonuses, seenTarget, {
     hit: attackerHit, critical: attackerCritical, greatAccuracy, ignoresEvasion,
   });
-  const riderType = flat.type && flat.type !== hit.type ? flat.type : null;
   const choosable = (skill?.scaling ?? []).flatMap((term, index) => (term.source === 'element' && (term.alternateElement || !term.element)
     ? [{ index, choices: term.alternateElement ? [term.element!, term.alternateElement] : ELEMENT_KEYS }]
     : []));
@@ -249,6 +257,12 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
           {flat.type ? `${flat.damageClass === 'magical' ? 'Magic' : 'Physical'} ${flat.type} damage from the skill. ` : ''}
           On-hit bonus damage, such as Tetra Dragon Fang’s 30. It is not raised by crits or damage modifiers.
         </p>
+        {riders.map(rider => (
+          <div className="provenance__row" key={`${rider.source}-${rider.type}`}>
+            <span>{rider.source} <span className="dim">{riderDetail(rider)}</span></span>
+            <span>{rider.amount}</span>
+          </div>
+        ))}
       </div>
 
       <div className="section">
@@ -296,17 +310,16 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
       <div className="section">
         <SectionHead>Steps</SectionHead>
         <StepRows steps={dealt.main.steps} instances={dealt.main.instances} damageClass={hit.damageClass} start="Attack" />
-        {dealt.bonus ? (
-          <>
-            <StepRows
-              steps={dealt.bonus.steps}
-              instances={dealt.bonus.instances}
-              damageClass={flat.ignores === 'protection' ? 'protection-ignoring' : flat.damageClass ?? hit.damageClass}
-              label="Bonus"
-              start="Bonus damage"
-            />
-          </>
-        ) : null}
+        {dealt.bonuses.map((bonus, index) => (
+          <StepRows
+            key={index}
+            steps={bonus.steps}
+            instances={bonus.instances}
+            damageClass={bonuses[index].ignores === 'protection' ? 'protection-ignoring' : bonuses[index].damageClass ?? hit.damageClass}
+            label="Bonus"
+            start={bonuses[index].source ?? 'Bonus damage'}
+          />
+        ))}
         <p className="hint" style={{ marginTop: 8 }}>{STEPS_HINT}</p>
       </div>
     </>

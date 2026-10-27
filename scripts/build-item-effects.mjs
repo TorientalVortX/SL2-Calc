@@ -226,6 +226,45 @@ function parseEffects(text) {
   return shared;
 }
 
+const IGNORES = { 'armor-ignoring': 'armor', 'ignores armor': 'armor', 'protection-ignoring': 'protection' };
+
+// Always-on damage a basic attack adds when it hits. Triggered specials, kick riders and conditional ones stay text.
+const ON_HIT = [
+  // "Deals magic Ice bonus damage equal to 50% of your Ice ATK, which ignores armor."
+  {
+    pattern: /^(?:On Hit: )?Deals magic (\w+) (?:bonus )?damage equal to (\d+)% of your \1 ATK, which ignores armor\.?$/i,
+    rider: (m) => ({ base: 0, ulMultiplier: 0, atkPercent: Number(m[2]), type: m[1], damageClass: 'magical', ignores: 'armor' }),
+  },
+  // "Deals physical Pierce bonus damage equal to UL, which ignores armor."
+  {
+    pattern: /^Deals (magic|physical) (\w+) bonus damage equal to UL, which ignores armor\.?$/i,
+    rider: (m) => ({ base: 0, ulMultiplier: 1, type: m[2], damageClass: m[1] === 'magic' ? 'magical' : 'physical', ignores: 'armor' }),
+  },
+  // "On Hit: If a Fist weapon, deals 15 Fire armor-ignoring magic damage." / "deals 10 Pierce unresistable magic damage."
+  {
+    pattern: /^On Hit: If an? (\w+) weapon, deals (\d+) (\w+) (armor-ignoring|unresist[ai]ble) magic damage\.?$/i,
+    rider: (m) => ({
+      base: Number(m[2]), ulMultiplier: 0, type: m[3], damageClass: 'magical', weapons: [m[1]],
+      ...(/unresist/i.test(m[4]) ? { ignores: 'none', unresistable: true } : { ignores: 'armor' }),
+    }),
+  },
+  // "On Hit: Deal protection-ignoring Acid damage equal to 5+UL, but reduces the weapon's durability by 1."
+  {
+    pattern: /^On Hit: Deal (protection-ignoring|armor-ignoring) (\w+) damage equal to (\d+)\+UL\b/i,
+    rider: (m) => ({ base: Number(m[3]), ulMultiplier: 1, type: m[2], damageClass: 'magical', ignores: IGNORES[m[1].toLowerCase()] }),
+  },
+];
+
+function parseOnHit(description) {
+  for (const { pattern, rider } of ON_HIT) {
+    const match = pattern.exec(description);
+    if (!match) continue;
+    const parsed = rider(match);
+    return { ...parsed, type: canonicalElement(parsed.type) ?? parsed.type };
+  }
+  return null;
+}
+
 function toRecord(name, description, alwaysEligible) {
   if (name === 'Numa' && /On Battle Start/.test(description)) {
     return { name: 'Boon of Numa',
@@ -262,11 +301,13 @@ function toRecord(name, description, alwaysEligible) {
     .replace(/\bUL%\s+chance\b.*$/i, '');
   // A buff that lasts N rounds was switched on in battle; it is not a standing bonus.
   const conditional = CONDITION.test(magnitudeClause) || /for \d+ (?:attacks? this round|rounds?)\b/i.test(ownText);
+  const onHit = parseOnHit(description.replace(/\s+/g, ' ').trim());
   return {
     name,
     description: description.replace(/\s+/g, ' ').trim(),
     applies: !effects.length ? 'reference' : (conditional || !alwaysEligible) ? 'conditional' : 'always',
     effects,
+    ...(onHit ? { onHit } : {}),
     ...(effects.length && /\bends? (?:that|other) effects?\b/i.test(description) ? { exclusive: true } : {}),
     // Off-hand weapons apply their effects in full unless the line says otherwise.
     ...(effects.length && /\bthis is your main hand weapon\b/i.test(description) ? { mainHandOnly: true } : {}),

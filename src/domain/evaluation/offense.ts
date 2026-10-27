@@ -7,6 +7,7 @@ import { calculateWeaponSlot, scaledStatContribution, type WeaponEnchantment, ty
 import { effectiveScaling } from '../weaponScaling';
 import { FLANKING_BASE, FLANKING_PER_GUI, HIT_PER_SKI, attackerHit } from '../hitEvade';
 import { skillBonuses } from '../skills';
+import { onHitRiders } from '../itemEffects';
 import type { TalentEffects } from '../talents';
 import type { EvaluationInputs } from './inputs';
 import type { StatsResult } from './stats';
@@ -93,6 +94,14 @@ export function resolveOffense(inputs: EvaluationInputs, stats: StatsResult) {
     return bonus ? { ...line, basicAttackPower: bonus } : line;
   };
   const withCritFlat = (line: WeaponLine, amount: number): WeaponLine => (amount ? { ...line, criticalFlatDamage: amount } : line);
+  const withOnHit = (line: WeaponLine, weapon: WeaponConfig | undefined, types: string[]): WeaponLine => {
+    const riders = onHitRiders({
+      weaponName: weapon?.selectedWeaponName,
+      weaponPoints: weapon ? resolveUpgradePoints(weapon) : undefined,
+      gear: inputs.gearSlots,
+    }, types);
+    return riders.length ? { ...line, onHit: riders } : line;
+  };
 
   const gripTypes = effectiveWeaponTypes(weaponConfig);
   const gripAllowed = !usingOffHand && !isShield(equippedHands?.itemName);
@@ -130,7 +139,7 @@ export function resolveOffense(inputs: EvaluationInputs, stats: StatsResult) {
   });
 
   // The wiki describes skill Power/Hit/Critical as weapon modifiers; added after evaluation so they skip scaling.
-  const primaryWeapon = withBasicAttackPower(withCritFlat({
+  const primaryWeapon = withOnHit(withBasicAttackPower(withCritFlat({
     ...weaponBase,
     power: weaponBase.power + (skills.derived.power ?? 0) + (items.derived.power ?? 0) + youkaiBonuses.weaponPower + talents.power,
     // Full Swing and Tactics raise Scaled Weapon ATK, not the weapon's printed Power.
@@ -140,7 +149,7 @@ export function resolveOffense(inputs: EvaluationInputs, stats: StatsResult) {
     critical: weaponBase.critical + (skills.derived.critical ?? 0) + (items.derived.critical ?? 0) + fortune.critical + talents.critical,
     criticalDamage: weaponBase.criticalDamage + talents.criticalDamagePercent + (skills.derived.criticalDamage ?? 0) + (items.derived.criticalDamage ?? 0),
     weight: Math.max(0, weaponBase.weight - talents.weaponWeightReduction),
-  }, items.derived.criticalFlatDamage ?? 0), mainWeaponTypes);
+  }, items.derived.criticalFlatDamage ?? 0), mainWeaponTypes), weaponConfig, mainWeaponTypes);
 
   const secondaryLine = (base: WeaponLine, skill: Record<string, number>, item: (key: string) => number, talent: TalentEffects): WeaponLine => withCritFlat({
     ...base,
@@ -161,22 +170,22 @@ export function resolveOffense(inputs: EvaluationInputs, stats: StatsResult) {
 
   // The off-hand is its own weapon: general bonuses reach it, the main weapon's own effects don't.
   const offHandWeapon = offHandConfig
-    ? withBasicAttackPower(secondaryLine(
+    ? withOnHit(withBasicAttackPower(secondaryLine(
       evaluateWeapon(offHandConfig, scaledStats, armorConditional.critical, build.traits),
       skills.derived,
       key => heldWeaponItems(key) + (offHandItems.derived[key] ?? 0),
       talents,
-    ), effectiveWeaponTypes(offHandConfig))
+    ), effectiveWeaponTypes(offHandConfig)), offHandConfig, effectiveWeaponTypes(offHandConfig))
     : undefined;
 
   const unarmedSkills = unarmedBeside && inputs.hasSkillRanks
     ? skillBonuses(inputs.availableSkills, inputs.mergedSkillRanks, build.skillConditionals, unarmed.types, { ...inputs.skillContext, scaledStats }).derived
     : {};
   const unarmedWeapon = unarmedBeside
-    ? withBasicAttackPower(
+    ? withOnHit(withBasicAttackPower(
       secondaryLine(evaluateWeapon(unarmed.config, scaledStats, armorConditional.critical, build.traits, true), unarmedSkills, heldWeaponItems, unarmedTalents),
       unarmed.types,
-    )
+    ), undefined, unarmed.types)
     : undefined;
 
   return { primaryWeapon, offHandWeapon, unarmedWeapon, hitSources, hitBonusSources, attack, flanking };

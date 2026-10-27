@@ -79,7 +79,15 @@
         "name": "Ice Damage",
         "description": "Deals magic Ice bonus damage equal to 50% of your Ice ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Ice",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       }
     ],
     "Graality": [
@@ -123,7 +131,15 @@
         "name": "Fire Damage",
         "description": "Deals magic Fire bonus damage equal to 50% of your Fire ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Fire",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Nerifian Spell Power",
@@ -158,7 +174,15 @@
         "name": "Wind Damage",
         "description": "Deals magic Wind bonus damage equal to 50% of your Wind ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Wind",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Gunbai Defense Arts",
@@ -267,7 +291,15 @@
         "name": "Darkness Damage",
         "description": "Deals magic Darkness bonus damage equal to 50% of your Darkness ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Dark",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       }
     ],
     "Excel Parashu": [
@@ -390,7 +422,15 @@
         "name": "Darkness Damage",
         "description": "Deals magic Darkness bonus damage equal to 50% of your Darkness ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Dark",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       }
     ],
     "Lare Grystale": [
@@ -623,7 +663,15 @@
         "name": "Fire Damage",
         "description": "Deals magic Fire damage equal to 50% of your Fire ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Fire",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Burning Rope",
@@ -702,7 +750,15 @@
         "name": "Lightning Damage",
         "description": "Deals magic Lightning bonus damage equal to 50% of your Lightning ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Lightning",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Carved Circuit",
@@ -821,7 +877,15 @@
         "name": "Earth Damage",
         "description": "Deals magic Earth damage equal to 50% of your Earth ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Earth",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Thorn Wrap",
@@ -1325,13 +1389,29 @@
         "name": "Ice Damage",
         "description": "Deals magic Ice bonus damage equal to 25% of your Ice ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 25,
+          "type": "Ice",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Water Damage",
         "description": "Deals magic Water bonus damage equal to 25% of your Water ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 25,
+          "type": "Water",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       }
     ],
     "Seiryuu Tessen": [
@@ -1339,13 +1419,29 @@
         "name": "Lightning Damage",
         "description": "Deals magic Lightning bonus damage equal to 25% of your Lightning ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 25,
+          "type": "Lightning",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Wind Damage",
         "description": "Deals magic Wind bonus damage equal to 25% of your Wind ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 25,
+          "type": "Wind",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Dragon Dance",
@@ -1367,13 +1463,29 @@
         "name": "Fire Damage",
         "description": "Deals magic Fire bonus damage equal to 25% of your Fire ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 25,
+          "type": "Fire",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Wind Damage",
         "description": "Deals magic Wind bonus damage equal to 25% of your Wind ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 25,
+          "type": "Wind",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       }
     ],
     "Touyaa Shuriken": [
@@ -1641,7 +1753,15 @@
         "name": "Fire Damage",
         "description": "Deals magic Fire bonus damage equal to 50% of your Fire ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Fire",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Fire Exhaurire",
@@ -1890,7 +2010,15 @@
         "name": "Fire Damage",
         "description": "Deals magic Fire damage equal to 50% of your Fire ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Fire",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Weapon Charge Consumption",
@@ -2183,7 +2311,15 @@
         "name": "Ice Damage",
         "description": "Deals magic Ice damage equal to 50% of your Ice ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Ice",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "WIL Bonus",
@@ -2813,7 +2949,15 @@
         "name": "Light Damage",
         "description": "Deals magic Light bonus damage equal to 50% of your Light ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Light",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       }
     ],
     "Impaler": [
@@ -2875,7 +3019,15 @@
         "name": "Water Damage",
         "description": "Deals magic Water bonus damage equal to 50% of your Water ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Water",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Spell Power Bonus",
@@ -2975,7 +3127,15 @@
         "name": "Fire Damage",
         "description": "Deals magic Fire bonus damage equal to 50% of your Fire ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Fire",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Coal Brand",
@@ -3003,7 +3163,15 @@
         "name": "Ice Damage",
         "description": "Deals magic Ice bonus damage equal to 50% of your Ice ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Ice",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       }
     ],
     "Abberation Spear": [
@@ -3011,7 +3179,15 @@
         "name": "Lightning Damage",
         "description": "Deals magic Lightning bonus damage equal to 50% of your Lightning ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Lightning",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Spell Power Bonus",
@@ -3768,7 +3944,14 @@
         "name": "Light Damage",
         "description": "Deals magic Light bonus damage equal to UL, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 1,
+          "type": "Light",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Status Copy",
@@ -3955,7 +4138,15 @@
         "name": "Water Damage",
         "description": "Deals magic Water bonus damage equal to 50% of your Water ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Water",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       }
     ],
     "Wo-Dao": [
@@ -3993,7 +4184,15 @@
         "name": "Darkness Damage",
         "description": "Deals magic Darkness bonus damage equal to 50% of your Darkness ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Dark",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Impure Stroke",
@@ -4036,7 +4235,15 @@
         "name": "Earth Damage",
         "description": "Deals magic Earth bonus damage equal to 50% of your Earth ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Earth",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Crystalline Armor",
@@ -4099,7 +4306,15 @@
         "name": "Darkness Damage",
         "description": "Deals magic Darkness bonus damage equal to 50% of your Darkness ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Dark",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Soul Burn",
@@ -4113,7 +4328,15 @@
         "name": "Water Damage",
         "description": "Deals magic Water bonus damage equal to 50% of your Water ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Water",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Aqua Pulse",
@@ -4307,7 +4530,15 @@
         "name": "Darkness Damage",
         "description": "Deals magic Darkness bonus damage equal to 50% of your Darkness ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Dark",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Darkness Resistance",
@@ -4370,7 +4601,15 @@
         "name": "Passive",
         "description": "On Hit: Deals magic Fire bonus damage equal to 50% of your Fire ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Fire",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Passive",
@@ -4405,7 +4644,15 @@
         "name": "Lightning Damage",
         "description": "Deals magic Lightning bonus damage equal to 50% of your Lightning ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Lightning",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Lightning Resistance",
@@ -4432,7 +4679,15 @@
         "name": "Acid Damage",
         "description": "Deals magic Acid bonus damage equal to 50% of your Acid ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Acid",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Acid Resistance",
@@ -4498,7 +4753,15 @@
         "name": "Passive",
         "description": "On Hit: Deals magic Ice bonus damage equal to 50% of your Ice ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Ice",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Passive",
@@ -4706,7 +4969,15 @@
         "name": "Light Damage",
         "description": "Deals magic Light bonus damage equal to 50% of your Light ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Light",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Stat Bonus",
@@ -4851,7 +5122,15 @@
         "name": "Ice Damage",
         "description": "Deals magic Ice bonus damage equal to 50% of your Ice ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Ice",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Everblue",
@@ -4873,7 +5152,15 @@
         "name": "Darkness Damage",
         "description": "Deals magic Darkness bonus damage equal to 50% of your Darkness ATK, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 0,
+          "atkPercent": 50,
+          "type": "Dark",
+          "damageClass": "magical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Haunted Soul",
@@ -4939,7 +5226,14 @@
         "name": "Pierce Bonus Damage",
         "description": "Deals physical Pierce bonus damage equal to UL, which ignores armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 0,
+          "ulMultiplier": 1,
+          "type": "Pierce",
+          "damageClass": "physical",
+          "ignores": "armor"
+        }
       },
       {
         "name": "Parry Penetration",
@@ -6842,7 +7136,14 @@
         "name": "Acidic Claws",
         "description": "On Hit: Deal protection-ignoring Acid damage equal to 5+UL, but reduces the weapon's durability by 1.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 5,
+          "ulMultiplier": 1,
+          "type": "Acid",
+          "damageClass": "magical",
+          "ignores": "protection"
+        }
       }
     ],
     "Archery Gloves": [
@@ -7263,7 +7564,17 @@
         "name": "Burning Bracers",
         "description": "On Hit: If a Fist weapon, deals 15 Fire armor-ignoring magic damage.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 15,
+          "ulMultiplier": 0,
+          "type": "Fire",
+          "damageClass": "magical",
+          "weapons": [
+            "Fist"
+          ],
+          "ignores": "armor"
+        }
       }
     ],
     "Chunin Gloves": [
@@ -7598,7 +7909,17 @@
         "name": "Insulated Burning Bracers",
         "description": "On Hit: If a Fist weapon, deals 15 Fire armor-ignoring magic damage.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 15,
+          "ulMultiplier": 0,
+          "type": "Fire",
+          "damageClass": "magical",
+          "weapons": [
+            "Fist"
+          ],
+          "ignores": "armor"
+        }
       }
     ],
     "Ivy Binds": [
@@ -9928,7 +10249,18 @@
         "name": "Enhanced Swordmaster's Ring",
         "description": "On Hit: If a Sword weapon, deals 10 Pierce unresistable magic damage.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 10,
+          "ulMultiplier": 0,
+          "type": "Pierce",
+          "damageClass": "magical",
+          "weapons": [
+            "Sword"
+          ],
+          "ignores": "none",
+          "unresistable": true
+        }
       }
     ],
     "Est Lestrada": [
@@ -11077,7 +11409,18 @@
         "name": "Ring of the Dancer",
         "description": "On Hit: If a Fist weapon, deals 10 Sound unresistible magic damage.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 10,
+          "ulMultiplier": 0,
+          "type": "Sound",
+          "damageClass": "magical",
+          "weapons": [
+            "Fist"
+          ],
+          "ignores": "none",
+          "unresistable": true
+        }
       }
     ],
     "Ring of the Knight": [
@@ -11589,7 +11932,18 @@
         "name": "Swordmaster's Ring",
         "description": "On Hit: If a Sword weapon, deals 5 Pierce unresistable magic damage.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "onHit": {
+          "base": 5,
+          "ulMultiplier": 0,
+          "type": "Pierce",
+          "damageClass": "magical",
+          "weapons": [
+            "Sword"
+          ],
+          "ignores": "none",
+          "unresistable": true
+        }
       }
     ],
     "Sylph Cloak": [

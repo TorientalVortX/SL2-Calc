@@ -33,6 +33,10 @@ export interface FlatBonus {
   /** Set when the rider differs from the attack (Snake Shot's Acid magic damage). */
   damageClass?: 'physical' | 'magical';
   type?: DamageType;
+  /** "Unresistable": the target's resistance doesn't apply. */
+  unresistable?: boolean;
+  /** Where an automatic rider comes from (the weapon or gear piece). */
+  source?: string;
 }
 
 export interface Target {
@@ -185,7 +189,8 @@ export function targetDefenses(target: Target, type: DamageType, resistance = ta
 export interface OutgoingDamage {
   perHit: number;
   main: IncomingDamage;
-  bonus: IncomingDamage | null;
+  /** One per bonus with an amount, in the order given. */
+  bonuses: IncomingDamage[];
   dealt: number;
 }
 
@@ -206,15 +211,18 @@ function bonusHit(hit: IncomingHit, flat: FlatBonus): IncomingHit {
 
 function bonusDefenses(hit: IncomingHit, flat: FlatBonus, target: Target) {
   const ownType = flat.type && flat.type !== hit.type;
-  return targetDefenses(target, flat.type ?? hit.type, ownType ? target.bonusResistance : target.resistance);
+  const resistance = flat.unresistable ? 0 : ownType ? target.bonusResistance : target.resistance;
+  return targetDefenses(target, flat.type ?? hit.type, resistance);
 }
 
+const landed = (flats: FlatBonus[]) => flats.filter(flat => flat.amount > 0);
+
 /** A crit raises the attack's own damage; "bonus damage from on-hit effects remains the same" (wiki Critical page). */
-export function outgoingDamage(hit: IncomingHit, attack: Attack, percents: number[], flat: FlatBonus, target: Target): OutgoingDamage {
+export function outgoingDamage(hit: IncomingHit, attack: Attack, percents: number[], flats: FlatBonus[], target: Target): OutgoingDamage {
   const amount = perHit(attack, percents);
   const main = incomingDamage({ ...hit, amount }, targetDefenses(target, hit.type));
-  const bonus = flat.amount > 0 ? incomingDamage(bonusHit(hit, flat), bonusDefenses(hit, flat, target)) : null;
-  return { perHit: amount, main, bonus, dealt: main.taken + (bonus?.taken ?? 0) };
+  const bonuses = landed(flats).map(flat => incomingDamage(bonusHit(hit, flat), bonusDefenses(hit, flat, target)));
+  return { perHit: amount, main, bonuses, dealt: bonuses.reduce((total, bonus) => total + bonus.taken, main.taken) };
 }
 
 export interface AttackerOdds {
@@ -224,16 +232,18 @@ export interface AttackerOdds {
   ignoresEvasion: boolean;
 }
 
-export function expectedOutgoing(hit: IncomingHit, attack: Attack, percents: number[], flat: FlatBonus, target: Target, attacker: AttackerOdds) {
+export function expectedOutgoing(hit: IncomingHit, attack: Attack, percents: number[], flats: FlatBonus[], target: Target, attacker: AttackerOdds) {
   const critChance = Math.max(0, Math.min(100, attacker.critical - target.criticalEvade));
   const odds = {
     attackerHit: attacker.hit, defenderEvade: target.evade, greatAccuracy: attacker.greatAccuracy,
     ignoresEvasion: attacker.ignoresEvasion, parryChancePercent: 0, critChancePercent: critChance,
   };
   const main = expectedDamage({ ...hit, amount: perHit(attack, percents) }, targetDefenses(target, hit.type), odds);
-  const bonus = flat.amount > 0
-    ? expectedDamage(bonusHit(hit, flat), bonusDefenses(hit, flat, target), { ...odds, critChancePercent: 0 }).expected
-    : 0;
+  // Each rider rides the attack's own hit roll and never crits.
+  const bonus = landed(flats).reduce(
+    (total, flat) => total + expectedDamage(bonusHit(hit, flat), bonusDefenses(hit, flat, target), { ...odds, critChancePercent: 0 }).expected,
+    0,
+  );
   return { ...main, critChance, expected: main.expected + bonus };
 }
 
@@ -244,6 +254,23 @@ export const SKILL_CRIT_DAMAGE_PERCENT = 125;
 /** A basic attack crits at the weapon's crit damage plus scaled GUI (wiki Critical page). */
 export function critDamageFor(skill: Skill | null, attacker: Wielder, hand: Hand = 'main'): number {
   return skill && !skill.basicAttack ? SKILL_CRIT_DAMAGE_PERCENT : weaponFor(attacker, hand)?.criticalDamage ?? 100;
+}
+
+/** The attacking weapon's on-hit riders; only basic attacks and skills that perform one carry them. */
+export function onHitBonuses(skill: Skill | null, attacker: Wielder & Pick<Attacker, 'elementalAttack'>, hand: Hand = 'main'): FlatBonus[] {
+  if (skill && !skill.basicAttack) return [];
+  return (weaponFor(attacker, hand)?.onHit ?? []).map(rider => {
+    const type = rider.type as DamageType;
+    const fromAtk = rider.atkPercent ? Math.floor(rider.atkPercent * (attacker.elementalAttack[type as ElementKey] ?? 0) / 100) : 0;
+    return {
+      amount: rider.amount + fromAtk,
+      ignores: rider.ignores,
+      damageClass: rider.damageClass,
+      type,
+      ...(rider.unresistable ? { unresistable: true } : {}),
+      source: rider.source,
+    };
+  });
 }
 
 /** "+10 Critical Damage" from the weapon line; skills crit at a flat 1.25 without it. */

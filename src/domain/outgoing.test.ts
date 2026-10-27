@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { NO_HIT } from './damage';
-import { OPEN_TARGET, attackBase, critDamageFor, defaultDamage, expectedOutgoing, outgoingDamage, powerMultiplier, riderFor, spellPowerFor, targetAfterSets } from './outgoing';
+import { OPEN_TARGET, attackBase, critDamageFor, defaultDamage, expectedOutgoing, outgoingDamage, powerMultiplier, onHitBonuses, riderFor, spellPowerFor, targetAfterSets } from './outgoing';
 import { skillById } from './skills';
 
 const attacker = {
@@ -61,15 +61,15 @@ describe('outgoing damage', () => {
   it('adds skill bonus damage after modifiers and before the crit', () => {
     const crit = { ...slash, outcomes: [{ result: 'hit' as const, parried: false, critical: true }] };
     // (100 × 1.1 + 10) × 1.28 = 153.6
-    expect(outgoingDamage(crit, { amount: 100, bonus: 10 }, [10], none, { ...OPEN_TARGET }).dealt).toBe(153);
+    expect(outgoingDamage(crit, { amount: 100, bonus: 10 }, [10], [none], { ...OPEN_TARGET }).dealt).toBe(153);
   });
 
   it('gives a rider its own class, type and resistance', () => {
     const rider = riderFor(skillById('snake-shot')!, 2)!;
     expect(rider).toEqual({ amount: 10, ignores: 'armor', damageClass: 'magical', type: 'Acid' });
-    const result = outgoingDamage(slash, plain(0), [], rider, { ...target, bonusResistance: 50 });
+    const result = outgoingDamage(slash, plain(0), [], [rider], { ...target, bonusResistance: 50 });
     // 10 × 0.70 (Magical Defense 30%) × 0.50 (Acid 50%), Magic Armor skipped.
-    expect(result.bonus?.taken).toBe(Math.floor(10 * 0.7 * 0.5));
+    expect(result.bonuses[0].taken).toBe(Math.floor(10 * 0.7 * 0.5));
   });
 
   it('lets set effects ignore part of a resistance but never a weakness', () => {
@@ -103,7 +103,7 @@ describe('outgoing damage', () => {
 
   it('runs the hit through the target’s defenses', () => {
     // 120 × 1.15 = 138; × 0.80 (DEF 20%) × 0.75 (Slash 25%) − 10 = 72.8.
-    const result = outgoingDamage(slash, plain(120), [15], none, target);
+    const result = outgoingDamage(slash, plain(120), [15], [none], target);
     expect(result.perHit).toBeCloseTo(138);
     expect(result.dealt).toBe(Math.floor(138 * 0.8 * 0.75 - 10));
   });
@@ -111,23 +111,45 @@ describe('outgoing damage', () => {
   it('crits the attack but not its flat bonus damage', () => {
     const open = { ...OPEN_TARGET };
     const crit = { ...slash, outcomes: [{ result: 'hit' as const, parried: false, critical: true }] };
-    const result = outgoingDamage(crit, plain(100), [], { amount: 30, ignores: 'none' }, open);
+    const result = outgoingDamage(crit, plain(100), [], [{ amount: 30, ignores: 'none' }], open);
     expect(result.main.taken).toBe(128);
-    expect(result.bonus?.taken).toBe(30);
+    expect(result.bonuses[0].taken).toBe(30);
     expect(result.dealt).toBe(158);
   });
 
   it('lets bonus damage skip Armor, or every defense, as its text says', () => {
-    const armorIgnoring = outgoingDamage(slash, plain(0), [], { amount: 30, ignores: 'armor' }, target);
-    expect(armorIgnoring.bonus?.taken).toBe(Math.floor(30 * 0.8 * 0.75));
-    expect(outgoingDamage(slash, plain(0), [], { amount: 30, ignores: 'protection' }, target).bonus?.taken).toBe(30);
+    const armorIgnoring = outgoingDamage(slash, plain(0), [], [{ amount: 30, ignores: 'armor' }], target);
+    expect(armorIgnoring.bonuses[0].taken).toBe(Math.floor(30 * 0.8 * 0.75));
+    expect(outgoingDamage(slash, plain(0), [], [{ amount: 30, ignores: 'protection' }], target).bonuses[0].taken).toBe(30);
   });
 
   it('takes crit chance from Critical against the target’s Critical Evade', () => {
     const odds = { hit: 200, critical: 90, greatAccuracy: false, ignoresEvasion: true };
-    const expected = expectedOutgoing(slash, plain(100), [], none, { ...OPEN_TARGET, criticalEvade: 40 }, odds);
+    const expected = expectedOutgoing(slash, plain(100), [], [none], { ...OPEN_TARGET, criticalEvade: 40 }, odds);
     expect(expected.critChance).toBe(50);
     // Always hits: half the time 100, half the time 128.
     expect(expected.expected).toBeCloseTo(114);
+  });
+});
+
+describe('on-hit riders', () => {
+  const icy = {
+    ...attacker,
+    elementalAttack: { ...attacker.elementalAttack, Ice: 41 },
+    primaryWeapon: { ...attacker.primaryWeapon, onHit: [{ source: 'Icebreaker', amount: 0, atkPercent: 50, type: 'Ice', damageClass: 'magical' as const, ignores: 'armor' as const }] },
+  };
+
+  it('rides basic attacks and basic-attack skills, never other skills', () => {
+    expect(onHitBonuses(null, icy)).toEqual([expect.objectContaining({ amount: 20, type: 'Ice', ignores: 'armor', source: 'Icebreaker' })]);
+    expect(onHitBonuses(skillById('acid-rain')!, icy)).toEqual([]);
+  });
+
+  it('hits as separate instances, and unresistable ones skip resistance', () => {
+    const riders = [
+      { amount: 20, ignores: 'armor' as const, damageClass: 'magical' as const, type: 'Ice' as const },
+      { amount: 10, ignores: 'none' as const, damageClass: 'magical' as const, type: 'Pierce' as const, unresistable: true },
+    ];
+    const result = outgoingDamage(slash, plain(0), [], riders, { ...target, bonusResistance: 50 });
+    expect(result.bonuses.map(bonus => bonus.taken)).toEqual([Math.floor(20 * 0.7 * 0.5), Math.floor(10 * 0.7) - 5]);
   });
 });
