@@ -34,7 +34,9 @@
     "prebuild": "npm run validate:data",
     "build": "vite build",
     "preview": "vite preview",
-    "build:sets": "node scripts/build-set-data.mjs"
+    "build:sets": "node scripts/build-set-data.mjs",
+    "build:armor-list": "node scripts/build-armor-list.mjs",
+    "build:equipment": "npm run build:armor-list && npm run build:gear && npm run build:items && npm run build:sets"
   },
   "dependencies": {
     "@fontsource/barlow": "^5.3.0",

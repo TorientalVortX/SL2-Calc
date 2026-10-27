@@ -5651,6 +5651,20 @@
         "effects": []
       }
     ],
+    "Alchemic Plate": [
+      {
+        "name": "Alchemic Plate",
+        "description": "Doubles item material effects that modify this item's parameters.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Doubles material effects",
+        "description": "Doubles material effects",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
     "Brightray Plate": [
       {
         "name": "Brightray Plate",
@@ -5676,20 +5690,6 @@
       {
         "name": "Soldier class bonus enhancement",
         "description": "Soldier class bonus enhancement",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Alchemic Plate": [
-      {
-        "name": "Alchemic Plate",
-        "description": "Doubles item material effects that modify this item's parameters.",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Doubles material effects",
-        "description": "Doubles material effects",
         "applies": "reference",
         "effects": []
       }
@@ -5774,6 +5774,26 @@
         ]
       }
     ],
+    "Starless Night": [
+      {
+        "name": "Starless Night",
+        "description": "+3 Darkness ATK Protection From Spatial race. Darkheart enchant blocks Star Map skills.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "10% Spatial damage reduction",
+        "description": "10% Spatial damage reduction",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Star Map immunity with Darkheart",
+        "description": "Star Map immunity with Darkheart",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
     "Terrasque Shell": [
       {
         "name": "Terrasque Shell",
@@ -5811,26 +5831,6 @@
       {
         "name": "+10 Critical Evade vs bows",
         "description": "+10 Critical Evade vs bows",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Starless Night": [
-      {
-        "name": "Starless Night",
-        "description": "+3 Darkness ATK Protection From Spatial race. Darkheart enchant blocks Star Map skills.",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "10% Spatial damage reduction",
-        "description": "10% Spatial damage reduction",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Star Map immunity with Darkheart",
-        "description": "Star Map immunity with Darkheart",
         "applies": "reference",
         "effects": []
       }
@@ -6074,6 +6074,20 @@
         "effects": []
       }
     ],
+    "Alchemic Grain": [
+      {
+        "name": "Alchemic Grain",
+        "description": "Doubles item material effects that modify this item's parameters.",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Doubles material effects",
+        "description": "Doubles material effects",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
     "Blackheart": [
       {
         "name": "Blackheart",
@@ -6174,20 +6188,6 @@
       {
         "name": "Rogue class bonus enhancement",
         "description": "Rogue class bonus enhancement",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Alchemic Grain": [
-      {
-        "name": "Alchemic Grain",
-        "description": "Doubles item material effects that modify this item's parameters.",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Doubles material effects",
-        "description": "Doubles material effects",
         "applies": "reference",
         "effects": []
       }
@@ -6453,6 +6453,14 @@
         "effects": []
       }
     ],
+    "Batwing Cloak": [
+      {
+        "name": "Batwing Cloak",
+        "description": "Airborne effects you are under do not automatically end when turns shift. When a field object explodes while you are in its effective radius, you become Airborne (3 rounds) and gain Agile Bat as a substatus to it (LV = 30 - Battle Weight). While Airborne, if this torso is enchanted with Winged, enemy Critical Damage is reduced by 25% when attacking you. Increases Evade and Critical Evade by LV. Immune to Airborne.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
     "Cloak of Many Colors": [
       {
         "name": "Cloak of Many Colors",
@@ -6481,6 +6489,114 @@
         "description": "+12 Evade and +12 Critical if using same weapon types in both hands.",
         "applies": "reference",
         "effects": []
+      }
+    ],
+    "Warding Cloth": [
+      {
+        "name": "Warding Cloth",
+        "description": "Increases status resistance by 10%.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Berserker Shell": [
+      {
+        "name": "Berserker Shell",
+        "description": "+20 HP Gain increased Critical with Axe weapons based on how much HP you are missing.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Dragon Gi": [
+      {
+        "name": "Dragon Gi",
+        "description": "+15 HP, +15 FP Set: Like a Dragon 2+ - Gain Cast Off Flexing Skill. When you use Cast Off Flexing; * Activate all of your Arcane Tattoo traits. * Activate Crack Knuckles skill (if equipped). * Gain Dragon Fist status permanently. (+2 Attack Range for Bare Fists. Bare Fists' Attack skill moves you to an unoccupied tile next to the target if not in 1 Range, and gains Trickery - Activate Kick skill on the target. * Kick skill Momentum cost reduced by 1 during a turn where you've used Attack.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Alchemic Wrap": [
+      {
+        "name": "Alchemic Wrap",
+        "description": "Doubles item material effects that modify this item's parameters (such as Armor, Evade, etc.).",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Caster's Cape": [
+      {
+        "name": "Caster's Cape",
+        "description": "If your main class is a Mage class, the stat bonuses it gives you are increased by 50% (min. 1 if >0).",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Farmer's Shirt": [
+      {
+        "name": "Farmer's Shirt",
+        "description": "If your main class is a Martial Artist class, the stat bonuses it gives you are increased by 50% (min. 1 if > 0).",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Healer's Shroud": [
+      {
+        "name": "Healer's Shroud",
+        "description": "If your main class is a Curate class, the stat bonuses it gives you are increased by 50% (min. 1 if >0). Set: Church Faithful 2+ - +15% Healing-tag skill Power and +3 Light ATK 3+ - +15 Evade versus Vampire race, Possessed race, and Cladis Mortem Null enemies. 4+ - Can't be targeted by the Banquet skill. Vampiric effects (item effects or miniboss skill) do not work against you. Pray skill's Momentum cost becomes 3.",
+        "applies": "conditional",
+        "effects": [
+          {
+            "kind": "elementalAttack",
+            "key": "Light",
+            "base": 3,
+            "ulMultiplier": 0
+          },
+          {
+            "kind": "derived",
+            "key": "evade",
+            "base": 15,
+            "ulMultiplier": 0
+          }
+        ]
+      }
+    ],
+    "Kaminah Robes": [
+      {
+        "name": "Kaminah Robes",
+        "description": "Replaces Blind status effects that are applied to you with Beyond Sight instead.",
+        "applies": "reference",
+        "effects": []
+      }
+    ],
+    "Shadow Gi": [
+      {
+        "name": "Shadow Gi",
+        "description": "10% Light Resistance",
+        "applies": "reference",
+        "effects": []
+      },
+      {
+        "name": "Grants Skill: Ninja Telepo",
+        "description": "Grants Skill: Ninja Telepo",
+        "applies": "reference",
+        "effects": [],
+        "grants": "Ninja Telepo",
+        "role": "skill"
+      },
+      {
+        "name": "1 Momentum, 10FP",
+        "description": "1 Momentum, 10FP",
+        "applies": "reference",
+        "effects": [],
+        "grants": "Ninja Telepo",
+        "role": "cost"
+      },
+      {
+        "name": "Throw your hands together in a ninjutsu sign and disappear, reappearing at a nearby location within 2 Range. You also gain a status called Double Telepo for 3 Rounds. (When you evade an attack, you disappear in a puff of smoke and appear at the tile behind your attacker, if it is a valid battle tile. Expires after triggered.)",
+        "description": "Throw your hands together in a ninjutsu sign and disappear, reappearing at a nearby location within 2 Range. You also gain a status called Double Telepo for 3 Rounds. (When you evade an attack, you disappear in a puff of smoke and appear at the tile behind your attacker, if it is a valid battle tile. Expires after triggered.)",
+        "applies": "reference",
+        "effects": [],
+        "grants": "Ninja Telepo"
       }
     ],
     "Boltstruck Gi": [
@@ -6614,122 +6730,6 @@
       {
         "name": "Jam damage shield on battle start",
         "description": "Jam damage shield on battle start",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Berserker Shell": [
-      {
-        "name": "Berserker Shell",
-        "description": "+20 HP Gain increased Critical with Axe weapons based on how much HP you are missing.",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Caster's Cape": [
-      {
-        "name": "Caster's Cape",
-        "description": "If your main class is a Mage class, the stat bonuses it gives you are increased by 50% (min. 1 if >0).",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Dragon Gi": [
-      {
-        "name": "Dragon Gi",
-        "description": "+15 HP, +15 FP Set: Like a Dragon 2+ - Gain Cast Off Flexing Skill. When you use Cast Off Flexing; * Activate all of your Arcane Tattoo traits. * Activate Crack Knuckles skill (if equipped). * Gain Dragon Fist status permanently. (+2 Attack Range for Bare Fists. Bare Fists' Attack skill moves you to an unoccupied tile next to the target if not in 1 Range, and gains Trickery - Activate Kick skill on the target. * Kick skill Momentum cost reduced by 1 during a turn where you've used Attack.",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Farmer's Shirt": [
-      {
-        "name": "Farmer's Shirt",
-        "description": "If your main class is a Martial Artist class, the stat bonuses it gives you are increased by 50% (min. 1 if > 0).",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Healer's Shroud": [
-      {
-        "name": "Healer's Shroud",
-        "description": "If your main class is a Curate class, the stat bonuses it gives you are increased by 50% (min. 1 if >0). Set: Church Faithful 2+ - +15% Healing-tag skill Power and +3 Light ATK 3+ - +15 Evade versus Vampire race, Possessed race, and Cladis Mortem Null enemies. 4+ - Can't be targeted by the Banquet skill. Vampiric effects (item effects or miniboss skill) do not work against you. Pray skill's Momentum cost becomes 3.",
-        "applies": "conditional",
-        "effects": [
-          {
-            "kind": "elementalAttack",
-            "key": "Light",
-            "base": 3,
-            "ulMultiplier": 0
-          },
-          {
-            "kind": "derived",
-            "key": "evade",
-            "base": 15,
-            "ulMultiplier": 0
-          }
-        ]
-      }
-    ],
-    "Kaminah Robes": [
-      {
-        "name": "Kaminah Robes",
-        "description": "Replaces Blind status effects that are applied to you with Beyond Sight instead.",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Shadow Gi": [
-      {
-        "name": "Shadow Gi",
-        "description": "10% Light Resistance",
-        "applies": "reference",
-        "effects": []
-      },
-      {
-        "name": "Grants Skill: Ninja Telepo",
-        "description": "Grants Skill: Ninja Telepo",
-        "applies": "reference",
-        "effects": [],
-        "grants": "Ninja Telepo",
-        "role": "skill"
-      },
-      {
-        "name": "1 Momentum, 10FP",
-        "description": "1 Momentum, 10FP",
-        "applies": "reference",
-        "effects": [],
-        "grants": "Ninja Telepo",
-        "role": "cost"
-      },
-      {
-        "name": "Throw your hands together in a ninjutsu sign and disappear, reappearing at a nearby location within 2 Range. You also gain a status called Double Telepo for 3 Rounds. (When you evade an attack, you disappear in a puff of smoke and appear at the tile behind your attacker, if it is a valid battle tile. Expires after triggered.)",
-        "description": "Throw your hands together in a ninjutsu sign and disappear, reappearing at a nearby location within 2 Range. You also gain a status called Double Telepo for 3 Rounds. (When you evade an attack, you disappear in a puff of smoke and appear at the tile behind your attacker, if it is a valid battle tile. Expires after triggered.)",
-        "applies": "reference",
-        "effects": [],
-        "grants": "Ninja Telepo"
-      }
-    ],
-    "Warding Cloth": [
-      {
-        "name": "Warding Cloth",
-        "description": "Increases status resistance by 10%.",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Alchemic Wrap": [
-      {
-        "name": "Alchemic Wrap",
-        "description": "Doubles item material effects that modify this item's parameters (such as Armor, Evade, etc.).",
-        "applies": "reference",
-        "effects": []
-      }
-    ],
-    "Batwing Cloak": [
-      {
-        "name": "Batwing Cloak",
-        "description": "Airborne effects you are under do not automatically end when turns shift. When a field object explodes while you are in its effective radius, you become Airborne (3 rounds) and gain Agile Bat as a substatus to it (LV = 30 - Battle Weight). While Airborne, if this torso is enchanted with Winged, enemy Critical Damage is reduced by 25% when attacking you. Increases Evade and Critical Evade by LV. Immune to Airborne.",
         "applies": "reference",
         "effects": []
       }

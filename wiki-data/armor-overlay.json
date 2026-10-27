@@ -1,0 +1,553 @@
+{
+  "renames": {
+    "armor:unarmored:embroidered-elemenetalist-s-gi": {
+      "id": "armor:unarmored:embroidered-elementalist-s-gi",
+      "name": "Embroidered Elementalist's Gi"
+    }
+  },
+  "armors": {
+    "armor:heavy:akmedis": {
+      "details": "+25 HP, +25 FP Reduces Critical Damage modifier for low power weapons.",
+      "statBonuses": {
+        "hp": 25,
+        "fp": 25
+      },
+      "specialEffects": [
+        "Critical damage reduction vs low power weapons"
+      ]
+    },
+    "armor:heavy:alchemic-plate": {
+      "details": "Doubles item material effects that modify this item's parameters.",
+      "specialEffects": [
+        "Doubles material effects"
+      ]
+    },
+    "armor:heavy:bellplate": {
+      "details": "On Attacked: If hit by ranged weapon, deals 1+UL Sound damage to attacker.",
+      "specialEffects": [
+        "Sound damage on ranged hit"
+      ]
+    },
+    "armor:heavy:body-guard": {
+      "details": "Reduces all damage that exceeds your current HP by 25%. A mystical wood+metal armor that deflects blows from vital areas.",
+      "specialEffects": [
+        "Reduces damage exceeding current HP by 25%"
+      ]
+    },
+    "armor:heavy:braveheart": {
+      "details": "Immunity to Hesitation. The shine of this armor inspires its wearer to do great things.",
+      "specialEffects": [
+        "Immunity to Hesitation"
+      ]
+    },
+    "armor:heavy:breastplate": {
+      "details": "A sturdy metal plate to protect your chest."
+    },
+    "armor:heavy:brightray-plate": {
+      "details": "+5 Power to Mercalan Spells 10% Darkness Resistance A golden glowing suit of armor.",
+      "statBonuses": {
+        "Mercalan": 5
+      },
+      "resistances": {
+        "Dark": 10
+      }
+    },
+    "armor:heavy:cruel-commander": {
+      "specialEffects": [
+        "Grants Skill: Contract of Blood",
+        "3 Momentum, 0 FP",
+        "Targets 1 of your Youkai within 1 Range and sets it's HP to 0, defeating it. You then gain Cruel Commander LV X (X = your level + 20) for 3 rounds, which causes your STR to become equal to its LV."
+      ]
+    },
+    "armor:heavy:dragon-king-s-armor": {
+      "specialEffects": [
+        "Dragon King Set",
+        "+5% total STR per set piece",
+        "+3 STR soft cap per set piece"
+      ]
+    },
+    "armor:heavy:half-plate": {
+      "details": "+5% Pierce and Slash Resistance A partial suit of armor that offers great protection.",
+      "resistances": {
+        "Pierce": 5,
+        "Slash": 5
+      }
+    },
+    "armor:heavy:haunted-armor": {
+      "details": "UL*2% chance to inflict Fear on attacker. Barghest ally if UL >= 10.",
+      "specialEffects": [
+        "Fear chance on hit",
+        "Barghest summon at UL 10+"
+      ]
+    },
+    "armor:heavy:knight-s-armor": {
+      "specialEffects": [
+        "Soldier class bonus enhancement"
+      ]
+    },
+    "armor:heavy:mist-armor": {
+      "details": "On Battle Start: Gain Mist Armor LV4. A heavy and mysterious armor that gradually vanishes.",
+      "specialEffects": [
+        "Mist Armor LV4 on battle start"
+      ]
+    },
+    "armor:heavy:starless-night": {
+      "details": "+3 Darkness ATK Protection From Spatial race. Darkheart enchant blocks Star Map skills.",
+      "statBonuses": {
+        "Dark": 3
+      },
+      "specialEffects": [
+        "10% Spatial damage reduction",
+        "Star Map immunity with Darkheart"
+      ]
+    },
+    "armor:heavy:terrasque-shell": {
+      "details": "+50 HP Recover 3 HP Each Round. Fragment of shell from a legendary beast.",
+      "statBonuses": {
+        "hp": 50
+      },
+      "specialEffects": [
+        "Recover 3 HP per round"
+      ]
+    },
+    "armor:heavy:turtle-shell": {
+      "specialEffects": [
+        "+1 Momentum knockdown recovery",
+        "Back damage reduction",
+        "Back Critical Evade"
+      ]
+    },
+    "armor:heavy:wyvern-rider-s-plate": {
+      "details": "-10% damage from Bow weapons. +10 Critical Evade VS Bow weapons.",
+      "specialEffects": [
+        "10% bow damage reduction",
+        "+10 Critical Evade vs bows"
+      ]
+    },
+    "armor:light:adversity-tunic": {
+      "details": "Material: Cloth Reduces damage by 10% per enemy beyond first within 2 Range (max 40%).",
+      "specialEffects": [
+        "Damage reduction vs multiple enemies"
+      ]
+    },
+    "armor:light:alchemic-grain": {
+      "details": "Doubles item material effects that modify this item's parameters.",
+      "specialEffects": [
+        "Doubles material effects"
+      ]
+    },
+    "armor:light:argonaut": {
+      "resistances": {
+        "Water": 10
+      },
+      "specialEffects": [
+        "Ignore water movement penalties"
+      ]
+    },
+    "armor:light:armor-of-nails": {
+      "details": "Material: Cloth On Attacked: Deals 25% of your level as Pierce damage to attacker.",
+      "specialEffects": [
+        "On Attacked: Pierce damage to attacker"
+      ]
+    },
+    "armor:light:blackheart": {
+      "details": "+3 STR, +3 WIL 10% Light Resistance.",
+      "statBonuses": {
+        "str": 3,
+        "wil": 3
+      },
+      "resistances": {
+        "Light": 10
+      }
+    },
+    "armor:light:detective-trenchcoat": {
+      "details": "Material: Cloth Reduces gun damage by 5. Increases max encumbrance by 5.",
+      "specialEffects": [
+        "Reduce gun damage by 5",
+        "+5 max encumbrance"
+      ]
+    },
+    "armor:light:fencer-s-chestguard": {
+      "details": "If main class is Duelist, stat bonuses increased by 50% (min. 1).",
+      "specialEffects": [
+        "Duelist class bonus enhancement"
+      ]
+    },
+    "armor:light:green-scale-tunic": {
+      "details": "Increases Evade versus enemies based on the attacker's missing FP (1% missing FP = 0.5 Evade, up to a maximum of UL). When you evade a basic attack, sap FP from the attacker equal to half of UL.",
+      "specialEffects": [
+        "Evade bonus vs low FP enemies",
+        "FP sap on evade"
+      ]
+    },
+    "armor:light:in-fighter-gi": {
+      "details": "Material: Cloth Increases Evade against enemies within 1 Range by UL.",
+      "specialEffects": [
+        "Evade bonus vs close enemies"
+      ]
+    },
+    "armor:light:irisgold": {
+      "details": "30% Light Resistance Increases STR and WIL by 2 when HP is restored.",
+      "resistances": {
+        "Light": 30
+      },
+      "specialEffects": [
+        "+2 STR/WIL when HP restored"
+      ]
+    },
+    "armor:light:jerkin-of-fortune": {
+      "details": "Material: Cloth On Battle Start: Gain +5 Luck. Set: Precautionary Tale.",
+      "statBonuses": {
+        "luc": 5
+      },
+      "specialEffects": [
+        "Precautionary Tale Set",
+        "Luck bonus lost on status infliction"
+      ]
+    },
+    "armor:light:mayelia": {
+      "details": "30% Fire Resistance Restores 15% HP if turn is skipped due to status.",
+      "resistances": {
+        "Fire": 30
+      },
+      "specialEffects": [
+        "Restore 15% HP on skipped turns"
+      ]
+    },
+    "armor:light:mermanmail": {
+      "details": "+3 Water ATK Bonuses while on water tiles.",
+      "statBonuses": {
+        "Water": 3
+      },
+      "specialEffects": [
+        "+5 Evade/Armor on water tiles",
+        "Move bonus on water"
+      ]
+    },
+    "armor:light:ooze-armor": {
+      "details": "-3 CEL Puts enemy skills on cooldown when hit. UL% chance for 2 round cooldown.",
+      "statBonuses": {
+        "cel": -3
+      },
+      "specialEffects": [
+        "Skill cooldown on hit",
+        "UL% chance for extended cooldown"
+      ]
+    },
+    "armor:light:reactive-armor": {
+      "details": "When critically hit or taking Fire damage, deals 2+UL unresistable Fire damage around you. A Fire trigger also grants Firey Armor, dealing UL/2 damage to attackers.",
+      "specialEffects": [
+        "Fire explosion on crit/fire damage",
+        "Firey Armor effect"
+      ]
+    },
+    "armor:light:rough-ranger": {
+      "details": "Material: Cloth +3 Fire ATK Reduce Beast damage by 5%. Ignore thick vine penalties.",
+      "statBonuses": {
+        "Fire": 3
+      },
+      "specialEffects": [
+        "Reduce Beast damage by 5%",
+        "Ignore thick vine penalties"
+      ]
+    },
+    "armor:light:roughspun-tunic": {
+      "details": "Material: Cloth +10 HP Set: Unassuming Adventurer.",
+      "statBonuses": {
+        "hp": 10
+      },
+      "specialEffects": [
+        "Unassuming Adventurer Set"
+      ]
+    },
+    "armor:light:sniper-s-chainmail": {
+      "details": "Material: Cloth If main class is Archer, stat bonuses increased by 50% (min. 1).",
+      "specialEffects": [
+        "Archer class bonus enhancement"
+      ]
+    },
+    "armor:light:tamer-s-regalia": {
+      "details": "Material: Cloth If main class is Summoner, stat bonuses increased by 50% (min. 1).",
+      "specialEffects": [
+        "Summoner class bonus enhancement"
+      ]
+    },
+    "armor:light:thief-s-poncho": {
+      "details": "Material: Cloth If main class is Rogue, stat bonuses increased by 50% (min. 1).",
+      "specialEffects": [
+        "Rogue class bonus enhancement"
+      ]
+    },
+    "armor:light:whynesfelt": {
+      "details": "Material: Cloth 30% Earth Resistance Prevents caster from using Attack/Dispel spells next turn.",
+      "resistances": {
+        "Earth": 30
+      },
+      "specialEffects": [
+        "Blocks caster spell usage"
+      ]
+    },
+    "armor:light:worg-pelt": {
+      "details": "Material: Cloth 10% Ice Resistance Triggers Roar skill when taking Dark damage.",
+      "resistances": {
+        "Ice": 10
+      },
+      "specialEffects": [
+        "Roar skill on Dark damage"
+      ]
+    },
+    "armor:light:zwellrauss": {
+      "details": "30% Water Resistance Gives party +2 Power when you are attacked.",
+      "resistances": {
+        "Water": 30
+      },
+      "specialEffects": [
+        "Party +2 Power when attacked"
+      ]
+    },
+    "armor:unarmored:animal-pelt": {
+      "details": "Material: Furcloth +10 HP +3 Power to Nature Spells Beast synergies.",
+      "statBonuses": {
+        "hp": 10
+      },
+      "specialEffects": [
+        "+3 Nature Spell Power",
+        "Evade Up on battle start",
+        "+5 Evade per Beast ally"
+      ]
+    },
+    "armor:unarmored:armor-of-eyes": {
+      "details": "Material: Metal Increases Hit by UL/2, except when Blinded. UL% chance when critically hit to reduce the critical damage multiplier by UL%.",
+      "specialEffects": [
+        "Hit bonus",
+        "Critical damage reduction"
+      ]
+    },
+    "armor:unarmored:battle-maid-dress": {
+      "details": "+10 FP Elemental resistances and Servant Training synergy.",
+      "statBonuses": {
+        "fp": 10
+      },
+      "resistances": {
+        "Fire": 5,
+        "Earth": 5,
+        "Water": 5
+      },
+      "specialEffects": [
+        "Evade Up with Servant Training"
+      ]
+    },
+    "armor:unarmored:berserker-shell": {
+      "statBonuses": {
+        "hp": 20
+      }
+    },
+    "armor:unarmored:boltstruck-gi": {
+      "conditionalBonuses": {
+        "natureSpell": {
+          "critical": 15,
+          "condition": "+15 Critical for 2 rounds after Nature spell"
+        }
+      }
+    },
+    "armor:unarmored:cloak-of-many-colors": {
+      "details": "8-15% Fire, Ice, Lightning and Wind Resistance.",
+      "resistances": {
+        "Fire": 12,
+        "Ice": 12,
+        "Lightning": 12,
+        "Wind": 12
+      }
+    },
+    "armor:unarmored:dragon-gi": {
+      "statBonuses": {
+        "hp": 15,
+        "fp": 15
+      }
+    },
+    "armor:unarmored:elementalist-s-gi": {
+      "details": "Complex gi that reacts to elemental spells with various bonuses.",
+      "conditionalBonuses": {
+        "nerifianSpell": {
+          "str": 15,
+          "condition": "+15 STR for 2 rounds after Nerifian spell"
+        },
+        "aquarianSpell": {
+          "special": "Ice barrier",
+          "condition": "Ice barrier after Aquarian spell"
+        },
+        "sylphidSpell": {
+          "evade": 15,
+          "condition": "+15 Evade for 1 attack after Sylphid spell"
+        },
+        "natureSpell": {
+          "critical": 15,
+          "condition": "+15 Critical for 2 rounds after Nature spell"
+        }
+      }
+    },
+    "armor:unarmored:embroidered-boltstruck-gi": {
+      "details": "Material: Sunderthread Enhanced version with +25 Critical for 3 rounds after Nature spell.",
+      "conditionalBonuses": {
+        "natureSpell": {
+          "critical": 25,
+          "condition": "+25 Critical for 3 rounds after Nature spell"
+        }
+      }
+    },
+    "armor:unarmored:embroidered-elementalist-s-gi": {
+      "details": "Heavy but powerful enhanced elementalist gi.",
+      "conditionalBonuses": {
+        "nerifianSpell": {
+          "str": 20,
+          "condition": "+20 STR for 3 rounds after Nerifian spell"
+        },
+        "aquarianSpell": {
+          "special": "Enhanced ice barrier",
+          "condition": "Ice barrier 25 damage for 3 rounds after Aquarian spell"
+        },
+        "sylphidSpell": {
+          "evade": 20,
+          "condition": "+20 Evade for 1 attack after Sylphid spell"
+        },
+        "natureSpell": {
+          "critical": 25,
+          "condition": "+25 Critical for 3 rounds after Nature spell"
+        }
+      }
+    },
+    "armor:unarmored:embroidered-flamedance-gi": {
+      "details": "Material: Singethread Enhanced version with +20 STR for 3 rounds after Nerifian spell.",
+      "conditionalBonuses": {
+        "nerifianSpell": {
+          "str": 20,
+          "condition": "+20 STR for 3 rounds after Nerifian spell"
+        }
+      }
+    },
+    "armor:unarmored:embroidered-frosttouch-gi": {
+      "details": "Material: Shiverthread Enhanced version with ice barrier for 3 rounds after Aquarian spell.",
+      "conditionalBonuses": {
+        "aquarianSpell": {
+          "special": "Enhanced ice barrier",
+          "condition": "Ice barrier 25 damage for 3 rounds after Aquarian spell"
+        }
+      }
+    },
+    "armor:unarmored:embroidered-windswept-gi": {
+      "details": "Material: Swiftthread Enhanced version with +20 Evade for 1 attack, 3 rounds after Sylphid spell.",
+      "conditionalBonuses": {
+        "sylphidSpell": {
+          "evade": 20,
+          "condition": "+20 Evade for 1 attack, 3 rounds after Sylphid spell"
+        }
+      }
+    },
+    "armor:unarmored:flamedance-gi": {
+      "conditionalBonuses": {
+        "nerifianSpell": {
+          "str": 15,
+          "condition": "+15 STR for 2 rounds after Nerifian spell"
+        }
+      }
+    },
+    "armor:unarmored:flower-wreathed-tunic": {
+      "details": "Material: Wood +3 Earth ATK Creates flowers and gains evade bonuses.",
+      "statBonuses": {
+        "Earth": 3
+      },
+      "specialEffects": [
+        "Creates flowers",
+        "+3 Evade per plant tile"
+      ]
+    },
+    "armor:unarmored:frosttouch-gi": {
+      "details": "Ice barrier after Aquarian spells.",
+      "conditionalBonuses": {
+        "aquarianSpell": {
+          "special": "Ice barrier",
+          "condition": "Ice barrier 15 damage for 2 rounds after Aquarian spell"
+        }
+      }
+    },
+    "armor:unarmored:haunted-poncho": {
+      "specialEffects": [
+        "Phantom Cloak on battle start"
+      ]
+    },
+    "armor:unarmored:jarmor": {
+      "details": "Material: Metal Jam shield for 50 rounds with LV 10+(UL*3).",
+      "specialEffects": [
+        "Jam damage shield on battle start"
+      ]
+    },
+    "armor:unarmored:ninja-armor": {
+      "details": "On Battle Start: Gain Ninja Strike LV 10 for dagger critical damage.",
+      "specialEffects": [
+        "Ninja Strike LV10 on battle start"
+      ]
+    },
+    "armor:unarmored:padded-vest-cloak": {
+      "details": "8% Blunt Resistance Reduces critical hit damage by 10%.",
+      "resistances": {
+        "Blunt": 8
+      },
+      "specialEffects": [
+        "10% critical damage reduction"
+      ]
+    },
+    "armor:unarmored:priest-robe": {
+      "details": "+4 WIL +20 FP Clothing worn by priests.",
+      "statBonuses": {
+        "wil": 4,
+        "fp": 20
+      }
+    },
+    "armor:unarmored:sarashi-gi": {
+      "details": "+12 Evade and +12 Critical if using same weapon types in both hands.",
+      "conditionalBonuses": {
+        "dualWielding": {
+          "evade": 12,
+          "critical": 12,
+          "condition": "Using same weapon type in both hands"
+        }
+      }
+    },
+    "armor:unarmored:shadow-gi": {
+      "resistances": {
+        "Light": 10
+      },
+      "specialEffects": [
+        "Grants Skill: Ninja Telepo",
+        "1 Momentum, 10FP",
+        "Throw your hands together in a ninjutsu sign and disappear, reappearing at a nearby location within 2 Range. You also gain a status called Double Telepo for 3 Rounds. (When you evade an attack, you disappear in a puff of smoke and appear at the tile behind your attacker, if it is a valid battle tile. Expires after triggered.)"
+      ]
+    },
+    "armor:unarmored:swimsuit": {
+      "details": "+15 HP 10% Water Resistance Special unequip effect.",
+      "statBonuses": {
+        "hp": 15
+      },
+      "resistances": {
+        "Water": 10
+      },
+      "specialEffects": [
+        "Charm on unequip"
+      ]
+    },
+    "armor:unarmored:windswept-gi": {
+      "conditionalBonuses": {
+        "sylphidSpell": {
+          "evade": 15,
+          "condition": "+15 Evade for 1 attack, 2 rounds after Sylphid spell"
+        }
+      }
+    },
+    "armor:unarmored:wisp-cloak": {
+      "details": "+30 FP Made from magical cloth, this cloak holds Focus within it.",
+      "statBonuses": {
+        "fp": 30
+      }
+    }
+  }
+}
