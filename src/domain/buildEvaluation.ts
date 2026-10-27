@@ -8,6 +8,7 @@ import { resolveOffense } from './evaluation/offense';
 import { resolveEvade } from './evaluation/defense';
 import { resolveDerived } from './evaluation/derived';
 import { statProvenance } from './evaluation/provenance';
+import { versusBonuses } from './itemEffects';
 
 export { STAT_KEYS, ELEMENT_KEYS } from './evaluation/shared';
 export { evaluateWeaponSlot } from './evaluation/offense';
@@ -41,6 +42,11 @@ export function evaluateBuild(build: BuildState, includeStatSources = false): Bu
     offHandWeapon: offense.offHandWeapon,
     unarmedWeapon: offense.unarmedWeapon,
     spellPower: spellPowerBySchool(inputs.items.derived),
+    damageTakenVersus: versusBonuses({
+      armorName: build.equipment.armorName,
+      armorPoints: inputs.armorPoints,
+      gear: inputs.gearSlots,
+    }).filter(bonus => bonus.kind === 'taken'),
   };
 }
 

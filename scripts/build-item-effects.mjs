@@ -255,6 +255,38 @@ const ON_HIT = [
   },
 ];
 
+// Bonuses that depend on who is on the other side: `taken` cuts damage from them, `dealt` raises this weapon's
+// damage, `swa` raises its Scaled Weapon ATK. Targets are races, "Boss", or a torso armor type.
+const VERSUS = [
+  { pattern: /^Reduces damage from ([\w ]+?) race enemies by (\d+)%\.?$/i, versus: (m) => ({ kind: 'taken', percent: Number(m[2]), targets: [m[1]] }) },
+  { pattern: /^Reduce ([A-Z]\w+) damage by (\d+)%$/, versus: (m) => ({ kind: 'taken', percent: Number(m[2]), targets: [m[1]] }) },
+  { pattern: /^(\d+)% ([A-Z]\w+) damage reduction$/, versus: (m) => ({ kind: 'taken', percent: Number(m[1]), targets: [m[2]] }) },
+  {
+    pattern: /^Damage dealt by this weapon's attack is increased by (\d+)% if the target is an? (\w+)/i,
+    versus: (m) => ({ kind: 'dealt', percent: Number(m[1]), targets: [m[2]], basicOnly: true }),
+  },
+  {
+    pattern: /^Basic attacks with this weapon deal (\d+)% more damage if the target is an? (\w+)/i,
+    versus: (m) => ({ kind: 'dealt', percent: Number(m[1]), targets: [m[2]], basicOnly: true }),
+  },
+  {
+    pattern: /^Increases Scaled Weapon ATK by (\d+)% if the target's armor type is (Unarmored|Heavy Armor|Light Armor)\.?$/i,
+    versus: (m) => ({ kind: 'swa', percent: Number(m[1]), targets: [m[2].replace(/ Armor$/, '')] }),
+  },
+  {
+    pattern: /^Increases the total Power of attacks and skills this weapon is used in by UL%, but only if the enemy is a Boss/i,
+    versus: () => ({ kind: 'dealt', percent: 0, ulMultiplier: 1, targets: ['Boss'] }),
+  },
+];
+
+function parseVersus(description) {
+  for (const { pattern, versus } of VERSUS) {
+    const match = pattern.exec(description);
+    if (match) return versus(match);
+  }
+  return null;
+}
+
 function parseOnHit(description) {
   for (const { pattern, rider } of ON_HIT) {
     const match = pattern.exec(description);
@@ -302,12 +334,14 @@ function toRecord(name, description, alwaysEligible) {
   // A buff that lasts N rounds was switched on in battle; it is not a standing bonus.
   const conditional = CONDITION.test(magnitudeClause) || /for \d+ (?:attacks? this round|rounds?)\b/i.test(ownText);
   const onHit = parseOnHit(description.replace(/\s+/g, ' ').trim());
+  const versus = parseVersus(description.replace(/\s+/g, ' ').trim());
   return {
     name,
     description: description.replace(/\s+/g, ' ').trim(),
     applies: !effects.length ? 'reference' : (conditional || !alwaysEligible) ? 'conditional' : 'always',
     effects,
     ...(onHit ? { onHit } : {}),
+    ...(versus ? { versus } : {}),
     ...(effects.length && /\bends? (?:that|other) effects?\b/i.test(description) ? { exclusive: true } : {}),
     // Off-hand weapons apply their effects in full unless the line says otherwise.
     ...(effects.length && /\bthis is your main hand weapon\b/i.test(description) ? { mainHandOnly: true } : {}),

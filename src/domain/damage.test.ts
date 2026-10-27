@@ -137,3 +137,13 @@ describe('expected damage', () => {
     expect(expectedDamage(hit, defender, chances).expected).toBeCloseTo(brute, 9);
   });
 });
+
+describe('reductions against one attacker', () => {
+  it('multiplies each in on its own', () => {
+    const versusReductions = [{ label: 'Beastfoe Shield vs Beast', percent: 10 }, { label: 'Rough Ranger vs Beast', percent: 5 }];
+    const result = incomingDamage({ ...NO_HIT, amount: 200, versusReductions }, defender);
+    // 200 × 0.73 × 0.90 × 0.95 − 45 = 79.83
+    expect(result.taken).toBe(79);
+    expect(result.steps.map(step => step.label)).toContain('Rough Ranger vs Beast');
+  });
+});

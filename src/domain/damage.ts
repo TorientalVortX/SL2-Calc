@@ -24,6 +24,8 @@ export interface IncomingHit {
   armorIgnoring: boolean;
   guardMomentum: number;
   otherReductionPercent: number;
+  /** Cuts against this attacker in particular (Beastfoe Shield vs Beast), each its own multiplier. */
+  versusReductions?: Array<{ label: string; percent: number }>;
   /** Reduction of the defender's parry skill when it fires, already halved for Zugzwang. */
   parryReductionPercent: number;
   /** One per hit; missing entries are plain hits. Each hit rolls its own crit. */
@@ -116,6 +118,7 @@ function sharedReductions(hit: IncomingHit, defender: Defenses) {
     }
     multiply('Guard', hit.guardMomentum * GUARD_PERCENT_PER_MOMENTUM);
     multiply('Other reductions', hit.otherReductionPercent);
+    for (const reduction of hit.versusReductions ?? []) multiply(reduction.label, reduction.percent);
     if (!hit.armorIgnoring) armorPool = Math.max(0, physical ? defender.derived.armor : defender.derived.magicArmor);
   }
   return { steps, perHit: total, armorPool };

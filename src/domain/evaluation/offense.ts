@@ -7,7 +7,7 @@ import { calculateWeaponSlot, scaledStatContribution, type WeaponEnchantment, ty
 import { effectiveScaling } from '../weaponScaling';
 import { FLANKING_BASE, FLANKING_PER_GUI, HIT_PER_SKI, attackerHit } from '../hitEvade';
 import { skillBonuses } from '../skills';
-import { onHitRiders } from '../itemEffects';
+import { onHitRiders, versusBonuses } from '../itemEffects';
 import type { TalentEffects } from '../talents';
 import type { EvaluationInputs } from './inputs';
 import type { StatsResult } from './stats';
@@ -100,7 +100,10 @@ export function resolveOffense(inputs: EvaluationInputs, stats: StatsResult) {
       weaponPoints: weapon ? resolveUpgradePoints(weapon) : undefined,
       gear: inputs.gearSlots,
     }, types);
-    return riders.length ? { ...line, onHit: riders } : line;
+    const versus = weapon
+      ? versusBonuses({ weaponName: weapon.selectedWeaponName, weaponPoints: resolveUpgradePoints(weapon) }).filter(bonus => bonus.kind !== 'taken')
+      : [];
+    return { ...line, ...(riders.length ? { onHit: riders } : {}), ...(versus.length ? { versus } : {}) };
   };
 
   const gripTypes = effectiveWeaponTypes(weaponConfig);

@@ -1,4 +1,4 @@
-import type { BuildEvaluation, ElementKey, PhysicalKey, Skill } from '../types';
+import type { BuildEvaluation, ElementKey, PhysicalKey, Skill, VersusBonus } from '../types';
 import { PHYSICAL_KEYS } from '../types';
 import { ELEMENT_KEYS } from './evaluation/shared';
 import {
@@ -50,10 +50,15 @@ export interface Target {
   bonusResistance: number;
   evade: number;
   criticalEvade: number;
+  /** What weapon bonuses "if the target is a Youkai" or "if the target's armor type is Heavy" check. */
+  race: string;
+  boss: boolean;
+  armorType: '' | 'Heavy' | 'Light' | 'Unarmored';
 }
 
 export const OPEN_TARGET: Target = {
   physicalDefense: 0, magicalDefense: 0, armor: 0, magicArmor: 0, resistance: 0, bonusResistance: 0, evade: 0, criticalEvade: 0,
+  race: '', boss: false, armorType: '',
 };
 
 type Attacker = Pick<BuildEvaluation, 'scaledStats' | 'elementalAttack' | 'primaryWeapon'> & {
@@ -271,6 +276,24 @@ export function onHitBonuses(skill: Skill | null, attacker: Wielder & Pick<Attac
       source: rider.source,
     };
   });
+}
+
+const targetIs = (target: Target, tag: string) => tag === target.race || (tag === 'Boss' && target.boss) || tag === target.armorType;
+
+/** The attacking weapon's bonuses that match this target; "basic attacks" ones skip other skills. */
+export function versusFor(skill: Skill | null, attacker: Wielder, hand: Hand, target: Target): VersusBonus[] {
+  const basic = !skill || Boolean(skill.basicAttack);
+  return (weaponFor(attacker, hand)?.versus ?? [])
+    .filter(bonus => (basic || !bonus.basicOnly) && bonus.targets.some(tag => targetIs(target, tag)));
+}
+
+const HAND_LINE = { main: 'primaryWeapon', off: 'offHandWeapon', unarmed: 'unarmedWeapon' } as const;
+
+/** "Increases Scaled Weapon ATK by 20%": the attacking weapon's SWA, so it reaches basic attacks and SWA terms alike. */
+export function withSwaPercent<A extends Wielder>(attacker: A, hand: Hand, percent: number): A {
+  const line = attacker[HAND_LINE[hand]];
+  if (!percent || !line) return attacker;
+  return { ...attacker, [HAND_LINE[hand]]: { ...line, swa: line.swa * (1 + percent / 100) } };
 }
 
 /** "+10 Critical Damage" from the weapon line; skills crit at a flat 1.25 without it. */

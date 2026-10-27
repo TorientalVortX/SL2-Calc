@@ -606,6 +606,8 @@ export interface BuildEvaluation {
   primaryWeapon?: WeaponLine;
   /** An off-hand weapon is its own weapon, used by attacks made with it. */
   offHandWeapon?: WeaponLine;
+  /** Damage cuts against attackers of a race, from everything worn. */
+  damageTakenVersus: VersusBonus[];
   /** Item Power on spells of a school: "+10% Power to Nerifian Spells" is `percent`, "+2 Power to Sylphid Spells" is `flat`. */
   spellPower: Partial<Record<string, { percent: number; flat: number }>>;
   /** The unarmed weapon beside a held one (Mixed Martial Arts, Unstable Tendril). With the main hand empty it is `primaryWeapon`. */
@@ -626,6 +628,18 @@ export interface WeaponLine {
   criticalFlatDamage?: number;
   /** Damage this weapon's basic attacks add on hit, from the weapon and from gear. */
   onHit?: OnHitRider[];
+  /** This weapon's bonuses against certain targets (Mythslayer vs Youkai, Knight Slayer vs Heavy armor). */
+  versus?: VersusBonus[];
+}
+
+/** A bonus that depends on the other side: `taken` cuts damage from it, `dealt` raises damage, `swa` raises Scaled Weapon ATK. */
+export interface VersusBonus {
+  source: string;
+  kind: 'taken' | 'dealt' | 'swa';
+  percent: number;
+  /** Races, "Boss", or a torso armor type (Heavy, Light, Unarmored). */
+  targets: string[];
+  basicOnly?: boolean;
 }
 
 export interface OnHitRider {

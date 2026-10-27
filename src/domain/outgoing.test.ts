@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { NO_HIT } from './damage';
-import { OPEN_TARGET, attackBase, critDamageFor, defaultDamage, expectedOutgoing, outgoingDamage, powerMultiplier, onHitBonuses, riderFor, spellPowerFor, targetAfterSets } from './outgoing';
+import { OPEN_TARGET, attackBase, critDamageFor, defaultDamage, expectedOutgoing, outgoingDamage, powerMultiplier, onHitBonuses, riderFor, spellPowerFor, targetAfterSets, versusFor, withSwaPercent } from './outgoing';
 import { skillById } from './skills';
 
 const attacker = {
@@ -151,5 +151,25 @@ describe('on-hit riders', () => {
     ];
     const result = outgoingDamage(slash, plain(0), [], riders, { ...target, bonusResistance: 50 });
     expect(result.bonuses.map(bonus => bonus.taken)).toEqual([Math.floor(20 * 0.7 * 0.5), Math.floor(10 * 0.7) - 5]);
+  });
+});
+
+describe('bonuses against a target', () => {
+  const versus = [
+    { source: 'Mythslayer', kind: 'dealt' as const, percent: 25, targets: ['Youkai'], basicOnly: true },
+    { source: 'Knight Slayer', kind: 'swa' as const, percent: 20, targets: ['Heavy'] },
+  ];
+  const armed = { ...attacker, primaryWeapon: { ...attacker.primaryWeapon, versus } };
+
+  it('matches the target’s race or torso, and keeps basic-attack ones off other skills', () => {
+    expect(versusFor(null, armed, 'main', OPEN_TARGET)).toEqual([]);
+    expect(versusFor(null, armed, 'main', { ...OPEN_TARGET, race: 'Youkai', armorType: 'Heavy' }).map(bonus => bonus.source)).toEqual(['Mythslayer', 'Knight Slayer']);
+    expect(versusFor(skillById('acid-rain')!, armed, 'main', { ...OPEN_TARGET, race: 'Youkai', armorType: 'Heavy' }).map(bonus => bonus.source)).toEqual(['Knight Slayer']);
+  });
+
+  it('raises Scaled Weapon ATK for basic attacks and SWA terms alike', () => {
+    expect(attackBase(null, 0, withSwaPercent(armed, 'main', 20)).amount).toBeCloseTo(144);
+    // Acid Rain rank 1: 90% Acid ATK + 100% SWA.
+    expect(attackBase(skillById('acid-rain')!, 1, withSwaPercent(armed, 'main', 20)).amount).toBeCloseTo(0.9 * 40 + 144);
   });
 });

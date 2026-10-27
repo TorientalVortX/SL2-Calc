@@ -5,11 +5,11 @@ import { ELEMENT_KEYS } from '../../../domain/buildEvaluation';
 import { NO_HIT, type DamageClass, type DamageType, type IncomingHit } from '../../../domain/damage';
 import { findWeaponByName } from '../../../domain/equipment';
 import {
-  OPEN_TARGET, attackBase, critDamageFor, critFlatDamageFor, defaultDamage, expectedOutgoing, onHitBonuses, outgoingDamage, powerMultiplier, riderFor, spellPowerFor, targetAfterSets, weaponFor,
+  OPEN_TARGET, attackBase, critDamageFor, critFlatDamageFor, defaultDamage, expectedOutgoing, onHitBonuses, outgoingDamage, powerMultiplier, riderFor, spellPowerFor, targetAfterSets, versusFor, weaponFor, withSwaPercent,
   type FlatBonus, type Hand, type Target,
 } from '../../../domain/outgoing';
 import { SKILLS, mergeSkillRanks, skillById } from '../../../domain/skills';
-import { setAttackEffects } from '../../../domain/itemEffects';
+import { VERSUS_RACES, setAttackEffects } from '../../../domain/itemEffects';
 import { equippedSets } from '../../../domain/itemSets';
 import { skillFormulaBreakdown } from '../../../domain/skillDamage';
 import { unarmedWeapon } from '../../../domain/unarmed';
@@ -21,6 +21,10 @@ import { CLASS_OPTIONS, OutcomeGrid, STEPS_HINT, StepRows, TYPE_OPTIONS, percent
 const LIGHTNING_CRITICAL_PERCENT = 25;
 const NO_BONUS: FlatBonus = { amount: 0, ignores: 'none' };
 const HAND_LABEL: Record<Hand, string> = { main: 'Main', off: 'Off', unarmed: 'Unarmed' };
+const RACE_OPTIONS = [{ value: '', label: 'Any' }, ...VERSUS_RACES.map(race => ({ value: race, label: race }))];
+const ARMOR_TYPE_OPTIONS = [
+  { value: '', label: 'Any' }, { value: 'Heavy', label: 'Heavy Armor' }, { value: 'Light', label: 'Light Armor' }, { value: 'Unarmored', label: 'Unarmored' },
+];
 
 function riderDetail(rider: FlatBonus): string {
   const ignores = rider.unresistable ? 'unresistable' : rider.ignores === 'none' ? '' : `ignores ${rider.ignores}`;
@@ -110,18 +114,22 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
     : evaluation.elementalResistance[type as ElementKey]);
   const copyOwnDefenses = () => {
     const { physicalDefense, magicalDefense, armor, magicArmor, evade, criticalEvade } = evaluation.derived;
-    setTarget({
+    setTarget(current => ({
+      ...current,
       physicalDefense, magicalDefense, armor, magicArmor, evade, criticalEvade,
       resistance: ownResistance(hit.type),
       bonusResistance: ownResistance(riderType),
-    });
+    }));
   };
 
-  const base = attackBase(skill, rank, evaluation, elements, attackHand);
+  const versus = versusFor(skill, evaluation, attackHand, target);
+  const swaPercent = versus.filter(bonus => bonus.kind === 'swa').reduce((total, bonus) => total + bonus.percent, 0);
+  const base = attackBase(skill, rank, withSwaPercent(evaluation, attackHand, swaPercent), elements, attackHand);
   const fromSets = setAttackEffects(equippedSets(build.equipment));
   const setDamagePercents = fromSets.flatMap(effect => (effect.damagePercent ? [effect.damagePercent] : []));
   const spellPercent = spellPowerFor(skill, evaluation).percent;
-  const allPercents = [...percents, ...(lightning ? [LIGHTNING_CRITICAL_PERCENT] : []), ...setDamagePercents, ...(spellPercent ? [spellPercent] : [])];
+  const allPercents = [...percents, ...(lightning ? [LIGHTNING_CRITICAL_PERCENT] : []), ...setDamagePercents, ...(spellPercent ? [spellPercent] : []),
+    ...versus.flatMap(bonus => (bonus.kind === 'dealt' && bonus.percent ? [bonus.percent] : []))];
   const attackerHit = (weapon?.hit ?? 0) + base.hit;
   const attackerCritical = (weapon?.critical ?? 0) + base.critical;
   const riders = onHitBonuses(skill, evaluation, attackHand);
@@ -278,7 +286,17 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
           ) : null}
           <NumberField label="Evade" value={target.evade} max={999} onChange={evade => aim({ evade })} />
           <NumberField label="Critical Evade" value={target.criticalEvade} max={999} onChange={criticalEvade => aim({ criticalEvade })} />
+          <SelectField label="Race" value={target.race} options={RACE_OPTIONS} onChange={race => aim({ race })} />
+          <SelectField label="Torso" value={target.armorType} options={ARMOR_TYPE_OPTIONS} onChange={armorType => aim({ armorType: armorType as Target['armorType'] })} />
         </div>
+        <div className="inline" style={{ gap: 12, flexWrap: 'wrap', margin: '6px 0' }}>
+          <Toggle on={target.boss} onChange={boss => aim({ boss })}>Boss</Toggle>
+        </div>
+        {versus.length ? (
+          <p className="hint">
+            From your weapon: {versus.map(bonus => `${bonus.source} +${bonus.percent}% ${bonus.kind === 'swa' ? 'Scaled Weapon ATK' : 'damage'} vs ${bonus.targets.join('/')}`).join('; ')}.
+          </p>
+        ) : null}
       </div>
 
       <OutcomeGrid hit={hit} parry={false} onChange={outcomes => set({ outcomes })} />

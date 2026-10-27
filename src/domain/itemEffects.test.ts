@@ -9,6 +9,8 @@ import {
   itemConditionalKey,
   itemRollKey,
   onHitRiders,
+  versusBonuses,
+  VERSUS_RACES,
   setAttackEffects,
   setHealingBonuses,
   valueAtUL,
@@ -286,5 +288,25 @@ describe('on-hit riders', () => {
   it('resolves UL on the weapon', () => {
     const points = { power: 3, critical: 2, accuracy: 0, durability: 0 };
     expect(onHitRiders({ weaponName: 'Hooked Twinblade', weaponPoints: points }, [])[0]).toMatchObject({ amount: 5, type: 'Pierce', damageClass: 'physical' });
+  });
+});
+
+describe('bonuses against a target', () => {
+  it('reads race damage cuts and resolves a UL percentage', () => {
+    expect(versusBonuses({ gear: [{ itemName: 'Beastfoe Shield Plus' }] })).toEqual([
+      { source: 'Beastfoe Shield Plus', kind: 'taken', percent: 15, targets: ['Beast'] },
+    ]);
+    const points = { power: 4, critical: 4, accuracy: 0, durability: 0 };
+    expect(versusBonuses({ weaponName: 'Kingslayer', weaponPoints: points })).toEqual([
+      { source: 'Kingslayer', kind: 'dealt', percent: 8, targets: ['Boss'] },
+    ]);
+    expect(VERSUS_RACES).toEqual(expect.arrayContaining(['Beast', 'Youkai', 'Undead']));
+    expect(VERSUS_RACES).not.toContain('Boss');
+  });
+
+  it('puts worn race cuts on the evaluation', () => {
+    const build = createDefaultBuild();
+    const shielded = { ...build, equipment: { ...build.equipment, hands: { itemName: 'Undeadfoe Shield', upgradePoints: { hit: 0, fp: 0 } } } };
+    expect(evaluateBuild(shielded).damageTakenVersus).toEqual([expect.objectContaining({ percent: 10, targets: ['Undead'] })]);
   });
 });

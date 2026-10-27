@@ -453,7 +453,15 @@
         "name": "Youkai Hunter",
         "description": "Damage dealt by this weapon's attack is increased by 25% if the target is a Youkai or installed with one.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "versus": {
+          "kind": "dealt",
+          "percent": 25,
+          "targets": [
+            "Youkai"
+          ],
+          "basicOnly": true
+        }
       },
       {
         "name": "Fiction Reaper",
@@ -515,7 +523,14 @@
         "name": "Unarmored Bonus",
         "description": "Increases Scaled Weapon ATK by 20% if the target's armor type is Unarmored.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "versus": {
+          "kind": "swa",
+          "percent": 20,
+          "targets": [
+            "Unarmored"
+          ]
+        }
       }
     ],
     "Grand Smasher": [
@@ -2248,7 +2263,15 @@
         "name": "Giant Slaying",
         "description": "Basic attacks with this weapon deal 15% more damage if the target is a Giant, Enlarged, or has the Mountain skill. Also applies to enemies with a Gigantic torso enchantment at half effectiveness.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "versus": {
+          "kind": "dealt",
+          "percent": 15,
+          "targets": [
+            "Giant"
+          ],
+          "basicOnly": true
+        }
       },
       {
         "name": "Demoralize Giants",
@@ -2479,7 +2502,15 @@
         "name": "Anti-Youkai Damage",
         "description": "Damage dealt by this weapon's attack is increased by 15% if the target is a Youkai or installed with one.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "versus": {
+          "kind": "dealt",
+          "percent": 15,
+          "targets": [
+            "Youkai"
+          ],
+          "basicOnly": true
+        }
       }
     ],
     "Excel Sniper": [
@@ -3607,7 +3638,14 @@
         "name": "Heavy Armor Bonus",
         "description": "Increases Scaled Weapon ATK by 20% if the target's armor type is Heavy Armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "versus": {
+          "kind": "swa",
+          "percent": 20,
+          "targets": [
+            "Heavy"
+          ]
+        }
       }
     ],
     "Morganite-Head Staff": [
@@ -5097,7 +5135,14 @@
         "name": "Anti-Light Armor",
         "description": "Increases Scaled Weapon ATK by 20% if the target's armor type is Light Armor.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "versus": {
+          "kind": "swa",
+          "percent": 20,
+          "targets": [
+            "Light"
+          ]
+        }
       }
     ],
     "Salamander Sword": [
@@ -5247,7 +5292,15 @@
         "name": "Elite Slayer",
         "description": "Increases the total Power of attacks and skills this weapon is used in by UL%, but only if the enemy is a Boss monster or has at least one 10* item equipped.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "versus": {
+          "kind": "dealt",
+          "percent": 0,
+          "ulMultiplier": 1,
+          "targets": [
+            "Boss"
+          ]
+        }
       }
     ],
     "Spine Leash": [
@@ -6193,7 +6246,14 @@
         "name": "10% Spatial damage reduction",
         "description": "10% Spatial damage reduction",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "versus": {
+          "kind": "taken",
+          "percent": 10,
+          "targets": [
+            "Spatial"
+          ]
+        }
       },
       {
         "name": "Star Map immunity with Darkheart",
@@ -6618,7 +6678,14 @@
         "name": "Reduce Beast damage by 5%",
         "description": "Reduce Beast damage by 5%",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "versus": {
+          "kind": "taken",
+          "percent": 5,
+          "targets": [
+            "Beast"
+          ]
+        }
       },
       {
         "name": "Ignore thick vine penalties",
@@ -8487,7 +8554,14 @@
         "name": "Beastfoe Shield",
         "description": "Reduces damage from Beast race enemies by 10%.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "versus": {
+          "kind": "taken",
+          "percent": 10,
+          "targets": [
+            "Beast"
+          ]
+        }
       }
     ],
     "Beastfoe Shield Plus": [
@@ -8495,7 +8569,14 @@
         "name": "Beastfoe Shield Plus",
         "description": "Reduces damage from Beast race enemies by 15%.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "versus": {
+          "kind": "taken",
+          "percent": 15,
+          "targets": [
+            "Beast"
+          ]
+        }
       },
       {
         "name": "Beastfoe Shield Plus",
@@ -8602,7 +8683,14 @@
         "name": "Firefoe Shield",
         "description": "Reduces damage from Fireblood race enemies by 10%.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "versus": {
+          "kind": "taken",
+          "percent": 10,
+          "targets": [
+            "Fireblood"
+          ]
+        }
       }
     ],
     "Firefoe Shield Plus": [
@@ -8610,7 +8698,14 @@
         "name": "Firefoe Shield Plus",
         "description": "Reduces damage from Fireblood race enemies by 15%.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "versus": {
+          "kind": "taken",
+          "percent": 15,
+          "targets": [
+            "Fireblood"
+          ]
+        }
       },
       {
         "name": "Firefoe Shield Plus",
@@ -8823,7 +8918,14 @@
         "name": "Plantfoe Shield",
         "description": "Reduces damage from Plant race enemies by 10%.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "versus": {
+          "kind": "taken",
+          "percent": 10,
+          "targets": [
+            "Plant"
+          ]
+        }
       }
     ],
     "Plantfoe Shield Plus": [
@@ -8831,7 +8933,14 @@
         "name": "Plantfoe Shield Plus",
         "description": "Reduces damage from Plant race enemies by 15%.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "versus": {
+          "kind": "taken",
+          "percent": 15,
+          "targets": [
+            "Plant"
+          ]
+        }
       },
       {
         "name": "Plantfoe Shield Plus",
@@ -8859,7 +8968,14 @@
         "name": "Undeadfoe Shield",
         "description": "Reduces damage from Undead race enemies by 10%.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "versus": {
+          "kind": "taken",
+          "percent": 10,
+          "targets": [
+            "Undead"
+          ]
+        }
       }
     ],
     "Undeadfoe Shield Plus": [
@@ -8867,7 +8983,14 @@
         "name": "Undeadfoe Shield Plus",
         "description": "Reduces damage from Undead race enemies by 15%.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "versus": {
+          "kind": "taken",
+          "percent": 15,
+          "targets": [
+            "Undead"
+          ]
+        }
       },
       {
         "name": "Undeadfoe Shield Plus",
@@ -9316,7 +9439,14 @@
         "name": "Jammer Waders",
         "description": "Reduces damage from Jammer race enemies by 25%.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "versus": {
+          "kind": "taken",
+          "percent": 25,
+          "targets": [
+            "Jammer"
+          ]
+        }
       }
     ],
     "Kickboxing Shoes": [
@@ -11659,13 +11789,27 @@
         "name": "Sharkfang Necklace",
         "description": "Reduces damage from Shark race enemies by 15%.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "versus": {
+          "kind": "taken",
+          "percent": 15,
+          "targets": [
+            "Shark"
+          ]
+        }
       },
       {
         "name": "Sharkfang Necklace",
         "description": "Reduces damage from Fish race enemies by 15%.",
         "applies": "reference",
-        "effects": []
+        "effects": [],
+        "versus": {
+          "kind": "taken",
+          "percent": 15,
+          "targets": [
+            "Fish"
+          ]
+        }
       }
     ],
     "Shock Collar": [
