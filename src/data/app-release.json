@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "version": "0.9.1",
-  "releasedAt": "2026-10-26",
-  "headline": "Build cards, link previews, and the classic calculator retired.",
+  "version": "0.9.2",
+  "releasedAt": "2026-10-27",
+  "headline": "Damage calc is in, plus a big pass on item effects.",
   "notes": [
-    "Added Copy build card and Save card to Import / Export. The card is an image of the build for posting where links don't preview.",
-    "Links to the site now preview with a screenshot of the sheet. New app icon, and the installed app is now called Aether Codex.",
-    "The classic calculator is retired. Old /classic and /aether.html links open the sheet, and share links keep their build.",
-    "The light theme no longer flashes dark while the page loads.",
-    "RES and Dark text are easier to read on the dark theme.",
-    "Updates now download only what changed. The first update after this one downloads everything once."
+    "New damage calc behind Simulate in the Defense panel. Incoming shows what a hit really does to you after DEF, resists, Guard, Armor, glances and parries. Outgoing runs your attacks and skills against a target.",
+    "Skills from your gear show up as cards in the armory and under From equipment on the Skills sheet. The ones that buff you have a switch.",
+    "Tetra items have a crystal picker, Little Cheese has a switch, and Oni Heritage adds onto Sanguine Crest.",
+    "Added the 10 unarmored torsos that were missing, like Shadow Gi and Dragon Gi. Caster's Cape, Farmer's Shirt and Healer's Shroud boost your class stats.",
+    "Item switches are saved now. Before this they reset on refresh and never made it into saves or share links.",
+    "Fixed a bunch of items giving stats they shouldn't, like Creeping Darkness's free 25 Armor and the gauntlet shields stacking forever."
   ]
 }
