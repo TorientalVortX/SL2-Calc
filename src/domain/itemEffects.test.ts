@@ -8,6 +8,7 @@ import {
   itemBonuses,
   itemConditionalKey,
   itemRollKey,
+  setAttackEffects,
   valueAtUL,
   weaponEffects,
   weaponUL,
@@ -140,6 +141,21 @@ describe('item effect data', () => {
     const keys = lines.map((_, index) => itemConditionalKey('Metallic Magic Gauntlet', index));
     expect(new Set(keys).size).toBe(lines.length);
     expect(keys.every(key => key.startsWith('Metallic Magic Gauntlet#'))).toBe(true);
+  });
+
+  it('scales Unassuming Adventurer 3+ HP and FP with the pieces worn', () => {
+    const set = (pieces: number) => itemBonuses({ sets: [{ name: 'Unassuming Adventurer', pieces }] }).derived;
+    expect(set(2)).toEqual({});
+    expect(set(3)).toEqual({ hp: 30, fp: 30 });
+    expect(set(4)).toEqual({ hp: 40, fp: 40 });
+  });
+
+  it('turns Unassuming Adventurer 5+ and Gunsmoke Spiritual 3+ into damage effects once reached', () => {
+    expect(setAttackEffects([{ name: 'Unassuming Adventurer', pieces: 4 }])).toEqual([]);
+    expect(setAttackEffects([{ name: 'Unassuming Adventurer', pieces: 5 }])).toEqual([{ label: 'Unassuming Adventurer 5+', damagePercent: 15 }]);
+    expect(setAttackEffects([{ name: 'Gunsmoke Spiritual', pieces: 3 }])).toEqual([
+      { label: 'Gunsmoke Spiritual 3+', resistanceIgnored: { types: ['Dark', 'Light'], percent: 10 } },
+    ]);
   });
 
   it('returns nothing for an unknown item', () => {

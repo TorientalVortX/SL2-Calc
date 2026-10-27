@@ -18,6 +18,8 @@ export interface ItemEffectValue {
   /** Added per character level ("+1 per 5 character levels" is 0.2). */
   perLevel?: number;
   min?: number;
+  /** Added per piece of the set equipped ("+(10 x total number of this set's items equipped) HP"). */
+  perPiece?: number;
 }
 
 export const isTetraItem = (effects: ItemEffect[]) => effects.some(effect => effect.effects.some(value => value.tetra));
@@ -36,11 +38,20 @@ export interface ItemEffect {
   role?: 'skill' | 'cost';
   /** A weapon special's skills, split from its text; one special can grant two (Tricky Yoyo). */
   skills?: Array<{ name: string; cost: string | null; text: string }>;
+  /** Set thresholds only: the pieces needed, and what the threshold does to outgoing damage. */
+  count?: number;
+  damagePercent?: number;
+  resistanceIgnored?: { types: string[]; percent: number };
 }
 
 const WEAPON_EFFECTS = content.weapons as Record<string, ItemEffect[]>;
 const ARMOR_EFFECTS = content.armors as Record<string, ItemEffect[]>;
 const GEAR_EFFECTS = content.gear as Record<string, ItemEffect[]>;
+const SET_EFFECTS = content.sets as Record<string, ItemEffect[]>;
+
+export function setEffects(name: string | null | undefined): ItemEffect[] {
+  return (name && SET_EFFECTS[name]) || [];
+}
 
 export function weaponEffects(name: string | null | undefined): ItemEffect[] {
   return (name && WEAPON_EFFECTS[name]) || [];
@@ -67,9 +78,10 @@ export function armorUL(points: ArmorUpgradePoints | undefined): number {
   return points.armor + points.magicArmor + points.evade;
 }
 
-export function valueAtUL(value: ItemEffectValue, ul: number, roll?: number, level = 0): number {
+export function valueAtUL(value: ItemEffectValue, ul: number, roll?: number, level = 0, pieces = 0): number {
   const rolled = value.rollMax === undefined ? value.base : clampRoll(value, roll);
-  return Math.max(value.min ?? -Infinity, Math.floor(rolled + ul * value.ulMultiplier + level * (value.perLevel ?? 0)));
+  const scaled = rolled + ul * value.ulMultiplier + level * (value.perLevel ?? 0) + pieces * (value.perPiece ?? 0);
+  return Math.max(value.min ?? -Infinity, Math.floor(scaled));
 }
 
 export function clampRoll(value: ItemEffectValue, roll: number | undefined): number {
@@ -96,7 +108,8 @@ export interface ItemBonuses {
 const EMPTY: ItemBonuses = { stats: {}, setStats: {}, derived: {}, elementalAttack: {}, resistances: {} };
 const NO_ROLLS: Record<string, number> = Object.freeze({});
 
-const effectsByName = (itemName: string): ItemEffect[] => GEAR_EFFECTS[itemName] ?? WEAPON_EFFECTS[itemName] ?? ARMOR_EFFECTS[itemName] ?? [];
+const effectsByName = (itemName: string): ItemEffect[] =>
+  GEAR_EFFECTS[itemName] ?? WEAPON_EFFECTS[itemName] ?? ARMOR_EFFECTS[itemName] ?? SET_EFFECTS[itemName] ?? [];
 
 // FNV-1a: short, stable and dependency-free.
 function lineHash(text: string): string {
@@ -164,6 +177,8 @@ interface BattleContext {
   conditionals: Record<string, boolean>;
   rolls: Record<string, number>;
   level: number;
+  /** Set pieces equipped; thresholds above it don't apply. */
+  pieces?: number;
 }
 
 function bonusesForItem(
@@ -177,9 +192,10 @@ function bonusesForItem(
   if (!itemName) return into;
   effects.forEach((effect, index) => {
     if (effect.applies === 'reference') return;
+    if (effect.count && effect.count > (context.pieces ?? 0)) return;
     if (effect.applies === 'conditional' && !context.conditionals[itemConditionalKey(itemName, index)]) return;
     effect.effects.forEach((value, valueIndex) => {
-      const amount = valueAtUL(value, ul, context.rolls[itemRollKey(itemName, index, valueIndex)], context.level);
+      const amount = valueAtUL(value, ul, context.rolls[itemRollKey(itemName, index, valueIndex)], context.level, context.pieces);
       if (!amount) return;
       const valueKey = effectKey(value, tetra);
       if (value.kind === 'setStat') {
@@ -226,6 +242,7 @@ export function itemBonuses(input: {
   conditionals?: Record<string, boolean>;
   rolls?: Record<string, number>;
   level?: number;
+  sets?: ActiveSetPieces[];
 }): ItemBonuses {
   const weapons = weaponEffects(input.weaponName);
   const armors = armorEffects(input.armorName);
@@ -236,7 +253,8 @@ export function itemBonuses(input: {
       if (slot?.itemName && gearEffects(slot.itemName).length) { hasGear = true; break; }
     }
   }
-  if (!weapons.length && !armors.length && !hasGear) return EMPTY;
+  const sets = (input.sets ?? []).filter(set => setEffects(set.name).length);
+  if (!weapons.length && !armors.length && !hasGear && !sets.length) return EMPTY;
 
   const context = { conditionals: input.conditionals ?? {}, rolls: input.rolls ?? NO_ROLLS, level: input.level ?? 0 };
   const result: ItemBonuses = { stats: {}, setStats: {}, derived: {}, elementalAttack: {}, resistances: {} };
@@ -250,5 +268,28 @@ export function itemBonuses(input: {
       bonusesForItem(slot.itemName, effects, gearUL(slot.upgradePoints), result, context, slot.tetra);
     }
   }
+  for (const set of sets) bonusesForItem(set.name, setEffects(set.name), 0, result, { ...context, pieces: set.pieces });
   return result;
+}
+
+export interface ActiveSetPieces {
+  name: string;
+  pieces: number;
+}
+
+export interface SetAttackEffect {
+  label: string;
+  damagePercent?: number;
+  resistanceIgnored?: { types: string[]; percent: number };
+}
+
+/** Reached set thresholds that change the damage you deal (Unassuming Adventurer, Gunsmoke Spiritual). */
+export function setAttackEffects(sets: ActiveSetPieces[]): SetAttackEffect[] {
+  return sets.flatMap(set => setEffects(set.name)
+    .filter(effect => (effect.count ?? 0) <= set.pieces && (effect.damagePercent || effect.resistanceIgnored))
+    .map(effect => ({
+      label: `${set.name} ${effect.count}+`,
+      ...(effect.damagePercent ? { damagePercent: effect.damagePercent } : {}),
+      ...(effect.resistanceIgnored ? { resistanceIgnored: effect.resistanceIgnored } : {}),
+    })));
 }

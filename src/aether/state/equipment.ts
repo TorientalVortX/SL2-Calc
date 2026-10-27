@@ -28,7 +28,7 @@ import { ALL_WEAPONS, WEAPONS_BY_TYPE } from '../../data/weapons';
 import { CLASSES } from '../../data/classes';
 import { findWeaponByName, mainClassAllowsWeaponType, subClassOnlyWeaponType, weaponToConfig } from '../../domain/equipment';
 import { talentWeaponUnlocks, talentsUnlockWeapon, type TalentInput } from '../../domain/talents';
-import { armorEffects, gearEffects, itemConditionalKey, itemRollKey, weaponEffects, type ItemEffect } from '../../domain/itemEffects';
+import { armorEffects, gearEffects, itemConditionalKey, itemRollKey, setEffects, weaponEffects, type ItemEffect } from '../../domain/itemEffects';
 import { activeSets } from '../../domain/itemSets';
 
 export type SlotId = 'primaryWeapon' | 'armor' | 'slot3' | 'legs' | 'accessory1' | 'accessory2';
@@ -354,8 +354,9 @@ export function effectsForSlot(equipment: BuildEquipmentState, slot: SlotId): Sl
 export interface GrantedSkill {
   name: string;
   cost: string | null;
+  /** The item, or the set, that grants it. */
   itemName: string;
-  slot: SlotId;
+  slot: SlotId | 'set';
   /** Set when the skill's text was split out of one longer line; `parts` then only carry its switches. */
   text?: string;
   parts: SlotEffect[];
@@ -390,8 +391,42 @@ export function groupSlotEffects(entries: SlotEffect[], slot: SlotId): EffectGro
 }
 
 export function grantedSkills(equipment: BuildEquipmentState): GrantedSkill[] {
-  return SLOTS.flatMap(({ id }) => groupSlotEffects(effectsForSlot(equipment, id), id)
+  const fromItems = SLOTS.flatMap(({ id }) => groupSlotEffects(effectsForSlot(equipment, id), id)
     .flatMap(group => (group.kind === 'skill' ? [group.skill] : [])));
+  const fromSets = setBonuses(equipment).flatMap(set => set.thresholds
+    .filter(threshold => threshold.reached && threshold.entry.effect.grants)
+    .map((threshold): GrantedSkill => ({
+      name: threshold.entry.effect.grants!,
+      cost: null,
+      itemName: `${set.name} ${threshold.count}+`,
+      slot: 'set',
+      text: threshold.entry.effect.description,
+      parts: [],
+    })));
+  return [...fromItems, ...fromSets];
+}
+
+export interface SetBonus {
+  name: string;
+  equipped: number;
+  total: number;
+  thresholds: Array<{ count: number; reached: boolean; entry: SlotEffect }>;
+  note?: string;
+}
+
+/** Every set with a piece on, each threshold as an effect line so it can show and switch like an item's. */
+export function setBonuses(equipment: BuildEquipmentState): SetBonus[] {
+  return activeSets(equipment).map(set => ({
+    name: set.name,
+    equipped: set.equipped,
+    total: set.total,
+    ...(set.note ? { note: set.note } : {}),
+    thresholds: setEffects(set.name).map((effect, index) => ({
+      count: effect.count ?? 0,
+      reached: (effect.count ?? 0) <= set.equipped,
+      entry: { effect, index, itemName: set.name, conditionalKey: itemConditionalKey(set.name, index), rolls: [] },
+    })),
+  }));
 }
 
 export interface EquipmentOverview {

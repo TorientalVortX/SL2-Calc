@@ -7,6 +7,7 @@ import {
 } from './damage';
 import { valueAtRank } from './skills';
 import { skillFormulaBreakdown } from './skillDamage';
+import type { SetAttackEffect } from './itemEffects';
 
 export interface AttackTerm {
   label: string;
@@ -102,6 +103,24 @@ export function riderFor(skill: Skill | null, rank: number): FlatBonus | null {
   const rider = skill?.basicAttack?.rider;
   if (!rider) return null;
   return { amount: atRank(rider.bonusByRank ?? undefined, rank), ignores: rider.ignores, damageClass: rider.damageClass, type: rider.type };
+}
+
+/** "Ignores up to 10% of elemental resistance": a resistance drops toward 0, a weakness is untouched. */
+export function ignoreResistance(resistance: number, percent: number): number {
+  return resistance > 0 ? Math.max(0, resistance - percent) : resistance;
+}
+
+/** The target as your sets see it: resistance they let you ignore is taken off. */
+export function targetAfterSets(target: Target, effects: SetAttackEffect[], type: DamageType, bonusType: DamageType): Target {
+  const ignored = (forType: DamageType) => effects.reduce(
+    (total, effect) => total + (forType && effect.resistanceIgnored?.types.includes(forType) ? effect.resistanceIgnored.percent : 0),
+    0,
+  );
+  return {
+    ...target,
+    resistance: ignoreResistance(target.resistance, ignored(type)),
+    bonusResistance: ignoreResistance(target.bonusResistance, ignored(bonusType)),
+  };
 }
 
 /** Damage percentages are mostly separate sources, so each multiplies rather than adding into one pool. */

@@ -7,7 +7,7 @@ import { GEAR_BY_GROUP } from '../../data/gear';
 import { WEAPONS_BY_TYPE } from '../../data/weapons';
 import { itemConditionalKey } from '../../domain/itemEffects';
 import { buildReducer, createDefaultBuild } from './build';
-import { SLOTS, effectsForSlot, equipmentOverview, grantedSkills, slotSummary, weaponChoices } from './equipment';
+import { SLOTS, effectsForSlot, equipmentOverview, grantedSkills, setBonuses, slotSummary, weaponChoices } from './equipment';
 
 const armed = () => buildReducer(createDefaultBuild(), {
   type: 'equip-weapon', which: 'primaryWeapon', weaponName: 'Engraved Katana',
@@ -313,6 +313,41 @@ describe('granted skills in use', () => {
   it('does not read a skill’s cost or a "per 20 STR" rate as a bonus', () => {
     const build = buildReducer(createDefaultBuild(), { type: 'equip-weapon', which: 'primaryWeapon', weaponName: 'Holy Word' });
     expect(effectsForSlot(build.equipment, 'primaryWeapon').flatMap(entry => entry.effect.effects)).toEqual([]);
+  });
+});
+
+describe('set bonuses', () => {
+  const wear = (build: ReturnType<typeof createDefaultBuild>, ...actions: Parameters<typeof buildReducer>[1][]) => actions.reduce(buildReducer, build);
+
+  it('applies a reached threshold without a switch, and nothing below it', () => {
+    const one = wear(createDefaultBuild(), { type: 'equip-weapon', which: 'primaryWeapon', weaponName: 'Konosekai' });
+    const both = wear(one, { type: 'equip-weapon', which: 'offHandWeapon', weaponName: 'Mugendai' });
+    const [lone, paired] = [evaluateBuild(one), evaluateBuild(both)];
+    expect(paired.scaledStats.wil - lone.scaledStats.wil).toBe(3);
+    expect(paired.scaledStats.cel - lone.scaledStats.cel).toBe(3);
+    expect(paired.elementalResistance.Sound - lone.elementalResistance.Sound).toBe(15);
+  });
+
+  it('puts a situational threshold behind a switch that only shows once reached', () => {
+    let build = wear(createDefaultBuild(),
+      { type: 'equip-gear', slot: 'accessory1', itemName: 'Crucifix' },
+      { type: 'equip-gear', slot: 'accessory2', itemName: 'Halo' },
+      { type: 'equip-gear', slot: 'legs', itemName: 'Sanctified Shoes' });
+    const church = setBonuses(build.equipment).find(set => set.name === 'Church Faithful')!;
+    const versus = church.thresholds.find(threshold => threshold.count === 3)!;
+    expect(versus.reached).toBe(true);
+    expect(versus.entry.effect.applies).toBe('conditional');
+    const before = evaluateBuild(build).derived.evade;
+    build = buildReducer(build, { type: 'item-conditional', key: versus.entry.conditionalKey, on: true });
+    expect(evaluateBuild(build).derived.evade).toBeGreaterThan(before);
+  });
+
+  it('lists a set’s skill with the item-granted ones once the set reaches it', () => {
+    const build = wear(createDefaultBuild(),
+      { type: 'equip-weapon', which: 'primaryWeapon', weaponName: 'Yin' },
+      { type: 'equip-weapon', which: 'offHandWeapon', weaponName: 'Yang' });
+    const doubleDao = grantedSkills(build.equipment).filter(skill => skill.slot === 'set');
+    expect(doubleDao.map(skill => [skill.name, skill.itemName])).toEqual([['Double Dao', 'Gunsmoke Spiritual 2+']]);
   });
 });
 

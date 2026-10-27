@@ -1413,27 +1413,8 @@
       {
         "name": "Neverending Story Set",
         "description": "2+ - 1) +3 WIL. 2) +3 CEL. 3) +15% Sound Resistance.",
-        "applies": "always",
-        "effects": [
-          {
-            "kind": "stat",
-            "key": "wil",
-            "base": 3,
-            "ulMultiplier": 0
-          },
-          {
-            "kind": "stat",
-            "key": "cel",
-            "base": 3,
-            "ulMultiplier": 0
-          },
-          {
-            "kind": "resistance",
-            "key": "Sound",
-            "base": 15,
-            "ulMultiplier": 0
-          }
-        ]
+        "applies": "reference",
+        "effects": []
       }
     ],
     "Magical Photon": [
@@ -5130,27 +5111,8 @@
       {
         "name": "Neverending Story Set",
         "description": "Set: Neverending Story. 2+ - 1) +3 WIL. 2) +3 CEL. 3) +15% Sound Resistance.",
-        "applies": "conditional",
-        "effects": [
-          {
-            "kind": "stat",
-            "key": "wil",
-            "base": 3,
-            "ulMultiplier": 0
-          },
-          {
-            "kind": "stat",
-            "key": "cel",
-            "base": 3,
-            "ulMultiplier": 0
-          },
-          {
-            "kind": "resistance",
-            "key": "Sound",
-            "base": 15,
-            "ulMultiplier": 0
-          }
-        ]
+        "applies": "reference",
+        "effects": []
       }
     ],
     "Rose Whip": [
@@ -6543,21 +6505,8 @@
       {
         "name": "Healer's Shroud",
         "description": "If your main class is a Curate class, the stat bonuses it gives you are increased by 50% (min. 1 if >0). Set: Church Faithful 2+ - +15% Healing-tag skill Power and +3 Light ATK 3+ - +15 Evade versus Vampire race, Possessed race, and Cladis Mortem Null enemies. 4+ - Can't be targeted by the Banquet skill. Vampiric effects (item effects or miniboss skill) do not work against you. Pray skill's Momentum cost becomes 3.",
-        "applies": "conditional",
-        "effects": [
-          {
-            "kind": "elementalAttack",
-            "key": "Light",
-            "base": 3,
-            "ulMultiplier": 0
-          },
-          {
-            "kind": "derived",
-            "key": "evade",
-            "base": 15,
-            "ulMultiplier": 0
-          }
-        ]
+        "applies": "reference",
+        "effects": []
       }
     ],
     "Kaminah Robes": [
@@ -9138,28 +9087,14 @@
       {
         "name": "Sanctified Shoes",
         "description": "2+ - +15% Healing-tag skill Power and +3 Light ATK",
-        "applies": "always",
-        "effects": [
-          {
-            "kind": "elementalAttack",
-            "key": "Light",
-            "base": 3,
-            "ulMultiplier": 0
-          }
-        ]
+        "applies": "reference",
+        "effects": []
       },
       {
         "name": "Sanctified Shoes",
         "description": "3+ - +15 Evade versus Vampire race, Possessed race, and Cladis Mortem Null enemies.",
-        "applies": "conditional",
-        "effects": [
-          {
-            "kind": "derived",
-            "key": "evade",
-            "base": 15,
-            "ulMultiplier": 0
-          }
-        ]
+        "applies": "reference",
+        "effects": []
       },
       {
         "name": "Sanctified Shoes",
@@ -9639,28 +9574,14 @@
       {
         "name": "Crucifix",
         "description": "2+ - +15% Healing-tag skill Power and +3 Light ATK",
-        "applies": "always",
-        "effects": [
-          {
-            "kind": "elementalAttack",
-            "key": "Light",
-            "base": 3,
-            "ulMultiplier": 0
-          }
-        ]
+        "applies": "reference",
+        "effects": []
       },
       {
         "name": "Crucifix",
         "description": "3+ - +15 Evade versus Vampire race, Possessed race, and Cladis Mortem Null enemies.",
-        "applies": "conditional",
-        "effects": [
-          {
-            "kind": "derived",
-            "key": "evade",
-            "base": 15,
-            "ulMultiplier": 0
-          }
-        ]
+        "applies": "reference",
+        "effects": []
       },
       {
         "name": "Crucifix",
@@ -10087,28 +10008,14 @@
       {
         "name": "Halo",
         "description": "2+ - +15% Healing-tag skill Power and +3 Light ATK",
-        "applies": "always",
-        "effects": [
-          {
-            "kind": "elementalAttack",
-            "key": "Light",
-            "base": 3,
-            "ulMultiplier": 0
-          }
-        ]
+        "applies": "reference",
+        "effects": []
       },
       {
         "name": "Halo",
         "description": "3+ - +15 Evade versus Vampire race, Possessed race, and Cladis Mortem Null enemies.",
-        "applies": "conditional",
-        "effects": [
-          {
-            "kind": "derived",
-            "key": "evade",
-            "base": 15,
-            "ulMultiplier": 0
-          }
-        ]
+        "applies": "reference",
+        "effects": []
       },
       {
         "name": "Halo",
@@ -11768,6 +11675,206 @@
         "description": "Fire both Yin and Yang at a target enemy within 3 Range, alternating between Light and Darkness damage, over 4 shots. The total damage dealt is equal to 100% Darkness ATK + 100% Light ATK + 50% of the total Scaled Weapon ATK of both weapons.",
         "applies": "reference",
         "effects": []
+      }
+    ]
+  },
+  "sets": {
+    "Church Faithful": [
+      {
+        "name": "Church Faithful",
+        "description": "+15% Healing-tag skill Power and +3 Light ATK",
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "elementalAttack",
+            "key": "Light",
+            "base": 3,
+            "ulMultiplier": 0
+          }
+        ],
+        "count": 2
+      },
+      {
+        "name": "Church Faithful",
+        "description": "+15 Evade versus Vampire race, Possessed race, and Cladis Mortem Null enemies.",
+        "applies": "conditional",
+        "effects": [
+          {
+            "kind": "derived",
+            "key": "evade",
+            "base": 15,
+            "ulMultiplier": 0
+          }
+        ],
+        "count": 3
+      },
+      {
+        "name": "Church Faithful",
+        "description": "Can't be targeted by the Banquet skill. Vampiric effects (item effects or miniboss skill) do not work against you. Pray skill's Momentum cost becomes 3.",
+        "applies": "reference",
+        "effects": [],
+        "count": 4
+      }
+    ],
+    "Gunsmoke Spiritual": [
+      {
+        "name": "Gunsmoke Spiritual",
+        "description": "Grants access to the Double Dao skill.",
+        "applies": "reference",
+        "effects": [],
+        "grants": "Double Dao",
+        "count": 2
+      },
+      {
+        "name": "Gunsmoke Spiritual",
+        "description": "Darkness and Light damage you deal ignores up to 10% of elemental resistance. Double Dao",
+        "applies": "reference",
+        "effects": [],
+        "resistanceIgnored": {
+          "types": [
+            "Dark",
+            "Light"
+          ],
+          "percent": 10
+        },
+        "count": 3
+      }
+    ],
+    "Hayabusa": [
+      {
+        "name": "Hayabusa",
+        "description": "# +2 Attack Range with Daggers # Movement type becomes Teleport. If Main Weapon is Tsukikage: Moon Style. Critical hits generate Moon Crests (max 3) and grants Moon Reflection skill. If Main Weapon is Hikage: Sun Style. Critical hits generate Sun Crests (max 3) and grants Rising Sun skill. Rising Sun: 2M, 15 FP, 2 Round CD. Consumes 3 Sun Crests. Targets 1 unoccupied tile within 3 Range. Reappear at target location, when you do, become Airborne and deal 30 armor-ignoring Fire bonus damage to all enemies in 2 Range Circle. All damaged enemies are inflicted with Glowing LV 10 until your next turn.",
+        "applies": "reference",
+        "effects": [],
+        "count": 2
+      }
+    ],
+    "Like a Dragon": [
+      {
+        "name": "Like a Dragon",
+        "description": "Gain Cast Off Flexing Skill. When you use Cast Off Flexing; * Activate all of your Arcane Tattoo traits. * Activate Crack Knuckles skill (if equipped). * Gain Dragon Fist status permanently. (+2 Attack Range for Bare Fists. Bare Fists' Attack skill moves you to an unoccupied tile next to the target if not in 1 Range, and gains Trickery - Activate Kick skill on the target. * Kick skill Momentum cost reduced by 1 during a turn where you've used Attack.",
+        "applies": "reference",
+        "effects": [],
+        "grants": "Cast Off Flexing",
+        "count": 2
+      }
+    ],
+    "Neverending Story": [
+      {
+        "name": "Neverending Story",
+        "description": "# +3 WIL # +3 CEL # +15% Sound Resistance",
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "stat",
+            "key": "wil",
+            "base": 3,
+            "ulMultiplier": 0
+          },
+          {
+            "kind": "stat",
+            "key": "cel",
+            "base": 3,
+            "ulMultiplier": 0
+          },
+          {
+            "kind": "resistance",
+            "key": "Sound",
+            "base": 15,
+            "ulMultiplier": 0
+          }
+        ],
+        "count": 2
+      }
+    ],
+    "Precautionary Tale": [
+      {
+        "name": "Precautionary Tale",
+        "description": "Life-Saving Charm's HP and FP recovery increases by (25 x total number of this set's items equipped), and when it is activated, grants Debuff Immunity LV2 for 3 rounds, and if Jerkin of Fortune is equipped, reactivates its On Battle Start effect.",
+        "applies": "reference",
+        "effects": [],
+        "count": 2
+      },
+      {
+        "name": "Precautionary Tale",
+        "description": "After Life-Saving Charm activates, you gain Death-Defying Fortune LV (25 + your scaled CEL) for 2 rounds.",
+        "applies": "reference",
+        "effects": [],
+        "count": 3
+      }
+    ],
+    "The Wolf's Claws": [
+      {
+        "name": "The Wolf's Claws",
+        "description": "# Grants access to the Shooting Star skill. # Increases the range of the Kick skill by 5. # Kick skill causes you to fly towards your target.",
+        "applies": "reference",
+        "effects": [],
+        "grants": "Shooting Star",
+        "count": 2
+      }
+    ],
+    "Unassuming Adventurer": [
+      {
+        "name": "Unassuming Adventurer",
+        "description": "Flee success rate is (normal success rate+50)%.",
+        "applies": "reference",
+        "effects": [],
+        "count": 2
+      },
+      {
+        "name": "Unassuming Adventurer",
+        "description": "+(10 x total number of this set's item equipped) HP and FP.",
+        "applies": "always",
+        "effects": [
+          {
+            "kind": "derived",
+            "key": "hp",
+            "base": 0,
+            "ulMultiplier": 0,
+            "perPiece": 10
+          },
+          {
+            "kind": "derived",
+            "key": "fp",
+            "base": 0,
+            "ulMultiplier": 0,
+            "perPiece": 10
+          }
+        ],
+        "count": 3
+      },
+      {
+        "name": "Unassuming Adventurer",
+        "description": "+15% damage dealt.",
+        "applies": "reference",
+        "effects": [],
+        "damagePercent": 15,
+        "count": 5
+      }
+    ],
+    "Weapon Singer": [
+      {
+        "name": "Weapon Singer",
+        "description": "Decreases the cooldown of Special Strikes by 1 round. (Min. 1 round)",
+        "applies": "reference",
+        "effects": [],
+        "count": 2
+      }
+    ],
+    "Youkai Shaman": [
+      {
+        "name": "Youkai Shaman",
+        "description": "Item effects of Youkai Shaman items that apply to Youkai when summoned will also apply to you.",
+        "applies": "reference",
+        "effects": [],
+        "count": 2
+      },
+      {
+        "name": "Youkai Shaman",
+        "description": "+1 duration to Youkai Shaman item effects. When a Youkai is summoned and receives a Youkai Shaman item effect, it performs an attack on a random enemy in 1 Range (50% damage).",
+        "applies": "reference",
+        "effects": [],
+        "count": 3
       }
     ]
   }

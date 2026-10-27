@@ -5,6 +5,7 @@ import path from 'node:path';
 const CONTENT = path.resolve('src/data/content');
 const ARMORS = path.resolve('src/data/armors.json');
 const GEAR = path.join(CONTENT, 'gear.json');
+const SETS = path.join(CONTENT, 'item-sets.json');
 const OUT = path.join(CONTENT, 'item-effects.json');
 const REPORT = process.argv.includes('--report');
 
@@ -198,18 +199,20 @@ function toRecord(name, description, alwaysEligible) {
   }
   // Tetra lines name Fire's pairing (Fire, STR); the calculator remaps them to the chosen crystal.
   const tetra = /\(Tetra\)/.test(description);
-  const text = tetra ? description.replace(/\bElemental ATK\b/, 'Fire ATK').replace(/(\d+)\s+Stat\b/, '$1 STR') : description;
+  // Set text copied onto a member ("Set: Church Faithful 2+ - +3 Light ATK") is applied by the set, not per item.
+  const ownText = description.replace(/\bSet:\s[\s\S]*$/, '').replace(/^\s*\d\+\s*[-:][\s\S]*$/, '');
+  const text = tetra ? ownText.replace(/\bElemental ATK\b/, 'Fire ATK').replace(/(\d+)\s+Stat\b/, '$1 STR') : ownText;
   // Zero non-scaling magnitudes come from incidental numbers ("if you are reduced to 0 HP").
   const effects = [...parseEffects(text), ...parseResistances(text), ...parseAllStats(text)]
     .filter((value) => value.base !== 0 || value.ulMultiplier !== 0 || value.rollMax)
     .map((value) => (tetra ? { ...value, tetra: true } : value));
   // A trailing chance clause is a separate effect (Armor of Eyes: "Increases Hit by UL/2, UL% chance to ...").
-  const magnitudeClause = description
+  const magnitudeClause = ownText
     // A disabling exception does not make a normally-active bonus opt-in.
     .replace(/,\s*except when\b[^.]*\.?/gi, '.')
     .replace(/\bUL%\s+chance\b.*$/i, '');
   // A buff that lasts N rounds was switched on in battle; it is not a standing bonus.
-  const conditional = CONDITION.test(magnitudeClause) || /for \d+ (?:attacks? this round|rounds?)\b/i.test(description);
+  const conditional = CONDITION.test(magnitudeClause) || /for \d+ (?:attacks? this round|rounds?)\b/i.test(ownText);
   return {
     name,
     description: description.replace(/\s+/g, ' ').trim(),
@@ -397,6 +400,31 @@ for (const list of Object.values(JSON.parse(await readFile(ARMORS, 'utf8')))) {
   }
 }
 
+// Set wording the line parser can't carry: a bonus per piece equipped, damage dealt, resistance
+// ignored, and a skill the set grants ("Grants access to the Double Dao skill", "Gain Cast Off Flexing Skill").
+const PER_PIECE = /\+\((\d+) x total number of this set's items? equipped\) ((?:HP|FP)(?: and (?:HP|FP))?)/i;
+const DAMAGE_DEALT = /\+(\d+)% damage dealt/i;
+const RESISTANCE_IGNORED = /(\w+) and (\w+) damage you deal ignores up to (\d+)% of elemental resistance/i;
+const SET_SKILL = /Grants access to the ([\w' ]+?) skill|Gain ([\w' ]+?) Skill\b/;
+
+function setRecord(name, description) {
+  const record = toRecord(name, description, true);
+  const perPiece = PER_PIECE.exec(description);
+  if (perPiece) {
+    const effects = perPiece[2].split(/\s+and\s+/).map((channel) => ({ kind: 'derived', key: channel.toLowerCase(), base: 0, ulMultiplier: 0, perPiece: Number(perPiece[1]) }));
+    return { ...record, applies: 'always', effects };
+  }
+  const damage = DAMAGE_DEALT.exec(description);
+  const ignored = RESISTANCE_IGNORED.exec(description);
+  const skill = SET_SKILL.exec(description);
+  return {
+    ...record,
+    ...(damage ? { damagePercent: Number(damage[1]) } : {}),
+    ...(ignored ? { resistanceIgnored: { types: [ignored[1], ignored[2]].map((type) => canonicalElement(type) ?? type), percent: Number(ignored[3]) } } : {}),
+    ...(skill ? { grants: (skill[1] ?? skill[2]).trim() } : {}),
+  };
+}
+
 // Read lines separately: they are separate wiki bullets, and an "On Hit:" line must not gate the others.
 const gear = {};
 for (const list of Object.values(JSON.parse(await readFile(GEAR, 'utf8')))) {
@@ -416,9 +444,16 @@ for (const list of Object.values(JSON.parse(await readFile(GEAR, 'utf8')))) {
   }
 }
 
-await writeFile(OUT, `${JSON.stringify({ weapons, armors, gear }, null, 2)}\n`, 'utf8');
+// A reached threshold applies by piece count, so only its situational parts need a switch.
+const sets = {};
+for (const [name, set] of Object.entries(JSON.parse(await readFile(SETS, 'utf8')))) {
+  const records = set.thresholds.map((threshold) => ({ ...setRecord(name, threshold.description), count: threshold.count }));
+  if (records.length) sets[name] = records;
+}
 
-const all = [...Object.values(weapons).flat(), ...Object.values(armors).flat(), ...Object.values(gear).flat()];
+await writeFile(OUT, `${JSON.stringify({ weapons, armors, gear, sets }, null, 2)}\n`, 'utf8');
+
+const all = [...Object.values(weapons).flat(), ...Object.values(armors).flat(), ...Object.values(gear).flat(), ...Object.values(sets).flat()];
 const byApplies = all.reduce((acc, r) => ({ ...acc, [r.applies]: (acc[r.applies] ?? 0) + 1 }), {});
 const ulScaled = all.filter((r) => r.effects.some((e) => e.ulMultiplier !== 0));
 console.log(`${all.length} item effects -> ${path.relative(process.cwd(), OUT)}`);

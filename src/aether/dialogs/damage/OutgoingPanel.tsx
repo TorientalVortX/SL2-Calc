@@ -5,10 +5,12 @@ import { ELEMENT_KEYS } from '../../../domain/buildEvaluation';
 import { NO_HIT, type DamageClass, type DamageType, type IncomingHit } from '../../../domain/damage';
 import { findWeaponByName } from '../../../domain/equipment';
 import {
-  OPEN_TARGET, attackBase, critDamageFor, defaultDamage, expectedOutgoing, outgoingDamage, powerMultiplier, riderFor,
+  OPEN_TARGET, attackBase, critDamageFor, defaultDamage, expectedOutgoing, outgoingDamage, powerMultiplier, riderFor, targetAfterSets,
   type FlatBonus, type Target,
 } from '../../../domain/outgoing';
 import { SKILLS, mergeSkillRanks, skillById } from '../../../domain/skills';
+import { setAttackEffects } from '../../../domain/itemEffects';
+import { equippedSets } from '../../../domain/itemSets';
 import { skillFormulaBreakdown } from '../../../domain/skillDamage';
 import { SectionHead } from '../../ui/Panel';
 import { NumberField, SelectField, Stepper, Toggle } from '../../ui/controls';
@@ -83,11 +85,14 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
   };
 
   const base = attackBase(skill, rank, evaluation, elements);
-  const allPercents = lightning ? [...percents, LIGHTNING_CRITICAL_PERCENT] : percents;
+  const fromSets = setAttackEffects(equippedSets(build.equipment));
+  const setDamagePercents = fromSets.flatMap(effect => (effect.damagePercent ? [effect.damagePercent] : []));
+  const allPercents = [...percents, ...(lightning ? [LIGHTNING_CRITICAL_PERCENT] : []), ...setDamagePercents];
   const attackerHit = (weapon?.hit ?? 0) + base.hit;
   const attackerCritical = (weapon?.critical ?? 0) + base.critical;
-  const dealt = outgoingDamage(hit, base, allPercents, flat, target);
-  const expected = expectedOutgoing(hit, base, allPercents, flat, target, {
+  const seenTarget = targetAfterSets(target, fromSets, hit.type, flat.type ?? null);
+  const dealt = outgoingDamage(hit, base, allPercents, flat, seenTarget);
+  const expected = expectedOutgoing(hit, base, allPercents, flat, seenTarget, {
     hit: attackerHit, critical: attackerCritical, greatAccuracy, ignoresEvasion,
   });
   const riderType = flat.type && flat.type !== hit.type ? flat.type : null;
@@ -174,6 +179,13 @@ export function OutgoingPanel({ builder, initialSkillId }: { builder: Builder; i
           <Toggle on={lightning} onChange={setLightning}>Lightning Critical (+25%)</Toggle>
         </div>
         <p className="hint">Each modifier multiplies: +15% and +10% make ×1.265. Use them for effects like Damage Amplified, spell-school Power or race bonuses.</p>
+        {fromSets.length ? (
+          <p className="hint">
+            From your sets: {fromSets.map(effect => (effect.damagePercent
+              ? `${effect.label} +${effect.damagePercent}% damage`
+              : `${effect.label} ignores up to ${effect.resistanceIgnored!.percent}% ${effect.resistanceIgnored!.types.join('/')} resistance`)).join('; ')}.
+          </p>
+        ) : null}
       </div>
 
       <div className="section">

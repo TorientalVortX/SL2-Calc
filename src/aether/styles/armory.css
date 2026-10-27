@@ -311,3 +311,14 @@
   border-color: var(--gold-400);
   box-shadow: 0 0 18px -6px var(--glow-gold);
 }
+
+.set-threshold {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 7px;
+}
+.set-threshold > .chip { margin-top: 5px; }
+.set-threshold .effect { padding: 0; border-bottom: none; }
+.set-threshold.is-pending { opacity: 0.55; }
+.set-threshold.is-pending > .granted__text { padding-top: 4px; }

@@ -24,6 +24,7 @@ import { effectiveWeaponTypes, findWeaponByName } from '../equipment';
 import { activeMixtureBonuses } from '../chemist';
 import { calculateArmorConditionals } from '../derivedCalculations';
 import { emptyStats } from './shared';
+import { equippedSets } from '../itemSets';
 
 const EMPTY_SKILL_BONUSES: SkillBonuses = { stats: {}, buffStats: {}, derived: {}, elemental: {}, elementalResistance: {} };
 const EMPTY_RANKS: SkillRanks = {};
@@ -175,6 +176,7 @@ export function gatherInputs(build: BuildState) {
     },
     rolls: build.equipment.itemRolls,
     level: build.characterLevel,
+    sets: equippedSets(build.equipment),
   });
   const gearBonus = gearSlots ? sumGearModifiers(gearSlots) : NO_GEAR_BONUS;
 

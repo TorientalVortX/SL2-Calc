@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { NO_HIT } from './damage';
-import { OPEN_TARGET, attackBase, critDamageFor, defaultDamage, expectedOutgoing, outgoingDamage, powerMultiplier, riderFor } from './outgoing';
+import { OPEN_TARGET, attackBase, critDamageFor, defaultDamage, expectedOutgoing, outgoingDamage, powerMultiplier, riderFor, targetAfterSets } from './outgoing';
 import { skillById } from './skills';
 
 const attacker = {
@@ -60,6 +60,14 @@ describe('outgoing damage', () => {
     const result = outgoingDamage(slash, plain(0), [], rider, { ...target, bonusResistance: 50 });
     // 10 × 0.70 (Magical Defense 30%) × 0.50 (Acid 50%), Magic Armor skipped.
     expect(result.bonus?.taken).toBe(Math.floor(10 * 0.7 * 0.5));
+  });
+
+  it('lets set effects ignore part of a resistance but never a weakness', () => {
+    const gunsmoke = [{ label: 'Gunsmoke Spiritual 3+', resistanceIgnored: { types: ['Dark', 'Light'], percent: 10 } }];
+    expect(targetAfterSets({ ...target, resistance: 25 }, gunsmoke, 'Dark', null).resistance).toBe(15);
+    expect(targetAfterSets({ ...target, resistance: 5 }, gunsmoke, 'Light', null).resistance).toBe(0);
+    expect(targetAfterSets({ ...target, resistance: -20 }, gunsmoke, 'Dark', null).resistance).toBe(-20);
+    expect(targetAfterSets({ ...target, resistance: 25 }, gunsmoke, 'Fire', null).resistance).toBe(25);
   });
 
   it('multiplies damage percentages together', () => {
