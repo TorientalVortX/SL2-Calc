@@ -59,7 +59,6 @@ export function AttributesRail({
     <Panel
       id="panel-derived"
       title="Derived"
-      meta={<span className="num">live</span>}
     >
       <div onKeyDown={event => { onListKeys(event); onRowKeys(event); }}>
         {groups.map(group => (

@@ -37,7 +37,7 @@ export function SectionHead({ children, aside }: { children: ReactNode; aside?: 
   return (
     <div className="section__head">
       <span className="eyebrow">{children}</span>
-      {aside ? <span className="num" style={{ fontSize: 11, color: 'var(--text-4)' }}>{aside}</span> : null}
+      {aside ? <span className="section__aside">{aside}</span> : null}
     </div>
   );
 }

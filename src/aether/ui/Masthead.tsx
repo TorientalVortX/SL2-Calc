@@ -1,7 +1,6 @@
 import { Corners } from './Panel';
 import { play } from '../state/audio';
 import { THEME_LABEL, THEME_MARK, otherTheme } from '../state/theme';
-import { GAME_DATA_MANIFEST } from '../../domain/buildPersistence';
 import type { Builder } from '../state/useBuilder';
 
 export type DialogName = 'templates' | 'saves' | 'transfer' | 'advanced' | 'shortcuts' | 'changes' | 'damage' | null;
@@ -32,7 +31,7 @@ function Crest() {
 }
 
 export function Masthead({ builder, onOpen, onReplayIntro }: MastheadProps) {
-  const { build, buildName, setBuildName, evaluation, sound, setSound, theme, setTheme, version } = builder;
+  const { buildName, setBuildName, evaluation, sound, setSound, theme, setTheme, version } = builder;
   const remaining = evaluation.pointBudget - evaluation.pointsSpent;
 
   return (
@@ -56,7 +55,7 @@ export function Masthead({ builder, onOpen, onReplayIntro }: MastheadProps) {
           title="What's new in this version and dataset"
           onClick={() => { play('select'); onOpen('changes'); }}
         >
-          Sigrogana Legend 2 · Character Sheet · v{version} · Data {GAME_DATA_MANIFEST.dataVersion}
+          Sigrogana Legend 2 · v{version}
         </button>
       </span>
 
@@ -68,13 +67,9 @@ export function Masthead({ builder, onOpen, onReplayIntro }: MastheadProps) {
         spellCheck={false}
       />
 
-      <span className="inline masthead__chips" style={{ gap: 5 }}>
-        <span className="chip chip--gold">{build.mainClass}</span>
-        <span className="chip">{build.mainClass === build.subClass ? 'Monoclass' : build.subClass}</span>
-        <span className={`chip ${remaining < 0 ? 'chip--alert' : remaining === 0 ? 'chip--good' : ''}`}>
-          {remaining < 0 ? `${Math.abs(remaining)} over` : `${remaining} unspent`}
-        </span>
-      </span>
+      {remaining < 0 ? (
+        <span className="chip chip--alert masthead__chips">{Math.abs(remaining)} over budget</span>
+      ) : null}
 
       <div className="masthead__actions">
         <button type="button" className="btn" onClick={() => { play('select'); onOpen('templates'); }}>

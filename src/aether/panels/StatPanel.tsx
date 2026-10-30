@@ -85,7 +85,6 @@ export function StatPanel({
       meta={
         <>
           <ViewSwitch view={view} onPick={onView} />
-          <span>{evaluation.pointsSpent} / {evaluation.pointBudget}</span>
           <button
             type="button"
             className="btn btn--ghost btn--icon"
@@ -143,13 +142,6 @@ export function StatPanel({
           />
         ))}
       </div>
-
-      <p className="hint hint--keys" style={{ marginTop: 7, fontSize: 10.5 }}>
-        <span className="keycap">Tab</span> move · <span className="keycap">←</span>
-        <span className="keycap">→</span> spend · <span className="keycap">Shift</span> ×10 ·
-        <span className="keycap">Home</span>/<span className="keycap">End</span> empty or fill ·
-        <span className="keycap">I</span> card · <span className="keycap">R</span> raw/scaled · drag a bar to set it
-      </p>
     </Panel>
   );
 }
