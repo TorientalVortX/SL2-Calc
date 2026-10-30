@@ -61,7 +61,7 @@ describe('share links', () => {
   it('round-trips a build through a copied link', async () => {
     const first = renderApp();
     const dialog = await importBuild(first.user, showcaseBuild);
-    await first.user.click(within(dialog).getByRole('button', { name: 'Copy share link' }));
+    await first.user.click(within(dialog).getByRole('button', { name: 'Copy link' }));
     const link = new URL(await navigator.clipboard.readText());
     expect(link.hash.startsWith('#build=')).toBe(true);
 

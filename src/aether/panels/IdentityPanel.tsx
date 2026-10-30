@@ -21,7 +21,6 @@ export function IdentityPanel({ builder }: { builder: Builder }) {
       id="panel-identity"
       title="Identity"
       scroll={false}
-      meta={<span className="num">Lv {build.characterLevel}</span>}
     >
       <div className="stack">
         <div className="grid-2">

@@ -362,7 +362,7 @@ Three additions cover the cases where that stops being true:
 
 Three routes out, and one in:
 
-- **A link.** `Copy share link` puts the whole build in the `#build=` URL
+- **A link.** `Copy link` puts the whole build in the `#build=` URL
   fragment, so it never reaches the server.
 - **A code**, for pasting where a URL will not go.
 - **A file**, schema v1, as before.

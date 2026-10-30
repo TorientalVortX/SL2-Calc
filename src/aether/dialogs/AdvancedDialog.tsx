@@ -68,10 +68,8 @@ export function AdvancedDialog({ builder, section: initial, onClose }: AdvancedD
 
       {section === 'legend' ? (
         <>
-          <SectionHead aside={`${legendActive} active`}>Legend Extend</SectionHead>
-          <p className="hint" style={{ padding: '0 2px 8px' }}>
-            Each grants +1 to its stat <em>before</em> diminishing returns, so one is worth more than a
-            point spent from the pool.
+          <p className="hint" style={{ padding: '0 0 8px' }}>
+            Each grants +1 to its stat before diminishing returns, so one outweighs a point from the pool
           </p>
           <div className="le-grid">
             {Object.keys(LEGEND_EXTEND).map(key => {
@@ -89,7 +87,7 @@ export function AdvancedDialog({ builder, section: initial, onClose }: AdvancedD
                     patch({ legendExtend: { ...build.legendExtend, [key]: !on } });
                   }}
                 >
-                  <span className="le__bar" style={{ background: LEGEND_EXTEND[key].color }} />
+                  <span className="le__gem" style={{ color: LEGEND_EXTEND[key].color }} />
                   {LEGEND_EXTEND[key].name}
                 </button>
               );

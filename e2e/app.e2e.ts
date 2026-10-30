@@ -47,7 +47,7 @@ test.describe('with reduced motion', () => {
     await loadShowcase(page)
     await page.goto('/')
     await page.getByRole('button', { name: 'Import / Export' }).click()
-    await page.getByRole('button', { name: 'Copy build card' }).click()
+    await page.getByRole('button', { name: 'Copy card' }).click()
     await expect(page.getByText('Build card copied.')).toBeVisible()
     const type = await page.evaluate(async () => (await navigator.clipboard.read())[0].types[0])
     expect(type).toBe('image/png')

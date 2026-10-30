@@ -111,6 +111,12 @@
   background: linear-gradient(90deg, var(--edge), transparent);
 }
 
+.section__aside {
+  font-size: 12px;
+  color: var(--text-4);
+  font-variant-numeric: tabular-nums;
+}
+
 .num {
   font-family: var(--font-num);
   font-variant-numeric: tabular-nums;

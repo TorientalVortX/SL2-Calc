@@ -25,7 +25,8 @@ export function TemplatesDialog({ builder, onClose }: { builder: Builder; onClos
             key={template.id}
             type="button"
             className="card"
-            style={{ padding: '11px 13px' }}
+            style={{ padding: '12px' }}
+            title={template.reasoning}
             onClick={() => apply(template.id, template.name)}
           >
             <span className="card__name">{template.name}</span>
@@ -34,7 +35,6 @@ export function TemplatesDialog({ builder, onClose }: { builder: Builder; onClos
               {template.build.history !== 'None' ? ` · ${template.build.history}` : ''}
             </span>
             <span className="card__desc">{template.description}</span>
-            <span className="card__desc dim" style={{ marginTop: 4 }}>{template.reasoning}</span>
           </button>
         ))}
 
@@ -43,7 +43,7 @@ export function TemplatesDialog({ builder, onClose }: { builder: Builder; onClos
         <button
           type="button"
           className="card"
-          style={{ padding: '11px 13px' }}
+          style={{ padding: '12px' }}
           onClick={() => {
             dispatch({ type: 'reset' });
             setBuildName('New Character');
@@ -52,7 +52,7 @@ export function TemplatesDialog({ builder, onClose }: { builder: Builder; onClos
           }}
         >
           <span className="card__name">Blank Sheet</span>
-          <span className="card__desc">A level 60 Human Imperialist Soldier with no points spent.</span>
+          <span className="card__desc">Level 60 Human Imperialist Soldier, no points spent</span>
         </button>
       </div>
     </Modal>
@@ -90,7 +90,7 @@ export function SavesDialog({ builder, onClose }: { builder: Builder; onClose: (
       {saves.length === 0 ? (
         <div className="empty">
           <span className="eyebrow">No builds saved</span>
-          <span>Saved builds live in this browser. Export JSON to keep one elsewhere.</span>
+          <span>Saves stay in this browser. Export to keep one elsewhere</span>
         </div>
       ) : (
         <div className="stack--tight">
@@ -233,30 +233,23 @@ export function TransferDialog({ builder, onClose }: { builder: Builder; onClose
         </>
       }
     >
-      <SectionHead aside="one link">Share</SectionHead>
-      <div className="inline" style={{ gap: 6, padding: '2px 0 11px', flexWrap: 'wrap' }}>
-        <button type="button" className="btn" onClick={() => void copyLink()}>Copy share link</button>
-        <button type="button" className="btn btn--ghost btn--icon" onClick={() => void copyCode()}>
-          Copy build code
+      <SectionHead>Share</SectionHead>
+      <div className="inline" style={{ gap: 8, padding: '4px 0 12px', flexWrap: 'wrap' }}>
+        <button type="button" className="btn" onClick={() => void copyLink()}>Copy link</button>
+        <button type="button" className="btn" onClick={() => void copyCode()}>Copy code</button>
+        <button
+          type="button"
+          className="btn"
+          title="An image of the build, for posting where links do not preview"
+          onClick={copyCard}
+        >
+          Copy card
         </button>
-        <span className="hint" style={{ flex: 1, minWidth: 140 }}>
-          Anyone with the link opens this exact build.
-        </span>
-      </div>
-      <div className="inline" style={{ gap: 6, padding: '0 0 11px', flexWrap: 'wrap' }}>
-        <button type="button" className="btn" onClick={copyCard}>Copy build card</button>
-        <button type="button" className="btn btn--ghost btn--icon" onClick={() => void saveCard(renderCard())}>
-          Save card
-        </button>
-        <span className="hint" style={{ flex: 1, minWidth: 140 }}>
-          An image of the build, for posting where links do not preview.
-        </span>
+        <button type="button" className="btn" onClick={() => void saveCard(renderCard())}>Save card</button>
       </div>
 
-      <SectionHead aside="schema v1">File</SectionHead>
-      <p className="hint" style={{ margin: '2px 0 9px' }}>
-        Paste build JSON or open a <span className="num">.json</span> file.
-      </p>
+      <SectionHead>File</SectionHead>
+      <p className="hint" style={{ margin: '4px 0 8px' }}>Paste build JSON or open a .json file</p>
       <textarea
         className="code scroll"
         value={text}
@@ -279,21 +272,19 @@ const SHORTCUTS: Array<{ group: string; rows: Array<[keys: string[], what: strin
   {
     group: 'Attributes',
     rows: [
-      [['Tab'], 'Move between attribute rows. The steppers inside a row are skipped on purpose'],
-      [['←', '→'], 'Spend and refund a point'],
+      [['Tab'], 'Move between attribute rows'],
+      [['←', '→'], 'Refund and spend a point'],
       [['Shift', '←/→'], 'Ten points at a time'],
-      [['Home'], 'Empty the stat'],
-      [['End'], 'Fill it to its cap'],
+      [['Home', 'End'], 'Empty the stat, or fill it to its cap'],
+      [['R'], 'Switch totals between scaled and raw'],
     ],
   },
   {
     group: 'Lists',
     rows: [
-      [['↑', '↓'], 'Move through lists'],
-      [['W', 'S'], 'Move through lists with one hand'],
-      [['Enter'], 'Activate the focused row'],
-      [['Space'], 'Activate the focused row'],
-      [['I'], 'Read the focused skill or Youkai’s details'],
+      [['↑', '↓'], 'Move through lists (or W, S)'],
+      [['Enter', 'Space'], 'Activate the focused row'],
+      [['I'], 'Open the focused row’s card'],
     ],
   },
   {
@@ -312,9 +303,7 @@ const SHORTCUTS: Array<{ group: string; rows: Array<[keys: string[], what: strin
 export function ShortcutsDialog({ onClose }: { onClose: () => void }) {
   return (
     <Modal title="Keyboard" onClose={onClose}>
-      <p className="hint" style={{ marginBottom: 9 }}>
-        Letter shortcuts pause while you type in a field.
-      </p>
+      <p className="hint" style={{ marginBottom: 8 }}>Letter shortcuts pause while you type in a field</p>
       {SHORTCUTS.map(section => (
         <div className="section" key={section.group}>
           <SectionHead>{section.group}</SectionHead>
@@ -337,20 +326,15 @@ export function ShortcutsDialog({ onClose }: { onClose: () => void }) {
 export function ChangesDialog({ onClose }: { onClose: () => void }) {
   return (
     <Modal title="What's new" onClose={onClose}>
-      <div className="inline" style={{ gap: 5, marginBottom: 9 }}>
-        <span className="chip chip--gold">App v{APP_VERSION}</span>
-        <span className="chip">Data {GAME_DATA_MANIFEST.dataVersion}</span>
-      </div>
-
-      <p className="eyebrow" style={{ marginBottom: 5 }}>This release</p>
-      <p className="hint" style={{ marginBottom: 7 }}>{APP_RELEASE.headline}</p>
+      <p className="eyebrow" style={{ marginBottom: 4 }}>v{APP_VERSION}</p>
+      <p className="hint" style={{ marginBottom: 8 }}>{APP_RELEASE.headline}</p>
       <ul className="changes">
         {APP_RELEASE.notes.map(note => <li key={note}>{note}</li>)}
       </ul>
 
       <div className="divider" />
 
-      <p className="eyebrow" style={{ marginBottom: 5 }}>Game data {GAME_DATA_MANIFEST.dataVersion}</p>
+      <p className="eyebrow" style={{ marginBottom: 4 }}>Data {GAME_DATA_MANIFEST.dataVersion}</p>
       {GAME_DATA_MANIFEST.changes.length === 0 ? (
         <p className="hint">This dataset records no changes.</p>
       ) : (
